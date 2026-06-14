@@ -1,4 +1,4 @@
-import { json, getUser } from "../_lib.js";
+import { json, getUser, logEvent } from "../_lib.js";
 
 // GET /api/admin/applications -> list pending teacher applications (admin only)
 export async function onRequestGet({ request, env }) {
@@ -25,5 +25,6 @@ export async function onRequestPost({ request, env }) {
   if (decision === "approve") {
     await env.DB.prepare("UPDATE users SET role='teacher' WHERE id=? AND role='learner'").bind(app.user_id).run();
   }
+  await logEvent(env, user, "application_" + decision, app.user_id, null);
   return json({ ok: true });
 }
