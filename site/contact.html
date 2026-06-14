@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Sikh University</title>
+<meta name="description" content="Get in touch with Sikh University — questions, course corrections, teaching/contributing, technical issues, or accessibility.">
+<meta name="theme-color" content="#16335c">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body data-page="contact">
+<nav class="nav"><div class="nav-inner">
+  <a class="brand" href="index.html">Sikh<span>University</span></a>
+  <a href="catalog.html">Catalogue</a>
+  <a href="course.html?id=ai-foundations">AI Foundations</a>
+  <a href="contact.html">Contact</a>
+</div></nav>
+<main class="wrap">
+  <h2>Contact us</h2>
+  <p class="lead">Questions, a correction to a course, an offer to teach or contribute, a technical issue, or anything else — send a note and we'll get back to you.</p>
+  <div id="contactThanks" class="callout" style="display:none;border-left-color:var(--ok)"><strong>Thank you — your message has been sent.</strong> We'll reply by email as soon as we can.</div>
+  <form id="contactForm" method="POST" class="contact-form">
+    <input type="hidden" name="_subject" value="Sikh University — contact form">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="true">
+    <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+    <label>Your name<input type="text" name="name" required autocomplete="name"></label>
+    <label>Your email<input type="email" name="email" required autocomplete="email" placeholder="you@example.com"></label>
+    <label>Topic
+      <select name="topic" required>
+        <option value="" selected disabled>Choose one…</option>
+        <option>General question</option>
+        <option>Course content / correction</option>
+        <option>Teaching or contributing a course</option>
+        <option>Technical issue</option>
+        <option>Accessibility</option>
+        <option>Partnership</option>
+        <option>Other</option>
+      </select>
+    </label>
+    <label>Message<textarea name="message" rows="7" required placeholder="How can we help? The more detail, the better."></textarea></label>
+    <button class="btn primary" type="submit">Send message</button>
+    <p class="muted" style="font-size:.85rem">We store nothing on this site without your action; messages are emailed to our team.</p>
+  </form>
+</main>
+<footer class="site">Sikh University · Free &amp; open to all · Courses labelled “Created by AI” are AI-drafted and editor-reviewed for accuracy.</footer>
+</body>
+</html>

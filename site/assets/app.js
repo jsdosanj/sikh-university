@@ -166,9 +166,22 @@
     }
   }
 
+  function initContact() {
+    var form = document.getElementById("contactForm"); if (!form) return;
+    if (new URLSearchParams(location.search).get("sent") === "1") {
+      var t = document.getElementById("contactThanks"); if (t) t.style.display = "block";
+      form.style.display = "none"; window.scrollTo(0, 0); return;
+    }
+    var email = atob("ZG90cy13aGlza3MuNnJAaWNsb3VkLmNvbQ==");  // dots-whisks.6r@icloud.com (obfuscated from scrapers)
+    form.action = "https://formsubmit.co/" + email;
+    var nxt = document.createElement("input"); nxt.type = "hidden"; nxt.name = "_next";
+    nxt.value = location.origin + location.pathname + "?sent=1"; form.appendChild(nxt);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    var root = document.getElementById("app"); if (!root) return;
     var page = document.body.getAttribute("data-page");
+    if (page === "contact") { initContact(); return; }
+    var root = document.getElementById("app"); if (!root) return;
     getData().then(function (data) {
       if (page === "home") initHome(root, data);
       else if (page === "catalog") initCatalog(root, data);
