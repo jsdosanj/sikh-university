@@ -92,3 +92,9 @@ h2 { font-size: 1.6rem; margin: 2rem 0 .8rem; }
 
 footer.site { border-top: 1px solid var(--border); color: var(--muted); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .85rem; text-align: center; padding: 2rem 1rem; }
 :focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+
+/* contact form */
+.contact-form { max-width: 620px; display: flex; flex-direction: column; gap: 1rem; margin-top: 1.2rem; }
+.contact-form label { display: block; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: .9rem; font-weight: 600; color: var(--text); }
+.contact-form input, .contact-form select, .contact-form textarea { width: 100%; margin-top: .3rem; padding: .6rem .7rem; border: 1px solid var(--border); border-radius: 9px; font: inherit; background: var(--surface); color: var(--text); }
+.contact-form .btn { align-self: flex-start; }

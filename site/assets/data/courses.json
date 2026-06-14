@@ -1,14 +1,50 @@
 {
   "topics": [
-    { "id": "theology", "name": "Theology", "blurb": "Gurmat, Gurbani exegesis, and the message of the Guru Sahibs." },
-    { "id": "philosophy", "name": "Philosophy", "blurb": "Sikh thought, ethics, metaphysics, and worldview." },
-    { "id": "history", "name": "History", "blurb": "The Guru period, the Khalsa, the Sikh empire, and the diaspora." },
-    { "id": "literature", "name": "Literature", "blurb": "Classical and modern Sikh literary tradition." },
-    { "id": "language", "name": "Language", "blurb": "Gurmukhi, Punjabi, and the grammar of Gurbani." },
-    { "id": "spirituality", "name": "Spirituality", "blurb": "Naam, Simran, Rehat, and the lived practice of Sikhi." },
-    { "id": "music", "name": "Music", "blurb": "Gurmat Sangeet, Kirtan, and Raag." },
-    { "id": "arts", "name": "Arts", "blurb": "Sikh visual art, architecture, and material culture." },
-    { "id": "modern-skills", "name": "Modern Skills", "blurb": "21st-century skills for everyone, starting with AI." }
+    {
+      "id": "theology",
+      "name": "Theology",
+      "blurb": "Gurmat, Gurbani exegesis, and the message of the Guru Sahibs."
+    },
+    {
+      "id": "philosophy",
+      "name": "Philosophy",
+      "blurb": "Sikh thought, ethics, metaphysics, and worldview."
+    },
+    {
+      "id": "history",
+      "name": "History",
+      "blurb": "The Guru period, the Khalsa, the Sikh empire, and the diaspora."
+    },
+    {
+      "id": "literature",
+      "name": "Literature",
+      "blurb": "Classical and modern Sikh literary tradition."
+    },
+    {
+      "id": "language",
+      "name": "Language",
+      "blurb": "Gurmukhi, Punjabi, and the grammar of Gurbani."
+    },
+    {
+      "id": "spirituality",
+      "name": "Spirituality",
+      "blurb": "Naam, Simran, Rehat, and the lived practice of Sikhi."
+    },
+    {
+      "id": "music",
+      "name": "Music",
+      "blurb": "Gurmat Sangeet, Kirtan, and Raag."
+    },
+    {
+      "id": "arts",
+      "name": "Arts",
+      "blurb": "Sikh visual art, architecture, and material culture."
+    },
+    {
+      "id": "modern-skills",
+      "name": "Modern Skills",
+      "blurb": "21st-century skills for everyone, starting with AI."
+    }
   ],
   "courses": [
     {
@@ -20,37 +56,759 @@
       "source": "sikharchive.net/courses",
       "aiCreated": true,
       "status": "published",
-      "summary": "A practical, plain-English introduction to using today's AI tools well and responsibly — the assistants, image tools, model choices, and the new 'connectors' that let AI act for you.",
+      "summary": "A practical, plain-English introduction to using today's AI tools well and responsibly \u2014 the assistants, image tools, model choices, and the new 'connectors' that let AI act for you.",
       "lessons": [
-        { "title": "Why this guide exists", "html": "<p>AI went from a novelty to an everyday tool faster than almost any technology before it. This course is a calm, practical map: what the main tools are, what each is good at, and how to use them with good judgment — no hype, no jargon.</p><p>You don't need to be technical. By the end you'll be able to pick the right tool for a task, write clearer prompts, and understand the new wave of 'agentic' tools that can take actions for you.</p>" },
-        { "title": "Assistants: Claude & ChatGPT", "html": "<p><strong>Chat assistants</strong> are the front door to AI. You type a request; they respond. The skill is in <em>how</em> you ask: give context, say what good output looks like, and iterate.</p><ul><li><strong>Claude Desktop</strong> — a desktop assistant that can also connect to your files and tools (see the Connectors lesson).</li><li><strong>ChatGPT</strong> — a general assistant strong at writing, reasoning, and — increasingly — images.</li></ul><p>Rule of thumb: treat the assistant like a sharp, fast intern. Be specific, review its work, and never paste secrets or private data you wouldn't want stored.</p>" },
-        { "title": "Creating images: ChatGPT, Gemini & 'Nano Banana'", "html": "<p>Modern assistants can generate and edit images from a description. The craft is describing <em>subject, style, composition, and lighting</em> clearly, then refining.</p><ul><li><strong>ChatGPT image generation</strong> — good for illustrations, mockups, and edits.</li><li><strong>Gemini (and its image model nicknamed 'Nano Banana')</strong> — strong, fast image creation and editing.</li></ul><p>Always keep cultural and religious imagery respectful and accurate — AI can get sacred details wrong, so verify before sharing.</p>" },
-        { "title": "Choosing a model (and OpenRouter)", "html": "<p>There isn't one 'best' AI — different models lead at different things and the leaderboard changes monthly. A good habit in 2026: match the model to the task (writing vs. coding vs. images vs. cheap-and-fast).</p><p><strong>OpenRouter</strong> is a single doorway to many models from different companies — handy for trying options without separate accounts. Start cheap and small; reach for a frontier model only when the task is hard.</p>" },
-        { "title": "Agentic tools: Codex & getting things done", "html": "<p>The newest shift is <strong>agentic</strong> tools that don't just answer — they take steps to complete a goal (research, write code, edit files). OpenAI's <strong>Codex</strong>-style tools can act like a tireless assistant working through a task list.</p><p>Power comes with care: give clear goals, review what they did, and keep a human in the loop for anything that matters.</p>" },
-        { "title": "Connectors & MCP: letting AI use your tools", "html": "<p><strong>Connectors</strong> (often built on the <strong>Model Context Protocol, MCP</strong>) let an assistant securely reach your files, calendar, or apps — so it can work <em>with</em> your real information instead of guessing.</p><p>Security first: only connect what you need, review permissions, and never grant write access you can't undo. This same care is how we built this very university.</p>" }
+        {
+          "title": "Why this guide exists",
+          "html": "<p>AI went from a novelty to an everyday tool faster than almost any technology before it. This course is a calm, practical map: what the main tools are, what each is good at, and how to use them with good judgment \u2014 no hype, no jargon.</p><p>You don't need to be technical. By the end you'll be able to pick the right tool for a task, write clearer prompts, and understand the new wave of 'agentic' tools that can take actions for you.</p>"
+        },
+        {
+          "title": "Assistants: Claude & ChatGPT",
+          "html": "<p><strong>Chat assistants</strong> are the front door to AI. You type a request; they respond. The skill is in <em>how</em> you ask: give context, say what good output looks like, and iterate.</p><ul><li><strong>Claude Desktop</strong> \u2014 a desktop assistant that can also connect to your files and tools (see the Connectors lesson).</li><li><strong>ChatGPT</strong> \u2014 a general assistant strong at writing, reasoning, and \u2014 increasingly \u2014 images.</li></ul><p>Rule of thumb: treat the assistant like a sharp, fast intern. Be specific, review its work, and never paste secrets or private data you wouldn't want stored.</p>"
+        },
+        {
+          "title": "Creating images: ChatGPT, Gemini & 'Nano Banana'",
+          "html": "<p>Modern assistants can generate and edit images from a description. The craft is describing <em>subject, style, composition, and lighting</em> clearly, then refining.</p><ul><li><strong>ChatGPT image generation</strong> \u2014 good for illustrations, mockups, and edits.</li><li><strong>Gemini (and its image model nicknamed 'Nano Banana')</strong> \u2014 strong, fast image creation and editing.</li></ul><p>Always keep cultural and religious imagery respectful and accurate \u2014 AI can get sacred details wrong, so verify before sharing.</p>"
+        },
+        {
+          "title": "Choosing a model (and OpenRouter)",
+          "html": "<p>There isn't one 'best' AI \u2014 different models lead at different things and the leaderboard changes monthly. A good habit in 2026: match the model to the task (writing vs. coding vs. images vs. cheap-and-fast).</p><p><strong>OpenRouter</strong> is a single doorway to many models from different companies \u2014 handy for trying options without separate accounts. Start cheap and small; reach for a frontier model only when the task is hard.</p>"
+        },
+        {
+          "title": "Agentic tools: Codex & getting things done",
+          "html": "<p>The newest shift is <strong>agentic</strong> tools that don't just answer \u2014 they take steps to complete a goal (research, write code, edit files). OpenAI's <strong>Codex</strong>-style tools can act like a tireless assistant working through a task list.</p><p>Power comes with care: give clear goals, review what they did, and keep a human in the loop for anything that matters.</p>"
+        },
+        {
+          "title": "Connectors & MCP: letting AI use your tools",
+          "html": "<p><strong>Connectors</strong> (often built on the <strong>Model Context Protocol, MCP</strong>) let an assistant securely reach your files, calendar, or apps \u2014 so it can work <em>with</em> your real information instead of guessing.</p><p>Security first: only connect what you need, review permissions, and never grant write access you can't undo. This same care is how we built this very university.</p>"
+        }
       ],
       "quiz": [
-        { "q": "What is the best way to get good results from a chat assistant?", "options": ["Ask once and accept the first answer", "Give clear context and say what good output looks like, then iterate", "Use the longest prompt possible", "Avoid giving any context"], "answer": 1 },
-        { "q": "Which statement about choosing an AI model in 2026 is true?", "options": ["One model is best at everything", "Always use the most expensive model", "Different models lead at different tasks — match the model to the task", "Model choice never matters"], "answer": 2 },
-        { "q": "OpenRouter is best described as:", "options": ["A single doorway to many models from different providers", "A tool that only makes images", "A spreadsheet program", "A social network"], "answer": 0 },
-        { "q": "What makes 'agentic' tools (like Codex-style tools) different?", "options": ["They only generate images", "They take steps to complete a goal, not just answer", "They cannot use any tools", "They only work offline"], "answer": 1 },
-        { "q": "Connectors / MCP let an assistant:", "options": ["Post to social media with no permission", "Replace your operating system", "Securely reach your files and apps to work with your real information", "Train new models on your device"], "answer": 2 },
-        { "q": "A good safety habit when using AI is to:", "options": ["Grant full write access to everything", "Paste passwords for convenience", "Trust every output without review", "Keep a human in the loop and never share secrets you wouldn't want stored"], "answer": 3 }
+        {
+          "q": "What is the best way to get good results from a chat assistant?",
+          "options": [
+            "Ask once and accept the first answer",
+            "Give clear context and say what good output looks like, then iterate",
+            "Use the longest prompt possible",
+            "Avoid giving any context"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which statement about choosing an AI model in 2026 is true?",
+          "options": [
+            "One model is best at everything",
+            "Always use the most expensive model",
+            "Different models lead at different tasks \u2014 match the model to the task",
+            "Model choice never matters"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "OpenRouter is best described as:",
+          "options": [
+            "A single doorway to many models from different providers",
+            "A tool that only makes images",
+            "A spreadsheet program",
+            "A social network"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What makes 'agentic' tools (like Codex-style tools) different?",
+          "options": [
+            "They only generate images",
+            "They take steps to complete a goal, not just answer",
+            "They cannot use any tools",
+            "They only work offline"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Connectors / MCP let an assistant:",
+          "options": [
+            "Post to social media with no permission",
+            "Replace your operating system",
+            "Securely reach your files and apps to work with your real information",
+            "Train new models on your device"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "A good safety habit when using AI is to:",
+          "options": [
+            "Grant full write access to everything",
+            "Paste passwords for convenience",
+            "Trust every output without review",
+            "Keep a human in the loop and never share secrets you wouldn't want stored"
+          ],
+          "answer": 3
+        }
       ]
     },
-
-    { "id": "gurbani-exegesis-sahib-singh", "title": "Gurbani Exegesis", "topic": "theology", "level": 300, "professor": "Prof. Sahib Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "A close-reading approach to Gurbani in the tradition of Prof. Sahib Singh's grammatical exegesis — how grammar (lagaa-maatraa) unlocks meaning. Course about his method and writings." },
-    { "id": "mahan-kosh-tradition", "title": "The Sikh Encyclopedic Tradition", "topic": "literature", "level": 250, "professor": "Bhai Kahn Singh Nabha", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "An introduction to Bhai Kahn Singh Nabha's reference legacy (the Mahan Kosh) and what it teaches us about Sikh concepts, terms, and history." },
-    { "id": "modern-sikh-literature-vir-singh", "title": "Modern Sikh Literature", "topic": "literature", "level": 200, "professor": "Bhai Vir Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The renaissance of Sikh letters through Bhai Vir Singh's poetry and prose — themes, context, and influence." },
-    { "id": "sikh-historical-chronicles", "title": "Sikh Historical Chronicles", "topic": "history", "level": 300, "professor": "Giani Gian Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "Reading the classical Sikh chronicles (e.g., Twarikh Guru Khalsa) — how Sikhs recorded their own history, and how to read these sources critically." },
-    { "id": "sikh-religion-english-scholarship", "title": "The Sikh Religion in English Scholarship", "topic": "history", "level": 250, "professor": "Max Arthur Macauliffe", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "How Sikhi was presented to the English-speaking world through Macauliffe's six-volume study — strengths, limits, and legacy." },
-    { "id": "documenting-sikh-history", "title": "Documenting Sikh History", "topic": "history", "level": 400, "professor": "Dr. Ganda Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "Source-based historiography in the work of Dr. Ganda Singh — archives, evidence, and the discipline of Sikh history." },
-    { "id": "naam-spiritual-discipline", "title": "Naam & Spiritual Discipline", "topic": "spirituality", "level": 200, "professor": "Bhai Randhir Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The path of Naam Simran and Rehat as expressed in Bhai Randhir Singh's writings and the Akhand Kirtani tradition." },
-    { "id": "gurmat-katha-maskeen", "title": "Gurmat Katha", "topic": "theology", "level": 150, "professor": "Giani Sant Singh Maskeen", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The art of Katha (discourse) and core Gurmat themes drawn from the teachings of Giani Sant Singh Maskeen." },
-    { "id": "classical-sikh-poetics", "title": "Classical Sikh Poetics", "topic": "literature", "level": 350, "professor": "Kavi Santokh Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The grand narrative poetry of Kavi Santokh Singh (Suraj Prakash) — form, devotion, and historical imagination." },
-    { "id": "gurmukhi-and-gurbani-grammar", "title": "Gurmukhi & the Grammar of Gurbani", "topic": "language", "level": 100, "professor": "Sikh University (survey)", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "Learn to read Gurmukhi and understand the grammatical features that carry meaning in Gurbani." },
-    { "id": "sikh-philosophy-survey", "title": "Foundations of Sikh Philosophy", "topic": "philosophy", "level": 100, "professor": "Sikh University (survey)", "source": "Sikh Archive", "aiCreated": true, "status": "in-development", "summary": "Ik Onkar, Hukam, Naam, Seva, and equality — the core ideas that shape the Sikh worldview." },
-    { "id": "gurmat-sangeet-survey", "title": "Introduction to Gurmat Sangeet", "topic": "music", "level": 100, "professor": "Sikh University (survey)", "source": "Sikh Archive", "aiCreated": true, "status": "in-development", "summary": "Kirtan, Raag, and the place of music in Sikh worship — an introduction for listeners and learners." },
-    { "id": "sikh-art-architecture", "title": "Sikh Art & Architecture", "topic": "arts", "level": 150, "professor": "Sikh University (survey)", "source": "Sikh Archive", "aiCreated": true, "status": "in-development", "summary": "Gurdwara architecture, manuscript art, and Sikh material culture across the centuries." }
+    {
+      "id": "gurbani-exegesis-sahib-singh",
+      "title": "Gurbani Exegesis",
+      "topic": "theology",
+      "level": 300,
+      "professor": "Prof. Sahib Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "A close-reading approach to Gurbani in the tradition of Prof. Sahib Singh's grammatical exegesis \u2014 how grammar (lagaa-maatraa) unlocks meaning. Course about his method and writings."
+    },
+    {
+      "id": "mahan-kosh-tradition",
+      "title": "The Sikh Encyclopedic Tradition",
+      "topic": "literature",
+      "level": 250,
+      "professor": "Bhai Kahn Singh Nabha",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "An introduction to Bhai Kahn Singh Nabha's reference legacy (the Mahan Kosh) and what it teaches us about Sikh concepts, terms, and history."
+    },
+    {
+      "id": "modern-sikh-literature-vir-singh",
+      "title": "Modern Sikh Literature",
+      "topic": "literature",
+      "level": 200,
+      "professor": "Bhai Vir Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "The renaissance of Sikh letters through Bhai Vir Singh's poetry and prose \u2014 themes, context, and influence."
+    },
+    {
+      "id": "sikh-historical-chronicles",
+      "title": "Sikh Historical Chronicles",
+      "topic": "history",
+      "level": 300,
+      "professor": "Giani Gian Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "Reading the classical Sikh chronicles (e.g., Twarikh Guru Khalsa) \u2014 how Sikhs recorded their own history, and how to read these sources critically."
+    },
+    {
+      "id": "sikh-religion-english-scholarship",
+      "title": "The Sikh Religion in English Scholarship",
+      "topic": "history",
+      "level": 250,
+      "professor": "Max Arthur Macauliffe",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "How Sikhi was presented to the English-speaking world through Macauliffe's six-volume study \u2014 strengths, limits, and legacy."
+    },
+    {
+      "id": "documenting-sikh-history",
+      "title": "Documenting Sikh History",
+      "topic": "history",
+      "level": 400,
+      "professor": "Dr. Ganda Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "Source-based historiography in the work of Dr. Ganda Singh \u2014 archives, evidence, and the discipline of Sikh history."
+    },
+    {
+      "id": "naam-spiritual-discipline",
+      "title": "Naam & Spiritual Discipline",
+      "topic": "spirituality",
+      "level": 200,
+      "professor": "Bhai Randhir Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "The path of Naam Simran and Rehat as expressed in Bhai Randhir Singh's writings and the Akhand Kirtani tradition."
+    },
+    {
+      "id": "gurmat-katha-maskeen",
+      "title": "Gurmat Katha",
+      "topic": "theology",
+      "level": 150,
+      "professor": "Giani Sant Singh Maskeen",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "The art of Katha (discourse) and core Gurmat themes drawn from the teachings of Giani Sant Singh Maskeen."
+    },
+    {
+      "id": "classical-sikh-poetics",
+      "title": "Classical Sikh Poetics",
+      "topic": "literature",
+      "level": 350,
+      "professor": "Kavi Santokh Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "The grand narrative poetry of Kavi Santokh Singh (Suraj Prakash) \u2014 form, devotion, and historical imagination."
+    },
+    {
+      "id": "gurmukhi-and-gurbani-grammar",
+      "title": "Gurmukhi & the Grammar of Gurbani",
+      "topic": "language",
+      "level": 100,
+      "professor": "Sikh University (survey)",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "Learn to read Gurmukhi and understand the grammatical features that carry meaning in Gurbani."
+    },
+    {
+      "id": "sikh-philosophy-survey",
+      "title": "Foundations of Sikh Philosophy",
+      "topic": "philosophy",
+      "level": 100,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An introductory yet rigorous survey of the central ideas of the Sikh worldview, from the One Reality of Ik Onkar to the lived ethics of selfless service, equality, and liberation. Designed for a global beginner audience who want depth, accuracy, and respectful treatment of the tradition.",
+      "lessons": [
+        {
+          "title": "Ik Onkar: The One Reality and the Mool Mantar",
+          "html": "<p>Sikh thought opens with a single, foundational affirmation: there is <strong>One Reality</strong>. This is expressed in the symbol and phrase <strong>Ik Onkar</strong>, which combines the numeral one with a word pointing to the all-pervading creative presence. The placement of the numeral first is deliberate and theologically loaded. Before any name, attribute, or description is offered, the tradition insists on oneness. Everything that follows in Sikh philosophy is, in some sense, an unfolding of what it means to take this oneness seriously.</p><p>Ik Onkar stands at the very beginning of the <strong>Mool Mantar</strong>, the short opening composition of the Guru Granth Sahib that functions as a concise statement of the nature of the Divine. In plain terms, the Mool Mantar describes the One as the sole reality, as <em>true</em> in the sense of being eternally real, as the creator, as without fear and without enmity, as beyond the cycle of time and birth, as self-existent, and as realized through grace. Each of these descriptions is best read not as a list of separate doctrines but as different angles on a single, indivisible reality.</p><p>Several points deserve emphasis for a careful student. First, the Sikh understanding is firmly <strong>monotheistic and non-dualistic in flavor</strong>: the One is not a distant ruler set apart from creation, but a reality that pervades and sustains all that exists while not being exhausted by it. Second, the One is described as <em>beyond fear and beyond enmity</em>, which carries an ethical implication: a person attuned to this reality is meant to live without fear and without hatred. Third, the One is <em>nirbhau</em> and <em>nirvair</em> yet also intimately knowable through devotion and grace, so the tradition holds together both transcendence and nearness.</p><p>It is worth noting, neutrally, that Sikhs generally avoid depicting the Divine in physical form and resist reducing the One to any single gendered or anthropomorphic image. Translations into English inevitably strain here, since English pulls toward either an impersonal \"it\" or a personal \"He.\" Most thoughtful presentations treat such language as approximate. The safest summary is this: Sikh philosophy begins by anchoring all of reality, value, and human striving in one formless, eternal, creative presence named in countless ways but never captured by any one name.</p><ul><li><strong>Ik Onkar</strong> asserts the absolute oneness and all-pervading nature of reality.</li><li>The <strong>Mool Mantar</strong> expands this into a compact description: real, creative, fearless, without enmity, timeless, self-existent, known by grace.</li><li>The doctrine has ethical force, not just metaphysical content: oneness grounds fearlessness, love, and the unity of humankind.</li></ul>"
+        },
+        {
+          "title": "Naam and Naam Simran: Living Connection with the Divine",
+          "html": "<p>If Ik Onkar describes <em>what</em> reality is, the concept of <strong>Naam</strong> describes how a human being can be in living relationship with it. Naam literally means \"the Name,\" but in Sikh usage it points to far more than a label. Naam is the active, knowable presence of the Divine within creation and within the human heart. To be in touch with Naam is to be aware of, and aligned with, the reality that underlies everything. Many scholars describe Naam as the Divine made accessible to human consciousness.</p><p>The central spiritual practice built on this idea is <strong>Naam Simran</strong>, the loving remembrance of the Divine. <em>Simran</em> means remembrance or keeping in mind. In practice this can take several forms: silent inner awareness, the repetition of a sacred word or phrase, meditative reflection on Gurbani, and singing the Guru's compositions, known as <strong>Kirtan</strong>. What unites these forms is intention: they are not mechanical techniques aimed at a private trance, but disciplines meant to reorient the whole person toward the One.</p><p>Naam Simran is understood as transformative rather than merely consoling. Through sustained remembrance, the practitioner is said to gradually dissolve self-centeredness, cultivate inner stillness, and develop qualities such as contentment, compassion, and truthful living. The tradition repeatedly stresses that this remembrance should saturate ordinary life, not be confined to set rituals. A common ideal is to keep the Divine in mind <em>while working, eating, and serving others</em>, so that spiritual awareness and daily action are woven together.</p><p>Two clarifications help avoid common misunderstandings. First, Sikh teaching consistently warns against empty ritualism. Repeating words without sincerity, or performing outward observances while the heart remains unchanged, is criticized throughout Gurbani. The value of Naam Simran lies in genuine love and attentiveness. Second, the practice is open to all. It does not depend on social status, gender, formal learning, or priestly mediation. This accessibility flows directly from the conviction that the One is present everywhere and within everyone, so the path to that One cannot be the monopoly of any privileged class.</p><ul><li><strong>Naam</strong> is the living, knowable presence of the Divine, not merely a word.</li><li><strong>Naam Simran</strong> is loving remembrance, practiced through inner awareness, repetition, reflection, and Kirtan.</li><li>The aim is transformation of character and the integration of spiritual awareness into everyday life, free of empty ritual.</li></ul>"
+        },
+        {
+          "title": "Hukam and Bhana: Divine Order and Loving Acceptance",
+          "html": "<p>A distinctive feature of Sikh philosophy is its emphasis on <strong>Hukam</strong>, usually translated as the Divine Order, Command, or Will. The idea is that all of existence unfolds according to an underlying order that flows from the One. Nothing falls outside this order: the movements of nature, the rhythms of life and death, and the unfolding of human affairs are all understood as expressions of Hukam. The opening composition of the Guru Granth Sahib, the Japji Sahib, poses the question of how one becomes truthful and answers, in effect, that it comes by living in harmony with Hukam.</p><p>It is important to read Hukam carefully so as not to flatten it into crude fatalism. Mainstream Sikh understanding does <em>not</em> teach that human effort is pointless or that people are mere puppets. Rather, Hukam describes a reality in which human freedom and moral responsibility operate <em>within</em> a larger divine order that the individual does not fully control. We are responsible for our intentions and actions, yet many outcomes lie beyond our hands. Wisdom consists in acting rightly while recognizing the limits of our control. The precise balance between human agency and divine order is a subject of thoughtful discussion among scholars, and Gurbani holds the two in tension rather than resolving them into a simple formula.</p><p>The natural human response to Hukam is captured by the word <strong>Bhana</strong>, often rendered as acceptance of, or contentment with, the Divine Will. To live in <em>Bhana</em> is to meet life, including its hardships, with equanimity and trust, recognizing them as unfolding within Hukam. This is not passive resignation or indifference to injustice. It is an inner posture of serenity and gratitude that frees a person from constant anxiety, resentment, and the exhausting demand that reality always conform to one's preferences.</p><p>There is a deep psychological and ethical payoff to this teaching. A person who accepts Hukam is less driven by fear of loss and craving for control, and is therefore freer to act with courage and compassion. Acceptance of the Divine Will is repeatedly linked in Sikh thought to <em>contentment</em> and to release from the grip of the ego. At the same time, the tradition strongly affirms the duty to resist tyranny and to stand for justice, so Bhana is best understood as inner peace combined with active righteousness, never as an excuse for fatalistic withdrawal.</p><ul><li><strong>Hukam</strong> is the all-encompassing Divine Order through which existence unfolds.</li><li>It frames human freedom within a larger order, affirming responsibility without claiming total control over outcomes.</li><li><strong>Bhana</strong> is the loving acceptance of this order, yielding contentment and equanimity, distinct from passivity or fatalism.</li></ul>"
+        },
+        {
+          "title": "Haumai and Liberation: The Problem of Ego",
+          "html": "<p>Having described the One, the practice of remembrance, and the order of Hukam, Sikh philosophy turns to the central human problem: <strong>Haumai</strong>. The word is built from terms meaning \"I\" and \"my,\" and it names the self-centered ego, the deep-seated sense of a separate self that places its own importance, desires, and identity at the center of everything. Haumai is not the same as healthy self-respect or a functioning sense of identity. It is the distorting force that makes a person experience themselves as cut off from the One and from others.</p><p>According to Sikh thought, Haumai is the root from which other afflictions grow. Tradition often speaks of five inner adversaries that flourish under the rule of ego: <em>lust or uncontrolled desire</em>, <em>anger</em>, <em>greed</em>, <em>attachment</em>, and <em>pride</em>. These are sometimes called the five thieves because they rob a person of peace and clarity. They are not seen as external demons but as tendencies of a mind dominated by self-centeredness. When Haumai rules, the person is trapped in cycles of craving and aversion, perpetually anxious, comparing, possessing, and defending.</p><p>The remedy is the gradual dissolution of Haumai through the cultivation of Naam, humility, remembrance, and selfless action. Interestingly, Gurbani sometimes describes Haumai as containing within itself the seed of its own cure: the same intense sense of \"I\" that causes suffering can, when turned toward the Divine, become the longing that drives a person toward liberation. The point is not to destroy the self in a nihilistic sense, but to <em>re-center</em> it so that the small, anxious ego gives way to a life rooted in the One.</p><p>This reframing has a striking consequence for how Sikh thought understands the human condition. Suffering is not primarily a matter of external circumstance but of inner orientation. A person ruled by ego can suffer amid plenty, while a person freed from ego can find peace amid difficulty. Liberation, then, is understood largely as freedom from the tyranny of Haumai. The one who lives in remembrance, humility, and service is said to dwell in a settled inner state often described with the term <em>sahaj</em>, a condition of natural, balanced equipoise. This sets the stage for the tradition's understanding of the ultimate goal of human life, explored later in the course.</p><ul><li><strong>Haumai</strong> is the self-centered ego, the false sense of a separate, self-important self.</li><li>The <strong>five inner adversaries</strong> (desire, anger, greed, attachment, pride) flourish under its rule.</li><li>Liberation is reframed as freedom from ego, achieved through Naam, humility, and service, leading to inner equipoise (<em>sahaj</em>).</li></ul>"
+        },
+        {
+          "title": "Seva and Sarbat da Bhala: Selfless Service and the Common Good",
+          "html": "<p>Sikh philosophy is emphatically not a private mysticism. It insists that spiritual development must express itself in action, and the central expression is <strong>Seva</strong>, selfless service. Seva means service performed without expectation of reward, recognition, or personal gain. It is regarded as one of the most direct ways to weaken the ego, because genuine service requires setting aside self-interest and treating the well-being of others as one's own concern. In this way Seva is not merely a good deed added on to spiritual life; it is part of spiritual life itself.</p><p>Tradition often distinguishes several dimensions of service. There is service rendered with the body, such as physical work in the community kitchen or maintaining shared spaces. There is service rendered with one's resources, including sharing wealth and means with those in need. And there is service rendered with the mind and skills, such as teaching, counseling, or contributing knowledge. All three are valued, and the tradition encourages people to serve in whatever way they are able. What matters most is the inner attitude: humble, sincere, and free of the desire to be seen.</p><p>Seva is animated by a remarkable and far-reaching ideal: <strong>Sarbat da Bhala</strong>, the welfare of all. This phrase, which concludes the common Sikh supplication known as Ardas, expresses a prayer and aspiration for the good of the entire creation, not merely one's own family, community, or co-religionists. It reflects the logic of Ik Onkar: if one reality pervades all beings, then the welfare of all is the only coherent ethical horizon. The Sikh is thus called to a universal, outward-facing concern that crosses every social and religious boundary.</p><p>This combination of personal humility and universal concern produces a distinctive ethic. Service is not charity given from a position of superiority; it is recognition of shared dignity. The most famous institutional embodiment of this ethic is the practice of <strong>Langar</strong>, the free community kitchen, which is examined in the next lesson alongside the broader Sikh commitment to equality. For now, the key insight is that in Sikh thought, the inner journey toward the Divine and the outer life of service to others are inseparable. To remember the One is to serve the many.</p><ul><li><strong>Seva</strong> is selfless service performed without expectation of reward, a direct antidote to ego.</li><li>It includes service through one's body, resources, and skills, with inner attitude mattering most.</li><li><strong>Sarbat da Bhala</strong>, the welfare of all, extends ethical concern universally, flowing logically from the oneness of reality.</li></ul>"
+        },
+        {
+          "title": "Equality, Langar, and Pangat: The Social Vision",
+          "html": "<p>One of the most historically significant aspects of Sikh philosophy is its strong commitment to <strong>human equality</strong>. The tradition teaches that all human beings share the same divine source and the same fundamental worth, regardless of <em>caste, creed, gender, social rank, or background</em>. This was a radical stance in the social context in which Sikhism emerged, where rigid caste hierarchies and gender restrictions were deeply entrenched. Sikh teaching directly challenged the notion that some people are inherently higher or purer than others by virtue of birth.</p><p>This conviction is not left as an abstract ideal; it is built into concrete institutions. The most famous is <strong>Langar</strong>, the free community kitchen attached to Sikh places of worship, the Gurdwaras. In Langar, food is prepared and served to all who come, free of charge and without distinction. The closely related practice of <strong>Pangat</strong> reinforces the point: people sit together in a row on the same level to eat, so that no one is seated above or below anyone else. In a society organized around ideas of ritual purity and social separation, the simple act of all people eating the same food while seated together was a powerful enactment of equality.</p><p>The Sikh tradition has also affirmed the dignity and equal standing of women in its teachings, criticizing practices and attitudes that demeaned them and upholding their full participation in religious and community life. As with any tradition, scholars and practitioners continue to discuss honestly the gap that can exist between stated ideals and lived social reality across history and across communities. It is fair and accurate to say that the <em>foundational teaching</em> is one of equality, while acknowledging that living up to that teaching is an ongoing human task.</p><p>The social vision rests on the same metaphysical foundation as the rest of Sikh thought. If there is truly One Reality pervading all beings, then divisions of caste, rank, and creed cannot reflect ultimate truth; they are human constructions that obscure a deeper unity. Equality is therefore not merely a social preference but a direct implication of the tradition's understanding of the Divine. Worship of the One and the practice of equality are, in this view, two sides of a single coin: to honor the One present in all is to refuse to rank or exclude any.</p><ul><li>Sikh philosophy affirms the fundamental <strong>equality</strong> of all people across caste, creed, gender, and rank.</li><li><strong>Langar</strong> (free community kitchen) and <strong>Pangat</strong> (sitting together as equals) embody this equality concretely.</li><li>Equality is grounded in the oneness of reality; honoring the One in all means refusing every hierarchy of birth.</li></ul>"
+        },
+        {
+          "title": "Miri-Piri and the Householder Life: Engaged Spirituality",
+          "html": "<p>Sikh philosophy rejects the idea that spiritual life requires withdrawal from the world. This is captured in two interrelated themes: the concept of <strong>Miri-Piri</strong> and the ideal of the spiritually grounded householder, or <strong>Grihasti</strong>. Together they articulate a vision in which the sacred and the worldly are not opposed realms but a single integrated life.</p><p>The principle of <strong>Miri-Piri</strong> holds that temporal and spiritual authority belong together. <em>Piri</em> refers to spiritual authority and the inner life of devotion, while <em>Miri</em> refers to temporal responsibility, including the duty to uphold justice and to engage with the affairs of the world. Sikh tradition associates the formal articulation of this principle with the sixth Guru, who is remembered as wearing two swords symbolizing these two dimensions. The teaching is that genuine spirituality does not retreat from worldly responsibility; rather, it must shoulder the duty to resist oppression, defend the vulnerable, and order communal life justly. Spiritual depth and worldly responsibility reinforce one another.</p><p>Closely tied to this is the strong Sikh affirmation of the <strong>householder life</strong>. In contrast to paths that exalt celibacy, renunciation, or withdrawal to forests and monasteries as the highest spiritual state, Sikh teaching honors the ordinary life of family, work, and community as the proper arena for spiritual growth. A frequently cited threefold ideal summarizes the balanced life: to remember the Divine, to earn an honest living, and to share with others. This means working productively, raising a family, participating in society, and serving the community, all while keeping the One in mind. Renunciation, in this view, is internal: one renounces the grip of ego and greed, not the responsibilities of life.</p><p>The deeper claim here is about <em>where</em> spiritual transformation actually happens. For Sikh thought, the marketplace, the home, and the public square are not distractions from the spiritual path but the very places where humility, honesty, service, and remembrance must be tested and practiced. A person can chant in solitude yet remain ruled by ego, or can live fully in the world and grow free of it. By insisting that the householder's engaged life is fully compatible with the highest spiritual attainment, Sikh philosophy democratizes the path: liberation is open to ordinary people living ordinary, responsible lives.</p><ul><li><strong>Miri-Piri</strong> unites temporal and spiritual authority, joining devotion with the duty to uphold justice in the world.</li><li>The <strong>householder life (Grihasti)</strong> is honored as a full spiritual path, not an obstacle to be escaped.</li><li>The threefold ideal of remembering the Divine, earning honestly, and sharing with others integrates worship and worldly responsibility.</li></ul>"
+        },
+        {
+          "title": "Jivan Mukti: Ethics and the Goal of Human Life",
+          "html": "<p>The course concludes by drawing the previous threads together around the question of the ultimate <strong>goal of human life</strong>. In Sikh thought, the highest aim is liberation, often expressed through the ideal of <strong>Jivan Mukti</strong>, which means liberation while still living. This is a crucial and distinctive emphasis: the goal is not primarily an after-death reward earned through correct ritual, but a transformed state of being that can be realized in this very life. The liberated person continues to live, work, and serve in the world, but does so free from the bondage of ego, craving, and fear.</p><p>The person who attains this state is sometimes described with terms pointing to one who is awakened to and absorbed in the Divine, often called a <em>Gurmukh</em>, one whose face is turned toward the Guru's wisdom, in contrast to the self-willed person turned toward ego. The <em>Gurmukh</em> lives in remembrance of the One, accepts Hukam with equanimity, has loosened the grip of Haumai, serves selflessly, and treats all beings as expressions of the same reality. Such a person is said to abide in <em>sahaj</em>, a natural and balanced inner poise, and to experience a deep, stable contentment that external circumstances cannot easily disturb.</p><p>It follows that <strong>ethics</strong> in Sikh philosophy is not a separate department bolted onto spirituality; it is the visible shape of spiritual transformation. Honesty in earning, humility in success, compassion toward the suffering, courage against injustice, restraint of the five inner adversaries, and generosity through sharing and service are all understood as both means and signs of progress on the path. A genuinely spiritual life and a genuinely ethical life are, in this framework, the same life seen from two angles. Right action flows naturally from a heart attuned to the One, and right action in turn deepens that attunement.</p><p>Looking back across the course, a coherent picture emerges. <strong>Ik Onkar</strong> establishes the oneness of reality. <strong>Naam and Naam Simran</strong> provide living connection with it. <strong>Hukam and Bhana</strong> describe the order of existence and the posture of trustful acceptance. <strong>Haumai</strong> names the obstacle, and its dissolution is liberation. <strong>Seva, Sarbat da Bhala, equality, and Langar</strong> translate the inner vision into an ethic of universal service and dignity. <strong>Miri-Piri and the householder ideal</strong> locate that ethic firmly in the engaged life of the world. And <strong>Jivan Mukti</strong> names the goal: to become, here and now, a person liberated from ego and united in love and service with the One present in all. The Sikh path is, in the end, an invitation to live this integrated life fully.</p><ul><li><strong>Jivan Mukti</strong> is liberation while still living, a transformed state realized in this life rather than only after death.</li><li>The liberated person (a <em>Gurmukh</em>) lives in remembrance, acceptance, humility, and service, abiding in inner equipoise.</li><li><strong>Ethics</strong> is the visible form of spiritual transformation; the spiritual life and the ethical life are one.</li></ul>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is the primary significance of beginning the Mool Mantar with 'Ik Onkar'?",
+          "options": [
+            "It names the founder of the Sikh tradition",
+            "It affirms the oneness of reality before any attribute is described",
+            "It lists the duties required of a householder",
+            "It commands a specific daily ritual"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which statement best captures the meaning of Naam in Sikh philosophy?",
+          "options": [
+            "A secret word that only priests may speak",
+            "Merely a label or title for the Divine with no further meaning",
+            "The living, knowable presence of the Divine accessible to human awareness",
+            "A set of rules governing temple architecture"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How is Bhana (acceptance of the Divine Will) best understood?",
+          "options": [
+            "Passive fatalism that discourages all effort and resistance to injustice",
+            "Inner equanimity and trust combined with continued righteous action",
+            "A belief that human beings have no responsibility for their actions",
+            "Indifference to the suffering of others"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In Sikh thought, what is Haumai?",
+          "options": [
+            "A form of meditation practiced at dawn",
+            "The self-centered ego, the false sense of a separate, self-important self",
+            "A type of community kitchen",
+            "The name of a sacred composition"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why does the ideal of Sarbat da Bhala extend concern to all of creation rather than only one's own community?",
+          "options": [
+            "Because Sikh teaching requires converting everyone to one belief",
+            "Because it is a modern political slogan unrelated to philosophy",
+            "Because the oneness of reality implies the welfare of all is the only coherent ethical horizon",
+            "Because serving outsiders earns greater personal reward"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What do the practices of Langar and Pangat primarily express?",
+          "options": [
+            "A requirement that worshippers fast before prayer",
+            "The equality and shared dignity of all people regardless of caste or rank",
+            "A hierarchy in which clergy are served first",
+            "A seasonal festival celebrated once a year"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the principle of Miri-Piri affirm?",
+          "options": [
+            "That spiritual life requires withdrawal from worldly affairs",
+            "That temporal responsibility and spiritual authority belong together",
+            "That only celibate renunciants can attain liberation",
+            "That wealth should be rejected entirely"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which best describes the goal of Jivan Mukti?",
+          "options": [
+            "A reward attainable only after death through correct ritual",
+            "Withdrawal from family and work to live as a hermit",
+            "Liberation from ego realized while still living an engaged life in the world",
+            "Mastery of philosophical arguments for their own sake"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "gurmat-sangeet-survey",
+      "title": "Introduction to Gurmat Sangeet",
+      "topic": "music",
+      "level": 100,
+      "professor": "Sikh University (survey)",
+      "source": "Sikh Archive",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "Kirtan, Raag, and the place of music in Sikh worship \u2014 an introduction for listeners and learners."
+    },
+    {
+      "id": "sikh-art-architecture",
+      "title": "Sikh Art & Architecture",
+      "topic": "arts",
+      "level": 150,
+      "professor": "Sikh University (survey)",
+      "source": "Sikh Archive",
+      "aiCreated": true,
+      "status": "in-development",
+      "summary": "Gurdwara architecture, manuscript art, and Sikh material culture across the centuries."
+    },
+    {
+      "id": "sikh-history-foundations",
+      "title": "Foundations of Sikh History",
+      "topic": "history",
+      "level": 100,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A rigorous introductory survey of Sikh history from the birth of Guru Nanak Sahib in 1469 through the era of the Ten Gurus, the founding of the Khalsa, the Sikh Empire, and the colonial and modern periods. Designed for a global beginner audience, it traces how a distinct faith and community took shape across more than five centuries.",
+      "lessons": [
+        {
+          "title": "Guru Nanak Sahib and the Founding of Sikhi",
+          "html": "<p><strong>Guru Nanak Sahib</strong> (born 1469, traditionally near Talwandi, a village in the Punjab now called Nankana Sahib in present-day Pakistan) is revered as the first of the Ten Gurus and the founder of the Sikh faith, known as <strong>Sikhi</strong>. The word <em>Sikh</em> derives from a term meaning learner or disciple, and the heart of Guru Nanak Sahib's message was the call to learn, to remember the Divine, and to live truthfully in the world.</p><p>Guru Nanak Sahib taught the oneness of God, expressed in the opening words of Sikh scripture as <strong>Ik Onkar</strong> \u2014 One Universal Creator. He rejected the idea that any one community, ritual, or caste held a monopoly on the sacred. According to widely shared tradition, after a profound spiritual experience he declared that there is neither Hindu nor Muslim in the eyes of the Divine, meaning that outward labels matter far less than sincere devotion and ethical living.</p><p>Three principles are commonly used to summarize his practical teaching:</p><ul><li><strong>Naam Japna</strong> \u2014 remembering and meditating on the Divine Name.</li><li><strong>Kirat Karni</strong> \u2014 earning an honest living through one's own labor.</li><li><strong>Vand Chakna</strong> \u2014 sharing with and serving others, especially those in need.</li></ul><p>Guru Nanak Sahib is traditionally described as undertaking long journeys, called the <strong>Udasis</strong>, traveling widely to engage people of many backgrounds in spiritual dialogue. His teachings were preserved in hymns of striking poetic beauty that were later included in Sikh scripture. Toward the end of his life he settled at <strong>Kartarpur</strong>, where he established a community organized around collective worship, honest work, and the shared meal.</p><p>One of his most consequential acts was the institution of <strong>succession</strong>. Rather than passing leadership to a family member by default, Guru Nanak Sahib is said to have chosen a devoted disciple, Bhai Lehna, for his humility and service, renaming him <strong>Guru Angad Sahib</strong>. This deliberate choice of a successor based on spiritual merit established the principle that the light of Guruship would continue through a line of Gurus, ensuring continuity of the message beyond the founder's lifetime.</p>"
+        },
+        {
+          "title": "The Early Gurus and the Building of Institutions",
+          "html": "<p>The Gurus who followed Guru Nanak Sahib gave the young community lasting institutions that shaped Sikh life for centuries. While precise details of some events are recorded differently across traditional sources, the broad outlines below reflect mainstream understanding.</p><p><strong>Guru Angad Sahib</strong> (Guru from 1539) is closely associated with the development and promotion of the <strong>Gurmukhi script</strong>, the script in which Sikh scripture is written. By giving the community a script suited to the Punjabi language, he helped make sacred texts accessible and helped preserve the Gurus' hymns accurately. He also strengthened the practice of <strong>Langar</strong>, the free community kitchen where all people sit together as equals and share a meal regardless of caste, status, or religion.</p><p><strong>Guru Amar Das Sahib</strong> (Guru from 1552) further institutionalized equality, reportedly requiring even visiting dignitaries to first sit in the Langar before meeting him. He organized the growing community through the <strong>Manji system</strong>, appointing local representatives to teach and guide Sikhs across different regions, an early form of administrative structure that allowed the faith to spread in an organized way. He is also remembered for advocating the dignity of women and opposing practices that harmed them.</p><p><strong>Guru Ram Das Sahib</strong> (Guru from 1574) founded the city that would become <strong>Amritsar</strong>, centered on a sacred pool, which grew into the spiritual heart of the Sikh world. Pothis, or collections of sacred hymns, were carefully maintained across these generations, preparing the ground for a definitive scripture.</p><p><strong>Guru Arjan Sahib</strong> (Guru from 1581), the fifth Guru, completed the great temple complex at Amritsar, the site now known as the <strong>Harmandir Sahib</strong> (often called the Golden Temple). His most enduring scholarly achievement was the compilation of the <strong>Adi Granth</strong> around 1604, a vast scripture gathering the hymns of the Gurus together with the verses of other revered saints and poets from diverse backgrounds. This inclusiveness reflected the universal spirit of Sikhi. The Adi Granth would later form the core of the Sikh scripture revered today.</p>"
+        },
+        {
+          "title": "Sacrifice and Conscience: The Martyrdoms of Guru Arjan Sahib and Guru Tegh Bahadur Sahib",
+          "html": "<p>Two martyrdoms stand at the center of Sikh historical memory and profoundly shaped the community's understanding of faith, courage, and standing against injustice.</p><p><strong>Guru Arjan Sahib</strong> was martyred in 1606. The historical context involved the politics of the Mughal court of the period and concerns among some authorities about the growing influence and independence of the Sikh community. According to Sikh tradition, the Guru endured severe torture yet remained serene and steadfast, accepting his fate as the Divine Will. His martyrdom is widely understood as a turning point: it demonstrated that the Sikh path demanded the willingness to suffer for one's convictions, and it influenced his successors' approach to protecting the community.</p><p><strong>Guru Tegh Bahadur Sahib</strong>, the ninth Guru, was martyred in Delhi in 1675. The most widely transmitted account holds that he stood in defense of the <strong>freedom of conscience</strong> of others, including a community facing forced religious conversion under the policies of the Mughal emperor Aurangzeb. Tradition relates that he chose to give his life rather than abandon the principle that people should be free to follow their own faith. For this reason he is often honored with the title meaning protector of the right to worship freely.</p><p>The significance of these martyrdoms can be summarized in several points:</p><ul><li>They affirmed that <strong>religious freedom</strong> and the defense of the persecuted were core moral commitments, even at the cost of one's life.</li><li>They reinforced the Sikh value of <strong>fearlessness</strong> in the face of oppression while remaining spiritually centered.</li><li>They directly shaped the responses of the later Gurus, contributing to the community's gradual readiness to defend itself and others.</li></ul><p>These events are remembered not as celebrations of conflict but as testimonies to standing firm for truth and the rights of all people.</p>"
+        },
+        {
+          "title": "Guru Hargobind Sahib and the Doctrine of Miri-Piri",
+          "html": "<p>Following the martyrdom of his father Guru Arjan Sahib, <strong>Guru Hargobind Sahib</strong>, the sixth Guru (Guru from 1606), introduced a development that gave Sikh history a new dimension. He articulated the concept of <strong>Miri-Piri</strong>, the principle that spiritual authority and temporal responsibility are joined rather than separate.</p><p>Tradition relates that Guru Hargobind Sahib wore two swords, symbolizing these two domains: <strong>Piri</strong>, representing spiritual sovereignty and devotion, and <strong>Miri</strong>, representing worldly authority and the duty to uphold justice and defend the community. This was not a turn away from Guru Nanak Sahib's spiritual message but an extension of it into the social and political realities of the age. A faith committed to truth and the protection of the vulnerable, the teaching implied, could not remain indifferent to oppression in the world.</p><p>He is also associated with the establishment of the <strong>Akal Takht</strong> at Amritsar, a seat representing temporal authority that stands facing the Harmandir Sahib. The pairing of these two centers physically embodied the balance of Miri and Piri \u2014 the temporal and the spiritual standing together.</p><p>The <strong>militarization</strong> of this period must be understood in context. It was a defensive and protective response to the political pressures and persecution the community had experienced, including the martyrdom of Guru Arjan Sahib. The Guru is traditionally remembered for maintaining a body of trained followers and horses, and for engaging in defensive conflicts, while continuing to emphasize spiritual devotion. The aim, as understood in mainstream Sikh tradition, was not conquest but the capacity to protect the innocent and resist tyranny. The Miri-Piri principle remains central to Sikh thought, expressing the conviction that genuine spirituality is inseparable from a commitment to justice in everyday life.</p>"
+        },
+        {
+          "title": "Guru Gobind Singh Sahib and the Founding of the Khalsa",
+          "html": "<p><strong>Guru Gobind Singh Sahib</strong>, the tenth Guru (Guru from 1675), gave Sikh history one of its most defining moments: the founding of the <strong>Khalsa</strong> in 1699, traditionally on the festival of Vaisakhi at Anandpur.</p><p>According to the widely transmitted account, the Guru called upon the assembled congregation and asked who among them was willing to give their head for their faith. One by one, five devotees stepped forward, drawn from different regions and social backgrounds. These five became known as the <strong>Panj Pyare</strong>, the Five Beloved Ones. The Guru then initiated them through a ceremony involving <strong>Amrit</strong> (sweetened, consecrated water stirred with a double-edged sword), inaugurating the Khalsa as an order of committed, initiated Sikhs. In a striking gesture of humility and equality, the Guru then asked the Panj Pyare to initiate him in turn.</p><p>The creation of the Khalsa carried deep meaning:</p><ul><li>It bound Sikhs to a code of ethical conduct, devotion, courage, and service.</li><li>It dissolved distinctions of caste and background; men commonly took the name <strong>Singh</strong> (lion) and women the name <strong>Kaur</strong> (princess), affirming a shared identity and the dignity of all.</li><li>It established a visible, committed community ready to uphold justice and defend the oppressed.</li></ul><p>The Khalsa is also associated with the maintaining of articles of faith that mark a committed Sikh's identity and discipline. Guru Gobind Singh Sahib lived through immense hardship and conflict in defense of the community, and several members of his own family gave their lives during this turbulent era.</p><p>His final and far-reaching decision concerned the future of the Guruship. Before his passing in 1708, Guru Gobind Singh Sahib declared that there would be no further human Guru. Instead, he conferred eternal Guruship upon the sacred scripture, thereafter revered as <strong>Sri Guru Granth Sahib Ji</strong>. From that point onward, the scripture itself became the living, eternal Guru for Sikhs, the supreme spiritual authority guiding the community for all time.</p>"
+        },
+        {
+          "title": "The Eighteenth Century: Struggle, the Misls, and the Rise of Ranjit Singh",
+          "html": "<p>The eighteenth century was a period of severe hardship and remarkable resilience for the Sikh community. Following the era of the Gurus, Sikhs faced repeated persecution under regional Mughal authorities and during invasions of the Punjab by outside forces. Despite great loss, the community endured, and its members are remembered in tradition for their steadfastness during these trials.</p><p>In the early part of the century, figures associated with armed resistance led campaigns against oppressive local rule. Over time, as central authority in the region weakened, Sikh fighting bands consolidated into confederacies known as the <strong>Misls</strong>. Each Misl was a semi-independent group controlling territory in the Punjab, cooperating at times for common defense, particularly against external invasions, while managing their own affairs. The Misls represented a decentralized form of Sikh power and laid the groundwork for later political unity.</p><p>By the end of the eighteenth century, <strong>Maharaja Ranjit Singh</strong> rose to prominence. Beginning from the base of one Misl, he united the various Sikh factions and established the <strong>Sikh Empire</strong> in 1801, with Lahore as his capital. His reign is widely regarded as a high point of Sikh political achievement.</p><ul><li>He built a powerful, modernized army, drawing on European-style training and artillery alongside traditional Sikh forces.</li><li>His state was notable for its <strong>relative pluralism</strong>: people of different faiths, including Hindus, Muslims, and others, served in his administration and army, and his rule is generally remembered as tolerant by the standards of the time.</li><li>He is associated with the adornment of the Harmandir Sahib, contributing to the gold work that gave rise to the popular name Golden Temple.</li></ul><p>Maharaja Ranjit Singh died in 1839. After his death, internal instability weakened the empire, and within roughly a decade it came into conflict with the expanding power of the British East India Company, setting the stage for the colonial period.</p>"
+        },
+        {
+          "title": "Colonial Rule and the Reform Movements",
+          "html": "<p>After a series of wars between the Sikh Empire and the British East India Company in the 1840s, the Punjab was annexed and brought under <strong>British colonial rule</strong> by 1849. This marked the end of Sikh sovereignty and the beginning of a long period in which the community navigated life under a colonial administration.</p><p>Under colonial conditions, Sikhs grappled with pressures on their distinct identity, including missionary activity and changing social currents. In response, the later nineteenth century saw the rise of the <strong>Singh Sabha movement</strong>, a reform and revival effort that began in the 1870s. Its broad aims included:</p><ul><li>Reaffirming and clarifying a distinct Sikh identity rooted in the teachings of the Gurus and Sri Guru Granth Sahib Ji.</li><li>Promoting <strong>education</strong>, establishing schools and institutions, and encouraging literacy.</li><li>Encouraging the study of Sikh scripture and history and the use of Punjabi and Gurmukhi.</li></ul><p>A second major effort, the <strong>Gurdwara Reform movement</strong> of the early twentieth century (often associated with the Akali movement and the Gurdwara reform agitation of the 1920s), sought to free Sikh places of worship, the <strong>Gurdwaras</strong>, from the control of hereditary custodians whose management had in many cases become a source of grievance. This largely nonviolent campaign led to legislation placing the historic Gurdwaras under elected community management, a significant achievement in religious self-governance.</p><p>The colonial era ended with the <strong>Partition of British India in 1947</strong>, which divided the Punjab between the newly independent states of India and Pakistan. The partition was accompanied by enormous upheaval and tragic loss of life across communities, and it forced the large-scale migration of vast numbers of people, including many Sikhs who left ancestral lands now in Pakistan.</p><p>The twentieth and twenty-first centuries also saw the growth of a significant <strong>global diaspora</strong>. Sikhs migrated to and established communities across the world, including the United Kingdom, North America, East Africa, Southeast Asia, Australia, and elsewhere, building Gurdwaras and institutions far from the Punjab. Today Sikhi is a worldwide faith, and its history continues to unfold across many lands while remaining rooted in the teachings of the Gurus.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "In what year was Guru Nanak Sahib, the first Guru and founder of Sikhi, born?",
+          "options": [
+            "1399",
+            "1469",
+            "1539",
+            "1606"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which three principles are commonly used to summarize Guru Nanak Sahib's practical teaching?",
+          "options": [
+            "Pilgrimage, fasting, and silence",
+            "Naam Japna, Kirat Karni, and Vand Chakna",
+            "Wealth, conquest, and fame",
+            "Isolation, ritual, and secrecy"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The institution of the free community kitchen, where all people sit and eat together as equals, is known as:",
+          "options": [
+            "Manji",
+            "Langar",
+            "Gurmukhi",
+            "Misl"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who compiled the Adi Granth around 1604 and completed the temple complex at Amritsar?",
+          "options": [
+            "Guru Angad Sahib",
+            "Guru Amar Das Sahib",
+            "Guru Arjan Sahib",
+            "Guru Tegh Bahadur Sahib"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "The doctrine of Miri-Piri, joining temporal authority with spiritual sovereignty, is most associated with which Guru?",
+          "options": [
+            "Guru Hargobind Sahib",
+            "Guru Ram Das Sahib",
+            "Guru Nanak Sahib",
+            "Guru Gobind Singh Sahib"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Guru Tegh Bahadur Sahib's martyrdom in 1675 is most widely understood as a defense of:",
+          "options": [
+            "Territorial expansion",
+            "The freedom of conscience and the right to worship freely",
+            "A particular ritual practice",
+            "Royal succession"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In 1699, Guru Gobind Singh Sahib founded the Khalsa and initiated the five devotees known as:",
+          "options": [
+            "The Misls",
+            "The Panj Pyare",
+            "The Singh Sabha",
+            "The Manjis"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "After uniting the Misls, who established the Sikh Empire with its capital at Lahore in 1801?",
+          "options": [
+            "Guru Gobind Singh Sahib",
+            "Maharaja Ranjit Singh",
+            "Guru Arjan Sahib",
+            "Bhai Lehna"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "gurmat-foundations",
+      "title": "Introduction to Gurmat (Sikh Theology)",
+      "topic": "theology",
+      "level": 100,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A rigorous yet accessible introduction to Gurmat, the theology of the Guru's teachings, covering the nature of the Divine, the Shabad Guru, the path of devotion, grace and effort, ethics and equality, and the meaning of liberation.",
+      "lessons": [
+        {
+          "title": "What Is Gurmat? Orienting the Study of Sikh Theology",
+          "html": "<p>The word <strong>Gurmat</strong> is a compound of two ideas: <em>Gur</em>, the Guru, and <em>mat</em>, wisdom, counsel, or way of thinking. Taken together, Gurmat means \"the mind, wisdom, or way of the Guru.\" It names the entire vision of reality and human life that emerges from the teachings preserved in Sikh scripture. To study Gurmat is therefore not merely to study a set of doctrines but to study a coherent orientation of the whole person toward truth.</p><p>Gurmat is deliberately contrasted in Sikh sources with <strong>manmat</strong>, the way of the self-centered mind. Where manmat follows the restless promptings of ego, habit, and appetite, Gurmat reorients the seeker toward the Divine and toward a disciplined, ethical, and devotional life. Much of Sikh theology can be read as an extended meditation on this single distinction: living from the Guru's wisdom rather than from the demands of a small and frightened self.</p><p>Several features make Gurmat distinctive as a theological tradition:</p><ul><li><strong>It is scripture-centered.</strong> The authoritative source is the Sri Guru Granth Sahib Ji, regarded by Sikhs as the living, eternal Guru rather than merely a book about the Guru.</li><li><strong>It is devotional and practical.</strong> Theology is not pursued for speculation alone; it is meant to transform how one lives, works, and treats others.</li><li><strong>It is world-affirming.</strong> Gurmat does not ask the seeker to flee society. The ideal life is that of the engaged householder who remembers the Divine while fulfilling worldly responsibilities.</li><li><strong>It is egalitarian.</strong> The teachings reject distinctions of caste, gender, and inherited status as the measure of a person's worth before the Divine.</li></ul><p>This course introduces these themes for a global beginner audience. Throughout, we will keep references to <strong>Gurbani</strong> (the Guru's utterance, the contents of scripture) brief and will explain their meaning in plain language rather than reproducing long passages. Where Sikhs hold a range of views, the course will note the diversity neutrally. Our aim is a faithful, mainstream account that prepares the student for deeper study.</p>"
+        },
+        {
+          "title": "The Nature of the Divine: Ik Onkar, Nirgun and Sargun",
+          "html": "<p>The Sikh understanding of the Divine begins with the opening statement of scripture, conventionally rendered <strong>Ik Onkar</strong>. The numeral \"one\" placed before the symbol is not incidental: it insists that ultimate reality is singular, undivided, and without rival. There is one Source, one Truth, one Reality underlying all that exists. This is a thoroughgoing monotheism that also functions as a kind of non-dualism, since nothing finally stands apart from or outside this one Reality.</p><p>Sikh theology speaks of the Divine using several complementary terms. <strong>Akal Purakh</strong> means the \"Timeless Being\" or \"Being beyond death,\" emphasizing that the Divine is not subject to time, decay, or mortality. Other common names include <em>Waheguru</em> (an expression of wonder at the Divine), <em>Sat</em> (the True or the Real), and many descriptive names drawn from various religious vocabularies. Gurmat freely uses names familiar from different traditions while insisting they all point to the same one Reality.</p><p>A central distinction in Sikh theology is between two aspects of the Divine:</p><ul><li><strong>Nirgun</strong> means \"without attributes\": the Divine as formless, transcendent, beyond all qualities, names, and conceptual grasp. In this aspect the Divine cannot be pictured or contained by the human mind.</li><li><strong>Sargun</strong> means \"with attributes\": the Divine as manifest in and through creation, present and active in the world, knowable through its expressions in nature, in the moral order, and in the lives of devotees.</li></ul><p>Crucially, Nirgun and Sargun are not two different gods or even two separate beings. They are two ways of speaking about a single Reality. The same Divine that is utterly beyond form also pervades and sustains the cosmos. This allows Gurmat to affirm both that the Divine is transcendent (entirely beyond us) and immanent (intimately present everywhere) without contradiction.</p><p>Several further affirmations follow. The Divine is <strong>self-existent</strong>, not created by anything else. The Divine is <strong>beyond birth and death</strong>; Gurmat therefore does not teach that the Supreme takes on human incarnations in the way some other traditions do, though it deeply honors the Gurus as those through whom divine light shone. The Divine is the <strong>creator, sustainer, and dissolver</strong> of all worlds, and yet is not exhausted by creation. Finally, the Divine is gracious and approachable: though beyond comprehension, the One can be loved, remembered, and known in experience through devotion.</p>"
+        },
+        {
+          "title": "The Shabad Guru and Sri Guru Granth Sahib Ji",
+          "html": "<p>To understand Sikh theology one must grasp the meaning of <strong>Guru</strong>. In ordinary usage a guru is a teacher who dispels darkness with light. In Gurmat, however, the deepest meaning of Guru is the <strong>divine wisdom that awakens the soul</strong>. The human Gurus, beginning with Guru Nanak and continuing through nine successors, were vessels through whom this wisdom was expressed. Sikhs understand the same divine light to have passed from one Guru to the next, so that what mattered was not the individual personality but the light and the message they carried.</p><p>The pivotal theological concept here is the <strong>Shabad Guru</strong>: the idea that the true Guru is the divine <em>Word</em> or <em>Shabad</em>. The teachings are not merely instructions about the Guru; they are themselves the Guru's living presence. This is why, when the line of human Gurus came to its close, Guruship was conferred not on another person but on the scripture itself.</p><p>The <strong>Sri Guru Granth Sahib Ji</strong> is thus regarded by Sikhs as the eternal, living Guru. Several points clarify its theological status and how Sikhs relate to it:</p><ul><li><strong>It is composed of Gurbani.</strong> Its contents are devotional and theological compositions arranged largely according to musical measures, intended to be sung and contemplated.</li><li><strong>It is remarkably inclusive.</strong> Alongside the compositions of the Sikh Gurus, it contains the words of various other devotees and saints from different backgrounds, all consistent with its central vision of the one Divine.</li><li><strong>It is treated with profound reverence.</strong> Sikhs install it with honor, attend to it as a living presence, and turn to it for guidance, comfort, and worship.</li><li><strong>It is a guide, not an idol.</strong> The reverence is directed to the wisdom it embodies. Gurmat warns against empty ritual, so the outward honor is meant to express, not replace, inner devotion and practice.</li></ul><p>For the Sikh, then, the relationship with the Guru is continuous and present. One does not merely study a historical figure; one sits before, listens to, sings, and lives by the Word. Theology and devotion meet in this single practice of relating to the Shabad Guru.</p>"
+        },
+        {
+          "title": "Naam, Shabad, and Simran: The Path of Devotion",
+          "html": "<p>If the Divine is one and can be known through the Shabad Guru, how does the seeker actually draw near? The answer at the heart of Gurmat is <strong>Naam</strong>. The word literally means \"name,\" but in Sikh theology Naam is far more than a label. It signifies the very presence, reality, and self-disclosure of the Divine, the divine identity made available to human awareness. To \"receive Naam\" is to become inwardly aware of and connected to the Divine reality that pervades all things.</p><p>Closely related is <strong>Shabad</strong>, the Word, which we met as the Guru itself. The Shabad is the medium through which Naam is conveyed and absorbed. Through contemplating the Guru's Word, the seeker's consciousness is tuned to the divine presence. Gurmat thus presents an integrated path: the Shabad reveals, Naam is what is revealed, and the human response is to remember and dwell upon it.</p><p>That response is called <strong>Simran</strong>, loving remembrance. Simran can take several forms:</p><ul><li><strong>Verbal remembrance</strong>, repeating or singing a divine name or sacred Word with attention.</li><li><strong>Meditative remembrance</strong>, holding the Divine in the mind in stillness.</li><li><strong>Remembrance woven into life</strong>, keeping awareness of the Divine while working, serving, and relating to others.</li></ul><p>This devotional path is a form of <strong>Bhakti</strong>, loving devotion to the Divine. Gurmat's Bhakti, however, has distinctive features. It is directed to the one formless-yet-present Reality rather than to images. It emphasizes inner transformation over external performance. And it is meant to be lived in the world, not only in withdrawal. The fruit of sincere Simran is described as an inner sweetness and peace, a steadying of the restless mind, and the gradual dissolving of egoism.</p><p>An important companion concept is <strong>Sangat</strong>, the holy congregation. Gurmat teaches that remembrance flourishes in good company, where seekers sing the Word together and support one another. The individual path and the communal life are thus intertwined: one remembers alone and also with others, and the singing of Gurbani in congregation, known as <strong>Kirtan</strong>, is a central devotional practice.</p>"
+        },
+        {
+          "title": "Grace and Effort: Hukam, Nadar, and Human Freedom",
+          "html": "<p>A perennial question in any theology is the relationship between divine action and human action. Does the seeker reach the Divine by personal effort, or only by gift? Gurmat holds both together in a careful balance, refusing to collapse into either pure self-reliance or sheer passivity.</p><p>On the divine side stands the concept of <strong>Hukam</strong>, the divine Order, Command, or Will. Everything that exists and unfolds does so within Hukam. The cosmos is not chaotic; it is governed by a divine ordering that the human mind cannot fully fathom. To live wisely, Gurmat teaches, is in large part to come into harmony with Hukam, to accept and align with the divine Will rather than to rebel against reality out of ego. A recurring teaching is that the one who recognizes and accepts Hukam is freed from the restless self-assertion that causes suffering.</p><p>Closely tied to Hukam is <strong>Nadar</strong> or <strong>Kirpa</strong>, the divine glance of grace. Gurmat is emphatic that ultimate spiritual realization is a gift. No amount of mechanical effort can earn or command it; it dawns by grace. This guards the tradition against spiritual pride, the idea that one might achieve liberation as a personal accomplishment to be boasted of.</p><p>Yet Gurmat is equally clear that <strong>human effort matters</strong>. The seeker is called to:</p><ul><li><strong>Practice Simran</strong> and contemplate the Shabad consistently.</li><li><strong>Live ethically</strong> and serve others.</li><li><strong>Turn the mind</strong> away from the self-centered tendencies that obstruct grace.</li></ul><p>How do grace and effort fit together? A helpful way to hold the tension is this: effort does not <em>earn</em> grace as a wage, but it prepares and opens the seeker to receive it. The sincere striving of the devotee and the free gift of the Divine are not competitors. Indeed, Gurmat suggests that even the impulse to seek and the capacity to remember are themselves enabled by grace.</p><p>On the question of <strong>human freedom</strong>, Gurmat affirms genuine moral responsibility. People are accountable for their actions and are exhorted to choose the path of the Guru. At the same time, all of this occurs within the encompassing reality of Hukam. The tradition does not resolve this into a tidy philosophical system; it teaches the seeker to act responsibly while ultimately surrendering outcomes to the divine Will. This lived posture, striving wholeheartedly while trusting completely, is itself part of the spiritual maturity Gurmat seeks to cultivate.</p>"
+        },
+        {
+          "title": "The Five Thieves, the Virtues, and the Khands of Japji Sahib",
+          "html": "<p>Gurmat offers a clear diagnosis of what keeps human beings estranged from the Divine. At the root lies <strong>haumai</strong>, often translated as egoism or \"I-am-ness,\" the deep-seated sense of a separate, self-important self that organizes life around its own cravings and fears. From this root grow the so-called <strong>five thieves</strong>, inner forces that rob a person of spiritual wealth:</p><ul><li><strong>Kaam</strong>: uncontrolled lust or excessive desire.</li><li><strong>Krodh</strong>: anger and its destructive heat.</li><li><strong>Lobh</strong>: greed and the endless grasping for more.</li><li><strong>Moh</strong>: attachment that binds and clouds judgment.</li><li><strong>Ahankar</strong>: pride and arrogance.</li></ul><p>These are called thieves because they operate within, quietly stealing peace and clarity. Gurmat does not teach the total annihilation of human faculties, but their <strong>mastery and proper ordering</strong>. Desire, energy, and even self-respect have their place; the problem is when these forces rule the person rather than serving a life oriented to truth.</p><p>Against the thieves, Gurmat commends a set of <strong>virtues</strong>, including truth (<em>sat</em>), contentment (<em>santokh</em>), compassion (<em>daya</em>), humility, patience, and above all loving remembrance of the Divine. Notably, Gurmat insists that <strong>truthful living</strong> ranks even higher than the abstract knowledge of truth; the goal is to embody truth in conduct, not merely to affirm it intellectually.</p><p>Sikh tradition also offers a vision of spiritual progress through the <strong>Khands</strong>, or realms, described near the close of the foundational morning prayer <strong>Japji Sahib</strong>. These five stages are commonly understood as ascending phases of inner development rather than physical places:</p><ul><li><strong>Dharam Khand</strong>: the realm of duty and righteous action, where one recognizes that life is a field for ethical living and accountability.</li><li><strong>Gian Khand</strong>: the realm of knowledge, where awareness expands to the vastness and wonder of creation.</li><li><strong>Saram Khand</strong>: the realm of effort and refinement, where the mind and understanding are beautifully reshaped.</li><li><strong>Karam Khand</strong>: the realm of grace, where spiritual strength and the power of the Divine become the seeker's experience.</li><li><strong>Sach Khand</strong>: the realm of Truth, the abode of the Formless, where the seeker abides in union with the divine Will.</li></ul><p>This map is not a checklist to be mechanically completed but a way of describing the deepening of a life turned toward the Divine. The movement is from outward duty, through expanding awareness and inner refinement, to grace, and finally to dwelling in Truth itself.</p>"
+        },
+        {
+          "title": "Ethics, Equality, and the Householder Ideal",
+          "html": "<p>Gurmat is an intensely ethical tradition, and its ethics flow directly from its theology. If the one Divine pervades all of creation, then every person carries the same divine light, and no human being is intrinsically higher or lower than another. From this conviction Gurmat draws a strong and historically radical commitment to <strong>equality</strong>.</p><p>This equality has several dimensions:</p><ul><li><strong>Rejection of caste.</strong> Gurmat denies that birth into a particular social group determines a person's spiritual worth. Distinctions of caste are treated as human constructs irrelevant to one's standing before the Divine.</li><li><strong>The dignity of women.</strong> Gurmat affirms the spiritual equality of women and criticizes attitudes that demean them, a notable stance in its historical context.</li><li><strong>The equal access to the Divine.</strong> The path of Naam and Simran is open to all, regardless of background, learning, or status.</li></ul><p>A powerful institutional expression of this ethic is <strong>Langar</strong>, the community kitchen in which all are served and all sit together to eat as equals, without regard to rank or origin. Equally central is <strong>Seva</strong>, selfless service, understood not as a means to earn merit but as a natural outflow of a heart attuned to the Divine and to the dignity of others.</p><p>Gurmat also famously affirms the <strong>householder ideal</strong>, sometimes summarized in three principles often phrased as remembering the Divine, earning an honest living, and sharing with others. Rather than urging renunciation of family, work, and society, Gurmat teaches that the spiritual life is best lived <em>within</em> the world. One should:</p><ul><li><strong>Earn honestly</strong> through legitimate labor rather than living off others.</li><li><strong>Share generously</strong>, giving a portion of one's earnings and effort to those in need.</li><li><strong>Remember the Divine</strong> throughout an active, responsible life.</li></ul><p>This world-engagement is paired with a sharp critique of <strong>empty ritual</strong>. Gurmat repeatedly warns that outward acts, such as mechanical pilgrimages, fasts, or ceremonies performed without inner sincerity, are spiritually fruitless. What matters is the state of the heart and the truthfulness of one's living. The tradition does not reject discipline or sacred practice as such; it rejects the substitution of external form for inner reality. The ethical vision of Gurmat thus unites inner devotion with outward justice: a true remembrance of the Divine shows itself in humility, honesty, service, and the refusal to oppress.</p>"
+        },
+        {
+          "title": "Liberation: The Gurmukh and the Manmukh",
+          "html": "<p>The goal of the spiritual life in Gurmat is often named <strong>Mukti</strong> or liberation. Like neighboring Indic traditions, Gurmat assumes a context of repeated existence and the entanglement of the soul in cycles of birth and death driven by attachment and egoism. Liberation is freedom from this bondage. Yet Gurmat gives Mukti a distinctive shape.</p><p>First, liberation in Gurmat is understood above all as <strong>union with the Divine</strong> and the dissolving of egoism, rather than merely the cessation of rebirth. The liberated state is one in which the self-centered \"I\" no longer rules; the person lives in harmony with Hukam and in loving awareness of the Divine. The drop, as the tradition's imagery suggests, merges with the ocean.</p><p>Second, Gurmat emphasizes that this liberation can be realized <strong>while still living</strong>. One who attains it is sometimes described as <strong>Jivan Mukt</strong>, liberated in life. Liberation is therefore not only a post-mortem reward but a transformed mode of existence available now, marked by inner freedom, equanimity, and joyful service. This coheres with the householder ideal: one need not abandon the world to be free; one can be free within it.</p><p>Third, Gurmat strongly de-emphasizes the pursuit of personal liberation as a self-interested goal. Sikh sources often express that the true devotee desires the love and presence of the Divine even more than liberation itself. To crave Mukti for one's own benefit can subtly reinforce the very egoism that must be dissolved. The higher aspiration is loving absorption in the Divine, from which true freedom follows as a consequence.</p><p>The course's recurring contrast between the way of the Guru and the way of the self now reaches its summit in two human types:</p><ul><li><strong>The Manmukh</strong> is the self-willed person, oriented toward the self (<em>man</em>). Ruled by the five thieves and by haumai, the Manmukh chases fleeting desires, mistakes the temporary for the lasting, and remains entangled and restless.</li><li><strong>The Gurmukh</strong> is the Guru-oriented person, one whose face and life are turned toward the Guru. The Gurmukh lives by the Shabad, practices Simran, embodies the virtues, accepts Hukam, and serves others. Such a person, by grace, comes to dwell in the divine presence.</li></ul><p>These are not rigid castes of people but descriptions of orientation, and a single person may move between them. The whole of Gurmat can be read as an invitation to turn, again and again, from the way of the Manmukh to the way of the Gurmukh. In that turning, sustained by effort and crowned by grace, the seeker finds the liberation that is, finally, loving union with the one Reality from which all things come.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "The term 'Gurmat' most directly means:",
+          "options": [
+            "The way, wisdom, or mind of the Guru",
+            "The history of the ten Gurus",
+            "A book of Sikh laws",
+            "The art of devotional singing"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "In Sikh theology, the terms Nirgun and Sargun refer to:",
+          "options": [
+            "Two separate deities worshipped together",
+            "The transcendent (formless) and immanent (manifest) aspects of one Divine",
+            "The soul and the body",
+            "Good and evil forces in the cosmos"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The concept of the 'Shabad Guru' expresses the idea that:",
+          "options": [
+            "Only the first Guru was truly divine",
+            "Each Sikh becomes a guru after initiation",
+            "The true Guru is the divine Word, embodied in the Sri Guru Granth Sahib Ji as the eternal Guru",
+            "The Guru must always be a living human being"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In Gurmat, 'Simran' refers to:",
+          "options": [
+            "A pilgrimage to sacred sites",
+            "Loving remembrance of the Divine",
+            "A fast undertaken for purification",
+            "The study of scripture's grammar"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does Gurmat relate divine grace (Nadar/Kirpa) and human effort?",
+          "options": [
+            "Effort alone earns liberation, with no need for grace",
+            "Grace makes all effort pointless",
+            "Effort prepares and opens the seeker, but ultimate realization comes by grace",
+            "Neither effort nor grace plays any role"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which set correctly lists the 'five thieves' in Gurmat?",
+          "options": [
+            "Truth, contentment, compassion, humility, patience",
+            "Kaam, krodh, lobh, moh, ahankar",
+            "Dharam, gian, saram, karam, sach",
+            "Naam, Shabad, Simran, Sangat, Seva"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The 'householder ideal' in Gurmat teaches that the spiritual life is best pursued by:",
+          "options": [
+            "Renouncing family and society to live as an ascetic",
+            "Performing elaborate rituals at temples daily",
+            "Remembering the Divine while earning honestly and sharing with others in the world",
+            "Accumulating wealth as a sign of divine favor"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "The contrast between the Gurmukh and the Manmukh describes:",
+          "options": [
+            "Two hereditary castes within Sikh society",
+            "A person oriented toward the Guru versus one oriented toward the self-willed ego",
+            "Male and female devotees",
+            "Living Gurus versus the scripture"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "ten-gurus",
+      "title": "The Lives of the Ten Gurus",
+      "topic": "history",
+      "level": 150,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An introductory survey of the ten human Guru Sahibs, from Guru Nanak Dev Ji to Guru Gobind Singh Ji, and the conferral of eternal Guruship upon Sri Guru Granth Sahib Ji. The course traces each Guru's life, distinctive contributions, and teachings within the unfolding development of the Sikh tradition.",
+      "lessons": [
+        {
+          "title": "Guru Nanak Dev Ji: The First Master and the Vision of Ik Onkar",
+          "html": "<p><strong>Guru Nanak Dev Ji</strong> (approximately 1469 to 1539) is revered as the founder of the Sikh faith and the first of the ten human Gurus. According to tradition he was born at Rai Bhoi di Talwandi, a village near Lahore in present-day Pakistan now known as Nankana Sahib in his honour. From an early age he is remembered for a contemplative temperament and a refusal to accept religious distinctions of birth as a measure of a person's worth.</p><p>A defining moment in his life is the account of his profound spiritual experience near the river Bein, after which he is said to have declared that there is neither Hindu nor Muslim in the sense of one path being inherently superior; what matters is sincere devotion and righteous living. Following this, Guru Nanak Dev Ji undertook extensive journeys, traditionally called the <strong>Udasis</strong>, travelling across South Asia and, by tradition, to places associated with Mecca and Baghdad, engaging people of many faiths in dialogue.</p><p>At the heart of his message is <strong>Ik Onkar</strong>, the affirmation that there is One Universal Creator, formless and beyond birth and death, accessible to all without intermediaries. His teachings emphasise:</p><ul><li><strong>Naam Japna</strong> - remembrance and meditation on the Divine Name.</li><li><strong>Kirat Karni</strong> - earning an honest living through righteous work.</li><li><strong>Vand Chhakna</strong> - sharing one's earnings with others and serving the community.</li></ul><p>Guru Nanak Dev Ji also established the institution of <strong>Langar</strong>, the community kitchen where people sit together as equals to share a meal regardless of caste, creed, gender, or status. This practice expressed his rejection of social hierarchy and ritual exclusion. He settled in his later years at Kartarpur, where he organised a community of followers around devotion, labour, and shared meals. His many compositions form a foundational part of Sikh scripture. Before passing, he appointed his devoted disciple Bhai Lehna as his successor, renaming him Guru Angad, establishing the principle that Guruship passes by spiritual merit rather than by family inheritance.</p>"
+        },
+        {
+          "title": "Guru Angad Dev Ji: Gurmukhi and the Strengthening of the Community",
+          "html": "<p><strong>Guru Angad Dev Ji</strong> (approximately 1504 to 1552), born Lehna, became the second Guru after demonstrating exceptional humility and devotion in the service of Guru Nanak Dev Ji. His selection over the founder's own sons reaffirmed that the line of Guruship rested on spiritual qualification, not lineage. The name Angad, meaning a part of one's own body, signified the closeness and continuity between the first and second Gurus.</p><p>One of the most enduring contributions associated with Guru Angad Dev Ji is the development and popularisation of the <strong>Gurmukhi script</strong>. While the script drew on earlier regional writing systems, Guru Angad Dev Ji standardised and promoted it as the vehicle for recording the Gurus' compositions in the language of the people. This made sacred teaching accessible beyond the closed circles of learned elites and gave the emerging community a distinct written identity.</p><p>Guru Angad Dev Ji also nurtured the community in several practical ways:</p><ul><li>He continued and expanded the institution of <strong>Langar</strong>, with his wife Mata Khivi remembered in scripture for her generous service in the community kitchen.</li><li>He encouraged physical fitness and wrestling among the youth, valuing health and discipline alongside spiritual practice.</li><li>He collected and preserved the compositions of Guru Nanak Dev Ji, helping to safeguard the early tradition.</li></ul><p>By emphasising education, the recording of teachings, and the moral training of the young, Guru Angad Dev Ji laid organisational foundations that would allow the community to grow steadily. He in turn passed the Guruship to Amar Das, an elderly devotee renowned for his tireless service, again setting aside considerations of family succession.</p>"
+        },
+        {
+          "title": "Guru Amar Das Ji: Social Reform and the Manji System",
+          "html": "<p><strong>Guru Amar Das Ji</strong> (approximately 1479 to 1574) became the third Guru at an advanced age, having come to the community later in life and served with remarkable devotion. His Guruship is especially associated with social reform and the institutional organisation of a rapidly expanding following.</p><p>Guru Amar Das Ji was a vigorous advocate for human equality and dignity. He took firm positions against social practices he regarded as unjust, and tradition credits him with speaking against the practice of sati and supporting the right of widows to remarry. He also discouraged the veil and other customs that he saw as diminishing the standing of women. To reinforce the principle of equality, he required that all visitors, including rulers, first sit and eat in the <strong>Langar</strong> before meeting him, so that no one could claim exemption from sharing a common meal.</p><p>To manage the growing community spread across many regions, Guru Amar Das Ji established the <strong>Manji system</strong>, organising the followers into territorial dioceses, each overseen by a trusted appointee who taught, guided, and connected local congregations to the central authority of the Guru. This administrative innovation allowed the tradition to maintain coherence over distance. A complementary role for women in this work is traditionally remembered as well.</p><p>Among his other contributions:</p><ul><li>He developed the town of Goindwal as a centre of community life and constructed a baoli, a stepped well, that became a place of gathering.</li><li>He composed extensive devotional poetry, including the well-known <strong>Anand Sahib</strong>, a hymn of spiritual bliss that remains central to Sikh worship and ceremony.</li><li>He encouraged the community to gather on certain occasions, strengthening a distinct communal rhythm.</li></ul><p>Guru Amar Das Ji passed the Guruship to his son-in-law Jetha, who became Guru Ram Das, a transition that combined recognition of merit with the beginnings of a new chapter in the community's development.</p>"
+        },
+        {
+          "title": "Guru Ram Das Ji: The Founding of Amritsar and the Music of Devotion",
+          "html": "<p><strong>Guru Ram Das Ji</strong> (approximately 1534 to 1581), originally named Jetha, became the fourth Guru. Orphaned young and raised in modest circumstances, he was admired for his humility and his selfless service to Guru Amar Das Ji, qualities that led to his elevation as Guru.</p><p>Guru Ram Das Ji is best remembered for founding the city that would become <strong>Amritsar</strong>, the spiritual centre of the Sikh tradition. He oversaw the excavation of a sacred pool, the Amrit Sarovar, around which the settlement grew and which gave the city its name. This site would later host the most revered Sikh shrine. By establishing a central gathering place, he gave the community a focal point that strengthened its identity and unity.</p><p>His contributions include:</p><ul><li>The composition of devotional hymns of great beauty, including the wedding hymn known as the <strong>Lavan</strong>, which forms the heart of the Sikh marriage ceremony and frames marriage as a spiritual union and journey toward the Divine.</li><li>The encouragement of <strong>Kirtan</strong>, the singing of sacred compositions set to music, as a central mode of worship and a means of uniting congregations in devotion.</li><li>The further organisation of community service and the welcoming of pilgrims and traders to the new town, helping it flourish.</li></ul><p>Guru Ram Das Ji appointed his youngest son, Arjan, as his successor on the basis of demonstrated devotion and capacity. From this point the Guruship continued within the family, yet the principle that the chosen successor must be spiritually worthy remained central to how Sikhs understand the transmission of Guruship.</p>"
+        },
+        {
+          "title": "Guru Arjan Dev Ji: The Adi Granth and the First Martyrdom",
+          "html": "<p><strong>Guru Arjan Dev Ji</strong> (approximately 1563 to 1606), the fifth Guru, occupies a pivotal place in Sikh history both for his monumental scholarly work and for his sacrifice. He brought to completion several projects that gave the tradition lasting form.</p><p>His most celebrated achievement is the compilation of the <strong>Adi Granth</strong>, the first authoritative scripture of the Sikhs, completed in the early seventeenth century. Working with the help of Bhai Gurdas as scribe, Guru Arjan Dev Ji gathered the compositions of the preceding Gurus together with his own and included the verses of various saints and devotees from differing social and religious backgrounds. This inclusive collection expressed the universality of the message of devotion to the One. He installed this scripture at the central shrine in Amritsar, giving it a place of honour at the heart of community worship.</p><p>Guru Arjan Dev Ji also oversaw the construction of the <strong>Harmandir Sahib</strong>, often known today as the Golden Temple, in the sacred pool at Amritsar. Its design, traditionally with entrances open on all sides, symbolised that the house of the Divine is open to people of every direction and background.</p><p>His other contributions include extensive and beloved poetic compositions, among them the <strong>Sukhmani Sahib</strong>, a long meditation on peace and divine remembrance that remains widely recited. He also encouraged the organised collection of community offerings to support shared institutions.</p><p>As the community grew in prominence, it drew the attention of imperial authorities. Guru Arjan Dev Ji was arrested and subjected to severe torture, and he gave his life rather than abandon his principles, becoming the first martyr in Sikh history. His martyrdom marked a turning point, prompting the community to consider how it would protect itself and uphold justice. He counselled his son Hargobind in this new reality, setting the stage for a significant development in the role of the Guru.</p>"
+        },
+        {
+          "title": "Guru Hargobind Sahib Ji: Miri and Piri, the Temporal and the Spiritual",
+          "html": "<p><strong>Guru Hargobind Sahib Ji</strong> (approximately 1595 to 1644), the sixth Guru, responded to the martyrdom of his father by giving formal expression to the principle that spiritual life and the duty to uphold justice in the world belong together. At his investiture he is said to have worn two swords, representing <strong>Miri</strong> and <strong>Piri</strong> - temporal authority and spiritual authority. This concept conveyed that a Sikh is called both to inner devotion and to the defence of righteousness and freedom in society.</p><p>To embody this vision, Guru Hargobind Sahib Ji established the <strong>Akal Takht</strong>, the Throne of the Timeless One, facing the Harmandir Sahib in Amritsar. While the Harmandir Sahib was the centre of devotional life, the Akal Takht served as a seat of temporal and communal decision-making, expressing the balance of the spiritual and the worldly. This institution remains a central authority in Sikh communal affairs.</p><p>Other features of his Guruship include:</p><ul><li>The training of disciples in horsemanship, arms, and martial discipline alongside devotion, so that the community could defend itself and the vulnerable.</li><li>Periods of conflict with imperial forces, in which the community fought defensively, as well as periods of relative accommodation.</li><li>A tradition associating him with the release of a number of imprisoned princes, which earned him an enduring epithet connected to liberation; this episode is remembered in the festival commemorating his return to Amritsar.</li></ul><p>Guru Hargobind Sahib Ji thus transformed the outward life of the community without altering its inner spiritual core. The defence of conscience and the readiness to resist oppression became enduring themes. He passed the Guruship to his grandson Har Rai, ensuring continuity in a period of considerable change.</p>"
+        },
+        {
+          "title": "Guru Har Rai Ji and Guru Har Krishan Ji: Compassion, Youth, and Continuity",
+          "html": "<p>This lesson considers the seventh and eighth Gurus together, both of whom are remembered for gentleness and steadfastness during a difficult period.</p><p><strong>Guru Har Rai Ji</strong> (approximately 1630 to 1661) became the seventh Guru as a young man. He is especially associated with compassion toward all living beings and with the care of the natural world. Tradition remembers him for maintaining gardens and supporting the relief of the sick, including the establishment of facilities for healing and the distribution of medicines. While he maintained a body of trained horsemen and did not abandon the community's capacity to defend itself, he is portrayed as inclined toward peace and careful diplomacy. He preserved the spiritual practices and institutions handed down to him and guarded the integrity of the Guru's teachings during a time of political pressure. He appointed his younger son Har Krishan as the next Guru.</p><p><strong>Guru Har Krishan Ji</strong> (approximately 1656 to 1664) became the eighth Guru as a very young child and is honoured for the spiritual maturity he displayed despite his age. His brief Guruship is remembered for humility and for service to those suffering during an outbreak of illness, during which he is said to have tended to the sick without regard for his own safety. He himself fell ill and passed away while still very young. Before his passing, tradition records that he indicated his successor would be found in the village associated with the elder, pointing toward Guru Tegh Bahadur.</p><p>Key themes from these two Gurus include:</p><ul><li>The integration of compassion, care for the sick, and respect for living beings within Sikh practice.</li><li>The demonstration that spiritual authority does not depend on age, status, or length of tenure but on inner realisation.</li><li>The careful preservation of the tradition during years of external pressure, maintaining continuity until the next major chapter.</li></ul>"
+        },
+        {
+          "title": "Guru Tegh Bahadur Ji: The Sacrifice for Freedom of Conscience",
+          "html": "<p><strong>Guru Tegh Bahadur Ji</strong> (approximately 1621 to 1675), the ninth Guru, is honoured above all for a sacrifice that stands among the most significant defences of religious freedom in history. A son of Guru Hargobind Sahib Ji, he spent many years in deep meditation before assuming the Guruship, and he is remembered for both his contemplative depth and his moral courage.</p><p>As Guru, he travelled widely to teach and to strengthen communities, and he is associated with the founding of the town that would later become an important Sikh centre. His compositions, marked by reflection on the impermanence of worldly things and the path of fearless devotion, were later included in the Sikh scripture.</p><p>The defining episode of his life concerns the defence of <strong>freedom of conscience</strong>. According to tradition, a community facing forced conversion appealed to him for help. Guru Tegh Bahadur Ji took up their cause, standing for the principle that every person has the right to follow their own faith without coercion - even though this community did not share his own religious tradition. For this stand he was arrested and, refusing to abandon his principles or to convert under threat, he was executed in Delhi.</p><p>The meaning of his martyrdom is profound:</p><ul><li>He gave his life not for his own community alone but for the right of others to practise their faith freely, establishing the defence of religious liberty as a universal moral duty.</li><li>His sacrifice reinforced the Sikh commitment to resisting tyranny and standing with the oppressed.</li><li>It deeply shaped his young son, Gobind Rai, who would become the tenth Guru and who later reflected on the significance of this stand.</li></ul><p>Guru Tegh Bahadur Ji is thus remembered as a protector of conscience whose example transcends the boundaries of any single religion, and the site of his martyrdom remains a place of deep reverence.</p>"
+        },
+        {
+          "title": "Guru Gobind Singh Ji: The Khalsa and the Completion of the Human Guruship",
+          "html": "<p><strong>Guru Gobind Singh Ji</strong> (approximately 1666 to 1708), the tenth and final human Guru, gave the Sikh tradition the form by which it is widely recognised today. He became Guru as a child after the martyrdom of his father, Guru Tegh Bahadur Ji, and grew into a leader, poet, and protector of the oppressed.</p><p>His most transformative act was the founding of the <strong>Khalsa</strong> in the year traditionally dated to 1699. At a great gathering, he called for those willing to give their lives for their faith and principles. Five who came forward, drawn from different regions and social backgrounds, became the first of the <strong>Panj Pyare</strong>, the Five Beloved Ones. He initiated them through a ceremony known as <strong>Amrit</strong>, and, in a striking gesture of humility and equality, he then asked them to initiate him in turn, so that the Guru and the initiated stood as one. Through the Khalsa he affirmed equality by giving the shared names Singh, meaning lion, to men and Kaur, meaning princess, to women, dissolving distinctions of caste in a common identity.</p><p>Members of the Khalsa committed to a disciplined way of life and to the maintenance of the articles of faith commonly known as the <strong>Five Ks</strong>: Kesh (uncut hair), Kangha (a comb), Kara (a steel bracelet), Kachhera (a particular garment), and Kirpan (a sword symbolising the duty to defend justice). The Khalsa was envisioned as a community of saint-soldiers, devoted to the Divine and ready to resist oppression and protect the defenceless.</p><p>Guru Gobind Singh Ji endured great personal loss, including the martyrdom of his sons, in the course of conflicts with imperial and regional powers. He was also a prolific poet and patron of learning. Toward the end of his life he brought the line of human Gurus to its completion: he conferred eternal Guruship upon the sacred scripture, the <strong>Guru Granth Sahib</strong>, and upon the collective body of the initiated community, the Guru Panth. With his passing the human Guruship concluded, and the Sikh tradition turned to its scripture as its living Guru.</p>"
+        },
+        {
+          "title": "Sri Guru Granth Sahib Ji: The Eternal Shabad Guru",
+          "html": "<p>With the passing of Guru Gobind Singh Ji, the line of ten human Gurus came to a close, and the Guruship passed to the scripture itself. <strong>Sri Guru Granth Sahib Ji</strong> is therefore revered by Sikhs not merely as a holy book but as the living, eternal Guru - the embodiment of the <strong>Shabad</strong>, the Divine Word, that the human Gurus had themselves taught and lived.</p><p>The concept of the <strong>Shabad Guru</strong> is central to understanding this. From the time of Guru Nanak Dev Ji, the tradition held that the true Guru is the Divine wisdom revealed through the Word, with the human Gurus serving as its perfect vehicles. When Guru Gobind Singh Ji declared the scripture to be the perpetual Guru, he affirmed that this revealed Word would continue to guide the community for all time, requiring no further human successor.</p><p>The scripture itself has notable features:</p><ul><li>It contains the compositions of several of the Sikh Gurus along with the verses of numerous saints and devotees from diverse social and religious backgrounds, reflecting a deep commitment to the universality of devotion to the One.</li><li>Much of its content is arranged according to musical measures, known as <strong>Raags</strong>, underscoring the central place of sacred music in conveying the Word.</li><li>It opens with the <strong>Mool Mantar</strong>, a concise statement of the nature of the One Creator that distils the foundational vision of Guru Nanak Dev Ji.</li></ul><p>In Sikh practice, Sri Guru Granth Sahib Ji is treated with the utmost reverence as a living presence. It is installed with honour in places of worship, consulted for guidance, and present at the major ceremonies of life. Its teachings continue the message carried through the ten Gurus: remembrance of the One, honest living, sharing with others, the equality of all people, and the courage to stand for justice and freedom of conscience. In this way the Guruship that began with Guru Nanak Dev Ji endures, eternal and unbroken, in the form of the Shabad Guru.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Which institution did Guru Nanak Dev Ji establish to express equality, where people share a common meal regardless of caste or status?",
+          "options": [
+            "The Manji system",
+            "Langar",
+            "The Akal Takht",
+            "The Khalsa"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The script standardised and popularised under Guru Angad Dev Ji for recording the Gurus' compositions is:",
+          "options": [
+            "Devanagari",
+            "Gurmukhi",
+            "Shahmukhi",
+            "Brahmi"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Guru Amar Das Ji organised the growing community into territorial dioceses through which system?",
+          "options": [
+            "The Manji system",
+            "The Misl system",
+            "The Sangat system",
+            "The Takht system"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which Guru founded the city of Amritsar by overseeing the excavation of its sacred pool?",
+          "options": [
+            "Guru Arjan Dev Ji",
+            "Guru Amar Das Ji",
+            "Guru Ram Das Ji",
+            "Guru Hargobind Sahib Ji"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "The first authoritative Sikh scripture, the Adi Granth, was compiled by:",
+          "options": [
+            "Guru Nanak Dev Ji",
+            "Guru Gobind Singh Ji",
+            "Guru Tegh Bahadur Ji",
+            "Guru Arjan Dev Ji"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "The principle of Miri and Piri, joining temporal and spiritual authority, is associated with which Guru?",
+          "options": [
+            "Guru Hargobind Sahib Ji",
+            "Guru Ram Das Ji",
+            "Guru Har Rai Ji",
+            "Guru Angad Dev Ji"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Guru Har Krishan Ji is especially remembered for which of the following?",
+          "options": [
+            "Compiling the Adi Granth",
+            "Becoming Guru as a very young child and serving the sick during an epidemic",
+            "Founding the Khalsa",
+            "Building the Akal Takht"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Guru Tegh Bahadur Ji is honoured above all for:",
+          "options": [
+            "Standardising the Gurmukhi script",
+            "Sacrificing his life to defend freedom of conscience for a community not his own",
+            "Founding the city of Amritsar",
+            "Establishing the Manji system"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The Khalsa, with its Five Beloved Ones (Panj Pyare), was founded by Guru Gobind Singh Ji in approximately what year?",
+          "options": [
+            "1604",
+            "1469",
+            "1699",
+            "1708"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "After the human Guruship concluded, the eternal Guru of the Sikhs became:",
+          "options": [
+            "The Akal Takht",
+            "The Guru Panth alone",
+            "Sri Guru Granth Sahib Ji as the Shabad Guru",
+            "The Five Ks"
+          ],
+          "answer": 2
+        }
+      ]
+    }
   ]
 }
