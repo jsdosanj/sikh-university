@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Sign in — Sikh University" description="Sign in to Sikh University with a magic link — no password needed.">
+  <section class="wrap max-w-xl py-14">
+    <h1 class="text-3xl font-bold">Sign in</h1>
+    <p class="mt-2 text-lg text-muted">Enter your email and we'll send a magic sign-in link — no password needed.</p>
+    <div id="err" class="mt-4"></div>
+    <form id="login-form" class="mt-6 space-y-4">
+      <label class="block font-sans text-sm font-semibold">Email
+        <input id="email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+      </label>
+      <button id="send" type="submit" class="btn btn-primary">Send magic link</button>
+    </form>
+    <div id="out" class="mt-4"></div>
+  </section>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const e = params.get('error');
+    if (e) document.getElementById('err').innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${e.replace(/</g,'&lt;')}</strong></div>`;
+    const form = document.getElementById('login-form');
+    const out = document.getElementById('out');
+    const btn = document.getElementById('send');
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      if (!email) return;
+      btn.disabled = true; btn.textContent = 'Sending…';
+      fetch('/api/auth/request', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) })
+        .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
+        .then(({ ok, d }) => {
+          btn.disabled = false; btn.textContent = 'Send magic link';
+          if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${(d && d.error) || 'Could not send the link.'}</strong></div>`; return; }
+          if (d.sent) out.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Check your email.</strong> A sign-in link was sent to ${email} (expires in 15 minutes).</div>`;
+          else out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${d.devLink}">click here to sign in</a>.</div>`;
+        })
+        .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
+    });
+  </script>
+</Base>

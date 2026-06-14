@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Certificate — Sikh University" description="Your Sikh University certificate of completion.">
+  <section class="wrap py-10">
+    <div id="cert-app"><p class="text-muted">Loading…</p></div>
+  </section>
+  <style>
+    @media print { nav, footer, .noprint { display: none !important; } body { background: #fff; } }
+  </style>
+  <script>
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const get = (k, d) => { try { const v = localStorage.getItem('su_v1_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
+    const app = document.getElementById('cert-app');
+    const id = new URLSearchParams(location.search).get('course');
+    fetch('/assets/data/courses.json').then((r) => r.json()).then((data) => {
+      const c = data.courses.find((x) => x.id === id);
+      const tn = (t) => (data.topics.find((x) => x.id === t) || {}).name || t;
+      if (!c) { app.innerHTML = '<p class="text-muted">Course not found.</p>'; return; }
+      const score = get('passed_' + c.id, null);
+      if (!score) { app.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">🔒 Complete <a class="underline" href="/course/${c.id}.html">${esc(c.title)}</a> and pass its test (80%+) to earn your certificate.</div>`; return; }
+      const name = (get('profile', {}) || {}).name || '';
+      const issued = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      app.innerHTML = `
+        ${name ? '' : '<div class="noprint mb-4 rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Add your name on your <a class="underline" href="/dashboard.html">dashboard</a> so it appears on the certificate.</div>'}
+        <div class="mx-auto max-w-3xl rounded-lg border-4 border-saffron bg-[#fffdf8] p-2 shadow-card">
+          <div class="border border-line px-8 py-12 text-center">
+            <div class="font-serif text-2xl font-bold text-navy">Sikh<span class="text-saffron">University</span></div>
+            <div class="mt-2 font-sans text-sm uppercase tracking-[0.18em] text-saffron-deep">Certificate of Completion</div>
+            <div class="mt-8 font-sans text-sm text-muted">This certifies that</div>
+            <div class="mx-auto mt-1 inline-block border-b-2 border-saffron px-6 pb-1 text-3xl text-navy">${esc(name || '________________')}</div>
+            <div class="mt-6 font-sans text-sm text-muted">has successfully completed</div>
+            <div class="mt-1 text-2xl font-bold text-navy">${esc(c.title)}</div>
+            <div class="mt-2 font-sans text-sm text-muted">${esc(tn(c.topic))} · Level ${c.level} · Score ${score}%</div>
+            <div class="mt-10 flex justify-between font-sans text-xs text-muted"><span>Issued ${issued}</span><span>sikh-university.jasvant-dosanjh.workers.dev</span></div>
+            <div class="mt-4 font-sans text-xs italic text-muted">Course content created by AI and reviewed for accuracy.</div>
+          </div>
+        </div>
+        <div class="noprint mt-6 text-center"><button id="print" class="btn btn-primary">🖨 Print / save as PDF</button></div>`;
+      document.getElementById('print')?.addEventListener('click', () => window.print());
+    }).catch(() => { app.innerHTML = '<p class="text-muted">Could not load.</p>'; });
+  </script>
+</Base>

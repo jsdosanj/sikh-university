@@ -6350,6 +6350,528 @@
           "answer": 2
         }
       ]
+    },
+    {
+      "id": "faridkot-teeka",
+      "title": "The Faridkot Teeka: The First Complete Commentary on Sri Guru Granth Sahib Ji",
+      "topic": "theology",
+      "level": 350,
+      "professor": "Giani Badan Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course studies the Faridkot Wala Teeka, widely regarded as the first complete traditional commentary on the whole of Sri Guru Granth Sahib Ji. Written by Sant Giani Badan Singh of Dera Sekhwan at the encouragement of Maharaja Bikram Singh of Faridkot, it took about six and a half years and was completed in 1883. The course explains what a teeka is and why one was needed, the story of its creation and royal patronage, the Nirmala method of exegesis and its Braj Bhasha style, the work's strengths and its limits, its revision by a synod of scholars and publication in 1906, and its lasting influence on later commentary. Students learn how a modern reader uses such a classical commentary carefully and respectfully alongside later works.",
+      "outcomes": [
+        "Explain what a teeka is and why a complete commentary on Sri Guru Granth Sahib Ji was needed.",
+        "Recount the story of the Faridkot Teeka's creation, its author, and its royal patronage.",
+        "Describe the Nirmala method of exegesis and the use of Braj Bhasha mixed with Punjabi.",
+        "Identify both the strengths and the limits of the Faridkot Teeka as a reading of bani.",
+        "Trace the work's revision, its 1906 publication, and its influence on later teekas.",
+        "Use the Faridkot Teeka carefully alongside later commentaries to deepen study of Gurbani."
+      ],
+      "terms": [
+        {
+          "t": "ਟੀਕਾ",
+          "m": "a traditional line-by-line commentary or explanation of a text"
+        },
+        {
+          "t": "ਬਾਣੀ",
+          "m": "the sacred utterance or word of the Gurus and bhagats"
+        },
+        {
+          "t": "ਨਿਰਮਲਾ",
+          "m": "a scholarly Sikh order known for Sanskrit learning and exegesis"
+        },
+        {
+          "t": "ਅਰਥ",
+          "m": "the meaning or sense given to a line of bani"
+        },
+        {
+          "t": "ਗੁਰਮੁਖੀ",
+          "m": "the script in which Sri Guru Granth Sahib Ji is written"
+        },
+        {
+          "t": "ਪਦ ਅਰਥ",
+          "m": "word-by-word meaning given before the fuller explanation"
+        },
+        {
+          "t": "ਵਿਆਖਿਆ",
+          "m": "the extended explanation or interpretation of a passage"
+        },
+        {
+          "t": "ਸੰਪਰਦਾਇ",
+          "m": "a teaching tradition that hands down methods of reading scripture"
+        }
+      ],
+      "references": [
+        "Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford: Oxford University Press, 2014).",
+        "J. S. Grewal, The Sikhs of the Punjab (Cambridge: Cambridge University Press, 1998).",
+        "Sahib Singh, Sri Guru Granth Sahib Darpan (Jalandhar: Raj Publishers).",
+        "Badan Singh, Adi Sri Guru Granth Sahib Ji Satik (Faridkot Wala Teeka) (Amritsar: Wazir Hind Press, 1906).",
+        "Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies, chapters on scriptural commentary (Oxford: Oxford University Press, 2014)."
+      ],
+      "lessons": [
+        {
+          "title": "What a Teeka Is and Why One Was Needed",
+          "summary": "Defines the teeka as a genre and explains why a complete commentary on Sri Guru Granth Sahib Ji became necessary.",
+          "html": "<div class=\"toc\"><strong>Full course contents</strong><ol><li>What a Teeka Is and Why One Was Needed</li><li>The Story of the Faridkot Teeka and Its Patronage</li><li>The Nirmala Method and Braj Bhasha</li><li>Strengths and Limits of the Faridkot Teeka</li><li>Revision, Publication, and Lasting Influence</li><li>Using the Faridkot Teeka as a Modern Student</li></ol></div><h4>What is a teeka?</h4><p>A <span class=\"gur\">ਟੀਕਾ</span> (commentary) is a traditional, line-by-line explanation of a sacred text. Across Indian scholarship, a teeka takes a verse, gives the meaning of difficult words, and then explains the fuller sense. For Sri Guru Granth Sahib Ji, a teeka helps a reader understand <span class=\"gur\">ਬਾਣੀ</span> (the sacred word) when the language, imagery, or context is not obvious.</p><h4>Why was one needed?</h4><p>The language of Gurbani draws on many tongues and poetic forms, and over time fewer readers could follow every word without help. A complete written commentary made the meaning of the whole scripture available in one consistent work, rather than relying only on oral teaching passed within a <span class=\"gur\">ਸੰਪਰਦਾਇ</span> (teaching tradition). Scholars note that the demand for accessible scriptural understanding grew in the nineteenth century (Pashaura Singh and Fenech 2014).</p><h4>The shape of a teeka</h4><ul><li>It often gives <span class=\"gur\">ਪਦ ਅਰਥ</span> (word-by-word meaning) first.</li><li>It then offers a fuller <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation) of the passage.</li><li>It aims at a single, readable <span class=\"gur\">ਅਰਥ</span> (meaning) for each line.</li></ul><p>This course studies the Faridkot Teeka, widely regarded as the first complete traditional commentary on the whole of Sri Guru Granth Sahib Ji (Pashaura Singh and Fenech 2014).</p><div class=\"refs\">Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford, 2014).</div>"
+        },
+        {
+          "title": "The Story of the Faridkot Teeka and Its Patronage",
+          "summary": "Tells how the Faridkot Teeka came to be written, who wrote it, and the royal patronage behind it.",
+          "html": "<h4>The author</h4><p>The Faridkot Wala Teeka (<span class=\"gur\">ਫ਼ਰੀਦਕੋਟ ਵਾਲਾ ਟੀਕਾ</span>) was written by Sant Giani Badan Singh of Dera Sekhwan. He worked within a classical scholarly Sikh tradition and produced a <span class=\"gur\">ਟੀਕਾ</span> (commentary) covering the whole of Sri Guru Granth Sahib Ji.</p><h4>The patron</h4><p>The work was written at the request and encouragement of Maharaja Bikram Singh of Faridkot. Such royal patronage gave the author the time and support needed for so large a task. The commentary took about six and a half years and was completed in 1883 (Pashaura Singh and Fenech 2014).</p><h4>A timeline</h4><table><tr><th>Event</th><th>Date</th></tr><tr><td>Commentary completed by Giani Badan Singh</td><td>1883</td></tr><tr><td>First edition published (Wazir Hind Press, Amritsar)</td><td>1906</td></tr></table><h4>Why patronage mattered</h4><p>The Sikh kingdoms and chiefships of Punjab often supported religious scholarship, and the involvement of the Faridkot court placed this commentary within that wider pattern of princely support for Sikh learning (Grewal 1998).</p><ul><li>The patron set the task and supported the author.</li><li>The author gave years of careful work to the whole scripture.</li><li>The result was a single complete commentary, not a partial one.</li></ul><div class=\"refs\">Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford, 2014); J. S. Grewal, The Sikhs of the Punjab (Cambridge, 1998).</div>"
+        },
+        {
+          "title": "The Nirmala Method and Braj Bhasha",
+          "summary": "Explains the Nirmala tradition of exegesis and the Braj Bhasha mixed with Punjabi in which the teeka is written.",
+          "html": "<h4>A Nirmala-tradition work</h4><p>The Faridkot Teeka is a classical exegesis in the manner of the <span class=\"gur\">ਨਿਰਮਲਾ</span> (a scholarly Sikh order). This tradition was known for its training in Sanskrit learning and its careful methods of reading scripture. Its scholars handed down a <span class=\"gur\">ਸੰਪਰਦਾਇ</span> (teaching tradition) of how to explain bani (Pashaura Singh and Fenech 2014).</p><h4>The language of the commentary</h4><p>The commentary is written largely in Braj Bhasha mixed with Punjabi. Braj was a respected literary language for religious and poetic writing in north India, so using it placed the teeka within an established scholarly style. The body explains Gurbani written in <span class=\"gur\">ਗੁਰਮੁਖੀ</span> (the script of Sri Guru Granth Sahib Ji).</p><h4>How the method works</h4><ul><li>It treats the text line by line, giving an <span class=\"gur\">ਅਰਥ</span> (meaning) for each.</li><li>It draws on the wider Indian commentarial style familiar to its tradition.</li><li>It offers a long, continuous <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation) across several thousand pages.</li></ul><h4>Scale of the work</h4><p>Because it covers the entire scripture in this detailed manner, the teeka runs to several thousand pages. This scale was part of what made it a landmark: a complete reading of the whole text in one tradition's voice.</p><div class=\"refs\">Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford, 2014).</div>"
+        },
+        {
+          "title": "Strengths and Limits of the Faridkot Teeka",
+          "summary": "Weighs the strengths of the teeka and notes, neutrally, the points where later scholars read differently.",
+          "html": "<h4>Strengths</h4><p>The Faridkot Teeka was the first to give a complete <span class=\"gur\">ਟੀਕਾ</span> (commentary) on the whole of Sri Guru Granth Sahib Ji. For the first time, readers had a single consistent explanation of the entire scripture. Its careful, line-by-line method made the <span class=\"gur\">ਅਰਥ</span> (meaning) of each passage available in writing.</p><ul><li>It was complete, covering the whole text.</li><li>It was rooted in a trained scholarly <span class=\"gur\">ਸੰਪਰਦਾਇ</span> (teaching tradition).</li><li>It set a model others could follow.</li></ul><h4>Limits</h4><p>Every commentary reflects the time and tradition in which it was written. Because the Faridkot Teeka uses the Nirmala style and Braj Bhasha, some of its readings carry that tradition's assumptions. Later scholars, working with different methods, sometimes reached different conclusions.</p><h4>Where later scholars differed</h4><p>For example, Professor Sahib Singh, in his later work Sri Guru Granth Sahib Darpan, would differ on some readings, approaching the text through grammar and a close study of Gurbani's own language (Sahib Singh). These differences are part of normal scholarly study; stated neutrally, they show that interpretation can develop over time without any one work replacing the value of another.</p><ul><li>A teeka is a guide, not the final word.</li><li>Different methods can yield different <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation).</li><li>Comparing works deepens understanding.</li></ul><div class=\"refs\">Sahib Singh, Sri Guru Granth Sahib Darpan (Jalandhar); Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford, 2014).</div>"
+        },
+        {
+          "title": "Revision, Publication, and Lasting Influence",
+          "summary": "Covers the synod that revised the teeka, its 1906 publication, and its role as a model for later commentary.",
+          "html": "<h4>Revision by a synod</h4><p>After Giani Badan Singh completed the commentary, it was later revised by a synod of Sikh scholars. This synod was chaired by Mahant Sumer Singh of Patna Sahib. The revision prepared the large work for wider use and publication (Pashaura Singh and Fenech 2014).</p><h4>Publication</h4><p>The first edition was published in 1906, funded by Maharaja Balbir Singh of Faridkot, and printed at the Wazir Hind Press in Amritsar. Printing made the teeka available far beyond a single dera or court.</p><table><tr><th>Stage</th><th>Detail</th><th>Date</th></tr><tr><td>Written and completed</td><td>By Giani Badan Singh, about six and a half years of work</td><td>1883</td></tr><tr><td>Revised</td><td>Synod chaired by Mahant Sumer Singh of Patna Sahib</td><td>before publication</td></tr><tr><td>Published</td><td>Funded by Maharaja Balbir Singh; Wazir Hind Press, Amritsar</td><td>1906</td></tr></table><h4>Lasting influence</h4><p>The Faridkot Teeka became a prototype and model for later teekas. Commentators who followed could build on, respond to, or differ from it, but they worked in a field it had helped to open. Its influence shows how one complete <span class=\"gur\">ਟੀਕਾ</span> (commentary) can shape a whole tradition of reading <span class=\"gur\">ਬਾਣੀ</span> (the sacred word).</p><div class=\"refs\">Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford, 2014).</div>"
+        },
+        {
+          "title": "Using the Faridkot Teeka as a Modern Student",
+          "summary": "Shows how a modern reader uses this classical commentary carefully and alongside later works.",
+          "html": "<h4>Read it as a window into a tradition</h4><p>A modern student can read the Faridkot Teeka to hear how a trained <span class=\"gur\">ਨਿਰਮਲਾ</span> (scholarly Sikh order) explained Gurbani in the nineteenth century. Its <span class=\"gur\">ਅਰਥ</span> (meaning) for each line shows one careful tradition's understanding.</p><h4>Read it carefully</h4><ul><li>Remember it is written in Braj Bhasha mixed with Punjabi, so some words need patience.</li><li>Treat its readings as informed guidance, not as the only possible <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation).</li><li>Stay reverent toward <span class=\"gur\">ਬਾਣੀ</span> (the sacred word) itself, which the commentary serves.</li></ul><h4>Read it alongside other works</h4><p>A good practice is to compare the Faridkot Teeka with later commentaries, such as Professor Sahib Singh's Sri Guru Granth Sahib Darpan, noting where they agree and where they differ (Sahib Singh). Comparing helps a student see why a reading is given, not just what it is.</p><h4>A simple method</h4><ul><li>Read the line of bani in <span class=\"gur\">ਗੁਰਮੁਖੀ</span> (the script of the scripture) first.</li><li>Check the <span class=\"gur\">ਪਦ ਅਰਥ</span> (word-by-word meaning).</li><li>Read the fuller explanation, then compare with another teeka.</li></ul><p>Used this way, the Faridkot Teeka remains a valuable companion for study, honoring both its historical importance and the ongoing growth of understanding (Pashaura Singh and Fenech 2014).</p><div class=\"refs\">Sahib Singh, Sri Guru Granth Sahib Darpan (Jalandhar); Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford, 2014).</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is a teeka?",
+          "options": [
+            "A musical setting of bani",
+            "A traditional line-by-line commentary or explanation of a text",
+            "A handwritten copy of scripture",
+            "A pilgrimage route"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why is the Faridkot Wala Teeka historically important?",
+          "options": [
+            "It was the shortest commentary ever written",
+            "It is widely regarded as the first complete traditional commentary on the whole of Sri Guru Granth Sahib Ji",
+            "It replaced Sri Guru Granth Sahib Ji",
+            "It was written in English"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who wrote the Faridkot Teeka?",
+          "options": [
+            "Mahant Sumer Singh of Patna Sahib",
+            "Maharaja Bikram Singh of Faridkot",
+            "Sant Giani Badan Singh of Dera Sekhwan",
+            "Professor Sahib Singh"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "At whose request and encouragement was the teeka written?",
+          "options": [
+            "Maharaja Bikram Singh of Faridkot",
+            "Maharaja Balbir Singh of Faridkot",
+            "Mahant Sumer Singh of Patna Sahib",
+            "Professor Sahib Singh"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "In what year was the commentary completed, and roughly how long did it take?",
+          "options": [
+            "1906, about ten years",
+            "1883, about six and a half years",
+            "1850, about two years",
+            "1920, about one year"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In what scholarly tradition and language style is the teeka written?",
+          "options": [
+            "The Nirmala tradition, largely in Braj Bhasha mixed with Punjabi",
+            "A purely English academic style",
+            "Classical Persian poetry",
+            "Modern standard Hindi prose only"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Who chaired the synod of scholars that revised the teeka, and when was the first edition published?",
+          "options": [
+            "Maharaja Bikram Singh; 1883",
+            "Professor Sahib Singh; 1925",
+            "Mahant Sumer Singh of Patna Sahib; published 1906",
+            "Giani Badan Singh; 1850"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How should a modern student best use the Faridkot Teeka?",
+          "options": [
+            "As the only valid reading, ignoring all later works",
+            "Carefully, as informed guidance, comparing it with later commentaries",
+            "By avoiding the original Gurmukhi text entirely",
+            "Only for its musical value"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "garab-ganjani-teeka",
+      "title": "The Garab Ganjani Teeka: A Commentary on Japji Sahib",
+      "topic": "theology",
+      "level": 350,
+      "professor": "Kavi Santokh Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course studies the Garab Ganjani Teeka, a prose commentary on Japji Sahib written by Kavi (Bhai) Santokh Singh in the Nirmala tradition of Sikh exegesis. Students learn what a teeka is, who Santokh Singh was, why this particular commentary was written, and the interpretive debate it addressed. The course examines how the teeka reads central ideas of Japji Sahib, surveys the Nirmala method of commentary along with its strengths and limits, and offers practical guidance on how a modern student can use such a work to understand Gurbani. The tone is reverent and mainstream, and the historical debate around the text is presented neutrally.",
+      "outcomes": [
+        "Define what a teeka (commentary) is and explain its role in the Sikh tradition of reading Gurbani.",
+        "Identify Kavi Santokh Singh and situate the Garab Ganjani Teeka within his larger body of work.",
+        "Explain, neutrally, why the Garab Ganjani Teeka was written and the interpretive debate it sought to address.",
+        "Describe how the teeka reads key ideas of Japji Sahib through a Gurmat lens.",
+        "Summarize the Nirmala method of commentary and evaluate its strengths and limits.",
+        "Apply a teeka responsibly as one tool among several when studying Gurbani as a modern student."
+      ],
+      "terms": [
+        {
+          "t": "ਟੀਕਾ",
+          "m": "a written commentary or exegesis that explains a sacred text"
+        },
+        {
+          "t": "ਜਪੁਜੀ ਸਾਹਿਬ",
+          "m": "the opening composition of Sri Guru Granth Sahib Ji, composed by Guru Nanak Dev Ji"
+        },
+        {
+          "t": "ਗੁਰਮਤਿ",
+          "m": "the teaching or wisdom of the Gurus; the Sikh worldview"
+        },
+        {
+          "t": "ਨਿਰਮਲਾ",
+          "m": "an order of Sikh scholars known for textual study and exegesis"
+        },
+        {
+          "t": "ਸਾਧ ਭਾਖਾ",
+          "m": "the scholarly literary register used in much traditional commentary"
+        },
+        {
+          "t": "ਗਰਬ",
+          "m": "pride or ego, the quality the teeka's title says it shatters"
+        },
+        {
+          "t": "ਬਾਣੀ",
+          "m": "the sacred utterance or revealed word of the Gurus"
+        },
+        {
+          "t": "ਵੇਦਾਂਤ",
+          "m": "a school of Indian philosophy whose reading the teeka responds to"
+        }
+      ],
+      "references": [
+        "Grewal, J. S. The Sikhs of the Punjab. Cambridge: Cambridge University Press, 1998.",
+        "Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Singh, Sahib. Sri Guru Granth Sahib Darpan. Jalandhar: Raj Publishers, n.d.",
+        "Singh, Santokh. Sri Gur Pratap Suraj Granth. Amritsar: traditional Nirmala scholarship, 19th century.",
+        "Singh, Santokh. Garab Ganjani Teeka. Commentary on Japji Sahib, Nirmala tradition, 19th century."
+      ],
+      "lessons": [
+        {
+          "title": "What a Teeka Is and Why It Matters",
+          "summary": "Introduces the idea of a teeka as a commentary on a sacred text and explains why such works are valued in the Sikh tradition.",
+          "html": "<div class=\"toc\"><strong>Full course contents</strong><ol><li>What a Teeka Is and Why It Matters</li><li>Kavi Santokh Singh: The Author and His World</li><li>Why the Garab Ganjani Teeka Was Written</li><li>How the Teeka Reads Japji Sahib</li><li>The Nirmala Method: Strengths and Limits</li><li>Using a Teeka as a Modern Student</li></ol></div><h4>The word and the work</h4><p>A <span class=\"gur\">ਟੀਕਾ</span> (commentary) is a written explanation that walks a reader through a sacred text line by line. In the Sikh tradition, the central text is <span class=\"gur\">ਬਾਣੀ</span> (the revealed word of the Gurus), and a teeka tries to open its meaning for students who may not share the original language, idiom, or background of the verses.</p><h4>Why commentaries arise</h4><p>Sacred poetry is dense. A single line can hold several layers of meaning. A teeka slows the reading down, defines hard words, and connects ideas across a composition. Scholars have long noted that exegesis is a normal part of how living religious communities pass on their texts (Singh and Fenech 2014).</p><table><thead><tr><th>Element</th><th>What it does</th></tr></thead><tbody><tr><td>Word gloss</td><td>Defines difficult or archaic terms</td></tr><tr><td>Paraphrase</td><td>Restates a verse in plainer language</td></tr><tr><td>Cross-reference</td><td>Links a line to related ideas elsewhere</td></tr><tr><td>Interpretation</td><td>Argues for a particular meaning</td></tr></tbody></table><h4>A note of humility</h4><p>A teeka is a human aid, not the bani itself. The best commentaries point the reader back to the source rather than replacing it.</p><ul><li>A teeka explains, it does not substitute for the text.</li><li>Commentaries reflect the time and school of their author.</li><li>Reading several teekas together gives a fuller picture.</li></ul><div class=\"refs\"><strong>References:</strong> Singh and Fenech 2014; Grewal 1998.</div>"
+        },
+        {
+          "title": "Kavi Santokh Singh: The Author and His World",
+          "summary": "Introduces Kavi Santokh Singh, the scholar-poet who wrote the Garab Ganjani Teeka, and places him among his major works.",
+          "html": "<h4>The scholar-poet</h4><p>Kavi (Bhai) Santokh Singh (1787-1843) was one of the most productive scholars of his era. He is best known for the <span class=\"gur\">ਬਾਣੀ</span>-adjacent historical epics Sri Gur Pratap Suraj Granth and Nanak Prakash, which retell the lives of the Gurus at great length (Grewal 1998).</p><h4>His training</h4><p>Santokh Singh worked within the <span class=\"gur\">ਨਿਰਮਲਾ</span> (an order of Sikh scholars known for textual study). This order placed a strong emphasis on careful reading, classical learning, and the explanation of texts, which made commentary a natural part of its work.</p><h4>His language</h4><p>Much of his writing, including the Garab Ganjani Teeka, uses <span class=\"gur\">ਸਾਧ ਭਾਖਾ</span> (the scholarly literary register). This register drew on a learned vocabulary that signaled seriousness and depth to its intended readers.</p><table><thead><tr><th>Work</th><th>Type</th></tr></thead><tbody><tr><td>Sri Gur Pratap Suraj Granth</td><td>Historical epic of the Gurus</td></tr><tr><td>Nanak Prakash</td><td>Life of Guru Nanak Dev Ji</td></tr><tr><td>Garab Ganjani Teeka</td><td>Commentary on Japji Sahib</td></tr></tbody></table><h4>Why he matters here</h4><p>Knowing who the author was helps a student read the teeka fairly. A commentary always carries the voice, training, and concerns of its writer.</p><div class=\"refs\"><strong>References:</strong> Grewal 1998; Singh and Fenech 2014.</div>"
+        },
+        {
+          "title": "Why the Garab Ganjani Teeka Was Written",
+          "summary": "Explains, neutrally, the purpose of the Garab Ganjani Teeka and the interpretive debate it set out to address.",
+          "html": "<h4>The meaning of the name</h4><p>The title Garab Ganjani roughly means pride-shatterer. The key word is <span class=\"gur\">ਗਰਬ</span> (pride or ego), and the work presents itself as humbling a reading the author believed had gone astray.</p><h4>The debate, stated neutrally</h4><p>The teeka was written to respond to an earlier interpretation of <span class=\"gur\">ਜਪੁਜੀ ਸਾਹਿਬ</span> (the opening composition of Sri Guru Granth Sahib Ji). That earlier reading is commonly described as leaning toward <span class=\"gur\">ਵੇਦਾਂਤ</span> (a school of Indian philosophy). Santokh Singh's aim was to reassert a <span class=\"gur\">ਗੁਰਮਤਿ</span> (the teaching of the Gurus) understanding of the text.</p><p>Students should hold this history with care. Different communities have remembered the debate in different ways, and this course presents it as a documented disagreement over interpretation rather than as a settled verdict.</p><table><thead><tr><th>Position</th><th>Core concern</th></tr></thead><tbody><tr><td>Earlier reading</td><td>Read Japji through a philosophical lens</td></tr><tr><td>Garab Ganjani Teeka</td><td>Read Japji on the terms of Gurmat</td></tr></tbody></table><h4>Why purpose shapes meaning</h4><ul><li>A polemical aim focuses attention on disputed verses.</li><li>The author argues, not merely paraphrases.</li><li>Knowing the target of a commentary clarifies its choices.</li></ul><div class=\"refs\"><strong>References:</strong> Singh and Fenech 2014; Grewal 1998.</div>"
+        },
+        {
+          "title": "How the Teeka Reads Japji Sahib",
+          "summary": "Surveys the way the teeka approaches the central ideas of Japji Sahib through a Gurmat lens.",
+          "html": "<h4>Starting at the beginning</h4><p><span class=\"gur\">ਜਪੁਜੀ ਸਾਹਿਬ</span> (the composition of Guru Nanak Dev Ji) opens Sri Guru Granth Sahib Ji at Ang 1. Because it stands first, its reading shapes how a student approaches the whole scripture, which is part of why its interpretation mattered so much to the teeka's author.</p><h4>A Gurmat lens</h4><p>The teeka consistently reads Japji Sahib in line with <span class=\"gur\">ਗੁਰਮਤਿ</span> (the teaching of the Gurus). Where a verse could be pulled toward an outside philosophy, the commentary works to anchor it in the Gurus' own framework of the One Creator, divine command, and loving devotion.</p><h4>Method in practice</h4><table><thead><tr><th>Step</th><th>What the teeka does</th></tr></thead><tbody><tr><td>Define</td><td>Glosses a key word of the verse</td></tr><tr><td>Restate</td><td>Offers a plain paraphrase</td></tr><tr><td>Defend</td><td>Argues against a rival reading where one exists</td></tr></tbody></table><h4>What to take away</h4><p>The point of the teeka is not to add new doctrine but to keep the reader's attention on what the Gurus taught. This course does not quote specific lines or assign new Ang numbers; students should read Japji Sahib itself alongside the commentary.</p><ul><li>The teeka prioritizes the text's own framework.</li><li>It treats interpretation as a responsibility, not a free exercise.</li></ul><div class=\"refs\"><strong>References:</strong> Singh, Sri Guru Granth Sahib Darpan; Singh and Fenech 2014.</div>"
+        },
+        {
+          "title": "The Nirmala Method: Strengths and Limits",
+          "summary": "Describes the Nirmala approach to commentary and weighs its strengths against its limits.",
+          "html": "<h4>The Nirmala approach</h4><p>The <span class=\"gur\">ਨਿਰਮਲਾ</span> (scholarly order) brought classical learning to the study of <span class=\"gur\">ਬਾਣੀ</span> (the revealed word). Their teekas tend to be careful, systematic, and rich in cross-reference, and they often write in <span class=\"gur\">ਸਾਧ ਭਾਖਾ</span> (the scholarly register).</p><h4>Strengths</h4><ul><li>Deep attention to individual words and grammar.</li><li>A long memory of earlier interpretive traditions.</li><li>A disciplined, line-by-line method.</li></ul><h4>Limits</h4><ul><li>The learned register can be hard for modern readers.</li><li>Classical philosophical vocabulary can color the reading.</li><li>The author's purpose may sharpen some verses more than others.</li></ul><table><thead><tr><th>Feature</th><th>Strength</th><th>Limit</th></tr></thead><tbody><tr><td>Scholarly register</td><td>Precision and depth</td><td>Accessibility</td></tr><tr><td>Classical learning</td><td>Rich context</td><td>Outside frameworks may intrude</td></tr><tr><td>Polemical aim</td><td>Clear argument</td><td>Selective emphasis</td></tr></tbody></table><h4>Reading with balance</h4><p>Recognizing both sides lets a student gain from the method's rigor while staying alert to its tendencies (Singh and Fenech 2014).</p><div class=\"refs\"><strong>References:</strong> Singh and Fenech 2014; Grewal 1998.</div>"
+        },
+        {
+          "title": "Using a Teeka as a Modern Student",
+          "summary": "Offers practical guidance on how a present-day student can use the Garab Ganjani Teeka and similar works responsibly.",
+          "html": "<h4>Start with the bani</h4><p>The first step is always to read <span class=\"gur\">ਜਪੁਜੀ ਸਾਹਿਬ</span> (the composition of Guru Nanak Dev Ji) itself. A <span class=\"gur\">ਟੀਕਾ</span> (commentary) is a guide to the text, not a replacement for it.</p><h4>Read more than one commentary</h4><p>Comparing the Garab Ganjani Teeka with a modern reference such as the Sri Guru Granth Sahib Darpan helps a student see where commentators agree and where they differ (Singh, Sri Guru Granth Sahib Darpan).</p><h4>A simple workflow</h4><table><thead><tr><th>Step</th><th>Action</th></tr></thead><tbody><tr><td>1</td><td>Read the verse of Japji Sahib first</td></tr><tr><td>2</td><td>Note your own questions</td></tr><tr><td>3</td><td>Read the teeka's gloss and paraphrase</td></tr><tr><td>4</td><td>Compare with another commentary</td></tr><tr><td>5</td><td>Return to the bani with fresh understanding</td></tr></tbody></table><h4>Stay grounded</h4><ul><li>Keep a <span class=\"gur\">ਗੁਰਮਤਿ</span> (the teaching of the Gurus) frame at the center.</li><li>Treat historical debates with respect and neutrality.</li><li>Let the commentary deepen, not crowd out, your own reading.</li></ul><p>Used this way, a teeka becomes a doorway back into the bani rather than a detour around it.</p><div class=\"refs\"><strong>References:</strong> Singh, Sri Guru Granth Sahib Darpan; Singh and Fenech 2014; Grewal 1998.</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is a teeka?",
+          "options": [
+            "A written commentary that explains a sacred text",
+            "A type of musical composition",
+            "A festival in the Sikh calendar",
+            "A kind of temple"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Who wrote the Garab Ganjani Teeka?",
+          "options": [
+            "Guru Nanak Dev Ji",
+            "Kavi (Bhai) Santokh Singh",
+            "Sahib Singh",
+            "J. S. Grewal"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Besides the Garab Ganjani Teeka, Santokh Singh is best known for which work?",
+          "options": [
+            "The Oxford Handbook of Sikh Studies",
+            "The Sikhs of the Punjab",
+            "Sri Gur Pratap Suraj Granth",
+            "Sri Guru Granth Sahib Darpan"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "The phrase Garab Ganjani roughly means:",
+          "options": [
+            "Light of dawn",
+            "Pride-shatterer",
+            "Song of praise",
+            "Gate of mercy"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The Garab Ganjani Teeka was written to respond to an earlier reading of Japji Sahib commonly described as leaning toward:",
+          "options": [
+            "Vedanta",
+            "Modern science",
+            "European philosophy",
+            "Folk poetry"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "The teeka belongs to which tradition of Sikh exegesis?",
+          "options": [
+            "Udasi",
+            "Nirmala",
+            "Sevapanthi",
+            "Minas"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Where does Japji Sahib appear in Sri Guru Granth Sahib Ji?",
+          "options": [
+            "At the very end",
+            "At Ang 1, as the opening composition",
+            "In the middle",
+            "It is not part of the scripture"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the recommended first step when using a teeka as a modern student?",
+          "options": [
+            "Read only the commentary",
+            "Skip the bani entirely",
+            "Read Japji Sahib itself first",
+            "Memorize the author's biography"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "understanding-teekas",
+      "title": "Understanding Teekas: How Gurbani Has Been Explained",
+      "topic": "theology",
+      "level": 200,
+      "professor": "Pyara Singh Padam",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This overview course introduces the tradition of the teeka (commentary or exegesis) and shows how commentaries have helped Sikhs read and understand Gurbani for more than a century. It explains what a teeka is and why a learner often needs help with older vocabulary, grammar, and context. It surveys the main streams of Sikh exegesis described neutrally: the Udasi and Nirmala scholars, the Giani and Taksali oral tradition, and modern grammatical and academic approaches such as that of Professor Sahib Singh. It looks closely at two landmark works, the Faridkot Wala Teeka and Sahib Singh's Sri Guru Granth Sahib Darpan, and shows how a teeka treats word-meaning, grammar, and context. Finally it weighs the strengths and risks of relying on any single commentary and offers a practical, repeatable method for using a steek to study a shabad with understanding.",
+      "outcomes": [
+        "Define what a teeka and a steek are and explain why commentary helps a learner read Gurbani.",
+        "Describe the main streams of Sikh exegesis (Udasi, Nirmala, Giani/Taksali, and modern grammatical/academic) in neutral terms.",
+        "Identify two landmark teekas and explain what made each historically important.",
+        "Explain how a teeka treats word-meaning, grammar, and the context of a verse.",
+        "Weigh the strengths and the risks of relying on any single teeka.",
+        "Apply a clear, repeatable method for using a steek to study a single shabad."
+      ],
+      "terms": [
+        {
+          "t": "ਟੀਕਾ",
+          "m": "a commentary or exegesis that explains a text"
+        },
+        {
+          "t": "ਸਟੀਕ",
+          "m": "an edition of a text printed together with its commentary"
+        },
+        {
+          "t": "ਅਰਥ",
+          "m": "meaning; the sense given to a word or line"
+        },
+        {
+          "t": "ਵਿਆਖਿਆ",
+          "m": "explanation or interpretation of a passage"
+        },
+        {
+          "t": "ਨਿਰਮਲਾ",
+          "m": "a scholarly order known for classical learning and exegesis"
+        },
+        {
+          "t": "ਉਦਾਸੀ",
+          "m": "an ascetic order active in early Sikh teaching and commentary"
+        },
+        {
+          "t": "ਪਦ ਅਰਥ",
+          "m": "word-by-word meaning of the terms in a line"
+        },
+        {
+          "t": "ਪ੍ਰਸੰਗ",
+          "m": "context; the setting that shapes a verse's sense"
+        }
+      ],
+      "references": [
+        "Pashaura Singh and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Sahib Singh. Sri Guru Granth Sahib Darpan. Jalandhar: Raj Publishers.",
+        "J. S. Grewal. The Sikhs of the Punjab. Cambridge: Cambridge University Press, 1998.",
+        "Pashaura Singh. The Guru Granth Sahib: Canon, Meaning and Authority. New Delhi: Oxford University Press, 2000.",
+        "W. H. McLeod. Textual Sources for the Study of Sikhism. Manchester: Manchester University Press, 1984."
+      ],
+      "lessons": [
+        {
+          "title": "What a Teeka Is and Why We Need One",
+          "summary": "Introduces the teeka and the steek, and explains why a reader of Gurbani often needs help with vocabulary, grammar, and context.",
+          "html": "<div class=\"toc\"><strong>Full course contents</strong><ol><li>What a Teeka Is and Why We Need One</li><li>The Streams of Sikh Exegesis</li><li>The Faridkot Wala Teeka: The First Complete Commentary</li><li>Sahib Singh and the Grammatical Turn</li><li>How a Teeka Treats Meaning, Grammar, and Context</li><li>Using a Steek to Study a Shabad</li></ol></div><h4>A first definition</h4><p>A <span class=\"gur\">ਟੀਕਾ</span> (commentary) is a written explanation of a text. When a commentary is printed alongside the original lines, the combined work is called a <span class=\"gur\">ਸਟੀਕ</span> (text-with-commentary edition). The aim of both is simple: to help a reader arrive at the <span class=\"gur\">ਅਰਥ</span> (meaning) of what the Guru has written.</p><h4>Why commentary helps</h4><p>Gurbani draws on several older languages and a wide vocabulary. A line may use a word that is rare today, or a grammatical form whose ending changes the sense. Without help, a reader can guess wrongly. A good teeka supplies the <span class=\"gur\">ਪਦ ਅਰਥ</span> (word-by-word meaning) and then a fuller <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation) of the line, so the learner can read with understanding rather than only reciting (Pashaura Singh 2000).</p><h4>What this course will do</h4><p>This is an overview. We will look at the major streams of exegesis, two landmark commentaries, and the way commentaries handle meaning, grammar, and context. The course is neutral about the differences between schools; each tradition has served learners in its own way (Pashaura Singh and Fenech 2014).</p><ul><li>Lessons 2 introduces the streams of exegesis.</li><li>Lessons 3 and 4 study two landmark teekas.</li><li>Lessons 5 and 6 turn theory into practice.</li></ul><div class=\"refs\">Pashaura Singh 2000; Pashaura Singh and Fenech 2014.</div>"
+        },
+        {
+          "title": "The Streams of Sikh Exegesis",
+          "summary": "Surveys the Udasi, Nirmala, Giani/Taksali, and modern grammatical/academic approaches, with a comparative table, described neutrally.",
+          "html": "<h4>Four broad streams</h4><p>Sikh commentary did not come from one place. Several traditions of learning each contributed. We describe them neutrally; this is a map, not a ranking.</p><p>The <span class=\"gur\">ਉਦਾਸੀ</span> (ascetic teaching order) and the <span class=\"gur\">ਨਿਰਮਲਾ</span> (classically trained scholarly order) were active in early teaching and brought a wide knowledge of older texts and vocabulary to their explanations. The Giani and Taksali tradition preserved meanings through an oral chain of teachers, passing the sense of difficult lines from one generation to the next. Modern grammatical and academic approaches, associated above all with Professor Sahib Singh, set out to ground meanings in the grammar of the text itself (Grewal 1998; Pashaura Singh and Fenech 2014).</p><table><thead><tr><th>Stream</th><th>Main strength</th><th>How meaning is fixed</th></tr></thead><tbody><tr><td><span class=\"gur\">ਉਦਾਸੀ</span> (ascetic order)</td><td>Broad classical learning</td><td>Knowledge of older texts and terms</td></tr><tr><td><span class=\"gur\">ਨਿਰਮਲਾ</span> (scholarly order)</td><td>Formal classical scholarship</td><td>Trained reading of vocabulary and themes</td></tr><tr><td>Giani / Taksali</td><td>Continuity of explanation</td><td>Oral chain of teacher to student</td></tr><tr><td>Grammatical / academic</td><td>Consistency and method</td><td>Grammar of the text itself</td></tr></tbody></table><h4>Why the streams matter to a reader</h4><p>Knowing which stream a teeka comes from helps you read it well. A commentary rooted in classical learning may be rich in background, while a grammatical commentary may be strict about how an ending changes a word's sense. Both can be useful at once (Pashaura Singh and Fenech 2014).</p><div class=\"refs\">Grewal 1998; Pashaura Singh and Fenech 2014.</div>"
+        },
+        {
+          "title": "The Faridkot Wala Teeka: The First Complete Commentary",
+          "summary": "Explains the Faridkot Wala Teeka, prepared in 1883 and published in 1906, as the first complete commentary on the whole Guru Granth Sahib.",
+          "html": "<h4>A landmark work</h4><p>The Faridkot Wala Teeka was the first complete <span class=\"gur\">ਟੀਕਾ</span> (commentary) on the entire Sri Guru Granth Sahib. It was prepared under the patronage of the Faridkot state, completed in 1883, and published in 1906. Before it, explanations of particular passages circulated, but no single work covered the whole scripture from beginning to end (Pashaura Singh and Fenech 2014).</p><h4>What it offered</h4><p>The work gave readers a continuous <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation) of every section, drawing on the classical learning of the scholars who prepared it. For the first time a learner could follow a printed commentary alongside the text from the first page onward. This made it a foundation that later commentators could build on, agree with, or respond to.</p><h4>Its place in the tradition</h4><p>Because it was first and complete, the Faridkot Wala Teeka shaped expectations for what a full <span class=\"gur\">ਸਟੀਕ</span> (text-with-commentary edition) should look like. Later works, including grammatical commentaries, were often written in conversation with it. We treat it with respect as a historic achievement, while recognising that scholarship continued after it (Grewal 1998).</p><ul><li>Completed 1883; published 1906.</li><li>First commentary covering the whole scripture.</li><li>A reference point for the commentaries that followed.</li></ul><div class=\"refs\">Pashaura Singh and Fenech 2014; Grewal 1998.</div>"
+        },
+        {
+          "title": "Sahib Singh and the Grammatical Turn",
+          "summary": "Introduces Professor Sahib Singh's Sri Guru Granth Sahib Darpan and the grammatical method that anchors meaning in the language of the text.",
+          "html": "<h4>A method built on grammar</h4><p>Professor Sahib Singh is known for a method that anchors the <span class=\"gur\">ਅਰਥ</span> (meaning) of a line in its grammar. He argued that the endings of words in Gurbani are not random; they follow rules, and those rules can guide the reader to the correct sense. His multi-volume commentary, the Sri Guru Granth Sahib Darpan, applies this method across the whole text (Sahib Singh, Sri Guru Granth Sahib Darpan).</p><h4>Why this mattered</h4><p>By grounding meaning in grammar, Sahib Singh gave readers a way to check an interpretation rather than only accept it. If a word's ending points one way, a meaning that ignores that ending can be questioned. This added consistency and a shared standard to the work of explanation (Pashaura Singh and Fenech 2014).</p><h4>How it relates to the older streams</h4><p>The grammatical approach did not erase the value of the older streams. The classical learning of the <span class=\"gur\">ਨਿਰਮਲਾ</span> (scholarly order) and the continuity of the Giani tradition still carry background and explanation that grammar alone does not supply. Many learners read a grammatical commentary together with an older one to gain both precision and depth (Pashaura Singh 2000).</p><div class=\"refs\">Sahib Singh, Sri Guru Granth Sahib Darpan; Pashaura Singh and Fenech 2014; Pashaura Singh 2000.</div>"
+        },
+        {
+          "title": "How a Teeka Treats Meaning, Grammar, and Context",
+          "summary": "Shows the three layers a good commentary works through: word-meaning, grammar, and the context of the verse.",
+          "html": "<h4>Three layers of explanation</h4><p>A careful <span class=\"gur\">ਟੀਕਾ</span> (commentary) usually works through three layers. First it gives the <span class=\"gur\">ਪਦ ਅਰਥ</span> (word-by-word meaning), so the reader knows each term. Second it attends to grammar, since the form of a word can change its sense. Third it places the line in its <span class=\"gur\">ਪ੍ਰਸੰਗ</span> (context), the setting that shapes what the line is saying (Sahib Singh, Sri Guru Granth Sahib Darpan).</p><h4>Why all three are needed</h4><p>Word-meaning alone can mislead if the grammar is ignored, and grammar alone can feel dry without the meaning of the words. Context guards against reading a single line out of its place. A good commentary brings the three together so the final <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation) rests on all of them (Pashaura Singh 2000).</p><table><thead><tr><th>Layer</th><th>Question it answers</th></tr></thead><tbody><tr><td><span class=\"gur\">ਪਦ ਅਰਥ</span> (word-meaning)</td><td>What does each word mean?</td></tr><tr><td>Grammar</td><td>How does the form change the sense?</td></tr><tr><td><span class=\"gur\">ਪ੍ਰਸੰਗ</span> (context)</td><td>What is the line responding to?</td></tr></tbody></table><h4>Reading commentaries against each other</h4><p>When two teekas differ, the difference is often at one of these layers. Comparing them at the level of word, grammar, or context helps a learner see why they differ and judge which reading fits best (Pashaura Singh and Fenech 2014).</p><div class=\"refs\">Sahib Singh, Sri Guru Granth Sahib Darpan; Pashaura Singh 2000; Pashaura Singh and Fenech 2014.</div>"
+        },
+        {
+          "title": "Using a Steek to Study a Shabad",
+          "summary": "Offers a practical, repeatable method for studying one shabad with a commentary, and weighs the strengths and risks of relying on any single teeka.",
+          "html": "<h4>A practical method</h4><p>Here is a simple way to study one shabad with a <span class=\"gur\">ਸਟੀਕ</span> (text-with-commentary edition). The method is repeatable and works with any commentary.</p><ul><li>Read the shabad slowly on its own first, before looking at any explanation.</li><li>Read the <span class=\"gur\">ਪਦ ਅਰਥ</span> (word-by-word meaning) for the unfamiliar words.</li><li>Read the full <span class=\"gur\">ਵਿਆਖਿਆ</span> (explanation) and note the grammar the commentator relies on.</li><li>Place the shabad in its <span class=\"gur\">ਪ੍ਰਸੰਗ</span> (context) within its section.</li><li>Read the shabad again, now with the meaning in mind.</li></ul><h4>The strength and the risk of one teeka</h4><p>A single teeka gives you a clear, consistent guide, which is a real strength for a beginner. The risk is that any one commentary reflects the choices of its author or stream, so leaning on it alone can narrow your reading. The balance is to start with one trustworthy <span class=\"gur\">ਟੀਕਾ</span> (commentary) and, over time, compare it with another (McLeod 1984; Pashaura Singh and Fenech 2014).</p><h4>Reading with understanding</h4><p>The goal of every commentary tradition is the same: to help you read Gurbani with understanding rather than guesswork. Used carefully, a steek turns difficult lines into clear ones and lets the words of the Guru speak to the reader (Pashaura Singh 2000).</p><div class=\"refs\">McLeod 1984; Pashaura Singh and Fenech 2014; Pashaura Singh 2000.</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is a ਟੀਕਾ?",
+          "options": [
+            "A musical setting of a shabad",
+            "A commentary or exegesis that explains a text",
+            "A handwritten copy of the scripture",
+            "A list of contributors to the scripture"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the term ਸਟੀਕ refer to?",
+          "options": [
+            "An edition of a text printed together with its commentary",
+            "A spoken recitation without explanation",
+            "A grammar textbook",
+            "An index of first lines"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Why does a learner often need a teeka to read Gurbani?",
+          "options": [
+            "Because the text cannot be read aloud without one",
+            "Because older vocabulary, grammar, and context can be hard without help",
+            "Because commentaries replace the original text",
+            "Because reciting is forbidden without one"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which of these is a stream of Sikh exegesis described in this course?",
+          "options": [
+            "The Nirmala scholarly order",
+            "The royal court historians",
+            "The printing guilds",
+            "The translation bureaus"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What made the Faridkot Wala Teeka historically important?",
+          "options": [
+            "It was the first complete commentary on the whole Guru Granth Sahib",
+            "It was the only commentary ever written",
+            "It replaced all oral teaching",
+            "It was written in English"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "When was the Faridkot Wala Teeka completed and published?",
+          "options": [
+            "Completed 1883, published 1906",
+            "Completed 1906, published 1883",
+            "Completed 1850, published 1900",
+            "Completed 1920, published 1950"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What chiefly distinguishes Professor Sahib Singh's approach in the Sri Guru Granth Sahib Darpan?",
+          "options": [
+            "It anchors meaning in the grammar of the text",
+            "It avoids giving any word-meanings",
+            "It relies only on oral tradition",
+            "It ignores the original language"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What is the main risk of relying on a single teeka?",
+          "options": [
+            "It makes the text impossible to recite",
+            "It can narrow your reading to one author's or stream's choices",
+            "It changes the words of the scripture",
+            "It removes the need to read the shabad"
+          ],
+          "answer": 1
+        }
+      ]
     }
   ],
   "paths": [
@@ -6435,6 +6957,18 @@
       "courseIds": [
         "ai-foundations-intro",
         "working-with-llms"
+      ]
+    },
+    {
+      "id": "teekas",
+      "name": "Understanding Gurbani through Teekas",
+      "blurb": "Learn how the great commentaries (teekas) open up the meaning of Gurbani.",
+      "courseIds": [
+        "introduction-sggs",
+        "reading-japji-sahib",
+        "understanding-teekas",
+        "garab-ganjani-teeka",
+        "faridkot-teeka"
       ]
     }
   ]
