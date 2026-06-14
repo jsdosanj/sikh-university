@@ -1,14 +1,26 @@
 ---
 import Base from '../layouts/Base.astro';
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 // Single source: reuse the existing legal content (GDPR/CCPA-aligned drafts).
-const file = new URL('../../../site/legal', import.meta.url);
+// Resolve the source from a few candidate locations so the static build (which may
+// run the module from a temp dir) reliably finds site/legal.html at the repo root.
+const candidates = [
+  fileURLToPath(new URL('../../../site/legal.html', import.meta.url)),
+  path.resolve(process.cwd(), '../site/legal.html'),
+  path.resolve(process.cwd(), 'site/legal.html'),
+];
 let inner = '';
-try {
-  const raw = fs.readFileSync(file, 'utf8');
-  const m = raw.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
-  inner = (m ? m[1] : '').replace(/\.html/g, '');
-} catch (e) { inner = '<p>Terms &amp; Privacy are being prepared.</p>'; }
+for (const c of candidates) {
+  try {
+    const raw = fs.readFileSync(c, 'utf8');
+    const m = raw.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
+    inner = (m ? m[1] : '').replace(/\.html/g, '');
+    if (inner) break;
+  } catch (e) { /* try next candidate */ }
+}
+if (!inner) inner = '<p>Terms &amp; Privacy are being prepared.</p>';
 ---
 <Base title="Terms & Privacy — Sikh University" description="Sikh University Terms of Service and Privacy Policy (GDPR/CCPA-aligned drafts).">
   <section class="wrap py-12">
