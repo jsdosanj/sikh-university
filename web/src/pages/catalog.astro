@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import CourseCard from '../components/CourseCard.astro';
+import { topics, courses, topicName } from '../lib/data';
+const sorted = [...courses].sort((a, b) => a.level - b.level);
+const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer';
+---
+<Base title="Course catalogue — Sikh University" description="Browse all Sikh University courses by topic — history, theology, philosophy, language, music, the arts and modern skills.">
+  <section class="wrap py-12">
+    <h1 class="text-3xl font-bold">Course catalogue</h1>
+    <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
+      class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+    <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
+      <button data-t="all" class={btn}>All</button>
+      {topics.map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
+    </div>
+    <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {sorted.map((c) => (
+        <div class="cat-item" data-topic={c.topic} data-hay={`${c.title} ${c.summary} ${c.professor} ${topicName(c.topic)}`.toLowerCase()}>
+          <CourseCard course={c} />
+        </div>
+      ))}
+    </div>
+    <p id="cat-empty" class="mt-8 hidden text-muted">No courses match your search.</p>
+  </section>
+  <script>
+    const items = Array.from(document.querySelectorAll('.cat-item'));
+    const filters = Array.from(document.querySelectorAll('#cat-filters .filt'));
+    const search = document.getElementById('cat-search');
+    const empty = document.getElementById('cat-empty');
+    let topic = (location.hash || '').replace('#', '') || 'all';
+    let q = '';
+    function setActive() {
+      filters.forEach((b) => {
+        const on = b.dataset.t === topic;
+        b.classList.toggle('bg-navy', on); b.classList.toggle('text-white', on);
+        b.classList.toggle('border-navy', on); b.classList.toggle('text-muted', !on);
+      });
+    }
+    function render() {
+      let shown = 0;
+      items.forEach((el) => {
+        const okT = topic === 'all' || el.dataset.topic === topic;
+        const okQ = !q || q.split(/\s+/).every((t) => el.dataset.hay.indexOf(t) !== -1);
+        const vis = okT && okQ; el.style.display = vis ? '' : 'none'; if (vis) shown++;
+      });
+      empty.classList.toggle('hidden', shown > 0);
+      setActive();
+    }
+    filters.forEach((b) => b.addEventListener('click', () => { topic = b.dataset.t; location.hash = topic === 'all' ? '' : topic; render(); }));
+    search.addEventListener('input', () => { q = search.value.toLowerCase().trim(); render(); });
+    render();
+  </script>
+</Base>

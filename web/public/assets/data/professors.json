@@ -1,0 +1,57 @@
+{
+  "Prof. Sahib Singh": {
+    "img": "assets/professors/prof-sahib-singh.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Sahib_Singh"
+  },
+  "Bhai Vir Singh": {
+    "img": "assets/professors/bhai-vir-singh.png",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Vir_Singh_(writer)"
+  },
+  "Bhai Kahn Singh Nabha": {
+    "img": "assets/professors/bhai-kahn-singh-nabha.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Kahn_Singh_Nabha"
+  },
+  "Giani Sant Singh Maskeen": {
+    "img": "assets/professors/giani-sant-singh-maskeen.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Sant_Singh_Maskeen"
+  },
+  "Bhai Randhir Singh": {
+    "img": "assets/professors/bhai-randhir-singh.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Randhir_Singh_(Sikh)"
+  },
+  "Bhai Gurdas": {
+    "img": "assets/professors/bhai-gurdas.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Bhai_Gurdas"
+  },
+  "Giani Gian Singh": {
+    "img": "assets/professors/giani-gian-singh.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Giani_Gian_Singh"
+  },
+  "Max Arthur Macauliffe": {
+    "img": "assets/professors/max-arthur-macauliffe.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Max_Arthur_Macauliffe"
+  },
+  "Kavi Santokh Singh": {
+    "img": "assets/professors/kavi-santokh-singh.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Kavi_Santokh_Singh"
+  },
+  "Giani Ditt Singh": {
+    "img": "assets/professors/giani-ditt-singh.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Ditt_Singh"
+  },
+  "Maharaja Ranjit Singh": {
+    "img": "assets/professors/maharaja-ranjit-singh.png",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Ranjit_Singh"
+  }
+}
