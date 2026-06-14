@@ -19,10 +19,15 @@ const { c } = Astro.props;
           <h2 class="font-sans text-sm font-bold uppercase tracking-wide text-muted">{g.t}</h2>
           <ol class="mt-2 divide-y divide-line rounded-xl2 border border-line bg-surface">
             {g.items.map((id) => REF[id] && (
-              <li><a href={REF[id].href} class="flex items-center justify-between gap-4 px-4 py-3 hover:bg-paper">
-                <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>
-                <span class="font-sans text-sm font-semibold text-blue">Read →</span>
-              </a></li>
+              REF[id].href
+                ? <li><a href={REF[id].href} class="flex items-center justify-between gap-4 px-4 py-3 hover:bg-paper">
+                    <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>
+                    <span class="font-sans text-sm font-semibold text-blue">Read →</span>
+                  </a></li>
+                : <li class="flex items-center justify-between gap-4 px-4 py-3">
+                    <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>
+                    <span class="font-sans text-xs text-muted">non-Gurbani</span>
+                  </li>
             ))}
           </ol>
         </div>
