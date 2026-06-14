@@ -51,7 +51,7 @@ const ld = {
         <p class="mt-1 text-muted">Not sure where to start? Follow a path from the basics to deeper study.</p>
         <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {paths.slice(0, 6).map((p, i) => (
-            <a href="/paths" class={`card border-l-4 ${['border-l-saffron', 'border-l-blue', 'border-l-navy'][i % 3]}`}>
+            <a href={`/paths#${p.id}`} class={`card border-l-4 ${['border-l-saffron', 'border-l-blue', 'border-l-navy'][i % 3]}`}>
               <span class="pill bg-paper text-muted">{p.courseIds.length} courses</span>
               <h3 class="mt-2 text-lg font-bold">{p.name}</h3>
               <p class="mt-1 text-[0.95rem] text-muted">{p.blurb}</p>
