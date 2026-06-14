@@ -30,6 +30,7 @@ export function topicName(id: string): string {
 export const TOPIC_ICONS: Record<string, string> = {
   theology: '🪔', philosophy: '💭', history: '📜', literature: '📖', language: '✍️',
   spirituality: '🧘', music: '🎵', arts: '🎨', 'modern-skills': '🤖', reference: '📚',
+  ethics: '⚖️', rehat: '🪯', comparative: '🌍',
 };
 
 export function professorList() {
