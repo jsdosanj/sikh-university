@@ -32,13 +32,13 @@ const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ 
   <section class="wrap py-12">
     <h1 class="text-3xl font-bold">Courses</h1>
 
-    <div id="tabbar" role="tablist" class="mt-5 inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
-      <button id="tab-catalog-btn" role="tab" class="rounded-full px-4 py-1.5">Catalogue</button>
-      <button id="tab-paths-btn" role="tab" class="rounded-full px-4 py-1.5">Learning paths</button>
+    <div id="tabbar" role="tablist" aria-label="Browse courses" class="mt-5 inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
+      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" class="rounded-full px-4 py-1.5">Learning paths</button>
+      <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" class="rounded-full px-4 py-1.5">Catalogue</button>
     </div>
 
     <!-- Catalogue view -->
-    <div id="view-catalog" class="mt-6">
+    <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6">
       <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
         class="w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
       <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
@@ -52,11 +52,11 @@ const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ 
           </div>
         ))}
       </div>
-      <p id="cat-empty" class="mt-8 hidden text-muted">No courses match your search.</p>
+      <p id="cat-empty" class="mt-8 hidden text-muted" aria-live="polite">No courses match your search.</p>
     </div>
 
     <!-- Learning paths view -->
-    <div id="view-paths" class="mt-6" hidden>
+    <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6" hidden>
       <p class="text-muted">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
       <h2 class="mt-6 text-2xl font-bold">Guided journeys</h2>
       <p class="text-muted">Hand-curated routes that weave across subjects.</p>
@@ -67,7 +67,7 @@ const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ 
               <span class="text-2xl">{iconFor(p)}</span>
               <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
               <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
-              <span class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+              <span aria-hidden="true" class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
             </summary>
             <div class="p-5">
               <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
@@ -89,7 +89,7 @@ const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ 
               <span class="text-2xl">{iconFor(p)}</span>
               <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
               <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
-              <span class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+              <span aria-hidden="true" class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
             </summary>
             <div class="p-5">
               <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
@@ -131,6 +131,7 @@ const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ 
         b.classList.toggle('bg-brand', on); b.classList.toggle('text-white', on);
         b.classList.toggle('border-navy', on); b.classList.toggle('text-muted', !on);
         b.classList.toggle('bg-surface', !on);
+        b.setAttribute('aria-pressed', String(on));
       });
     }
     function renderCat() {
@@ -165,10 +166,11 @@ const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ 
     }).catch(renderPaths);
 
     // initial state: a topic filter (#<topic>) opens the catalogue on that filter;
-    // #paths opens the paths tab; everything else opens the catalogue.
+    // #catalog opens the catalogue; everything else (incl. no hash) defaults to Learning paths.
     const hash = (location.hash || '').replace('#', '');
-    if (hash === 'paths') setTab('paths', false);
-    else { if (hash && filters.some((b) => b.dataset.t === hash)) topic = hash; setTab('catalog', false); }
+    if (hash && filters.some((b) => b.dataset.t === hash)) { topic = hash; setTab('catalog', false); }
+    else if (hash === 'catalog') setTab('catalog', false);
+    else setTab('paths', false);
     renderCat(); renderPaths();
   </script>
 </Base>
