@@ -53,5 +53,15 @@
     "img": "assets/professors/maharaja-ranjit-singh.png",
     "credit": "Wikimedia Commons",
     "source": "https://en.wikipedia.org/wiki/Ranjit_Singh"
+  },
+  "Sirdar Kapur Singh": {
+    "img": "assets/professors/sirdar-kapur-singh.jpg",
+    "credit": "Wikimedia Commons (CC BY-SA 4.0)",
+    "source": "https://commons.wikimedia.org/wiki/File:Kapoor_Singh_ICS.jpg"
+  },
+  "J.S. Grewal": {
+    "img": "assets/professors/j-s-grewal.jpg",
+    "credit": "Wikimedia Commons (CC BY 4.0)",
+    "source": "https://en.wikipedia.org/wiki/J._S._Grewal"
   }
 }
