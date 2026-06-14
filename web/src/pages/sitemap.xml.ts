@@ -10,7 +10,7 @@ const STATIC_PATHS = [
 ];
 
 export const GET: APIRoute = ({ site }) => {
-  const base = (site?.toString() || 'https://sikh-university.jasvant-dosanjh.workers.dev').replace(/\/$/, '');
+  const base = (site?.toString() || 'https://sikh-university.dosanjhlabs.com').replace(/\/$/, '');
   const urls = [
     ...STATIC_PATHS,
     ...published.map((c) => `/course/${c.id}`),

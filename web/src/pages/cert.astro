@@ -32,7 +32,7 @@ import Base from '../layouts/Base.astro';
             <div class="mt-6 font-sans text-sm text-muted">has successfully completed</div>
             <div class="mt-1 text-2xl font-bold text-navy">${esc(c.title)}</div>
             <div class="mt-2 font-sans text-sm text-muted">${esc(tn(c.topic))} · Level ${c.level} · Score ${score}%</div>
-            <div class="mt-10 flex justify-between font-sans text-xs text-muted"><span>Issued ${issued}</span><span>sikh-university.jasvant-dosanjh.workers.dev</span></div>
+            <div class="mt-10 flex justify-between font-sans text-xs text-muted"><span>Issued ${issued}</span><span>sikh-university.dosanjhlabs.com</span></div>
             <div id="cert-vid" class="mt-3 font-sans text-xs text-muted"></div>
             <div class="mt-3 font-sans text-xs italic text-muted">Course content created by AI and reviewed for accuracy.</div>
           </div>
@@ -43,7 +43,7 @@ import Base from '../layouts/Base.astro';
       fetch('/api/certificates', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: c.id, name }) })
         .then((r) => r.json().then((d) => ({ ok: r.ok, d }))).then(({ ok, d }) => {
           const v = document.getElementById('cert-vid'); if (!v) return;
-          if (ok && d.id) v.innerHTML = 'Verification ID: <strong>' + esc(d.id) + '</strong> · verify at <span>sikh-university.jasvant-dosanjh.workers.dev/verify?id=' + esc(d.id) + '</span>';
+          if (ok && d.id) v.innerHTML = 'Verification ID: <strong>' + esc(d.id) + '</strong> · verify at <span>sikh-university.dosanjhlabs.com/verify?id=' + esc(d.id) + '</span>';
           else v.innerHTML = '<span class="noprint">Sign in (and let your progress sync) to get a verifiable certificate ID.</span>';
         }).catch(() => {});
     }).catch(() => { app.innerHTML = '<p class="text-muted">Could not load.</p>'; });
