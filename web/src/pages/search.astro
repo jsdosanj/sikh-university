@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Search — Sikh University" description="Search every Sikh University course by title, topic, professor, or key term.">
+  <section class="wrap py-12">
+    <h1 class="text-3xl font-bold">Search courses</h1>
+    <input id="q" type="search" placeholder="Search by title, topic, professor, term…" autofocus
+      class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+    <div id="out" class="mt-6"></div>
+  </section>
+  <script>
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    let data = { courses: [], topics: [] };
+    const tn = (id) => (data.topics.find((t) => t.id === id) || {}).name || id;
+    const out = document.getElementById('out'); const q = document.getElementById('q');
+    function hay(c) { return [c.title, c.summary, c.professor, tn(c.topic), (c.terms || []).map((t) => t.t + ' ' + t.m).join(' '), (c.outcomes || []).join(' '), (c.lessons || []).map((l) => l.title).join(' ')].join(' | ').toLowerCase(); }
+    function card(c) {
+      return `<a href="/course/${c.id}.html" class="card"><div class="mb-1.5 flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-[#e7ecf5] text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-0.5 font-sans text-xs text-muted">Prof. ${esc(c.professor)}</div><p class="mt-2 text-[0.95rem]">${esc(c.summary)}</p></a>`;
+    }
+    function render() {
+      const v = q.value.toLowerCase().trim();
+      if (!v) { out.innerHTML = `<p class="text-muted">Type to search all ${data.courses.length} courses.</p>`; return; }
+      const ts = v.split(/\s+/);
+      const m = data.courses.filter((c) => { const h = hay(c); return ts.every((t) => h.indexOf(t) !== -1); });
+      out.innerHTML = `<p class="text-muted mb-4">${m.length} result${m.length === 1 ? '' : 's'}</p><div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${m.map(card).join('')}</div>`;
+    }
+    fetch('/assets/data/courses.json').then((r) => r.json()).then((d) => { data = d; const pre = new URLSearchParams(location.search).get('q'); if (pre) q.value = pre; render(); }).catch(() => { out.innerHTML = '<p class="text-muted">Could not load courses.</p>'; });
+    q.addEventListener('input', render);
+  </script>
+</Base>
