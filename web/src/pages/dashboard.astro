@@ -63,6 +63,8 @@ import Base from '../layouts/Base.astro';
             return `<a href="/course/${c.id}" class="card"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3>${extra}</a>`;
           }).join('')}</div>`;
         }
+        const graded = pub.filter((c) => passed(c.id) || progress(c) > 0);
+        const gradesHtml = graded.length ? `<h3 class="mt-10 text-xl font-bold">My grades</h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Course</th><th>Progress</th><th>Test score</th><th>Status</th></tr></thead><tbody>${graded.map((c) => { const sc = get('passed_' + c.id, null); const p = progress(c); return `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(c.title)}</td><td>${p}%</td><td>${sc != null ? sc + '%' : '—'}</td><td>${sc != null ? '<span class="pill bg-saffron-soft text-saffron-deep">Passed</span>' : (p > 0 ? '<span class="pill bg-paper text-muted">In progress</span>' : '—')}</td></tr>`; }).join('')}</tbody></table></div>` : '';
         let applyCta = '';
         if (user && user.role === 'learner' && get('signup_intent', '') === 'teacher') applyCta = `<div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm">You signed up to teach. <a class="underline font-semibold" href="/teach">Complete your teacher application →</a></div>`;
         root.innerHTML = `
@@ -76,6 +78,7 @@ import Base from '../layouts/Base.astro';
           <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(points, 'Points')}${stat(st, 'Day streak')}${stat(completed.length, 'Completed')}${stat(lessonsDone, 'Lessons done')}</div>
           <h3 class="mt-10 text-xl font-bold">Badges</h3>
           <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">${badges.map((b) => `<div class="rounded-xl2 border ${b[2] ? 'border-saffron shadow-card' : 'border-line opacity-50 grayscale'} bg-surface p-4 text-center"><div class="text-3xl">${b[1]}</div><div class="mt-1 font-sans text-sm font-bold text-navy">${b[0]}</div><div class="font-sans text-xs text-muted">${b[3]}</div></div>`).join('')}</div>
+          ${gradesHtml}
           <div class="mt-6"><button id="exp" class="btn">⬇ Export my notes (.md)</button></div>
           ${!completed.length && !started.length ? '<div class="mt-8 rounded-xl2 border border-line bg-surface p-4">You have not started a course yet. <a class="underline" href="/catalog">Browse the catalogue</a> and begin — your progress and certificates appear here.</div>' : ''}
           ${section('Continue learning', started, 'started')}
@@ -91,17 +94,46 @@ import Base from '../layouts/Base.astro';
       }
 
       function renderTeacher() {
-        const sample = pub.slice(0, 3);
+        const taught = pub.slice(0, 4);
         const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-4 text-center shadow-card"><div class="text-3xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
+        // Sample roster + grades (illustrative; a real gradebook will read enrolment data).
+        const names = ['Harpreet Kaur', 'Gurmeet Singh', 'Simran Kaur', 'Arjan Singh', 'Manvir Kaur', 'Jasdeep Singh', 'Noor Kaur', 'Ravi Singh'];
+        const dscore = (i, j) => 60 + ((i * 7 + j * 13) % 41); // deterministic 60–100
+        const dprog = (i, j) => 20 + ((i * 11 + j * 9) % 81);
+        const roster = demo ? names.map((nm, i) => ({ name: nm, email: nm.toLowerCase().replace(/[^a-z]+/g, '.') + '@example.com', active: ['today', '2d ago', '1w ago', 'today', '3d ago', '5d ago', '1d ago', '2w ago'][i] })) : [];
+        const grade = (s) => s >= 90 ? 'A' : s >= 80 ? 'B' : s >= 70 ? 'C' : s >= 60 ? 'D' : 'F';
+        const cell = (v, ok) => `<td class="border-t border-line px-2 py-1.5 ${ok === false ? 'text-muted' : ''}">${v}</td>`;
+
+        let gradebook;
+        if (!demo) gradebook = `<div class="mt-4 rounded-xl2 border border-line bg-surface p-4 text-muted">No students enrolled yet. When learners take your courses, their progress and test scores appear here.</div>`;
+        else gradebook = `<div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="bg-brand text-left text-white"><th class="px-2 py-2">Student</th>${taught.map((c) => `<th class="px-2 py-2" title="${esc(c.title)}">${esc(c.title.split(/[:—]/)[0].slice(0, 14))}…</th>`).join('')}<th class="px-2 py-2">Avg</th></tr></thead><tbody>${roster.map((st, i) => { const scores = taught.map((c, j) => dscore(i, j)); const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length); return `<tr class="${i % 2 ? 'bg-paper' : ''}">${cell('<strong>' + esc(st.name) + '</strong>')}${scores.map((s) => `<td class="border-t border-line px-2 py-1.5">${s}% <span class="text-muted">(${grade(s)})</span></td>`).join('')}${cell('<strong>' + avg + '%</strong>')}</tr>`; }).join('')}</tbody></table></div>`;
+
+        const analytics = !demo ? '' : `<h3 class="mt-10 text-xl font-bold">Course analytics</h3><div class="mt-4 space-y-3">${taught.map((c, j) => { const comp = 35 + ((j * 17) % 55); const avg = 70 + ((j * 9) % 25); return `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex flex-wrap items-baseline justify-between gap-2"><span class="font-semibold text-navy">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${(j + 1) * 9} enrolled · avg score ${avg}%</span></div><div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${comp}%"></div></div><div class="mt-1 font-sans text-xs text-muted">${comp}% completion</div></div>`; }).join('')}</div>`;
+
+        const questions = !demo ? '' : `<h3 class="mt-10 text-xl font-bold">Student questions <span class="pill bg-saffron-soft text-saffron-deep align-middle">3 new</span></h3><div class="mt-4 space-y-3">${[['Simran Kaur', taught[0], 'Could you explain the difference between nirgun and sargun again?'], ['Arjan Singh', taught[1] || taught[0], 'Is the test open-book? How many attempts do I get?'], ['Ravi Singh', taught[2] || taught[0], 'Which Ang should I read alongside lesson 3?']].map(([who, c, q]) => `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(who)} · ${esc((c || {}).title || '')}</div><p class="mt-1">${esc(q)}</p><button class="btn mt-2">Reply</button></div>`).join('')}</div>`;
+
         root.innerHTML = `
           <h1 class="text-3xl font-bold">Teacher dashboard</h1>
-          <p class="mt-1 font-sans text-sm text-muted">${demo ? 'Sample view for testing.' : 'Welcome, teacher.'} Course-authoring tools are rolling out — here's what your workspace will hold.</p>
-          <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(sample.length, 'Courses you teach')}${stat(demo ? 128 : 0, 'Enrolled students')}${stat(demo ? 41 : 0, 'Completions')}${stat(demo ? '4.8' : '—', 'Avg. rating')}</div>
+          <p class="mt-1 font-sans text-sm text-muted">${demo ? 'Sample view for testing — figures and students are illustrative.' : 'Welcome, teacher.'}</p>
+          <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(taught.length, 'Courses you teach')}${stat(demo ? 96 : 0, 'Students')}${stat(demo ? 38 : 0, 'Completions')}${stat(demo ? '4.8★' : '—', 'Avg. rating')}</div>
+
+          <h3 class="mt-10 text-xl font-bold">Gradebook</h3>
+          <p class="font-sans text-sm text-muted">Each student's test score per course, with a letter grade and class average.</p>
+          ${gradebook}
+
           <h3 class="mt-10 text-xl font-bold">Courses you teach</h3>
-          <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${sample.map((c, i) => `<a href="/course/${c.id}" class="card"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-2 font-sans text-xs text-muted">${demo ? ((i + 1) * 17) + ' learners · review questions →' : 'Manage →'}</div></a>`).join('')}</div>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${taught.map((c, i) => `<a href="/course/${c.id}" class="card"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-2 font-sans text-xs text-muted">${demo ? ((i + 1) * 17) + ' learners' : 'Manage →'}</div></a>`).join('')}</div>
+          ${analytics}
+
+          ${demo ? `<h3 class="mt-10 text-xl font-bold">Class roster</h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Student</th><th>Email</th><th>Last active</th></tr></thead><tbody>${roster.map((st) => `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(st.name)}</td><td>${esc(st.email)}</td><td class="text-muted">${esc(st.active)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+          ${questions}
+
+          <h3 class="mt-10 text-xl font-bold">Announcements</h3>
+          <div class="mt-4 rounded-xl2 border border-line bg-surface p-4"><textarea rows="2" placeholder="Post an announcement to your students…" class="w-full rounded-lg border border-line bg-paper p-2 font-sans text-sm"></textarea><button class="btn btn-primary mt-2">Post announcement</button></div>
+
           <div class="mt-10 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-xl2 border border-line bg-surface p-5"><h3 class="text-lg font-bold">✍️ Author a course</h3><p class="mt-1 font-sans text-sm text-muted">Draft lessons, key terms and a test, then submit for review. (Coming soon.)</p></div>
-            <div class="rounded-xl2 border border-line bg-surface p-5"><h3 class="text-lg font-bold">💬 Student questions</h3><p class="mt-1 font-sans text-sm text-muted">Answer discussion threads on the courses you teach. (Coming soon.)</p></div>
+            <div class="rounded-xl2 border border-line bg-surface p-5"><h3 class="text-lg font-bold">✍️ Author a course</h3><p class="mt-1 font-sans text-sm text-muted">Draft lessons, key terms and a test, then submit for admin review.</p></div>
+            <div class="rounded-xl2 border border-line bg-surface p-5"><h3 class="text-lg font-bold">📊 Export grades (.csv)</h3><p class="mt-1 font-sans text-sm text-muted">Download your gradebook for records.</p></div>
           </div>
           <div class="mt-8"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
       }
