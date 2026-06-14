@@ -4,13 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: { DEFAULT: '#16335c', strong: '#0f2547', soft: '#1d4e89' },
-        saffron: { DEFAULT: '#c8862a', soft: '#f3e6cf', deep: '#8a5a14' },
-        paper: '#f6f1e7',
-        surface: '#fffdf9',
-        ink: '#2b2b2b',
-        muted: '#5c6273',
-        line: '#e2dccd',
+        // Deep blues
+        navy: { DEFAULT: '#16335c', strong: '#0b2444', soft: '#1d4e89' },
+        // Bright blue accents (variations)
+        blue: { DEFAULT: '#1f6feb', bright: '#3b82f6', light: '#6aa6ff', sky: '#dbeafe' },
+        // Vibrant yellow / gold (variations)
+        saffron: { DEFAULT: '#f4b21a', soft: '#fdeec8', deep: '#9a6a07' },
+        gold: { DEFAULT: '#f4b21a', bright: '#ffc83d', soft: '#fdeec8', deep: '#9a6a07' },
+        // Neutrals
+        paper: '#f7f8fb',
+        surface: '#ffffff',
+        ink: '#10131a',
+        black: '#0a0d14',
+        muted: '#5b6473',
+        line: '#e4e8f0',
         ok: '#2f7d4f',
       },
       fontFamily: {
@@ -19,8 +26,8 @@ export default {
         gur: ['"Noto Sans Gurmukhi"', '"Gurmukhi MN"', '"Gurbani Akhar"', '"Raavi"', 'serif'],
       },
       boxShadow: {
-        card: '0 1px 3px rgba(22,51,92,.07), 0 8px 24px rgba(22,51,92,.06)',
-        lift: '0 10px 30px rgba(22,51,92,.14)',
+        card: '0 1px 3px rgba(16,19,26,.06), 0 10px 26px rgba(31,111,235,.08)',
+        lift: '0 14px 34px rgba(31,111,235,.18)',
       },
       maxWidth: { content: '1100px' },
       borderRadius: { xl2: '1.1rem' },

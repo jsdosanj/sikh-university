@@ -13,10 +13,12 @@
 @layer components {
   .wrap { @apply mx-auto w-full max-w-content px-5; }
   .btn { @apply inline-flex items-center gap-2 rounded-xl2 border border-navy px-5 py-2.5 font-sans font-semibold text-navy bg-surface transition hover:shadow-lift hover:-translate-y-0.5; }
-  .btn-primary { @apply border-saffron bg-saffron text-[#2a1c06] hover:brightness-105; }
-  .btn-ghost { @apply border-white/40 bg-transparent text-white hover:bg-white/10; }
+  .btn-primary { @apply border-saffron bg-saffron text-black hover:brightness-105; }
+  .btn-blue { @apply border-blue bg-blue text-white hover:brightness-110; }
+  .btn-ghost { @apply border-white/50 bg-transparent text-white hover:bg-white/10; }
   .pill { @apply inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[0.68rem] font-bold uppercase tracking-wide; }
-  .card { @apply block rounded-xl2 border border-line bg-surface p-5 shadow-card transition hover:-translate-y-0.5 hover:border-saffron hover:shadow-lift; }
+  .card { @apply block rounded-xl2 border border-line bg-surface p-5 shadow-card transition hover:-translate-y-1 hover:border-blue hover:shadow-lift; }
+  .h-underline { @apply border-b-4 border-saffron pb-1; }
   .lesson-prose :where(p,ul,ol,table){ @apply my-3; }
   .lesson-prose h4 { @apply mt-6 mb-1 text-navy; }
   .lesson-prose table { @apply w-full border-collapse text-[0.95rem]; }

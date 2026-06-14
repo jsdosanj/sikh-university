@@ -16,7 +16,7 @@ const sorted = [...courses].sort((a, b) => a.level - b.level);
     <div class="flex flex-wrap items-center gap-5 border-b border-line pb-6">
       <Avatar name={name} size={110} />
       <div>
-        <a href="/professors.html" class="font-sans text-sm text-muted hover:text-navy">← All professors</a>
+        <a href="/professors" class="font-sans text-sm text-muted hover:text-navy">← All professors</a>
         <h1 class="mt-1 text-3xl font-bold">{name}</h1>
         <div class="font-sans text-sm text-muted">{courses.length} course{courses.length === 1 ? '' : 's'}</div>
       </div>

@@ -14,7 +14,7 @@ import Base from '../layouts/Base.astro';
 
     api('/api/me').then(({ ok, d }) => {
       const u = ok && d.user;
-      if (!u || u.role !== 'admin') { root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">Admins only. <a class="underline" href="/login.html">Sign in</a> with an admin account.</div>'; return; }
+      if (!u || u.role !== 'admin') { root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">Admins only. <a class="underline" href="/login">Sign in</a> with an admin account.</div>'; return; }
       root.innerHTML = `<h1 class="text-3xl font-bold">Admin dashboard</h1><p class="font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
         <div id="tabs" class="mt-4 flex flex-wrap gap-1 border-b border-line"></div><div id="panel" class="mt-6"></div>`;
       const tabs = [['overview', 'Overview'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback']];
@@ -39,7 +39,7 @@ import Base from '../layouts/Base.astro';
       }
       function coursesTab() {
         panel.innerHTML = `<p class="font-sans text-sm text-muted">${courses.length} courses · ${courses.filter((c) => c.status === 'published').length} published · ${topics.length} topics</p>` +
-          topics.map((tp) => { const list = courses.filter((c) => c.topic === tp.id).sort((a, b) => a.level - b.level); if (!list.length) return ''; return `<h3 class="mt-6 text-lg font-bold">${esc(tp.name)} (${list.length})</h3><ul class="mt-2 divide-y divide-line">${list.map((c) => `<li class="py-2"><details><summary class="cursor-pointer font-semibold text-navy">${esc(c.title)} <span class="font-sans text-xs font-normal text-muted">· L${c.level} · ${esc(c.professor)} · ${c.status}</span></summary><div class="mt-2 rounded-xl border border-line bg-paper p-3"><p class="text-sm">${esc(c.summary)}</p>${(c.lessons || []).map((ls, i) => `<details class="mt-2"><summary class="cursor-pointer text-sm font-semibold">Lesson ${i + 1}: ${esc(ls.title)}</summary><div class="lesson-prose mt-1 text-sm">${ls.html}</div></details>`).join('')}${c.quiz && c.quiz.length ? `<div class="mt-2 font-sans text-xs text-muted">Test: ${c.quiz.length} questions (answers: ${c.quiz.map((q, i) => (i + 1) + '→' + (q.answer + 1)).join(', ')})</div>` : ''}</div></details></li>`).join('')}</ul>`; }).join('');
+          topics.map((tp) => { const list = courses.filter((c) => c.topic === tp.id).sort((a, b) => a.level - b.level); if (!list.length) return ''; return `<h3 class="mt-6 text-lg font-bold">${esc(tp.name)} (${list.length})</h3><ul class="mt-2 divide-y divide-line">${list.map((c) => `<li class="py-2"><details><summary class="cursor-pointer font-semibold text-navy">${esc(c.title)} <span class="font-sans text-xs font-normal text-muted">· L${c.level} · ${esc(c.professor)} · ${c.status}</span></summary><div class="mt-2 rounded-xl border border-line bg-paper p-3"><p class="text-sm">${esc(c.summary)}</p>${(c.lessons || []).map((ls, i) => `<details class="mt-2"><summary class="cursor-pointer text-sm font-semibold">Lesson ${i + 1}: ${esc(ls.title)}</summary><div class="lesson-prose mt-1 text-sm">${ls}</div></details>`).join('')}${c.quiz && c.quiz.length ? `<div class="mt-2 font-sans text-xs text-muted">Test: ${c.quiz.length} questions (answers: ${c.quiz.map((q, i) => (i + 1) + '→' + (q.answer + 1)).join(', ')})</div>` : ''}</div></details></li>`).join('')}</ul>`; }).join('');
       }
       function applications() {
         api('/api/admin/applications').then(({ ok, d }) => {

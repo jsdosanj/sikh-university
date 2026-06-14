@@ -15,7 +15,7 @@ import Base from '../layouts/Base.astro';
     const out = document.getElementById('out'); const q = document.getElementById('q');
     function hay(c) { return [c.title, c.summary, c.professor, tn(c.topic), (c.terms || []).map((t) => t.t + ' ' + t.m).join(' '), (c.outcomes || []).join(' '), (c.lessons || []).map((l) => l.title).join(' ')].join(' | ').toLowerCase(); }
     function card(c) {
-      return `<a href="/course/${c.id}.html" class="card"><div class="mb-1.5 flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-[#e7ecf5] text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-0.5 font-sans text-xs text-muted">Prof. ${esc(c.professor)}</div><p class="mt-2 text-[0.95rem]">${esc(c.summary)}</p></a>`;
+      return `<a href="/course/${c.id}" class="card"><div class="mb-1.5 flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-[#e7ecf5] text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-0.5 font-sans text-xs text-muted">Prof. ${esc(c.professor)}</div><p class="mt-2 text-[0.95rem]">${esc(c.summary)}</p></a>`;
     }
     function render() {
       const v = q.value.toLowerCase().trim();

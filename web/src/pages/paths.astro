@@ -16,7 +16,7 @@ const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
           <div class="path-count font-sans text-xs text-muted" data-path={p.id}>{p.courseIds.length} courses</div>
           <ol class="mt-3 list-decimal space-y-2 pl-5">
             {p.courseIds.map((id) => byId[id] && (
-              <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}.html`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
+              <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
             ))}
           </ol>
         </section>
