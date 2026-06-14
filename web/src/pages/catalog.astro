@@ -40,9 +40,9 @@ const itemListLd = {
     function setActive() {
       filters.forEach((b) => {
         const on = b.dataset.t === topic;
-        b.classList.toggle('bg-navy', on); b.classList.toggle('text-white', on);
+        b.classList.toggle('bg-brand', on); b.classList.toggle('text-white', on);
         b.classList.toggle('border-navy', on); b.classList.toggle('text-muted', !on);
-        b.classList.toggle('bg-surface', !on); // else bg-surface wins over bg-navy -> white-on-white
+        b.classList.toggle('bg-surface', !on); // else bg-surface wins over bg-brand -> white-on-white
       });
     }
     function render() {
