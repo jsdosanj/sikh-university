@@ -24,7 +24,7 @@ const group = (list: typeof paths, offset: number) => list.map((p, gi) => ({ p, 
 <Base title="Learning paths — Sikh University" description="Guided, ordered learning paths through Sikh University courses — from foundations to advanced study, across every subject.">
   <section class="wrap py-12">
     <div class="rounded-xl2 bg-gradient-to-r from-brand to-blue p-8 text-white shadow-card">
-      <h1 class="text-3xl font-bold">Guided learning paths</h1>
+      <h1 class="text-3xl font-bold text-white">Guided learning paths</h1>
       <p class="mt-2 max-w-2xl text-lg text-white/85">Follow a path from foundations to advanced study. Each path is an ordered set of courses — finish one to light up the next. Every course at Sikh University belongs to a path.</p>
     </div>
 
@@ -32,7 +32,7 @@ const group = (list: typeof paths, offset: number) => list.map((p, gi) => ({ p, 
     <p class="text-muted">Hand-curated routes that weave across subjects.</p>
     <div class="mt-5 space-y-4">
       {group(featured, 0).map(({ p, grad }) => (
-        <details id={p.id} open class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
+        <details id={p.id} class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
           <summary class={`flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r ${grad} p-4 text-white`}>
             <span class="text-2xl">{iconFor(p)}</span>
             <span class="min-w-0 flex-1">
