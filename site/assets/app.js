@@ -75,6 +75,11 @@
     render();
   }
 
+  function courseOutcomes(c) {
+    if (c.outcomes && c.outcomes.length) return c.outcomes;
+    return (c.lessons || []).map(function (ls) { return ls.title; });
+  }
+
   function initCourse(root, data) {
     var c = data.courses.filter(function (x) { return x.id === qs("id"); })[0];
     if (!c) { root.innerHTML = '<p class="muted">Course not found. <a href="catalog.html">Back to catalogue</a>.</p>'; return; }
@@ -96,74 +101,140 @@
       root.appendChild(el("div", "callout", "<strong>In development.</strong> This course is being written and reviewed. Check back soon."));
       return;
     }
-    var doneKey = "done_" + c.id, done = load(doneKey, {});
-    var layout = el("div", "course-layout");
-    var side = el("div");
-    var prog = el("div", "progress"); prog.innerHTML = "<span></span>"; side.appendChild(prog);
-    var list = el("ul", "lesson-list");
-    var body = el("div", "lesson-body");
-    var cur = 0;
-    function pct() { var n = c.lessons.length, d = 0; for (var i = 0; i < n; i++) if (done[i]) d++; return n ? Math.round(d / n * 100) : 0; }
-    function renderSide() {
-      list.innerHTML = "";
-      c.lessons.forEach(function (ls, i) {
-        var li = el("li"); var b = el("button", i === cur ? "on" : null,
-          (done[i] ? '<span class="done-dot">✓</span>' : '<span class="muted">' + (i + 1) + ".</span>") + " " + esc(ls.title));
-        b.onclick = function () { cur = i; renderLesson(); };
-        li.appendChild(b); list.appendChild(li);
-      });
-      prog.firstChild.style.width = pct() + "%";
-    }
-    function renderLesson() {
-      var ls = c.lessons[cur];
-      body.innerHTML = "<h3>" + esc(ls.title) + "</h3>" + ls.html;
-      var row = el("div", "filters");
-      var mark = el("button", done[cur] ? "on" : null, done[cur] ? "✓ Completed" : "Mark complete");
-      mark.onclick = function () { done[cur] = !done[cur]; if (!done[cur]) delete done[cur]; save(doneKey, done); renderSide(); renderLesson(); };
-      var next = el("button", null, cur + 1 < c.lessons.length ? "Next lesson →" : "Finish");
-      next.onclick = function () { if (cur + 1 < c.lessons.length) { cur++; renderLesson(); window.scrollTo({ top: 0, behavior: "smooth" }); } };
-      row.appendChild(mark); row.appendChild(next);
-      body.appendChild(row);
-      renderSide();
-    }
-    side.appendChild(list); layout.appendChild(side); layout.appendChild(body);
-    root.appendChild(layout);
-    renderLesson();
 
-    if (c.quiz && c.quiz.length) {
-      var box = el("div", "lesson-body"); box.style.marginTop = "1.5rem"; box.id = "test";
-      box.appendChild(el("h3", null, "Course test"));
-      box.appendChild(el("p", "muted", "Pass with 80% or higher to complete the course and unlock the next one."));
-      var form = el("div");
-      c.quiz.forEach(function (q, i) {
-        var fq = el("div"); fq.style.margin = ".9rem 0";
-        fq.innerHTML = "<p><strong>" + (i + 1) + ". " + esc(q.q) + "</strong></p>";
-        q.options.forEach(function (o, oi) {
-          var lab = el("label"); lab.style.cssText = "display:block;cursor:pointer;padding:.15rem 0";
-          var r = document.createElement("input"); r.type = "radio"; r.name = "tq" + i; r.value = oi; r.style.marginRight = ".5rem";
-          lab.appendChild(r); lab.appendChild(document.createTextNode(o));
-          fq.appendChild(lab);
-        });
-        form.appendChild(fq);
+    var stage = el("div"); root.appendChild(stage);
+    function showOverview() { stage.innerHTML = ""; renderOverview(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    function showStudy(startAt) { stage.innerHTML = ""; renderStudy(startAt || 0); }
+
+    // ---- Overview / landing ----
+    function renderOverview() {
+      var wrap = el("div", "course-overview");
+      var prog = courseProgress(c), passed = coursePassed(c.id);
+
+      var cta = el("div", "overview-cta");
+      var btn = el("button", "btn primary", passed ? "Review course →" : (prog > 0 ? "Continue — " + prog + "% →" : "Begin course →"));
+      btn.onclick = function () { showStudy(0); };
+      cta.appendChild(btn);
+      cta.appendChild(el("span", "meta", c.lessons.length + " lessons · " + ((c.quiz && c.quiz.length) || 0) + "-question test · pass 80% to earn a certificate"));
+      if (prog > 0 && !passed) { var pb = el("div", "progress"); pb.innerHTML = '<span style="width:' + prog + '%"></span>'; cta.appendChild(pb); }
+      wrap.appendChild(cta);
+
+      var s1 = el("section", "ov-sec"); s1.appendChild(el("h2", null, "What you'll learn"));
+      var ul = el("ul", "outcomes"); courseOutcomes(c).forEach(function (o) { ul.appendChild(el("li", null, esc(o))); });
+      s1.appendChild(ul); wrap.appendChild(s1);
+
+      var s2 = el("section", "ov-sec"); s2.appendChild(el("h2", null, "Syllabus"));
+      var ol = el("ol", "syllabus");
+      c.lessons.forEach(function (ls, i) {
+        var li = el("li");
+        var t = el("button", "syl-title"); t.textContent = ls.title; t.onclick = function () { showStudy(i); };
+        li.appendChild(t);
+        if (ls.summary) li.appendChild(el("div", "syl-desc", esc(ls.summary)));
+        ol.appendChild(li);
       });
-      box.appendChild(form);
-      var submit = el("button", "btn primary", coursePassed(c.id) ? "Retake test" : "Submit test");
-      var result = el("div");
-      submit.onclick = function () {
-        var correct = 0;
-        c.quiz.forEach(function (q, i) { var s = box.querySelector('input[name="tq' + i + '"]:checked'); if (s && parseInt(s.value, 10) === q.answer) correct++; });
-        var score = Math.round(correct / c.quiz.length * 100);
-        if (score >= 80) {
-          save("passed_" + c.id, score);
-          result.innerHTML = '<div class="callout" style="border-left-color:var(--ok)"><strong>Passed — ' + score + '% (' + correct + '/' + c.quiz.length + ').</strong> Course complete. The next course in this topic is now unlocked.</div>';
-        } else {
-          result.innerHTML = '<div class="callout"><strong>Not yet — ' + score + '% (' + correct + '/' + c.quiz.length + ').</strong> You need 80% to pass. Review the lessons and try again.</div>';
-        }
-        result.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      };
-      box.appendChild(submit); box.appendChild(result);
-      root.appendChild(box);
+      s2.appendChild(ol); wrap.appendChild(s2);
+
+      if (c.terms && c.terms.length) {
+        var s3 = el("section", "ov-sec"); s3.appendChild(el("h2", null, "Key terms — ਸ਼ਬਦਾਵਲੀ"));
+        var tbl = el("table", "terms-table");
+        var tb = el("tbody");
+        c.terms.forEach(function (t) { tb.appendChild(el("tr", null, '<td class="gur">' + esc(t.t) + "</td><td>" + esc(t.m) + "</td>")); });
+        tbl.innerHTML = "<thead><tr><th>Term</th><th>Academic context</th></tr></thead>";
+        tbl.appendChild(tb); s3.appendChild(tbl); wrap.appendChild(s3);
+      }
+
+      var s4 = el("section", "ov-sec");
+      s4.innerHTML = "<h2>Assessment &amp; certificate</h2><p>Work through the " + c.lessons.length
+        + " lessons, then take the end-of-course test. A score of <strong>80% or higher</strong> completes the course, unlocks the next course in this topic, and earns a printable <a href='cert.html?course=" + esc(c.id) + "'>certificate of completion</a>.</p>";
+      wrap.appendChild(s4);
+
+      if (c.references && c.references.length) {
+        var s5 = el("section", "ov-sec"); s5.appendChild(el("h2", null, "References &amp; further reading"));
+        var rol = el("ol", "references"); c.references.forEach(function (r) { rol.appendChild(el("li", null, esc(r))); });
+        s5.appendChild(rol); wrap.appendChild(s5);
+      }
+
+      stage.appendChild(wrap);
     }
+
+    // ---- Study view (lessons + test) ----
+    function renderStudy(startAt) {
+      var doneKey = "done_" + c.id, done = load(doneKey, {});
+      var back = el("button", "linkish", "← Course overview"); back.onclick = showOverview;
+      stage.appendChild(back);
+      var layout = el("div", "course-layout");
+      var side = el("div");
+      var prog = el("div", "progress"); prog.innerHTML = "<span></span>"; side.appendChild(prog);
+      var list = el("ul", "lesson-list");
+      var body = el("div", "lesson-body");
+      var cur = startAt;
+      function pct() { var n = c.lessons.length, d = 0; for (var i = 0; i < n; i++) if (done[i]) d++; return n ? Math.round(d / n * 100) : 0; }
+      function renderSide() {
+        list.innerHTML = "";
+        c.lessons.forEach(function (ls, i) {
+          var li = el("li"); var b = el("button", i === cur ? "on" : null,
+            (done[i] ? '<span class="done-dot">✓</span>' : '<span class="muted">' + (i + 1) + ".</span>") + " " + esc(ls.title));
+          b.onclick = function () { cur = i; renderLesson(); };
+          li.appendChild(b); list.appendChild(li);
+        });
+        prog.firstChild.style.width = pct() + "%";
+      }
+      function renderLesson() {
+        var ls = c.lessons[cur];
+        body.innerHTML = "<h3>" + esc(ls.title) + "</h3>" + ls.html;
+        var row = el("div", "filters");
+        var mark = el("button", done[cur] ? "on" : null, done[cur] ? "✓ Completed" : "Mark complete");
+        mark.onclick = function () { done[cur] = !done[cur]; if (!done[cur]) delete done[cur]; save(doneKey, done); renderSide(); renderLesson(); };
+        var next = el("button", null, cur + 1 < c.lessons.length ? "Next lesson →" : "Go to test ↓");
+        next.onclick = function () {
+          if (cur + 1 < c.lessons.length) { cur++; renderLesson(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+          else { var t = document.getElementById("test"); if (t) t.scrollIntoView({ behavior: "smooth" }); }
+        };
+        row.appendChild(mark); row.appendChild(next);
+        body.appendChild(row);
+        renderSide();
+      }
+      side.appendChild(list); layout.appendChild(side); layout.appendChild(body);
+      stage.appendChild(layout);
+      renderLesson();
+
+      if (c.quiz && c.quiz.length) {
+        var box = el("div", "lesson-body"); box.style.marginTop = "1.5rem"; box.id = "test";
+        box.appendChild(el("h3", null, "Course test"));
+        box.appendChild(el("p", "muted", "Pass with 80% or higher to complete the course and unlock the next one."));
+        var form = el("div");
+        c.quiz.forEach(function (q, i) {
+          var fq = el("div"); fq.style.margin = ".9rem 0";
+          fq.innerHTML = "<p><strong>" + (i + 1) + ". " + esc(q.q) + "</strong></p>";
+          q.options.forEach(function (o, oi) {
+            var lab = el("label"); lab.style.cssText = "display:block;cursor:pointer;padding:.15rem 0";
+            var r = document.createElement("input"); r.type = "radio"; r.name = "tq" + i; r.value = oi; r.style.marginRight = ".5rem";
+            lab.appendChild(r); lab.appendChild(document.createTextNode(o));
+            fq.appendChild(lab);
+          });
+          form.appendChild(fq);
+        });
+        box.appendChild(form);
+        var submit = el("button", "btn primary", coursePassed(c.id) ? "Retake test" : "Submit test");
+        var result = el("div");
+        submit.onclick = function () {
+          var correct = 0;
+          c.quiz.forEach(function (q, i) { var s = box.querySelector('input[name="tq' + i + '"]:checked'); if (s && parseInt(s.value, 10) === q.answer) correct++; });
+          var score = Math.round(correct / c.quiz.length * 100);
+          if (score >= 80) {
+            save("passed_" + c.id, score);
+            result.innerHTML = '<div class="callout" style="border-left-color:var(--ok)"><strong>Passed — ' + score + '% (' + correct + '/' + c.quiz.length + ').</strong> Course complete. <a href="cert.html?course=' + esc(c.id) + '">View your certificate →</a> The next course in this topic is now unlocked.</div>';
+          } else {
+            result.innerHTML = '<div class="callout"><strong>Not yet — ' + score + '% (' + correct + '/' + c.quiz.length + ').</strong> You need 80% to pass. Review the lessons and try again.</div>';
+          }
+          result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        };
+        box.appendChild(submit); box.appendChild(result);
+        stage.appendChild(box);
+      }
+    }
+
+    showOverview();
   }
 
   function api(path, opts) {
@@ -179,6 +250,7 @@
     if (!nav || nav.querySelector(".auth-added")) return;
     function add(href, text, onclick) { var a = document.createElement("a"); a.className = "auth-added"; a.href = href; a.textContent = text; if (onclick) a.onclick = onclick; nav.appendChild(a); }
     function render(u) {
+      add("feedback.html", "Feedback");
       var sp = document.createElement("span"); sp.className = "spacer auth-added"; nav.appendChild(sp);
       if (u) {
         add("teach.html", (u.role === "teacher" || u.role === "admin") ? "Teach" : "Become a teacher");
@@ -238,21 +310,189 @@
     });
   }
 
+  function initFeedback(root) {
+    root.innerHTML = "";
+    root.appendChild(el("h2", null, "Share your feedback"));
+    root.appendChild(el("p", "lead", "Found an error in a course, have a suggestion, or want to tell us what's working? We read every message — your input shapes Sikh University."));
+    if (new URLSearchParams(location.search).get("sent") === "1") {
+      root.appendChild(el("div", "callout", '<strong>Thank you.</strong> Your feedback was received.'));
+    }
+    var courseId = qs("course") || "";
+    var form = el("div", "contact-form");
+    var catSel = document.createElement("select");
+    [["general", "General feedback"], ["course", "About a course"], ["bug", "Report a problem"], ["suggestion", "Suggest a new course/feature"]].forEach(function (o) {
+      var op = document.createElement("option"); op.value = o[0]; op.textContent = o[1]; if (courseId && o[0] === "course") op.selected = true; catSel.appendChild(op);
+    });
+    var lcat = el("label", null, "Type"); lcat.appendChild(catSel);
+    var emailInp = document.createElement("input"); emailInp.type = "email"; emailInp.placeholder = "you@example.com (optional — so we can follow up)";
+    var lem = el("label", null, "Email (optional)"); lem.appendChild(emailInp);
+    var msg = document.createElement("textarea"); msg.rows = 7; msg.placeholder = "Your feedback…"; if (courseId) msg.value = "Re: course \"" + courseId + "\" — ";
+    var lmsg = el("label", null, "Your feedback"); lmsg.appendChild(msg);
+    var btn = el("button", "btn primary", "Send feedback"); var out = el("div");
+    form.appendChild(lcat); form.appendChild(lem); form.appendChild(lmsg); form.appendChild(btn); form.appendChild(out); root.appendChild(form);
+    btn.onclick = function () {
+      if (!msg.value.trim()) { out.innerHTML = '<p class="muted">Please enter your feedback.</p>'; return; }
+      btn.disabled = true; btn.textContent = "Sending…";
+      api("/api/feedback", { method: "POST", body: JSON.stringify({ message: msg.value, category: catSel.value, courseId: courseId, email: emailInp.value }) }).then(function (r) {
+        btn.disabled = false; btn.textContent = "Send feedback";
+        if (r.ok) { form.innerHTML = '<div class="callout" style="border-left-color:var(--ok)"><strong>Thank you.</strong> Your feedback was received — we read every message.</div>'; }
+        else { out.innerHTML = '<div class="callout"><strong>' + esc((r.data && r.data.error) || "Could not send. Please try again.") + '</strong></div>'; }
+      });
+    };
+  }
+
+  function fmtDate(ts) { try { return new Date(ts).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }); } catch (e) { return ""; } }
+
   function initAdmin(root) {
-    root.innerHTML = ""; root.appendChild(el("h2", null, "Admin — teacher applications"));
+    root.innerHTML = "";
+    api("/api/me").then(function (me) {
+      var u = me.ok && me.data.user;
+      if (!u || u.role !== "admin") { root.innerHTML = '<div class="callout">Admins only. <a href="login.html">Sign in</a> with an admin account.</div>'; return; }
+      root.appendChild(el("h2", null, "Admin dashboard"));
+      root.appendChild(el("p", "meta", "Signed in as " + esc(u.email)));
+      var tabs = el("div", "admin-tabs");
+      var panel = el("div");
+      var TABS = [["overview", "Overview"], ["courses", "Courses"], ["applications", "Applications"], ["feedback", "Feedback"]];
+      var current = "overview";
+      TABS.forEach(function (t) {
+        var b = el("button", t[0] === current ? "on" : null, t[1]); b.onclick = function () { current = t[0]; draw(); };
+        b.dataset.t = t[0]; tabs.appendChild(b);
+      });
+      root.appendChild(tabs); root.appendChild(panel);
+      function draw() {
+        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle("on", b.dataset.t === current); });
+        panel.innerHTML = "<p class='muted'>Loading…</p>";
+        if (current === "overview") drawOverview(panel);
+        else if (current === "courses") drawCourses(panel);
+        else if (current === "applications") drawApplications(panel);
+        else if (current === "feedback") drawFeedback(panel);
+      }
+      draw();
+    });
+  }
+
+  function drawOverview(panel) {
+    api("/api/admin/stats").then(function (r) {
+      panel.innerHTML = "";
+      if (!r.ok) { panel.appendChild(el("div", "callout", "Could not load stats.")); return; }
+      var t = r.data.totals || {};
+      var stats = el("div", "dash-stats");
+      [[t.users || 0, "Total users"], [t.enrollments || 0, "Enrollments"], [t.completions || 0, "Completions"], [t.activeSessions || 0, "Active sessions"],
+       [t.teachers || 0, "Teachers"], [t.pendingApplications || 0, "Pending apps"], [t.newFeedback || 0, "New feedback"], [t.admins || 0, "Admins"]].forEach(function (s) {
+        stats.appendChild(el("div", "dash-stat", '<div class="n">' + s[0] + '</div><div class="l">' + s[1] + '</div>'));
+      });
+      panel.appendChild(stats);
+      panel.appendChild(el("h3", null, "Most popular courses"));
+      var pop = r.data.popular || [];
+      if (!pop.length) { panel.appendChild(el("div", "callout", "No enrollments yet. Popularity appears here once learners start courses.")); return; }
+      getData().then(function (data) {
+        var title = {}; data.courses.forEach(function (c) { title[c.id] = c.title; });
+        var max = pop[0].learners || 1;
+        var tbl = el("table", "admin-table");
+        tbl.innerHTML = "<thead><tr><th>Course</th><th>Learners</th><th>Completions</th><th></th></tr></thead>";
+        var tb = el("tbody");
+        pop.forEach(function (p) {
+          var tr = el("tr");
+          tr.innerHTML = "<td>" + esc(title[p.course_id] || p.course_id) + "</td><td>" + p.learners + "</td><td>" + p.completions + "</td>"
+            + '<td style="width:30%"><div class="admin-bar" style="width:' + Math.max(6, Math.round((p.learners / max) * 100)) + '%"></div></td>';
+          tb.appendChild(tr);
+        });
+        tbl.appendChild(tb); panel.appendChild(tbl);
+      });
+    });
+  }
+
+  function drawCourses(panel) {
+    getData().then(function (data) {
+      panel.innerHTML = "";
+      panel.appendChild(el("p", "meta", data.courses.length + " courses · " + data.courses.filter(function (c) { return c.status === "published"; }).length + " published · " + data.topics.length + " topics"));
+      data.topics.forEach(function (tp) {
+        var list = data.courses.filter(function (c) { return c.topic === tp.id; }).sort(function (a, b) { return a.level - b.level; });
+        if (!list.length) return;
+        panel.appendChild(el("h3", null, tp.name + " (" + list.length + ")"));
+        var tbl = el("table", "admin-table");
+        tbl.innerHTML = "<thead><tr><th>Title</th><th>Level</th><th>Professor</th><th>Status</th><th>Lessons</th><th></th></tr></thead>";
+        var tb = el("tbody");
+        list.forEach(function (c) {
+          var tr = el("tr");
+          var viewTd = el("td"); var vb = el("button", "linkish", "View contents"); vb.style.margin = "0";
+          tr.innerHTML = "<td><strong>" + esc(c.title) + "</strong></td><td>" + c.level + "</td><td>" + esc(c.professor) + "</td><td>" + (c.status === "published" ? "Published" : "Draft") + "</td><td>" + ((c.lessons && c.lessons.length) || 0) + "</td>";
+          viewTd.appendChild(vb); tr.appendChild(viewTd);
+          var detail = el("tr"); var dtd = el("td"); dtd.colSpan = 6; dtd.style.padding = "0"; detail.appendChild(dtd); detail.style.display = "none";
+          var open = false;
+          vb.onclick = function () { open = !open; detail.style.display = open ? "" : "none"; vb.textContent = open ? "Hide contents" : "View contents"; if (open && !dtd.firstChild) dtd.appendChild(courseContents(c)); };
+          tb.appendChild(tr); tb.appendChild(detail);
+        });
+        tbl.appendChild(tb); panel.appendChild(tbl);
+      });
+    });
+  }
+
+  function courseContents(c) {
+    var box = el("div", "admin-course-body");
+    box.appendChild(el("p", "meta", "ID: " + esc(c.id) + " · Source: " + esc(c.source || "—") + (c.aiCreated ? " · Created by AI" : "")));
+    box.appendChild(el("p", null, "<strong>Summary:</strong> " + esc(c.summary)));
+    if (c.terms && c.terms.length) {
+      box.appendChild(el("h4", null, "Key terms"));
+      var tt = el("table", "terms-table"); var ttb = el("tbody");
+      c.terms.forEach(function (t) { ttb.appendChild(el("tr", null, '<td class="gur">' + esc(t.t) + "</td><td>" + esc(t.m) + "</td>")); });
+      tt.innerHTML = "<thead><tr><th>Term</th><th>Meaning</th></tr></thead>"; tt.appendChild(ttb); box.appendChild(tt);
+    }
+    (c.lessons || []).forEach(function (ls, i) {
+      box.appendChild(el("h4", null, "Lesson " + (i + 1) + ": " + esc(ls.title)));
+      box.appendChild(el("div", "lesson-body", ls.html));
+    });
+    if (c.quiz && c.quiz.length) {
+      box.appendChild(el("h4", null, "Test (" + c.quiz.length + " questions)"));
+      var ol = el("ol");
+      c.quiz.forEach(function (q) {
+        var li = el("li");
+        var opts = q.options.map(function (o, oi) { return (oi === q.answer ? "<strong>✓ " + esc(o) + "</strong>" : esc(o)); }).join(" · ");
+        li.innerHTML = esc(q.q) + "<br><span class='meta'>" + opts + "</span>";
+        ol.appendChild(li);
+      });
+      box.appendChild(ol);
+    }
+    if (c.references && c.references.length) {
+      box.appendChild(el("h4", null, "References"));
+      var rol = el("ol", "references"); c.references.forEach(function (r) { rol.appendChild(el("li", null, esc(r))); }); box.appendChild(rol);
+    }
+    return box;
+  }
+
+  function drawApplications(panel) {
     api("/api/admin/applications").then(function (r) {
-      if (!r.ok) { root.innerHTML = '<div class="callout">Admins only. <a href="login.html">Sign in</a> with an admin account.</div>'; return; }
+      panel.innerHTML = "";
+      if (!r.ok) { panel.appendChild(el("div", "callout", "Could not load applications.")); return; }
       var apps = r.data.applications || [];
-      if (!apps.length) { root.appendChild(el("div", "callout", "No pending applications.")); return; }
+      if (!apps.length) { panel.appendChild(el("div", "callout", "No pending applications.")); return; }
       function decide(id, decision, card) { api("/api/admin/applications", { method: "POST", body: JSON.stringify({ id: id, decision: decision }) }).then(function (rr) { if (rr.ok) card.innerHTML = '<div class="callout" style="border-left-color:var(--ok)">Application ' + decision + 'd.</div>'; }); }
       apps.forEach(function (a) {
-        var c = el("div", "card");
-        c.innerHTML = "<h3>" + esc(a.name || a.email) + "</h3><div class='meta'>" + esc(a.email) + "</div><p><strong>Background:</strong> " + esc(a.background || "") + "</p>" + (a.courses ? "<p><strong>Wants to teach:</strong> " + esc(a.courses) + "</p>" : "");
+        var card = el("div", "card");
+        card.innerHTML = "<h3>" + esc(a.name || a.email) + "</h3><div class='meta'>" + esc(a.email) + " · " + fmtDate(a.created_at) + "</div><p><strong>Background:</strong> " + esc(a.background || "") + "</p>" + (a.courses ? "<p><strong>Wants to teach:</strong> " + esc(a.courses) + "</p>" : "");
         var row = el("div", "filters");
         var ap = el("button", "btn primary", "Approve"); var dn = el("button", "btn", "Deny");
-        ap.onclick = function () { decide(a.id, "approve", c); }; dn.onclick = function () { decide(a.id, "deny", c); };
-        row.appendChild(ap); row.appendChild(dn); c.appendChild(row); root.appendChild(c);
+        ap.onclick = function () { decide(a.id, "approve", card); }; dn.onclick = function () { decide(a.id, "deny", card); };
+        row.appendChild(ap); row.appendChild(dn); card.appendChild(row); panel.appendChild(card);
       });
+    });
+  }
+
+  function drawFeedback(panel) {
+    api("/api/admin/feedback").then(function (r) {
+      panel.innerHTML = "";
+      if (!r.ok) { panel.appendChild(el("div", "callout", "Could not load feedback.")); return; }
+      var fb = r.data.feedback || [];
+      if (!fb.length) { panel.appendChild(el("div", "callout", "No feedback yet.")); return; }
+      var tbl = el("table", "admin-table");
+      tbl.innerHTML = "<thead><tr><th>Date</th><th>Type</th><th>From</th><th>Course</th><th>Message</th></tr></thead>";
+      var tb = el("tbody");
+      fb.forEach(function (f) {
+        var tr = el("tr");
+        tr.innerHTML = "<td>" + fmtDate(f.created_at) + "</td><td>" + esc(f.category || "") + "</td><td>" + esc(f.email || "—") + "</td><td>" + esc(f.course_id || "—") + "</td><td>" + esc(f.message || "") + "</td>";
+        tb.appendChild(tr);
+      });
+      tbl.appendChild(tb); panel.appendChild(tbl);
     });
   }
 
@@ -326,7 +566,7 @@
       + '<div class="cert-line">has successfully completed</div>'
       + '<div class="cert-course">' + esc(c.title) + '</div>'
       + '<div class="cert-meta">' + esc(topicName(data, c.topic)) + ' · Level ' + c.level + (score ? ' · Score ' + score + '%' : '') + '</div>'
-      + '<div class="cert-foot"><span>Issued ' + new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) + '</span><span>sikhuniversity.pages.dev</span></div>'
+      + '<div class="cert-foot"><span>Issued ' + new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) + '</span><span>sikh-university.jasvant-dosanjh.workers.dev</span></div>'
       + '<div class="cert-ai">Course content created by AI and reviewed for accuracy.</div>'
       + '</div>';
     root.appendChild(cert);
@@ -353,6 +593,7 @@
     var root = document.getElementById("app"); if (!root) return;
     if (page === "login") { initLogin(root); return; }
     if (page === "teach") { initTeach(root); return; }
+    if (page === "feedback") { initFeedback(root); return; }
     if (page === "admin") { initAdmin(root); return; }
     getData().then(function (data) {
       if (page === "home") initHome(root, data);
