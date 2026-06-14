@@ -31,6 +31,8 @@ export const TOPIC_ICONS: Record<string, string> = {
   theology: '🪔', philosophy: '💭', history: '📜', literature: '📖', language: '✍️',
   spirituality: '🧘', music: '🎵', arts: '🎨', 'modern-skills': '🤖', reference: '📚',
   ethics: '⚖️', rehat: '🪯', comparative: '🌍',
+  sociology: '👥', economics: '💰', politics: '🏛️', parenting: '👨‍👩‍👧',
+  apologetics: '🛡️', science: '🔬',
 };
 
 export function professorList() {
