@@ -12668,6 +12668,1398 @@
           "answer": 1
         }
       ]
+    },
+    {
+      "id": "bhagat-jaswant-singh-daudar",
+      "title": "Bani Steeks with Bhagat Jaswant Singh (Daudar)",
+      "topic": "theology",
+      "level": 300,
+      "professor": "Bhagat Jaswant Singh Daudar",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course studies the steek (commentary) and arth (meaning) tradition through the published Punjabi works of Bhagat Jaswant Singh (Daudar). His writings give line-by-line explanations of selected banis from Sri Guru Granth Sahib and offer practical guidance on correct reading, including vishraam (where to pause). Using his Barah Maha Manjh and Sukhmani Sahib commentaries as main examples, and drawing on his Salok Mahala 9, Gatha, and Phunhay steeks, students learn how a teacher unfolds the meaning of bani and helps readers pronounce and pause correctly. The course describes his method and approach; it does not reproduce long passages of Gurbani. Students compare his work with established references such as Sahib Singh's Sri Guru Granth Sahib Darpan to understand how steek writing serves both meaning and reading.",
+      "outcomes": [
+        "Explain what a steek (commentary) and arth (meaning) are, and how they help a reader understand bani.",
+        "Describe the role of vishraam (correct pausing) in reading Gurbani, using Daudar's guidance.",
+        "Summarize the structure and purpose of his Barah Maha Manjh and Sukhmani Sahib commentaries.",
+        "Identify the banis covered across his works, including Salok Mahala 9, Gatha, and Phunhay.",
+        "Compare a teacher-author's commentary approach with established references such as Sahib Singh's Darpan.",
+        "Apply a simple, respectful method for reading a bani slowly, with attention to meaning and pause."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਸਟੀਕ</span>",
+          "m": "Steek: a written commentary that explains bani line by line."
+        },
+        {
+          "t": "<span class=\"gur\">ਅਰਥ</span>",
+          "m": "Arth: the meaning of a word, line, or shabad."
+        },
+        {
+          "t": "<span class=\"gur\">ਵਿਸਰਾਮ</span>",
+          "m": "Vishraam: the correct place to pause while reading bani."
+        },
+        {
+          "t": "<span class=\"gur\">ਬਾਣੀ</span>",
+          "m": "Bani: the sacred composition or sacred word."
+        },
+        {
+          "t": "<span class=\"gur\">ਬਾਰਹ ਮਾਹਾ</span>",
+          "m": "Barah Maha: a composition that follows the twelve months of the year."
+        },
+        {
+          "t": "<span class=\"gur\">ਸੁਖਮਨੀ</span>",
+          "m": "Sukhmani: 'jewel of peace,' a long composition by Guru Arjan."
+        },
+        {
+          "t": "<span class=\"gur\">ਸਲੋਕ</span>",
+          "m": "Salok: a short verse, often a couplet."
+        },
+        {
+          "t": "<span class=\"gur\">ਪਦ ਅਰਥ</span>",
+          "m": "Pad arth: word-by-word meaning given before the full line meaning."
+        }
+      ],
+      "references": [
+        "Jaswant Singh, Bhagat (Daudar). Barah Maha Manjh Steek. SikhLibrary digital collection.",
+        "Jaswant Singh, Bhagat (Daudar). Sukhmani Sahib Steek. SikhLibrary digital collection.",
+        "Jaswant Singh, Bhagat (Daudar). Vishram SGGS: Guidance on Vishraam in Sri Guru Granth Sahib. SikhLibrary digital collection.",
+        "Sahib Singh. Sri Guru Granth Sahib Darpan. 10 vols. Jalandhar: Raj Publishers, 1962-64.",
+        "Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014."
+      ],
+      "lessons": [
+        {
+          "title": "What a Steek Is and Why Reading Matters",
+          "summary": "Introduces the steek and arth tradition and previews Daudar's published works and his focus on correct reading.",
+          "html": "<div class=\"toc\"><strong>Course Lessons</strong><ol><li>What a Steek Is and Why Reading Matters</li><li>Vishraam: Where to Pause When Reading</li><li>Reading the Year: Barah Maha Manjh</li><li>The Jewel of Peace: Sukhmani Sahib</li><li>Shorter Banis: Salok Mahala 9, Gatha, and Phunhay</li><li>Method and Comparison: Learning from a Teacher</li></ol></div><p>A <span class=\"gur\">ਸਟੀਕ</span> (steek) is a written commentary that explains bani in small steps. The author gives the <span class=\"gur\">ਅਰਥ</span> (meaning) of each line so a reader can understand what the words say. Bhagat Jaswant Singh (Daudar) is known in the SikhLibrary collection for steeks and arth of several banis from Sri Guru Granth Sahib.</p><p>His works include commentaries on Barah Maha Manjh, Sukhmani Sahib, Salok Mahala 9, Gatha, and Phunhay, and a guide called <em>Vishram SGGS</em> on where to pause when reading (Jaswant Singh, Daudar). A good steek does two things at once: it explains meaning, and it helps a reader say the words correctly.</p><table><thead><tr><th>Work</th><th>What it covers</th></tr></thead><tbody><tr><td>Barah Maha Manjh Steek</td><td>Commentary on the twelve-month composition</td></tr><tr><td>Sukhmani Sahib Steek</td><td>Commentary on the long peace composition</td></tr><tr><td>Salok Mahala 9, Gatha, Phunhay</td><td>Commentaries on shorter banis</td></tr><tr><td>Vishram SGGS</td><td>Guidance on vishraam (pausing)</td></tr></tbody></table><p>This course describes his approach. It does not reproduce long passages of Gurbani, and it follows established references such as Sahib Singh's <em>Sri Guru Granth Sahib Darpan</em> to keep meanings accurate (Sahib Singh).</p><div class=\"refs\"><strong>References:</strong> Jaswant Singh, Bhagat (Daudar), <em>Barah Maha Manjh Steek</em>; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>.</div>"
+        },
+        {
+          "title": "Vishraam: Where to Pause When Reading",
+          "summary": "Explains vishraam and why Daudar's guidance on pausing changes how a line is understood.",
+          "html": "<p><span class=\"gur\">ਵਿਸਰਾਮ</span> (vishraam) means the place where a reader pauses. In Gurmukhi, bani is often written without modern punctuation, so the reader must decide where one idea ends and the next begins. Pausing at the right place can make a line clear; pausing at the wrong place can confuse the meaning.</p><p>Daudar's <em>Vishram SGGS</em> is guidance on this exact point: where to stop and breathe when reading Sri Guru Granth Sahib (Jaswant Singh, Daudar). His aim is practical. He wants a reader to read slowly, group the words correctly, and let the meaning come through.</p><p>This concern is shared with the wider commentary tradition. Sahib Singh's <em>Darpan</em> also pays close attention to grammar and word grouping so meaning is not lost (Sahib Singh). Reading and meaning are tied together: correct pausing supports correct understanding.</p><table><thead><tr><th>Step</th><th>What the reader does</th></tr></thead><tbody><tr><td>1</td><td>Read the line once, slowly.</td></tr><tr><td>2</td><td>Find the natural pause (vishraam).</td></tr><tr><td>3</td><td>Read again with the pause in place.</td></tr><tr><td>4</td><td>Check the meaning given in the steek.</td></tr></tbody></table><div class=\"refs\"><strong>References:</strong> Jaswant Singh, Bhagat (Daudar), <em>Vishram SGGS</em>; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>.</div>"
+        },
+        {
+          "title": "Reading the Year: Barah Maha Manjh",
+          "summary": "Uses Daudar's Barah Maha Manjh commentary to show how he unfolds meaning over the twelve months.",
+          "html": "<p>A <span class=\"gur\">ਬਾਰਹ ਮਾਹਾ</span> (Barah Maha) is a composition built around the twelve months of the year. Barah Maha Manjh is in the Manjh musical setting. Daudar's <em>Barah Maha Manjh Steek</em> walks through the bani month by month, explaining each part in simple steps (Jaswant Singh, Daudar).</p><p>His method is steady. For a line, he often gives the <span class=\"gur\">ਪਦ ਅਰਥ</span> (word meanings) first, then the full meaning of the line. This helps a learner see how single words build into a whole idea. Because the bani is shaped by the seasons, the commentary connects the feeling of each month to the longing for the Divine.</p><p>For accuracy, learners can compare his readings with Sahib Singh's <em>Darpan</em>, which covers the same composition (Sahib Singh). The course describes his approach and does not reprint the verses.</p><table><thead><tr><th>Layer of the steek</th><th>Purpose</th></tr></thead><tbody><tr><td>Pad arth (word meanings)</td><td>Define each key word</td></tr><tr><td>Line meaning</td><td>Join words into one idea</td></tr><tr><td>Theme note</td><td>Link the month to the message</td></tr></tbody></table><div class=\"refs\"><strong>References:</strong> Jaswant Singh, Bhagat (Daudar), <em>Barah Maha Manjh Steek</em>; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>.</div>"
+        },
+        {
+          "title": "The Jewel of Peace: Sukhmani Sahib",
+          "summary": "Examines how Daudar's Sukhmani Sahib commentary handles a long bani built of ashtpadis.",
+          "html": "<p><span class=\"gur\">ਸੁਖਮਨੀ</span> (Sukhmani) means 'jewel of peace.' It is a long composition by Guru Arjan, made of many sections. Daudar's <em>Sukhmani Sahib Steek</em> explains the bani in order, section by section, so a reader can follow the whole journey of the text (Jaswant Singh, Daudar).</p><p>Because the bani is long, his commentary keeps a clear shape: a short salok, then the longer verses, each with their meanings. The repeated structure helps a learner build a reading habit, returning each day to the next part. The theme of inner peace through remembrance runs through the whole work.</p><p>This long bani is widely read at home, so correct reading matters. Daudar's attention to <span class=\"gur\">ਵਿਸਰਾਮ</span> (pausing) supports a calm, clear daily reading. Sahib Singh's <em>Darpan</em> can be used alongside to confirm meanings (Sahib Singh).</p><table><thead><tr><th>Part</th><th>Role in the bani</th></tr></thead><tbody><tr><td>Salok</td><td>Opens each section</td></tr><tr><td>Verses</td><td>Develop the theme</td></tr><tr><td>Section close</td><td>Returns to the main message</td></tr></tbody></table><div class=\"refs\"><strong>References:</strong> Jaswant Singh, Bhagat (Daudar), <em>Sukhmani Sahib Steek</em>; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>.</div>"
+        },
+        {
+          "title": "Shorter Banis: Salok Mahala 9, Gatha, and Phunhay",
+          "summary": "Surveys Daudar's commentaries on shorter compositions and what makes each one a good study text.",
+          "html": "<p>Beyond the longer works, Daudar wrote steeks on shorter banis: Salok Mahala 9, Gatha, and Phunhay (Jaswant Singh, Daudar). These are good study texts because they are compact, so a learner can read a small piece carefully and still finish a whole section.</p><p>The <span class=\"gur\">ਸਲੋਕ</span> (saloks) of Mahala 9 are short verses associated with Guru Tegh Bahadur, often on the shortness of life and trust in the Divine. Their brief form makes them ideal for slow reading and for practicing <span class=\"gur\">ਵਿਸਰਾਮ</span> (pausing). Gatha and Phunhay are shorter compositions whose language rewards careful word study.</p><p>In each, Daudar follows his usual pattern: explain the words, then the line, then the message (Jaswant Singh, Daudar). Learners can cross-check with the established <em>Darpan</em> and with broader scholarship on Sikh textual traditions (Sahib Singh; Singh and Fenech).</p><table><thead><tr><th>Bani</th><th>Why study it</th></tr></thead><tbody><tr><td>Salok Mahala 9</td><td>Short verses, good for slow reading</td></tr><tr><td>Gatha</td><td>Compact, rich word choices</td></tr><tr><td>Phunhay</td><td>Brief composition for close study</td></tr></tbody></table><div class=\"refs\"><strong>References:</strong> Jaswant Singh, Bhagat (Daudar), <em>Salok Mahala 9 Steek</em>, <em>Gatha Steek</em>, <em>Phunhay Steek</em>; Singh and Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>.</div>"
+        },
+        {
+          "title": "Method and Comparison: Learning from a Teacher",
+          "summary": "Draws the threads together: Daudar's method, how to compare commentaries, and a simple reading practice.",
+          "html": "<p>Across his works, Daudar's method is consistent. He gives word meanings, then the line meaning, then a short note on the message, and throughout he keeps an eye on <span class=\"gur\">ਵਿਸਰਾਮ</span> (pausing) so the reading stays clear (Jaswant Singh, Daudar). This steady pattern is what makes his books useful as a teacher's guide.</p><p>Comparing commentaries is part of good study. Reading Daudar next to Sahib Singh's <em>Sri Guru Granth Sahib Darpan</em> shows where teachers agree and how each one explains a hard word (Sahib Singh). Wider scholarship, such as <em>The Oxford Handbook of Sikh Studies</em>, places this commentary work inside the long history of Sikh textual study (Singh and Fenech).</p><p>A simple practice: pick one short <span class=\"gur\">ਸਲੋਕ</span> (salok), read it slowly, find the pause, read the steek's meaning, and read once more. Repeat daily. This honors both the meaning and the correct reading of <span class=\"gur\">ਬਾਣੀ</span> (bani).</p><table><thead><tr><th>Question to ask</th><th>What it checks</th></tr></thead><tbody><tr><td>What does each word mean?</td><td>Pad arth</td></tr><tr><td>Where do I pause?</td><td>Vishraam</td></tr><tr><td>What is the message?</td><td>Theme</td></tr><tr><td>Do the commentaries agree?</td><td>Comparison</td></tr></tbody></table><div class=\"refs\"><strong>References:</strong> Jaswant Singh, Bhagat (Daudar), commentaries; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>; Singh and Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>.</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is a steek?",
+          "options": [
+            "A musical setting for a bani",
+            "A written commentary that explains bani line by line",
+            "A list of months",
+            "A type of pause"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does vishraam refer to?",
+          "options": [
+            "The meaning of a word",
+            "The correct place to pause while reading",
+            "The title of a composition",
+            "A musical raag"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which of Daudar's works gives guidance on pausing in Sri Guru Granth Sahib?",
+          "options": [
+            "Sukhmani Sahib Steek",
+            "Barah Maha Manjh Steek",
+            "Vishram SGGS",
+            "Phunhay Steek"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "A Barah Maha is a composition built around what?",
+          "options": [
+            "The twelve months of the year",
+            "Twelve gurus",
+            "Twelve saloks",
+            "Twelve raags"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What does 'Sukhmani' mean?",
+          "options": [
+            "Jewel of peace",
+            "Song of the year",
+            "Morning prayer",
+            "Book of pauses"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "In Daudar's method, what is usually given first for a line?",
+          "options": [
+            "The theme note",
+            "The word meanings (pad arth)",
+            "The musical raag",
+            "The page number"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which established reference is recommended for comparing meanings?",
+          "options": [
+            "The Oxford English Dictionary",
+            "Sahib Singh's Sri Guru Granth Sahib Darpan",
+            "A modern novel",
+            "A travel guide"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which shorter banis did Daudar write commentaries on?",
+          "options": [
+            "Japji and Rehras only",
+            "Salok Mahala 9, Gatha, and Phunhay",
+            "Only Sukhmani Sahib",
+            "None of his works are short"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "bhai-randhir-singh-gurmat",
+      "title": "Gurmat Thought with Bhai Randhir Singh",
+      "topic": "philosophy",
+      "level": 350,
+      "professor": "Bhai Randhir Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "Bhai Randhir Singh (1878-1961) was a Sikh thinker, freedom fighter, and devotional writer whose books set out a demanding, inward reading of Gurmat. This course studies the main themes that run across his writings in the SikhLibrary collection: bibek (spiritual discernment) as taught in Gurmat Bibek; the disciplined, rehat-bound life; adhyatam, the inner path described in his Gurmat Adhyatmak Karam Philosophy; and the steady practice of Naam. Drawing also on his Gurmat Vichar, Gurmat Lekh, and Gurmat Gaurawta, the course presents his ideas in plain English, describes rather than reproduces his texts, and notes clearly where his positions reflect a particular school within wider Sikh tradition. It is intended as a careful, reverent introduction for advanced students who already know the basics of Sikh history and scripture.",
+      "outcomes": [
+        "Explain what Bhai Randhir Singh means by bibek (discernment) and why he treats it as the foundation of the spiritual life.",
+        "Describe his understanding of the rehat-bound life and how outward discipline supports inward practice.",
+        "Summarize his account of adhyatam, the inner path, as presented in his Gurmat Adhyatmak Karam Philosophy.",
+        "Discuss his teaching on disciplined Naam practice and its place within Gurmat.",
+        "Identify the main themes and purpose of each of his core works in the collection.",
+        "Recognize where his views represent a particular school's emphasis and distinguish these from broadly shared Sikh positions."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਬਿਬੇਕ</span> (bibek)",
+          "m": "Spiritual discernment; the trained ability to tell truth from falsehood and the pure from the impure, which Bhai Randhir Singh treats as central."
+        },
+        {
+          "t": "<span class=\"gur\">ਰਹਿਤ</span> (rehat)",
+          "m": "The code of conduct and discipline a Sikh keeps; for him, an outward frame that protects and expresses the inner life."
+        },
+        {
+          "t": "<span class=\"gur\">ਅਧਿਆਤਮ</span> (adhyatam)",
+          "m": "The inner or spiritual dimension; the path of the soul toward the Divine, the subject of his philosophy of inner action."
+        },
+        {
+          "t": "<span class=\"gur\">ਨਾਮ</span> (Naam)",
+          "m": "The Divine Name and its remembrance; in his writing, a living, disciplined practice rather than a mere idea."
+        },
+        {
+          "t": "<span class=\"gur\">ਸਿਮਰਨ</span> (simran)",
+          "m": "Loving remembrance and repetition of Naam, understood as continuous and attentive."
+        },
+        {
+          "t": "<span class=\"gur\">ਗੁਰਮਤਿ</span> (Gurmat)",
+          "m": "The Guru's teaching or wisdom; the whole framework of belief and practice he seeks to expound faithfully."
+        },
+        {
+          "t": "<span class=\"gur\">ਕਰਮ</span> (karam)",
+          "m": "Action or deed; in his inner philosophy, the spiritual acts of the disciplined life, not only outward works."
+        },
+        {
+          "t": "<span class=\"gur\">ਅੰਮ੍ਰਿਤ</span> (amrit)",
+          "m": "The initiation nectar of the Khalsa and, more broadly, the sweetness of Naam realized within."
+        }
+      ],
+      "references": [
+        "Randhir Singh, Bhai. Gurmat Bibek. Ludhiana: Bhai Randhir Singh Publishing House, n.d.",
+        "Randhir Singh, Bhai. Gurmat Adhyatmak Karam Philosophy. Ludhiana: Bhai Randhir Singh Publishing House, n.d.",
+        "Randhir Singh, Bhai. Gurmat Vichar. Ludhiana: Bhai Randhir Singh Publishing House, n.d.",
+        "Randhir Singh, Bhai. Gurmat Lekh. Ludhiana: Bhai Randhir Singh Publishing House, n.d.",
+        "Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014."
+      ],
+      "lessons": [
+        {
+          "title": "Bhai Randhir Singh and His Writings",
+          "summary": "An overview of his life, the spirit of his work, and a map of the core books studied in this course.",
+          "html": "<div class=\"toc\"><strong>Course Contents</strong><ol><li>Bhai Randhir Singh and His Writings</li><li>Bibek: The Path of Discernment</li><li>The Rehat-Bound Life</li><li>Adhyatam: The Inner Path</li><li>Disciplined Naam Practice</li><li>Reading His Works Today</li></ol></div><p>Bhai Randhir Singh (1878-1961) was a Sikh thinker, a participant in the freedom movement, and the author of a body of devotional and reflective writing. His books are not academic treatises; they are the work of a practitioner setting down, in earnest detail, how he understood the Guru's teaching and how he believed it should be lived.</p><p>This course studies the main themes that recur across his writings rather than any single text. Four ideas hold the whole together: <em>bibek</em> (discernment), the <em>rehat</em>-bound life, <em>adhyatam</em> (the inner path), and disciplined <span class=\"gur\">ਨਾਮ</span> (Naam) practice. The table below maps his core works in the SikhLibrary collection to these themes.</p><table><thead><tr><th>Work</th><th>Main concern</th></tr></thead><tbody><tr><td>Gurmat Bibek</td><td>Spiritual discernment and purity</td></tr><tr><td>Gurmat Adhyatmak Karam Philosophy</td><td>The inner path and spiritual action</td></tr><tr><td>Gurmat Vichar</td><td>Reflective exposition of Gurmat themes</td></tr><tr><td>Gurmat Lekh</td><td>Collected essays on doctrine and practice</td></tr><tr><td>Gurmat Gaurawta</td><td>The dignity and greatness of the Guru's way</td></tr></tbody></table><p>A note on scope: his writings express a particular, demanding school of devotional practice within the wider Sikh tradition. Where this course presents a position that is characteristic of his school rather than universally held, it says so plainly and without judgment (Singh and Fenech 2014).</p><div class=\"refs\"><strong>References:</strong> Randhir Singh, <em>Gurmat Bibek</em>; Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "Bibek: The Path of Discernment",
+          "summary": "How Bhai Randhir Singh understands bibek as the trained capacity to distinguish the true from the false and the pure from the impure.",
+          "html": "<p>At the heart of his thought stands <span class=\"gur\">ਬਿਬੇਕ</span> (bibek), discernment. For Bhai Randhir Singh, bibek is not casual common sense; it is a faculty cultivated through devotion and discipline that lets a person tell truth from falsehood, and what is spiritually pure from what is not (Randhir Singh, <em>Gurmat Bibek</em>).</p><p>In <em>Gurmat Bibek</em> he treats discernment as touching every part of life: thought, speech, company, and even food. The care he urges over what one eats and from whose hands one accepts food is a well-known feature of his school. This emphasis on strict food and kitchen discipline is characteristic of the devotional movement associated with him; it is more pronounced there than in many other Sikh settings, and this course presents it as a particular school's view rather than a universal rule (Singh and Fenech 2014).</p><p>The deeper point behind these practices is that the outer and inner are connected. Sloppiness in small things, he argues, dulls the inner faculty; care in small things keeps it sharp. Bibek thus becomes the gatekeeper of the spiritual life, the quality that decides whether <span class=\"gur\">ਨਾਮ</span> (Naam) can take root in a clean vessel.</p><div class=\"refs\"><strong>References:</strong> Randhir Singh, <em>Gurmat Bibek</em>; Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "The Rehat-Bound Life",
+          "summary": "His understanding of rehat as the outward discipline that frames and protects the inner journey.",
+          "html": "<p>Bhai Randhir Singh writes as a committed member of the Khalsa, and <span class=\"gur\">ਰਹਿਤ</span> (rehat), the code of discipline, runs through his work. For him rehat is not an empty rulebook. It is the outward shape of a life turned toward the Guru, a frame that protects the practitioner and keeps the inner work steady (Randhir Singh, <em>Gurmat Lekh</em>).</p><p>He links rehat closely to <span class=\"gur\">ਅੰਮ੍ਰਿਤ</span> (amrit), the initiation into the Khalsa. The disciplined life, in his telling, is the natural expression of the vow taken at initiation. Keeping the rehat is therefore an act of love and loyalty, not mere obligation.</p><p>His school is known for keeping the rehat with notable strictness, including the practices around bibek discussed in the previous lesson. Readers should understand this rigor as the chosen seriousness of a particular devotional community within Sikhism, presented here neutrally and without claim that it is the only valid measure (Singh and Fenech 2014). The constructive idea worth carrying away is his insistence that outward and inward discipline support one another: the rehat steadies the body and habits so that the mind can hold <span class=\"gur\">ਸਿਮਰਨ</span> (simran).</p><div class=\"refs\"><strong>References:</strong> Randhir Singh, <em>Gurmat Lekh</em>; Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "Adhyatam: The Inner Path",
+          "summary": "His philosophy of inner spiritual action as set out in Gurmat Adhyatmak Karam Philosophy.",
+          "html": "<p>In <em>Gurmat Adhyatmak Karam Philosophy</em> Bhai Randhir Singh turns inward to <span class=\"gur\">ਅਧਿਆਤਮ</span> (adhyatam), the spiritual dimension of life. The title itself joins three ideas: Gurmat (the Guru's teaching), adhyatmak (inner or spiritual), and <span class=\"gur\">ਕਰਮ</span> (karam, action). His claim is that there is a kind of action that is wholly inner, the work of the soul turning toward the Divine (Randhir Singh, <em>Gurmat Adhyatmak Karam Philosophy</em>).</p><p>This reframes a familiar word. Ordinarily karam means outward deeds. Bhai Randhir Singh extends it to cover the inner acts of attention, remembrance, and surrender. On this view the most important work a person does is not visible to others; it happens within, as the mind is gathered and held in the presence of the Guru's word.</p><p>He describes the inner path as having stages of growing absorption, where <span class=\"gur\">ਨਾਮ</span> (Naam) moves from effortful repetition toward a settled, continuous awareness. He writes of this from the standpoint of personal experience, which gives his account its intensity. Because such accounts are experiential and devotional, this course presents them as his testimony within his school's tradition rather than as doctrines all readers must verify in the same terms (Singh and Fenech 2014).</p><div class=\"refs\"><strong>References:</strong> Randhir Singh, <em>Gurmat Adhyatmak Karam Philosophy</em>; Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "Disciplined Naam Practice",
+          "summary": "How he understands Naam and simran as a steady, demanding daily discipline.",
+          "html": "<p>For Bhai Randhir Singh, <span class=\"gur\">ਨਾਮ</span> (Naam) is the center of everything. The discernment of bibek, the frame of rehat, and the inner work of adhyatam all serve one end: that Naam may be remembered without break. He treats <span class=\"gur\">ਸਿਮਰਨ</span> (simran) not as an occasional exercise but as a discipline to be carried through the whole day (Randhir Singh, <em>Gurmat Vichar</em>).</p><p>Two features stand out. First, regularity: he urges fixed, early, and sustained practice, the kind that reshapes the rhythm of a life. Second, love: simran is meant to be done with longing, not as a chore. The repetition is a way of keeping company with the Beloved.</p><p>He is associated with a strong emphasis on collective devotional singing and continuous remembrance, and with the experience of inner sound and absorption in <span class=\"gur\">ਅੰਮ੍ਰਿਤ</span> (amrit). These emphases are hallmarks of his devotional school. This course describes them as such, neutrally, and notes that the broader tradition shares the goal of Naam while differing in method and stress (Singh and Fenech 2014). To avoid misrepresenting his teaching, this course does not quote specific scriptural lines or page references; students should read his books directly for his own words.</p><div class=\"refs\"><strong>References:</strong> Randhir Singh, <em>Gurmat Vichar</em>; Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "Reading His Works Today",
+          "summary": "How to approach his books as a modern student, with attention to genre, tone, and the line between his school and shared tradition.",
+          "html": "<p>Bhai Randhir Singh's books reward careful, charitable reading. They were written by a practitioner for fellow seekers, in a devotional register, and they assume a reader already committed to the path. A modern student gets the most from them by holding two things together: respect for their seriousness, and clarity about which claims belong to his particular school.</p><p>His <em>Gurmat Gaurawta</em>, for example, dwells on the dignity and greatness of the Guru's way; <em>Gurmat Lekh</em> and <em>Gurmat Vichar</em> gather reflective essays; <em>Gurmat Bibek</em> and <em>Gurmat Adhyatmak Karam Philosophy</em> develop his two signature themes of discernment and the inner path (Randhir Singh, <em>Gurmat Gaurawta</em>). Read together, they form a coherent vision: a clean and disciplined outer life in service of an absorbed inner one.</p><p>Where his emphases are distinctive, such as strict bibek around food, intense collective simran, and detailed inner experience, this course has flagged them as a school's view. None of this lessens their value; it simply places them honestly within the wide and varied life of the Sikh tradition (Singh and Fenech 2014). Students are encouraged to read his texts directly and to consult mainstream scholarship alongside them.</p><div class=\"refs\"><strong>References:</strong> Randhir Singh, <em>Gurmat Gaurawta</em>; Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does bibek mean in Bhai Randhir Singh's thought?",
+          "options": [
+            "Spiritual discernment between true and false, pure and impure",
+            "A style of devotional singing",
+            "A type of scripture",
+            "A festival of the Khalsa"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which of his works most directly develops the philosophy of inner spiritual action?",
+          "options": [
+            "Gurmat Gaurawta",
+            "Gurmat Adhyatmak Karam Philosophy",
+            "Gurmat Lekh",
+            "Gurmat Vichar"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does he understand the relationship between rehat and the inner life?",
+          "options": [
+            "Rehat replaces the need for inner practice",
+            "Rehat is irrelevant to the soul",
+            "Outward discipline frames and protects inward practice",
+            "Rehat is only for clergy"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the central aim that bibek, rehat, and adhyatam all serve in his teaching?",
+          "options": [
+            "Political freedom",
+            "Continuous remembrance of Naam",
+            "Scholarly debate",
+            "Building gurdwaras"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does this course treat his strict practices around food and bibek?",
+          "options": [
+            "As the only valid Sikh practice",
+            "As outdated and wrong",
+            "As a particular school's emphasis, presented neutrally",
+            "As unrelated to his writings"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In his inner philosophy, how does he extend the meaning of karam (action)?",
+          "options": [
+            "To mean only ritual offerings",
+            "To include the inner acts of attention and remembrance",
+            "To reject all action",
+            "To mean financial charity alone"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the course say about quoting specific Gurbani lines or page numbers from his works?",
+          "options": [
+            "It quotes them at length",
+            "It avoids inventing quotes and page references, urging direct reading",
+            "It paraphrases scripture freely",
+            "It cites only English translations"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which work focuses on the dignity and greatness of the Guru's way?",
+          "options": [
+            "Gurmat Bibek",
+            "Gurmat Adhyatmak Karam Philosophy",
+            "Gurmat Gaurawta",
+            "Gurmat Vichar"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "bhai-randhir-singh-life",
+      "title": "Bhai Randhir Singh: Faith and Freedom",
+      "topic": "history",
+      "level": 300,
+      "professor": "Bhai Randhir Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "Bhai Randhir Singh (1878-1961) was a Sikh devotee and freedom fighter whose life joined deep religious devotion with resistance to British colonial rule. Educated in the colonial system yet drawn back to Sikh practice, he embraced the discipline of Naam (meditation on the divine Name) and strict Rehat (the Sikh code of conduct). He became active in the Ghadar movement and was arrested in connection with the 1915 Lahore Conspiracy, spending many years in colonial prisons. This course studies his life chiefly through his own prison memoir, commonly known as Jail Chithian, and through biographical accounts such as the Jeevan (Jiwan) writings about him. We trace how he kept his faith under harsh imprisonment, how he organized continuous kirtan and Naam practice, and how he founded the tradition later known as the Akhand Kirtani Jatha. The course describes his ideas and experiences rather than reproducing long passages, and it places his story within the wider history of Sikh reform and the Indian freedom struggle.",
+      "outcomes": [
+        "Describe the major phases of Bhai Randhir Singh's life from 1878 to 1961, with attention to accurate dates.",
+        "Explain how he combined personal religious devotion with political resistance to British rule.",
+        "Summarize the content and purpose of his prison memoir, commonly called Jail Chithian, as a primary source.",
+        "Analyze his insistence on Naam practice and strict Rehat during years of imprisonment.",
+        "Identify the origins and core practices of the Akhand Kirtani Jatha tradition he inspired.",
+        "Situate his life within the broader histories of Sikh reform and the Indian independence movement."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਨਾਮ</span> (Naam)",
+          "m": "Meditative remembrance of the divine Name, the central spiritual practice Bhai Randhir Singh emphasized."
+        },
+        {
+          "t": "<span class=\"gur\">ਰਹਿਤ</span> (Rehat)",
+          "m": "The Sikh code of conduct and discipline that he upheld strictly, even in prison."
+        },
+        {
+          "t": "<span class=\"gur\">ਕੀਰਤਨ</span> (Kirtan)",
+          "m": "Devotional singing of Gurbani; he organized continuous and ecstatic kirtan."
+        },
+        {
+          "t": "<span class=\"gur\">ਅਖੰਡ ਕੀਰਤਨੀ ਜਥਾ</span> (Akhand Kirtani Jatha)",
+          "m": "The tradition of continuous kirtan and shared Naam practice associated with his followers."
+        },
+        {
+          "t": "<span class=\"gur\">ਜੇਲ੍ਹ ਚਿੱਠੀਆਂ</span> (Jail Chithian)",
+          "m": "His prison memoir, written from and about his years of British imprisonment."
+        },
+        {
+          "t": "<span class=\"gur\">ਜੀਵਨ</span> (Jeevan)",
+          "m": "Biographical life-account; used in the titles of works narrating his life."
+        },
+        {
+          "t": "<span class=\"gur\">ਗ਼ਦਰ</span> (Ghadar)",
+          "m": "The early twentieth-century revolutionary movement against British rule with which he was linked."
+        },
+        {
+          "t": "<span class=\"gur\">ਅੰਮ੍ਰਿਤ</span> (Amrit)",
+          "m": "The initiation ceremony of the Khalsa; he stressed initiation and the Khalsa discipline."
+        }
+      ],
+      "references": [
+        "Randhir Singh, Bhai. Jail Chithian. Ludhiana: Bhai Randhir Singh Trust.",
+        "Akhand Kirtani Jatha, comp. Jiwan Jhalkan (Bhai Randhir Singh Ji). Ludhiana: Bhai Randhir Singh Trust.",
+        "Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Grewal, J. S. The Sikhs of the Punjab. Rev. ed. Cambridge: Cambridge University Press, 1998.",
+        "Singh, Khushwant. A History of the Sikhs, Volume 2: 1839-2004. New Delhi: Oxford University Press, 2004."
+      ],
+      "lessons": [
+        {
+          "title": "Lesson 1: A Life of Faith and Freedom",
+          "summary": "An overview of Bhai Randhir Singh's life and why he matters in Sikh history.",
+          "html": "<div class=\"toc\"><ol><li>Lesson 1: A Life of Faith and Freedom</li><li>Lesson 2: Early Years and the Return to Sikh Practice</li><li>Lesson 3: The Freedom Struggle and Arrest</li><li>Lesson 4: Faith Behind Bars - Reading Jail Chithian</li><li>Lesson 5: Naam, Rehat, and the Akhand Kirtani Jatha</li><li>Lesson 6: Later Life and Legacy</li></ol></div><p>Bhai Randhir Singh (1878-1961) is remembered as a rare figure who joined intense religious devotion with active resistance to British colonial rule. He spent many years in colonial prisons for his part in the revolutionary politics of the 1910s, yet he is best known among Sikhs for his insistence on <span class=\"gur\">ਨਾਮ</span> (Naam) and strict <span class=\"gur\">ਰਹਿਤ</span> (Rehat). His own prison memoir, commonly called <span class=\"gur\">ਜੇਲ੍ਹ ਚਿੱਠੀਆਂ</span> (Jail Chithian), is the central window into how he experienced and interpreted those years.</p><p>This course treats his life factually and describes his ideas rather than quoting long passages. We follow his early education, his return to disciplined Sikh practice, his political activity and arrest, his prison years, and the kirtan tradition he inspired. As Grewal notes, the early twentieth century was a period of intense Sikh reform and political awakening (Grewal, The Sikhs of the Punjab, 1998), and Bhai Randhir Singh's life sits squarely within that ferment.</p><div class=\"refs\"><p>Grewal, J. S. The Sikhs of the Punjab. Rev. ed. Cambridge: Cambridge University Press, 1998.</p></div>"
+        },
+        {
+          "title": "Lesson 2: Early Years and the Return to Sikh Practice",
+          "summary": "His birth, colonial education, and his turn toward devout Sikh life.",
+          "html": "<p>Bhai Randhir Singh was born in 1878 in the Punjab into a family connected to colonial administration. He received an English education of the kind the colonial system encouraged. Yet over time he turned away from that path and toward a devout Sikh life centered on <span class=\"gur\">ਅੰਮ੍ਰਿਤ</span> (Amrit) initiation, daily prayer, and the discipline of <span class=\"gur\">ਰਹਿਤ</span> (Rehat).</p><p>This personal turn was part of a larger movement. The reform currents of the Singh Sabha era encouraged Sikhs to recover distinct practices and identity, and the Oxford Handbook describes how reform shaped Sikh institutions and devotional life in this period (The Oxford Handbook of Sikh Studies, 2014). His growing emphasis on <span class=\"gur\">ਕੀਰਤਨ</span> (Kirtan) and continuous remembrance of <span class=\"gur\">ਨਾਮ</span> (Naam) dates from these formative years.</p><div class=\"refs\"><p>Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.</p></div>"
+        },
+        {
+          "title": "Lesson 3: The Freedom Struggle and Arrest",
+          "summary": "His link to the Ghadar movement and his arrest around the 1915 conspiracy case.",
+          "html": "<p>In the 1910s, Bhai Randhir Singh became associated with the revolutionary <span class=\"gur\">ਗ਼ਦਰ</span> (Ghadar) movement, which sought to overthrow British rule. He was arrested in connection with the events surrounding the Lahore Conspiracy of 1915 and sentenced to a long prison term. Khushwant Singh's history outlines how the Ghadar effort drew in Punjabi Sikhs and how the colonial state responded with heavy prosecutions (A History of the Sikhs, Volume 2, 2004).</p><p>The table below sketches key dates in his life, given carefully as approximate or established years.</p><table><tr><th>Year</th><th>Event</th></tr><tr><td>1878</td><td>Born in the Punjab</td></tr><tr><td>1910s</td><td>Linked to the Ghadar movement</td></tr><tr><td>1915</td><td>Arrested in connection with the Lahore Conspiracy</td></tr><tr><td>1916-1930s</td><td>Long years of imprisonment and internment</td></tr><tr><td>1961</td><td>Died</td></tr></table><p>What set him apart from many fellow prisoners was that he framed his resistance in explicitly religious terms, treating loyalty to the Guru as the ground of his refusal to submit.</p><div class=\"refs\"><p>Singh, Khushwant. A History of the Sikhs, Volume 2: 1839-2004. New Delhi: Oxford University Press, 2004.</p></div>"
+        },
+        {
+          "title": "Lesson 4: Faith Behind Bars - Reading Jail Chithian",
+          "summary": "An introduction to his prison memoir as a primary source.",
+          "html": "<p>His prison memoir, commonly known as <span class=\"gur\">ਜੇਲ੍ਹ ਚਿੱਠੀਆਂ</span> (Jail Chithian), is the principal primary source for understanding his prison years. In it he describes daily life in colonial jails: the struggle to keep Sikh discipline, conflicts with prison authorities over food and the wearing of articles of faith, and his determination to continue prayer and <span class=\"gur\">ਨਾਮ</span> (Naam) practice under restriction.</p><p>Rather than a simple diary, the memoir reads as a spiritual interpretation of suffering. He presents hardship as an occasion for deeper devotion and recounts incidents in which he refused compromises he saw as violations of <span class=\"gur\">ਰਹਿਤ</span> (Rehat). We describe these accounts here; students should read the work itself for his own words (Randhir Singh, Jail Chithian). The memoir is valuable precisely because it is a first-person record by a religiously motivated prisoner of the colonial system.</p><div class=\"refs\"><p>Randhir Singh, Bhai. Jail Chithian. Ludhiana: Bhai Randhir Singh Trust.</p></div>"
+        },
+        {
+          "title": "Lesson 5: Naam, Rehat, and the Akhand Kirtani Jatha",
+          "summary": "His distinctive emphasis on Naam practice, strict Rehat, and continuous kirtan.",
+          "html": "<p>Bhai Randhir Singh is closely identified with a particular way of Sikh devotion that stressed continuous, heartfelt <span class=\"gur\">ਕੀਰਤਨ</span> (Kirtan) and constant remembrance of <span class=\"gur\">ਨਾਮ</span> (Naam). His followers gathered for long sessions of shared singing, and this practice gave rise to the tradition later known as the <span class=\"gur\">ਅਖੰਡ ਕੀਰਤਨੀ ਜਥਾ</span> (Akhand Kirtani Jatha).</p><p>He also insisted on a strict reading of <span class=\"gur\">ਰਹਿਤ</span> (Rehat), including care about diet, dress, and the articles of Sikh faith. The Oxford Handbook discusses how such devotional groups maintained distinct identities within the broader Panth (The Oxford Handbook of Sikh Studies, 2014). For Bhai Randhir Singh, Naam and Rehat were not separate from politics; both expressed a single loyalty to the Guru that also shaped his resistance to colonial authority.</p><div class=\"refs\"><p>Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.</p></div>"
+        },
+        {
+          "title": "Lesson 6: Later Life and Legacy",
+          "summary": "His release, later years, death in 1961, and lasting influence.",
+          "html": "<p>After his long imprisonment and internment, Bhai Randhir Singh continued to teach, write, and lead kirtan until his death in 1961. Biographical works such as the <span class=\"gur\">ਜੀਵਨ</span> (Jeevan) accounts, including the Jiwan Jhalkan compilation, gather memories and episodes from his life (Jiwan Jhalkan, Bhai Randhir Singh Trust).</p><p>His legacy is twofold. As a freedom fighter, he is honored among those Sikhs who suffered prison for opposing colonial rule. As a religious figure, he left a durable devotional tradition built around continuous kirtan, Naam practice, and disciplined Rehat. Grewal's survey places such figures within the long story of Sikh community formation under and after colonial rule (Grewal, The Sikhs of the Punjab, 1998). His combined witness of faith and freedom continues to be studied and remembered.</p><div class=\"refs\"><p>Akhand Kirtani Jatha, comp. Jiwan Jhalkan (Bhai Randhir Singh Ji). Ludhiana: Bhai Randhir Singh Trust.</p><p>Grewal, J. S. The Sikhs of the Punjab. Rev. ed. Cambridge: Cambridge University Press, 1998.</p></div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "In which years was Bhai Randhir Singh born and did he die?",
+          "options": [
+            "1878-1961",
+            "1869-1948",
+            "1880-1955",
+            "1875-1960"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What is the central spiritual practice most associated with Bhai Randhir Singh?",
+          "options": [
+            "Pilgrimage to distant shrines",
+            "Naam, the remembrance of the divine Name",
+            "Silent withdrawal from society",
+            "Astrological calculation"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "His prison memoir is commonly known by which title?",
+          "options": [
+            "Jiwan Jhalkan",
+            "Sukhmani Sahib",
+            "Jail Chithian",
+            "The Sikhs of the Punjab"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "With which revolutionary movement was he associated in the 1910s?",
+          "options": [
+            "The Ghadar movement",
+            "The Quit India movement",
+            "The Khilafat movement",
+            "The Non-Cooperation movement"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "The 1915 conspiracy case connected to his arrest is associated with which city?",
+          "options": [
+            "Delhi",
+            "Amritsar",
+            "Lahore",
+            "Calcutta"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "The devotional tradition associated with his followers is known as the:",
+          "options": [
+            "Singh Sabha",
+            "Akhand Kirtani Jatha",
+            "Nirankari movement",
+            "Namdhari movement"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Besides Naam, what did Bhai Randhir Singh insist on strictly?",
+          "options": [
+            "Rehat, the Sikh code of conduct",
+            "Renouncing the Khalsa identity",
+            "Avoiding all kirtan",
+            "Cooperation with prison authorities"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What kind of source is Jail Chithian for studying his prison years?",
+          "options": [
+            "A modern scholarly survey",
+            "A first-person primary memoir by him",
+            "A British official report",
+            "A collection of court verdicts"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "bhai-vir-singh-exegesis",
+      "title": "Bhai Vir Singh's Gurbani Exegesis (Santhya)",
+      "topic": "theology",
+      "level": 350,
+      "professor": "Bhai Vir Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "Bhai Vir Singh (1872-1957) is often called the father of modern Punjabi literature, but he was also one of the great scriptural commentators of the Singh Sabha era. This course studies his careful, word-by-word method of explaining Gurbani, known as santhya. We focus on three of his real exegetical works held in the collection: his multi-volume Santhya Sri Guru Granth Sahib, his steek (annotated commentary) on the Vaaran of Bhai Gurdas, and his Ganj Namah Steek. The aim is to learn how he reads Gurbani slowly and reverently, explaining each word, its grammar, and its devotional meaning, and to see what this patient method opens up for the reader. We treat scripture with respect throughout, describing passages rather than reproducing them at length.",
+      "outcomes": [
+        "Define santhya and explain how it differs from a loose paraphrase or a free essay on Gurbani.",
+        "Describe Bhai Vir Singh's word-by-word exegetical method and the steps he moves through for a line of Gurbani.",
+        "Distinguish his three studied works and the kind of text each one explains.",
+        "Explain how he uses grammar, vocabulary, and cross-references to fix the meaning of a difficult word.",
+        "Discuss how Bhai Vir Singh balances scholarly care with devotional reverence in his commentary.",
+        "Compare his approach with Sahib Singh's Sri Guru Granth Sahib Darpan and place both within Singh Sabha scholarship."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਸੰਥਯਾ</span>",
+          "m": "Santhya: a slow, word-by-word recitation and explanation of scripture passed from teacher to student."
+        },
+        {
+          "t": "<span class=\"gur\">ਟੀਕਾ</span>",
+          "m": "Steek (teeka): an annotated commentary that glosses and explains a text line by line."
+        },
+        {
+          "t": "<span class=\"gur\">ਅਰਥ</span>",
+          "m": "Arth: the meaning or sense of a word or verse that the commentator draws out."
+        },
+        {
+          "t": "<span class=\"gur\">ਪਦ ਅਰਥ</span>",
+          "m": "Pad arth: word-meaning; the gloss given to each individual word before the full sense is built."
+        },
+        {
+          "t": "<span class=\"gur\">ਵਾਰਾਂ</span>",
+          "m": "Vaaran: the ballad-form compositions of Bhai Gurdas that explain Sikh teaching."
+        },
+        {
+          "t": "<span class=\"gur\">ਗੁਰਬਾਣੀ</span>",
+          "m": "Gurbani: the revealed word of the Gurus recorded in scripture."
+        },
+        {
+          "t": "<span class=\"gur\">ਵਿਆਕਰਣ</span>",
+          "m": "Viaakaran: grammar; the rules of word-endings and syntax used to settle a reading."
+        },
+        {
+          "t": "<span class=\"gur\">ਭਾਵ</span>",
+          "m": "Bhav: the inner devotional spirit or felt sense behind the literal words."
+        }
+      ],
+      "references": [
+        "Bhai Vir Singh. Santhya Sri Guru Granth Sahib. Amritsar: Khalsa Samachar.",
+        "Bhai Vir Singh. Bhai Gurdas Dian Vaaran di Steek. Amritsar: Khalsa Samachar.",
+        "Bhai Vir Singh. Ganj Namah Steek. Amritsar: Khalsa Samachar.",
+        "Sahib Singh. Sri Guru Granth Sahib Darpan. 10 vols. Jalandhar: Raj Publishers, 1962-1964.",
+        "Pashaura Singh and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014."
+      ],
+      "lessons": [
+        {
+          "title": "Who Was Bhai Vir Singh the Commentator?",
+          "summary": "Introduces Bhai Vir Singh's life, the Singh Sabha context, and why he turned to scriptural commentary.",
+          "html": "<div class=\"toc\"><strong>Course Contents</strong><ol><li>Who Was Bhai Vir Singh the Commentator?</li><li>What Santhya Means</li><li>Inside Santhya Sri Guru Granth Sahib</li><li>The Steek on Bhai Gurdas's Vaaran</li><li>Ganj Namah Steek</li><li>His Method Next to Sahib Singh</li></ol></div><p>Bhai Vir Singh (1872-1957) is remembered first as a poet and novelist, the writer who helped shape modern Punjabi prose. But he was also a patient student of scripture who spent decades explaining Gurbani word by word. He worked through the institutions of the Singh Sabha reform movement and the Khalsa Samachar press in Amritsar, which printed much of his exegetical work (Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies, 2014).</p><p>The Singh Sabha period asked Sikhs to read their own scripture carefully and to defend its meaning. Bhai Vir Singh answered that call not with argument but with explanation. His commentaries grew out of teaching: a teacher would sit with students and move slowly through the text, and the printed steeks preserve that classroom care on the page.</p><table><thead><tr><th>Fact</th><th>Detail</th></tr></thead><tbody><tr><td>Lifespan</td><td>1872-1957</td></tr><tr><td>Main role here</td><td>Scriptural commentator (steekkaar)</td></tr><tr><td>Press</td><td>Khalsa Samachar, Amritsar</td></tr><tr><td>Movement</td><td>Singh Sabha reform</td></tr></tbody></table><div class=\"refs\"><strong>References:</strong> Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (2014).</div>"
+        },
+        {
+          "title": "What Santhya Means",
+          "summary": "Explains the practice of santhya and how it differs from a free essay or loose translation.",
+          "html": "<p>The word <span class=\"gur\">ਸੰਥਯਾ</span> (santhya) names an old teaching practice: a teacher recites scripture slowly with a student, settling the correct pronunciation, then explaining each word and its sense. It is oral and patient. Bhai Vir Singh's printed commentary carries this practice into book form, so the reader feels they are being walked through the text rather than handed a summary.</p><p>Santhya is not the same as a free paraphrase. A paraphrase restates the gist in new words and often loses the exact terms of Gurbani. Santhya keeps the original words in view, gives the meaning of each one as <span class=\"gur\">ਪਦ ਅਰਥ</span> (pad arth), and only then builds the full sense, the <span class=\"gur\">ਅਰਥ</span> (arth). It also tries to reach the <span class=\"gur\">ਭਾਵ</span> (bhav), the inner devotional spirit, without leaving the words behind.</p><table><thead><tr><th>Approach</th><th>Keeps original words?</th><th>Goal</th></tr></thead><tbody><tr><td>Free paraphrase</td><td>No</td><td>Quick gist</td></tr><tr><td>Loose essay</td><td>Sometimes</td><td>Author's own theme</td></tr><tr><td>Santhya / steek</td><td>Yes</td><td>Word-by-word meaning plus spirit</td></tr></tbody></table><p>This distinction matters because Gurbani is precise. A single word-ending can change a noun into a verb or a singular into a plural, and santhya is built to notice those small things (Sahib Singh, Sri Guru Granth Sahib Darpan).</p><div class=\"refs\"><strong>References:</strong> Sahib Singh, Sri Guru Granth Sahib Darpan (1962-1964); Bhai Vir Singh, Santhya Sri Guru Granth Sahib.</div>"
+        },
+        {
+          "title": "Inside Santhya Sri Guru Granth Sahib",
+          "summary": "Looks at Bhai Vir Singh's multi-volume commentary on scripture and the steps of his method.",
+          "html": "<p>Santhya Sri Guru Granth Sahib is Bhai Vir Singh's large, multi-volume commentary on the scripture. It proceeds in order, taking the text in small pieces and explaining each one with great care. The work was unfinished at his death, which itself tells us how slow and thorough the method is: he refused to rush past a line he had not fully explained.</p><p>For a difficult line he typically moves through clear steps. First he settles the reading and recites the words. Next he gives the meaning of each word, the <span class=\"gur\">ਪਦ ਅਰਥ</span>. Then he uses grammar, <span class=\"gur\">ਵਿਆਕਰਣ</span>, to decide how the words join together. He brings in other places in Gurbani where the same word appears, so the scripture explains itself. Finally he draws the full sense and the devotional <span class=\"gur\">ਭਾਵ</span>.</p><table><thead><tr><th>Step</th><th>What he does</th></tr></thead><tbody><tr><td>1. Reading</td><td>Fix pronunciation and recite the line</td></tr><tr><td>2. Pad arth</td><td>Gloss each word</td></tr><tr><td>3. Grammar</td><td>Settle how words connect</td></tr><tr><td>4. Cross-reference</td><td>Compare other uses in Gurbani</td></tr><tr><td>5. Bhav</td><td>State the full meaning and spirit</td></tr></tbody></table><p>The reverence is built into the order: meaning is never asserted before the words have been respected (Bhai Vir Singh, Santhya Sri Guru Granth Sahib).</p><div class=\"refs\"><strong>References:</strong> Bhai Vir Singh, Santhya Sri Guru Granth Sahib; Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (2014).</div>"
+        },
+        {
+          "title": "The Steek on Bhai Gurdas's Vaaran",
+          "summary": "Examines his commentary on the Vaaran of Bhai Gurdas and why those poems suit the method.",
+          "html": "<p>Bhai Gurdas Dian Vaaran di Steek is Bhai Vir Singh's annotated commentary on the <span class=\"gur\">ਵਾਰਾਂ</span> (Vaaran) of Bhai Gurdas. Bhai Gurdas was an early Sikh scholar whose ballad-form poems are widely regarded as a trusted key to Gurbani. Explaining the Vaaran is therefore a natural companion to explaining scripture itself.</p><p>The Vaaran are written in a fuller, more explanatory style than the compressed verses of <span class=\"gur\">ਗੁਰਬਾਣੀ</span>, which makes them well suited to a steek. Bhai Vir Singh glosses the vocabulary, untangles the imagery, and shows how each verse illustrates a point of Sikh teaching. Because the poems often spell out ideas that Gurbani states briefly, his commentary on the Vaaran also helps a reader return to scripture better prepared.</p><table><thead><tr><th>Text</th><th>Style</th><th>Role</th></tr></thead><tbody><tr><td>Gurbani</td><td>Compressed, poetic</td><td>Revealed word</td></tr><tr><td>Bhai Gurdas's Vaaran</td><td>Fuller, explanatory</td><td>Trusted aid to meaning</td></tr></tbody></table><p>Here we see the same patient habits as in his scriptural commentary, applied to a text that is one step closer to plain explanation (Bhai Vir Singh, Bhai Gurdas Dian Vaaran di Steek).</p><div class=\"refs\"><strong>References:</strong> Bhai Vir Singh, Bhai Gurdas Dian Vaaran di Steek; Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (2014).</div>"
+        },
+        {
+          "title": "Ganj Namah Steek",
+          "summary": "Introduces his commentary on the Ganj Namah and how he handles a devotional praise text.",
+          "html": "<p>Ganj Namah Steek is Bhai Vir Singh's annotated commentary on the Ganj Namah, a devotional work in praise of the Sikh Gurus traditionally associated with Bhai Nand Lal Goya, a poet of Guru Gobind Singh's court. The text praises each Guru in turn, and Bhai Vir Singh's steek explains its language and devotional weight for a reader.</p><p>Working on the Ganj Namah shows the breadth of his commentary practice. Beyond scripture and the Vaaran, he was willing to explain the wider devotional literature that surrounds the Sikh tradition. His method stays the same: he glosses the words, clarifies references to each Guru, and brings out the <span class=\"gur\">ਭਾਵ</span> of praise, always treating the subject with reverence.</p><table><thead><tr><th>Work</th><th>Text explained</th><th>Type of text</th></tr></thead><tbody><tr><td>Santhya Sri Guru Granth Sahib</td><td>The scripture</td><td>Revealed Gurbani</td></tr><tr><td>Vaaran di Steek</td><td>Bhai Gurdas's poems</td><td>Explanatory aid</td></tr><tr><td>Ganj Namah Steek</td><td>Ganj Namah praise text</td><td>Devotional praise</td></tr></tbody></table><p>Across all three the reader meets one consistent commentator: careful with words, generous with cross-references, and reverent toward the sacred (Bhai Vir Singh, Ganj Namah Steek).</p><div class=\"refs\"><strong>References:</strong> Bhai Vir Singh, Ganj Namah Steek; Bhai Vir Singh, Santhya Sri Guru Granth Sahib; Bhai Vir Singh, Bhai Gurdas Dian Vaaran di Steek.</div>"
+        },
+        {
+          "title": "His Method Next to Sahib Singh",
+          "summary": "Compares Bhai Vir Singh's santhya with Sahib Singh's grammar-driven Darpan and places both in Singh Sabha scholarship.",
+          "html": "<p>A useful way to understand Bhai Vir Singh's method is to set it beside another great commentary of the same era, Sahib Singh's Sri Guru Granth Sahib Darpan (Sahib Singh, Sri Guru Granth Sahib Darpan, 1962-1964). Both belong to the broader Singh Sabha effort to read Gurbani carefully and on its own terms.</p><p>Sahib Singh is famous for building a formal grammar of Gurbani and then applying it strictly, so that word-endings decide the meaning. Bhai Vir Singh also respects grammar and uses <span class=\"gur\">ਵਿਆਕਰਣ</span>, but his santhya gives more weight to devotional <span class=\"gur\">ਭਾਵ</span> and to the meditative, teacherly tone of slow recitation. The two approaches are complementary: one leans toward system, the other toward contemplative explanation.</p><table><thead><tr><th>Commentator</th><th>Strongest emphasis</th><th>Tone</th></tr></thead><tbody><tr><td>Sahib Singh (Darpan)</td><td>Systematic grammar</td><td>Analytical</td></tr><tr><td>Bhai Vir Singh (Santhya)</td><td>Word meaning plus devotional spirit</td><td>Contemplative, teacherly</td></tr></tbody></table><p>Reading them together gives a fuller picture: the grammar fixes the boundaries of meaning, while santhya invites the reader to dwell within it. Both are central to modern Sikh scriptural study (Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies, 2014).</p><div class=\"refs\"><strong>References:</strong> Sahib Singh, Sri Guru Granth Sahib Darpan (1962-1964); Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (2014); Bhai Vir Singh, Santhya Sri Guru Granth Sahib.</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does the term santhya describe?",
+          "options": [
+            "A slow, word-by-word recitation and explanation of scripture",
+            "A musical setting of Gurbani for kirtan",
+            "A free poetic retelling of the Gurus' lives",
+            "A list of festival dates in the Sikh calendar"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which of these is Bhai Vir Singh's multi-volume commentary on the scripture itself?",
+          "options": [
+            "Ganj Namah Steek",
+            "Bhai Gurdas Dian Vaaran di Steek",
+            "Santhya Sri Guru Granth Sahib",
+            "Sri Guru Granth Sahib Darpan"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In his method, what is pad arth?",
+          "options": [
+            "The meaning given to each individual word",
+            "The musical measure of a hymn",
+            "A summary of the whole chapter",
+            "A list of cross-references only"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Whose Vaaran does Bhai Gurdas Dian Vaaran di Steek explain?",
+          "options": [
+            "Bhai Nand Lal",
+            "Bhai Gurdas",
+            "Sahib Singh",
+            "Guru Arjan alone"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why are the Vaaran well suited to a steek, according to the course?",
+          "options": [
+            "They are written in a fuller, more explanatory style than compressed Gurbani",
+            "They contain no difficult words at all",
+            "They were composed in English",
+            "They are shorter than a single line of Gurbani"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What kind of text is the Ganj Namah?",
+          "options": [
+            "A grammar textbook",
+            "A devotional work in praise of the Sikh Gurus",
+            "A legal code",
+            "A census record"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does Bhai Vir Singh's santhya differ in emphasis from Sahib Singh's Darpan?",
+          "options": [
+            "It ignores grammar completely",
+            "It gives more weight to devotional spirit and a teacherly tone",
+            "It rejects cross-references between verses",
+            "It avoids explaining word meanings"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which movement provides the context for Bhai Vir Singh's commentary work?",
+          "options": [
+            "The Singh Sabha reform movement",
+            "The European Renaissance",
+            "The Bhakti court poetry of the 1100s",
+            "A modern film industry guild"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "bhai-vir-singh-novels",
+      "title": "The Singh Sabha Novels of Bhai Vir Singh",
+      "topic": "literature",
+      "level": 250,
+      "professor": "Bhai Vir Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "Bhai Vir Singh (1872-1957) is often called the father of modern Punjabi literature. Writing during the Singh Sabha movement, he used the new form of the novel to teach Sikh values, defend Sikh identity, and inspire courage and reform. This course studies his four major prose works in the SikhLibrary collection: Sundari, Bijai Singh, Satwant Kaur, and Baba Naudh Singh. Students learn how each story builds a model of the ideal Sikh, how the novels respond to the social and religious challenges of his age, and why these books helped launch modern Punjabi fiction.",
+      "outcomes": [
+        "Place Bhai Vir Singh and his novels within the Singh Sabha reform movement of late nineteenth and early twentieth century Punjab.",
+        "Summarize the plots, settings, and main characters of Sundari, Bijai Singh, Satwant Kaur, and Baba Naudh Singh.",
+        "Explain how the novels present an ideal Sikh woman and an ideal Sikh man and what virtues they model.",
+        "Analyze the themes of Sikh identity, courage, faith, and reform that run through the four works.",
+        "Describe the literary significance of these books in the birth of the modern Punjabi novel.",
+        "Use correct Sikh vocabulary in Gurmukhi when discussing the religious and historical setting of the novels."
+      ],
+      "terms": [
+        {
+          "t": "ਸਿੰਘ ਸਭਾ",
+          "m": "The reform movement, begun in 1873, that worked to renew Sikh learning, identity, and institutions."
+        },
+        {
+          "t": "ਖ਼ਾਲਸਾ",
+          "m": "The community of initiated Sikhs founded in 1699; its ideals shape the heroes and heroines of the novels."
+        },
+        {
+          "t": "ਅੰਮ੍ਰਿਤ",
+          "m": "The initiation rite of the Khalsa, taken by characters who commit fully to the Sikh way of life."
+        },
+        {
+          "t": "ਸੇਵਾ",
+          "m": "Selfless service, a core virtue shown by the model characters in the stories."
+        },
+        {
+          "t": "ਸਿਦਕ",
+          "m": "Steadfast faith and constancy under trial, a central quality of the heroines."
+        },
+        {
+          "t": "ਸ਼ਹੀਦੀ",
+          "m": "Martyrdom, the willingness to give one's life for faith and dignity."
+        },
+        {
+          "t": "ਗੁਰਮੁਖੀ",
+          "m": "The script in which Punjabi and Sikh scripture are written, and the language of the novels."
+        },
+        {
+          "t": "ਪੰਥ",
+          "m": "The Sikh community or path as a whole, whose welfare the novels seek to strengthen."
+        }
+      ],
+      "references": [
+        "Singh, Harbans. Bhai Vir Singh. New Delhi: Sahitya Akademi, 1972.",
+        "Grewal, J. S. The Sikhs of the Punjab. Rev. ed. The New Cambridge History of India. Cambridge: Cambridge University Press, 1998.",
+        "Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Oberoi, Harjot. The Construction of Religious Boundaries: Culture, Identity, and Diversity in the Sikh Tradition. Chicago: University of Chicago Press, 1994.",
+        "Sekhon, Sant Singh, and Kartar Singh Duggal. A History of Punjabi Literature. New Delhi: Sahitya Akademi, 1992."
+      ],
+      "lessons": [
+        {
+          "title": "Bhai Vir Singh and the Singh Sabha Age",
+          "summary": "Introduces the man, his times, and why he turned to the novel.",
+          "html": "<div class=\"toc\"><strong>Full course contents</strong><ol><li>Bhai Vir Singh and the Singh Sabha Age</li><li>Sundari: The Birth of the Modern Punjabi Novel</li><li>Bijai Singh: Faith Under Trial</li><li>Satwant Kaur: The Steadfast Heroine</li><li>Baba Naudh Singh: A Novel of Reform</li><li>Legacy and Literary Significance</li></ol></div><p>Bhai Vir Singh lived from 1872 to 1957. He was a poet, scholar, editor, and reformer in Punjab, and he is often called the father of modern Punjabi literature. He grew up in Amritsar, the center of Sikh life, at a time of great change. British rule, Christian missions, and new schools were reshaping the region, and many Sikhs feared that their faith and identity were being lost.</p><p>In response, Sikh reformers founded the <span class=\"gur\">ਸਿੰਘ ਸਭਾ</span> in 1873. This movement worked to renew Sikh learning, to define a clear Sikh identity, and to build schools, newspapers, and books. Bhai Vir Singh became one of its most powerful voices. He helped found a printing press and a Punjabi weekly newspaper, and he used the press to bring Sikh ideas to ordinary readers (Singh 1972).</p><p>One of his most important choices was to write novels. The novel was a new form in Punjabi, borrowed from European and Indian models, but Bhai Vir Singh saw that a good story could teach faith and pride more gently than a sermon. His novels are set in the Sikh past, especially the eighteenth century when the <span class=\"gur\">ਖ਼ਾਲਸਾ</span> faced persecution, and they hold up brave men and women as models for the present (Grewal 1998).</p><table><thead><tr><th>Work</th><th>Type</th><th>Focus</th></tr></thead><tbody><tr><td>Sundari</td><td>Historical novel</td><td>The ideal Sikh woman; courage in persecution</td></tr><tr><td>Bijai Singh</td><td>Historical novel</td><td>Faith and family under threat</td></tr><tr><td>Satwant Kaur</td><td>Historical novel</td><td>Steadfastness and dignity of a heroine</td></tr><tr><td>Baba Naudh Singh</td><td>Reform novel</td><td>The ideal Sikh life in modern times</td></tr></tbody></table><p>This course studies these four works as they appear in the SikhLibrary collection. We will not reproduce long passages. Instead we will study their stories, characters, themes, and lasting importance.</p><div class=\"refs\"><p>Grewal, J. S. <em>The Sikhs of the Punjab</em>. Cambridge: Cambridge University Press, 1998.</p><p>Singh, Harbans. <em>Bhai Vir Singh</em>. New Delhi: Sahitya Akademi, 1972.</p></div>"
+        },
+        {
+          "title": "Sundari: The Birth of the Modern Punjabi Novel",
+          "summary": "Studies Sundari, the story of an ideal Sikh woman and a landmark in Punjabi fiction.",
+          "html": "<p><em>Sundari</em> is Bhai Vir Singh's first and best known novel, and it is widely seen as the first true novel in modern Punjabi. The story is set in the troubled eighteenth century, when Sikhs were hunted by Mughal and Afghan rulers and often lived in the forests in roving bands. Against this dangerous background, the book tells the life of a young woman who becomes a model of Sikh faith and courage.</p><p>The heroine begins life as a Hindu girl. When she is seized and threatened, Sikh warriors rescue her, and she chooses to join the community, takes <span class=\"gur\">ਅੰਮ੍ਰਿਤ</span>, and receives the name Sundari (Singh 1972). From that point her life shows the virtues the author wants readers to admire: bravery, purity of heart, and devotion to the <span class=\"gur\">ਪੰਥ</span>. She nurses wounded fighters, refuses to abandon her faith under pressure, and shows the spirit of <span class=\"gur\">ਸੇਵਾ</span> at every turn.</p><p>The novel is more than an adventure. It paints a picture of the ideal Sikh woman, strong in <span class=\"gur\">ਸਿਦਕ</span> and ready for <span class=\"gur\">ਸ਼ਹੀਦੀ</span> if needed. It also defends a clear, separate Sikh identity at a time when many feared that identity was fading (Oberoi 1994). For its first readers the message was plain: be as steady and brave as Sundari.</p><table><thead><tr><th>Element</th><th>In Sundari</th></tr></thead><tbody><tr><td>Setting</td><td>Eighteenth-century Punjab, age of persecution</td></tr><tr><td>Heroine</td><td>A convert who becomes a model Sikh woman</td></tr><tr><td>Main virtues</td><td>Courage, service, steadfast faith</td></tr><tr><td>Purpose</td><td>To inspire Sikh pride and identity</td></tr></tbody></table><p>Because it married a gripping story to a clear moral and religious vision, <em>Sundari</em> opened the door for the modern Punjabi novel and remained popular for generations.</p><div class=\"refs\"><p>Oberoi, Harjot. <em>The Construction of Religious Boundaries</em>. Chicago: University of Chicago Press, 1994.</p><p>Singh, Harbans. <em>Bhai Vir Singh</em>. New Delhi: Sahitya Akademi, 1972.</p></div>"
+        },
+        {
+          "title": "Bijai Singh: Faith Under Trial",
+          "summary": "Examines Bijai Singh and its picture of a family holding to faith under persecution.",
+          "html": "<p><em>Bijai Singh</em> is another of Bhai Vir Singh's historical novels set in the eighteenth century, the same harsh age of persecution that shapes <em>Sundari</em>. Where the first novel centers on a heroine, this work places a Sikh man and his family at the heart of the story, and it asks how faith can survive when everything is taken away.</p><p>The title character, Bijai Singh, is a devoted Sikh who, with his wife and family, is caught up in the cruelty of the times. They face capture, threats, and the demand to give up their faith to save their lives. The drama of the book lies in their refusal. They hold to the Sikh path even when it would be easier and safer to abandon it, showing deep <span class=\"gur\">ਸਿਦਕ</span> (Singh 1972).</p><p>Through this trial, Bhai Vir Singh teaches several lessons. He shows that the strength of the <span class=\"gur\">ਖ਼ਾਲਸਾ</span> rests not only on warriors in the field but on ordinary families who stay true at home. He shows that suffering borne for faith is a kind of <span class=\"gur\">ਸ਼ਹੀਦੀ</span>, honored by the community. And he presents Bijai Singh as a model of the ideal Sikh man: brave, faithful, and gentle with his family (Grewal 1998).</p><table><thead><tr><th>Theme</th><th>How it appears</th></tr></thead><tbody><tr><td>Faith under threat</td><td>Family refuses to give up the Sikh path</td></tr><tr><td>Ideal Sikh man</td><td>Brave, faithful, devoted to family and Panth</td></tr><tr><td>Suffering and honor</td><td>Endurance treated as a form of martyrdom</td></tr></tbody></table><p>The novel reminded Singh Sabha readers that holding firmly to identity, even at great cost, was a noble and living tradition.</p><div class=\"refs\"><p>Grewal, J. S. <em>The Sikhs of the Punjab</em>. Cambridge: Cambridge University Press, 1998.</p><p>Singh, Harbans. <em>Bhai Vir Singh</em>. New Delhi: Sahitya Akademi, 1972.</p></div>"
+        },
+        {
+          "title": "Satwant Kaur: The Steadfast Heroine",
+          "summary": "Looks at Satwant Kaur and its portrait of dignity and constancy in a Sikh woman.",
+          "html": "<p><em>Satwant Kaur</em> continues Bhai Vir Singh's project of placing strong, faithful women at the center of his fiction. Like his earlier work, it is set in a dangerous time for Sikhs, and it follows a heroine who must protect her honor, her faith, and her dignity against great threats.</p><p>The very name of the heroine carries the book's message. Satwant points to truthfulness and purity, and Kaur is the name shared by all Sikh women, marking them as members of the <span class=\"gur\">ਖ਼ਾਲਸਾ</span>. Through the trials she faces, she shows unshaken <span class=\"gur\">ਸਿਦਕ</span> and refuses to let fear or force turn her from the Sikh way (Singh 1972).</p><p>In this novel Bhai Vir Singh again models the ideal Sikh woman, but he adds a strong focus on dignity and self respect. The heroine is not only brave in danger; she carries herself with calm faith and trust in the Guru. The story also reflects the Singh Sabha concern to raise the standing of women and to show that Sikh teaching honors their courage and worth (Singh and Fenech 2014).</p><table><thead><tr><th>Quality</th><th>Shown by Satwant Kaur</th></tr></thead><tbody><tr><td>Steadfast faith</td><td>Holds to the Sikh path under pressure</td></tr><tr><td>Dignity</td><td>Guards her honor and self respect</td></tr><tr><td>Trust in the Guru</td><td>Faces danger with calm and prayer</td></tr></tbody></table><p>Together with <em>Sundari</em>, this novel built a lasting image of the brave and faithful Sikh woman in Punjabi literature.</p><div class=\"refs\"><p>Singh, Harbans. <em>Bhai Vir Singh</em>. New Delhi: Sahitya Akademi, 1972.</p><p>Singh, Pashaura, and Louis E. Fenech, eds. <em>The Oxford Handbook of Sikh Studies</em>. Oxford: Oxford University Press, 2014.</p></div>"
+        },
+        {
+          "title": "Baba Naudh Singh: A Novel of Reform",
+          "summary": "Studies Baba Naudh Singh, set in modern times, as a guide to the ideal Sikh life.",
+          "html": "<p><em>Baba Naudh Singh</em> stands apart from the three historical novels. Instead of the eighteenth century, it is set in Bhai Vir Singh's own modern Punjab, and instead of battles and persecution, it deals with the ordinary problems of daily life, family, and faith. It is the clearest example of his reform aims in fiction.</p><p>The story centers on Baba Naudh Singh and the people around him, and it presents an ideal of how a Sikh should live in the world. The characters meet common troubles such as money worries, family quarrels, illness, and temptation. Again and again the answer they find lies in living truthful, prayerful, and service minded lives, shaped by <span class=\"gur\">ਸੇਵਾ</span> and trust in the Guru (Singh 1972).</p><p>Through these everyday scenes Bhai Vir Singh teaches the goals of the <span class=\"gur\">ਸਿੰਘ ਸਭਾ</span>. He urges readers to give up harmful customs and superstition, to keep the discipline of the <span class=\"gur\">ਖ਼ਾਲਸਾ</span>, and to build homes and a <span class=\"gur\">ਪੰਥ</span> grounded in honest work and faith. The book reads almost like a guide to the good Sikh life dressed in the form of a story (Oberoi 1994).</p><table><thead><tr><th>Feature</th><th>In Baba Naudh Singh</th></tr></thead><tbody><tr><td>Setting</td><td>Modern Punjab, everyday life</td></tr><tr><td>Main aim</td><td>To model the ideal Sikh life and reform</td></tr><tr><td>Key message</td><td>Truth, service, and faith in daily living</td></tr></tbody></table><p>This novel shows that Bhai Vir Singh used fiction not only to recall the past but to shape how Sikhs lived in his own day.</p><div class=\"refs\"><p>Oberoi, Harjot. <em>The Construction of Religious Boundaries</em>. Chicago: University of Chicago Press, 1994.</p><p>Singh, Harbans. <em>Bhai Vir Singh</em>. New Delhi: Sahitya Akademi, 1972.</p></div>"
+        },
+        {
+          "title": "Legacy and Literary Significance",
+          "summary": "Draws the threads together and weighs the lasting importance of the four novels.",
+          "html": "<p>Taken together, the four novels of Bhai Vir Singh form a single great project. Through <em>Sundari</em>, <em>Bijai Singh</em>, <em>Satwant Kaur</em>, and <em>Baba Naudh Singh</em>, he gave Punjabi readers stories that were exciting to read and rich in faith and meaning. In doing so he helped create the modern Punjabi novel almost from nothing (Sekhon and Duggal 1992).</p><p>The novels share a set of clear themes. They defend a strong Sikh identity rooted in the <span class=\"gur\">ਖ਼ਾਲਸਾ</span>. They hold up models of the ideal Sikh woman and the ideal Sikh man, marked by courage, <span class=\"gur\">ਸੇਵਾ</span>, and <span class=\"gur\">ਸਿਦਕ</span>. They honor sacrifice and <span class=\"gur\">ਸ਼ਹੀਦੀ</span>. And they push for reform of daily life in line with the goals of the <span class=\"gur\">ਸਿੰਘ ਸਭਾ</span> (Grewal 1998).</p><p>Their literary significance is large. Before Bhai Vir Singh, Punjabi prose fiction barely existed; after him, it had a clear form, popular subjects, and a wide audience. Writers who followed could build on the path he opened. His use of the historical novel to teach identity, and of the reform novel to teach daily virtue, set patterns that shaped Punjabi literature for decades (Singh and Fenech 2014).</p><table><thead><tr><th>Lasting contribution</th><th>Description</th></tr></thead><tbody><tr><td>New literary form</td><td>Helped found the modern Punjabi novel</td></tr><tr><td>Models of character</td><td>Created enduring ideal Sikh figures</td></tr><tr><td>Reform and identity</td><td>Carried Singh Sabha aims to many readers</td></tr></tbody></table><p>For these reasons Bhai Vir Singh is remembered not only as a great writer but as a builder of modern Sikh and Punjabi culture.</p><div class=\"refs\"><p>Grewal, J. S. <em>The Sikhs of the Punjab</em>. Cambridge: Cambridge University Press, 1998.</p><p>Sekhon, Sant Singh, and Kartar Singh Duggal. <em>A History of Punjabi Literature</em>. New Delhi: Sahitya Akademi, 1992.</p><p>Singh, Pashaura, and Louis E. Fenech, eds. <em>The Oxford Handbook of Sikh Studies</em>. Oxford: Oxford University Press, 2014.</p></div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What movement shaped the world in which Bhai Vir Singh wrote his novels?",
+          "options": [
+            "The Singh Sabha movement",
+            "The Khilafat movement",
+            "The Bhakti movement",
+            "The Non-Cooperation movement"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which novel is widely regarded as the first true modern Punjabi novel?",
+          "options": [
+            "Baba Naudh Singh",
+            "Satwant Kaur",
+            "Sundari",
+            "Bijai Singh"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In which century are the historical novels Sundari, Bijai Singh, and Satwant Kaur mainly set?",
+          "options": [
+            "The sixteenth century",
+            "The eighteenth century",
+            "The twentieth century",
+            "The fifteenth century"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which novel is set in modern times and serves as a guide to the ideal Sikh life?",
+          "options": [
+            "Sundari",
+            "Satwant Kaur",
+            "Bijai Singh",
+            "Baba Naudh Singh"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What does the heroine of Sundari do that marks her full commitment to the Sikh community?",
+          "options": [
+            "She moves to a city",
+            "She takes Amrit and joins the Khalsa",
+            "She becomes a queen",
+            "She leaves Punjab"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Whose faith under persecution is the central focus of Bijai Singh?",
+          "options": [
+            "A Sikh man and his family",
+            "A Mughal officer",
+            "A group of poets",
+            "A British official"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What quality is most strongly modeled by the heroine of Satwant Kaur?",
+          "options": [
+            "Wealth and luxury",
+            "Steadfast faith and dignity",
+            "Military command",
+            "Skill in trade"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why is Bhai Vir Singh important in literary history?",
+          "options": [
+            "He invented the Gurmukhi script",
+            "He translated the Quran into Punjabi",
+            "He helped found the modern Punjabi novel",
+            "He wrote the first Punjabi newspaper in English"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "bhai-vir-singh-poetry",
+      "title": "The Poetry of Bhai Vir Singh",
+      "topic": "literature",
+      "level": 300,
+      "professor": "Bhai Vir Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "Bhai Vir Singh (1872-1957) is widely honored as the father of modern Punjabi literature. This course studies him as a pioneering poet who carried Punjabi verse beyond its older devotional and heroic molds into a fresh lyric form shaped by personal feeling, close observation of nature, and the soul's longing for the Divine. We move from his long narrative poem Rana Surat Singh to his short lyric collections Bijliyan de Haar, Lehran de Haar, Matak Hulare, and Bir Darshan. Along the way we examine his themes, his quiet and unboastful voice, his blending of Sikh devotion with everyday images of dew, flowers, streams, and mountains, and his lasting influence on later Punjabi poets. Verses are described rather than reproduced at length, so students learn to read his work with care and to place it within the larger story of the Singh Sabha renewal and modern Punjabi letters.",
+      "outcomes": [
+        "Explain why Bhai Vir Singh is regarded as a pioneer of modern Punjabi poetry.",
+        "Describe the story and significance of the long poem Rana Surat Singh.",
+        "Identify the main themes in his lyric collections, including nature, devotion, and the soul's longing for the Divine.",
+        "Distinguish his major lyric collections and the general character of each.",
+        "Discuss how his work connects with the Singh Sabha movement and Sikh devotional life.",
+        "Evaluate his influence on the later development of Punjabi literature."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਕਵਿਤਾ</span> (kavita)",
+          "m": "Poetry; verse. The general word for the poetic writing studied in this course."
+        },
+        {
+          "t": "<span class=\"gur\">ਹਾਰ</span> (haar)",
+          "m": "A garland or necklace. Used in several of his collection titles to suggest poems strung together like beads."
+        },
+        {
+          "t": "<span class=\"gur\">ਬਿਜਲੀ</span> (bijli)",
+          "m": "Lightning or a flash; the root image in the title Bijliyan de Haar, suggesting short brilliant poems."
+        },
+        {
+          "t": "<span class=\"gur\">ਲਹਿਰ</span> (lehar)",
+          "m": "A wave or ripple; the central image of Lehran de Haar, evoking flowing feeling."
+        },
+        {
+          "t": "<span class=\"gur\">ਪ੍ਰੇਮ</span> (prem)",
+          "m": "Love or devotion, especially loving devotion directed toward the Divine, a key mood in his lyrics."
+        },
+        {
+          "t": "<span class=\"gur\">ਬਿਰਹਾ</span> (birha)",
+          "m": "The pain of separation; the soul's longing for union with the Beloved or the Divine."
+        },
+        {
+          "t": "<span class=\"gur\">ਕੁਦਰਤ</span> (kudrat)",
+          "m": "Nature or creation; the natural world he observes so closely as a sign of the Divine."
+        },
+        {
+          "t": "<span class=\"gur\">ਸਿੰਘ ਸਭਾ</span> (Singh Sabha)",
+          "m": "The Sikh reform and renewal movement of the late 1800s within which his writing took shape."
+        }
+      ],
+      "references": [
+        "Bhai Vir Singh. Rana Surat Singh. Amritsar: Khalsa Samachar, 1905.",
+        "Harbans Singh. Bhai Vir Singh. New Delhi: Sahitya Akademi, 1972.",
+        "Pashaura Singh and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Sant Singh Sekhon and Kartar Singh Duggal. A History of Punjabi Literature. New Delhi: Sahitya Akademi, 1992.",
+        "Christopher Shackle and Arvind-Pal Singh Mandair, eds. Teachings of the Sikh Gurus: Selections from the Sikh Scriptures. London: Routledge, 2005."
+      ],
+      "lessons": [
+        {
+          "title": "Introduction: A Pioneer of Modern Punjabi Poetry",
+          "summary": "Who Bhai Vir Singh was and why he is called the father of modern Punjabi literature.",
+          "html": "<div class=\"toc\"><strong>Course Contents</strong><ol><li>Introduction: A Pioneer of Modern Punjabi Poetry</li><li>Rana Surat Singh: The Long Narrative Poem</li><li>Bijliyan de Haar and Lehran de Haar: The Lyric Garlands</li><li>Matak Hulare and Bir Darshan: Later Lyrics</li><li>Themes: Nature, Devotion, and the Soul's Longing</li><li>Legacy and Influence</li></ol></div><p>Bhai Vir Singh was born in Amritsar in 1872 and died in 1957. He lived through a time of great change in Punjab, when the Singh Sabha movement was working to renew Sikh learning and pride. He wrote poetry, novels, essays, and religious commentary, but he is best loved as a poet (Harbans Singh 1972).</p><p>Scholars often call him a pioneer of modern Punjabi poetry. Before him, much Punjabi verse followed older devotional and heroic patterns. He brought in a fresh lyric voice built on personal feeling and on close looking at the world around him (Sekhon and Duggal 1992). His tone is quiet and humble rather than grand or boastful.</p><table><thead><tr><th>Fact</th><th>Detail</th></tr></thead><tbody><tr><td>Born</td><td>1872, Amritsar</td></tr><tr><td>Died</td><td>1957</td></tr><tr><td>Best known as</td><td>Poet and father of modern Punjabi literature</td></tr><tr><td>Movement</td><td>Singh Sabha renewal</td></tr></tbody></table><p>In this course we read his work collection by collection, always describing the verses rather than quoting them at length, so that students learn to study the poetry with care.</p><div class=\"refs\"><strong>References:</strong> Harbans Singh, <em>Bhai Vir Singh</em> (1972); Sekhon and Duggal, <em>A History of Punjabi Literature</em> (1992).</div>"
+        },
+        {
+          "title": "Rana Surat Singh: The Long Narrative Poem",
+          "summary": "His epic-length poem and what it shows about his art.",
+          "html": "<p>Rana Surat Singh, first published in 1905, is Bhai Vir Singh's long narrative poem and one of his most important works (Bhai Vir Singh 1905). It is much longer than his short lyrics and tells a sustained story in blank verse.</p><p>At its heart the poem follows Rani Raj Kaur, a widowed queen who grieves deeply for her departed husband, Rana Surat Singh. Her sorrow slowly turns from worldly mourning into a spiritual search. Through her journey the poem treats the soul's longing for what lies beyond death and its movement toward the Divine (Harbans Singh 1972).</p><p>The work is notable for using a long, flowing line rather than the rhymed couplets common in older Punjabi verse. This choice helped open the way for modern forms (Sekhon and Duggal 1992). In one line we can characterize the poem as a story of grief that ripens into devotion.</p><p>Because the poem is built around inner feeling and a personal spiritual quest, it shows the same lyric sensibility that marks his shorter poems, only carried across a much larger canvas.</p><div class=\"refs\"><strong>References:</strong> Bhai Vir Singh, <em>Rana Surat Singh</em> (1905); Harbans Singh, <em>Bhai Vir Singh</em> (1972); Sekhon and Duggal, <em>A History of Punjabi Literature</em> (1992).</div>"
+        },
+        {
+          "title": "Bijliyan de Haar and Lehran de Haar: The Lyric Garlands",
+          "summary": "Two of his short-poem collections and their guiding images.",
+          "html": "<p>Bhai Vir Singh wrote several collections of short lyric poems. Two early and well-known ones carry the word <span class=\"gur\">ਹਾਰ</span> (haar), meaning a garland, in their titles. The image suggests poems strung together like beads on a thread (Sekhon and Duggal 1992).</p><p>Bijliyan de Haar takes its name from <span class=\"gur\">ਬਿਜਲੀ</span> (bijli), lightning. The title points to short, bright flashes of feeling, brief poems that light up a single thought or scene. Lehran de Haar takes its name from <span class=\"gur\">ਲਹਿਰ</span> (lehar), a wave, suggesting the gentle flow and ripple of feeling across the poems.</p><table><thead><tr><th>Collection</th><th>Key image</th><th>Mood</th></tr></thead><tbody><tr><td>Bijliyan de Haar</td><td>Lightning flashes</td><td>Brief, bright, sudden</td></tr><tr><td>Lehran de Haar</td><td>Waves and ripples</td><td>Flowing, gentle, continuous</td></tr></tbody></table><p>In both books the poems are short and concentrated. They often begin with a small natural image, a flower, a drop of dew, a passing breeze, and turn it into a moment of devotion or quiet wonder (Harbans Singh 1972). We can characterize them in one line as small windows that open onto large feeling.</p><div class=\"refs\"><strong>References:</strong> Harbans Singh, <em>Bhai Vir Singh</em> (1972); Sekhon and Duggal, <em>A History of Punjabi Literature</em> (1992).</div>"
+        },
+        {
+          "title": "Matak Hulare and Bir Darshan: Later Lyrics",
+          "summary": "Further lyric collections and the steadiness of his vision.",
+          "html": "<p>Two further collections in the group studied here are Matak Hulare and Bir Darshan. Like his earlier books, they gather short poems built on close observation and devotional feeling (Harbans Singh 1972).</p><p>Matak Hulare continues his habit of finding meaning in small, graceful movements of nature and the heart. Bir Darshan, whose title joins his own pen name Bir with the idea of darshan or sight, points toward seeing or vision, a fitting theme for a poet who looked closely at the world and beyond it.</p><p>Across these collections his voice stays steady. He does not shout or boast. He prefers a gentle, humble line that lets the image do the work (Sekhon and Duggal 1992). In one line we can characterize the later lyrics as the mature fruit of the same loving attention seen from the start.</p><p>Taken together with the two earlier garlands, these books show a poet who returned again and again to a few deep concerns: the beauty of creation, the call of devotion, and the longing of the soul.</p><div class=\"refs\"><strong>References:</strong> Harbans Singh, <em>Bhai Vir Singh</em> (1972); Sekhon and Duggal, <em>A History of Punjabi Literature</em> (1992).</div>"
+        },
+        {
+          "title": "Themes: Nature, Devotion, and the Soul's Longing",
+          "summary": "The three great themes that run through all his poetry.",
+          "html": "<p>Three themes appear again and again in Bhai Vir Singh's poetry. The first is <span class=\"gur\">ਕੁਦਰ�ت</span> (kudrat), nature. He watches dew, flowers, streams, and mountains with patient care and treats them as signs that point beyond themselves (Harbans Singh 1972).</p><p>The second is <span class=\"gur\">ਪ੍ਰੇਮ</span> (prem), loving devotion. Many poems turn a natural image into an act of love directed toward the Divine. This devotional spirit links his work to the wider world of Sikh teaching and to the Singh Sabha renewal in which he lived and worked (Pashaura Singh and Fenech 2014).</p><p>The third is <span class=\"gur\">ਬਿਰਹਾ</span> (birha), the pain of separation, the soul's longing for union with the Beloved. This longing shapes both the long poem Rana Surat Singh and the short lyrics (Sekhon and Duggal 1992).</p><table><thead><tr><th>Theme</th><th>Punjabi term</th><th>How it appears</th></tr></thead><tbody><tr><td>Nature</td><td><span class=\"gur\">ਕੁਦਰਤ</span></td><td>Dew, flowers, streams, mountains</td></tr><tr><td>Devotion</td><td><span class=\"gur\">ਪ੍ਰੇਮ</span></td><td>Love turned toward the Divine</td></tr><tr><td>Longing</td><td><span class=\"gur\">ਬਿਰਹਾ</span></td><td>The soul's separation and search</td></tr></tbody></table><p>These themes do not stand apart. A single short poem may move from a flower, to devotion, to longing, in just a few lines.</p><div class=\"refs\"><strong>References:</strong> Harbans Singh, <em>Bhai Vir Singh</em> (1972); Sekhon and Duggal, <em>A History of Punjabi Literature</em> (1992); Pashaura Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "Legacy and Influence",
+          "summary": "His lasting place in Punjabi literature and Sikh life.",
+          "html": "<p>Bhai Vir Singh's influence on Punjabi literature is large. By bringing personal feeling, close observation of nature, and a modern lyric form into the language, he opened a path that many later poets would follow (Sekhon and Duggal 1992).</p><p>He is often grouped at the head of modern Punjabi poetry, and his work is studied as a turning point between older devotional and heroic verse and the newer personal lyric. His role within the Singh Sabha renewal also tied his writing to a broad revival of Sikh learning and confidence (Pashaura Singh and Fenech 2014).</p><p>His honors and long working life, from his birth in 1872 to his death in 1957, gave him decades to shape both readers and writers. Later Punjabi poets inherited from him the idea that a small natural image could carry deep devotion (Harbans Singh 1972).</p><p>In one line we can characterize his legacy as the joining of Sikh devotion with a fresh, modern lyric voice that still speaks to readers today.</p><div class=\"refs\"><strong>References:</strong> Harbans Singh, <em>Bhai Vir Singh</em> (1972); Sekhon and Duggal, <em>A History of Punjabi Literature</em> (1992); Pashaura Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Bhai Vir Singh is widely honored as the father of modern what?",
+          "options": [
+            "Hindi drama",
+            "Punjabi literature",
+            "Urdu journalism",
+            "Sanskrit grammar"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What are the years of Bhai Vir Singh's life?",
+          "options": [
+            "1850-1920",
+            "1872-1957",
+            "1900-1975",
+            "1820-1890"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which of his works is a long narrative poem?",
+          "options": [
+            "Rana Surat Singh",
+            "Bijliyan de Haar",
+            "Matak Hulare",
+            "Bir Darshan"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "The word haar in several of his collection titles means what?",
+          "options": [
+            "A river",
+            "A garland or necklace",
+            "A mountain",
+            "A battle"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The title Bijliyan de Haar draws on the image of what?",
+          "options": [
+            "Waves",
+            "Lightning flashes",
+            "Falling leaves",
+            "Burning lamps"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which Punjabi term names the pain of separation and the soul's longing?",
+          "options": [
+            "Kudrat",
+            "Prem",
+            "Birha",
+            "Lehar"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "The central character of Rana Surat Singh whose grief turns into a spiritual search is:",
+          "options": [
+            "Rani Raj Kaur",
+            "Mata Sahib Kaur",
+            "Bibi Nanaki",
+            "Rani Jindan"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Within which reform movement did Bhai Vir Singh's writing take shape?",
+          "options": [
+            "The Bhakti movement",
+            "The Singh Sabha movement",
+            "The Arya Samaj",
+            "The Naqshbandi order"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "sant-waryam-singh-japji",
+      "title": "Japji Sahib: A Puratan Teeka with Sant Waryam Singh Ji",
+      "topic": "theology",
+      "level": 300,
+      "professor": "Sant Waryam Singh Ratwara Sahib",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course studies Japji Sahib, the opening bani of Sri Guru Granth Sahib Ji, through the lens of the puratan (traditional) teeka by Sant Waryam Singh Ji of Ratwara Sahib. A teeka is a line-by-line exposition that opens up the meaning of bani for ordinary readers. Rather than reproducing the bani at length, the course explains how Sant Waryam Singh Ji's teeka presents the architecture of Japji Sahib: the Mool Mantar, the opening sloak, the thirty-eight pauris, and the closing sloak. Students learn the major themes the teeka draws out, including the nature of the Divine, the limits of ritual, the value of remembrance (simran) and Hukam (Divine Order), and the progression of spiritual realms in the later pauris. Japji Sahib appears at Ang 1 of Sri Guru Granth Sahib Ji. Throughout, the course models a respectful, scholarly approach and points readers to standard reference works for further study.",
+      "outcomes": [
+        "Describe the overall structure of Japji Sahib as the teeka presents it: Mool Mantar, opening sloak, 38 pauris, and closing sloak.",
+        "Explain what a puratan teeka is and how Sant Waryam Singh Ji's exposition aims to open meaning for ordinary readers.",
+        "Summarize the central theme of the Mool Mantar as a statement about the nature of the One Divine.",
+        "Identify the key themes the teeka highlights, such as Hukam, simran, the limits of ritual, and Divine grace.",
+        "Outline the progression of the spiritual realms (khands) described in the later pauris as the teeka explains them.",
+        "Locate Japji Sahib within Sri Guru Granth Sahib Ji at Ang 1 and use standard reference works to study it further."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਜਪੁਜੀ ਸਾਹਿਬ</span>",
+          "m": "Japji Sahib: the opening bani of Sri Guru Granth Sahib Ji, composed by Guru Nanak Dev Ji."
+        },
+        {
+          "t": "<span class=\"gur\">ਟੀਕਾ</span>",
+          "m": "Teeka: a traditional line-by-line commentary that explains the meaning of bani."
+        },
+        {
+          "t": "<span class=\"gur\">ਮੂਲ ਮੰਤਰ</span>",
+          "m": "Mool Mantar: the foundational statement opening Japji Sahib that describes the nature of the One Divine."
+        },
+        {
+          "t": "<span class=\"gur\">ਪਉੜੀ</span>",
+          "m": "Pauri: a stanza or 'step'; Japji Sahib contains thirty-eight pauris."
+        },
+        {
+          "t": "<span class=\"gur\">ਸਲੋਕੁ</span>",
+          "m": "Sloak: a couplet; Japji Sahib has an opening sloak and a closing sloak."
+        },
+        {
+          "t": "<span class=\"gur\">ਹੁਕਮੁ</span>",
+          "m": "Hukam: the Divine Order or Will by which all things come into being and act."
+        },
+        {
+          "t": "<span class=\"gur\">ਸਿਮਰਨ</span>",
+          "m": "Simran: loving remembrance and repetition of the Divine Name (Naam)."
+        },
+        {
+          "t": "<span class=\"gur\">ਖੰਡ</span>",
+          "m": "Khand: a spiritual realm or stage; the later pauris describe a progression of khands."
+        }
+      ],
+      "references": [
+        "Sant Waryam Singh Ji. Japji Sahib Puratan Teeka. Ratwara Sahib: Gurmat Education materials, SikhLibrary collection.",
+        "Sahib Singh. Sri Guru Granth Sahib Darpan. Jalandhar: Raj Publishers, 1962-1964.",
+        "Pashaura Singh and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Sri Guru Granth Sahib Ji. Amritsar: Shiromani Gurdwara Parbandhak Committee.",
+        "Nikky-Guninder Kaur Singh. The Birth of the Khalsa: A Feminist Re-Memory of Sikh Identity. Albany: State University of New York Press, 2005."
+      ],
+      "lessons": [
+        {
+          "title": "What a Puratan Teeka Is and Why It Matters",
+          "summary": "Introduces the idea of a teeka and frames Sant Waryam Singh Ji's exposition of Japji Sahib.",
+          "html": "<div class=\"toc\"><strong>Course Lessons</strong><ol><li>What a Puratan Teeka Is and Why It Matters</li><li>The Mool Mantar: Naming the One</li><li>The Opening Sloak and the First Pauris</li><li>Hukam, Simran, and the Limits of Ritual</li><li>The Spiritual Realms in the Later Pauris</li><li>The Closing Sloak and Living the Bani</li></ol></div><p>A <span class=\"gur\">ਟੀਕਾ</span> (teeka) is a traditional commentary that walks through bani and opens its meaning line by line. The puratan, or old, style of teeka grew out of the oral teaching tradition, where a teacher would recite a line and then explain its words and message so that ordinary listeners could follow. Sant Waryam Singh Ji of Ratwara Sahib taught in this tradition, and his <em>Japji Sahib Puratan Teeka</em> aims to make the bani clear for everyday readers (Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>).</p><p>Japji Sahib is the first composition in Sri Guru Granth Sahib Ji and appears at Ang 1. Because it opens the Guru Granth Sahib and is recited daily by many Sikhs, it has received careful attention from commentators across centuries. Standard scholarly study often pairs a traditional teeka with reference works such as Sahib Singh's <em>Sri Guru Granth Sahib Darpan</em> (Sahib Singh, <em>Darpan</em>).</p><p>The teeka does not replace the bani; it serves it. Its goal is to point the reader back to the words of Guru Nanak Dev Ji with greater understanding. This course follows that spirit by describing and explaining the teeka rather than reproducing long passages of the bani.</p><div class=\"refs\"><strong>References:</strong> Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>.</div>"
+        },
+        {
+          "title": "The Mool Mantar: Naming the One",
+          "summary": "Explains how the teeka treats the Mool Mantar as a foundational statement about the Divine.",
+          "html": "<p>The <span class=\"gur\">ਮੂਲ ਮੰਤਰ</span> (Mool Mantar) opens Japji Sahib and, in a sense, the whole of Sri Guru Granth Sahib Ji at Ang 1. As the teeka presents it, the Mool Mantar is a compact description of the nature of the One Divine: the Divine is one, is the Creator, is without fear and without enmity, is timeless and unborn, and is known through grace (Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>).</p><p>Sant Waryam Singh Ji's teeka takes each quality in turn and explains its meaning for the seeker. Rather than treating these as abstract terms, the teeka draws out their practical sense: that the Divine is beyond fear and enmity invites the seeker toward the same freedom from fear and hatred.</p><table><thead><tr><th>Idea in the Mool Mantar</th><th>What the teeka draws out</th></tr></thead><tbody><tr><td>The Divine is One</td><td>Unity behind all of creation</td></tr><tr><td>Creator</td><td>The source of all that exists</td></tr><tr><td>Without fear, without enmity</td><td>A model for the seeker's own heart</td></tr><tr><td>Known by grace</td><td>Realization comes as a gift, not by force</td></tr></tbody></table><p>Commentators broadly agree that the Mool Mantar functions as a thematic seed for the whole bani (Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>).</p><div class=\"refs\"><strong>References:</strong> Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>; Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>.</div>"
+        },
+        {
+          "title": "The Opening Sloak and the First Pauris",
+          "summary": "Describes how the teeka treats the opening sloak and the earliest pauris of Japji Sahib.",
+          "html": "<p>After the Mool Mantar, Japji Sahib opens with a <span class=\"gur\">ਸਲੋਕੁ</span> (sloak) and then begins its sequence of <span class=\"gur\">ਪਉੜੀ</span> (pauris). The word pauri means a step, and the teeka treats the pauris as steps that lead the seeker upward in understanding (Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>).</p><p>The teeka explains that the opening sloak speaks to the truth that endures across time. From there, the early pauris raise a basic question: how does one become true, and how is the wall of falsehood removed? As the teeka presents it, the answer turns the reader away from mere ritual and toward alignment with the Divine Order.</p><p>Sant Waryam Singh Ji's exposition keeps the language simple so that a listener can follow the thread from one pauri to the next. The teeka often restates a line in plain Punjabi and then shows how it connects to the line before and after, so the bani reads as a continuous teaching rather than separate verses.</p><div class=\"refs\"><strong>References:</strong> Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>.</div>"
+        },
+        {
+          "title": "Hukam, Simran, and the Limits of Ritual",
+          "summary": "Covers the central themes the teeka highlights across the middle pauris.",
+          "html": "<p>Two ideas run through the teeka's reading of the middle pauris: <span class=\"gur\">ਹੁਕਮੁ</span> (Hukam), the Divine Order, and <span class=\"gur\">ਸਿਮਰਨ</span> (simran), loving remembrance. The teeka explains that everything in creation comes into being and acts within Hukam, and that the seeker's task is to recognize and accept this Order rather than struggle against it (Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>).</p><p>The teeka also draws out a recurring caution: outward ritual, by itself, does not purify the heart. As Sahib Singh's <em>Darpan</em> similarly notes in its reading of these pauris, Japji Sahib repeatedly redirects the seeker from external acts to inner remembrance and truthful living (Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>).</p><table><thead><tr><th>Theme</th><th>How the teeka frames it</th></tr></thead><tbody><tr><td>Hukam</td><td>All things move within the Divine Order</td></tr><tr><td>Simran</td><td>Remembrance is the practice that transforms the heart</td></tr><tr><td>Ritual</td><td>Useful only when joined to inner truth</td></tr></tbody></table><p>In the teeka's view, Hukam and simran are not separate: remembering the Divine is itself a way of living in harmony with the Order.</p><div class=\"refs\"><strong>References:</strong> Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>.</div>"
+        },
+        {
+          "title": "The Spiritual Realms in the Later Pauris",
+          "summary": "Outlines the progression of khands as the teeka explains the later pauris.",
+          "html": "<p>The later pauris of Japji Sahib describe a progression of spiritual realms, called <span class=\"gur\">ਖੰਡ</span> (khands). The teeka presents these as stages of growth the seeker passes through, each deeper than the last (Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>).</p><p>As the teeka explains, the journey moves from a realm where one begins to act rightly, through realms of knowledge and effort, toward a realm of grace, and finally to the realm of Truth. The teeka stresses that these are not physical places but inner conditions of the soul.</p><table><thead><tr><th>Realm (Khand)</th><th>Theme the teeka emphasizes</th></tr></thead><tbody><tr><td>Realm of right action</td><td>Living and acting in accordance with duty</td></tr><tr><td>Realm of knowledge</td><td>The vastness of creation and understanding</td></tr><tr><td>Realm of effort</td><td>Refinement of the inner self</td></tr><tr><td>Realm of grace</td><td>Strength and beauty given by the Divine</td></tr><tr><td>Realm of Truth</td><td>Abiding in the Divine Order</td></tr></tbody></table><p>Scholarly surveys note that this ascent is one of the most studied features of Japji Sahib (Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>).</p><div class=\"refs\"><strong>References:</strong> Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>; Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>.</div>"
+        },
+        {
+          "title": "The Closing Sloak and Living the Bani",
+          "summary": "Examines how the teeka treats the closing sloak and the call to put the teaching into practice.",
+          "html": "<p>Japji Sahib ends with a closing <span class=\"gur\">ਸਲੋਕੁ</span> (sloak). The teeka explains that this final couplet gathers the message of the whole bani and turns it toward daily life. It speaks of the world as a stage of action and of how one's deeds shape one's path (Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>).</p><p>For Sant Waryam Singh Ji, the point of studying the teeka is not only to understand the words but to live them. The teeka closes by encouraging the seeker to carry simran and acceptance of Hukam into everyday conduct, so that the reading of Japji Sahib becomes a way of life rather than a single recitation.</p><p>This course has described the structure of Japji Sahib as the teeka presents it: the Mool Mantar, the opening sloak, the thirty-eight pauris, and this closing sloak, all found at Ang 1 of Sri Guru Granth Sahib Ji. For deeper study, readers may pair the teeka with Sahib Singh's <em>Darpan</em> and with academic surveys such as <em>The Oxford Handbook of Sikh Studies</em> (Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>; Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>).</p><div class=\"refs\"><strong>References:</strong> Sant Waryam Singh Ji, <em>Japji Sahib Puratan Teeka</em>; Sahib Singh, <em>Sri Guru Granth Sahib Darpan</em>; Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em>.</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is a teeka?",
+          "options": [
+            "A musical setting of bani",
+            "A line-by-line commentary that explains the meaning of bani",
+            "A separate scripture",
+            "A list of festival dates"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "On which Ang of Sri Guru Granth Sahib Ji does Japji Sahib appear?",
+          "options": [
+            "Ang 1",
+            "Ang 100",
+            "Ang 462",
+            "Ang 1430"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How many pauris does Japji Sahib contain?",
+          "options": [
+            "18",
+            "28",
+            "38",
+            "48"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does the Mool Mantar primarily describe, as the teeka presents it?",
+          "options": [
+            "The history of the Gurus",
+            "Rules for daily ritual",
+            "The nature of the One Divine",
+            "A list of holy places"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does the term Hukam mean?",
+          "options": [
+            "A type of hymn",
+            "The Divine Order or Will",
+            "A spiritual realm",
+            "A form of charity"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is simran?",
+          "options": [
+            "Pilgrimage to a shrine",
+            "Fasting on holy days",
+            "Loving remembrance of the Divine Name",
+            "Copying scripture by hand"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "According to the teeka, the khands in the later pauris are best understood as:",
+          "options": [
+            "Physical countries",
+            "Inner stages or conditions of the soul",
+            "Names of the Gurus",
+            "Chapters of a separate book"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the closing sloak of Japji Sahib turn the seeker toward, as the teeka explains?",
+          "options": [
+            "Abandoning all action",
+            "Living the teaching in daily conduct",
+            "Memorizing dates",
+            "Building a temple"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "sant-waryam-singh-sachiara",
+      "title": "Becoming Sachiara: Discourses of Sant Waryam Singh Ji",
+      "topic": "spirituality",
+      "level": 250,
+      "professor": "Sant Waryam Singh Ratwara Sahib",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course introduces the practical spiritual teachings of Sant Waryam Singh Ji of Ratwara Sahib, centred on the opening question of Japji Sahib: how does one become a sachiara, a truthful and God-centred person? Drawing on his recorded discourse-works such as Kiv Sachiara Hoiyai (parts 1-3), Agam Agochar Da Marg, Sewa Simran Jugtiya, and Anand May Jiwan Jach, the course presents a clear and reverent overview of the path he describes. Students learn how living within Hukam (the divine order), practising Naam Simran (loving remembrance of the Name), and performing selfless Seva together dissolve the wall of self-centredness that Guru Nanak Dev Ji calls kurh, the wall of falsehood. The lessons stay in simple English, describe the teachings rather than reproducing long passages, and connect the discourses to mainstream Sikh thought and scholarship.",
+      "outcomes": [
+        "Explain the meaning of the term sachiara as it appears in the first pauri of Japji Sahib and in Sant Waryam Singh Ji's discourses.",
+        "Describe how living in harmony with Hukam removes the wall of falsehood that separates a person from the Divine.",
+        "Summarise the role of Naam Simran as the central daily practice taught in the Kiv Sachiara Hoiyai discourses.",
+        "Distinguish between outward and inward forms of Seva and explain why selfless service supports spiritual growth.",
+        "Outline the stages of inner discipline that move a seeker from a scattered mind toward a settled, God-focused life.",
+        "Connect the lived experience of anand (spiritual bliss) to the integration of Naam, Seva, and surrender to Hukam."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਸਚਿਆਰਾ</span> (Sachiara)",
+          "m": "A truthful, God-centred person whose inner life and outer conduct are aligned with truth; the goal Guru Nanak asks how to reach."
+        },
+        {
+          "t": "<span class=\"gur\">ਹੁਕਮ</span> (Hukam)",
+          "m": "The divine order or command of God; living in willing acceptance of Hukam is taught as the way the wall of falsehood falls away."
+        },
+        {
+          "t": "<span class=\"gur\">ਨਾਮ</span> (Naam)",
+          "m": "The Name and presence of God; in these discourses the foundation of all spiritual practice and the means of inner cleansing."
+        },
+        {
+          "t": "<span class=\"gur\">ਸਿਮਰਨ</span> (Simran)",
+          "m": "Loving, attentive remembrance of Naam; the daily discipline that gathers the scattered mind and turns it toward God."
+        },
+        {
+          "t": "<span class=\"gur\">ਸੇਵਾ</span> (Seva)",
+          "m": "Selfless service offered without expectation of reward; a practice that wears down ego and supports remembrance."
+        },
+        {
+          "t": "<span class=\"gur\">ਕੂੜ</span> (Kurh)",
+          "m": "Falsehood or self-centred illusion; the inner wall that, in Guru Nanak's words, must break for one to become sachiara."
+        },
+        {
+          "t": "<span class=\"gur\">ਅਨੰਦ</span> (Anand)",
+          "m": "Spiritual bliss or settled joy; described as the natural fruit of a life lived in Naam, Seva, and surrender to Hukam."
+        },
+        {
+          "t": "<span class=\"gur\">ਅਗਮ ਅਗੋਚਰ</span> (Agam Agochar)",
+          "m": "The unreachable and imperceptible nature of God, beyond the senses and intellect; the title-theme of one discourse-work on the marg (path) toward such a Reality."
+        }
+      ],
+      "references": [
+        "Sant Waryam Singh. <i>Kiv Sachiara Hoiyai</i>, parts 1-3. Ratwara Sahib: Gurmat Parchar discourses. SikhLibrary collection.",
+        "Sant Waryam Singh. <i>Agam Agochar Da Marg</i>. Ratwara Sahib discourses. SikhLibrary collection.",
+        "Sant Waryam Singh. <i>Sewa Simran Jugtiya</i> and <i>Anand May Jiwan Jach</i>. Ratwara Sahib discourses. SikhLibrary collection.",
+        "Sahib Singh. <i>Sri Guru Granth Sahib Darpan</i>. Jalandhar: Raj Publishers.",
+        "Pashaura Singh and Louis E. Fenech, eds. <i>The Oxford Handbook of Sikh Studies</i>. Oxford: Oxford University Press, 2014."
+      ],
+      "lessons": [
+        {
+          "title": "The Question of Japji: How to Become Sachiara",
+          "summary": "Introduces the foundational question of Japji Sahib and how Sant Waryam Singh Ji frames the whole spiritual path around it.",
+          "html": "<div class=\"toc\"><strong>Course Outline</strong><ol><li>The Question of Japji: How to Become Sachiara</li><li>Hukam: Letting the Wall of Falsehood Fall</li><li>Naam Simran: The Central Practice</li><li>Seva: Service That Wears Down Ego</li><li>The Path Toward Agam Agochar</li><li>Anand: A Life of Settled Bliss</li></ol></div><p>Guru Nanak Dev Ji opens Japji Sahib with a question that has guided seekers for centuries: how does one become a <span class=\"gur\">ਸਚਿਆਰਾ</span> (sachiara), a person of truth, and how does the wall of falsehood fall away? In his discourse-series <i>Kiv Sachiara Hoiyai</i> (parts 1-3), Sant Waryam Singh Ji takes this single question as the doorway into the entire spiritual life (Sant Waryam Singh, <i>Kiv Sachiara Hoiyai</i>).</p><p>He explains that a sachiara is not simply an honest person in the everyday sense. It is one whose inner life is settled in truth, whose mind no longer wanders after self-centred desire, and whose conduct flows naturally from that inner truth. The opposite condition is <span class=\"gur\">ਕੂੜ</span> (kurh), the wall of falsehood that keeps the self separate from the Divine.</p><table><thead><tr><th>Condition</th><th>Description</th></tr></thead><tbody><tr><td>Kurh (falsehood)</td><td>A scattered, self-centred mind walled off from truth</td></tr><tr><td>Sachiara (truthful)</td><td>A settled, God-centred life aligned with Hukam</td></tr></tbody></table><p>Sant Waryam Singh Ji's answer is practical rather than abstract. The wall of falsehood falls, he teaches, through three woven strands of daily life: living within Hukam, practising Naam Simran, and offering Seva. The lessons that follow take up each strand in turn, then show how they combine into a life of <span class=\"gur\">ਅਨੰਦ</span> (anand). For traditional grammatical and devotional commentary on these verses, students may also consult Sahib Singh's <i>Darpan</i> (Sahib Singh, <i>Darpan</i>).</p><div class=\"refs\"><strong>References</strong><ul><li>Sant Waryam Singh, <i>Kiv Sachiara Hoiyai</i>, parts 1-3.</li><li>Sahib Singh, <i>Sri Guru Granth Sahib Darpan</i>.</li></ul></div>"
+        },
+        {
+          "title": "Hukam: Letting the Wall of Falsehood Fall",
+          "summary": "Explains the meaning of Hukam and how willing acceptance of the divine order dissolves self-centredness.",
+          "html": "<p>When the question of Japji is asked, Guru Nanak gives a direct pointer: it is by walking in accordance with <span class=\"gur\">ਹੁਕਮ</span> (Hukam), the divine order, that the wall of falsehood falls. Sant Waryam Singh Ji devotes much of <i>Kiv Sachiara Hoiyai</i> to unpacking what this means in ordinary life (Sant Waryam Singh, <i>Kiv Sachiara Hoiyai</i>).</p><p>He describes Hukam not as blind fate but as the loving, ordered will of God that runs through every event. Resistance to Hukam, he explains, is the root of suffering, because it comes from the self insisting that things go its own way. To live as a sachiara is to soften that insistence and to receive life as it comes, while still acting with effort and care.</p><p>This acceptance is not passivity. The seeker still works, serves, and strives; but the inner attitude shifts from demand to trust. As that trust grows, the hard edge of ego begins to wear away, and the separation that <span class=\"gur\">ਕੂੜ</span> (kurh) creates loses its strength. The broader Sikh understanding of Hukam as a central theological theme is surveyed in scholarship as well (Pashaura Singh and Louis E. Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i>).</p><div class=\"refs\"><strong>References</strong><ul><li>Sant Waryam Singh, <i>Kiv Sachiara Hoiyai</i>, parts 1-3.</li><li>Pashaura Singh and Louis E. Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i>.</li></ul></div>"
+        },
+        {
+          "title": "Naam Simran: The Central Practice",
+          "summary": "Presents Naam Simran as the daily discipline at the heart of the discourses and how it gathers the scattered mind.",
+          "html": "<p>If Hukam describes the right inner attitude, <span class=\"gur\">ਸਿਮਰਨ</span> (simran) is the daily practice that makes that attitude real. In <i>Sewa Simran Jugtiya</i>, Sant Waryam Singh Ji presents Naam Simran as the central work of the spiritual life, the means by which the mind is cleansed and steadied (Sant Waryam Singh, <i>Sewa Simran Jugtiya</i>).</p><p>He teaches that <span class=\"gur\">ਨਾਮ</span> (Naam) is not merely a word to be repeated but the living presence of God to be remembered with love and attention. Simran begins as a deliberate effort to return the wandering mind to the Name again and again. Over time, with regular practice, the remembrance becomes more natural, and the restlessness that scatters the mind slowly settles.</p><p>A recurring emphasis in these discourses is regularity. A fixed daily routine, especially in the calm hours of <span class=\"gur\">ਅੰਮ੍ਰਿਤ ਵੇਲਾ</span> (amrit vela, the hours before dawn), is described as the soil in which Simran takes root. Just as a wall cannot fall in a single push, the wall of falsehood gives way through patient, repeated remembrance rather than sudden effort.</p><div class=\"refs\"><strong>References</strong><ul><li>Sant Waryam Singh, <i>Sewa Simran Jugtiya</i>.</li><li>Sant Waryam Singh, <i>Kiv Sachiara Hoiyai</i>, parts 1-3.</li></ul></div>"
+        },
+        {
+          "title": "Seva: Service That Wears Down Ego",
+          "summary": "Explores how selfless service complements Simran by reducing ego and supporting a God-centred life.",
+          "html": "<p>Alongside Simran, Sant Waryam Singh Ji places <span class=\"gur\">ਸੇਵਾ</span> (Seva), selfless service. In <i>Sewa Simran Jugtiya</i> the two are presented together, like two wings of the same flight, because remembrance without service can turn inward and self-satisfied, while service without remembrance can become mere busyness (Sant Waryam Singh, <i>Sewa Simran Jugtiya</i>).</p><p>He distinguishes between outward Seva and inward Seva. Outward Seva is the visible work of serving the sangat and others: preparing langar, cleaning, caring for those in need. Inward Seva is the quieter service of the mind, keeping it engaged in Naam and free from pride in the service performed.</p><table><thead><tr><th>Form of Seva</th><th>Focus</th></tr></thead><tbody><tr><td>Outward (tan)</td><td>Service of body and hands for others</td></tr><tr><td>Inward (man)</td><td>Service of the mind through humble remembrance</td></tr></tbody></table><p>The deeper purpose of Seva, he explains, is the wearing down of ego. Each act offered without expectation of thanks loosens the grip of the self, and as the self shrinks, the space for truth grows. In this way Seva directly supports the becoming of a sachiara.</p><div class=\"refs\"><strong>References</strong><ul><li>Sant Waryam Singh, <i>Sewa Simran Jugtiya</i>.</li><li>Sahib Singh, <i>Sri Guru Granth Sahib Darpan</i>.</li></ul></div>"
+        },
+        {
+          "title": "The Path Toward Agam Agochar",
+          "summary": "Describes the inner journey toward the unreachable Reality and the stages of discipline along the way.",
+          "html": "<p>In <i>Agam Agochar Da Marg</i>, Sant Waryam Singh Ji turns to the destination of the journey: God as <span class=\"gur\">ਅਗਮ ਅਗੋਚਰ</span> (agam agochar), the One who is unreachable by effort alone and imperceptible to the senses and the intellect (Sant Waryam Singh, <i>Agam Agochar Da Marg</i>).</p><p>This raises a question the discourse takes seriously: if the Divine cannot be grasped by mind or sense, how can there be a path at all? His answer is that the marg is not a path of capture but of clearing. The seeker does not seize God; rather, by removing the obstacles of ego, restlessness, and falsehood, the seeker becomes transparent enough for grace to act.</p><p>He sketches a gentle progression. The scattered mind is first gathered through Simran; the gathered mind is then steadied through living in Hukam; the steadied mind is finally humbled through Seva. At no stage does the seeker claim arrival by personal merit. The reaching of the agam agochar Reality is received as a gift, a point that keeps the whole path grounded in humility rather than achievement.</p><div class=\"refs\"><strong>References</strong><ul><li>Sant Waryam Singh, <i>Agam Agochar Da Marg</i>.</li><li>Pashaura Singh and Louis E. Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i>.</li></ul></div>"
+        },
+        {
+          "title": "Anand: A Life of Settled Bliss",
+          "summary": "Brings the threads together, showing how Naam, Seva, and Hukam combine into a life of spiritual bliss.",
+          "html": "<p>The final discourse-theme, drawn from <i>Anand May Jiwan Jach</i>, describes the fruit of the whole path: a life filled with <span class=\"gur\">ਅਨੰਦ</span> (anand), settled spiritual bliss (Sant Waryam Singh, <i>Anand May Jiwan Jach</i>).</p><p>Sant Waryam Singh Ji is careful to distinguish anand from passing pleasure. Pleasure depends on outer conditions and fades when they change. Anand, by contrast, is a steady inner state that arises from union of the mind with Naam and from harmony with Hukam. It does not require perfect circumstances; it can remain even in difficulty, because its source is within.</p><p>He shows how the threads of the course come together here. <span class=\"gur\">ਨਾਮ</span> (Naam) gives the inner anchor; <span class=\"gur\">ਸੇਵਾ</span> (Seva) keeps the ego small; acceptance of <span class=\"gur\">ਹੁਕਮ</span> (Hukam) keeps the heart at peace with life as it is. Where these three are woven into daily living, the wall of <span class=\"gur\">ਕੂੜ</span> (kurh) has fallen, and the person has, in Guru Nanak's terms, become a <span class=\"gur\">ਸਚਿਆਰਾ</span> (sachiara). The anand of such a life is, in these discourses, both the sign and the reward of that becoming.</p><div class=\"refs\"><strong>References</strong><ul><li>Sant Waryam Singh, <i>Anand May Jiwan Jach</i>.</li><li>Sant Waryam Singh, <i>Kiv Sachiara Hoiyai</i>, parts 1-3.</li></ul></div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "The term sachiara, central to these discourses, refers to:",
+          "options": [
+            "A wealthy patron of a gurdwara",
+            "A truthful, God-centred person aligned with truth",
+            "A scholar of Punjabi grammar",
+            "A traveller on a long pilgrimage"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which question of Japji Sahib frames Sant Waryam Singh Ji's discourse-series Kiv Sachiara Hoiyai?",
+          "options": [
+            "How was the universe created?",
+            "How does one become a sachiara and how does the wall of falsehood fall?",
+            "How many forms of meditation exist?",
+            "How should langar be prepared?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "According to the discourses, what is the wall of kurh?",
+          "options": [
+            "A physical boundary of the gurdwara",
+            "Falsehood and self-centred illusion that separates one from the Divine",
+            "A stage of advanced meditation",
+            "The outer courtyard of a temple"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Living in Hukam, as taught here, primarily means:",
+          "options": [
+            "Withdrawing from all activity",
+            "Willing acceptance of the divine order while still acting with care",
+            "Memorising scripture word for word",
+            "Following only one's own desires"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is described as the central daily practice for cleansing and steadying the mind?",
+          "options": [
+            "Fasting for long periods",
+            "Naam Simran, loving remembrance of the Name",
+            "Silent reading of history",
+            "Collecting donations"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The discourses distinguish inward Seva from outward Seva. Inward Seva is:",
+          "options": [
+            "Service of body and hands for others",
+            "Service of the mind through humble remembrance",
+            "Building gurdwaras",
+            "Public preaching only"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In Agam Agochar Da Marg, the path toward the unreachable Reality is best described as:",
+          "options": [
+            "A path of seizing God through effort alone",
+            "A path of clearing obstacles so grace can act",
+            "A path requiring no inner change",
+            "A path of accumulating personal merit"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does Anand May Jiwan Jach distinguish anand from ordinary pleasure?",
+          "options": [
+            "Anand depends entirely on outer conditions",
+            "Anand is a steady inner state from union with Naam and harmony with Hukam",
+            "Anand and pleasure are identical",
+            "Anand can only be felt during festivals"
+          ],
+          "answer": 1
+        }
+      ]
     }
   ],
   "paths": [
