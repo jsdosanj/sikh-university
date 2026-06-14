@@ -1,4 +1,4 @@
-name = "sikhuniversity"
+name = "sikh-university"
 pages_build_output_dir = "site"
 compatibility_date = "2026-06-14"
 
@@ -13,7 +13,7 @@ bucket_name = "sikh-university-media"
 
 # Non-secret vars deploy with the Git build (Pages reads wrangler.toml).
 [vars]
-SITE_URL = "https://sikhuniversity.pages.dev"
+SITE_URL = "https://sikh-university.pages.dev"
 ADMIN_EMAILS = "singhsxdhi@gmail.com,contact@sikhism.io"
 MAIL_FROM = "onboarding@resend.dev"
 # RESEND_API_KEY is a secret — set in the Pages dashboard (you've added it).
