@@ -6,7 +6,7 @@ const { course: c } = Astro.props;
 ---
 <a href={`/course/${c.id}`} class="card group flex h-full flex-col">
   <div class="mb-1.5 flex flex-wrap items-center gap-2 font-sans text-xs text-muted">
-    <span class="pill bg-[#e7ecf5] text-navy">{topicName(c.topic)}</span>
+    <span class="pill bg-paper text-navy">{topicName(c.topic)}</span>
     <span class="pill bg-paper text-muted">{c.level} level</span>
     {c.aiCreated && <span class="pill bg-saffron-soft text-saffron-deep">Created by AI</span>}
   </div>
