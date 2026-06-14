@@ -17,12 +17,64 @@ import Base from '../layouts/Base.astro';
       if (!u || u.role !== 'admin') { root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">Admins only. <a class="underline" href="/login">Sign in</a> with an admin account.</div>'; return; }
       root.innerHTML = `<h1 class="text-3xl font-bold">Admin dashboard</h1><p class="font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
         <div id="tabs" class="mt-4 flex flex-wrap gap-1 border-b border-line"></div><div id="panel" class="mt-6"></div>`;
-      const tabs = [['overview', 'Overview'], ['users', 'Users'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback']];
+      const tabs = [['overview', 'Overview'], ['users', 'Users'], ['gradebook', 'Gradebook'], ['teachers', 'Teachers'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback'], ['audit', 'Audit log']];
       let cur = 'overview';
       const tabsEl = document.getElementById('tabs'); const panel = document.getElementById('panel');
       tabs.forEach(([k, label]) => { const b = document.createElement('button'); b.textContent = label; b.dataset.k = k; b.className = 'px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted'; b.onclick = () => { cur = k; draw(); }; tabsEl.appendChild(b); });
       function setActive() { Array.from(tabsEl.children).forEach((b) => { const on = b.dataset.k === cur; b.classList.toggle('border-saffron', on); b.classList.toggle('text-navy', on); b.classList.toggle('font-semibold', on); }); }
-      function draw() { setActive(); panel.innerHTML = '<p class="text-muted">Loading…</p>'; ({ overview, users, courses: coursesTab, applications, feedback })[cur](); }
+      function draw() { setActive(); panel.innerHTML = '<p class="text-muted">Loading…</p>'; ({ overview, users, gradebook, teachers, courses: coursesTab, applications, feedback, audit })[cur](); }
+      const grade = (s) => s >= 90 ? 'A' : s >= 80 ? 'B' : s >= 70 ? 'C' : s >= 60 ? 'D' : 'F';
+
+      function gradebook() {
+        api('/api/gradebook').then(({ ok, d }) => {
+          if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load the gradebook.</div>'; return; }
+          const rows = d.rows || [], cids = d.courses || [];
+          const title = {}; courses.forEach((c) => (title[c.id] = c.title));
+          const lc = (id) => { const c = courses.find((x) => x.id === id); return (c && c.lessons) ? c.lessons.length : 0; };
+          if (!rows.length) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4 text-muted">No enrolments yet. When learners take courses, the platform-wide gradebook appears here.</div>'; return; }
+          let html = `<div class="flex flex-wrap items-center justify-between gap-2"><p class="font-sans text-sm text-muted">${rows.length} enrolment record(s) across ${cids.length} course(s). Click a course to expand.</p><a class="btn" href="/api/gradebook?format=csv">⬇ Export all (.csv)</a></div>`;
+          cids.forEach((cid) => {
+            const cr = rows.filter((r) => r.course_id === cid).sort((a, b) => (b.score == null ? -1 : b.score) - (a.score == null ? -1 : a.score));
+            const l = lc(cid); const cs = cr.filter((r) => r.score != null);
+            const cavg = cs.length ? Math.round(cs.reduce((a, r) => a + r.score, 0) / cs.length) : 0;
+            const pass = cr.length ? Math.round(cr.filter((r) => r.score != null && r.score >= 80).length / cr.length * 100) : 0;
+            html += `<details class="mt-4 rounded-xl2 border border-line bg-surface p-3"><summary class="cursor-pointer font-semibold text-navy">${esc(title[cid] || cid)} <span class="font-sans text-xs font-normal text-muted">· ${cr.length} learners · avg ${cavg}% · ${pass}% passed</span></summary><div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">Student</th><th>Progress</th><th>Score</th><th>Grade</th></tr></thead><tbody>${cr.map((r) => { const pct = l ? Math.round(r.done / l * 100) : 0; return `<tr class="border-t border-line"><td class="py-1">${esc(r.name || r.email)}${r.override ? ' <span title="Overridden">✎</span>' : ''}</td><td>${pct}%</td><td>${r.score != null ? r.score + '%' : '—'}</td><td>${r.score != null ? grade(r.score) : '—'}</td></tr>`; }).join('')}</tbody></table></div></details>`;
+          });
+          panel.innerHTML = html;
+        });
+      }
+
+      function teachers() {
+        Promise.all([api('/api/admin/course-teachers'), api('/api/admin/users')]).then(([a, u]) => {
+          const assigns = (a.ok && a.d.assignments) || [], usersList = (u.ok && u.d.users) || [];
+          const title = {}; courses.forEach((c) => (title[c.id] = c.title));
+          const courseOpts = courses.filter((c) => c.status === 'published').slice().sort((x, y) => x.title.localeCompare(y.title)).map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('');
+          const userOpts = usersList.filter((x) => x.role !== 'admin').map((x) => `<option value="${esc(x.id)}">${esc(x.email)} (${esc(x.role)})</option>`).join('');
+          let html = `<p class="font-sans text-sm text-muted">Assign a teacher to a course. Assigning gives them a real gradebook for that course and promotes a learner to teacher. Admins can't be assigned.</p>
+            <div class="mt-4 flex flex-wrap items-end gap-3 rounded-xl2 border border-line bg-surface p-4">
+              <label class="font-sans text-sm">Teacher<br><select id="t-user" class="mt-1 rounded-lg border border-line bg-paper px-2 py-1.5">${userOpts || '<option value="">No eligible users</option>'}</select></label>
+              <label class="font-sans text-sm">Course<br><select id="t-course" class="mt-1 rounded-lg border border-line bg-paper px-2 py-1.5">${courseOpts}</select></label>
+              <button id="t-assign" class="btn btn-primary">Assign</button>
+            </div>
+            <h3 class="mt-8 text-lg font-bold">Current assignments (${assigns.length})</h3>`;
+          if (!assigns.length) html += '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No teachers assigned yet.</div>';
+          else html += `<table class="mt-2 w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">Course</th><th>Teacher</th><th></th></tr></thead><tbody>${assigns.map((x) => `<tr class="border-t border-line" data-c="${esc(x.course_id)}" data-u="${esc(x.user_id)}"><td class="py-1">${esc(title[x.course_id] || x.course_id)}</td><td>${esc(x.email)}</td><td><button class="rounded-lg border border-line px-2 py-1 hover:border-saffron" data-unassign>Unassign</button></td></tr>`).join('')}</tbody></table>`;
+          panel.innerHTML = html;
+          const ab = document.getElementById('t-assign');
+          if (ab) ab.addEventListener('click', () => { const userId = document.getElementById('t-user').value; const courseId = document.getElementById('t-course').value; if (!userId || !courseId) return; api('/api/admin/course-teachers', { method: 'POST', body: JSON.stringify({ userId, courseId, action: 'assign' }) }).then(({ ok }) => { if (ok) draw(); }); });
+          panel.querySelectorAll('[data-unassign]').forEach((b) => b.addEventListener('click', () => { const tr = b.closest('[data-c]'); api('/api/admin/course-teachers', { method: 'POST', body: JSON.stringify({ courseId: tr.dataset.c, userId: tr.dataset.u, action: 'unassign' }) }).then(({ ok }) => { if (ok) draw(); }); }));
+        });
+      }
+
+      function audit() {
+        api('/api/admin/events').then(({ ok, d }) => {
+          if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load the audit log.</div>'; return; }
+          const ev = d.events || [];
+          if (!ev.length) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4 text-muted">No events logged yet. Course passes, grade overrides, role changes, teacher assignments and announcements will appear here.</div>'; return; }
+          const fmtT = (ts) => { try { return new Date(ts).toLocaleString(); } catch { return ''; } };
+          panel.innerHTML = `<p class="font-sans text-sm text-muted">${ev.length} most recent events.</p><div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">When</th><th>Who</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead><tbody>${ev.map((e) => `<tr class="border-t border-line align-top"><td class="py-1 whitespace-nowrap">${fmtT(e.ts)}</td><td>${esc(e.email || e.user_id || '—')}</td><td><span class="pill bg-paper text-navy">${esc(e.action)}</span></td><td>${esc(e.target || '—')}</td><td>${esc(e.detail || '')}</td></tr>`).join('')}</tbody></table></div>`;
+        });
+      }
 
       function users() {
         api('/api/admin/users').then(({ ok, d }) => {
