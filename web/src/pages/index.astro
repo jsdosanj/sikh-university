@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import CourseCard from '../components/CourseCard.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
-const featured = published.slice(0, 6);
+const featured = published.slice(0, 3);
 const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
@@ -85,10 +85,29 @@ const websiteLd = {
   </section>
 
   <section class="bg-gradient-to-br from-blue to-brand text-white">
-    <div class="wrap py-14 text-center">
-      <h2 class="text-2xl font-bold text-white">A space to dig deeper into Sikhi</h2>
-      <p class="mx-auto mt-3 max-w-2xl text-white/85">Sikh University was built so anyone can study Sikhi seriously — from authentic sources, at their own pace, for free. Learn alongside the Sikh Archive.</p>
-      <div class="mt-6 flex justify-center gap-3"><a class="btn btn-primary" href="/about">Why we built this</a></div>
+    <div class="wrap py-16">
+      <p class="text-center font-sans text-sm uppercase tracking-[0.2em] text-saffron">Our mission</p>
+      <h2 class="mx-auto mt-3 max-w-3xl text-center text-2xl font-bold text-white sm:text-3xl">From the wisdom of our ancestors to a living bond with Waheguru</h2>
+      <p class="mx-auto mt-4 max-w-3xl text-center text-lg text-white/90">We learn from those who came before us — the Gurus, the scholars, the saints and the soldiers — and carry their light forward. We begin with the basics of Sikhi and keep going into its depths, until one truth becomes unmistakable: that <strong>Sri Guru Granth Sahib Ji</strong> is the living Guru and the one universal Truth. And the real aim of all of it is simple — to build an intimate, personal relationship with <strong>Waheguru</strong>.</p>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ['🪔', 'Learn from our ancestors', 'The Gurus, scholars, saints and soldiers whose lives and writings light the way — taught from authentic sources.'],
+          ['🌊', 'From the basics to the depths', 'Start with the simplest questions and follow them as far as you dare. The deeper you go, the more there is.'],
+          ['📖', 'Sri Guru Granth Sahib Ji', 'The living Guru and the universal Truth. Every path here leads back to the Shabad — read it for yourself in our reader.'],
+          ['🪯', 'A relationship with Waheguru', 'Not just knowledge, but Naam, Simran and seva — a living, personal bond with the Divine.'],
+        ].map((m) => (
+          <div class="rounded-xl2 bg-white/10 p-5 backdrop-blur">
+            <div class="text-3xl">{m[0]}</div>
+            <h3 class="mt-2 text-lg font-bold text-white">{m[1]}</h3>
+            <p class="mt-1 text-[0.95rem] text-white/80">{m[2]}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a class="btn btn-primary" href="/read?src=sggs">Read Sri Guru Granth Sahib Ji</a>
+        <a class="btn btn-ghost" href="/paths">Start a learning path</a>
+        <a class="btn btn-ghost" href="/about">Why we built this</a>
+      </div>
     </div>
   </section>
 </Base>

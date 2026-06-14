@@ -19,7 +19,6 @@ import Base from '../layouts/Base.astro';
         <button data-fs="-" class="rounded-lg border border-line px-2.5 py-1">A−</button>
         <button data-fs="+" class="rounded-lg border border-line px-2.5 py-1">A+</button>
         <button id="larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
-        <button id="bg" class="rounded-lg border border-line px-2.5 py-1">◐ Theme</button>
       </div>
     </div>
     <p id="audnote" class="mt-1 font-sans text-xs text-muted"></p>
@@ -38,18 +37,9 @@ import Base from '../layouts/Base.astro';
     #page .w.on { background: #ffe69a; color: #1a1205; font-weight: 700; box-shadow: 0 0 0 2px #ffe69a; }
     #page .ln { margin: .35rem 0; }
     #page.lari .ln { word-spacing: -0.25em; }
-    body.read-dark { background: #0f1115; color: #e8e8ea; }
-    body.read-dark #page .w.on { background: #f4b21a; color: #0a0d14; }
-    /* Dark theme: the controls bar uses a light surface token by default, which
-       leaves its light-text buttons unreadable. Re-skin it for dark mode. */
-    body.read-dark #audbar { background: #171a21; border-color: #2a3140; }
-    body.read-dark #audbar button { color: #e8e8ea; border-color: #3a4252; }
-    body.read-dark #audbar button:hover { border-color: #6b8cff; }
-    body.read-dark .wrap button { color: #e8e8ea; border-color: #3a4252; }
-    body.read-dark .wrap button:hover { border-color: #6b8cff; }
-    body.read-dark #angin { background: #171a21; color: #e8e8ea; border-color: #3a4252; }
-    body.read-dark #audph { background: #1f2430; color: #aeb4c0; }
-    body.read-sepia { background: #f3e9d2; }
+    /* The reader follows the single site-wide theme ([data-theme="dark"]); the
+       word-highlight needs a brighter "on" colour against the dark page. */
+    [data-theme="dark"] #page .w.on { background: #f4b21a; color: #0a0d14; box-shadow: 0 0 0 2px #f4b21a; }
   </style>
 
   <script>
@@ -136,10 +126,7 @@ import Base from '../layouts/Base.astro';
     var fs = get('read_fs', 1.9); page.style.fontSize = fs + 'rem';
     document.querySelectorAll('[data-fs]').forEach(function (b) { b.onclick = function () { fs = Math.max(1.1, Math.min(3.2, fs + (b.dataset.fs === '+' ? 0.2 : -0.2))); page.style.fontSize = fs + 'rem'; set('read_fs', fs); }; });
     document.getElementById('larivaar').onclick = function () { page.classList.toggle('lari'); };
-    var themes = ['', 'read-dark', 'read-sepia'], ti = get('read_theme', 0);
-    function applyTheme() { document.body.classList.remove('read-dark', 'read-sepia'); if (themes[ti]) document.body.classList.add(themes[ti]); }
-    applyTheme();
-    document.getElementById('bg').onclick = function () { ti = (ti + 1) % themes.length; set('read_theme', ti); applyTheme(); };
+    /* Theme is controlled site-wide by the header toggle ([data-theme]); the reader has no separate toggle. */
     load(ang);
     if (cfg.audio) {
       note.textContent = 'Loading Santhya audio…';

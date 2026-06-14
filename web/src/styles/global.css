@@ -52,4 +52,10 @@
   .lesson-prose .toc strong { @apply block mb-1 text-navy; }
   .lesson-prose blockquote.gurbani { @apply border-l-4 border-saffron bg-saffron-soft rounded-r-lg my-4 px-4 py-2; }
   .lesson-prose .refs { @apply font-sans text-[0.85rem] text-muted border-t border-line mt-6 pt-3; }
+  /* Apologetics Q&A blocks (built from the manuscript) */
+  .lesson-prose .qa { @apply border-t border-line pt-4 mt-4; }
+  .lesson-prose .qa:first-child { @apply border-t-0 pt-0 mt-0; }
+  .lesson-prose .qa h4 { @apply text-navy; }
+  .lesson-prose .keypoints { @apply rounded-lg bg-paper border border-line px-4 py-2 font-sans text-[0.9rem] my-2; }
+  .lesson-prose blockquote.gurbani .cite { @apply font-sans text-[0.8rem] text-muted not-italic; }
 }
