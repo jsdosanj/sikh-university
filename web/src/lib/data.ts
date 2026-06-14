@@ -10,6 +10,7 @@ export type Course = {
   source?: string; aiCreated?: boolean; status: string; summary: string;
   outcomes?: string[]; terms?: Term[]; references?: string[];
   lessons?: Lesson[]; quiz?: Quiz[];
+  sourceText?: { work: string; url: string; gurmukhi?: string; english?: string };
 };
 export type Topic = { id: string; name: string; blurb: string };
 export type Path = { id: string; name: string; blurb: string; courseIds: string[] };
