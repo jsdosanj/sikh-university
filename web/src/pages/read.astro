@@ -14,6 +14,7 @@ import Base from '../layouts/Base.astro';
 
     <div id="audbar" class="mt-4 flex flex-wrap items-center gap-3 rounded-xl2 border border-line bg-surface p-3">
       <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
+      <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted">🔇 Audio for this Ang is being prepared.</div>
       <div class="flex items-center gap-2 font-sans text-sm">
         <button data-fs="-" class="rounded-lg border border-line px-2.5 py-1">A−</button>
         <button data-fs="+" class="rounded-lg border border-line px-2.5 py-1">A+</button>
@@ -47,6 +48,7 @@ import Base from '../layouts/Base.astro';
     body.read-dark .wrap button { color: #e8e8ea; border-color: #3a4252; }
     body.read-dark .wrap button:hover { border-color: #6b8cff; }
     body.read-dark #angin { background: #171a21; color: #e8e8ea; border-color: #3a4252; }
+    body.read-dark #audph { background: #1f2430; color: #aeb4c0; }
     body.read-sepia { background: #f3e9d2; }
   </style>
 
@@ -63,7 +65,7 @@ import Base from '../layouts/Base.astro';
     var qp = new URLSearchParams(location.search);
     var src = SRC[qp.get('src')] ? qp.get('src') : 'sggs';
     var cfg = SRC[src];
-    var page = document.getElementById('page'), aud = document.getElementById('aud'), angin = document.getElementById('angin'), note = document.getElementById('audnote');
+    var page = document.getElementById('page'), aud = document.getElementById('aud'), angin = document.getElementById('angin'), note = document.getElementById('audnote'), audph = document.getElementById('audph');
     document.getElementById('title').textContent = cfg.name;
     document.getElementById('anglabel').childNodes[0].nodeValue = cfg.unit + ' ';
     angin.max = cfg.max;
@@ -95,11 +97,11 @@ import Base from '../layouts/Base.astro';
       history.replaceState(null, '', '/read?src=' + src + '&ang=' + n);
       note.textContent = '';
       fetch('/assets/gurbani/' + src + '/' + n + '.json').then(function (r) { return r.json(); }).then(render).catch(function () { page.innerHTML = '<p class="text-muted" style="font-size:1rem">Could not load this ' + cfg.unit + '.</p>'; });
-      if (cfg.audio) { aud.style.display = ''; aud.src = '/media/santhya/sggs/' + pad(n) + '.mp3'; aud.load(); }
-      else { aud.style.display = 'none'; note.textContent = 'Text read-along (no audio for this Granth yet).'; }
+      if (cfg.audio) { aud.style.display = ''; audph.style.display = 'none'; aud.src = '/media/santhya/sggs/' + pad(n) + '.mp3'; aud.load(); }
+      else { aud.style.display = 'none'; audph.style.display = 'none'; note.textContent = 'Text read-along (no audio for this Granth yet).'; }
     }
     aud.addEventListener('timeupdate', function () { highlight(aud.currentTime); });
-    aud.addEventListener('error', function () { if (cfg.audio) { aud.style.display = 'none'; note.textContent = 'Audio for this Ang is not uploaded yet — text read-along still works.'; } });
+    aud.addEventListener('error', function () { if (cfg.audio) { aud.style.display = 'none'; audph.style.display = 'flex'; note.textContent = 'Audio for this Ang is not uploaded yet — text read-along still works.'; } });
     aud.addEventListener('ended', function () { if (ang < cfg.max) { load(ang + 1); aud.play().catch(function () {}); } });
     function go(n) { load(n); }
     document.getElementById('next').onclick = document.getElementById('next2').onclick = function () { go(ang + 1); };
