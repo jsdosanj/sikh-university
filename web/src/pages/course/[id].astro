@@ -36,7 +36,7 @@ const breadcrumb = {
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} slot="head" />
 
-  <header class="bg-gradient-to-br from-brand to-navy-strong text-white">
+  <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
     <div class="wrap py-12">
       <div class="flex flex-wrap items-center gap-2 font-sans text-xs">
         <a href="/catalog" class="text-white/70 hover:text-white">← Catalogue</a>
@@ -52,6 +52,7 @@ const breadcrumb = {
         <span class="font-sans text-sm text-white/70">{lessons.length} lessons · {quiz.length}-question test · 80% to pass</span>
       </div>
     </div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
 
   <div class="wrap grid gap-10 py-12 lg:grid-cols-[1fr_280px]">

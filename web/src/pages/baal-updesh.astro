@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import gurbaniWords from '../data/gurbani-words.json';
 // The Painti — 35 letters of the Gurmukhi alphabet (3 vowel-bearers + 32 consonants).
 const akhar = [
   ['ੳ', 'Ura'], ['ਅ', 'Aira'], ['ੲ', 'Iri'], ['ਸ', 'Sassa'], ['ਹ', 'Haha'],
@@ -73,6 +74,7 @@ const wordCard = (w) => w;
       <a href="#words" class="rounded-full border border-line px-3 py-1 hover:border-saffron">4. Words</a>
       <a href="#sentences" class="rounded-full border border-line px-3 py-1 hover:border-saffron">5. Sentences</a>
       <a href="#numbers" class="rounded-full border border-line px-3 py-1 hover:border-saffron">6. Numbers 0–100</a>
+      <a href="#common-words" class="rounded-full border border-line px-3 py-1 hover:border-saffron">7. Common words</a>
     </nav>
 
     <details id="painti" open class="mt-8 border-t border-line pt-3">
@@ -201,6 +203,19 @@ const wordCard = (w) => w;
       ))}
     </div>
 
+    </details>
+
+    <details id="common-words" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">7. Common words of Gurbani — <span class="gur">ਸ਼ਬਦ ਭੰਡਾਰ</span></summary>
+    <p class="mt-1 max-w-2xl text-muted">Some of the most-used words in Sri Guru Granth Sahib Ji. Learn a few each day; tap a word for its full meaning. Shared with permission from the <a class="underline" href="https://365gurbaniwords.blogspot.com" target="_blank" rel="noopener">365 Gurbani Words</a> project.</p>
+    <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
+      {gurbaniWords.map((w) => (
+        <a href={w.url} target="_blank" rel="noopener" class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card hover:border-saffron">
+          <div class="gur text-2xl font-bold text-navy">{w.gur}</div>
+          <div class="mt-1 font-sans text-xs text-blue">{w.tr}</div>
+        </a>
+      ))}
+    </div>
     </details>
 
     <div class="mt-12 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
