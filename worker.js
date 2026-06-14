@@ -11,6 +11,9 @@ import { onRequestGet as adminAppsGet, onRequestPost as adminAppsPost } from "./
 import { onRequestPost as feedbackPost } from "./functions/api/feedback.js";
 import { onRequestGet as adminFeedbackGet } from "./functions/api/admin/feedback.js";
 import { onRequestGet as adminStatsGet } from "./functions/api/admin/stats.js";
+import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
+import { onRequestGet as ratingsGet, onRequestPost as ratingsPost } from "./functions/api/ratings.js";
+import { onRequestGet as certGet, onRequestPost as certPost } from "./functions/api/certificates.js";
 
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
@@ -24,6 +27,9 @@ const routes = {
   "/api/feedback": { POST: feedbackPost },
   "/api/admin/feedback": { GET: adminFeedbackGet },
   "/api/admin/stats": { GET: adminStatsGet },
+  "/api/discussions": { GET: discussionsGet, POST: discussionsPost },
+  "/api/ratings": { GET: ratingsGet, POST: ratingsPost },
+  "/api/certificates": { GET: certGet, POST: certPost },
 };
 
 export default {

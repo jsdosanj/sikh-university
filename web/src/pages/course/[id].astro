@@ -125,6 +125,28 @@ const quiz = c.quiz || [];
     </aside>
   </div>
 
+  <section class="wrap pb-14">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div>
+        <h2 class="text-xl font-bold">Rate this course</h2>
+        <div id="rate-summary" class="mt-1 font-sans text-sm text-muted">…</div>
+        <div id="rate-stars" class="mt-2 flex gap-1 text-3xl text-saffron">
+          <button data-s="1" aria-label="1 star">☆</button><button data-s="2" aria-label="2 stars">☆</button><button data-s="3" aria-label="3 stars">☆</button><button data-s="4" aria-label="4 stars">☆</button><button data-s="5" aria-label="5 stars">☆</button>
+        </div>
+        <textarea id="rate-review" rows="2" placeholder="Optional review…" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
+        <button id="rate-submit" class="btn btn-primary mt-2">Submit rating</button>
+        <div id="rate-msg" class="mt-2 font-sans text-sm"></div>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Discussion &amp; Q&amp;A</h2>
+        <div id="disc-list" class="mt-3 space-y-2"></div>
+        <textarea id="disc-msg" rows="2" placeholder="Ask a question or share a thought…" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
+        <button id="disc-submit" class="btn mt-2">Post</button>
+        <div id="disc-note" class="mt-1 font-sans text-xs text-muted">Sign in to post.</div>
+      </div>
+    </div>
+  </section>
+
   <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, quiz })}></script>
   <script>
     const __d = JSON.parse(document.getElementById('course-data').textContent);
@@ -133,6 +155,18 @@ const quiz = c.quiz || [];
     const get = (k, d) => { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
     const set = (k, v) => { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch {} };
     const doneKey = 'done_' + id; let done = get(doneKey, {});
+    function syncPush() {
+      fetch('/api/progress', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ courseId: id, done: Object.keys(done).filter((k) => done[k]).map(Number), passedScore: get('passed_' + id, null) }) }).catch(() => {});
+    }
+    // Cross-device pull: merge any progress saved while signed in.
+    fetch('/api/progress', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
+      if (!d || !d.progress) return;
+      const row = d.progress.filter((p) => p.course_id === id)[0]; if (!row) return;
+      try { JSON.parse(row.done || '[]').forEach((i) => { done[i] = true; }); set(doneKey, done); } catch {}
+      if (row.passed_score >= 80) set('passed_' + id, row.passed_score);
+      refresh();
+    }).catch(() => {});
     function recordActivity() { const a = get('activity', []); const d = new Date(); const t = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); if (a[a.length - 1] !== t) { a.push(t); set('activity', a); } }
     function refresh() {
       let n = 0; for (let i = 0; i < nLessons; i++) if (done[i]) n++;
@@ -142,16 +176,52 @@ const quiz = c.quiz || [];
       document.querySelectorAll('[data-done]').forEach((b) => { const i = b.dataset.done; b.textContent = done[i] ? '✓ Completed' : 'Mark complete'; b.classList.toggle('border-saffron', !!done[i]); });
     }
     document.querySelectorAll('[data-note]').forEach((t) => { const k = 'note_' + id + '_' + t.dataset.note; t.value = get(k, ''); t.addEventListener('input', () => set(k, t.value)); });
-    document.querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => { const i = b.dataset.done; done[i] = !done[i]; if (!done[i]) delete done[i]; else recordActivity(); set(doneKey, done); refresh(); }));
+    document.querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => { const i = b.dataset.done; done[i] = !done[i]; if (!done[i]) delete done[i]; else recordActivity(); set(doneKey, done); refresh(); syncPush(); }));
     const submit = document.getElementById('quiz-submit');
     if (submit) submit.addEventListener('click', () => {
       let correct = 0; quiz.forEach((q, i) => { const s = document.querySelector(`input[name="q${i}"]:checked`); if (s && +s.value === q.answer) correct++; });
       const score = Math.round((correct / quiz.length) * 100);
       const r = document.getElementById('quiz-result');
-      if (score >= 80) { set('passed_' + id, score); recordActivity(); r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-white p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`; }
+      if (score >= 80) { set('passed_' + id, score); recordActivity(); syncPush(); r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-white p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`; }
       else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-white p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${quiz.length}).</strong> You need 80%. Review the lessons and try again.</div>`;
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     refresh();
+  </script>
+
+  <script>
+    (function () {
+      var id = JSON.parse(document.getElementById('course-data').textContent).id;
+      var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+      var api = function (p, o) { return fetch(p, Object.assign({ credentials: 'same-origin', headers: { 'content-type': 'application/json' } }, o || {})).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }).catch(function () { return { ok: r.ok, d: {} }; }); }); };
+      // Ratings
+      var stars = 0;
+      function paint(n) { document.querySelectorAll('#rate-stars button').forEach(function (x, i) { x.textContent = i < n ? '★' : '☆'; }); }
+      document.querySelectorAll('#rate-stars button').forEach(function (b) { b.onclick = function () { stars = +b.dataset.s; paint(stars); }; });
+      function loadRating() { api('/api/ratings?courseId=' + encodeURIComponent(id)).then(function (r) { if (r.ok) document.getElementById('rate-summary').textContent = r.d.count ? ('★ ' + r.d.avg + ' · ' + r.d.count + ' rating' + (r.d.count == 1 ? '' : 's')) : 'No ratings yet — be the first.'; }); }
+      loadRating();
+      document.getElementById('rate-submit').onclick = function () {
+        if (!stars) { document.getElementById('rate-msg').textContent = 'Pick a star rating.'; return; }
+        api('/api/ratings', { method: 'POST', body: JSON.stringify({ courseId: id, stars: stars, review: document.getElementById('rate-review').value }) }).then(function (r) {
+          document.getElementById('rate-msg').innerHTML = r.ok ? '<span class="text-ok">Thank you for rating.</span>' : esc((r.d && r.d.error) || 'Please sign in to rate.');
+          if (r.ok) loadRating();
+        });
+      };
+      // Discussion
+      function loadDisc() {
+        api('/api/discussions?courseId=' + encodeURIComponent(id)).then(function (r) {
+          var m = (r.d && r.d.messages) || [];
+          document.getElementById('disc-list').innerHTML = m.length ? m.map(function (x) { return '<div class="rounded-lg border border-line bg-surface p-3"><div class="font-sans text-xs text-muted">' + esc(x.name || 'Learner') + '</div><div class="mt-0.5 text-sm">' + esc(x.message) + '</div></div>'; }).join('') : '<p class="text-sm text-muted">No messages yet — start the conversation.</p>';
+        });
+      }
+      loadDisc();
+      document.getElementById('disc-submit').onclick = function () {
+        var msg = document.getElementById('disc-msg').value.trim(); if (!msg) return;
+        api('/api/discussions', { method: 'POST', body: JSON.stringify({ courseId: id, message: msg }) }).then(function (r) {
+          if (r.ok) { document.getElementById('disc-msg').value = ''; document.getElementById('disc-note').textContent = ''; loadDisc(); }
+          else document.getElementById('disc-note').textContent = (r.d && r.d.error) || 'Please sign in to post.';
+        });
+      };
+    })();
   </script>
 </Base>

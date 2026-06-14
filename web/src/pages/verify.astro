@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Verify a certificate — Sikh University" description="Verify the authenticity of a Sikh University certificate of completion.">
+  <section class="wrap max-w-xl py-14">
+    <h1 class="text-3xl font-bold">Verify a certificate</h1>
+    <p class="mt-2 text-muted">Enter a certificate ID (e.g. <code>SU-XXXXXXXXXX</code>) to confirm it was issued by Sikh University.</p>
+    <form id="vf" class="mt-6 flex gap-2">
+      <input id="vid" type="text" placeholder="SU-…" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
+      <button class="btn btn-primary">Verify</button>
+    </form>
+    <div id="out" class="mt-6"></div>
+  </section>
+  <script>
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const out = document.getElementById('out');
+    let titles = {};
+    fetch('/assets/data/courses.json').then((r) => r.json()).then((d) => { d.courses.forEach((c) => (titles[c.id] = c.title)); }).catch(() => {});
+    function verify(id) {
+      if (!id) return;
+      out.innerHTML = '<p class="text-muted">Checking…</p>';
+      fetch('/api/certificates?id=' + encodeURIComponent(id)).then((r) => r.json()).then((d) => {
+        if (d && d.valid) {
+          const dt = d.issuedAt ? new Date(d.issuedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-ok bg-surface p-5"><div class="font-sans text-sm font-bold text-ok">✓ Valid certificate</div><div class="mt-2"><strong>${esc(d.name || '—')}</strong> completed <strong>${esc(titles[d.courseId] || d.courseId)}</strong></div><div class="font-sans text-sm text-muted">Score ${d.score}% · Issued ${dt}</div></div>`;
+        } else {
+          out.innerHTML = '<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong>Not found.</strong> No certificate matches that ID.</div>';
+        }
+      }).catch(() => { out.innerHTML = '<p class="text-muted">Could not check right now.</p>'; });
+    }
+    document.getElementById('vf').addEventListener('submit', (e) => { e.preventDefault(); verify(document.getElementById('vid').value.trim()); });
+    const pre = new URLSearchParams(location.search).get('id');
+    if (pre) { document.getElementById('vid').value = pre; verify(pre); }
+  </script>
+</Base>
