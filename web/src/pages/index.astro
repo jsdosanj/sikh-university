@@ -30,7 +30,7 @@ const websiteLd = {
       <p class="mt-5 max-w-2xl text-lg text-white/85">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a class="btn btn-primary" href="/catalog">Browse courses</a>
-        <a class="btn btn-ghost" href="/paths">Follow a learning path</a>
+        <a class="btn btn-ghost" href="/catalog#paths">Follow a learning path</a>
       </div>
       <div class="mt-12 flex flex-wrap gap-x-12 gap-y-4">
         {[[published.length + '+', 'courses'], [topics.length, 'subjects'], ['100%', 'free'], ['Open', 'to all, worldwide']].map((s) => (
@@ -60,8 +60,8 @@ const websiteLd = {
         ))}
       </div>
       <div class="mt-10 flex flex-wrap justify-center gap-3">
-        <a class="btn btn-primary" href="/read?src=sggs">Read Sri Guru Granth Sahib Ji</a>
-        <a class="btn btn-ghost" href="/paths">Start a learning path</a>
+        <a class="btn btn-primary" href="/santhiya?src=sggs">Read Sri Guru Granth Sahib Ji</a>
+        <a class="btn btn-ghost" href="/catalog#paths">Start a learning path</a>
         <a class="btn btn-ghost" href="/about">Why we built this</a>
       </div>
     </div>
@@ -88,7 +88,7 @@ const websiteLd = {
         <p class="mt-1 text-muted">Not sure where to start? Follow a path from the basics to deeper study.</p>
         <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {paths.slice(0, 6).map((p, i) => (
-            <a href={`/paths#${p.id}`} class={`card border-l-4 ${['border-l-saffron', 'border-l-blue', 'border-l-navy'][i % 3]}`}>
+            <a href="/catalog#paths" class={`card border-l-4 ${['border-l-saffron', 'border-l-blue', 'border-l-navy'][i % 3]}`}>
               <span class="pill bg-paper text-muted">{p.courseIds.length} courses</span>
               <h3 class="mt-2 text-lg font-bold">{p.name}</h3>
               <p class="mt-1 text-[0.95rem] text-muted">{p.blurb}</p>

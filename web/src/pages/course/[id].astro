@@ -1,8 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { published, topicName, profSlug } from '../../lib/data';
+import Avatar from '../../components/Avatar.astro';
+import { published, courses, topicName, profSlug, profBio } from '../../lib/data';
 export function getStaticPaths() { return published.map((c) => ({ params: { id: c.id }, props: { c } })); }
 const { c } = Astro.props;
+const profCourseCount = courses.filter((x) => x.professor === c.professor && x.status === 'published').length;
+const bio = profBio(c.professor);
+const bioShort = bio ? (bio.split('. ').slice(0, 2).join('. ').replace(/\.?$/, '.')) : '';
 const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
 const archive = c.topic === 'modern-skills'
   ? { url: 'https://sikharchive.net/courses', label: 'Free AI courses on Sikh Archive' }
@@ -153,7 +157,7 @@ const breadcrumb = {
         <h2 class="text-xl font-bold">Read the source texts</h2>
         <p class="mt-1">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
         <div class="mt-3 flex flex-wrap gap-3">
-          <a class="btn" href="/read?src=sggs">📖 Read Gurbani (reader)</a>
+          <a class="btn" href="/santhiya?src=sggs">📖 Read Gurbani (reader)</a>
           {c.sourceText && c.sourceText.url && (
             <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener">This work on SikhLibrary ↗</a>
           )}
@@ -166,6 +170,18 @@ const breadcrumb = {
     </div>
 
     <aside class="lg:sticky lg:top-20 lg:self-start">
+      <div class="mb-4 rounded-xl2 border border-line bg-surface p-5 shadow-card">
+        <div class="font-sans text-xs uppercase tracking-wide text-muted">Your professor</div>
+        <div class="mt-3 flex items-center gap-3">
+          <a href={`/professor/${profSlug(c.professor)}`} class="shrink-0"><Avatar name={c.professor} size={56} /></a>
+          <div class="min-w-0">
+            <a href={`/professor/${profSlug(c.professor)}`} class="block font-bold text-navy hover:text-saffron-deep">{c.professor}</a>
+            <div class="font-sans text-xs text-muted">{profCourseCount} course{profCourseCount === 1 ? '' : 's'} at Sikh University</div>
+          </div>
+        </div>
+        {bioShort && <p class="mt-3 text-[0.9rem] leading-relaxed text-muted">{bioShort}</p>}
+        <a href={`/professor/${profSlug(c.professor)}`} class="mt-3 inline-block font-sans text-sm font-semibold text-saffron-deep hover:underline">View profile →</a>
+      </div>
       <div class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
         <div class="font-sans text-xs uppercase tracking-wide text-muted">Your progress</div>
         <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div id="prog-bar" class="h-full bg-saffron" style="width:0%"></div></div>
