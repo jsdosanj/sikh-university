@@ -1,0 +1,5 @@
+# Rendered Tutor config holds secrets — never commit
+.tutor/
+config.yml
+*.env
+.DS_Store
