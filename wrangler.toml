@@ -1,6 +1,11 @@
 name = "sikh-university"
-pages_build_output_dir = "site"
+main = "worker.js"
 compatibility_date = "2026-06-14"
+
+# Static site (site/) is served by the assets binding; the Worker handles /api/*.
+[assets]
+directory = "./site"
+binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
@@ -11,9 +16,9 @@ database_id = "76977fdc-94aa-4088-9572-420d2a0ea329"
 binding = "MEDIA"
 bucket_name = "sikh-university-media"
 
-# Non-secret vars deploy with the Git build (Pages reads wrangler.toml).
+# Non-secret vars. SITE_URL is intentionally omitted so magic-link URLs derive
+# from the request origin (works on workers.dev and any custom domain).
 [vars]
-SITE_URL = "https://sikh-university.pages.dev"
 ADMIN_EMAILS = "singhsxdhi@gmail.com,contact@sikhism.io"
 MAIL_FROM = "onboarding@resend.dev"
-# RESEND_API_KEY is a secret — set in the Pages dashboard (you've added it).
+# RESEND_API_KEY is a secret — set in the dashboard (Settings > Variables and Secrets).
