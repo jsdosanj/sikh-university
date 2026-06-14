@@ -69,6 +69,9 @@ export const PROF_BIOS: Record<string, string> = {
   'Bhai Sohan Singh Sital': 'Bhai Sohan Singh Sital (1909-1998) was a noted dhadi, novelist and historian of the Sikh misls and Sikh rule.',
   'Giani Ditt Singh': 'Giani Ditt Singh (1850-1901) was a leading Singh Sabha reformer, writer and editor.',
   'Bhai Joginder Singh Talwara': 'Bhai Joginder Singh Talwara is a respected Gurbani scholar known for works on Gurbani grammar and correct recitation.',
+  'Sant Waryam Singh Ratwara Sahib': 'Sant Waryam Singh Ji (Ratwara Sahib) is a contemporary Sikh spiritual teacher known for discourses on Naam, meditation and Gurmat spirituality.',
+  'Sant Seva Singh Rampur Khera': 'Sant Baba Seva Singh Ji (Rampur Khera) is known for large-scale kar seva, tree-planting and humanitarian service rooted in the Sikh ideal of seva.',
+  'Bhai Chaupa Singh': 'Bhai Chaupa Singh Chhibber (17th-18th century) is associated with an early Rehatnama, a foundational text of the Sikh code of conduct.',
 };
 export function profBio(name: string): string { return PROF_BIOS[name] || ''; }
 
