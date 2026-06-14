@@ -39579,6 +39579,394 @@
         "garab-ganjani-teeka",
         "faridkot-teeka"
       ]
+    },
+    {
+      "id": "topic-theology",
+      "name": "Theology",
+      "blurb": "From Mool Mantar to deep Gurbani exegesis — the message of the Guru Sahibs, in order.",
+      "courseIds": [
+        "gurmat-foundations",
+        "introduction-sggs",
+        "five-ks-identity",
+        "gurmat-katha-maskeen",
+        "understanding-mool-mantar",
+        "reading-japji-sahib",
+        "concept-of-naam",
+        "understanding-teekas",
+        "bhai-surinder-singh-kohli",
+        "bhagat-jaswant-singh-daudar",
+        "sant-nihal-singh-nirmala",
+        "sodhi-teja-singh",
+        "sant-jagjit-singh-harkhowal",
+        "gurbani-exegesis-sahib-singh",
+        "sant-waryam-singh-japji",
+        "dr-gurcharan-singh-mehta",
+        "sant-kartar-singh-nirmala",
+        "harnam-daas-udasi",
+        "dr-kamalroop-singh",
+        "sant-hari-singh-randhawa",
+        "giani-gurbachan-singh-bhindranwale",
+        "pandit-tara-singh-narotam",
+        "mahant-sadhu-singh",
+        "baba-gajjan-singh-tarna-dal",
+        "pandit-kartar-singh-dakha",
+        "akali-kaur-singh",
+        "bhai-vir-singh-exegesis",
+        "giani-gurdit-singh",
+        "dr-jagjit-singh-kanpuri",
+        "faridkot-teeka",
+        "garab-ganjani-teeka",
+        "pandit-ishar-singh-kanshi"
+      ]
+    },
+    {
+      "id": "topic-philosophy",
+      "name": "Philosophy",
+      "blurb": "Sikh thought from the ground up — metaphysics, ethics and worldview.",
+      "courseIds": [
+        "sikh-philosophy-survey",
+        "sikh-ethics-householder",
+        "chanakya-niti",
+        "sikhi-comparative-religion",
+        "vichar-mala",
+        "haumai-self-liberation",
+        "sarukatavali",
+        "giani-nahar-singh-akj",
+        "mahant-ganesha-singh",
+        "bhai-randhir-singh-gurmat",
+        "giani-sher-singh-sgpc"
+      ]
+    },
+    {
+      "id": "topic-ethics",
+      "name": "Ethics",
+      "blurb": "Gurmat ethics in life: the moral vision of the Gurus, the five vices and virtues, seva, justice, honest living, and applied ethics for today.",
+      "courseIds": [
+        "foundations-sikh-ethics",
+        "panj-vikar-ethics",
+        "sikh-economic-ethics",
+        "seva-sarbat-da-bhala",
+        "equality-justice-sikhi",
+        "dharam-yudh-ethics",
+        "applied-sikh-ethics"
+      ]
+    },
+    {
+      "id": "topic-comparative",
+      "name": "Comparative & Interfaith",
+      "blurb": "Sikhi in dialogue with the world's faiths — the Bhagats of Gurbani, the Bhakti and Sufi currents, and shared and distinct paths with other traditions.",
+      "courseIds": [
+        "comparative-intro",
+        "bhagat-bani",
+        "farid-sufism",
+        "interfaith-dialogue",
+        "sikhi-bhakti",
+        "gurmat-vedanta",
+        "sikhi-islam"
+      ]
+    },
+    {
+      "id": "topic-history",
+      "name": "History",
+      "blurb": "Walk the Sikh story from Guru Nanak to the present, era by era.",
+      "courseIds": [
+        "sikh-history-foundations",
+        "guru-nanak-life-teachings",
+        "guru-amar-das-ji",
+        "guru-angad-dev-ji",
+        "guru-har-krishan-ji",
+        "guru-har-rai-ji",
+        "ten-gurus",
+        "guru-gobind-singh-khalsa",
+        "dr-ajit-singh-alaukh",
+        "guru-ram-das-ji",
+        "khalsa-18th-century",
+        "women-in-sikhi",
+        "bhai-rama-singh-uk",
+        "guru-arjan-dev-ji",
+        "guru-hargobind-sahib-ji",
+        "guru-tegh-bahadur-ji",
+        "dr-gurcharan-singh-alaukh",
+        "sikh-diaspora-history",
+        "sikh-empire-ranjit-singh",
+        "sikh-religion-english-scholarship",
+        "dorothy-field",
+        "baba-ganesha-singh-bedi",
+        "bhai-randhir-singh-life",
+        "baba-prem-singh-hoti-mardan",
+        "sant-seva-singh-sevapanthi",
+        "max-arthur-macauliffe",
+        "sikh-historical-chronicles",
+        "baba-sumer-singh",
+        "colonial-singh-sabha",
+        "documenting-sikh-history"
+      ]
+    },
+    {
+      "id": "topic-literature",
+      "name": "Literature",
+      "blurb": "The great works of Sikh letters — poetry, prose and the modern renaissance.",
+      "courseIds": [
+        "survey-sikh-literature",
+        "modern-sikh-literature-vir-singh",
+        "bhai-gurdas-vaaran",
+        "abinash-mahapatra",
+        "mahan-kosh-tradition",
+        "bhai-vir-singh-novels",
+        "giani-jaswant-singh",
+        "bhai-hira-singh-dard",
+        "bhai-vir-singh",
+        "giani-pritam-singh-likhari",
+        "giani-mal-singh-darbar-sahib",
+        "hirdey-ram",
+        "swaran-singh-virk",
+        "bhai-vir-singh-poetry",
+        "bhai-nand-lal",
+        "classical-sikh-poetics",
+        "pandit-gulab-singh-nirmala",
+        "giani-gurvinder-singh-nangli",
+        "sant-kirpal-singh-sato-gali"
+      ]
+    },
+    {
+      "id": "topic-language",
+      "name": "Language",
+      "blurb": "Gurmukhi, Punjabi, and the grammar of Gurbani.",
+      "courseIds": [
+        "gurmukhi-and-gurbani-grammar",
+        "gurmukhi-script-basics",
+        "conversational-punjabi-1",
+        "giani-harbans-singh-grammar",
+        "punjabi-through-gurbani",
+        "larivaar-padched",
+        "sant-bhasha"
+      ]
+    },
+    {
+      "id": "topic-spirituality",
+      "name": "Spirituality",
+      "blurb": "The inner path — Naam, simran and the discipline of daily devotion.",
+      "courseIds": [
+        "foundations-sikh-spirituality",
+        "sikh-festivals-calendar",
+        "nitnem-daily-practice",
+        "naam-spiritual-discipline",
+        "sikh-life-ceremonies",
+        "sant-waryam-singh-sachiara",
+        "bhai-raghbir-singh-bir",
+        "swami-rama",
+        "sant-jodh-singh-rishikesh",
+        "bhavrasamrit",
+        "sant-surjit-singh-sevapanthi",
+        "sant-makhan-singh",
+        "subedar-baghel-singh"
+      ]
+    },
+    {
+      "id": "topic-rehat",
+      "name": "Rehat & Maryada",
+      "blurb": "The Sikh way of discipline — the Khalsa Rehat, the five Ks, Amrit, the Rehatnamas, and the Panthic code of conduct.",
+      "courseIds": [
+        "rehat-foundations",
+        "five-ks-bana",
+        "amrit-sanchar",
+        "puratan-rehatname",
+        "sikh-rehat-maryada",
+        "chaupa-singh-rahitnama",
+        "prem-sumarag"
+      ]
+    },
+    {
+      "id": "topic-music",
+      "name": "Music",
+      "blurb": "Gurmat Sangeet, Kirtan, and Raag.",
+      "courseIds": [
+        "gurmat-sangeet-survey",
+        "raag-in-gurbani",
+        "kirtan-maryada",
+        "taal-kirtan",
+        "raag-system-sggs",
+        "shabad-reet",
+        "tanti-saaj"
+      ]
+    },
+    {
+      "id": "topic-arts",
+      "name": "Arts",
+      "blurb": "Sikh visual art, architecture, and material culture.",
+      "courseIds": [
+        "sikh-art-architecture",
+        "sikh-sacred-architecture",
+        "sikh-painting-manuscript-art",
+        "modern-sikh-art",
+        "gurdwara-architecture",
+        "sikh-frescoes",
+        "manuscript-illumination"
+      ]
+    },
+    {
+      "id": "topic-modern-skills",
+      "name": "Modern Skills",
+      "blurb": "21st-century skills for everyone, starting with AI.",
+      "courseIds": [
+        "ai-foundations",
+        "ai-foundations-intro",
+        "ai-literacy-responsible",
+        "ai-llm-agi-explained",
+        "prompt-engineering",
+        "working-with-llms",
+        "local-ai-models"
+      ]
+    },
+    {
+      "id": "topic-reference",
+      "name": "Reference & Lexicography",
+      "blurb": "Dictionaries, encyclopedias, and the scholarly reference works that map the Sikh tradition.",
+      "courseIds": [
+        "glossary-key-terms",
+        "sikh-encyclopedias",
+        "mahan-kosh-guide",
+        "bhai-desa-singh",
+        "kahn-singh-nabha",
+        "gurbani-concordance",
+        "giani-kirpal-singh-sgpc"
+      ]
+    },
+    {
+      "id": "topic-sociology",
+      "name": "Sociology",
+      "blurb": "Sikh society and community — sangat and pangat, caste and equality, family, institutions, and the diaspora.",
+      "courseIds": [
+        "soc-intro",
+        "sangat-pangat",
+        "caste-rejection",
+        "gender-family-society",
+        "sikh-institutions",
+        "sikh-diaspora-society",
+        "sikh-social-change"
+      ]
+    },
+    {
+      "id": "topic-economics",
+      "name": "Economics",
+      "blurb": "A Sikh view of work, wealth and sharing — kirat, dasvandh, the langar economy, and Gurmat in modern economic life.",
+      "courseIds": [
+        "econ-intro",
+        "kirat-karni",
+        "dasvandh-giving",
+        "langar-economy",
+        "just-economy",
+        "wealth-contentment",
+        "sikhi-modern-economics"
+      ]
+    },
+    {
+      "id": "topic-politics",
+      "name": "Politics",
+      "blurb": "Sikh political thought — miri-piri, sovereignty, justice and resistance, and Sikhs in the modern state.",
+      "courseIds": [
+        "pol-intro",
+        "miri-piri",
+        "sikh-empire-polity",
+        "justice-resistance",
+        "khalsa-sovereignty",
+        "sikhs-modern-state",
+        "sikh-political-ethics"
+      ]
+    },
+    {
+      "id": "topic-parenting",
+      "name": "Parenting",
+      "blurb": "Raising children in Sikhi — Gurmat parenting, Naam, Gurbani at home, identity, and the family as sangat.",
+      "courseIds": [
+        "par-intro",
+        "naam-karan",
+        "teaching-gurbani-children",
+        "sikh-values-home",
+        "identity-kes-dastaar",
+        "parenting-adolescence",
+        "family-as-sangat"
+      ]
+    },
+    {
+      "id": "topic-apologetics",
+      "name": "Apologetics",
+      "blurb": "Explaining and defending the Sikh worldview — the case for Ik Onkar, suffering and hukam, faith and reason, the authority of Gurbani, and confident Sikh identity amid conversion pressures.",
+      "courseIds": [
+        "apol-foundation",
+        "apol-comparative-general",
+        "apol-conversion-tactics",
+        "apol-internal-debates",
+        "apol-buddhist",
+        "apol-christian",
+        "apol-hindu",
+        "apol-islamic",
+        "apol-jewish",
+        "apol-atheist-secular",
+        "apol-transmission",
+        "apol-aristotle",
+        "apol-kant",
+        "apol-nietzsche",
+        "apol-plato"
+      ]
+    },
+    {
+      "id": "topic-science",
+      "name": "Science",
+      "blurb": "Sikhi and science in dialogue — cosmology in Gurbani, creation and evolution, mind and consciousness, ecology, and whether faith and science conflict.",
+      "courseIds": [
+        "sci-intro",
+        "ecology-gurbani-science",
+        "cosmology-gurbani",
+        "creation-evolution-hukam",
+        "mind-consciousness",
+        "science-religion-harmony",
+        "physics-time-hukam"
+      ]
+    },
+    {
+      "id": "topic-finance",
+      "name": "Financial Literacy",
+      "blurb": "Practical money skills for everyone — budgeting, saving, debt, credit, investing, retirement and building lasting wealth.",
+      "courseIds": [
+        "money-basics",
+        "credit-and-cards",
+        "getting-out-of-debt",
+        "saving-emergency-funds",
+        "investing-basics",
+        "retirement-401k",
+        "generational-wealth"
+      ]
+    },
+    {
+      "id": "topic-gardening",
+      "name": "Gardening",
+      "blurb": "Grow your own — climate and soil basics, what to plant by region and season, watering, and managing invasive species.",
+      "courseIds": [
+        "gardening-basics",
+        "indoor-plants",
+        "climate-zones",
+        "watering-wisely",
+        "plant-by-region-season",
+        "healthy-soil",
+        "invasive-species",
+        "sustainable-gardening"
+      ]
+    },
+    {
+      "id": "topic-mental-health",
+      "name": "Mental Health",
+      "blurb": "Caring for the mind and heart — working with emotions, healing, self-compassion, confidence, mindfulness and the breath, in Gurmat light and modern science.",
+      "courseIds": [
+        "mh-intro",
+        "building-confidence",
+        "positive-living",
+        "self-compassion",
+        "working-with-emotions",
+        "healing-trauma",
+        "mindfulness-thich-nhat-hanh",
+        "deep-breathing"
+      ]
     }
   ]
 }

@@ -17,7 +17,12 @@ import Base from '../layouts/Base.astro';
     const fmtRel = (ts) => { if (!ts) return '—'; const s = (Date.now() - ts) / 1000; if (s < 86400) return 'today'; const d = Math.floor(s / 86400); if (d < 7) return d + 'd ago'; if (d < 30) return Math.floor(d / 7) + 'w ago'; return Math.floor(d / 30) + 'mo ago'; };
     const grade = (s) => s >= 90 ? 'A' : s >= 80 ? 'B' : s >= 70 ? 'C' : s >= 60 ? 'D' : 'F';
     const api = (p, o) => fetch(p, { credentials: 'same-origin', headers: o ? { 'content-type': 'application/json' } : undefined, ...(o || {}) }).then((r) => (r.ok ? r.json() : { user: null, error: true })).catch(() => ({ user: null, error: true }));
-    Promise.all([api('/api/me'), fetch('/assets/data/courses.json').then((r) => r.json())]).then(([me, data]) => {
+    Promise.all([api('/api/me'), fetch('/assets/data/courses.json').then((r) => r.json()), api('/api/progress')]).then(([me, data, prog]) => {
+      // Server is the source of truth for grades: merge it into the local cache before rendering.
+      if (prog && prog.progress) prog.progress.forEach((row) => {
+        if (row.passed_score != null) { set('score_' + row.course_id, row.passed_score); if (row.passed_score >= 80) set('passed_' + row.course_id, row.passed_score); }
+        try { const arr = JSON.parse(row.done || '[]'); if (arr.length) { const d = get('done_' + row.course_id, {}); arr.forEach((i) => { d[i] = true; }); set('done_' + row.course_id, d); } } catch (e) {}
+      });
       const user = me && me.user;
       const isAdmin = !!(user && user.role === 'admin');
       const demo = new URLSearchParams(location.search).get('demo');
@@ -65,8 +70,8 @@ import Base from '../layouts/Base.astro';
             return `<a href="/course/${c.id}" class="card"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3>${extra}</a>`;
           }).join('')}</div>`;
         }
-        const graded = pub.filter((c) => passed(c.id) || progress(c) > 0);
-        const gradesHtml = graded.length ? `<h3 class="mt-10 text-xl font-bold">My grades</h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Course</th><th>Progress</th><th>Test score</th><th>Status</th></tr></thead><tbody>${graded.map((c) => { const sc = get('passed_' + c.id, null); const p = progress(c); return `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(c.title)}</td><td>${p}%</td><td>${sc != null ? sc + '%' : '—'}</td><td>${sc != null ? '<span class="pill bg-saffron-soft text-saffron-deep">Passed</span>' : (p > 0 ? '<span class="pill bg-paper text-muted">In progress</span>' : '—')}</td></tr>`; }).join('')}</tbody></table></div>` : '';
+        const graded = pub.filter((c) => passed(c.id) || progress(c) > 0 || get('score_' + c.id, null) != null);
+        const gradesHtml = graded.length ? `<h3 class="mt-10 text-xl font-bold">My grades</h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Course</th><th>Progress</th><th>Test score</th><th>Status</th></tr></thead><tbody>${graded.map((c) => { const sc = get('score_' + c.id, null); const p = progress(c); const ok = passed(c.id); return `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(c.title)}</td><td>${p}%</td><td>${sc != null ? sc + '%' : '—'}</td><td>${ok ? '<span class="pill bg-saffron-soft text-saffron-deep">Passed</span>' : (p > 0 || sc != null ? '<span class="pill bg-paper text-muted">In progress</span>' : '—')}</td></tr>`; }).join('')}</tbody></table></div>` : '';
         let applyCta = '';
         if (user && user.role === 'learner' && get('signup_intent', '') === 'teacher') applyCta = `<div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm">You signed up to teach. <a class="underline font-semibold" href="/teach">Complete your teacher application →</a></div>`;
         root.innerHTML = `
@@ -79,7 +84,7 @@ import Base from '../layouts/Base.astro';
             <button id="save-nm" class="btn btn-primary">Save</button>
           </div>
           <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(points, 'Points')}${stat(st, 'Day streak')}${stat(completed.length, 'Completed')}${stat(lessonsDone, 'Lessons done')}</div>
-          <a href="/flashcards" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="text-3xl">🃏</span><span><span class="block font-bold text-navy">Review flashcards</span><span class="block font-sans text-sm text-muted">Lock in Gurmukhi terms and the most-used words of Gurbani with spaced repetition.</span></span><span class="ml-auto font-sans text-sm text-saffron-deep">Study →</span></a>
+          <a href="/baal-updesh#flashcards" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="text-3xl">🃏</span><span><span class="block font-bold text-navy">Review flashcards</span><span class="block font-sans text-sm text-muted">Lock in Gurmukhi terms and the most-used words of Gurbani with spaced repetition.</span></span><span class="ml-auto font-sans text-sm text-saffron-deep">Study →</span></a>
           <h3 class="mt-10 text-xl font-bold">Badges</h3>
           <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">${badges.map((b) => `<div class="rounded-xl2 border ${b[2] ? 'border-saffron shadow-card' : 'border-line opacity-50 grayscale'} bg-surface p-4 text-center"><div class="text-3xl">${b[1]}</div><div class="mt-1 font-sans text-sm font-bold text-navy">${b[0]}</div><div class="font-sans text-xs text-muted">${b[3]}</div></div>`).join('')}</div>
           ${gradesHtml}
