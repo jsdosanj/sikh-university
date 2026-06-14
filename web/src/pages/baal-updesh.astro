@@ -10,14 +10,31 @@ const akhar = [
   ['ਪ', 'Pappa'], ['ਫ', 'Phapha'], ['ਬ', 'Babba'], ['ਭ', 'Bhabha'], ['ਮ', 'Mamma'],
   ['ਯ', 'Yaiya'], ['ਰ', 'Rara'], ['ਲ', 'Lalla'], ['ਵ', 'Vava'], ['ੜ', 'Rrarra'],
 ];
+// The six extra letters (navin toli) formed with a pairin bindi (subscript dot).
+const navin = [['ਸ਼', 'Shasha'], ['ਖ਼', 'Khhakha'], ['ਗ਼', 'Ghhagha'], ['ਜ਼', 'Zazza'], ['ਫ਼', 'Faffa'], ['ਲ਼', 'Llalla']];
+// Gurmukhi numerals 0–9.
+const nums = [['੦', '0'], ['੧', '1'], ['੨', '2'], ['੩', '3'], ['੪', '4'], ['੫', '5'], ['੬', '6'], ['੭', '7'], ['੮', '8'], ['੯', '9']];
+// Muharni: each consonant sounded through the vowel signs (laga-matra).
+const consonants = ['ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ', 'ਚ', 'ਛ', 'ਜ', 'ਝ', 'ਞ', 'ਟ', 'ਠ', 'ਡ', 'ਢ', 'ਣ', 'ਤ', 'ਥ', 'ਦ', 'ਧ', 'ਨ', 'ਪ', 'ਫ', 'ਬ', 'ਭ', 'ਮ', 'ਯ', 'ਰ', 'ਲ', 'ਵ', 'ੜ'];
+const matras = ['', 'ਾ', 'ਿ', 'ੀ', 'ੁ', 'ੂ', 'ੇ', 'ੈ', 'ੋ', 'ੌ'];
+const matraNames = ['ਮੁਕਤਾ', 'ਕੰਨਾ', 'ਸਿਹਾਰੀ', 'ਬਿਹਾਰੀ', 'ਔਂਕੜ', 'ਦੁਲੈਂਕੜ', 'ਲਾਂ', 'ਦੁਲਾਵਾਂ', 'ਹੋੜਾ', 'ਕਨੌੜਾ'];
 ---
-<Base title="Baal Updesh — Santhya | Sikh University" description="The first primer: the 35 letters of the Gurmukhi alphabet (the Painti) — where every reader of Gurbani begins.">
+<Base title="Baal Updesh — Learn to Read Gurmukhi | Sikh University" description="The complete beginner's primer for reading Gurbani: the Painti (35 letters), the extra letters, Gurmukhi numerals, and the full Muharni — every consonant sounded through the ten vowel signs.">
   <section class="wrap py-12">
     <div class="font-sans text-sm"><a href="/santhiya" class="text-muted hover:text-navy">← Santhya pathway</a></div>
-    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">ਬਾਲ ਉਪਦੇਸ਼</span><span class="text-lg text-muted">Baal Updesh</span></h1>
-    <p class="mt-2 max-w-2xl text-lg text-muted">The very first step: learn the <span class="gur">ਪੈਂਤੀ</span> (Painti) — the 35 letters of the Gurmukhi alphabet. Three are vowel-bearers; the rest are consonants. Say each letter aloud.</p>
+    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">ਬਾਲ ਉਪਦੇਸ਼</span><span class="text-lg text-muted">Baal Updesh — learn to read Gurmukhi</span></h1>
+    <p class="mt-2 max-w-2xl text-lg text-muted">The very first step on the path of Santhya. Work through it in order — the alphabet, the extra letters, the numerals, and then the Muharni — saying every letter and sound aloud. This is where every reader of Gurbani begins.</p>
 
-    <div class="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
+    <nav class="mt-5 flex flex-wrap gap-2 font-sans text-sm">
+      <a href="#painti" class="rounded-full border border-line px-3 py-1 hover:border-saffron">1. The Painti</a>
+      <a href="#navin" class="rounded-full border border-line px-3 py-1 hover:border-saffron">2. Extra letters</a>
+      <a href="#numerals" class="rounded-full border border-line px-3 py-1 hover:border-saffron">3. Numerals</a>
+      <a href="#muharni" class="rounded-full border border-line px-3 py-1 hover:border-saffron">4. The Muharni</a>
+    </nav>
+
+    <h2 id="painti" class="mt-10 text-xl font-bold">1. The Painti — <span class="gur">ਪੈਂਤੀ</span> (35 letters)</h2>
+    <p class="mt-1 max-w-2xl text-muted">Three are vowel-bearers (<span class="gur">ੳ ਅ ੲ</span>); the rest are consonants. Say each letter aloud.</p>
+    <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
       {akhar.map(([ch, name]) => (
         <div class="rounded-xl2 border border-line bg-surface p-4 text-center shadow-card">
           <div class="gur text-4xl font-bold text-navy">{ch}</div>
@@ -26,12 +43,55 @@ const akhar = [
       ))}
     </div>
 
-    <div class="mt-10 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
+    <h2 id="navin" class="mt-12 text-xl font-bold">2. The extra letters — <span class="gur">ਨਵੀਨ ਟੋਲੀ</span></h2>
+    <p class="mt-1 max-w-2xl text-muted">Six later letters, written by adding a dot (<span class="gur">ਪੈਰ ਬਿੰਦੀ</span>) beneath a base letter, for sounds used in borrowed words.</p>
+    <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
+      {navin.map(([ch, name]) => (
+        <div class="rounded-xl2 border border-line bg-surface p-4 text-center shadow-card">
+          <div class="gur text-4xl font-bold text-navy">{ch}</div>
+          <div class="mt-1 font-sans text-xs text-muted">{name}</div>
+        </div>
+      ))}
+    </div>
+
+    <h2 id="numerals" class="mt-12 text-xl font-bold">3. Gurmukhi numerals — <span class="gur">ਅੰਕ</span></h2>
+    <p class="mt-1 max-w-2xl text-muted">The digits you will see throughout Gurbani — for example the Ang numbers and the <span class="gur">॥੧॥</span> verse markers.</p>
+    <div class="mt-5 grid grid-cols-5 gap-3 sm:grid-cols-10">
+      {nums.map(([ch, n]) => (
+        <div class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card">
+          <div class="gur text-3xl font-bold text-navy">{ch}</div>
+          <div class="mt-1 font-sans text-xs text-muted">{n}</div>
+        </div>
+      ))}
+    </div>
+
+    <h2 id="muharni" class="mt-12 text-xl font-bold">4. The Muharni — <span class="gur">ਮੁਹਾਰਨੀ</span></h2>
+    <p class="mt-1 max-w-2xl text-muted">Now sound each consonant through the ten vowel signs (<span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span>). Read across each row aloud — this builds <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> (correct pronunciation), the foundation of reading Gurbani well.</p>
+    <div class="mt-5 overflow-x-auto rounded-xl2 border border-line">
+      <table class="w-full border-collapse text-center">
+        <thead>
+          <tr class="bg-brand text-white">
+            <th class="p-2 font-sans text-xs">ਅੱਖਰ</th>
+            {matraNames.map((n) => <th class="p-2"><span class="gur text-sm font-normal">{n}</span></th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {consonants.map((cn, r) => (
+            <tr class={r % 2 ? 'bg-paper' : ''}>
+              <td class="gur border border-line p-2 text-2xl font-bold text-blue">{cn}</td>
+              {matras.map((m) => <td class="gur border border-line p-2 text-2xl">{cn + m}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-12 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
       <h2 class="text-xl font-bold">Next steps</h2>
       <ol class="mt-3 list-decimal space-y-1 pl-5">
-        <li>Learn the vowel signs by sounding each letter through them — the <a class="underline" href="/muharni">Muharni</a>.</li>
         <li>Begin the daily banis — <a class="underline" href="/collection/nitnem">Nitnem</a>.</li>
         <li>Read along with Sri Guru Granth Sahib Ji — the <a class="underline" href="/read?src=sggs&ang=1">read-along reader</a>.</li>
+        <li>Continue the full <a class="underline" href="/santhiya">Santhya pathway</a>.</li>
       </ol>
     </div>
   </section>
