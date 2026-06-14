@@ -40,3 +40,15 @@ CREATE TABLE IF NOT EXISTS progress (
   updated_at INTEGER NOT NULL,
   PRIMARY KEY (user_id, course_id)
 );
+
+-- Feedback is also auto-created by functions/api/feedback.js on first write.
+CREATE TABLE IF NOT EXISTS feedback (
+  id TEXT PRIMARY KEY,
+  user_id TEXT,                                -- NULL if submitted while signed out
+  email TEXT,
+  course_id TEXT,                              -- optional: feedback about a specific course
+  category TEXT,                               -- general | course | bug | suggestion
+  message TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'new',          -- new | read | resolved
+  created_at INTEGER NOT NULL
+);

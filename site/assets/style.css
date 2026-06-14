@@ -135,6 +135,55 @@ footer.site { border-top: 1px solid var(--border); color: var(--muted); font-fam
 .topic-card:nth-child(3n+2) { border-top-color: var(--navy); }
 .topic-card:nth-child(3n+3) { border-top-color: #2f7d4f; }
 
+/* ---- course landing / overview ---- */
+.linkish { background: none; border: none; color: var(--navy); font: inherit; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .9rem; cursor: pointer; padding: 0; margin-bottom: 1rem; }
+.linkish:hover { color: var(--saffron); }
+.overview-cta { display: flex; gap: .8rem 1rem; align-items: center; flex-wrap: wrap; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.3rem; margin-bottom: 1.6rem; }
+.overview-cta .progress { flex-basis: 100%; }
+.ov-sec { margin: 1.8rem 0; }
+.ov-sec h2 { color: var(--navy); font-size: 1.4rem; border-bottom: 2px solid var(--saffron-soft); padding-bottom: .3rem; }
+.outcomes { list-style: none; padding: 0; display: grid; gap: .6rem; grid-template-columns: 1fr; }
+@media (min-width: 680px) { .outcomes { grid-template-columns: 1fr 1fr; } }
+.outcomes li { position: relative; padding-left: 1.7rem; font-size: .98rem; }
+.outcomes li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--ok); font-weight: 700; }
+.syllabus { padding-left: 1.3rem; display: grid; gap: .5rem; }
+.syllabus li { padding-left: .3rem; }
+.syllabus .syl-title { background: none; border: none; font: inherit; color: var(--navy); font-weight: 600; cursor: pointer; text-align: left; padding: 0; }
+.syllabus .syl-title:hover { color: var(--saffron); text-decoration: underline; }
+.syllabus .syl-desc { font-size: .9rem; color: var(--muted); margin-top: .15rem; }
+.references { padding-left: 1.3rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .9rem; color: var(--muted); }
+.references li { margin: .4rem 0; }
+
+/* ---- terms / Gurmukhi & rich lesson typography ---- */
+.gur { font-family: "Noto Sans Gurmukhi", "Gurmukhi MN", "Gurbani Akhar", "Raavi", sans-serif; font-size: 1.08em; }
+.terms-table, .lesson-body table { width: 100%; border-collapse: collapse; margin: 1.1rem 0; font-size: .95rem; }
+.terms-table th, .terms-table td, .lesson-body th, .lesson-body td { border: 1px solid var(--border); padding: .55rem .7rem; text-align: left; vertical-align: top; }
+.terms-table thead th, .lesson-body thead th { background: var(--navy); color: #fff; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .82rem; }
+.terms-table tbody tr:nth-child(even), .lesson-body tbody tr:nth-child(even) { background: var(--surface-2); }
+.terms-table td:first-child { white-space: nowrap; font-weight: 600; }
+.lesson-body .gur, .lesson-body :lang(pa) { font-family: "Noto Sans Gurmukhi", "Gurmukhi MN", "Gurbani Akhar", "Raavi", serif; }
+.lesson-body .toc { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: .9rem 1.2rem; margin: 0 0 1.4rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .92rem; }
+.lesson-body .toc strong { display: block; margin-bottom: .4rem; color: var(--navy); }
+.lesson-body .toc ol, .lesson-body .toc ul { margin: 0; padding-left: 1.2rem; }
+.lesson-body blockquote.gurbani { border-left: 4px solid var(--saffron); background: var(--saffron-soft); margin: 1.1rem 0; padding: .8rem 1.1rem; border-radius: 0 8px 8px 0; }
+.lesson-body blockquote.gurbani .cite { display: block; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .8rem; color: var(--muted); margin-top: .35rem; }
+.lesson-body cite, .lesson-body .cite { font-style: normal; }
+.lesson-body sup.cit { color: var(--saffron); font-weight: 700; }
+.lesson-body .refs { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 1.5rem; padding-top: .8rem; }
+.lesson-body h4 { color: var(--navy); margin: 1.3rem 0 .4rem; }
+
+/* ---- admin dashboard ---- */
+.admin-tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin: 1rem 0 1.4rem; border-bottom: 1px solid var(--border); }
+.admin-tabs button { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .9rem; padding: .5rem .9rem; border: none; background: none; border-bottom: 3px solid transparent; cursor: pointer; color: var(--muted); margin-bottom: -1px; }
+.admin-tabs button.on { color: var(--navy); border-bottom-color: var(--saffron); font-weight: 600; }
+.admin-table { width: 100%; border-collapse: collapse; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .9rem; }
+.admin-table th, .admin-table td { border-bottom: 1px solid var(--border); padding: .55rem .6rem; text-align: left; }
+.admin-table th { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; }
+.admin-table tbody tr:hover { background: var(--surface-2); }
+.admin-bar { height: 8px; background: var(--saffron); border-radius: 4px; }
+.admin-course-body { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin: .6rem 0 1.2rem; }
+.admin-course-body h4 { margin: .8rem 0 .3rem; color: var(--navy); }
+
 /* ---- print (certificate) ---- */
 @media print {
   .noprint, .nav, footer.site { display: none !important; }

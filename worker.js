@@ -8,6 +8,9 @@ import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
 import { onRequestPost as authLogoutPost } from "./functions/api/auth/logout.js";
 import { onRequestPost as teacherApplyPost } from "./functions/api/teacher/apply.js";
 import { onRequestGet as adminAppsGet, onRequestPost as adminAppsPost } from "./functions/api/admin/applications.js";
+import { onRequestPost as feedbackPost } from "./functions/api/feedback.js";
+import { onRequestGet as adminFeedbackGet } from "./functions/api/admin/feedback.js";
+import { onRequestGet as adminStatsGet } from "./functions/api/admin/stats.js";
 
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
@@ -18,6 +21,9 @@ const routes = {
   "/api/auth/logout": { POST: authLogoutPost },
   "/api/teacher/apply": { POST: teacherApplyPost },
   "/api/admin/applications": { GET: adminAppsGet, POST: adminAppsPost },
+  "/api/feedback": { POST: feedbackPost },
+  "/api/admin/feedback": { GET: adminFeedbackGet },
+  "/api/admin/stats": { GET: adminStatsGet },
 };
 
 export default {

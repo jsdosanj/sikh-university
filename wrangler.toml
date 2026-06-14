@@ -19,6 +19,6 @@ bucket_name = "sikh-university-media"
 # Non-secret vars. SITE_URL is intentionally omitted so magic-link URLs derive
 # from the request origin (works on workers.dev and any custom domain).
 [vars]
-ADMIN_EMAILS = "singhsxdhi@gmail.com,contact@sikhism.io"
+ADMIN_EMAILS = "singhsxdhi@gmail.com,dots-whisks.6r@icloud.com,contact@sikhism.io"
 MAIL_FROM = "onboarding@resend.dev"
 # RESEND_API_KEY is a secret — set in the dashboard (Settings > Variables and Secrets).
