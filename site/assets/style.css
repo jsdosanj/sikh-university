@@ -184,6 +184,41 @@ footer.site { border-top: 1px solid var(--border); color: var(--muted); font-fam
 .admin-course-body { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin: .6rem 0 1.2rem; }
 .admin-course-body h4 { margin: .8rem 0 .3rem; color: var(--navy); }
 
+/* ---- search ---- */
+.search-input { width: 100%; max-width: 640px; padding: .7rem .9rem; border: 1px solid var(--border); border-radius: 10px; font: inherit; background: var(--surface); color: var(--text); margin: .4rem 0 1.1rem; }
+.search-input:focus { border-color: var(--saffron); outline: none; }
+
+/* ---- lesson notes ---- */
+.note-wrap { margin-top: 1.2rem; border-top: 1px dashed var(--border); padding-top: 1rem; }
+.note-label { display: block; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .82rem; color: var(--muted); margin-bottom: .4rem; }
+.note-area { width: 100%; padding: .6rem .7rem; border: 1px solid var(--border); border-radius: 9px; font: inherit; font-size: .95rem; background: var(--surface-2); color: var(--text); resize: vertical; }
+
+/* ---- badges (gamification) ---- */
+.badges { display: grid; grid-template-columns: repeat(2,1fr); gap: .7rem; margin: .6rem 0 .4rem; }
+@media (min-width: 640px) { .badges { grid-template-columns: repeat(4,1fr); } }
+.badge { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .9rem .6rem; text-align: center; opacity: .45; filter: grayscale(1); }
+.badge.earned { opacity: 1; filter: none; border-color: var(--saffron); box-shadow: var(--shadow); }
+.badge .bi { font-size: 1.8rem; line-height: 1; }
+.badge .bn { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; font-size: .9rem; color: var(--navy); margin-top: .3rem; }
+.badge .bd { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .72rem; color: var(--muted); margin-top: .15rem; }
+
+/* ---- accessibility widget ---- */
+.a11y-fab { position: fixed; right: 1rem; bottom: 1rem; z-index: 50; width: 48px; height: 48px; border-radius: 50%; border: none; background: var(--navy); color: #fff; font-size: 1.4rem; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.a11y-fab:hover { background: var(--navy-strong); }
+.a11y-panel { position: fixed; right: 1rem; bottom: 4.6rem; z-index: 50; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.22); padding: .8rem; flex-direction: column; gap: .4rem; min-width: 210px; }
+.a11y-panel strong { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .82rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.a11y-panel button { font: inherit; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .9rem; text-align: left; padding: .5rem .7rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); cursor: pointer; color: var(--text); }
+.a11y-panel button:hover { background: var(--surface-2); border-color: var(--saffron); }
+
+/* ---- high-contrast theme ---- */
+body.hc { background: #000; color: #fff; }
+body.hc .card, body.hc .lesson-body, body.hc .callout, body.hc .dash-stat, body.hc .badge, body.hc .a11y-panel, body.hc .ov-sec, body.hc .overview-cta, body.hc .admin-course-body, body.hc .note-area, body.hc .search-input { background: #000; color: #fff; border-color: #fff; }
+body.hc a, body.hc .card h3, body.hc .course-head h1, body.hc .ov-sec h2, body.hc .lesson-body h3, body.hc .lesson-body h4, body.hc .dash-stat .n { color: #ffd479; }
+body.hc .pill { border: 1px solid #fff; background: #000; color: #fff; }
+body.hc .btn { background: #ffd479; color: #000; border-color: #ffd479; }
+body.hc .terms-table thead th, body.hc .lesson-body thead th { background: #000; color: #ffd479; }
+body.hc .muted, body.hc .meta { color: #ddd; }
+
 /* ---- print (certificate) ---- */
 @media print {
   .noprint, .nav, footer.site { display: none !important; }

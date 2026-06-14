@@ -6351,5 +6351,91 @@
         }
       ]
     }
+  ],
+  "paths": [
+    {
+      "id": "foundations",
+      "name": "Foundations of Sikhi",
+      "blurb": "Start here: the core beliefs, the scripture, the Gurus, and Sikh identity.",
+      "courseIds": [
+        "gurmat-foundations",
+        "introduction-sggs",
+        "ten-gurus",
+        "five-ks-identity",
+        "understanding-mool-mantar"
+      ]
+    },
+    {
+      "id": "history-journey",
+      "name": "The Sikh History Journey",
+      "blurb": "From Guru Nanak (1469) to the global community of today.",
+      "courseIds": [
+        "sikh-history-foundations",
+        "guru-nanak-life-teachings",
+        "guru-gobind-singh-khalsa",
+        "khalsa-18th-century",
+        "sikh-empire-ranjit-singh",
+        "colonial-singh-sabha",
+        "sikh-diaspora-history"
+      ]
+    },
+    {
+      "id": "language",
+      "name": "Punjabi & Gurbani Language",
+      "blurb": "Learn to read Gurmukhi and understand the language of Gurbani.",
+      "courseIds": [
+        "gurmukhi-script-basics",
+        "gurmukhi-and-gurbani-grammar",
+        "conversational-punjabi-1",
+        "punjabi-through-gurbani",
+        "reading-japji-sahib"
+      ]
+    },
+    {
+      "id": "spiritual-practice",
+      "name": "Spiritual Practice",
+      "blurb": "Build a daily practice: Naam, Nitnem, Seva, and the spiritual path.",
+      "courseIds": [
+        "foundations-sikh-spirituality",
+        "nitnem-daily-practice",
+        "naam-spiritual-discipline",
+        "concept-of-naam",
+        "seva-sarbat-da-bhala"
+      ]
+    },
+    {
+      "id": "philosophy-thought",
+      "name": "Philosophy & Thought",
+      "blurb": "The deeper ideas: the self, ego, sovereignty, ethics, and comparison.",
+      "courseIds": [
+        "sikh-philosophy-survey",
+        "haumai-self-liberation",
+        "miri-piri",
+        "sikh-ethics-householder",
+        "sikhi-comparative-religion"
+      ]
+    },
+    {
+      "id": "arts-culture",
+      "name": "Arts, Music & Literature",
+      "blurb": "The creative tradition: Raag, architecture, painting, and the great writers.",
+      "courseIds": [
+        "gurmat-sangeet-survey",
+        "raag-in-gurbani",
+        "sikh-sacred-architecture",
+        "sikh-painting-manuscript-art",
+        "survey-sikh-literature",
+        "classical-sikh-poetics"
+      ]
+    },
+    {
+      "id": "modern-skills",
+      "name": "AI & Modern Skills",
+      "blurb": "Practical modern skills for learners and seekers today.",
+      "courseIds": [
+        "ai-foundations-intro",
+        "working-with-llms"
+      ]
+    }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "name": "Sikh University",
+  "short_name": "SikhUni",
+  "description": "A free, open online university for Sikhi and modern skills.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f1e7",
+  "theme_color": "#16335c",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
