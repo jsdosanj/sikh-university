@@ -97,11 +97,13 @@ def main():
     sarbloh = []
     if os.path.exists(sar_idx):
         si = json.load(open(sar_idx, encoding="utf-8"))
-        secs = si.get("sections") or si.get("items") or []
-        for i, s in enumerate(secs, 1):
-            sarbloh.append({"ang": s.get("ang", i), "label": s.get("title", "Section %d" % i)})
+        pages = si.get("pages", 1)
+        # no clean section headings in the OCR source — give coarse jump points every 100 Angs
+        sarbloh = [{"ang": 1, "label": "Beginning (Manglacharan)"}]
+        for a in range(100, pages + 1, 100):
+            sarbloh.append({"ang": a, "label": "Ang %d" % a})
     if not sarbloh:
-        sarbloh = [{"ang": 1, "label": "Sarbloh Granth (excerpt)"}]
+        sarbloh = [{"ang": 1, "label": "Sarbloh Granth"}]
 
     out = {
         "sggs": [{"ang": a, "label": l, "gur": g} for a, l, g in SGGS],

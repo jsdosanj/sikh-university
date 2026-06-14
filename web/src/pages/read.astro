@@ -2,7 +2,30 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Read-along — Gurbani | Sikh University" description="Read Gurbani Ang by Ang — Sri Guru Granth Sahib Ji with Santhya audio and word-by-word highlighting, plus the Dasam and Sarbloh Granths.">
-  <section class="wrap py-8">
+  <section id="chooser" class="wrap py-12" style="display:none">
+    <h1 class="text-3xl font-bold">Read Gurbani</h1>
+    <p class="mt-2 max-w-2xl text-lg text-muted">Choose a Granth to read along, Ang by Ang — with Santhya audio for Sri Guru Granth Sahib Ji.</p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-3">
+      <a href="/read?src=sggs" class="card flex flex-col border-t-4 border-t-saffron">
+        <div class="gur text-2xl font-bold text-navy">ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ</div>
+        <div class="mt-1 font-bold">Sri Guru Granth Sahib Ji</div>
+        <p class="mt-1 text-[0.95rem] text-muted">The eternal living Guru — 1430 Angs, with Santhya audio and read-along.</p>
+      </a>
+      <a href="/read?src=dasam" class="card flex flex-col border-t-4 border-t-blue">
+        <div class="gur text-2xl font-bold text-navy">ਦਸਮ ਗ੍ਰੰਥ</div>
+        <div class="mt-1 font-bold">Dasam Granth</div>
+        <p class="mt-1 text-[0.95rem] text-muted">The compositions associated with Guru Gobind Singh Ji — Ang by Ang.</p>
+      </a>
+      <a href="/read?src=sarbloh" class="card flex flex-col border-t-4 border-t-navy">
+        <div class="gur text-2xl font-bold text-navy">ਸ੍ਰੀ ਸਰਬਲੋਹ ਗ੍ਰੰਥ ਸਾਹਿਬ</div>
+        <div class="mt-1 font-bold">Sri Sarbloh Granth Sahib</div>
+        <p class="mt-1 text-[0.95rem] text-muted">The complete Sarbloh Granth (the Khalsa Mahima) — Ang by Ang.</p>
+      </a>
+    </div>
+    <p class="mt-6 font-sans text-sm text-muted">Looking for the daily banis (Nitnem, Sundar Gutka, Panj Granthi…) or to learn to read? Visit the <a class="underline" href="/santhiya">Santhya pathway</a>.</p>
+  </section>
+
+  <section id="reader" class="wrap py-8">
     <div class="flex flex-wrap items-center justify-between gap-3">
       <h1 id="title" class="text-2xl font-bold">Read-along</h1>
       <div class="flex items-center gap-2 font-sans text-sm">
@@ -47,13 +70,19 @@ import Base from '../layouts/Base.astro';
     var SRC = {
       sggs: { name: 'Sri Guru Granth Sahib Ji', unit: 'Ang', max: 1430, audio: true },
       dasam: { name: 'Dasam Granth', unit: 'Ang', max: 1428, audio: false },
-      sarbloh: { name: 'Sarbloh Granth (excerpt)', unit: 'Section', max: 1, audio: false },
+      sarbloh: { name: 'Sri Sarbloh Granth Sahib', unit: 'Ang', max: 1040, audio: false },
     };
     var P = 'su_v1_';
     var get = function (k, d) { try { var v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
     var set = function (k, v) { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch (e) {} };
     var qp = new URLSearchParams(location.search);
-    var src = SRC[qp.get('src')] ? qp.get('src') : 'sggs';
+    var src = SRC[qp.get('src')] ? qp.get('src') : '';
+    if (!src) {
+      // No Granth chosen — show the chooser instead of jumping into SGGS.
+      var rd = document.getElementById('reader'); if (rd) rd.style.display = 'none';
+      var ch = document.getElementById('chooser'); if (ch) ch.style.display = '';
+    } else runReader();
+    function runReader() {
     var cfg = SRC[src];
     var page = document.getElementById('page'), aud = document.getElementById('aud'), angin = document.getElementById('angin'), note = document.getElementById('audnote'), audph = document.getElementById('audph');
     document.getElementById('title').textContent = cfg.name;
@@ -149,5 +178,6 @@ import Base from '../layouts/Base.astro';
       note.textContent = 'Loading Santhya audio…';
       fetch('/assets/gurbani/santhya-sggs-index.json').then(function (r) { return r.json(); }).then(function (d) { santhya = d; setAudio(ang); }).catch(function () { note.textContent = 'Santhya audio is unavailable right now — text read-along still works.'; });
     }
+    } // end runReader
   </script>
 </Base>
