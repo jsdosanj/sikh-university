@@ -166,6 +166,84 @@
     }
   }
 
+  function profileName() { return ((load("profile", {}) || {}).name || "").trim(); }
+  function courseProgress(c) { if (!c.lessons || !c.lessons.length) return 0; var d = load("done_" + c.id, {}), n = 0; for (var k in d) if (d[k]) n++; return Math.round(n / c.lessons.length * 100); }
+
+  function initDashboard(root, data) {
+    root.innerHTML = "";
+    var pub = data.courses.filter(function (c) { return c.status === "published"; });
+    var completed = [], started = [], fresh = [];
+    pub.forEach(function (c) { if (coursePassed(c.id)) completed.push(c); else if (courseProgress(c) > 0) started.push(c); else fresh.push(c); });
+    var lessonsDone = 0; pub.forEach(function (c) { var d = load("done_" + c.id, {}); for (var k in d) if (d[k]) lessonsDone++; });
+
+    var name = profileName();
+    root.appendChild(el("h2", null, name ? "Welcome back, " + esc(name) : "My Learning"));
+    // name setter
+    var nameRow = el("div", "callout"); nameRow.style.display = "flex"; nameRow.style.gap = ".6rem"; nameRow.style.alignItems = "center"; nameRow.style.flexWrap = "wrap";
+    nameRow.innerHTML = '<span class="muted" style="font-family:sans-serif;font-size:.9rem">Your name (shown on certificates):</span>';
+    var ni = document.createElement("input"); ni.type = "text"; ni.value = name; ni.placeholder = "Your full name"; ni.style.cssText = "flex:1;min-width:180px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:8px;font:inherit";
+    var nb = el("button", "btn primary", "Save");
+    nb.onclick = function () { var p = load("profile", {}); p.name = ni.value.trim(); save("profile", p); initDashboard(root, data); };
+    nameRow.appendChild(ni); nameRow.appendChild(nb); root.appendChild(nameRow);
+
+    var stats = el("div", "dash-stats");
+    [[completed.length, "Completed"], [started.length, "In progress"], [completed.length, "Certificates"], [lessonsDone, "Lessons done"]].forEach(function (s) {
+      stats.appendChild(el("div", "dash-stat", '<div class="n">' + s[0] + '</div><div class="l">' + s[1] + '</div>'));
+    });
+    root.appendChild(stats);
+
+    function section(title, list, mode) {
+      if (!list.length) return;
+      root.appendChild(el("h3", null, title));
+      var g = el("div", "grid three");
+      list.forEach(function (c) {
+        var a = el("a", "card"); a.href = "course.html?id=" + c.id;
+        var p = courseProgress(c);
+        var extra = mode === "completed"
+          ? '<div style="margin-top:.5rem"><a class="btn primary" href="cert.html?course=' + c.id + '">View certificate →</a></div>'
+          : (mode === "started" ? '<div class="progress" style="margin-top:.6rem"><span style="width:' + p + '%"></span></div><div class="meta">' + p + '% complete</div>' : "");
+        a.innerHTML = '<div class="meta"><span class="pill topic">' + esc(topicName(data, c.topic)) + '</span><span class="pill level">' + c.level + ' level</span></div><h3>' + esc(c.title) + '</h3>' + extra;
+        g.appendChild(a);
+      });
+      root.appendChild(g);
+    }
+    if (!completed.length && !started.length) root.appendChild(el("div", "callout", "You haven't started a course yet. <a href='catalog.html'>Browse the catalogue</a> and begin learning — your progress and certificates will appear here."));
+    section("Continue learning", started, "started");
+    section("Completed — certificates earned", completed, "completed");
+    section("Start something new", fresh.slice(0, 6), "fresh");
+  }
+
+  function initCert(root, data) {
+    var c = data.courses.filter(function (x) { return x.id === qs("course"); })[0];
+    root.innerHTML = "";
+    if (!c) { root.innerHTML = '<p class="muted">Course not found.</p>'; return; }
+    if (!coursePassed(c.id)) {
+      root.appendChild(el("div", "callout", "🔒 Complete <a href='course.html?id=" + c.id + "'>" + esc(c.title) + "</a> and pass its test (80%+) to earn your certificate."));
+      return;
+    }
+    var name = profileName();
+    if (!name) {
+      root.appendChild(el("div", "callout", "Add your name on your <a href='dashboard.html'>dashboard</a> first — it will appear on the certificate."));
+    }
+    var score = load("passed_" + c.id, "");
+    var cert = el("div", "cert");
+    cert.innerHTML =
+      '<div class="cert-inner">'
+      + '<div class="cert-brand">Sikh<span>University</span></div>'
+      + '<div class="cert-sub">Certificate of Completion</div>'
+      + '<div class="cert-line">This certifies that</div>'
+      + '<div class="cert-name">' + esc(name || "________________") + '</div>'
+      + '<div class="cert-line">has successfully completed</div>'
+      + '<div class="cert-course">' + esc(c.title) + '</div>'
+      + '<div class="cert-meta">' + esc(topicName(data, c.topic)) + ' · Level ' + c.level + (score ? ' · Score ' + score + '%' : '') + '</div>'
+      + '<div class="cert-foot"><span>Issued ' + new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" }) + '</span><span>sikhuniversity.pages.dev</span></div>'
+      + '<div class="cert-ai">Course content created by AI and reviewed for accuracy.</div>'
+      + '</div>';
+    root.appendChild(cert);
+    var btn = el("button", "btn primary noprint", "🖨 Print / save as PDF"); btn.onclick = function () { window.print(); };
+    var row = el("div", "noprint"); row.style.marginTop = "1rem"; row.appendChild(btn); root.appendChild(row);
+  }
+
   function initContact() {
     var form = document.getElementById("contactForm"); if (!form) return;
     if (new URLSearchParams(location.search).get("sent") === "1") {
@@ -186,6 +264,8 @@
       if (page === "home") initHome(root, data);
       else if (page === "catalog") initCatalog(root, data);
       else if (page === "course") initCourse(root, data);
+      else if (page === "dashboard") initDashboard(root, data);
+      else if (page === "cert") initCert(root, data);
     }).catch(function () { root.innerHTML = '<p class="muted">Could not load courses.</p>'; });
   });
 })();
