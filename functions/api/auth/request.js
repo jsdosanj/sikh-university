@@ -24,7 +24,10 @@ export async function onRequestPost({ request, env }) {
         body: JSON.stringify({
           from: env.MAIL_FROM || "Sikh University <login@sikhuniversity.pages.dev>",
           to: [email],
+          reply_to: env.REPLY_TO || "contact@sikhism.io",
           subject: "Your Sikh University sign-in link",
+          // A plaintext alternative materially improves Gmail/Outlook deliverability.
+          text: `Sign in to Sikh University:\n${link}\n\nThis link expires in 15 minutes. If you didn't request it, ignore this email.`,
           html: `<p>Click to sign in to Sikh University:</p><p><a href="${link}">Sign in</a></p><p>This link expires in 15 minutes. If you didn't request it, ignore this email.</p>`,
         }),
       });
