@@ -19,7 +19,7 @@ const quiz = c.quiz || [];
 <Base title={`${c.title} — Sikh University`} description={c.summary} ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
 
-  <header class="bg-gradient-to-br from-navy to-navy-strong text-white">
+  <header class="bg-gradient-to-br from-brand to-navy-strong text-white">
     <div class="wrap py-12">
       <div class="flex flex-wrap items-center gap-2 font-sans text-xs">
         <a href="/catalog" class="text-white/70 hover:text-white">← Catalogue</a>
@@ -58,7 +58,7 @@ const quiz = c.quiz || [];
         <section class="mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Key terms — ਸ਼ਬਦਾਵਲੀ</h2>
           <table class="mt-3 w-full border-collapse text-[0.95rem]">
-            <thead><tr><th class="border border-line bg-navy p-2 text-left font-sans text-xs text-white">Term</th><th class="border border-line bg-navy p-2 text-left font-sans text-xs text-white">Academic context</th></tr></thead>
+            <thead><tr><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Term</th><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Academic context</th></tr></thead>
             <tbody>{c.terms.map((t) => <tr class="even:bg-paper"><td class="border border-line p-2 align-top"><span class="font-semibold" set:html={t.t} /></td><td class="border border-line p-2 align-top">{t.m}</td></tr>)}</tbody>
           </table>
         </section>
@@ -211,8 +211,8 @@ const quiz = c.quiz || [];
       let correct = 0; quiz.forEach((q, i) => { const s = document.querySelector(`input[name="q${i}"]:checked`); if (s && +s.value === q.answer) correct++; });
       const score = Math.round((correct / quiz.length) * 100);
       const r = document.getElementById('quiz-result');
-      if (score >= 80) { set('passed_' + id, score); recordActivity(); syncPush(); r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-white p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`; }
-      else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-white p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${quiz.length}).</strong> You need 80%. Review the lessons and try again.</div>`;
+      if (score >= 80) { set('passed_' + id, score); recordActivity(); syncPush(); r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`; }
+      else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${quiz.length}).</strong> You need 80%. Review the lessons and try again.</div>`;
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     refresh();

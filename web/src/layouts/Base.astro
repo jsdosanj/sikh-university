@@ -13,6 +13,17 @@ const canon = canonical || SITE + Astro.url.pathname;
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script is:inline>
+    // Set the colour theme before first paint to avoid a flash. Honours a
+    // saved choice, else the OS preference.
+    (function () {
+      try {
+        var t = localStorage.getItem('su_v1_theme');
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="theme-color" content="#16335c" />
@@ -35,7 +46,7 @@ const canon = canonical || SITE + Astro.url.pathname;
   </main>
   <Footer />
 
-  <button id="a11y-fab" aria-label="Accessibility options" class="fixed right-4 bottom-4 z-50 h-12 w-12 rounded-full bg-navy text-white text-xl shadow-lift hover:bg-navy-strong print:hidden">♿</button>
+  <button id="a11y-fab" aria-label="Accessibility options" class="fixed right-4 bottom-4 z-50 h-12 w-12 rounded-full bg-brand text-white text-xl shadow-lift hover:bg-brand-strong print:hidden">♿</button>
   <div id="a11y-panel" class="fixed right-4 bottom-20 z-50 hidden w-56 flex-col gap-1 rounded-xl2 border border-line bg-surface p-3 shadow-lift print:hidden">
     <strong class="font-sans text-xs uppercase tracking-wide text-muted">Accessibility</strong>
     <button data-a="smaller" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A− Smaller text</button>
