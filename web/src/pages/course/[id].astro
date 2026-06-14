@@ -106,6 +106,22 @@ const quiz = c.quiz || [];
         </section>
       )}
 
+      {c.sourceText && (
+        <section class="mb-8">
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">From the source text</h2>
+          <figure class="mt-3 rounded-xl2 border border-line bg-paper p-5">
+            <blockquote class="border-l-4 border-saffron pl-4 text-[0.97rem] italic leading-relaxed text-navy">{c.sourceText.snippet}</blockquote>
+            <figcaption class="mt-3 font-sans text-xs text-muted">
+              — from <strong>{c.sourceText.work}</strong>.
+              {c.sourceText.lang === 'translated'
+                ? ' This is a machine translation of the author’s original text, shown as a study excerpt — refer to the original for an authoritative reading.'
+                : ' This is an OCR transcription of the author’s original text, shown as a study excerpt — OCR may contain errors.'}
+              <a class="ml-1 font-semibold text-blue underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>
+            </figcaption>
+          </figure>
+        </section>
+      )}
+
       <section class="rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
         <h2 class="text-xl font-bold">Read the source texts</h2>
         <p class="mt-1">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
