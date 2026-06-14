@@ -2,24 +2,57 @@
 const links = [
   { href: '/catalog', label: 'Catalogue', m: '/catalog' },
   { href: '/santhiya', label: 'Santhya', m: '/santhiya' },
+  { href: '/read', label: 'Read', m: '/read' },
   { href: '/paths', label: 'Paths', m: '/paths' },
   { href: '/professors', label: 'Professors', m: '/professor' },
   { href: '/about', label: 'About', m: '/about' },
 ];
 const path = Astro.url.pathname;
+const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !== '/' && path.startsWith(m));
 ---
-<nav class="bg-navy text-white sticky top-0 z-40 shadow-md">
-  <div class="wrap flex flex-wrap items-center gap-x-5 gap-y-2 py-3">
-    <a href="/" class="font-serif text-xl font-bold tracking-tight">Sikh<span class="text-saffron">University</span></a>
-    {links.map((l) => (
-      <a href={l.href} class={`font-sans text-sm border-b-2 pb-0.5 transition ${path.startsWith(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}>{l.label}</a>
-    ))}
-    <span class="ml-auto"></span>
-    <a href="/search" class="font-sans text-sm text-white/80 hover:text-white">Search</a>
-    <a href="/dashboard" class="font-sans text-sm text-white/80 hover:text-white">My Learning</a>
-    <a id="nav-auth" href="/login" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06] hover:brightness-105">Sign in</a>
+<nav aria-label="Primary" class="bg-navy text-white sticky top-0 z-40 shadow-md">
+  <div class="wrap flex items-center gap-x-5 py-3">
+    <a href="/" aria-label="Sikh University — home" class="flex items-center gap-2 font-serif text-xl font-bold tracking-tight">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" class="text-saffron shrink-0">
+        <path d="M11.4 1.6a.6.6 0 0 1 1.2 0v6.06c.9.46 1.52 1.4 1.52 2.48 0 .9-.43 1.7-1.1 2.2l.83 1.7c1.04-.86 1.7-2.16 1.7-3.6 0-1.74-.96-3.26-2.38-4.05V6.1c2.07.86 3.53 2.9 3.53 5.28 0 1.92-.95 3.62-2.4 4.66l.5 1.03 1.78-1.5a.4.4 0 0 1 .6.5l-1.43 2.04 2.36-.5a.4.4 0 0 1 .27.74l-3.32 1.78a.6.6 0 0 1-.82-.27l-1.03-2.12a5.9 5.9 0 0 1-1.42 0l-1.03 2.12a.6.6 0 0 1-.82.27L6.9 20.6a.4.4 0 0 1 .27-.74l2.36.5-1.43-2.04a.4.4 0 0 1 .6-.5l1.78 1.5.5-1.03A5.46 5.46 0 0 1 8.58 13.7c0-2.38 1.46-4.42 3.53-5.28v2.45c-1.42.79-2.38 2.31-2.38 4.05 0 1.44.66 2.74 1.7 3.6l.83-1.7a2.74 2.74 0 0 1-1.1-2.2c0-1.08.62-2.02 1.52-2.48V1.6z"/>
+      </svg>
+      <span>Sikh <span class="text-saffron">University</span></span>
+    </a>
+
+    <button id="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"
+      class="ml-auto md:hidden inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:bg-white/10 hover:text-white transition">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+
+    <div id="nav-menu" class="hidden md:flex md:items-center md:gap-x-5 w-full md:w-auto md:ml-0 order-last md:order-none flex-col md:flex-row items-start gap-y-2 pb-2 md:pb-0">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          aria-current={isActive(l.m) ? 'page' : undefined}
+          class={`font-sans text-sm border-b-2 pb-0.5 transition ${isActive(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}
+        >{l.label}</a>
+      ))}
+      <span class="hidden md:block ml-auto"></span>
+      <a href="/search" aria-current={isActive('/search') ? 'page' : undefined} class="font-sans text-sm text-white/80 hover:text-white">Search</a>
+      <a href="/dashboard" aria-current={isActive('/dashboard') ? 'page' : undefined} class="font-sans text-sm text-white/80 hover:text-white">My Learning</a>
+      <a id="nav-auth" href="/login" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06] hover:brightness-105">Sign in</a>
+    </div>
   </div>
 </nav>
+<script>
+  // Responsive menu toggle (dependency-free).
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      menu.classList.toggle('hidden', open);
+    });
+  }
+</script>
 <script>
   // Auth-aware nav: swap "Sign in" for role links when a session exists.
   fetch('/api/me', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).then((d) => {
