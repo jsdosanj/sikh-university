@@ -166,6 +166,96 @@
     }
   }
 
+  function api(path, opts) {
+    opts = opts || {};
+    opts.credentials = "same-origin";
+    opts.headers = Object.assign({ "content-type": "application/json" }, opts.headers || {});
+    return fetch(path, opts).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, data: j }; });
+    }).catch(function () { return { ok: false, status: 0, data: {} }; });
+  }
+  function injectAuthNav() {
+    var nav = document.querySelector(".nav-inner");
+    if (!nav || nav.querySelector(".auth-added")) return;
+    function add(href, text, onclick) { var a = document.createElement("a"); a.className = "auth-added"; a.href = href; a.textContent = text; if (onclick) a.onclick = onclick; nav.appendChild(a); }
+    function render(u) {
+      var sp = document.createElement("span"); sp.className = "spacer auth-added"; nav.appendChild(sp);
+      if (u) {
+        add("teach.html", (u.role === "teacher" || u.role === "admin") ? "Teach" : "Become a teacher");
+        if (u.role === "admin") add("admin.html", "Admin");
+        add("#", "Sign out", function (e) { e.preventDefault(); fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }).then(function () { location.href = "index.html"; }); });
+      } else { add("login.html", "Sign in"); }
+    }
+    fetch("/api/me", { credentials: "same-origin" }).then(function (r) { return r.ok ? r.json() : { user: null }; }).then(function (d) { render(d && d.user); }).catch(function () { render(null); });
+  }
+
+  function initLogin(root) {
+    root.innerHTML = "";
+    root.appendChild(el("h2", null, "Sign in"));
+    root.appendChild(el("p", "lead", "Enter your email and we'll send a magic sign-in link — no password needed."));
+    var err = new URLSearchParams(location.search).get("error");
+    if (err) root.appendChild(el("div", "callout", "<strong>" + esc(err) + "</strong>"));
+    var form = el("div", "contact-form");
+    var inp = document.createElement("input"); inp.type = "email"; inp.placeholder = "you@example.com"; inp.required = true;
+    var lab = el("label", null, "Email"); lab.appendChild(inp);
+    var btn = el("button", "btn primary", "Send magic link");
+    var out = el("div");
+    form.appendChild(lab); form.appendChild(btn); form.appendChild(out); root.appendChild(form);
+    btn.onclick = function () {
+      var email = inp.value.trim(); if (!email) { out.innerHTML = '<p class="muted">Enter your email.</p>'; return; }
+      btn.disabled = true; btn.textContent = "Sending…";
+      api("/api/auth/request", { method: "POST", body: JSON.stringify({ email: email }) }).then(function (r) {
+        btn.disabled = false; btn.textContent = "Send magic link";
+        if (!r.ok) { out.innerHTML = '<div class="callout"><strong>' + esc((r.data && r.data.error) || "Sign-in isn't available yet (backend not deployed).") + '</strong></div>'; return; }
+        if (r.data.sent) out.innerHTML = '<div class="callout" style="border-left-color:var(--ok)"><strong>Check your email.</strong> A sign-in link was sent to ' + esc(email) + ' (expires in 15 minutes).</div>';
+        else out.innerHTML = '<div class="callout"><strong>Dev mode</strong> (email not configured yet): <a href="' + esc(r.data.devLink) + '">click here to sign in</a>.</div>';
+      });
+    };
+  }
+
+  function initTeach(root) {
+    root.innerHTML = ""; root.appendChild(el("h2", null, "Teach at Sikh University"));
+    api("/api/me").then(function (r) {
+      var u = r.ok && r.data.user;
+      if (!u) { root.appendChild(el("div", "callout", "Please <a href='login.html'>sign in</a> first, then apply to teach.")); return; }
+      if (u.role === "teacher" || u.role === "admin") { root.appendChild(el("div", "callout", "You're an approved <strong>" + esc(u.role) + "</strong>. Course-authoring tools are the next step.")); return; }
+      root.appendChild(el("p", "lead", "Are you a scholar or knowledgeable teacher? Apply to author and maintain courses. Each application is reviewed by an admin."));
+      var form = el("div", "contact-form");
+      var bg = document.createElement("textarea"); bg.rows = 6; bg.placeholder = "Your background, qualifications, and area(s) of expertise.";
+      var co = document.createElement("textarea"); co.rows = 3; co.placeholder = "What course(s) would you like to teach?";
+      var lb = el("label", null, "Your background"); lb.appendChild(bg);
+      var lc = el("label", null, "Courses you'd like to teach"); lc.appendChild(co);
+      var btn = el("button", "btn primary", "Submit application"); var out = el("div");
+      form.appendChild(lb); form.appendChild(lc); form.appendChild(btn); form.appendChild(out); root.appendChild(form);
+      btn.onclick = function () {
+        if (!bg.value.trim()) { out.innerHTML = '<p class="muted">Tell us about your background.</p>'; return; }
+        btn.disabled = true;
+        api("/api/teacher/apply", { method: "POST", body: JSON.stringify({ background: bg.value, courses: co.value }) }).then(function (r) {
+          if (r.ok) form.innerHTML = '<div class="callout" style="border-left-color:var(--ok)"><strong>Application submitted.</strong> An admin will review it and you\'ll be notified by email.</div>';
+          else { btn.disabled = false; out.innerHTML = '<div class="callout"><strong>' + esc((r.data && r.data.error) || "Error") + '</strong></div>'; }
+        });
+      };
+    });
+  }
+
+  function initAdmin(root) {
+    root.innerHTML = ""; root.appendChild(el("h2", null, "Admin — teacher applications"));
+    api("/api/admin/applications").then(function (r) {
+      if (!r.ok) { root.innerHTML = '<div class="callout">Admins only. <a href="login.html">Sign in</a> with an admin account.</div>'; return; }
+      var apps = r.data.applications || [];
+      if (!apps.length) { root.appendChild(el("div", "callout", "No pending applications.")); return; }
+      function decide(id, decision, card) { api("/api/admin/applications", { method: "POST", body: JSON.stringify({ id: id, decision: decision }) }).then(function (rr) { if (rr.ok) card.innerHTML = '<div class="callout" style="border-left-color:var(--ok)">Application ' + decision + 'd.</div>'; }); }
+      apps.forEach(function (a) {
+        var c = el("div", "card");
+        c.innerHTML = "<h3>" + esc(a.name || a.email) + "</h3><div class='meta'>" + esc(a.email) + "</div><p><strong>Background:</strong> " + esc(a.background || "") + "</p>" + (a.courses ? "<p><strong>Wants to teach:</strong> " + esc(a.courses) + "</p>" : "");
+        var row = el("div", "filters");
+        var ap = el("button", "btn primary", "Approve"); var dn = el("button", "btn", "Deny");
+        ap.onclick = function () { decide(a.id, "approve", c); }; dn.onclick = function () { decide(a.id, "deny", c); };
+        row.appendChild(ap); row.appendChild(dn); c.appendChild(row); root.appendChild(c);
+      });
+    });
+  }
+
   function profileName() { return ((load("profile", {}) || {}).name || "").trim(); }
   function courseProgress(c) { if (!c.lessons || !c.lessons.length) return 0; var d = load("done_" + c.id, {}), n = 0; for (var k in d) if (d[k]) n++; return Math.round(n / c.lessons.length * 100); }
 
@@ -258,8 +348,12 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     var page = document.body.getAttribute("data-page");
+    injectAuthNav();
     if (page === "contact") { initContact(); return; }
     var root = document.getElementById("app"); if (!root) return;
+    if (page === "login") { initLogin(root); return; }
+    if (page === "teach") { initTeach(root); return; }
+    if (page === "admin") { initAdmin(root); return; }
     getData().then(function (data) {
       if (page === "home") initHome(root, data);
       else if (page === "catalog") initCatalog(root, data);

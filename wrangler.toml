@@ -2,12 +2,16 @@ name = "sikhuniversity"
 pages_build_output_dir = "site"
 compatibility_date = "2026-06-14"
 
-# Future backend bindings (Phase B/C) — uncomment once created:
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "sikh-university"
-# database_id = "<run: wrangler d1 create sikh-university>"
-#
-# [[r2_buckets]]
-# binding = "MEDIA"
-# bucket_name = "sikh-university-media"
+[[d1_databases]]
+binding = "DB"
+database_name = "sikh-university"
+database_id = "76977fdc-94aa-4088-9572-420d2a0ea329"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "sikh-university-media"
+
+# Set as Pages env vars / secrets in the dashboard (not committed):
+#   ADMIN_EMAILS   = "you@example.com"   (comma-separated admins)
+#   RESEND_API_KEY = "re_..."            (to actually send magic-link emails)
+#   SITE_URL       = "https://sikhuniversity.pages.dev"
