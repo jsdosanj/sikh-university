@@ -110,12 +110,19 @@ const quiz = c.quiz || [];
         <section class="mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">From the source text</h2>
           <figure class="mt-3 rounded-xl2 border border-line bg-paper p-5">
-            <blockquote class="border-l-4 border-saffron pl-4 text-[0.97rem] italic leading-relaxed text-navy">{c.sourceText.snippet}</blockquote>
+            {c.sourceText.gurmukhi && (
+              <blockquote lang="pa" class="border-l-4 border-saffron pl-4 text-lg leading-loose text-navy">{c.sourceText.gurmukhi}</blockquote>
+            )}
+            {c.sourceText.english && (
+              <blockquote class={`pl-4 text-[0.97rem] italic leading-relaxed text-muted ${c.sourceText.gurmukhi ? 'mt-3 border-l-4 border-line' : 'border-l-4 border-saffron text-navy'}`}>{c.sourceText.english}</blockquote>
+            )}
             <figcaption class="mt-3 font-sans text-xs text-muted">
               — from <strong>{c.sourceText.work}</strong>.
-              {c.sourceText.lang === 'translated'
-                ? ' This is a machine translation of the author’s original text, shown as a study excerpt — refer to the original for an authoritative reading.'
-                : ' This is an OCR transcription of the author’s original text, shown as a study excerpt — OCR may contain errors.'}
+              {c.sourceText.gurmukhi && c.sourceText.english
+                ? ' Gurmukhi is the author’s original text (OCR); the English is a machine translation. Both are short study excerpts — refer to the original for an authoritative reading.'
+                : c.sourceText.gurmukhi
+                  ? ' This is the author’s original Gurmukhi text (OCR), shown as a study excerpt — OCR may contain errors.'
+                  : ' Shown as a short study excerpt — refer to the original for an authoritative reading.'}
               <a class="ml-1 font-semibold text-blue underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>
             </figcaption>
           </figure>
