@@ -14,7 +14,9 @@ import Base from '../layouts/Base.astro';
     function progress(c) { if (!c.lessons || !c.lessons.length) return 0; const d = get('done_' + c.id, {}); let n = 0; for (const k in d) if (d[k]) n++; return Math.round((n / c.lessons.length) * 100); }
     function streak() { const a = get('activity', []); if (!a.length) return 0; const s = {}; a.forEach((d) => (s[d] = 1)); const key = (dt) => dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate(); let d = new Date(); if (!s[key(d)]) { d.setDate(d.getDate() - 1); if (!s[key(d)]) return 0; } let n = 0; while (s[key(d)]) { n++; d.setDate(d.getDate() - 1); } return n; }
 
-    const api = (p) => fetch(p, { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).catch(() => ({ user: null }));
+    const fmtRel = (ts) => { if (!ts) return '—'; const s = (Date.now() - ts) / 1000; if (s < 86400) return 'today'; const d = Math.floor(s / 86400); if (d < 7) return d + 'd ago'; if (d < 30) return Math.floor(d / 7) + 'w ago'; return Math.floor(d / 30) + 'mo ago'; };
+    const grade = (s) => s >= 90 ? 'A' : s >= 80 ? 'B' : s >= 70 ? 'C' : s >= 60 ? 'D' : 'F';
+    const api = (p, o) => fetch(p, { credentials: 'same-origin', headers: o ? { 'content-type': 'application/json' } : undefined, ...(o || {}) }).then((r) => (r.ok ? r.json() : { user: null, error: true })).catch(() => ({ user: null, error: true }));
     Promise.all([api('/api/me'), fetch('/assets/data/courses.json').then((r) => r.json())]).then(([me, data]) => {
       const user = me && me.user;
       const isAdmin = !!(user && user.role === 'admin');
@@ -70,6 +72,7 @@ import Base from '../layouts/Base.astro';
         root.innerHTML = `
           <h1 class="text-3xl font-bold">${name ? 'Welcome back, ' + esc(name) : 'My Learning'}</h1>
           ${applyCta}
+          <div id="ann-feed"></div>
           <div class="mt-4 flex flex-wrap items-center gap-2 rounded-xl2 border border-line bg-surface p-4">
             <span class="font-sans text-sm text-muted">Your name (shown on certificates):</span>
             <input id="nm" type="text" value="${esc(name)}" placeholder="Your full name" class="min-w-[180px] flex-1 rounded-lg border border-line px-3 py-2 font-sans" />
@@ -85,6 +88,13 @@ import Base from '../layouts/Base.astro';
           ${section('Continue learning', started, 'started')}
           ${section('Completed — certificates earned', completed, 'completed')}
           ${section('Start something new', fresh.slice(0, 6), 'fresh')}`;
+        // Announcements from teachers of the courses this student is taking.
+        const enrolled = new Set(pub.filter((c) => passed(c.id) || progress(c) > 0).map((c) => c.id));
+        if (enrolled.size) api('/api/announcements').then((d) => {
+          const list = ((d && d.announcements) || []).filter((a) => enrolled.has(a.course_id)).slice(0, 5);
+          const fe = document.getElementById('ann-feed'); if (!fe || !list.length) return;
+          fe.innerHTML = `<h3 class="mt-8 text-xl font-bold">Announcements</h3><div class="mt-4 space-y-3">${list.map((a) => { const c = pub.find((x) => x.id === a.course_id); return `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(c ? c.title : a.course_id)} · ${esc(a.author_name || '')} · ${fmtRel(a.created_at)}</div>${a.title ? `<div class="mt-1 font-bold text-navy">${esc(a.title)}</div>` : ''}<p class="mt-1 text-sm">${esc(a.body)}</p></div>`; }).join('')}</div>`;
+        });
         document.getElementById('save-nm').addEventListener('click', () => { const p = get('profile', {}); p.name = document.getElementById('nm').value.trim(); set('profile', p); location.reload(); });
         document.getElementById('exp').addEventListener('click', () => {
           const lines = ['# My Sikh University notes', ''];
@@ -95,47 +105,64 @@ import Base from '../layouts/Base.astro';
       }
 
       function renderTeacher() {
-        const taught = pub.slice(0, 4);
         const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-4 text-center shadow-card"><div class="text-3xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
-        // Sample roster + grades (illustrative; a real gradebook will read enrolment data).
+        const lessonCount = (id) => { const c = pub.find((x) => x.id === id); return (c && c.lessons) ? c.lessons.length : 0; };
+        const ctitle = (id) => { const c = pub.find((x) => x.id === id); return c ? c.title : id; };
+
+        if (demo) { renderTeacherDemo(stat); return; }
+
+        root.innerHTML = '<h1 class="text-3xl font-bold">Teacher dashboard</h1><p class="mt-6 text-muted">Loading your gradebook…</p>';
+        api('/api/gradebook').then((g) => {
+          const courses = g.courses || [];
+          const rows = g.rows || [];
+          if (!courses.length) {
+            root.innerHTML = `<h1 class="text-3xl font-bold">Teacher dashboard</h1>
+              <div class="mt-6 rounded-xl2 border border-line bg-surface p-6 text-muted">You are not assigned to any courses yet. An admin assigns teachers to courses; once assigned, your students' real grades, progress, a gradebook (with CSV export) and announcements appear here.</div>
+              <div class="mt-6"><a class="btn" href="/dashboard?demo=teacher">Preview a sample teacher dashboard →</a></div>`;
+            return;
+          }
+          const students = new Set(rows.map((r) => r.user_id));
+          const completions = rows.filter((r) => r.score != null && r.score >= 80).length;
+          const scored = rows.filter((r) => r.score != null);
+          const avg = scored.length ? Math.round(scored.reduce((a, r) => a + r.score, 0) / scored.length) : 0;
+          let html = `<h1 class="text-3xl font-bold">Teacher dashboard</h1>
+            <p class="mt-1 font-sans text-sm text-muted">Real grades and progress for your students.</p>
+            <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(courses.length, 'Courses you teach')}${stat(students.size, 'Students')}${stat(completions, 'Completions')}${stat(avg ? avg + '%' : '—', 'Avg. score')}</div>`;
+          courses.forEach((cid) => {
+            const cr = rows.filter((r) => r.course_id === cid).sort((a, b) => (b.score == null ? -1 : b.score) - (a.score == null ? -1 : a.score));
+            const lc = lessonCount(cid);
+            const cs = cr.filter((r) => r.score != null);
+            const cavg = cs.length ? Math.round(cs.reduce((a, r) => a + r.score, 0) / cs.length) : 0;
+            const passRate = cr.length ? Math.round(cr.filter((r) => r.score != null && r.score >= 80).length / cr.length * 100) : 0;
+            html += `<div class="mt-10"><div class="flex flex-wrap items-baseline justify-between gap-2"><h3 class="text-xl font-bold">${esc(ctitle(cid))}</h3><div class="font-sans text-xs text-muted">${cr.length} enrolled · avg ${cavg}% · ${passRate}% passed · <button class="underline" data-ann="${esc(cid)}">Announce</button> · <button class="underline" data-csv="${esc(cid)}">Export CSV</button></div></div>`;
+            if (!cr.length) html += `<div class="mt-3 rounded-xl2 border border-line bg-surface p-4 text-muted">No students enrolled yet.</div>`;
+            else html += `<div class="mt-3 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="bg-brand text-left text-white"><th class="px-3 py-2">Student</th><th>Progress</th><th>Score</th><th>Grade</th><th>Status</th><th>Last active</th><th></th></tr></thead><tbody>${cr.map((r, i) => { const pct = lc ? Math.round(r.done / lc * 100) : 0; const st = (r.score != null && r.score >= 80) ? '<span class="pill bg-saffron-soft text-saffron-deep">Passed</span>' : (r.done > 0 ? '<span class="pill bg-paper text-muted">In progress</span>' : '—'); return `<tr class="${i % 2 ? 'bg-paper' : ''}" data-u="${esc(r.user_id)}" data-c="${esc(cid)}"><td class="px-3 py-2 font-semibold text-navy">${esc(r.name || r.email)}${r.override ? ' <span title="Grade overridden by a teacher" class="text-saffron-deep">✎</span>' : ''}</td><td>${pct}%</td><td>${r.score != null ? r.score + '%' : '—'}</td><td>${r.score != null ? grade(r.score) : '—'}</td><td>${st}</td><td class="whitespace-nowrap text-muted">${fmtRel(r.last_active)}</td><td><button class="rounded-lg border border-line px-2 py-1 hover:border-saffron" data-ovr>Override</button></td></tr>`; }).join('')}</tbody></table></div>`;
+            html += `</div>`;
+          });
+          root.innerHTML = html + `<div class="mt-10"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
+          root.querySelectorAll('[data-csv]').forEach((b) => b.addEventListener('click', () => { window.location = '/api/gradebook?format=csv&course=' + encodeURIComponent(b.dataset.csv); }));
+          root.querySelectorAll('[data-ann]').forEach((b) => b.addEventListener('click', () => { const cid = b.dataset.ann; const title = prompt('Announcement title (optional):'); if (title === null) return; const body = prompt('Message to your students:'); if (!body || !body.trim()) return; api('/api/announcements', { method: 'POST', body: JSON.stringify({ courseId: cid, title, body }) }).then((d) => { alert(d && !d.error ? 'Announcement posted.' : 'Could not post.'); }); }));
+          root.querySelectorAll('[data-ovr]').forEach((b) => b.addEventListener('click', () => { const tr = b.closest('[data-u]'); const cur = prompt('Override final score (0–100), or leave blank to clear an override:'); if (cur === null) return; const blank = cur.trim() === ''; const reason = blank ? '' : (prompt('Reason for the override (optional):') || ''); api('/api/gradebook', { method: 'POST', body: JSON.stringify({ courseId: tr.dataset.c, userId: tr.dataset.u, score: blank ? null : Number(cur), reason }) }).then((d) => { if (d && !d.error) renderTeacher(); else alert('Could not save the override.'); }); }));
+        });
+      }
+
+      function renderTeacherDemo(stat) {
+        const taught = pub.slice(0, 4);
         const names = ['Harpreet Kaur', 'Gurmeet Singh', 'Simran Kaur', 'Arjan Singh', 'Manvir Kaur', 'Jasdeep Singh', 'Noor Kaur', 'Ravi Singh'];
-        const dscore = (i, j) => 60 + ((i * 7 + j * 13) % 41); // deterministic 60–100
-        const dprog = (i, j) => 20 + ((i * 11 + j * 9) % 81);
-        const roster = demo ? names.map((nm, i) => ({ name: nm, email: nm.toLowerCase().replace(/[^a-z]+/g, '.') + '@example.com', active: ['today', '2d ago', '1w ago', 'today', '3d ago', '5d ago', '1d ago', '2w ago'][i] })) : [];
-        const grade = (s) => s >= 90 ? 'A' : s >= 80 ? 'B' : s >= 70 ? 'C' : s >= 60 ? 'D' : 'F';
-        const cell = (v, ok) => `<td class="border-t border-line px-2 py-1.5 ${ok === false ? 'text-muted' : ''}">${v}</td>`;
-
-        let gradebook;
-        if (!demo) gradebook = `<div class="mt-4 rounded-xl2 border border-line bg-surface p-4 text-muted">No students enrolled yet. When learners take your courses, their progress and test scores appear here.</div>`;
-        else gradebook = `<div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="bg-brand text-left text-white"><th class="px-2 py-2">Student</th>${taught.map((c) => `<th class="px-2 py-2" title="${esc(c.title)}">${esc(c.title.split(/[:—]/)[0].slice(0, 14))}…</th>`).join('')}<th class="px-2 py-2">Avg</th></tr></thead><tbody>${roster.map((st, i) => { const scores = taught.map((c, j) => dscore(i, j)); const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length); return `<tr class="${i % 2 ? 'bg-paper' : ''}">${cell('<strong>' + esc(st.name) + '</strong>')}${scores.map((s) => `<td class="border-t border-line px-2 py-1.5">${s}% <span class="text-muted">(${grade(s)})</span></td>`).join('')}${cell('<strong>' + avg + '%</strong>')}</tr>`; }).join('')}</tbody></table></div>`;
-
-        const analytics = !demo ? '' : `<h3 class="mt-10 text-xl font-bold">Course analytics</h3><div class="mt-4 space-y-3">${taught.map((c, j) => { const comp = 35 + ((j * 17) % 55); const avg = 70 + ((j * 9) % 25); return `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex flex-wrap items-baseline justify-between gap-2"><span class="font-semibold text-navy">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${(j + 1) * 9} enrolled · avg score ${avg}%</span></div><div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${comp}%"></div></div><div class="mt-1 font-sans text-xs text-muted">${comp}% completion</div></div>`; }).join('')}</div>`;
-
-        const questions = !demo ? '' : `<h3 class="mt-10 text-xl font-bold">Student questions <span class="pill bg-saffron-soft text-saffron-deep align-middle">3 new</span></h3><div class="mt-4 space-y-3">${[['Simran Kaur', taught[0], 'Could you explain the difference between nirgun and sargun again?'], ['Arjan Singh', taught[1] || taught[0], 'Is the test open-book? How many attempts do I get?'], ['Ravi Singh', taught[2] || taught[0], 'Which Ang should I read alongside lesson 3?']].map(([who, c, q]) => `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(who)} · ${esc((c || {}).title || '')}</div><p class="mt-1">${esc(q)}</p><button class="btn mt-2">Reply</button></div>`).join('')}</div>`;
-
+        const dscore = (i, j) => 60 + ((i * 7 + j * 13) % 41);
+        const roster = names.map((nm, i) => ({ name: nm, email: nm.toLowerCase().replace(/[^a-z]+/g, '.') + '@example.com', active: ['today', '2d ago', '1w ago', 'today', '3d ago', '5d ago', '1d ago', '2w ago'][i] }));
+        const cell = (v) => `<td class="border-t border-line px-2 py-1.5">${v}</td>`;
+        const gradebook = `<div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="bg-brand text-left text-white"><th class="px-2 py-2">Student</th>${taught.map((c) => `<th class="px-2 py-2" title="${esc(c.title)}">${esc(c.title.split(/[:—]/)[0].slice(0, 14))}…</th>`).join('')}<th class="px-2 py-2">Avg</th></tr></thead><tbody>${roster.map((st, i) => { const scores = taught.map((c, j) => dscore(i, j)); const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length); return `<tr class="${i % 2 ? 'bg-paper' : ''}">${cell('<strong>' + esc(st.name) + '</strong>')}${scores.map((s) => `<td class="border-t border-line px-2 py-1.5">${s}% <span class="text-muted">(${grade(s)})</span></td>`).join('')}${cell('<strong>' + avg + '%</strong>')}</tr>`; }).join('')}</tbody></table></div>`;
+        const analytics = `<h3 class="mt-10 text-xl font-bold">Course analytics</h3><div class="mt-4 space-y-3">${taught.map((c, j) => { const comp = 35 + ((j * 17) % 55); const avg = 70 + ((j * 9) % 25); return `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex flex-wrap items-baseline justify-between gap-2"><span class="font-semibold text-navy">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${(j + 1) * 9} enrolled · avg score ${avg}%</span></div><div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${comp}%"></div></div><div class="mt-1 font-sans text-xs text-muted">${comp}% completion</div></div>`; }).join('')}</div>`;
         root.innerHTML = `
           <h1 class="text-3xl font-bold">Teacher dashboard</h1>
-          <p class="mt-1 font-sans text-sm text-muted">${demo ? 'Sample view for testing — figures and students are illustrative.' : 'Welcome, teacher.'}</p>
-          <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(taught.length, 'Courses you teach')}${stat(demo ? 96 : 0, 'Students')}${stat(demo ? 38 : 0, 'Completions')}${stat(demo ? '4.8★' : '—', 'Avg. rating')}</div>
-
+          <p class="mt-1 font-sans text-sm text-muted">Sample view for testing — figures and students are illustrative.</p>
+          <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(taught.length, 'Courses you teach')}${stat(96, 'Students')}${stat(38, 'Completions')}${stat('4.8★', 'Avg. rating')}</div>
           <h3 class="mt-10 text-xl font-bold">Gradebook</h3>
           <p class="font-sans text-sm text-muted">Each student's test score per course, with a letter grade and class average.</p>
           ${gradebook}
-
-          <h3 class="mt-10 text-xl font-bold">Courses you teach</h3>
-          <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${taught.map((c, i) => `<a href="/course/${c.id}" class="card"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-2 font-sans text-xs text-muted">${demo ? ((i + 1) * 17) + ' learners' : 'Manage →'}</div></a>`).join('')}</div>
           ${analytics}
-
-          ${demo ? `<h3 class="mt-10 text-xl font-bold">Class roster</h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Student</th><th>Email</th><th>Last active</th></tr></thead><tbody>${roster.map((st) => `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(st.name)}</td><td>${esc(st.email)}</td><td class="text-muted">${esc(st.active)}</td></tr>`).join('')}</tbody></table></div>` : ''}
-          ${questions}
-
-          <h3 class="mt-10 text-xl font-bold">Announcements</h3>
-          <div class="mt-4 rounded-xl2 border border-line bg-surface p-4"><textarea rows="2" placeholder="Post an announcement to your students…" class="w-full rounded-lg border border-line bg-paper p-2 font-sans text-sm"></textarea><button class="btn btn-primary mt-2">Post announcement</button></div>
-
-          <div class="mt-10 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-xl2 border border-line bg-surface p-5"><h3 class="text-lg font-bold">✍️ Author a course</h3><p class="mt-1 font-sans text-sm text-muted">Draft lessons, key terms and a test, then submit for admin review.</p></div>
-            <div class="rounded-xl2 border border-line bg-surface p-5"><h3 class="text-lg font-bold">📊 Export grades (.csv)</h3><p class="mt-1 font-sans text-sm text-muted">Download your gradebook for records.</p></div>
-          </div>
+          <h3 class="mt-10 text-xl font-bold">Class roster</h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Student</th><th>Email</th><th>Last active</th></tr></thead><tbody>${roster.map((st) => `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(st.name)}</td><td>${esc(st.email)}</td><td class="text-muted">${esc(st.active)}</td></tr>`).join('')}</tbody></table></div>
           <div class="mt-8"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
       }
     }).catch(() => { document.getElementById('dash').innerHTML = '<p class="text-muted">Could not load.</p>'; });

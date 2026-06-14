@@ -33,3 +33,16 @@ export function isAdminEmail(env, email) {
   const list = (env.ADMIN_EMAILS || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
   return list.includes((email || "").toLowerCase());
 }
+
+// Append-only audit log. Best-effort: auto-creates the table and never throws,
+// so logging a non-critical event can't break the action that triggered it.
+export async function logEvent(env, user, action, target, detail) {
+  try {
+    await env.DB.prepare(
+      "CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, ts INTEGER NOT NULL, user_id TEXT, role TEXT, action TEXT NOT NULL, target TEXT, detail TEXT)"
+    ).run();
+    await env.DB.prepare(
+      "INSERT INTO events (id, ts, user_id, role, action, target, detail) VALUES (?,?,?,?,?,?,?)"
+    ).bind(newId(), Date.now(), user ? user.id : null, user ? user.role : null, action, target || null, detail || null).run();
+  } catch (e) { /* logging is non-critical */ }
+}
