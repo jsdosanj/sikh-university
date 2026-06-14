@@ -13,12 +13,24 @@
 
   function aiBadge(c) { return c.aiCreated ? '<span class="pill ai" title="Drafted by AI; reviewed by a Sikh University editor">Created by AI</span>' : ""; }
   function statusPill(c) { return c.status === "published" ? '<span class="pill live">Available</span>' : '<span class="pill dev">In development</span>'; }
+  function coursePassed(id) { return !!load("passed_" + id, false); }
+  function prereqOf(data, c) {
+    var sib = data.courses.filter(function (x) { return x.status === "published" && x.topic === c.topic && x.level < c.level; })
+      .sort(function (a, b) { return b.level - a.level; });
+    return sib[0] || null;
+  }
+  function isLocked(data, c) { var p = prereqOf(data, c); return !!(p && !coursePassed(p.id)); }
+  function gatePill(data, c) {
+    if (coursePassed(c.id)) return '<span class="pill live">Passed ✓</span>';
+    if (isLocked(data, c)) return '<span class="pill dev">🔒 Locked</span>';
+    return "";
+  }
 
   function courseCard(data, c) {
     var a = el("a", "card");
     a.href = "course.html?id=" + encodeURIComponent(c.id);
     a.innerHTML = '<div class="meta"><span class="pill topic">' + esc(topicName(data, c.topic)) + '</span>'
-      + '<span class="pill level">' + esc(String(c.level)) + " level</span>" + statusPill(c) + aiBadge(c) + "</div>"
+      + '<span class="pill level">' + esc(String(c.level)) + " level</span>" + statusPill(c) + gatePill(data, c) + aiBadge(c) + "</div>"
       + "<h3>" + esc(c.title) + "</h3>"
       + '<div class="meta">Prof. ' + esc(c.professor) + "</div>"
       + "<p>" + esc(c.summary) + "</p>";
@@ -74,6 +86,12 @@
     root.appendChild(head);
     if (c.aiCreated) root.appendChild(el("div", "callout disclaimer", "<strong>Created by AI.</strong> This course was drafted with AI and is reviewed by a Sikh University editor for accuracy. Found an error? Please report it so we can correct it."));
 
+    if (isLocked(data, c)) {
+      var pr = prereqOf(data, c);
+      root.appendChild(el("div", "callout", '🔒 <strong>Locked.</strong> Complete <a href="course.html?id=' + esc(pr.id) + '">' + esc(pr.title) + '</a> and pass its test (80% or higher) to unlock this course.'));
+      return;
+    }
+
     if (!c.lessons || !c.lessons.length) {
       root.appendChild(el("div", "callout", "<strong>In development.</strong> This course is being written and reviewed. Check back soon."));
       return;
@@ -111,6 +129,41 @@
     side.appendChild(list); layout.appendChild(side); layout.appendChild(body);
     root.appendChild(layout);
     renderLesson();
+
+    if (c.quiz && c.quiz.length) {
+      var box = el("div", "lesson-body"); box.style.marginTop = "1.5rem"; box.id = "test";
+      box.appendChild(el("h3", null, "Course test"));
+      box.appendChild(el("p", "muted", "Pass with 80% or higher to complete the course and unlock the next one."));
+      var form = el("div");
+      c.quiz.forEach(function (q, i) {
+        var fq = el("div"); fq.style.margin = ".9rem 0";
+        fq.innerHTML = "<p><strong>" + (i + 1) + ". " + esc(q.q) + "</strong></p>";
+        q.options.forEach(function (o, oi) {
+          var lab = el("label"); lab.style.cssText = "display:block;cursor:pointer;padding:.15rem 0";
+          var r = document.createElement("input"); r.type = "radio"; r.name = "tq" + i; r.value = oi; r.style.marginRight = ".5rem";
+          lab.appendChild(r); lab.appendChild(document.createTextNode(o));
+          fq.appendChild(lab);
+        });
+        form.appendChild(fq);
+      });
+      box.appendChild(form);
+      var submit = el("button", "btn primary", coursePassed(c.id) ? "Retake test" : "Submit test");
+      var result = el("div");
+      submit.onclick = function () {
+        var correct = 0;
+        c.quiz.forEach(function (q, i) { var s = box.querySelector('input[name="tq' + i + '"]:checked'); if (s && parseInt(s.value, 10) === q.answer) correct++; });
+        var score = Math.round(correct / c.quiz.length * 100);
+        if (score >= 80) {
+          save("passed_" + c.id, score);
+          result.innerHTML = '<div class="callout" style="border-left-color:var(--ok)"><strong>Passed — ' + score + '% (' + correct + '/' + c.quiz.length + ').</strong> Course complete. The next course in this topic is now unlocked.</div>';
+        } else {
+          result.innerHTML = '<div class="callout"><strong>Not yet — ' + score + '% (' + correct + '/' + c.quiz.length + ').</strong> You need 80% to pass. Review the lessons and try again.</div>';
+        }
+        result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      };
+      box.appendChild(submit); box.appendChild(result);
+      root.appendChild(box);
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
