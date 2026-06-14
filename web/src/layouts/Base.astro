@@ -1,0 +1,73 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props { title: string; description?: string; canonical?: string; ogType?: string; }
+const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website' } = Astro.props;
+const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
+const canon = canonical || SITE + Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#16335c" />
+  <link rel="canonical" href={canon} />
+  <link rel="icon" href="/assets/icon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content="Sikh University" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canon} />
+  <meta property="og:image" content={`${SITE}/assets/icon.svg`} />
+  <meta name="twitter:card" content="summary" />
+  <slot name="head" />
+</head>
+<body>
+  <Nav />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+
+  <button id="a11y-fab" aria-label="Accessibility options" class="fixed right-4 bottom-4 z-50 h-12 w-12 rounded-full bg-navy text-white text-xl shadow-lift hover:bg-navy-strong print:hidden">♿</button>
+  <div id="a11y-panel" class="fixed right-4 bottom-20 z-50 hidden w-56 flex-col gap-1 rounded-xl2 border border-line bg-surface p-3 shadow-lift print:hidden">
+    <strong class="font-sans text-xs uppercase tracking-wide text-muted">Accessibility</strong>
+    <button data-a="smaller" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A− Smaller text</button>
+    <button data-a="bigger" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A+ Larger text</button>
+    <button data-a="contrast" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">◐ High contrast</button>
+    <button data-a="read" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">🔊 Read this page</button>
+    <button data-a="stop" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">⏹ Stop reading</button>
+    <button data-a="reset" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">↺ Reset</button>
+  </div>
+  <script>
+    const P = 'su_v1_a11y';
+    const get = () => { try { return JSON.parse(localStorage.getItem(P) || '{}'); } catch { return {}; } };
+    const apply = () => { const p = get(); document.documentElement.style.fontSize = (p.scale || 100) + '%'; document.body.classList.toggle('hc', !!p.contrast); };
+    apply();
+    const fab = document.getElementById('a11y-fab'); const panel = document.getElementById('a11y-panel');
+    fab?.addEventListener('click', () => panel?.classList.toggle('hidden'));
+    panel?.addEventListener('click', (e) => {
+      const t = e.target.closest('button'); if (!t) return; const p = get(); const a = t.dataset.a;
+      if (a === 'smaller') p.scale = Math.max(80, (p.scale || 100) - 10);
+      else if (a === 'bigger') p.scale = Math.min(170, (p.scale || 100) + 10);
+      else if (a === 'contrast') p.contrast = !p.contrast;
+      else if (a === 'read') { if (window.speechSynthesis) { speechSynthesis.cancel(); const m = document.querySelector('main'); speechSynthesis.speak(new SpeechSynthesisUtterance((m?.innerText || '').slice(0, 9000))); } return; }
+      else if (a === 'stop') { window.speechSynthesis && speechSynthesis.cancel(); return; }
+      else if (a === 'reset') { localStorage.removeItem(P); apply(); return; }
+      localStorage.setItem(P, JSON.stringify(p)); apply();
+    });
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+  </script>
+  <style is:global>
+    body.hc { background: #000; color: #fff; }
+    body.hc .card, body.hc .bg-surface, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
+    body.hc a, body.hc h1, body.hc h2, body.hc h3 { color: #ffd479 !important; }
+  </style>
+</body>
+</html>
