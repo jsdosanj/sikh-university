@@ -270,7 +270,47 @@
   "sarbloh": [
     {
       "ang": 1,
-      "label": "Sarbloh Granth (excerpt)"
+      "label": "Beginning (Manglacharan)"
+    },
+    {
+      "ang": 100,
+      "label": "Ang 100"
+    },
+    {
+      "ang": 200,
+      "label": "Ang 200"
+    },
+    {
+      "ang": 300,
+      "label": "Ang 300"
+    },
+    {
+      "ang": 400,
+      "label": "Ang 400"
+    },
+    {
+      "ang": 500,
+      "label": "Ang 500"
+    },
+    {
+      "ang": 600,
+      "label": "Ang 600"
+    },
+    {
+      "ang": 700,
+      "label": "Ang 700"
+    },
+    {
+      "ang": 800,
+      "label": "Ang 800"
+    },
+    {
+      "ang": 900,
+      "label": "Ang 900"
+    },
+    {
+      "ang": 1000,
+      "label": "Ang 1000"
     }
   ]
 }
