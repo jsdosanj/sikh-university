@@ -4,7 +4,7 @@ import type { Course } from '../lib/data';
 interface Props { course: Course; }
 const { course: c } = Astro.props;
 ---
-<a href={`/course/${c.id}.html`} class="card group">
+<a href={`/course/${c.id}`} class="card group">
   <div class="mb-1.5 flex flex-wrap items-center gap-2 font-sans text-xs text-muted">
     <span class="pill bg-[#e7ecf5] text-navy">{topicName(c.topic)}</span>
     <span class="pill bg-paper text-muted">{c.level} level</span>

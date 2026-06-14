@@ -9,7 +9,7 @@ import Base from '../layouts/Base.astro';
   <script>
     const root = document.getElementById('teach');
     fetch('/api/me', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).then(({ user: u }) => {
-      if (!u) { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4">Please <a class="underline" href="/login.html">sign in</a> first, then apply to teach.</div>'; return; }
+      if (!u) { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4">Please <a class="underline" href="/login">sign in</a> first, then apply to teach.</div>'; return; }
       if (u.role === 'teacher' || u.role === 'admin') { root.innerHTML = `<div class="mt-4 rounded-xl border-l-4 border-ok bg-surface p-4">You're an approved <strong>${u.role}</strong>. Course-authoring tools are coming next.</div>`; return; }
       root.innerHTML = `
         <p class="mt-2 text-lg text-muted">Are you a scholar or knowledgeable teacher? Apply to author and maintain courses. Each application is reviewed by an admin.</p>
@@ -28,6 +28,6 @@ import Base from '../layouts/Base.astro';
             else { btn.disabled = false; out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">${(d && d.error) || 'Error'}</div>`; }
           }).catch(() => { btn.disabled = false; });
       });
-    }).catch(() => { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4">Please <a class="underline" href="/login.html">sign in</a> first.</div>'; });
+    }).catch(() => { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4">Please <a class="underline" href="/login">sign in</a> first.</div>'; });
   </script>
 </Base>
