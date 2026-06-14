@@ -6,14 +6,14 @@ const texts = [
   { gur: 'ਸੁੰਦਰ ਗੁਟਕਾ', en: 'Sundar Gutka', d: 'The common collection of daily and occasional banis.', href: '/collection/sundar-gutka', live: true },
   { gur: 'ਪੰਜ ਗ੍ਰੰਥੀ', en: 'Panj Granthi', d: 'Five longer baanis: Sukhmani Sahib, Asa di Vaar, Baavan Akhri, Sidh Gosht and Dakhni Oankaar.', href: '/collection/panj-granthi', live: true },
   { gur: 'ਦਸ ਗ੍ਰੰਥੀ', en: 'Das Granthi', d: 'Ten baanis of the Dasam Granth — the compositions associated with Guru Gobind Singh Ji.', href: '/collection/das-granthi', live: true },
-  { gur: 'ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ', en: 'Sri Guru Granth Sahib Ji', d: 'The complete Granth, Ang by Ang, with Santhya audio (Bhagat Jaswant Singh Ji) and word-by-word read-along.', href: '/read?src=sggs', live: true },
-  { gur: 'ਦਸਮ ਗ੍ਰੰਥ', en: 'Dasam Granth', d: 'The compositions associated with Guru Gobind Singh Ji — Ang-by-Ang read-along (text).', href: '/read?src=dasam', live: true },
-  { gur: 'ਸਰਬਲੋਹ ਗ੍ਰੰਥ', en: 'Sri Sarbloh Granth Sahib', d: 'The complete Sri Sarbloh Granth Sahib (the Khalsa Mahima) — Ang by Ang read-along.', href: '/read?src=sarbloh', live: true },
+  { gur: 'ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ', en: 'Sri Guru Granth Sahib Ji', d: 'The complete Granth, Ang by Ang, with Santhya audio (Bhagat Jaswant Singh Ji) and word-by-word read-along.', href: '/santhiya?src=sggs', live: true },
+  { gur: 'ਦਸਮ ਗ੍ਰੰਥ', en: 'Dasam Granth', d: 'The compositions associated with Guru Gobind Singh Ji — Ang-by-Ang read-along (text).', href: '/santhiya?src=dasam', live: true },
+  { gur: 'ਸਰਬਲੋਹ ਗ੍ਰੰਥ', en: 'Sri Sarbloh Granth Sahib', d: 'The complete Sri Sarbloh Granth Sahib (the Khalsa Mahima) — Ang by Ang read-along.', href: '/santhiya?src=sarbloh', live: true },
   { gur: 'ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ', en: 'Panj Granthavali', d: 'Five non-Gurbani granths (Chanakya Niti, Sarukatavali, Bhavrasamrit, Vichar Mala, Adhyatam Prakash) — placed last as supplementary, non-Gurbani works.', href: '/collection/panj-granthavali', live: true },
 ];
 ---
-<Base title="Santhya Pathway — Sikh University" description="Learn to read Gurbani with shudh uchaaran (correct pronunciation): from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio.">
-  <header class="relative overflow-hidden bg-gradient-to-br from-brand via-navy-strong to-blue text-white">
+<Base title="Santhya Pathway & Read-along — Sikh University" description="Learn to read Gurbani with shudh uchaaran: from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio — read Ang by Ang here.">
+  <header id="su-hero" class="relative overflow-hidden bg-gradient-to-br from-brand via-navy-strong to-blue text-white">
     <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-saffron/30 blur-3xl"></div>
     <div class="wrap relative py-14">
       <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Shudh Uchaaran · Read-along</p>
@@ -23,7 +23,7 @@ const texts = [
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
 
-  <section class="wrap py-12">
+  <section id="pathway" class="wrap py-12">
     <ol class="space-y-4">
       {texts.map((t, i) => (
         <li class="flex items-start gap-4 rounded-xl2 border border-line bg-surface p-5 shadow-card">
@@ -46,4 +46,155 @@ const texts = [
     </ol>
     <p class="mt-8 font-sans text-sm text-muted">Audio: <em>SGGS Santhya Shudh Uchaaran Sehaj Paath</em> by Bhagat Jaswant Singh Ji. Gurbani text handled with reverence; report any correction via <a class="underline" href="/feedback">feedback</a>.</p>
   </section>
+
+  <!-- Read-along reader (merged from the former /read page); shown when ?src=… is present. -->
+  <section id="reader" class="wrap py-8" style="display:none">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h1 id="title" class="text-2xl font-bold">Read-along</h1>
+      <div class="flex items-center gap-2 font-sans text-sm">
+        <select id="chapter" aria-label="Jump to chapter" class="max-w-[60vw] rounded-lg border border-line bg-surface px-2 py-1.5 sm:max-w-xs"></select>
+        <button id="prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
+        <label id="anglabel">Ang <input id="angin" type="number" min="1" value="1" class="w-20 rounded-lg border border-line px-2 py-1"></label>
+        <button id="next" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
+      </div>
+    </div>
+
+    <div id="audbar" class="mt-4 flex flex-wrap items-center gap-3 rounded-xl2 border border-line bg-surface p-3">
+      <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
+      <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted">🔇 Audio for this Ang is being prepared.</div>
+      <div class="flex items-center gap-2 font-sans text-sm">
+        <button data-fs="-" class="rounded-lg border border-line px-2.5 py-1">A−</button>
+        <button data-fs="+" class="rounded-lg border border-line px-2.5 py-1">A+</button>
+        <button id="larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
+      </div>
+    </div>
+    <p id="audnote" class="mt-1 font-sans text-xs text-muted"></p>
+
+    <div id="page" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
+
+    <div class="mt-8 flex items-center justify-between font-sans text-sm">
+      <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">← Previous</button>
+      <a href="/santhiya" class="text-muted hover:text-navy">← All Santhya texts</a>
+      <button id="next2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">Next →</button>
+    </div>
+  </section>
+
+  <style is:global>
+    #page .w { transition: color .08s, background-color .08s; padding: 0 .04em; border-radius: 4px; }
+    #page .w.on { background: #ffe69a; color: #1a1205; font-weight: 700; box-shadow: 0 0 0 2px #ffe69a; }
+    #page .ln { margin: .35rem 0; }
+    #page.lari .ln { word-spacing: -0.25em; }
+    [data-theme="dark"] #page .w.on { background: #f4b21a; color: #0a0d14; box-shadow: 0 0 0 2px #f4b21a; }
+  </style>
+
+  <script>
+    var SRC = {
+      sggs: { name: 'Sri Guru Granth Sahib Ji', unit: 'Ang', max: 1430, audio: true },
+      dasam: { name: 'Dasam Granth', unit: 'Ang', max: 1428, audio: false },
+      sarbloh: { name: 'Sri Sarbloh Granth Sahib', unit: 'Ang', max: 1040, audio: false },
+    };
+    var P = 'su_v1_';
+    var get = function (k, d) { try { var v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+    var set = function (k, v) { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch (e) {} };
+    var qp = new URLSearchParams(location.search);
+    var src = SRC[qp.get('src')] ? qp.get('src') : '';
+    if (src) {
+      // A Granth was chosen — switch from the pathway list to the reader.
+      var hero = document.getElementById('su-hero'); if (hero) hero.style.display = 'none';
+      var pw = document.getElementById('pathway'); if (pw) pw.style.display = 'none';
+      var rd = document.getElementById('reader'); if (rd) rd.style.display = '';
+      runReader();
+    }
+    function runReader() {
+    var cfg = SRC[src];
+    var page = document.getElementById('page'), aud = document.getElementById('aud'), angin = document.getElementById('angin'), note = document.getElementById('audnote'), audph = document.getElementById('audph');
+    document.getElementById('title').textContent = cfg.name;
+    document.getElementById('anglabel').childNodes[0].nodeValue = cfg.unit + ' ';
+    angin.max = cfg.max;
+    var ang = parseInt(qp.get('ang') || get(src + '_ang', 1), 10) || 1;
+    var words = [], cum = [], total = 0, curIdx = -1;
+
+    var santhya = null, curUrl = '';
+    function trackFor(n) {
+      if (!santhya || !santhya.length) return null;
+      var best = null;
+      for (var i = 0; i < santhya.length; i++) {
+        var r = santhya[i];
+        if (n >= r.start && n <= r.end) return r;
+        if (r.start <= n) best = r;
+      }
+      return best || santhya[0];
+    }
+    function setAudio(n) {
+      if (!cfg.audio) { aud.style.display = 'none'; audph.style.display = 'none'; note.textContent = 'Text read-along (no audio for this Granth yet).'; return; }
+      var t = trackFor(n);
+      if (!t) return;
+      aud.style.display = ''; audph.style.display = 'none';
+      if (t.url !== curUrl) { curUrl = t.url; aud.src = t.url; aud.load(); }
+      note.textContent = '🎧 Santhya · ' + t.title + ' — Bhindrān Taksāl (gurmatveechar.com)';
+    }
+
+    function vishramWeight(w) { if (w.indexOf('॥') !== -1) return 3.2; if (w.indexOf(';') !== -1) return 1.6; if (w.indexOf('.') !== -1) return 0.9; return 0; }
+    function buildTiming() { cum = []; total = 0; for (var i = 0; i < words.length; i++) { var w = words[i].textContent || ''; total += 0.6 + 0.22 * w.replace(/[॥;.]/g, '').length + vishramWeight(w); cum.push(total); } }
+    function highlight(t) {
+      if (!aud.duration || !total) return;
+      var target = (t / aud.duration) * total, i = curIdx < 0 ? 0 : curIdx;
+      while (i < cum.length && cum[i] < target) i++;
+      while (i > 0 && cum[i - 1] >= target) i--;
+      if (i === curIdx) return;
+      if (curIdx >= 0 && words[curIdx]) words[curIdx].classList.remove('on');
+      curIdx = i; if (words[i]) { words[i].classList.add('on'); words[i].scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+    }
+    function render(data) {
+      page.innerHTML = ''; words = [];
+      data.lines.forEach(function (line) {
+        var ln = document.createElement('div'); ln.className = 'ln';
+        line.split(/\s+/).forEach(function (tok) { if (!tok) return; var s = document.createElement('span'); s.className = 'w'; s.textContent = tok; ln.appendChild(s); ln.appendChild(document.createTextNode(' ')); words.push(s); });
+        page.appendChild(ln);
+      });
+      curIdx = -1; buildTiming();
+    }
+    function load(n) {
+      n = Math.max(1, Math.min(cfg.max, n)); ang = n; angin.value = n; set(src + '_ang', n);
+      history.replaceState(null, '', '/santhiya?src=' + src + '&ang=' + n);
+      note.textContent = '';
+      fetch('/assets/gurbani/' + src + '/' + n + '.json').then(function (r) { return r.json(); }).then(render).catch(function () { page.innerHTML = '<p class="text-muted" style="font-size:1rem">Could not load this ' + cfg.unit + '.</p>'; });
+      setAudio(n);
+    }
+    aud.addEventListener('timeupdate', function () { if (curUrl && curUrl.indexOf('gurmatveechar') === -1) highlight(aud.currentTime); });
+    aud.addEventListener('error', function () { if (cfg.audio && curUrl) { aud.style.display = 'none'; audph.style.display = 'flex'; note.textContent = 'This Santhya recording could not be reached just now — text read-along still works.'; } });
+    aud.addEventListener('ended', function () {
+      if (!santhya) return;
+      for (var i = 0; i < santhya.length; i++) { if (santhya[i].url === curUrl) { var nx = santhya[i + 1]; if (nx) { load(nx.start); aud.play().catch(function () {}); } return; } }
+    });
+    var chapSel = document.getElementById('chapter'), chapList = [];
+    function syncChapter(n) {
+      if (!chapList.length) return;
+      var sel = chapList[0].ang;
+      for (var i = 0; i < chapList.length; i++) { if (chapList[i].ang <= n) sel = chapList[i].ang; }
+      chapSel.value = String(sel);
+    }
+    fetch('/assets/gurbani/chapters.json').then(function (r) { return r.json(); }).then(function (all) {
+      chapList = all[src] || [];
+      if (!chapList.length) { chapSel.style.display = 'none'; return; }
+      chapSel.innerHTML = chapList.map(function (c) {
+        return '<option value="' + c.ang + '">' + (c.gur ? c.gur + ' · ' : '') + c.label + (cfg.max > 1 ? ' (' + cfg.unit + ' ' + c.ang + ')' : '') + '</option>';
+      }).join('');
+      syncChapter(ang);
+      chapSel.addEventListener('change', function () { go(parseInt(chapSel.value, 10) || 1); });
+    }).catch(function () { chapSel.style.display = 'none'; });
+    function go(n) { load(n); syncChapter(n); }
+    document.getElementById('next').onclick = document.getElementById('next2').onclick = function () { go(ang + 1); };
+    document.getElementById('prev').onclick = document.getElementById('prev2').onclick = function () { go(ang - 1); };
+    angin.addEventListener('change', function () { go(parseInt(angin.value, 10) || 1); });
+    var fs = get('read_fs', 1.9); page.style.fontSize = fs + 'rem';
+    document.querySelectorAll('[data-fs]').forEach(function (b) { b.onclick = function () { fs = Math.max(1.1, Math.min(3.2, fs + (b.dataset.fs === '+' ? 0.2 : -0.2))); page.style.fontSize = fs + 'rem'; set('read_fs', fs); }; });
+    document.getElementById('larivaar').onclick = function () { page.classList.toggle('lari'); };
+    load(ang);
+    if (cfg.audio) {
+      note.textContent = 'Loading Santhya audio…';
+      fetch('/assets/gurbani/santhya-sggs-index.json').then(function (r) { return r.json(); }).then(function (d) { santhya = d; setAudio(ang); }).catch(function () { note.textContent = 'Santhya audio is unavailable right now — text read-along still works.'; });
+    }
+    } // end runReader
+  </script>
 </Base>

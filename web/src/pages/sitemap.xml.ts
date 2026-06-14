@@ -4,8 +4,8 @@ import { published, professorList, profSlug } from '../lib/data';
 // Generated sitemap — stays in sync with the catalogue so new courses and
 // professors are always discoverable. Replaces the old hand-written file.
 const STATIC_PATHS = [
-  '/', '/catalog', '/paths', '/professors', '/about',
-  '/search', '/read', '/santhiya', '/muharni', '/baal-updesh',
+  '/', '/catalog', '/professors', '/about',
+  '/search', '/santhiya', '/muharni', '/baal-updesh',
   '/teach', '/legal',
 ];
 

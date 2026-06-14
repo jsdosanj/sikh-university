@@ -1,30 +1,106 @@
 ---
 import Base from '../layouts/Base.astro';
+import { professorList, profBio, profSlug } from '../lib/data';
+import { REF, COLLECTIONS } from '../lib/santhya';
+
+// A universal index, built at compile time, of everything searchable that the
+// course catalogue alone doesn't cover: professors (with bios), banis, scripture,
+// collections, and the main pages. Courses, topics and paths are merged in at
+// runtime from courses.json (already served to the browser).
+const professors = professorList().map((p) => ({
+  title: p.name, slug: profSlug(p.name), count: p.courses.length, bio: profBio(p.name),
+}));
+
+const granths = [
+  { gur: 'ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ', title: 'Sri Guru Granth Sahib Ji', url: '/santhiya?src=sggs', sub: 'Read Ang by Ang with Santhya audio' },
+  { gur: 'ਦਸਮ ਗ੍ਰੰਥ', title: 'Dasam Granth', url: '/santhiya?src=dasam', sub: 'Read-along, Ang by Ang' },
+  { gur: 'ਸ੍ਰੀ ਸਰਬਲੋਹ ਗ੍ਰੰਥ ਸਾਹਿਬ', title: 'Sri Sarbloh Granth Sahib', url: '/santhiya?src=sarbloh', sub: 'The Khalsa Mahima — read-along' },
+];
+const banis = Object.values(REF).map((b) => ({ gur: b.gur, title: b.en, url: b.href || '/santhiya', sub: 'Bani · read-along' }));
+const collections = Object.entries(COLLECTIONS).map(([id, c]) => ({ gur: c.gur, title: c.name, url: '/collection/' + id, sub: c.blurb }));
+const readings = [...granths, ...banis, ...collections];
+
+const pages = [
+  { title: 'Course catalogue', url: '/catalog', sub: 'Browse every course by topic' },
+  { title: 'Learning paths', url: '/catalog#paths', sub: 'Guided, ordered routes through the courses' },
+  { title: 'Santhya pathway & read-along', url: '/santhiya', sub: 'Learn to read Gurbani, and read the Granths' },
+  { title: 'Baal Updesh — learn Gurmukhi', url: '/baal-updesh', sub: 'Alphabet, Muharni, words, numbers, flashcards' },
+  { title: 'Flashcards', url: '/baal-updesh#flashcards', sub: 'Spaced-repetition study of Gurbani words & terms' },
+  { title: 'Professors', url: '/professors', sub: 'The scholars behind the courses' },
+  { title: 'My Learning', url: '/dashboard', sub: 'Your progress, grades and certificates' },
+  { title: 'About Sikh University', url: '/about', sub: 'Why we built this' },
+  { title: 'Send feedback', url: '/feedback', sub: 'Report a correction or suggest a course' },
+];
+
+const extra = { professors, readings, pages };
 ---
-<Base title="Search — Sikh University" description="Search every Sikh University course by title, topic, professor, or key term.">
+<Base title="Search — Sikh University" description="Search everything at Sikh University — courses, professors, topics, learning paths, banis and scripture.">
   <section class="wrap py-12">
-    <h1 class="text-3xl font-bold">Search courses</h1>
-    <input id="q" type="search" placeholder="Search by title, topic, professor, term…" autofocus
+    <h1 class="text-3xl font-bold">Search Sikh University</h1>
+    <input id="q" type="search" placeholder="Search courses, professors, topics, paths, banis…" autofocus
       class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
     <div id="out" class="mt-6"></div>
   </section>
+  <script type="application/json" id="extra-index" set:html={JSON.stringify(extra)}></script>
   <script>
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    let data = { courses: [], topics: [] };
+    const extra = JSON.parse(document.getElementById('extra-index').textContent);
+    let data = { courses: [], topics: [], paths: [] };
     const tn = (id) => (data.topics.find((t) => t.id === id) || {}).name || id;
     const out = document.getElementById('out'); const q = document.getElementById('q');
-    function hay(c) { return [c.title, c.summary, c.professor, tn(c.topic), (c.terms || []).map((t) => t.t + ' ' + t.m).join(' '), (c.outcomes || []).join(' '), (c.lessons || []).map((l) => l.title).join(' ')].join(' | ').toLowerCase(); }
-    function card(c) {
-      return `<a href="/course/${c.id}" class="card"><div class="mb-1.5 flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-[#e7ecf5] text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-0.5 font-sans text-xs text-muted">Prof. ${esc(c.professor)}</div><p class="mt-2 text-[0.95rem]">${esc(c.summary)}</p></a>`;
+
+    // Build a flat, typed index. Each entry: { kind, title, sub, url, hay }.
+    let index = [];
+    function buildIndex() {
+      index = [];
+      data.courses.forEach((c) => index.push({
+        kind: 'Course', title: c.title, sub: 'Prof. ' + c.professor + ' · ' + tn(c.topic), url: '/course/' + c.id,
+        hay: [c.title, c.summary, c.professor, tn(c.topic), (c.terms || []).map((t) => t.t + ' ' + t.m).join(' '), (c.outcomes || []).join(' '), (c.lessons || []).map((l) => l.title).join(' ')].join(' | ').toLowerCase(),
+      }));
+      extra.professors.forEach((p) => index.push({
+        kind: 'Professor', title: p.title, sub: p.count + ' course' + (p.count === 1 ? '' : 's'), url: '/professor/' + p.slug,
+        hay: (p.title + ' ' + (p.bio || '')).toLowerCase(),
+      }));
+      (data.topics || []).forEach((t) => index.push({
+        kind: 'Topic', title: t.name, sub: t.blurb || '', url: '/catalog#' + t.id, hay: (t.name + ' ' + (t.blurb || '')).toLowerCase(),
+      }));
+      (data.paths || []).forEach((p) => index.push({
+        kind: 'Path', title: p.name, sub: (p.blurb || '') + ' · ' + (p.courseIds || []).length + ' courses', url: '/catalog#paths',
+        hay: (p.name + ' ' + (p.blurb || '')).toLowerCase(),
+      }));
+      extra.readings.forEach((r) => index.push({
+        kind: 'Reading', title: (r.gur ? r.gur + ' — ' : '') + r.title, sub: r.sub || '', url: r.url, hay: (r.title + ' ' + (r.gur || '') + ' ' + (r.sub || '')).toLowerCase(),
+      }));
+      extra.pages.forEach((p) => index.push({
+        kind: 'Page', title: p.title, sub: p.sub || '', url: p.url, hay: (p.title + ' ' + (p.sub || '')).toLowerCase(),
+      }));
+    }
+
+    const ORDER = ['Course', 'Professor', 'Reading', 'Path', 'Topic', 'Page'];
+    const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
+    function row(r) {
+      return `<a href="${r.url}" class="block rounded-xl2 border border-line bg-surface p-4 transition hover:border-saffron"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${esc(r.title)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${esc(r.sub)}</div>` : ''}</a>`;
     }
     function render() {
       const v = q.value.toLowerCase().trim();
-      if (!v) { out.innerHTML = `<p class="text-muted">Type to search all ${data.courses.length} courses.</p>`; return; }
+      if (!v) { out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, topics, paths, banis and pages.</p>`; return; }
       const ts = v.split(/\s+/);
-      const m = data.courses.filter((c) => { const h = hay(c); return ts.every((t) => h.indexOf(t) !== -1); });
-      out.innerHTML = `<p class="text-muted mb-4">${m.length} result${m.length === 1 ? '' : 's'}</p><div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${m.map(card).join('')}</div>`;
+      const m = index.filter((r) => ts.every((t) => r.hay.indexOf(t) !== -1));
+      if (!m.length) { out.innerHTML = `<p class="text-muted">No results for “${esc(q.value)}”.</p>`; return; }
+      const groups = {};
+      m.forEach((r) => (groups[r.kind] = groups[r.kind] || []).push(r));
+      let html = `<p class="mb-4 text-muted">${m.length} result${m.length === 1 ? '' : 's'}</p>`;
+      ORDER.forEach((k) => {
+        const g = groups[k]; if (!g || !g.length) return;
+        html += `<h2 class="mb-3 mt-6 text-lg font-bold">${LABEL[k]} <span class="font-sans text-sm font-normal text-muted">(${g.length})</span></h2><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">${g.map(row).join('')}</div>`;
+      });
+      out.innerHTML = html;
     }
-    fetch('/assets/data/courses.json').then((r) => r.json()).then((d) => { data = d; const pre = new URLSearchParams(location.search).get('q'); if (pre) q.value = pre; render(); }).catch(() => { out.innerHTML = '<p class="text-muted">Could not load courses.</p>'; });
+    fetch('/assets/data/courses.json').then((r) => r.json()).then((d) => {
+      data = d; buildIndex();
+      const pre = new URLSearchParams(location.search).get('q'); if (pre) q.value = pre;
+      render();
+    }).catch(() => { out.innerHTML = '<p class="text-muted">Could not load the search index.</p>'; });
     q.addEventListener('input', render);
   </script>
 </Base>

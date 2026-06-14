@@ -1,8 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import CourseCard from '../components/CourseCard.astro';
-import { topics, courses, topicName } from '../lib/data';
+import { topics, courses, topicName, paths, TOPIC_ICONS } from '../lib/data';
 const sorted = [...courses].sort((a, b) => a.level - b.level);
+const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
 const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer';
 const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
 const itemListLd = {
@@ -10,42 +11,129 @@ const itemListLd = {
   name: 'Sikh University course catalogue', numberOfItems: sorted.length,
   itemListElement: sorted.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/course/${c.id}`, name: c.title })),
 };
+
+const CURATED_ICONS: Record<string, string> = {
+  gurbani: '📖', foundations: '🪔', 'history-journey': '📜', language: '✍️',
+  'spiritual-practice': '🧘', 'philosophy-thought': '💭', 'arts-culture': '🎨',
+  'modern-skills': '🤖', teekas: '📚',
+};
+const GRADS = [
+  'from-brand to-blue', 'from-[#8a5a14] to-[#c98a1a]', 'from-[#1d4e89] to-[#2f7d4f]',
+  'from-[#5c3b8a] to-[#1d4e89]', 'from-[#0f7b6c] to-[#16335c]', 'from-[#a23b2e] to-[#8a5a14]',
+];
+const iconFor = (p: typeof paths[number]) =>
+  p.id.startsWith('topic-') ? (TOPIC_ICONS[p.id.slice(6)] || '📘') : (CURATED_ICONS[p.id] || '🎓');
+const featured = paths.filter((p) => !p.id.startsWith('topic-'));
+const subjects = paths.filter((p) => p.id.startsWith('topic-'));
+const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ p, grad: GRADS[(gi + offset) % GRADS.length] }));
 ---
-<Base title="Course catalogue — Sikh University" description="Browse all Sikh University courses by topic — history, theology, philosophy, language, music, the arts and modern skills.">
+<Base title="Courses & learning paths — Sikh University" description="Browse all Sikh University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills.">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
   <section class="wrap py-12">
-    <h1 class="text-3xl font-bold">Course catalogue</h1>
-    <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
-      class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-    <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
-      <button data-t="all" class={btn}>All</button>
-      {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
+    <h1 class="text-3xl font-bold">Courses</h1>
+
+    <div id="tabbar" role="tablist" class="mt-5 inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
+      <button id="tab-catalog-btn" role="tab" class="rounded-full px-4 py-1.5">Catalogue</button>
+      <button id="tab-paths-btn" role="tab" class="rounded-full px-4 py-1.5">Learning paths</button>
     </div>
-    <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {sorted.map((c) => (
-        <div class="cat-item" data-topic={c.topic} data-hay={`${c.title} ${c.summary} ${c.professor} ${topicName(c.topic)}`.toLowerCase()}>
-          <CourseCard course={c} />
-        </div>
-      ))}
+
+    <!-- Catalogue view -->
+    <div id="view-catalog" class="mt-6">
+      <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
+        class="w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+      <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
+        <button data-t="all" class={btn}>All</button>
+        {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
+      </div>
+      <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {sorted.map((c) => (
+          <div class="cat-item" data-topic={c.topic} data-hay={`${c.title} ${c.summary} ${c.professor} ${topicName(c.topic)}`.toLowerCase()}>
+            <CourseCard course={c} />
+          </div>
+        ))}
+      </div>
+      <p id="cat-empty" class="mt-8 hidden text-muted">No courses match your search.</p>
     </div>
-    <p id="cat-empty" class="mt-8 hidden text-muted">No courses match your search.</p>
+
+    <!-- Learning paths view -->
+    <div id="view-paths" class="mt-6" hidden>
+      <p class="text-muted">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
+      <h2 class="mt-6 text-2xl font-bold">Guided journeys</h2>
+      <p class="text-muted">Hand-curated routes that weave across subjects.</p>
+      <div class="mt-5 space-y-4">
+        {withGrad(featured, 0).map(({ p, grad }) => (
+          <details id={p.id} class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
+            <summary class={`flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r ${grad} p-4 text-white`}>
+              <span class="text-2xl">{iconFor(p)}</span>
+              <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
+              <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
+              <span class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="p-5">
+              <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
+              <ol class="mt-4 list-decimal space-y-2 pl-5">
+                {p.courseIds.map((id) => byId[id] && (
+                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
+                ))}
+              </ol>
+            </div>
+          </details>
+        ))}
+      </div>
+      <h2 class="mt-12 text-2xl font-bold">Explore by subject</h2>
+      <p class="text-muted">Every subject, with all its courses in order.</p>
+      <div class="mt-5 space-y-4">
+        {withGrad(subjects, 1).map(({ p, grad }) => (
+          <details id={p.id} class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
+            <summary class={`flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r ${grad} p-4 text-white`}>
+              <span class="text-2xl">{iconFor(p)}</span>
+              <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
+              <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
+              <span class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="p-5">
+              <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
+              <ol class="mt-4 list-decimal space-y-2 pl-5">
+                {p.courseIds.map((id) => byId[id] && (
+                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
+                ))}
+              </ol>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
   </section>
+
+  <script type="application/json" id="paths-data" set:html={JSON.stringify(paths.map((p) => ({ id: p.id, courseIds: p.courseIds })))}></script>
   <script>
+    // --- Tabs (Catalogue / Learning paths) ---
+    const vc = document.getElementById('view-catalog'), vp = document.getElementById('view-paths');
+    const bC = document.getElementById('tab-catalog-btn'), bP = document.getElementById('tab-paths-btn');
+    function setTab(which, push) {
+      const paths = which === 'paths';
+      vp.hidden = !paths; vc.hidden = paths;
+      [[bP, paths], [bC, !paths]].forEach(([b, on]) => { b.classList.toggle('bg-brand', on); b.classList.toggle('text-white', on); b.classList.toggle('text-muted', !on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
+      if (push) history.replaceState(null, '', which === 'paths' ? '#paths' : location.pathname);
+    }
+    bC.addEventListener('click', () => setTab('catalog', true));
+    bP.addEventListener('click', () => setTab('paths', true));
+
+    // --- Catalogue filter + search ---
     const items = Array.from(document.querySelectorAll('.cat-item'));
     const filters = Array.from(document.querySelectorAll('#cat-filters .filt'));
     const search = document.getElementById('cat-search');
     const empty = document.getElementById('cat-empty');
-    let topic = (location.hash || '').replace('#', '') || 'all';
-    let q = '';
+    let topic = 'all', q = '';
     function setActive() {
       filters.forEach((b) => {
         const on = b.dataset.t === topic;
         b.classList.toggle('bg-brand', on); b.classList.toggle('text-white', on);
         b.classList.toggle('border-navy', on); b.classList.toggle('text-muted', !on);
-        b.classList.toggle('bg-surface', !on); // else bg-surface wins over bg-brand -> white-on-white
+        b.classList.toggle('bg-surface', !on);
       });
     }
-    function render() {
+    function renderCat() {
       let shown = 0;
       items.forEach((el) => {
         const okT = topic === 'all' || el.dataset.topic === topic;
@@ -55,8 +143,32 @@ const itemListLd = {
       empty.classList.toggle('hidden', shown > 0);
       setActive();
     }
-    filters.forEach((b) => b.addEventListener('click', () => { topic = b.dataset.t; location.hash = topic === 'all' ? '' : topic; render(); }));
-    search.addEventListener('input', () => { q = search.value.toLowerCase().trim(); render(); });
-    render();
+    filters.forEach((b) => b.addEventListener('click', () => { topic = b.dataset.t; renderCat(); }));
+    search.addEventListener('input', () => { q = search.value.toLowerCase().trim(); renderCat(); });
+
+    // --- Path progress (server grades are the source of truth) ---
+    const pdata = JSON.parse(document.getElementById('paths-data').textContent);
+    const passed = (id) => { try { return !!localStorage.getItem('su_v1_passed_' + id); } catch { return false; } };
+    function renderPaths() {
+      pdata.forEach((p) => {
+        const done = p.courseIds.filter(passed).length;
+        const bar = document.querySelector(`.path-bar[data-path="${p.id}"]`);
+        const cnt = document.querySelector(`.path-count[data-path="${p.id}"]`);
+        if (bar) bar.style.width = (p.courseIds.length ? Math.round((done / p.courseIds.length) * 100) : 0) + '%';
+        if (cnt) cnt.textContent = `${done} / ${p.courseIds.length} done`;
+      });
+      document.querySelectorAll('a[data-course]').forEach((a) => { if (passed(a.dataset.course) && !a.querySelector('.tick')) a.innerHTML += ' <span class="tick text-ok">✓</span>'; });
+    }
+    fetch('/api/progress', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
+      if (d && d.progress) d.progress.forEach((row) => { if (row.passed_score >= 80) { try { localStorage.setItem('su_v1_passed_' + row.course_id, JSON.stringify(row.passed_score)); } catch {} } });
+      renderPaths();
+    }).catch(renderPaths);
+
+    // initial state: a topic filter (#<topic>) opens the catalogue on that filter;
+    // #paths opens the paths tab; everything else opens the catalogue.
+    const hash = (location.hash || '').replace('#', '');
+    if (hash === 'paths') setTab('paths', false);
+    else { if (hash && filters.some((b) => b.dataset.t === hash)) topic = hash; setTab('catalog', false); }
+    renderCat(); renderPaths();
   </script>
 </Base>
