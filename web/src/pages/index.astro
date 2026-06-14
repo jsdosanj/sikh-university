@@ -24,18 +24,25 @@ const websiteLd = {
   <header class="relative overflow-hidden bg-gradient-to-br from-brand via-brand-strong to-blue text-white">
     <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-saffron/30 blur-3xl"></div>
     <div class="pointer-events-none absolute -left-20 bottom-0 h-72 w-72 rounded-full bg-blue-bright/30 blur-3xl"></div>
-    <div class="wrap relative py-20">
-      <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Free · Open · Worldwide</p>
-      <h1 class="mt-3 max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">Dive into the depths of <span class="text-saffron">Sikhi</span>.</h1>
-      <p class="mt-5 max-w-2xl text-lg text-white/85">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a class="btn btn-primary" href="/catalog">Browse courses</a>
-        <a class="btn btn-ghost" href="/catalog#paths">Follow a learning path</a>
+    <div class="wrap relative grid items-center gap-12 py-20 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div>
+        <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Free · Open · Worldwide</p>
+        <h1 class="mt-3 max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">Dive into the depths of <span class="text-saffron">Sikhi</span>.</h1>
+        <p class="mt-5 max-w-2xl text-lg text-white/85">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="btn btn-primary" href="/catalog">Browse courses</a>
+          <a class="btn btn-ghost" href="/catalog#paths">Follow a learning path</a>
+        </div>
+        <div class="mt-12 flex flex-wrap gap-x-12 gap-y-4">
+          {[[published.length + '+', 'courses'], [topics.length, 'subjects'], ['100%', 'free'], ['Open', 'to all, worldwide']].map((s) => (
+            <div><div class="text-3xl font-bold text-saffron">{s[0]}</div><div class="font-sans text-sm text-white/70">{s[1]}</div></div>
+          ))}
+        </div>
       </div>
-      <div class="mt-12 flex flex-wrap gap-x-12 gap-y-4">
-        {[[published.length + '+', 'courses'], [topics.length, 'subjects'], ['100%', 'free'], ['Open', 'to all, worldwide']].map((s) => (
-          <div><div class="text-3xl font-bold text-saffron">{s[0]}</div><div class="font-sans text-sm text-white/70">{s[1]}</div></div>
-        ))}
+      <div aria-hidden="true" class="hidden justify-self-center lg:block">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="h-72 w-72 text-saffron/90 drop-shadow-[0_8px_40px_rgba(244,178,26,0.35)] xl:h-[22rem] xl:w-[22rem]">
+          <path d="M11.4 1.6a.6.6 0 0 1 1.2 0v6.06c.9.46 1.52 1.4 1.52 2.48 0 .9-.43 1.7-1.1 2.2l.83 1.7c1.04-.86 1.7-2.16 1.7-3.6 0-1.74-.96-3.26-2.38-4.05V6.1c2.07.86 3.53 2.9 3.53 5.28 0 1.92-.95 3.62-2.4 4.66l.5 1.03 1.78-1.5a.4.4 0 0 1 .6.5l-1.43 2.04 2.36-.5a.4.4 0 0 1 .27.74l-3.32 1.78a.6.6 0 0 1-.82-.27l-1.03-2.12a5.9 5.9 0 0 1-1.42 0l-1.03 2.12a.6.6 0 0 1-.82.27L6.9 20.6a.4.4 0 0 1 .27-.74l2.36.5-1.43-2.04a.4.4 0 0 1 .6-.5l1.78 1.5.5-1.03A5.46 5.46 0 0 1 8.58 13.7c0-2.38 1.46-4.42 3.53-5.28v2.45c-1.42.79-2.38 2.31-2.38 4.05 0 1.44.66 2.74 1.7 3.6l.83-1.7a2.74 2.74 0 0 1-1.1-2.2c0-1.08.62-2.02 1.52-2.48V1.6z"/>
+        </svg>
       </div>
     </div>
   </header>
