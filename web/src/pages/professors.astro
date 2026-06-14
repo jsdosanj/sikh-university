@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Avatar from '../components/Avatar.astro';
 import { professorList, profBio, profSlug } from '../lib/data';
-const list = professorList();
+const list = professorList().sort((a, b) => a.name.localeCompare(b.name));
 ---
 <Base title="Our professors — Sikh University" description="The Sikh scholars and writers whose works anchor Sikh University's courses.">
   <section class="wrap py-12">
