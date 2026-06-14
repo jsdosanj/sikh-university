@@ -47,8 +47,9 @@ const canon = canonical || SITE + Astro.url.pathname;
   <slot name="head" />
 </head>
 <body>
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
   <Nav />
-  <main>
+  <main id="main">
     <slot />
   </main>
   <Footer />

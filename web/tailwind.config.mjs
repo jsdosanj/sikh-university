@@ -13,8 +13,10 @@ export default {
         // Bright blue accents (variations)
         blue: { DEFAULT: '#1f6feb', bright: '#3b82f6', light: '#6aa6ff', sky: '#dbeafe' },
         // Vibrant yellow / gold (variations)
-        saffron: { DEFAULT: '#f4b21a', soft: '#fdeec8', deep: '#9a6a07' },
-        gold: { DEFAULT: '#f4b21a', bright: '#ffc83d', soft: '#fdeec8', deep: '#9a6a07' },
+        // `soft` (tints/panels) and `deep` (text on light) are variable-driven so
+        // they adapt in dark mode: soft → dark-warm, deep → light gold.
+        saffron: { DEFAULT: '#f4b21a', soft: 'rgb(var(--c-saffron-soft) / <alpha-value>)', deep: 'rgb(var(--c-saffron-deep) / <alpha-value>)' },
+        gold: { DEFAULT: '#f4b21a', bright: '#ffc83d', soft: 'rgb(var(--c-saffron-soft) / <alpha-value>)', deep: 'rgb(var(--c-saffron-deep) / <alpha-value>)' },
         // Neutrals
         paper: 'rgb(var(--c-paper) / <alpha-value>)',
         surface: 'rgb(var(--c-surface) / <alpha-value>)',
