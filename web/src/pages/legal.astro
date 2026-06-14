@@ -2,12 +2,12 @@
 import Base from '../layouts/Base.astro';
 import fs from 'node:fs';
 // Single source: reuse the existing legal content (GDPR/CCPA-aligned drafts).
-const file = new URL('../../../site/legal.html', import.meta.url);
+const file = new URL('../../../site/legal', import.meta.url);
 let inner = '';
 try {
   const raw = fs.readFileSync(file, 'utf8');
   const m = raw.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
-  inner = (m ? m[1] : '').replace(/\.html/g, '.html');
+  inner = (m ? m[1] : '').replace(/\.html/g, '');
 } catch (e) { inner = '<p>Terms &amp; Privacy are being prepared.</p>'; }
 ---
 <Base title="Terms & Privacy — Sikh University" description="Sikh University Terms of Service and Privacy Policy (GDPR/CCPA-aligned drafts).">

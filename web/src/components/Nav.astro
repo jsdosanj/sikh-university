@@ -1,9 +1,9 @@
 ---
 const links = [
-  { href: '/catalog.html', label: 'Catalogue', m: '/catalog' },
-  { href: '/paths.html', label: 'Paths', m: '/paths' },
-  { href: '/professors.html', label: 'Professors', m: '/professor' },
-  { href: '/about.html', label: 'About', m: '/about' },
+  { href: '/catalog', label: 'Catalogue', m: '/catalog' },
+  { href: '/paths', label: 'Paths', m: '/paths' },
+  { href: '/professors', label: 'Professors', m: '/professor' },
+  { href: '/about', label: 'About', m: '/about' },
 ];
 const path = Astro.url.pathname;
 ---
@@ -14,9 +14,9 @@ const path = Astro.url.pathname;
       <a href={l.href} class={`font-sans text-sm border-b-2 pb-0.5 transition ${path.startsWith(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}>{l.label}</a>
     ))}
     <span class="ml-auto"></span>
-    <a href="/search.html" class="font-sans text-sm text-white/80 hover:text-white">Search</a>
-    <a href="/dashboard.html" class="font-sans text-sm text-white/80 hover:text-white">My Learning</a>
-    <a id="nav-auth" href="/login.html" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06] hover:brightness-105">Sign in</a>
+    <a href="/search" class="font-sans text-sm text-white/80 hover:text-white">Search</a>
+    <a href="/dashboard" class="font-sans text-sm text-white/80 hover:text-white">My Learning</a>
+    <a id="nav-auth" href="/login" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06] hover:brightness-105">Sign in</a>
   </div>
 </nav>
 <script>
@@ -26,6 +26,6 @@ const path = Astro.url.pathname;
     const u = d.user; a.textContent = 'Sign out'; a.href = '#';
     a.className = 'font-sans text-sm text-white/80 hover:text-white';
     a.addEventListener('click', (e) => { e.preventDefault(); fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }).then(() => (location.href = '/')); });
-    if (u.role === 'admin') { const ad = document.createElement('a'); ad.href = '/admin.html'; ad.textContent = 'Admin'; ad.className = 'font-sans text-sm text-white/80 hover:text-white'; a.parentNode.insertBefore(ad, a); }
+    if (u.role === 'admin') { const ad = document.createElement('a'); ad.href = '/admin'; ad.textContent = 'Admin'; ad.className = 'font-sans text-sm text-white/80 hover:text-white'; a.parentNode.insertBefore(ad, a); }
   }).catch(() => {});
 </script>
