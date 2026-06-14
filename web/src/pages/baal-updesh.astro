@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+// The Painti — 35 letters of the Gurmukhi alphabet (3 vowel-bearers + 32 consonants).
+const akhar = [
+  ['ੳ', 'Ura'], ['ਅ', 'Aira'], ['ੲ', 'Iri'], ['ਸ', 'Sassa'], ['ਹ', 'Haha'],
+  ['ਕ', 'Kakka'], ['ਖ', 'Khakha'], ['ਗ', 'Gagga'], ['ਘ', 'Ghagha'], ['ਙ', 'Nganga'],
+  ['ਚ', 'Chacha'], ['ਛ', 'Chhachha'], ['ਜ', 'Jajja'], ['ਝ', 'Jhajha'], ['ਞ', 'Njanja'],
+  ['ਟ', 'Tainka'], ['ਠ', 'Tthattha'], ['ਡ', 'Dadda'], ['ਢ', 'Dhadha'], ['ਣ', 'Nanha'],
+  ['ਤ', 'Tatta'], ['ਥ', 'Thatha'], ['ਦ', 'Dadda'], ['ਧ', 'Dhadha'], ['ਨ', 'Nanna'],
+  ['ਪ', 'Pappa'], ['ਫ', 'Phapha'], ['ਬ', 'Babba'], ['ਭ', 'Bhabha'], ['ਮ', 'Mamma'],
+  ['ਯ', 'Yaiya'], ['ਰ', 'Rara'], ['ਲ', 'Lalla'], ['ਵ', 'Vava'], ['ੜ', 'Rrarra'],
+];
+---
+<Base title="Baal Updesh — Santhya | Sikh University" description="The first primer: the 35 letters of the Gurmukhi alphabet (the Painti) — where every reader of Gurbani begins.">
+  <section class="wrap py-12">
+    <div class="font-sans text-sm"><a href="/santhiya" class="text-muted hover:text-navy">← Santhya pathway</a></div>
+    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">ਬਾਲ ਉਪਦੇਸ਼</span><span class="text-lg text-muted">Baal Updesh</span></h1>
+    <p class="mt-2 max-w-2xl text-lg text-muted">The very first step: learn the <span class="gur">ਪੈਂਤੀ</span> (Painti) — the 35 letters of the Gurmukhi alphabet. Three are vowel-bearers; the rest are consonants. Say each letter aloud.</p>
+
+    <div class="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
+      {akhar.map(([ch, name]) => (
+        <div class="rounded-xl2 border border-line bg-surface p-4 text-center shadow-card">
+          <div class="gur text-4xl font-bold text-navy">{ch}</div>
+          <div class="mt-1 font-sans text-xs text-muted">{name}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
+      <h2 class="text-xl font-bold">Next steps</h2>
+      <ol class="mt-3 list-decimal space-y-1 pl-5">
+        <li>Learn the vowel signs by sounding each letter through them — the <a class="underline" href="/muharni">Muharni</a>.</li>
+        <li>Begin the daily banis — <a class="underline" href="/collection/nitnem">Nitnem</a>.</li>
+        <li>Read along with Sri Guru Granth Sahib Ji — the <a class="underline" href="/read?src=sggs&ang=1">read-along reader</a>.</li>
+      </ol>
+    </div>
+  </section>
+</Base>

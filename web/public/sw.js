@@ -21,6 +21,7 @@ self.addEventListener('fetch', function (e) {
   var req = e.request; if (req.method !== 'GET') return;
   var url = new URL(req.url); if (url.origin !== location.origin) return;
   if (url.pathname.indexOf('/api/') === 0) return; // never touch APIs
+  if (url.pathname.indexOf('/media/') === 0) return; // audio streams direct (range requests); don't cache
 
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req).then(function (res) {

@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { COLLECTIONS, REF } from '../../lib/santhya';
+export function getStaticPaths() {
+  return Object.entries(COLLECTIONS).map(([name, c]) => ({ params: { name }, props: { c } }));
+}
+const { c } = Astro.props;
+---
+<Base title={`${c.name} — Santhya | Sikh University`} description={c.blurb}>
+  <section class="wrap py-12">
+    <div class="font-sans text-sm"><a href="/santhiya" class="text-muted hover:text-navy">← Santhya pathway</a></div>
+    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">{c.gur}</span><span class="text-lg text-muted">{c.name}</span></h1>
+    <p class="mt-2 max-w-2xl text-lg text-muted">{c.blurb}</p>
+    {c.note && <p class="mt-1 font-sans text-sm text-muted">{c.note}</p>}
+
+    <div class="mt-8 space-y-6">
+      {c.groups.map((g) => (
+        <div>
+          <h2 class="font-sans text-sm font-bold uppercase tracking-wide text-muted">{g.t}</h2>
+          <ol class="mt-2 divide-y divide-line rounded-xl2 border border-line bg-surface">
+            {g.items.map((id) => REF[id] && (
+              <li><a href={REF[id].href} class="flex items-center justify-between gap-4 px-4 py-3 hover:bg-paper">
+                <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>
+                <span class="font-sans text-sm font-semibold text-blue">Read →</span>
+              </a></li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

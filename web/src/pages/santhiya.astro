@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+const texts = [
+  { gur: 'ਬਾਲ ਉਪਦੇਸ਼', en: 'Baal Updesh', d: 'The first primer — the 35 letters of the Gurmukhi alphabet, where every reader begins.', href: '/baal-updesh', live: true },
+  { gur: 'ਮੁਹਾਰਨੀ', en: 'Muharni', d: 'Each consonant sounded through the ten vowel signs — the drill for correct pronunciation.', href: '/muharni', live: true },
+  { gur: 'ਨਿਤਨੇਮ', en: 'Nitnem', d: 'The daily banis — the foundation of a Sikh reading practice.', href: '/collection/nitnem', live: true },
+  { gur: 'ਸੁੰਦਰ ਗੁਟਕਾ', en: 'Sundar Gutka', d: 'The common collection of daily and occasional banis.', href: '/collection/sundar-gutka', live: true },
+  { gur: 'ਪੰਜ ਗ੍ਰੰਥੀ', en: 'Panj Granthi', d: 'Five selected baanis — a step up in santhya practice.', href: '/collection/panj-granthi', live: true },
+  { gur: 'ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ', en: 'Panj Granthavali', d: 'A wider selection of baanis for continued practice.', href: '/collection/panj-granthavali', live: true },
+  { gur: 'ਦਸ ਗ੍ਰੰਥੀ', en: 'Das Granthi', d: 'Ten selected baanis — fuller santhya before the complete Granth.', href: '/collection/das-granthi', live: true },
+  { gur: 'ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ', en: 'Sri Guru Granth Sahib Ji', d: 'The complete Granth, Ang by Ang, with Santhya audio (Bhagat Jaswant Singh Ji) and word-by-word read-along.', href: '/read?src=sggs', live: true },
+  { gur: 'ਦਸਮ ਗ੍ਰੰਥ', en: 'Dasam Granth', d: 'The compositions associated with Guru Gobind Singh Ji — Ang-by-Ang read-along (text).', href: '/read?src=dasam', live: true },
+  { gur: 'ਸਰਬਲੋਹ ਗ੍ਰੰਥ', en: 'Sarbloh Granth', d: 'An excerpt of the Sarbloh Granth (the Khalsa Mahima).', href: '/read?src=sarbloh', live: true },
+];
+---
+<Base title="Santhya Pathway — Sikh University" description="Learn to read Gurbani with shudh uchaaran (correct pronunciation): from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio.">
+  <header class="relative overflow-hidden bg-gradient-to-br from-navy via-navy-strong to-blue text-white">
+    <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-saffron/30 blur-3xl"></div>
+    <div class="wrap relative py-14">
+      <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Shudh Uchaaran · Read-along</p>
+      <h1 class="mt-3 text-4xl font-bold text-white">The Santhya Pathway</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">Santhya is the careful, correct reading of Gurbani. Walk the traditional path — from your first letters to the complete Sri Guru Granth Sahib Ji — reading along with audio, one step at a time.</p>
+    </div>
+  </header>
+
+  <section class="wrap py-12">
+    <ol class="space-y-4">
+      {texts.map((t, i) => (
+        <li class="flex items-start gap-4 rounded-xl2 border border-line bg-surface p-5 shadow-card">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy font-sans font-bold text-white">{i + 1}</div>
+          <div class="flex-1">
+            <div class="flex flex-wrap items-baseline gap-x-3">
+              <span class="gur text-xl font-bold text-navy">{t.gur}</span>
+              <span class="font-sans text-sm text-muted">{t.en}</span>
+              {t.live && <span class="pill bg-saffron text-black">Available</span>}
+            </div>
+            <p class="mt-1 text-[0.97rem] text-ink/90">{t.d}</p>
+            <div class="mt-3">
+              {t.href
+                ? <a href={t.href} class="btn btn-primary">Open →</a>
+                : <span class="font-sans text-sm text-muted">Reader coming soon</span>}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-8 font-sans text-sm text-muted">Audio: <em>SGGS Santhya Shudh Uchaaran Sehaj Paath</em> by Bhagat Jaswant Singh Ji. Gurbani text handled with reverence; report any correction via <a class="underline" href="/feedback">feedback</a>.</p>
+  </section>
+</Base>

@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Read-along — Gurbani | Sikh University" description="Read Gurbani Ang by Ang — Sri Guru Granth Sahib Ji with Santhya audio and word-by-word highlighting, plus the Dasam and Sarbloh Granths.">
+  <section class="wrap py-8">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h1 id="title" class="text-2xl font-bold">Read-along</h1>
+      <div class="flex items-center gap-2 font-sans text-sm">
+        <button id="prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
+        <label id="anglabel">Ang <input id="angin" type="number" min="1" value="1" class="w-20 rounded-lg border border-line px-2 py-1"></label>
+        <button id="next" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
+      </div>
+    </div>
+
+    <div id="audbar" class="mt-4 flex flex-wrap items-center gap-3 rounded-xl2 border border-line bg-surface p-3">
+      <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
+      <div class="flex items-center gap-2 font-sans text-sm">
+        <button data-fs="-" class="rounded-lg border border-line px-2.5 py-1">A−</button>
+        <button data-fs="+" class="rounded-lg border border-line px-2.5 py-1">A+</button>
+        <button id="larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
+        <button id="bg" class="rounded-lg border border-line px-2.5 py-1">◐ Theme</button>
+      </div>
+    </div>
+    <p id="audnote" class="mt-1 font-sans text-xs text-muted"></p>
+
+    <div id="page" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
+
+    <div class="mt-8 flex items-center justify-between font-sans text-sm">
+      <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">← Previous</button>
+      <a href="/santhiya" class="text-muted hover:text-navy">All Santhya texts</a>
+      <button id="next2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">Next →</button>
+    </div>
+  </section>
+
+  <style is:global>
+    #page .w { transition: color .08s, background-color .08s; padding: 0 .04em; border-radius: 4px; }
+    #page .w.on { background: #ffe69a; color: #1a1205; font-weight: 700; box-shadow: 0 0 0 2px #ffe69a; }
+    #page .ln { margin: .35rem 0; }
+    #page.lari .ln { word-spacing: -0.25em; }
+    body.read-dark { background: #0f1115; color: #e8e8ea; }
+    body.read-dark #page .w.on { background: #f4b21a; color: #0a0d14; }
+    body.read-sepia { background: #f3e9d2; }
+  </style>
+
+  <script>
+    var SRC = {
+      sggs: { name: 'Sri Guru Granth Sahib Ji', unit: 'Ang', max: 1430, audio: true },
+      dasam: { name: 'Dasam Granth', unit: 'Ang', max: 1428, audio: false },
+      sarbloh: { name: 'Sarbloh Granth (excerpt)', unit: 'Section', max: 1, audio: false },
+    };
+    var P = 'su_v1_';
+    var get = function (k, d) { try { var v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
+    var set = function (k, v) { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch (e) {} };
+    var pad = function (n) { return ('0000' + n).slice(-4); };
+    var qp = new URLSearchParams(location.search);
+    var src = SRC[qp.get('src')] ? qp.get('src') : 'sggs';
+    var cfg = SRC[src];
+    var page = document.getElementById('page'), aud = document.getElementById('aud'), angin = document.getElementById('angin'), note = document.getElementById('audnote');
+    document.getElementById('title').textContent = cfg.name;
+    document.getElementById('anglabel').childNodes[0].nodeValue = cfg.unit + ' ';
+    angin.max = cfg.max;
+    var ang = parseInt(qp.get('ang') || get(src + '_ang', 1), 10) || 1;
+    var words = [], cum = [], total = 0, curIdx = -1;
+
+    function vishramWeight(w) { if (w.indexOf('॥') !== -1) return 3.2; if (w.indexOf(';') !== -1) return 1.6; if (w.indexOf('.') !== -1) return 0.9; return 0; }
+    function buildTiming() { cum = []; total = 0; for (var i = 0; i < words.length; i++) { var w = words[i].textContent || ''; total += 0.6 + 0.22 * w.replace(/[॥;.]/g, '').length + vishramWeight(w); cum.push(total); } }
+    function highlight(t) {
+      if (!aud.duration || !total) return;
+      var target = (t / aud.duration) * total, i = curIdx < 0 ? 0 : curIdx;
+      while (i < cum.length && cum[i] < target) i++;
+      while (i > 0 && cum[i - 1] >= target) i--;
+      if (i === curIdx) return;
+      if (curIdx >= 0 && words[curIdx]) words[curIdx].classList.remove('on');
+      curIdx = i; if (words[i]) { words[i].classList.add('on'); words[i].scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+    }
+    function render(data) {
+      page.innerHTML = ''; words = [];
+      data.lines.forEach(function (line) {
+        var ln = document.createElement('div'); ln.className = 'ln';
+        line.split(/\s+/).forEach(function (tok) { if (!tok) return; var s = document.createElement('span'); s.className = 'w'; s.textContent = tok; ln.appendChild(s); ln.appendChild(document.createTextNode(' ')); words.push(s); });
+        page.appendChild(ln);
+      });
+      curIdx = -1; buildTiming();
+    }
+    function load(n) {
+      n = Math.max(1, Math.min(cfg.max, n)); ang = n; angin.value = n; set(src + '_ang', n);
+      history.replaceState(null, '', '/read?src=' + src + '&ang=' + n);
+      note.textContent = '';
+      fetch('/assets/gurbani/' + src + '/' + n + '.json').then(function (r) { return r.json(); }).then(render).catch(function () { page.innerHTML = '<p class="text-muted" style="font-size:1rem">Could not load this ' + cfg.unit + '.</p>'; });
+      if (cfg.audio) { aud.style.display = ''; aud.src = '/media/santhya/sggs/' + pad(n) + '.mp3'; aud.load(); }
+      else { aud.style.display = 'none'; note.textContent = 'Text read-along (no audio for this Granth yet).'; }
+    }
+    aud.addEventListener('timeupdate', function () { highlight(aud.currentTime); });
+    aud.addEventListener('error', function () { if (cfg.audio) note.textContent = 'Audio for this Ang is not uploaded yet — text read-along still works.'; });
+    aud.addEventListener('ended', function () { if (ang < cfg.max) { load(ang + 1); aud.play().catch(function () {}); } });
+    function go(n) { load(n); }
+    document.getElementById('next').onclick = document.getElementById('next2').onclick = function () { go(ang + 1); };
+    document.getElementById('prev').onclick = document.getElementById('prev2').onclick = function () { go(ang - 1); };
+    angin.addEventListener('change', function () { go(parseInt(angin.value, 10) || 1); });
+    var fs = get('read_fs', 1.9); page.style.fontSize = fs + 'rem';
+    document.querySelectorAll('[data-fs]').forEach(function (b) { b.onclick = function () { fs = Math.max(1.1, Math.min(3.2, fs + (b.dataset.fs === '+' ? 0.2 : -0.2))); page.style.fontSize = fs + 'rem'; set('read_fs', fs); }; });
+    document.getElementById('larivaar').onclick = function () { page.classList.toggle('lari'); };
+    var themes = ['', 'read-dark', 'read-sepia'], ti = get('read_theme', 0);
+    function applyTheme() { document.body.classList.remove('read-dark', 'read-sepia'); if (themes[ti]) document.body.classList.add(themes[ti]); }
+    applyTheme();
+    document.getElementById('bg').onclick = function () { ti = (ti + 1) % themes.length; set('read_theme', ti); applyTheme(); };
+    load(ang);
+  </script>
+</Base>

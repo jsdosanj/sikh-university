@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+// Muharni: each consonant sounded through the vowel signs (laga-matra).
+const consonants = ['ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ', 'ਚ', 'ਛ', 'ਜ', 'ਝ', 'ਞ', 'ਟ', 'ਠ', 'ਡ', 'ਢ', 'ਣ', 'ਤ', 'ਥ', 'ਦ', 'ਧ', 'ਨ', 'ਪ', 'ਫ', 'ਬ', 'ਭ', 'ਮ', 'ਯ', 'ਰ', 'ਲ', 'ਵ', 'ੜ'];
+const matras = ['', 'ਾ', 'ਿ', 'ੀ', 'ੁ', 'ੂ', 'ੇ', 'ੈ', 'ੋ', 'ੌ'];
+const matraNames = ['ਮੁਕਤਾ', 'ਕੰਨਾ', 'ਸਿਹਾਰੀ', 'ਬਿਹਾਰੀ', 'ਔਂਕੜ', 'ਦੁਲੈਂਕੜ', 'ਲਾਂ', 'ਦੁਲਾਵਾਂ', 'ਹੋੜਾ', 'ਕਨੌੜਾ'];
+---
+<Base title="Muharni — Santhya | Sikh University" description="The Muharni: every Gurmukhi consonant sounded through the ten vowel signs (laga-matra) — the foundation of correct reading.">
+  <section class="wrap py-12">
+    <div class="font-sans text-sm"><a href="/santhiya" class="text-muted hover:text-navy">← Santhya pathway</a></div>
+    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">ਮੁਹਾਰਨੀ</span><span class="text-lg text-muted">Muharni</span></h1>
+    <p class="mt-2 max-w-2xl text-lg text-muted">Sound each consonant through the ten vowel signs (laga-matra). Reading across each row builds the muscle of shudh uchaaran — correct pronunciation.</p>
+
+    <div class="mt-6 overflow-x-auto rounded-xl2 border border-line">
+      <table class="w-full border-collapse text-center">
+        <thead>
+          <tr class="bg-navy text-white">
+            <th class="p-2 font-sans text-xs">ਅੱਖਰ</th>
+            {matraNames.map((n) => <th class="p-2"><span class="gur text-sm font-normal">{n}</span></th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {consonants.map((cn, r) => (
+            <tr class={r % 2 ? 'bg-paper' : ''}>
+              <td class="gur border border-line p-2 text-2xl font-bold text-blue">{cn}</td>
+              {matras.map((m) => <td class="gur border border-line p-2 text-2xl">{cn + m}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 font-sans text-sm text-muted">Next: practise the daily banis in <a class="underline" href="/collection/nitnem">Nitnem</a>, or begin reading <a class="underline" href="/read?src=sggs&ang=1">Sri Guru Granth Sahib Ji</a>.</p>
+  </section>
+</Base>
