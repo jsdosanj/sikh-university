@@ -3382,6 +3382,895 @@
           "answer": 2
         }
       ]
+    },
+    {
+      "id": "ai-foundations-intro",
+      "title": "AI Foundations: Understanding Artificial Intelligence",
+      "topic": "modern-skills",
+      "level": 100,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A plain-language introduction to artificial intelligence for everyone. This course explains what AI really is and is not, traces its journey from early rule-based systems to today's large language models, and unpacks the core ideas of data, training, models, and neural networks without any math. You will learn how generative AI predicts text, where AI shows up in daily life and work, and how to think clearly about its limits, biases, and risks. The course closes with practical, ethical guidance for using AI well and a friendly roadmap for continuing to learn. No technical background is required.",
+      "lessons": [
+        {
+          "title": "What AI Is and What It Is Not",
+          "html": "<h2>What AI Is and What It Is Not</h2><p>Artificial intelligence, or AI, is a broad term for computer systems that perform tasks we usually associate with human thinking: recognizing images, understanding language, making recommendations, or answering questions. At its heart, AI is software that finds patterns in information and uses those patterns to make useful guesses or decisions.</p><p>It helps to start by clearing away some common myths. AI is <strong>not</strong> a conscious mind. It does not have feelings, beliefs, intentions, or self-awareness, even when it produces sentences that sound thoughtful or warm. When a chatbot writes \"I understand how you feel,\" it is arranging words that statistically fit the conversation, not actually feeling anything.</p><p>AI is also not magic, and it is not always right. These systems can be confident and fluent while being completely wrong. They do not \"know\" facts the way a person does; they work with patterns drawn from the data they were built on.</p><p>So what <em>is</em> AI, in practical terms? Think of it as a powerful pattern machine. Show it enough examples of a task, and it can produce results that often look intelligent. A few everyday examples:</p><ul><li>A spam filter that learns which emails are junk.</li><li>A maps app that predicts traffic and suggests a faster route.</li><li>A photo app that groups pictures of the same person.</li><li>A writing assistant that drafts an email when you give it a topic.</li></ul><p>One useful distinction is between <strong>narrow AI</strong> and <strong>general AI</strong>. Almost all AI in use today is narrow: it is good at one kind of task, like translating text or detecting fraud, and nothing else. General AI, a hypothetical system that could match a human across any task, does not exist. When the news talks about \"AI,\" it almost always means narrow, task-specific tools.</p><p>Throughout this course, keep a simple mental model in mind: AI is a tool that learns patterns from data and applies them to new situations. That single idea will carry you a long way.</p>"
+        },
+        {
+          "title": "A Short History: From Rules to Learning",
+          "html": "<h2>A Short History: From Rules to Learning</h2><p>AI is not a brand-new idea. The field has been developing for about seventy years, moving through several waves of optimism and progress. Understanding this history makes today's tools far less mysterious.</p><h3>The age of rules (1950s to 1980s)</h3><p>The earliest approach was to tell computers exactly what to do, step by step. Experts wrote long lists of rules: \"If the patient has these symptoms, suggest this diagnosis.\" These <strong>rule-based systems</strong>, sometimes called expert systems, could be impressive in narrow areas. But they were brittle. The real world has endless exceptions, and writing a rule for every situation proved impossible. If a case fell outside the rules, the system simply failed.</p><h3>The shift to machine learning (1990s to 2000s)</h3><p>Researchers tried a different strategy: instead of writing the rules by hand, let the computer discover patterns from examples. This is <strong>machine learning</strong>. Rather than telling a system how to recognize a cat, you show it thousands of labeled cat photos and let it figure out the patterns itself. As digital data and computing power grew, this approach started to outperform hand-written rules on many tasks.</p><h3>The deep learning breakthrough (2010s)</h3><p>Around 2012, a technique called <strong>deep learning</strong>, built on layered structures loosely inspired by the brain, produced dramatic leaps in image recognition and speech. Suddenly computers could transcribe speech, label photos, and translate languages far better than before. This is the era when AI quietly entered phones, cameras, and everyday apps.</p><h3>The rise of large language models (2018 to today)</h3><p>The most recent wave centers on <strong>large language models</strong>, or LLMs, the technology behind modern chatbots and writing assistants. Trained on enormous amounts of text, these systems can hold conversations, summarize documents, write code, and answer questions across countless topics. The public release of capable chatbots starting in the early 2020s brought AI into ordinary life on a massive scale.</p><p>The throughline of this history is a steady shift from <em>telling computers exactly what to do</em> toward <em>letting them learn from examples</em>. Each wave built on the last, and the pace of change has accelerated sharply in recent years.</p>"
+        },
+        {
+          "title": "Key Concepts: Data, Training, and Models",
+          "html": "<h2>Key Concepts: Data, Training, and Models</h2><p>To understand modern AI, you only need a handful of plain-English concepts. Let's build them up one at a time.</p><h3>Data</h3><p>Data is the raw material of AI: text, images, numbers, sounds, clicks, anything that can be stored digitally. AI learns from data the way a student learns from examples. The quantity and quality of data matter enormously. If the examples are narrow, biased, or wrong, the AI will inherit those flaws.</p><h3>Training</h3><p><strong>Training</strong> is the process of teaching an AI system by exposing it to data. During training, the system makes guesses, checks how far off it was, and adjusts itself to do better next time. This repeats millions or billions of times. Imagine learning to shoot a basketball: each shot that misses tells you to adjust your aim. Training is that feedback loop, automated and run at a vast scale.</p><h3>Models</h3><p>The result of training is a <strong>model</strong>. A model is the finished pattern-recognizer, the part you actually use. When you type a question into a chatbot, you are using a trained model. A helpful analogy: training is like writing and studying for an exam over months, and the model is the knowledge you carry into the test. Once trained, a model can be used over and over without repeating the training.</p><h3>A simple cycle</h3><p>Putting it together, AI generally follows this cycle:</p><ul><li><strong>Collect data</strong> relevant to the task.</li><li><strong>Train</strong> a system on that data so it learns the patterns.</li><li><strong>Produce a model</strong> that captures those patterns.</li><li><strong>Use the model</strong> on new, unseen inputs to make predictions.</li></ul><p>One important point: most models have a <strong>knowledge cutoff</strong>. They learn from data gathered up to a certain date and do not automatically know about events after that, unless they are connected to live tools or search. This is why an AI assistant may be unaware of very recent news.</p><p>With just these four ideas, data, training, models, and the cycle that connects them, you can reason about almost any AI system you encounter.</p>"
+        },
+        {
+          "title": "Machine Learning, Deep Learning, and Neural Networks",
+          "html": "<h2>Machine Learning, Deep Learning, and Neural Networks</h2><p>These three terms appear constantly and are often used loosely. Here is how they fit together, intuitively and without any math.</p><h3>Nested ideas</h3><p>Think of three circles, one inside the next. <strong>Artificial intelligence</strong> is the biggest circle: any system that performs tasks needing intelligence. Inside it sits <strong>machine learning</strong>: systems that learn from data instead of being explicitly programmed. Inside that sits <strong>deep learning</strong>: a particular, powerful style of machine learning. So all deep learning is machine learning, and all machine learning is AI, but not the other way around.</p><h3>What makes deep learning \"deep\"</h3><p>Deep learning uses <strong>neural networks</strong>, which are loosely inspired by how brain cells connect. A neural network is made of many simple units arranged in layers. Information enters the first layer, gets passed and transformed through middle layers, and produces an answer at the final layer. The word \"deep\" simply means there are many layers stacked together.</p><p>Here is an intuitive way to picture it. Imagine recognizing a face. An early layer might notice edges and shapes. A middle layer might combine those into eyes, noses, and mouths. A later layer might assemble those into a whole face. No one programmed these steps; the network discovered this layered way of seeing during training. Each layer builds on the patterns found by the one before it.</p><h3>Why it works so well</h3><p>This layered approach lets deep learning handle messy, real-world information like photos, audio, and natural language, where hand-written rules always fell short. The trade-off is that deep learning needs large amounts of data and significant computing power, and the inner workings can be hard to fully explain even for experts. This is sometimes called the \"black box\" problem: we can see the input and output, but the reasoning in between is not easy to interpret.</p><p>You do not need to understand the internal mathematics to use AI wisely. What matters is the mental picture: layers of simple parts, learning patterns from data, building from simple features up to complex understanding.</p>"
+        },
+        {
+          "title": "Generative AI and How LLMs Predict",
+          "html": "<h2>Generative AI and How LLMs Predict</h2><p>Most of the AI making headlines today is <strong>generative AI</strong>: systems that create new content, such as text, images, audio, or code, rather than just sorting or labeling existing things. The chatbots and writing assistants people use daily are powered by <strong>large language models</strong>, or LLMs.</p><h3>The core trick: predicting the next piece of text</h3><p>An LLM works on a surprisingly simple principle. Given some text, it predicts what is likely to come next, one small chunk at a time. Trained on enormous amounts of writing, it has absorbed the patterns of how language tends to flow. If you write \"The capital of France is,\" the model predicts that \"Paris\" is a very likely continuation, because that pattern appeared countless times in its training data.</p><p>It does this repeatedly: predict a chunk, add it to the text, then predict the next, building up a full response word by word. There is no lookup of a stored answer and no conscious thought. It is sophisticated pattern-based prediction, run at incredible speed and scale.</p><h3>Why the results feel intelligent</h3><p>Because the model learned from such a vast range of human writing, its predictions often capture real structure: grammar, reasoning patterns, common facts, even style and tone. The output can be genuinely useful and creative. But it is essential to remember <em>how</em> it is produced. The model is optimizing for what sounds plausible, not for what is verified to be true.</p><h3>A key consequence</h3><p>This prediction-based design explains both the strengths and the famous weaknesses of LLMs. They are wonderful at drafting, rephrasing, brainstorming, and explaining. They can also state false things confidently, because a smooth, plausible-sounding sentence is exactly what they are built to produce, whether or not it is accurate.</p><p>Generative AI also extends beyond text. Image generators create pictures from written descriptions, and audio tools can produce speech or music. The underlying idea is similar: learn patterns from many examples, then generate new content that fits those patterns. Understanding this single concept, <strong>prediction from learned patterns</strong>, demystifies most of what generative AI does.</p>"
+        },
+        {
+          "title": "AI in Daily Life and at Work",
+          "html": "<h2>AI in Daily Life and at Work</h2><p>AI is no longer a future technology; it is woven into ordinary routines, often invisibly. Recognizing where it already operates helps you engage with it thoughtfully.</p><h3>In everyday life</h3><ul><li><strong>Navigation:</strong> Map apps predict traffic and estimate arrival times.</li><li><strong>Recommendations:</strong> Streaming, shopping, and music services suggest content based on patterns in what you and others enjoy.</li><li><strong>Communication:</strong> Email sorts spam, suggests replies, and offers autocomplete.</li><li><strong>Photos:</strong> Phones organize images, recognize faces, and enhance pictures automatically.</li><li><strong>Voice assistants:</strong> Speakers and phones convert your speech into commands and answers.</li><li><strong>Everyday help:</strong> Chatbots draft messages, explain ideas, translate languages, and answer questions.</li></ul><h3>At work</h3><p>Across industries, AI is becoming a practical assistant rather than a replacement for human judgment. Common uses include:</p><ul><li><strong>Writing and editing:</strong> Drafting emails, reports, summaries, and first versions of documents.</li><li><strong>Research and analysis:</strong> Summarizing long documents and surfacing relevant information quickly.</li><li><strong>Customer support:</strong> Handling routine questions so people can focus on complex cases.</li><li><strong>Healthcare:</strong> Helping interpret scans and organize records, with clinicians making final decisions.</li><li><strong>Creative work:</strong> Generating ideas, drafts, and visual concepts to build upon.</li><li><strong>Coding:</strong> Suggesting and explaining code to help software developers work faster.</li></ul><h3>A balanced view</h3><p>AI tends to be most valuable for tasks that are repetitive, time-consuming, or a starting point that a person will refine. It is a powerful collaborator, but the best results almost always come from a human and an AI working together: the AI produces a draft or suggestion quickly, and the person checks, corrects, and decides. Treating AI output as a first draft to review, rather than a final answer to trust blindly, is a habit that serves you well in nearly every setting.</p>"
+        },
+        {
+          "title": "Limitations, Bias, Hallucination, and Privacy",
+          "html": "<h2>Limitations, Bias, Hallucination, and Privacy</h2><p>Using AI well means understanding where it falls short. These tools are powerful, but they have real and predictable weaknesses. Knowing them protects you from costly mistakes.</p><h3>Hallucination</h3><p>AI systems, especially LLMs, sometimes produce information that is simply false while sounding completely confident. This is often called <strong>hallucination</strong>. Because the model generates plausible-sounding text rather than retrieving verified facts, it can invent statistics, fake quotes, nonexistent sources, or wrong dates. The lesson is direct: <strong>always verify important facts</strong> from a trustworthy source before relying on them. Never assume fluent means correct.</p><h3>Bias</h3><p>AI learns from data created by people, and that data reflects human biases. If historical data underrepresents or stereotypes certain groups, the AI can absorb and even amplify those patterns. This has shown up in unfair outcomes in areas like hiring tools, image generation, and language. Bias is not usually intentional; it is a byproduct of imperfect data. Being aware of it helps you question results that seem skewed and avoid applying AI blindly to sensitive decisions about people.</p><h3>Other limitations</h3><ul><li><strong>Knowledge cutoff:</strong> Many models do not know about events after their training date unless connected to live information.</li><li><strong>No true understanding:</strong> They manipulate patterns, not meaning, so they can miss obvious context or make odd errors.</li><li><strong>Inconsistency:</strong> The same question can yield different answers at different times.</li><li><strong>Weak reasoning at the edges:</strong> Complex logic, math, and multi-step problems can trip them up.</li></ul><h3>Privacy</h3><p>What you type into an AI tool may be stored or used to improve the system, depending on the provider and its settings. A safe rule: <strong>do not share sensitive personal, financial, medical, or confidential information</strong> unless you know exactly how it will be handled. Treat a public AI chatbot a bit like a postcard, not a sealed letter. Check the privacy policy and any data controls before entering anything you would not want kept or seen by others.</p><p>None of this means AI is untrustworthy or should be avoided. It means AI should be used with healthy skepticism and human oversight, the same way you would double-check any single source of information.</p>"
+        },
+        {
+          "title": "Using AI Responsibly and Getting Started",
+          "html": "<h2>Using AI Responsibly and Getting Started</h2><p>You now understand what AI is, how it works, and where it struggles. This final lesson turns that knowledge into good habits and a path forward.</p><h3>Principles for responsible use</h3><ul><li><strong>Verify before you trust.</strong> Check important facts, figures, and sources independently. Treat AI output as a draft, not a verdict.</li><li><strong>Keep a human in the loop.</strong> For decisions that affect people, money, health, or safety, a person should review and own the final call.</li><li><strong>Protect privacy.</strong> Avoid entering sensitive or confidential information into tools you do not control.</li><li><strong>Be transparent.</strong> When AI meaningfully helped create something, especially at work or school, be honest about it. Follow the rules of your organization or institution.</li><li><strong>Watch for bias and harm.</strong> Question results that seem unfair or stereotyped, and do not use AI to deceive or manipulate others.</li><li><strong>Respect others' work.</strong> Be thoughtful about copyright and giving credit, since AI can mimic existing styles and content.</li></ul><h3>Getting started as a learner</h3><p>The best way to understand AI is to use it, carefully and curiously. A few suggestions:</p><ul><li><strong>Experiment with a chatbot.</strong> Ask it to explain a topic, summarize an article, or brainstorm ideas. Notice what it does well and where it slips.</li><li><strong>Learn to prompt clearly.</strong> Clear, specific instructions with context produce far better results than vague ones. Tell it the goal, the audience, and the format you want.</li><li><strong>Fact-check on purpose.</strong> Deliberately verify a few answers to build a realistic sense of when to trust the tool.</li><li><strong>Start small at work.</strong> Use AI for low-stakes drafts first, then expand as your judgment grows.</li><li><strong>Keep learning.</strong> The field moves quickly. Follow reputable, neutral sources and stay curious rather than fearful or overhyped.</li></ul><h3>A closing thought</h3><p>AI is a tool, and like any powerful tool, its value depends on the skill and care of the person using it. Approached with curiosity, honesty, and healthy skepticism, AI can help you write, learn, create, and work more effectively. This course is a foundation; the rest of the modern-skills track will build on it. The most important takeaway is a balanced mindset: neither dismiss AI nor accept it uncritically, but learn to use it wisely.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Which statement best describes what AI actually is?",
+          "options": [
+            "A conscious computer mind with feelings and intentions",
+            "Software that finds patterns in data and uses them to make useful guesses or decisions",
+            "A guaranteed source of correct answers",
+            "A robot that thinks exactly like a human across every task"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What was the main limitation of early rule-based (expert) systems?",
+          "options": [
+            "They required too much electricity to run",
+            "They learned too quickly from data",
+            "They were brittle and failed when situations fell outside their hand-written rules",
+            "They could only be used for image recognition"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In AI, what is a 'model'?",
+          "options": [
+            "The raw data collected before any learning happens",
+            "The process of adjusting a system based on its mistakes",
+            "The finished, trained pattern-recognizer that you actually use",
+            "The physical computer hardware that runs the software"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How do machine learning and deep learning relate to each other?",
+          "options": [
+            "They are two completely unrelated fields",
+            "Deep learning is a particular, powerful type of machine learning",
+            "Machine learning is a type of deep learning",
+            "They mean exactly the same thing"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does a large language model (LLM) primarily generate its responses?",
+          "options": [
+            "By looking up complete answers stored in a database",
+            "By consciously reasoning about what is true",
+            "By predicting likely next pieces of text based on patterns it learned",
+            "By asking a human reviewer for each sentence"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does it mean when an AI 'hallucinates'?",
+          "options": [
+            "It refuses to answer a question",
+            "It produces false information while sounding confident",
+            "It runs more slowly than usual",
+            "It only works with images instead of text"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why can AI systems exhibit bias?",
+          "options": [
+            "Because they are intentionally programmed to discriminate",
+            "Because they learn from human-created data that can reflect existing biases",
+            "Because they have personal opinions and beliefs",
+            "Because they always lack enough computing power"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which is the best practice for using AI responsibly?",
+          "options": [
+            "Trust every answer it gives without checking",
+            "Enter sensitive personal data freely to get better results",
+            "Verify important facts and keep a human in the loop for significant decisions",
+            "Hide entirely that AI was used, even when rules require disclosure"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "gurmukhi-script-basics",
+      "title": "Reading Gurmukhi: The Script",
+      "topic": "language",
+      "level": 100,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A gentle beginner's introduction to the Gurmukhi script, the writing system in which the Guru Granth Sahib Ji and much Punjabi literature are recorded. This course traces the script's history and its association with Guru Angad Dev Ji, walks through the Painti (the thirty-five base letters) grouped by how they are organized, and explains the vowel-bearers, the laga matra (vowel signs), the pairin bindi and pairin letters, and nasalization in plain, conceptual terms. Learners then see how syllables are built, how to read from left to right, and how to begin pronouncing and practicing with common first words. All Gurmukhi is described using plain ASCII transliteration so the script can be learned step by step without any special fonts.",
+      "lessons": [
+        {
+          "title": "What Gurmukhi Is and Where It Comes From",
+          "html": "<h2>An Introduction to the Script</h2><p>Gurmukhi is the writing system most closely associated with Punjabi and, above all, with the sacred scripture of the Sikhs, the Guru Granth Sahib Ji. The name itself is usually understood to mean \"from the mouth of the Guru,\" pointing to the script's deep connection with the words of the Gurus and the practice of reading and reciting sacred verse.</p><h3>A Script with a Purpose</h3><p>Many of the world's scripts grew up slowly over centuries for everyday business and record-keeping. Gurmukhi is unusual because its standardization is tied to a clear spiritual purpose: to give the community a clean, consistent way to read and preserve the Gurus' compositions exactly. Tradition strongly associates the organizing and popularizing of Gurmukhi with Guru Angad Dev Ji, the second Sikh Guru. He is honored for shaping the letters into a settled, teachable order and for encouraging literacy so that ordinary people, not only scholars, could read the sacred word for themselves.</p><h3>What You Will Learn</h3><p>In this course you will meet the thirty-five base letters (the Painti), the vowel-bearing letters and the vowel signs (laga matra), the marks used for nasal sounds (such as the pairin bindi), and the way letters and vowels combine into syllables and words. Everything will be described in plain English transliteration. For example, instead of showing the actual letter shapes, we will refer to letters by their traditional names, such as \"Ura, Aira, Eeri\" for the first three, and \"kakka, khakha, gagga\" for a later group.</p><h3>Why a Transliteration Approach Helps</h3><p>Learning the names, the order, and the logic of the script first makes the letter shapes far easier to absorb when you later sit with a printed chart or a teacher. Think of this course as building the mental map of the script. With that map in place, recognizing and writing the shapes becomes a matter of practice rather than confusion.</p>"
+        },
+        {
+          "title": "The Painti: The Thirty-Five Base Letters",
+          "html": "<h2>Meeting the Painti</h2><p>The heart of Gurmukhi is a set of thirty-five base letters known together as the Painti. The word \"Painti\" simply reflects the number thirty-five in Punjabi. These letters are arranged in a fixed, traditional order, and that order is one of the most valuable things a beginner can memorize, because it never changes and it underlies dictionaries, charts, and teaching everywhere.</p><h3>An Ordered, Logical Set</h3><p>Unlike a random list, the Painti is organized in a thoughtful sequence. The first few letters serve special roles connected to vowels (you will study these closely in the next lesson). After those come groups of consonants that are arranged largely by where and how they are produced in the mouth, moving in a consistent pattern. This is similar in spirit to other scripts of the region, where sounds made at the back of the mouth come together, then sounds made with the tongue and palate, and so on.</p><h3>The Traditional Names</h3><p>Each letter has a traditional name that usually echoes its sound. The first three are called \"Ura, Aira, Eeri.\" These three are the vowel-bearers, and they behave differently from the rest. The letters that follow are consonants, each named in a way that begins with the sound it represents, such as \"sassa\" and \"haha,\" then a group like \"kakka, khakha, gagga,\" and so on through the full set.</p><h3>Why Learn Them as a Sequence</h3><p>Reciting the Painti in order, the way one might recite an alphabet song, trains both memory and pronunciation at once. When you can say the names smoothly from start to finish, you have a stable framework onto which every later detail, including vowel signs and special marks, can be attached.</p><h3>What Comes Next</h3><p>In the following lessons we will look first at the three vowel-bearers, then at how the consonant groups are organized, and then at how vowels attach to consonants to make full syllables.</p>"
+        },
+        {
+          "title": "How the Consonant Groups Are Organized",
+          "html": "<h2>Order with a Reason</h2><p>Once you set aside the first three vowel-bearing letters, the rest of the Painti consists of consonants arranged in a careful pattern. Understanding the pattern makes the long list feel much shorter, because you can group the letters in your mind rather than memorizing thirty-five separate items.</p><h3>Grouping by Place of Sound</h3><p>Many of the consonants fall into small families based on where in the mouth the sound is formed. For instance, there is a family of sounds made at the back of the mouth and throat, which includes letters traditionally named \"kakka, khakha, gagga\" and their companions. There is another family made by bringing the tongue toward the palate, another made with the tongue near the ridge behind the teeth, another made with the tongue at the teeth, and another made with the lips, such as the letters often named \"pappa, phappha, babba.\"</p><h3>A Repeating Internal Pattern</h3><p>Within several of these families the letters follow a similar internal sequence: a plain sound, then a more breathy or aspirated version of that sound, then a related voiced sound, and so on. You do not need to master this analysis as a beginner, but noticing it helps explain why letters with similar sounds sit next to each other. For example, hearing \"kakka\" followed by the breathier \"khakha\" shows the pattern at work.</p><h3>The Remaining Letters</h3><p>After the main families come several additional consonants, including sounds like those named \"yaiyya, rara, lalla, vava\" and a few more, which round out the set. Some of these represent gliding or flowing sounds and feel familiar to speakers of many languages.</p><h3>How to Use This Knowledge</h3><p>When you practice, try saying each small family together: the throat group, the palate group, the lip group, and so on. Grouping by sound turns memorization into understanding, and it will make reading much steadier once you begin combining these consonants with vowels.</p>"
+        },
+        {
+          "title": "Vowel-Bearers and the Laga Matra (Vowel Signs)",
+          "html": "<h2>How Vowels Work in Gurmukhi</h2><p>Vowels in Gurmukhi are handled in two connected ways: through three special vowel-bearing letters, and through a set of vowel signs called laga matra that attach to consonants. Understanding this relationship is one of the most important steps in learning to read.</p><h3>The Three Vowel-Bearers</h3><p>The first three letters of the Painti, \"Ura, Aira, Eeri,\" are the vowel-bearers. On their own they do not carry the same kind of full consonant sound as the others. Instead, they act as supports onto which vowel signs are placed when a word begins with a vowel sound. In a rough sense, one of them is associated with sounds in the \"o/u\" region, one is the neutral base for several vowels, and one is associated with sounds in the \"i/e\" region. The exact sound depends on which vowel sign is added.</p><h3>The Laga Matra</h3><p>Laga matra are the vowel signs. Each represents a particular vowel sound, and each is written in a fixed position relative to a letter: some sit above, some below, some before, and some after, depending on the sign. When a vowel sign is attached to a consonant, it tells you which vowel follows that consonant. When it is attached to a vowel-bearer, it produces a standalone vowel sound, as at the start of a word.</p><h3>A Conceptual Example</h3><p>Imagine the consonant \"kakka.\" By itself, it carries an inherent short \"a\" sound, giving roughly \"ka.\" If you add a vowel sign for a long \"aa,\" the syllable becomes \"kaa.\" Add a sign for \"ee\" and it becomes \"kee.\" Add a sign for \"oo\" and it becomes \"koo.\" The base consonant stays the same; the vowel sign changes the vowel.</p><h3>The Inherent Vowel</h3><p>Notice that a bare consonant is usually read with a built-in short \"a.\" This is why the letter is named \"kakka\" rather than just \"k.\" The vowel signs then modify or replace that default vowel. Keeping this idea in mind will make whole words much easier to sound out.</p>"
+        },
+        {
+          "title": "Pairin Bindi, Pairin Letters, and Nasal Sounds",
+          "html": "<h2>Small Marks, Important Sounds</h2><p>Beyond the base letters and vowel signs, Gurmukhi uses a few additional marks and special forms. As a beginner you mainly need to recognize them and understand what they do, rather than master every detail at once.</p><h3>Nasalization: Bindi and Tippi</h3><p>Many Punjabi words include nasal sounds, where air passes partly through the nose, similar to the way the end of an English word like \"sing\" feels. Gurmukhi shows nasalization with small marks. One is a dot-like mark sometimes described as a bindi, and another is a small curved mark often described as a tippi. The choice between them depends on the surrounding vowel and sound, but their shared job is to add a nasal quality to a syllable. Conceptually, a syllable read as \"ha\" might become a nasalized \"han,\" with the nasal sound colored rather than fully pronounced as a separate consonant.</p><h3>Pairin Bindi</h3><p>The term pairin bindi refers to a dot placed at the foot of certain letters. \"Pairin\" relates to the idea of being at the foot or below. This subscript dot is used with a few specific letters to represent additional sounds that came into Punjabi, often through borrowed words. The dot signals that the letter should be read with a modified sound rather than its plain value. A learner does not need every example now; the key idea is that a small dot beneath a letter can change how it is pronounced.</p><h3>Pairin Letters (Subjoined Forms)</h3><p>Sometimes a consonant is written in a reduced form tucked beneath another letter. These are pairin letters, again using the sense of being placed at the foot. They allow two consonants to blend closely within a single syllable, without a vowel between them. A common one functions like a subjoined \"r\" or \"h\" or \"v,\" producing clusters that would otherwise be awkward to write. For now, simply know that a small letter sitting under a main letter is read together with it.</p><h3>Why These Matter</h3><p>These marks may look minor, but they are essential for reading accurately and reverently, especially in scripture, where precise sound carries meaning. Recognizing them early prevents confusion later, even before you can produce every sound perfectly.</p>"
+        },
+        {
+          "title": "How Syllables Form",
+          "html": "<h2>Building Sound from Parts</h2><p>Reading Gurmukhi becomes natural once you see how its pieces fit together into syllables. A syllable is a single beat of sound, and in Gurmukhi most syllables are built from a consonant plus a vowel, with optional extra marks for nasalization or clusters.</p><h3>The Basic Recipe</h3><p>Start with a base consonant, which already carries an inherent short \"a.\" For example, \"kakka\" read alone gives roughly \"ka.\" To change the vowel, add a laga matra: a sign for \"aa\" gives \"kaa,\" a sign for \"i\" gives \"ki,\" a sign for \"u\" gives \"ku,\" and so on. So a single consonant can be the seed for many syllables, depending on the vowel sign attached to it.</p><h3>Adding Nasalization</h3><p>If a syllable needs a nasal quality, a bindi or tippi is added in the appropriate place. Conceptually, \"kaa\" might become a nasalized \"kaan,\" where the nasal sound colors the vowel rather than standing alone as a hard \"n.\"</p><h3>Consonant Clusters</h3><p>When two consonants come together without a vowel between them, Gurmukhi can use a pairin (subjoined) letter tucked beneath the first. This lets a syllable like \"pra\" be written cleanly, blending a \"p\" sound and an \"r\" sound before the vowel. The result is still read as one smooth syllable.</p><h3>Reading a Word as a Chain of Syllables</h3><p>A whole word is simply a chain of these syllables read in order. Consider a made-up illustration: \"ka\" plus \"maa\" plus \"la\" would be read as \"kamaala,\" one syllable after another, left to right. Real words work the same way. Once you can break a word into its syllables and read each in turn, even long words become approachable.</p><h3>The Key Habit</h3><p>Train yourself to ask, for each cluster of marks, \"What is the base consonant, what vowel sign is attached, and is there any nasal or subjoined mark?\" Answering those three questions in order will let you decode almost any syllable.</p>"
+        },
+        {
+          "title": "Reading Direction and the Basics of Pronunciation",
+          "html": "<h2>Which Way and How It Sounds</h2><p>With the pieces of the script in mind, two practical skills remain: knowing how the text flows on the page, and developing a feel for how the sounds are pronounced.</p><h3>Reading Left to Right</h3><p>Gurmukhi is read from left to right and from top to bottom, the same direction as English. Words are written with the letters joined along a horizontal line that runs across the top, often called a headline or top line. This top line links the letters of a word together and helps your eye see where one word ends and the next begins. When you scan a line of text, follow the headline and let your eye move steadily to the right.</p><h3>Sounding Out Carefully</h3><p>Because each consonant carries an inherent vowel and each vowel sign has a fixed value, Gurmukhi is largely consistent: what you see reliably maps to a sound. This is encouraging for beginners, because once you learn the values, you can sound out words you have never seen before.</p><h3>Long and Short Vowels</h3><p>Pay attention to vowel length. Several vowels come in shorter and longer versions, such as a short \"i\" versus a long \"ee,\" or a short \"u\" versus a long \"oo.\" The vowel signs distinguish them, and the difference can change a word's meaning, so it is worth listening carefully and imitating a fluent speaker or recording.</p><h3>Aspiration and Nasalization</h3><p>Remember that some consonants come in plain and breathy pairs, such as \"kakka\" versus the more aspirated \"khakha,\" or \"pappa\" versus \"phappha.\" The breathier letters are pronounced with a small puff of air. Nasal marks, meanwhile, add that through-the-nose quality. Getting these features right makes your reading clearer and more respectful of the text.</p><h3>Listen and Repeat</h3><p>Pronunciation is best learned by ear. Whenever possible, listen to a knowledgeable reader, repeat after them, and compare your sounds to theirs. The script will give you the structure; listening will give you the music.</p>"
+        },
+        {
+          "title": "Common First Words and How to Practice",
+          "html": "<h2>From Letters to Living Words</h2><p>You now have the full framework: the Painti, the vowel-bearers, the laga matra, the nasal and pairin marks, syllable building, reading direction, and pronunciation basics. The final step is to put them to use with a steady, joyful practice routine.</p><h3>Start with the Painti</h3><p>Begin each session by reciting the Painti in order, from \"Ura, Aira, Eeri\" through the consonant families like \"kakka, khakha, gagga\" and onward to the end. Saying the names aloud keeps the order fresh and warms up your pronunciation.</p><h3>Practice Simple Syllables</h3><p>Next, take one consonant and run it through several vowels. For example, with \"kakka\" practice \"ka, kaa, ki, kee, ku, koo,\" and so on. Then do the same with \"sassa\" or \"mamma.\" This drill builds the instant recognition you need for fluent reading.</p><h3>Read Short, Familiar Words</h3><p>Move on to short, meaningful words that learners often encounter early. Reverent terms such as the name \"Satnaam,\" or simple greetings and everyday nouns, are good first targets because you may already know how they sound, which lets you connect the written syllables to sounds you recognize. Break each word into syllables, read each syllable, then blend them: for instance, \"Sat\" plus \"naam\" read together as \"Satnaam.\"</p><h3>Build a Daily Habit</h3><p>Short, regular practice beats long, rare sessions. Even ten focused minutes a day, reciting the Painti, drilling syllables, and reading a few words, will produce steady progress. Keep a simple chart nearby, and consider learning alongside a teacher or a community class, since hearing correct pronunciation is invaluable.</p><h3>Approach with Patience and Respect</h3><p>Because Gurmukhi carries the sacred word of the Gurus, learning it is both a practical skill and a meaningful act. Be patient with yourself, celebrate small wins, and remember that every fluent reader once started exactly where you are now, with the first three letters: Ura, Aira, Eeri.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "The standardizing and popularizing of the Gurmukhi script is traditionally associated with which Sikh Guru?",
+          "options": [
+            "Guru Nanak Dev Ji",
+            "Guru Angad Dev Ji",
+            "Guru Arjan Dev Ji",
+            "Guru Gobind Singh Ji"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the word 'Painti' refer to in the context of Gurmukhi?",
+          "options": [
+            "The set of thirty-five base letters",
+            "The vowel signs",
+            "The headline across the top of words",
+            "The nasal marks"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which three letters are the vowel-bearers and come first in the Painti?",
+          "options": [
+            "kakka, khakha, gagga",
+            "sassa, haha, kakka",
+            "Ura, Aira, Eeri",
+            "pappa, phappha, babba"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the role of the laga matra in Gurmukhi?",
+          "options": [
+            "They mark the end of a sentence",
+            "They are vowel signs that indicate which vowel follows a letter",
+            "They join words together",
+            "They are the names of the consonant families"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What sound does a bare consonant such as 'kakka' carry by default before any vowel sign is added?",
+          "options": [
+            "A long 'oo' sound",
+            "No vowel at all",
+            "An inherent short 'a' sound",
+            "A nasal 'n' sound"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the main purpose of nasal marks like the bindi and tippi?",
+          "options": [
+            "To make a letter silent",
+            "To add a nasal (through-the-nose) quality to a syllable",
+            "To indicate the start of a word",
+            "To double the consonant sound"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In which direction is Gurmukhi read?",
+          "options": [
+            "Right to left",
+            "Top to bottom only, in columns",
+            "Left to right",
+            "Bottom to top"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is a 'pairin' letter in Gurmukhi?",
+          "options": [
+            "A vowel-bearing letter at the start of a word",
+            "A consonant written in a reduced form beneath another letter to form a cluster",
+            "The first letter of the Painti",
+            "A punctuation mark"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "punjabi-through-gurbani",
+      "title": "Learning Punjabi Through Gurbani",
+      "topic": "language",
+      "level": 200,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An intermediate course that builds Punjabi vocabulary and reading comprehension through the language of Gurbani. You will learn high-frequency devotional words and their meanings, see how the older Sant Bhasha register differs from everyday modern Punjabi, grasp core grammar concepts at a conceptual level, and practice using a steek and dictionary so you can approach a Shabad's meaning with confidence and reverence.",
+      "lessons": [
+        {
+          "title": "Why Learn Punjabi Through Gurbani",
+          "html": "<h2>Why Learn Punjabi Through Gurbani</h2><p>Millions of people recite Gurbani daily yet feel a gap between sounding out the words and actually understanding them. This course is built to close that gap. Rather than starting with abstract grammar drills, we let the language of Sri Guru Granth Sahib Ji guide what we study, so that every word you learn deepens both your Punjabi and your connection to the text.</p><h3>What this course assumes</h3><p>You should already be able to read Gurmukhi script and sound out words slowly, even if you do not yet know what most of them mean. That is the typical starting point for an intermediate learner. If you can recite Japji Sahib aloud but could not explain a single line, you are exactly the right student.</p><h3>What you will gain</h3><ul><li>A working vocabulary of the most common words in Gurbani.</li><li>An understanding of how the language of Gurbani differs from the Punjabi spoken on the street today.</li><li>Conceptual grasp of grammar features such as gender, postpositions, and verb sense.</li><li>Practical skill in using a steek (commentary) and a dictionary to unlock meaning on your own.</li></ul><h3>A note on approach</h3><p>Gurbani is sacred to Sikhs and is treated with deep respect. In this course we explain individual words and concepts to support understanding, in the spirit of vichaar (reflective study). We do not reproduce long passages here; instead we point you toward the Saroop and recognized commentaries for the actual text. Our goal is to make you a more capable, humble reader, not to replace the lifetime of learning that lies ahead.</p><h3>How to study</h3><p>Go slowly. Keep a notebook of words you meet. Recite aloud, then look up meanings, then re-recite while holding the meaning in mind. Repetition over weeks, not cramming over hours, is what builds real comprehension.</p>"
+        },
+        {
+          "title": "The Two Registers: Everyday Punjabi vs Sant Bhasha",
+          "html": "<h2>The Two Registers: Everyday Punjabi vs Sant Bhasha</h2><p>One of the first surprises for new students is that the Punjabi of Gurbani is not quite the Punjabi people speak at home. Understanding why will save you a great deal of confusion.</p><h3>Everyday modern Punjabi</h3><p>The Punjabi spoken in homes, markets, and films today is a living, evolving language. It has absorbed many words from English and other languages, its grammar has simplified in places, and regional dialects vary widely. When you ask for chah (tea) or say changa (good, fine), you are using everyday Punjabi.</p><h3>The register of Gurbani</h3><p>Gurbani was composed across roughly the fifteenth to seventeenth centuries by the Gurus and by Bhagats from many regions and backgrounds. Its language is often described as Sant Bhasha, a devotional, pan-regional idiom that blends old Punjabi with words and forms drawn from Braj, Sindhi, Persian, Sanskrit-derived vocabulary, and other tongues. This was deliberate: the message was meant to reach people across many communities and regions.</p><h3>What this means in practice</h3><ul><li><strong>Older word forms.</strong> A word may appear in a form that has since fallen out of daily speech, or with an ending that modern Punjabi has dropped.</li><li><strong>Borrowed vocabulary.</strong> A line may use a Persian-origin word in one place and a Sanskrit-origin word for a similar idea in another. Both belong to the text.</li><li><strong>Poetic compression.</strong> Words are chosen for rhythm, rhyme, and depth, so meanings can be layered rather than literal.</li></ul><h3>Why not just translate word for word</h3><p>Because a single Gurbani word can carry several meanings at once, and because the grammar is older, a flat word-for-word swap into modern Punjabi or English often misses the point. This is precisely why steeks (commentaries) exist, and why we will spend a full lesson learning to use them. For now, simply hold this idea: the language you are learning is a special, elevated register, related to your everyday Punjabi but distinct from it.</p>"
+        },
+        {
+          "title": "High-Frequency Words, Part One",
+          "html": "<h2>High-Frequency Words, Part One</h2><p>A small set of words appears again and again throughout Gurbani. Learn these well and large portions of the text begin to open up. Below, each word is explained in plain terms. Transliterations are approximate; always confirm pronunciation against a recitation.</p><h3>Naam</h3><p>Often translated as 'the Name,' but it means far more than a label. Naam points to the conscious presence and remembering of the Divine, the living awareness of God woven into one's heart and breath. To meditate on Naam (Naam Simran) is a central practice in Sikhi.</p><h3>Sach (also Sat)</h3><p>Meaning 'Truth' or 'the True one.' In Gurbani this is not merely factual truth but eternal, unchanging Reality, a name for God who alone is everlasting while the world passes. You will meet it in many compounds.</p><h3>Kirpa (also Karam, Nadar, Mehar)</h3><p>'Grace' or 'compassion,' the unearned blessing of the Divine. Several different words point to this idea, reflecting the multiple sources of Gurbani's vocabulary. Recognizing them as a family of related meanings helps comprehension.</p><h3>Mann</h3><p>The mind, but specifically the inner mind-heart that wanders, desires, and must be turned toward the Divine. Much of Gurbani addresses the mann directly, urging it to remember and to still its restlessness. Note: do not confuse mann (mind) with man meaning 'to obey/accept,' which is a different sense we will revisit under verbs.</p><h3>Hukam</h3><p>The Divine Order, Command, or Will. To live in harmony with Hukam, to accept and walk within the Divine Will, is a recurring theme. The word is Persian in origin and shows how naturally Gurbani draws on many sources.</p><h3>A study habit</h3><p>For each word, write the transliteration, a one-line meaning in your own words, and note one place you have heard it in recitation. Owning a word means being able to explain it simply, not just recognize it.</p>"
+        },
+        {
+          "title": "High-Frequency Words, Part Two",
+          "html": "<h2>High-Frequency Words, Part Two</h2><p>We continue building the core vocabulary. As before, hold these as flexible, layered meanings rather than rigid one-to-one translations.</p><h3>Gur and Guru</h3><p>The Guru is the divine teacher and guide. In Gurbani the word can point to the eternal Wisdom and Light, to the Guru's Shabad (word), and to the line of Gurus culminating in Sri Guru Granth Sahib Ji as the eternal Guru. Context tells you which sense is foremost.</p><h3>Shabad</h3><p>Literally 'word,' but in Gurbani the Shabad is the divine Word, the revealed teaching and sound-current through which the Divine is known. To be attuned to the Shabad is to be guided by it.</p><h3>Seva</h3><p>Selfless service offered without expectation of reward. A practical, lived value as much as a word, seva expresses love through humble action.</p><h3>Sangat (also Saadh Sangat, Sat Sangat)</h3><p>The holy congregation, the company of seekers gathered around the Guru's word. Gurbani repeatedly praises the uplifting power of good company.</p><h3>Bhau and Bhaau</h3><p>Here two similar-sounding words carry very different senses, a classic pitfall. One sense points to 'fear' or awe of the Divine; a related word points to 'love' or loving devotion. The vowel and context distinguish them, which is why careful reading and a steek matter.</p><h3>Jap, Simran</h3><p>To meditate, recite, and remember the Divine. Jap (as in Japji) is loving repetition; simran is continuous remembrance. Both name the heart of daily practice.</p><h3>Consolidate</h3><p>You now have around a dozen anchor words across two lessons. Before moving on, try to recall each from memory and explain it aloud. These words are the keys; the grammar lessons ahead are the way you turn them.</p>"
+        },
+        {
+          "title": "Grammar Concept One: Gender and Postpositions",
+          "html": "<h2>Grammar Concept One: Gender and Postpositions</h2><p>You do not need to master formal grammar to grow in comprehension, but a conceptual grasp of a few features removes a lot of guesswork. We approach grammar as a reader, not as a linguist.</p><h3>Grammatical gender</h3><p>Punjabi nouns are either masculine or feminine, and this is grammatical, not about real-world gender. The category a noun belongs to affects the endings of related words. For example, adjectives and some verb forms shift slightly depending on whether the noun they describe is masculine or feminine. You will not memorize a list; instead, as you read, notice that endings change and learn to expect it rather than be confused by it.</p><h3>Why it matters for Gurbani</h3><p>In devotional poetry the seeker's soul is often addressed in a particular way, and the grammatical forms reflect relationships in the line. Recognizing a feminine ending, for instance, can signal that the soul-bride imagery is at work, a common and beautiful pattern in Gurbani.</p><h3>Postpositions</h3><p>English uses prepositions before a noun: 'to the house,' 'in the heart.' Punjabi uses <em>post</em>positions, which come <em>after</em> the noun and do the same job. Small words for 'of,' 'to,' 'from,' 'in,' and 'with' follow the noun they relate to.</p><h3>Postpositions in older language</h3><p>Here is a key point for Gurbani: the older register often does not use the same separate postposition words as modern Punjabi. Instead, the relationship is frequently carried by the <em>ending</em> of the word itself, an inflection, rather than by a small word standing apart. This is why a Gurbani line can look 'compressed' compared to how you would say the same thing today. When a word's ending looks unfamiliar, it may be carrying a 'to,' 'of,' or 'in' sense built right in. A good steek will point this out.</p><h3>Takeaway</h3><p>Expect endings to do grammatical work, and expect older texts to pack relationships into word forms rather than spell them out with separate words.</p>"
+        },
+        {
+          "title": "Grammar Concept Two: Verb Sense and Word Order",
+          "html": "<h2>Grammar Concept Two: Verb Sense and Word Order</h2><p>The second grammar lesson is about how actions are expressed and how lines are arranged. Again, the goal is recognition, not recitation of rules.</p><h3>Verbs usually come last</h3><p>Punjabi word order is typically subject, then object, then verb. The action word tends to sit at the end of the clause, unlike English where the verb usually comes early. So when you read a Gurbani line, scanning toward the end often reveals the main action: who is doing what to whom, with the doing-word near the close.</p><h3>One root, many forms</h3><p>A single verb idea appears in many shapes depending on tense, the person doing it, and whether the subject is singular or plural. The core of the word, the root, stays recognizable while the ending shifts. Training your eye to spot the root helps you connect a form you have not seen to a meaning you already know.</p><h3>Older verb forms</h3><p>Gurbani often uses verb forms that modern speech has simplified or dropped. Commands, requests, and continuous senses may look different from today's usage. You will also meet poetic forms chosen for meter. Do not be discouraged when a verb looks strange; isolate the root, then consult a steek for the precise sense.</p><h3>Pronouns can be implied</h3><p>Because the verb ending already signals who is acting, the subject pronoun (I, you, he, she) is frequently left out. A line may say, in effect, 'remember the Divine' with the 'you' understood. Comprehension improves when you supply the implied subject in your head.</p><h3>Reading strategy</h3><p>For any line, try this: find the verb near the end, identify the root and its likely sense, then ask who is acting and on what. With the anchor vocabulary from earlier lessons plus this verb-finding habit, you can form a first-draft understanding before you ever open a commentary.</p>"
+        },
+        {
+          "title": "Using a Steek and a Dictionary",
+          "html": "<h2>Using a Steek and a Dictionary</h2><p>No serious reader of Gurbani works alone. Centuries of scholarship are available to you through steeks and dictionaries. Learning to use them well is one of the most valuable skills this course offers.</p><h3>What is a steek</h3><p>A steek is a line-by-line explanation and paraphrase of Gurbani in more accessible language, prepared by a scholar. Well-known steeks explain difficult words, give the grammatical sense, and offer the overall meaning of each line. Treat a steek as a trusted teacher's notes, not as the final or only word; comparing more than one respected steek often deepens understanding.</p><h3>How to use a steek</h3><ul><li>First attempt the line yourself using your vocabulary and grammar awareness.</li><li>Then read the steek's explanation and compare it to your guess. Where you differed, note why.</li><li>Pay attention to the meanings it gives for unfamiliar words; add them to your notebook.</li></ul><h3>Dictionaries for Gurbani</h3><p>General Punjabi dictionaries help, but the most useful tools are specialized Gurbani dictionaries (such as the well-known scholarly Mahan Kosh tradition and Gurbani-specific glossaries). These list words in the forms and senses they carry within the text, including older meanings a modern dictionary might omit.</p><h3>Looking a word up</h3><p>Because endings change, you may need to identify the root or base form before searching. If the exact form is not listed, try the simpler stem. Note that one entry may give several meanings; choose the one that fits the line, guided by your steek.</p><h3>Digital tools</h3><p>Reputable Sikh websites and apps offer searchable Gurbani text with line meanings and word-by-word glosses. These are excellent for practice, but apply judgment and prefer recognized, mainstream sources. The aim is always understanding pursued with reverence and care.</p>"
+        },
+        {
+          "title": "Reading a Shabad and Avoiding Common Pitfalls",
+          "html": "<h2>Reading a Shabad and Avoiding Common Pitfalls</h2><p>In this final lesson we bring everything together into a method for approaching a Shabad, and we name the mistakes that most often trip up learners.</p><h3>A step-by-step method</h3><ol><li><strong>Recite the whole Shabad aloud first.</strong> Get its rhythm and feel before analyzing. Meaning often begins to surface through sound.</li><li><strong>Identify anchor words.</strong> Spot the high-frequency words you know (Naam, Sach, Hukam, Gur, Mann, and others). They orient you.</li><li><strong>Find the verbs.</strong> Look toward the end of each line for the action and its root.</li><li><strong>Draft a meaning line by line.</strong> Form your own rough sense before consulting anyone.</li><li><strong>Check against a steek.</strong> Refine your draft and correct misreadings.</li><li><strong>Step back for the whole.</strong> Ask what central message the Guru is conveying. Gurbani is not a list of facts; it is guidance for living and for the heart.</li></ol><h3>Common pitfalls</h3><ul><li><strong>Treating Gurbani as modern Punjabi.</strong> Forgetting the older register leads to forcing today's meanings onto older words.</li><li><strong>Word-for-word literalism.</strong> Swapping each word for a single dictionary meaning misses layered and poetic sense. Read for the line's intent.</li><li><strong>Confusing near-identical words.</strong> Pairs like mann and man, or bhau and bhaau, differ in sense; slow down and check.</li><li><strong>Ignoring context.</strong> The same word can mean different things in different lines. Let the surrounding text and the Shabad's theme guide you.</li><li><strong>Over-relying on one source.</strong> Compare respected steeks; do not lean on a single, possibly weak, translation.</li><li><strong>Rushing.</strong> Comprehension grows over months of patient, repeated reading.</li></ul><h3>Closing encouragement</h3><p>You now have a vocabulary core, a conceptual grasp of grammar, and a repeatable method supported by steeks and dictionaries. Approach the text with humility and consistency. Each Shabad you slowly understand becomes both a language lesson and a moment of connection. May your study be steady, reverent, and rewarding.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "The language register of much of Gurbani is often described as Sant Bhasha. What best describes it?",
+          "options": [
+            "Identical to the everyday Punjabi spoken in homes today",
+            "A devotional, pan-regional idiom blending old Punjabi with words from several languages",
+            "A purely Persian language with no Punjabi elements",
+            "A modern invention created for this course"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In Gurbani, the word 'Naam' is best understood as:",
+          "options": [
+            "Simply a person's given name",
+            "A grammatical ending on verbs",
+            "The conscious presence and remembrance of the Divine, more than a mere label",
+            "A type of musical meter"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "The word 'Hukam' in Gurbani refers to:",
+          "options": [
+            "The Divine Order, Command, or Will",
+            "A steek or commentary",
+            "Selfless service",
+            "The holy congregation"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Compared to English, where does the verb typically sit in a Punjabi clause?",
+          "options": [
+            "At the very beginning, before the subject",
+            "Immediately after the first word always",
+            "Toward the end of the clause",
+            "Punjabi clauses have no verbs"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Unlike English prepositions, Punjabi uses small relationship words that come where relative to the noun?",
+          "options": [
+            "Before the noun",
+            "After the noun (postpositions)",
+            "Only at the end of the sentence",
+            "They are never used at all"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is a 'steek'?",
+          "options": [
+            "A type of devotional song",
+            "A line-by-line explanation and paraphrase of Gurbani by a scholar",
+            "A grammatical gender category",
+            "A regional dialect of spoken Punjabi"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why can a strict word-for-word translation of a Gurbani line be misleading?",
+          "options": [
+            "Because Gurbani contains no real words",
+            "Because every word has exactly one fixed meaning",
+            "Because words can carry layered, poetic meanings and the grammar is older, so literal swaps miss the intent",
+            "Because translation is forbidden in all cases"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which of the following is a common pitfall named in the course?",
+          "options": [
+            "Reciting a Shabad aloud before analyzing it",
+            "Confusing near-identical words such as 'mann' (mind) and 'man' (to obey/accept)",
+            "Comparing more than one respected steek",
+            "Keeping a notebook of new vocabulary"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "sikh-diaspora-history",
+      "title": "The Global Sikh Diaspora",
+      "topic": "history",
+      "level": 250,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course traces the history of Sikh migration and settlement across the world, from the late nineteenth century to the present day. It follows the movement of Sikhs within the British Empire to East Africa and Southeast Asia, the early twentieth-century pioneers who reached North America, the Komagata Maru episode of 1914, and the founding of early Gurdwaras such as the one in Stockton, California. It examines settlement in the United Kingdom, the later migration waves that built lasting communities and institutions, the place of the Gurdwara abroad, and the experiences of identity, faith, contribution, and challenge that have shaped Sikh life as a global community.",
+      "lessons": [
+        {
+          "title": "Why Sikhs Moved: Roots of a Global Community",
+          "html": "<h2>A Faith Born in Punjab, Carried to the World</h2><p>Sikhi originated in the Punjab region of South Asia in the late fifteenth and sixteenth centuries, in the teachings of Guru Nanak and the nine Gurus who followed him. For most of its early history, the Sikh community was concentrated in Punjab and the surrounding areas. Today, however, Sikhs live on every inhabited continent, and the story of how that happened is the subject of this course.</p><p>The Sikh diaspora is one of the most widely dispersed religious communities of its size in the world. Estimates of the total Sikh population vary, but most place it between roughly twenty-five and thirty million people, with several million living outside South Asia. Understanding this dispersal requires looking at both the conditions that pushed people to leave Punjab and the opportunities that pulled them toward distant lands.</p><h3>Push Factors</h3><p>Punjab in the nineteenth and early twentieth centuries faced economic pressures that encouraged migration. Land in the fertile but densely populated agricultural districts was often divided among many heirs, leaving individual families with shrinking plots. Periods of drought, debt, and rural hardship made it difficult for younger sons in particular to build a secure livelihood at home. For many, seeking work abroad became a practical strategy to support extended families.</p><h3>Pull Factors and Empire</h3><p>The single most important framework for early Sikh migration was the British Empire. After the British annexed Punjab in 1849, the region became part of a vast imperial network connected by shared administration, railways, shipping lines, and a common ruling power. This network created both demand for labor and the means to travel across great distances. Sikhs found roles in imperial armies, police forces, railway construction, and agriculture in territories spread from Africa to East Asia.</p><p>It is worth noting that scholars debate the relative weight of these factors, and individual decisions to migrate were shaped by personal circumstances as much as by broad economic trends. What is clear is that by the early twentieth century, a recognizable pattern of Sikh movement had taken hold, laying the groundwork for the global community that exists today.</p><h3>A Community Suited to Mobility</h3><p>Several features of Sikh life supported migration. The tradition placed a high value on honest labor and self-reliance, ideals captured in the teaching of earning one's living through honest work. Strong networks of kinship and village ties meant that early migrants could help relatives and neighbors follow them. And the institution of the Gurdwara, with its free community kitchen open to all, gave Sikhs a portable model for building community wherever they settled.</p>"
+        },
+        {
+          "title": "Within the Empire: East Africa and Southeast Asia",
+          "html": "<h2>Soldiers, Police, and Builders of Railways</h2><p>The earliest large movements of Sikhs beyond South Asia took place within the British Empire during the second half of the nineteenth century. Two regions stand out: East Africa and Southeast Asia. In both, Sikhs arrived primarily as workers and servants of empire before gradually putting down roots as settled communities.</p><h3>East Africa</h3><p>In the 1890s, the British began constructing a railway linking the port of Mombasa, on the coast of present-day Kenya, to the interior near Lake Victoria. This enormous project required skilled and unskilled labor that the British recruited heavily from South Asia, including a significant number of Sikhs who worked as artisans, masons, mechanics, and laborers. Many of these workers were employed on contracts, and while large numbers returned home, a portion chose to remain.</p><p>Over time, Sikhs in Kenya, Uganda, and Tanganyika established themselves as carpenters, mechanics, traders, and civil servants. They built Gurdwaras in towns such as Nairobi and Kampala, creating the institutional anchors of community life. By the early and middle twentieth century, East Africa hosted thriving Sikh communities that would later become an important source of secondary migration to Britain.</p><h3>Southeast Asia</h3><p>In Southeast Asia, Sikhs became especially associated with police and security work, though they took on many other occupations as well. In British Malaya, Singapore, Hong Kong, and Burma, Sikhs were recruited into police forces, prison services, and watchman roles, partly because of a reputation, encouraged by the colonial authorities, for discipline and reliability.</p><p>Sikh communities grew in cities such as Singapore and Penang, and Gurdwaras were established to serve them. Some Sikhs also entered commerce, moneylending, and dairy farming. The community in Malaysia and Singapore remains a visible and established presence today, descended in large part from these colonial-era migrants.</p><h3>Military Migration</h3><p>Underlying much of this movement was the role of Sikhs in the British Indian Army. Sikhs were heavily recruited into colonial military units, and soldiers were posted across the empire, sometimes settling near where they had served. Military service exposed many Sikhs to distant lands and provided pensions and connections that could support migration. The two World Wars further dispersed Sikh soldiers across Europe, the Middle East, and beyond, broadening awareness of opportunities abroad.</p>"
+        },
+        {
+          "title": "Pioneers in North America",
+          "html": "<h2>Crossing the Pacific</h2><p>At the turn of the twentieth century, a new and more distant destination opened to Sikh migrants: the Pacific coast of North America. The first significant arrivals came in the years around 1900 to 1910, when Sikh men, many of them former soldiers or farmers from Punjab, traveled by ship to ports such as Vancouver in Canada and San Francisco in the United States.</p><p>These pioneers were overwhelmingly young men who came to work, intending in many cases to earn money and eventually return home. They found employment in the lumber mills of British Columbia and the Pacific Northwest, on the railways, and increasingly in the agricultural valleys of California, where their farming skills were highly valued.</p><h3>Building Lives in California</h3><p>In California, Sikhs settled especially in the agricultural regions of the Central Valley and the Imperial Valley. Many began as farm laborers and, through hard work and pooled resources, some rose to lease and eventually operate farms of their own, despite legal obstacles that restricted land ownership by non-citizens during this era.</p><p>One enduring landmark of this period is the Gurdwara established in Stockton, California. Founded in 1912, it is widely recognized as one of the earliest Sikh houses of worship in North America. It served not only as a place of prayer but also as a community center, hostel, and meeting place where scattered Sikhs could find support, news from home, and a sense of belonging.</p><h3>Obstacles Faced by Early Migrants</h3><p>The pioneers encountered serious hardship. Immigration authorities in both Canada and the United States increasingly sought to restrict South Asian entry. Migrants faced exclusionary laws, limits on bringing wives and families, and in some cases hostility from segments of the local population. Many lived for years in predominantly male communities, unable to reunite with their families.</p><p>Despite these barriers, the early North American Sikhs laid durable foundations. They formed organizations, raised funds for Gurdwaras, and maintained ties to Punjab. Their experience also fed into political activity, as some became involved in movements concerned with the rights of Indians abroad and with conditions in their homeland.</p>"
+        },
+        {
+          "title": "The Komagata Maru, 1914",
+          "html": "<h2>A Ship and a Turning Point</h2><p>No single event better illustrates the obstacles faced by early Sikh migrants to North America than the voyage of the Komagata Maru in 1914. The episode has become a defining memory in the history of the Sikh diaspora and in the broader story of immigration policy in Canada.</p><h3>The Voyage</h3><p>In the early twentieth century, Canada enforced regulations designed to prevent South Asian immigration. One such measure required migrants to arrive by a continuous journey from their country of origin, a near-impossible condition given the shipping routes of the day. To challenge these rules, a businessman named Gurdit Singh chartered a Japanese steamship, the Komagata Maru, to carry passengers directly from Asia to Canada.</p><p>The ship set sail and eventually reached the harbor at Vancouver in May 1914, carrying several hundred passengers, the great majority of them Sikhs, along with smaller numbers of Muslims and Hindus. Most were British subjects who believed they had a right to settle within the empire.</p><h3>Refusal and Return</h3><p>Canadian authorities refused to allow the passengers to disembark. For about two months, the ship remained in the harbor while passengers endured shortages of food and water and mounting uncertainty. Legal challenges failed, and the authorities ultimately compelled the Komagata Maru to leave Canadian waters with nearly all of its passengers still aboard, having been denied entry.</p><p>When the ship returned to India, the situation worsened. Upon arrival near Calcutta, a confrontation between passengers and colonial authorities led to violence in which a number of passengers were killed, and others were arrested. The exact circumstances have been discussed and debated by historians, but the tragedy left a deep mark.</p><h3>Legacy</h3><p>The Komagata Maru came to symbolize the injustice of exclusionary immigration laws and the determination of Sikh migrants to claim their rights. In later decades, the episode was widely commemorated, and governments issued formal apologies acknowledging the wrong done to the passengers. For the diaspora, the story remains a powerful reminder of both the barriers their forebears faced and the resilience with which they met them.</p>"
+        },
+        {
+          "title": "Settlement in the United Kingdom",
+          "html": "<h2>From Empire to Heartland</h2><p>The United Kingdom is home to one of the largest and most established Sikh communities outside South Asia. While individual Sikhs had visited and lived in Britain since the nineteenth century, the major growth of the community took place in the decades after the Second World War.</p><h3>Postwar Migration</h3><p>In the years following 1945, Britain experienced labor shortages as it rebuilt its economy. As a country that had governed a vast empire, it drew workers from across its former and current colonies, including Punjab. Sikh men began arriving in significant numbers from the late 1940s through the 1950s and 1960s, taking up work in factories, foundries, textile mills, and transport in industrial towns and cities.</p><p>Important centers of settlement developed in the West Midlands, particularly around Birmingham and the surrounding towns, in West London especially the area of Southall, and in cities such as Leeds and parts of the north. Over time, as men established themselves, wives and children joined them, and the community shifted from a population of single male workers to settled families.</p><h3>The East African Connection</h3><p>A distinctive feature of the British Sikh community is the arrival, especially around the late 1960s and early 1970s, of Sikhs from East Africa. As newly independent African nations adopted policies that disadvantaged South Asian minorities, many East African Sikhs, who held British connections, relocated to the United Kingdom. These migrants often arrived as complete families with commercial and professional experience, and they strengthened community institutions considerably.</p><h3>Institutions and Public Life</h3><p>British Sikhs built a dense network of Gurdwaras, some of them large and prominent, along with community organizations, schools, and cultural associations. Successive generations entered higher education and the professions, and Sikhs became visible in business, medicine, law, sport, and politics. The community has also worked to secure recognition of religious practice, including accommodations related to the wearing of the turban, in areas such as employment and road safety.</p>"
+        },
+        {
+          "title": "Later Waves and the Building of Communities",
+          "html": "<h2>A Global Network Takes Shape</h2><p>The second half of the twentieth century and the early twenty-first saw Sikh migration broaden well beyond the early imperial destinations. New waves of migrants, drawn by changing immigration policies and expanding economic opportunities, created or enlarged Sikh communities across North America, Europe, Australasia, and beyond.</p><h3>North America Reopens</h3><p>In the 1960s, both the United States and Canada reformed immigration laws that had previously restricted entry from Asia. These reforms allowed renewed migration, this time often including skilled professionals, students, and families rather than only laborers. Sikh communities grew rapidly in Canadian provinces, especially British Columbia and Ontario, and in many parts of the United States, including California, the New York region, and beyond. Canada in particular became home to a large, politically engaged Sikh population.</p><h3>New Frontiers</h3><p>Sikhs also established communities in continental Europe, with notable populations in Italy and Germany, where many found work in agriculture and industry. In Australia and New Zealand, Sikh migration, which had early roots, expanded substantially in recent decades, contributing to farming, transport, and the professions. Smaller but vibrant communities took shape in the Gulf states, Southeast Asia, and elsewhere.</p><h3>Building Lasting Institutions</h3><p>As communities matured, they invested in permanent institutions. Gurdwaras grew from rented rooms and modest buildings into substantial complexes. Communities founded schools and educational programs, charitable organizations, media outlets in Punjabi and English, and cultural and sporting associations. Many of these institutions served not only religious needs but also helped newcomers settle, learn local languages, and find employment.</p><h3>Generations and Identity</h3><p>With settlement came the rise of new generations born abroad. These younger Sikhs navigate multiple identities, often fluent in local languages and customs while maintaining ties to faith, family, and Punjab. Questions of how to transmit language, tradition, and religious practice to children raised in very different societies became central concerns, and communities responded with classes, camps, and youth programs designed to keep heritage alive.</p>"
+        },
+        {
+          "title": "Identity, Faith, and Challenge",
+          "html": "<h2>Living the Faith in New Lands</h2><p>For Sikhs settling far from Punjab, maintaining religious identity has been both a source of strength and, at times, a source of difficulty. Central to this identity are the articles of faith maintained by initiated Sikhs, often referred to collectively as the five articles, which include uncut hair kept covered by a turban for many Sikh men, and other items that serve as visible signs of commitment to the faith.</p><h3>Visible Identity</h3><p>The turban and uncut hair make many Sikhs readily identifiable. This visibility has carried both pride and vulnerability. On one hand, it has allowed Sikhs to maintain a clear and dignified presence. On the other, it has sometimes exposed them to misunderstanding, since people unfamiliar with the faith may not recognize who Sikhs are or what their articles of faith represent.</p><h3>Discrimination</h3><p>Like many migrant communities, Sikhs have at various times encountered discrimination in housing, employment, and daily life. Early migrants faced exclusionary laws, and later generations have at times confronted prejudice or pressure to abandon visible signs of their faith. Communities have responded through legal advocacy, education, and the steady building of relationships with wider society, achieving important accommodations for religious practice in many countries.</p><h3>Experiences After 2001</h3><p>The period following the attacks of September 11, 2001, brought particular challenges for Sikhs in several Western countries. Because the turban and beard were unfamiliar to many people, some Sikhs were mistaken for members of groups associated with the attacks and became targets of harassment or violence. This was the result of misidentification and prejudice, not of anything connected to the Sikh faith itself, which teaches respect for all people.</p><p>In response, Sikh organizations expanded efforts to educate the public about who Sikhs are and what their faith stands for. They engaged in interfaith dialogue, public awareness campaigns, and advocacy for protection against hate crimes. These efforts reflect a broader pattern in diaspora history: meeting hardship with education, service, and quiet persistence rather than withdrawal.</p>"
+        },
+        {
+          "title": "Contributions and the Gurdwara Abroad",
+          "html": "<h2>Service as a Way of Life</h2><p>Wherever Sikhs have settled, they have contributed to the societies around them, and at the heart of community life stands the Gurdwara. This final lesson considers both the wide-ranging contributions of the global Sikh community and the central role of the Gurdwara in sustaining it.</p><h3>The Gurdwara Abroad</h3><p>The Gurdwara is far more than a place of worship. In the diaspora, it has functioned as a community center, a hostel for new arrivals, a school for language and scripture, and a hub for organizing charitable work. At its core is the langar, the free community kitchen that offers a meal to anyone who comes, regardless of background or belief. The langar embodies the Sikh values of equality and selfless service, and it has introduced countless people to the community in a spirit of hospitality.</p><p>For migrants, the Gurdwara has often been the first institution they built and the place where scattered individuals became a community. It has helped preserve the Punjabi language, transmit religious teaching to new generations, and provide a setting for marking births, marriages, and the rhythms of communal life. In many cities, Gurdwaras have also opened their doors to the wider public during emergencies, offering food and shelter to all in need.</p><h3>Contributions to the World</h3><p>Sikhs have contributed broadly to their adopted countries. In agriculture, Sikh farmers helped develop productive farmlands in California, the Canadian prairies, Australia, and elsewhere. In business and the professions, Sikhs have built enterprises and entered fields such as medicine, engineering, law, and academia. They have served in armed forces and police, in public office, and in the arts and sport.</p><p>The tradition of seva, or selfless service, has been especially visible. Sikh charitable organizations are widely known for disaster relief and for distributing food to people in need, often serving communities far beyond the Sikh population. This commitment to serving others, rooted directly in the teachings of the Gurus, has become one of the most recognized hallmarks of Sikhs around the world.</p><h3>A Community That Spans the Globe</h3><p>From the railway camps of East Africa and the police barracks of Southeast Asia, to the farms of California and the factories of the English Midlands, to the cities of Canada, Australia, and continental Europe, the Sikh diaspora has woven itself into the fabric of many nations. Its history is one of mobility, hardship, resilience, and service. Bound together by shared faith, the Gurdwara, and enduring ties to Punjab, Sikhs today form a truly global community while remaining rooted in the teachings that began with Guru Nanak more than five centuries ago.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What framework most shaped the earliest large-scale Sikh migration beyond South Asia in the late nineteenth century?",
+          "options": [
+            "The Cold War alliance system",
+            "The British Empire and its networks",
+            "The United Nations refugee program",
+            "The European Union labor market"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In East Africa, many early Sikh migrants first arrived to work on what major project?",
+          "options": [
+            "The Suez Canal",
+            "Gold mines in South Africa",
+            "A railway from Mombasa toward the interior",
+            "Oil fields in the Persian Gulf"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In British-controlled Southeast Asia, Sikhs became especially associated with which type of work?",
+          "options": [
+            "Police and security roles",
+            "Diamond cutting",
+            "Pearl diving",
+            "Silk weaving"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which Gurdwara, founded in 1912, is recognized as one of the earliest Sikh houses of worship in North America?",
+          "options": [
+            "The Gurdwara in Vancouver",
+            "The Gurdwara in Stockton, California",
+            "The Gurdwara in Southall",
+            "The Gurdwara in Nairobi"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What was the Komagata Maru?",
+          "options": [
+            "A Sikh political party in Punjab",
+            "A ship that carried mostly Sikh passengers to Canada in 1914 and was denied entry",
+            "An early Gurdwara in California",
+            "A British immigration law"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "A distinctive group that strengthened the British Sikh community around the late 1960s and early 1970s came from where?",
+          "options": [
+            "South America",
+            "East Africa",
+            "Scandinavia",
+            "Japan"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Following the attacks of September 11, 2001, some Sikhs in Western countries faced harassment primarily because of what?",
+          "options": [
+            "Their involvement in the attacks",
+            "Misidentification due to the turban and beard being unfamiliar",
+            "A change in Sikh religious teaching",
+            "Restrictions imposed by Sikh organizations"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the langar found in a Gurdwara?",
+          "options": [
+            "A library of scripture",
+            "A free community kitchen open to all",
+            "A council of community elders",
+            "A hostel reserved for travelers only"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "sikh-painting-manuscript-art",
+      "title": "Sikh Painting & Manuscript Art",
+      "topic": "arts",
+      "level": 250,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A respectful survey of the visual art traditions of the Sikh world, from illuminated manuscripts and decorated copies of scripture to the painting workshops that flourished under Maharaja Ranjit Singh. The course traces how Sikh painting drew on, and departed from, the Pahari and Mughal schools; examines the gilded fresco, inlay, and naqqashi decoration of the Harmandir Sahib; considers portraiture and the colonial-era visual record; and closes with modern Sikh art and how to view it thoughtfully. Throughout, the course foregrounds the theological care that surrounds any depiction of the Gurus.",
+      "lessons": [
+        {
+          "title": "Looking at Sikh Visual Art: Aims and Cautions",
+          "html": "<h2>Why a Distinct Visual Tradition</h2><p>The Sikh tradition was born in the Punjab during a period rich in painting, calligraphy, and architectural ornament. Although Sikhi is centered on the word of the Guru rather than on images, a recognizable body of visual art grew up around the community over five centuries: decorated copies of scripture, court painting, mural and inlay decoration of shrines, portraits of rulers and saints, and, in modern times, posters, canvases, and digital work. Studying this art is one way to understand how Sikhs have expressed devotion, memory, and identity.</p><h2>A Word of Care</h2><p>This course treats the subject reverently. The Guru Granth Sahib is regarded by Sikhs as the living Guru, and copies of it are handled with great respect; we will speak of their decoration with that respect in mind. Depictions of the human Gurus raise sensitivity that we will return to repeatedly. There is no single agreed likeness of any Guru, and many Sikhs hold that the Gurus are best honored through their teaching rather than through pictures. When images of the Gurus do appear, the mainstream expectation is that they be dignified, modest, and free of anything that trivializes the sacred.</p><h2>How Art Historians Read Images</h2><p>Throughout the course we will ask a small set of questions of every work: Who made it, and for whom? What materials and techniques were used? What earlier traditions does it borrow from, and how does it change them? What is it trying to communicate, and to whom would that message have mattered? Learning to ask these questions, rather than simply admiring or dismissing a work, is the central skill of the course.</p><h2>Materials of the Period</h2><p>Before machine-made paints and printing, artists ground their own pigments from minerals, plants, and metals, bound them with gum, and applied them to paper or prepared plaster. Gold and silver were used both as paint and as thin leaf. Calligraphers cut reed pens and mixed inks. Understanding these humble materials helps explain why fine works were costly, slow to make, and treasured.</p><h2>Scope of What Follows</h2><p>We begin with the manuscript arts that surrounded scripture, then turn to the painting that flourished at the court of Maharaja Ranjit Singh, the decoration of the Harmandir Sahib, the portraiture and photography of the colonial era, and finally modern and contemporary Sikh art. Each lesson builds vocabulary you can carry into a museum, a gurdwara, or an online archive.</p>"
+        },
+        {
+          "title": "Illuminated Manuscripts and Decorated Scripture",
+          "html": "<h2>The Book as a Sacred Object</h2><p>Long before printing reached the Punjab, scripture was copied by hand. Trained scribes produced copies of the Adi Granth and of selected compositions, working slowly and with devotion. Because the text was sacred, the act of copying was itself an act of service, and the finished volume was treated as a holy object: wrapped in fine cloths, kept on a raised place, and handled only after washing and with covered head.</p><h2>Illumination and Gilding</h2><p>Illumination refers to the decoration of a manuscript with ornament, often using gold. In decorated copies of Sikh scripture, ornament typically frames the text rather than competing with it. Opening pages and section headings might receive borders of interlacing vines, stylized flowers, and geometric bands. Gilding, the application of gold, was used sparingly to honor the words it surrounded, catching light when the volume was opened. The restraint is itself meaningful: the decoration serves the word, never the reverse.</p><h2>Calligraphy and the Gurmukhi Hand</h2><p>The script of Sikh scripture is Gurmukhi. Skilled scribes developed clear, even hands in which every letter was formed with care, since an error in a sacred text was a serious matter. The rhythm of the writing, the spacing of lines, and the marking of divisions all reflect both practical legibility and reverence. Good calligraphy was prized as a craft and a discipline, and a finely written volume was a source of pride for the community that commissioned it.</p><h2>Regional and Workshop Variation</h2><p>Copies were produced in many places, and local conventions shaped their look. Some volumes are plain and workmanlike; others are richly bordered. The materials available, the wealth of the patron, and the skill of the scribe all left their mark. Comparing copies teaches us that there was never one fixed style, but a living practice that adapted to circumstance.</p><h2>Respect in Study</h2><p>When studying these volumes, remember that for Sikhs many are not merely historical artifacts but objects of present devotion. Reproductions should be viewed thoughtfully, and the practices of respect that surround the originals deserve acknowledgment even in a classroom. The decoration is best appreciated as an offering of human skill to something held sacred.</p>"
+        },
+        {
+          "title": "The Sikh School of Painting under Maharaja Ranjit Singh",
+          "html": "<h2>A Court that Drew Artists</h2><p>The kingdom established by Maharaja Ranjit Singh in the early nineteenth century, with its capital at Lahore, became a magnet for painters. As older centers of patronage in the surrounding hills and plains declined, artists moved toward the new Sikh court, where rulers, nobles, and wealthy patrons commissioned portraits and scenes of court life. From this gathering of talent emerged what scholars call the Sikh school of painting.</p><h2>Inheriting Two Great Traditions</h2><p>This school did not appear from nothing. It absorbed the refined hill painting known as the Pahari tradition, famous for its lyrical line, soft color, and tender treatment of devotional and romantic themes. It also drew on the Mughal tradition, with its taste for careful portraiture, courtly grandeur, and detailed observation of textiles, jewelry, and architecture. Sikh painting blended these inheritances with its own subjects and sensibility.</p><h2>What Made It Distinct</h2><p>Sikh painting developed a recognizable character. Portraits of the Maharaja and his courtiers emphasized individual likeness, often showing turbaned figures in profile or three-quarter view, attentive to beard, dress, weapons, and ornament. The palette could be rich, and gold was used to convey rank and splendor. Scenes of the court at leisure, of processions, and of religious devotion gave the school its distinctive social content. The result was an art that recorded a specific time, place, and people.</p><h2>Patrons and Purposes</h2><p>Painting served memory and status. A portrait fixed the appearance and dignity of a ruler or noble; a court scene celebrated power and order; a devotional image expressed faith. Because patrons paid for these works, their tastes and ambitions shaped what was made. Understanding the patron helps us read the painting.</p><h2>After the Kingdom</h2><p>When the Sikh kingdom fell to British power in the mid nineteenth century, the conditions that had supported court painting changed. Some artists adapted to new patrons, including Europeans; others saw their workshops dwindle. The school did not vanish overnight, but its golden moment was tied to the independent court that had nourished it.</p>"
+        },
+        {
+          "title": "Pahari and Mughal Roots: Continuity and Change",
+          "html": "<h2>The Pahari Inheritance</h2><p>The Pahari, or hill, painting tradition flourished in the small states of the lower Himalayas. It is admired for delicate, flowing line, gentle color harmonies, and an intimate, often poetic mood. Its artists excelled at devotional series and at scenes of love and longing drawn from poetry. When hill patronage weakened, many of these highly trained painters and their descendants found work farther afield, including at Sikh centers, carrying their refined skills with them.</p><h2>The Mughal Inheritance</h2><p>The Mughal tradition, developed at the imperial courts, prized lifelike portraiture, grand ceremonial scenes, and meticulous detail. Mughal painters studied faces closely, rendered rich fabrics and gems with precision, and set figures within carefully observed architecture. This tradition spread widely and influenced painting across the subcontinent, including in the Punjab.</p><h2>Blending the Two</h2><p>Sikh painting can be read as a meeting of these streams. From the Pahari side came grace of line and feeling; from the Mughal side came firm portraiture and a taste for courtly display. Individual works lean one way or the other depending on the artist's training and the patron's wish. A tender devotional image may show Pahari softness, while a stately court portrait may show Mughal solidity.</p><h2>New Subjects, New Spirit</h2><p>What the Sikh context added was its own subject matter and outlook: the turbaned Sikh nobility, the institutions and observances of the faith, and the particular figures of Punjabi society. Borrowed techniques were turned to local ends. This is how living traditions usually work, not by sudden invention but by adapting inherited skill to new purposes.</p><h2>Reading Influence Carefully</h2><p>It is tempting to label every feature of a painting as Pahari or Mughal, but influence is rarely so tidy. Artists trained in one manner could absorb others, travel between centers, and respond to each commission individually. A careful viewer notes resemblances without forcing every work into a single box.</p>"
+        },
+        {
+          "title": "Subjects and Sensitivity: Gurus, Court, and Daily Life",
+          "html": "<h2>The Care Around Depicting the Gurus</h2><p>The most sensitive subject in Sikh art is the depiction of the Gurus. Sikhi teaches reverence for the Guru, and the Guru Granth Sahib is honored as the eternal Guru. There is no authenticated portrait of any of the ten human Gurus made from life, so all images are imagined. Many Sikhs prefer that the Gurus not be depicted at all, holding that the teaching, not a face, is what should be honored. Where images do exist, the mainstream expectation is that they be dignified and modest, never casual or commercial in a way that diminishes the sacred. A respectful student approaches such images aware of this range of views and of the theological weight they carry.</p><h2>Devotional Imagery</h2><p>When the Gurus or revered figures are shown, the aim is usually to inspire devotion: a serene expression, a halo or radiance indicating holiness, an attitude of teaching or blessing. Such images function less as historical records than as aids to remembrance and feeling. Their value lies in the reverence they express and encourage.</p><h2>Court Scenes</h2><p>A large share of surviving Sikh painting depicts the court: the ruler enthroned, nobles in attendance, durbar gatherings, hunts, and processions. These scenes celebrate order, hierarchy, and splendor, and they preserve precious detail about dress, arms, music, and ceremony. They are historical documents as well as works of art.</p><h2>Daily Life and Ordinary People</h2><p>Beyond the court, painters recorded everyday Punjab: traders and craftspeople, musicians and dancers, religious mendicants, festivals, and rural scenes. Such images widen our picture of the society and remind us that art was not only about the powerful. They can be tender, lively, and full of close observation.</p><h2>Reading Subjects in Context</h2><p>Every subject carried meaning for its first audience. A portrait asserted status; a devotional image nourished faith; a genre scene delighted or instructed. To read these works well, we ask what they meant to the people who first saw them, and we extend particular sensitivity to anything touching the sacred.</p>"
+        },
+        {
+          "title": "Fresco, Gilding, and Inlay at the Harmandir Sahib",
+          "html": "<h2>A Building Made Beautiful</h2><p>The Harmandir Sahib in Amritsar, the most beloved of Sikh shrines, is famous for its gilded exterior and its richly decorated interior. Its ornament is not decoration for its own sake but an offering of the community's finest craft to a place of worship. The building gathers several distinct decorative arts into one harmonious whole.</p><h2>Naqqashi: Painted Ornament</h2><p>Naqqashi is the art of painted decoration, especially the flowing floral and vine patterns that cover walls and ceilings. Skilled naqqash painters fill surfaces with intertwining stems, blossoms, and arabesques in many colors, often outlined and detailed with great precision. These designs are repeated and varied across large areas, requiring patience, planning, and a sure hand. The effect is of a garden in bloom rendered in paint.</p><h2>Gach Work</h2><p>Gach refers to a technique of decorative plasterwork in which designs are built up and shaped in a fine plaster surface, sometimes then gilded or painted. The raised and incised patterns catch light and shadow, adding texture and richness to walls and panels. It is a demanding craft that combines the skills of the modeler and the ornamentalist.</p><h2>Jaratkari: Inlay Work</h2><p>Jaratkari is the art of inlay, in which pieces of colored stone or other materials are set into a surface to form patterns, in the manner of fine inlaid marble decoration. Floral and geometric designs are composed from carefully cut and fitted pieces, producing durable, jewel-like ornament. This painstaking technique reflects both wealth and devotion, since the materials and labor are considerable.</p><h2>Gilding and Light</h2><p>Gilding, the application of gold, gives the shrine its luminous quality. Gold leaf and gilded copper sheathe portions of the exterior, so that the building seems to glow, especially in early and late light reflected in the surrounding pool. Inside, gilded details enrich the painted and inlaid surfaces. The shimmer of gold has long been understood as honoring the sacred space.</p><h2>Craft as Devotion</h2><p>All of these arts were practiced by trained craftspeople, and their work has been renewed and repaired over generations, since paint fades, plaster cracks, and gilding wears. The continuing care of the shrine's decoration is itself a form of service, linking present-day artisans to those who came before.</p>"
+        },
+        {
+          "title": "Portraiture and the Colonial-Era Visual Record",
+          "html": "<h2>The Appetite for Portraits</h2><p>Portraiture was central to Sikh painting from the court period onward. Rulers and nobles wished to be remembered, and painters answered with images that fixed a person's features, dress, and bearing. These portraits are valuable both as art and as evidence, since they show us what particular individuals, and the fashions of their time, looked like.</p><h2>European Eyes on the Punjab</h2><p>As British power expanded into the Punjab in the nineteenth century, European officials, travelers, and artists produced their own visual record. They painted and sketched Sikh rulers, soldiers, and scenes, sometimes commissioning local artists and sometimes working themselves. This material is revealing but must be read with care, since outsiders often viewed the Punjab through their own assumptions, emphasizing the exotic or the martial and sometimes misunderstanding what they saw.</p><h2>The Arrival of Photography</h2><p>By the middle and later nineteenth century, photography reached the region. Photographs of Sikh figures, places, and ceremonies began to accumulate, offering a new kind of record that seemed to capture appearances directly. Yet photographs, too, are shaped by who held the camera, what they chose to frame, and how they posed their subjects. A studio portrait of a chief, for instance, was as much a constructed image as any painting.</p><h2>Reading the Colonial Record Critically</h2><p>The colonial-era archive is large and useful, but it is not neutral. It was produced within a relationship of unequal power, and its selections and silences reflect that. A careful student values the information it preserves while remaining alert to bias, to staging, and to the interests behind each image. Asking who made an image and why is especially important here.</p><h2>Continuity of the Portrait Tradition</h2><p>Through these changes, the impulse to portray endured. Painted portraits, then photographs, then printed images all served the wish to remember individuals and to assert dignity and identity. The medium changed, but the human purpose behind portraiture remained recognizable across the period.</p>"
+        },
+        {
+          "title": "Modern Sikh Art and How to Look at It",
+          "html": "<h2>New Media, Continuing Themes</h2><p>In the twentieth and twenty-first centuries, Sikh art expanded into oil and acrylic painting, printmaking, mass-produced posters, illustration, public murals, and digital and online work. These media reach far larger audiences than hand-painted manuscripts or court portraits ever could. Devotional themes, historical episodes, and scenes of identity and community remain common, now expressed in contemporary styles.</p><h2>Popular Devotional Imagery</h2><p>Inexpensive printed images of revered figures and sacred places became widespread, appearing in homes and shops. Such popular art makes devotional imagery accessible to many people. It also raises the recurring question of how the sacred should be portrayed, since wide reproduction can risk casual or commercial treatment. The mainstream concern is that depictions, especially of the Gurus, remain dignified and reverent.</p><h2>Contemporary Artists</h2><p>Trained contemporary artists of Sikh heritage explore history, memory, faith, migration, and identity in personal and ambitious ways. Some revisit traditional subjects with new techniques; others address modern experience directly. Their work shows that Sikh art is not frozen in the past but is a living, evolving field engaged with the present.</p><h2>How to Look Critically</h2><p>Viewing modern Sikh art well means bringing the same questions used throughout this course. Who made the work, and for whom? What tradition or technique does it draw on? What is it trying to say? Is it respectful where respect is due, especially toward the sacred? Looking critically does not mean looking coldly; it means looking attentively and fairly, neither dismissing popular art nor accepting every image uncritically.</p><h2>Stewardship for the Future</h2><p>Caring for this heritage means preserving old manuscripts, frescoes, and paintings; supporting living artists and craftspeople; and educating viewers to appreciate and discuss the work thoughtfully. Above all, it means keeping faith with the reverence at the heart of the tradition, so that art continues to honor what it depicts. That balance of appreciation and respect is the lasting lesson of Sikh visual art.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Why is special theological care taken when depicting the Gurus in Sikh art?",
+          "options": [
+            "Because painting was forbidden in the Punjab",
+            "Because there is no authenticated likeness made from life, and many Sikhs prefer the teaching be honored rather than a face",
+            "Because only foreign artists were allowed to paint them",
+            "Because the Gurus required gold in every portrait"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In decorated copies of Sikh scripture, how does illumination typically relate to the text?",
+          "options": [
+            "It covers the text to hide it",
+            "It frames and honors the text rather than competing with it",
+            "It replaces the words with pictures",
+            "It is always absent from such copies"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The Sikh school of painting flourished chiefly under which ruler?",
+          "options": [
+            "A Mughal emperor in Delhi",
+            "Maharaja Ranjit Singh, with his capital at Lahore",
+            "A British governor of Bengal",
+            "A Pahari hill chief"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which two earlier traditions most strongly shaped Sikh painting?",
+          "options": [
+            "European Renaissance and Chinese ink painting",
+            "Pahari hill painting and the Mughal tradition",
+            "Ancient Greek and Roman art",
+            "Japanese woodblock and Persian tilework"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the term naqqashi refer to in the decoration of the Harmandir Sahib?",
+          "options": [
+            "The casting of bells",
+            "Painted ornament, especially flowing floral and vine patterns",
+            "The weaving of carpets",
+            "The writing of scripture"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Jaratkari, used in the shrine's decoration, is best described as which technique?",
+          "options": [
+            "Inlay work using cut pieces of colored stone or other materials set into a surface",
+            "A method of firing pottery",
+            "A style of calligraphy",
+            "A type of wood carving"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How should the colonial-era visual record of the Punjab be approached?",
+          "options": [
+            "As completely unreliable and worthless",
+            "As perfectly neutral and free of bias",
+            "As valuable but shaped by unequal power, staging, and the interests of those who made it",
+            "As identical to court painting in every way"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the recommended approach to viewing modern Sikh art, including popular printed images?",
+          "options": [
+            "Accept every image uncritically because it is popular",
+            "Dismiss all popular art as unworthy of study",
+            "Ask who made it and why, consider its tradition and message, and weigh whether it is respectful where respect is due",
+            "Judge it only by how much gold it contains"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "sikh-sacred-architecture",
+      "title": "Sikh Sacred Architecture: The Gurdwara & Harmandir Sahib",
+      "topic": "arts",
+      "level": 200,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An exploration of Sikh sacred architecture, from the meaning and function of the Gurdwara to the celebrated Harmandir Sahib at Amritsar. This course examines the core spaces of a Gurdwara, the symbolism woven into its design, the rise of a recognizable Sikh architectural style, and how built form expresses the faith's enduring values of equality, service, and remembrance of the Divine.",
+      "lessons": [
+        {
+          "title": "What Is a Gurdwara? Meaning and Function",
+          "html": "<h2>The House of the Guru</h2><p>The word <em>Gurdwara</em> means \"the doorway (dwara) of the Guru.\" It is the central place of Sikh worship and community life, but its purpose extends far beyond what the English word \"temple\" suggests. A Gurdwara is not consecrated by the presence of an idol or by a priestly class. Instead, it is defined by the presence of the Guru Granth Sahib, the eternal living Guru of the Sikhs, installed with reverence at the heart of the building.</p><p>Any space that houses the Guru Granth Sahib with proper respect can serve as a Gurdwara, from a grand historic shrine to a simple room in a private home or a temporary tent at a festival. What makes a Gurdwara is therefore not architectural grandeur but the dignified installation of scripture and the gathering of the <em>sangat</em>, the congregation, around it.</p><h2>A Place of Worship and Service</h2><p>The Gurdwara serves several intertwined functions. First, it is a place of <em>kirtan</em>, the singing of sacred hymns, and of listening to and reflecting upon Gurbani, the words of the Gurus. Second, it is a center of community decision-making and learning, where Sikhs gather to celebrate, to mourn, and to organize collective service. Third, and inseparably, it is a place of <em>seva</em>, selfless service, expressed above all through the <em>langar</em>, the free community kitchen.</p><p>These functions reflect a core Sikh teaching: that devotion to the Divine and service to humanity are not separate paths. The architecture of the Gurdwara is shaped to hold these activities together under one roof, so that prayer, learning, and the sharing of food flow into one another as parts of a single spiritual life.</p><h2>Open to All</h2><p>From its origins, the Gurdwara was conceived as a space without barriers of caste, creed, gender, or status. Everyone sits together on the floor at the same level, a deliberate visual statement of human equality before the Divine. This principle of radical openness, established by the Gurus, becomes one of the guiding ideas behind the very layout of Sikh sacred buildings, as later lessons will show.</p>"
+        },
+        {
+          "title": "The Darbar Sahib: The Main Worship Hall",
+          "html": "<h2>The Court of the Guru</h2><p>The principal hall of a Gurdwara is called the <em>Darbar Sahib</em>, meaning \"the royal court.\" The name carries deep meaning. Sikhs regard the Guru Granth Sahib as a sovereign spiritual authority, and the worship hall is imagined as a royal court in which the assembled sangat attends upon the Guru. This framing shapes nearly every element of the room.</p><p>The Darbar Sahib is typically a large, open, carpeted hall with no fixed seating. Worshippers sit on the floor, which underscores humility and equality. There are no rows of pews or hierarchies of position; the congregation faces the focal point of the room together.</p><h2>The Focal Point</h2><p>At the front of the hall, usually on a raised platform, the Guru Granth Sahib rests beneath a canopy. The scripture is the visual and spiritual center toward which all attention is directed. Upon entering, worshippers walk forward, bow before the Guru Granth Sahib as an act of respect for the divine wisdom it contains, make an offering if they wish, and then take a seat among the sangat.</p><p>It is important to understand what this bowing means. Sikhs do not worship the physical book or any image; they honor the teachings and the divine light the scripture conveys. The Gurdwara contains no statues, pictures of deities, or objects of idol worship, in keeping with the Sikh emphasis on the formless Divine.</p><h2>Sound and Space</h2><p>Because <em>kirtan</em> is central to worship, the Darbar Sahib is designed around sound. A space near the Guru Granth Sahib is reserved for the <em>ragis</em>, the musicians who sing the hymns, often with harmonium and tabla. The hall's proportions and acoustics serve the carrying of devotional music across the gathered congregation. In this way the architecture is not merely a container but an instrument that supports the experience of Gurbani as living, sung scripture.</p>"
+        },
+        {
+          "title": "Sacred Elements: Palki, Nishan Sahib, and Sarovar",
+          "html": "<h2>The Palki and Manji Sahib</h2><p>The Guru Granth Sahib is never placed directly on the ground. It rests upon a small raised throne, the <em>manji sahib</em>, draped in rich cloths called <em>rumalas</em>. Above and around this throne stands the <em>palki sahib</em>, an ornate canopied structure, often beautifully carved and decorated, that shelters the scripture much as a royal canopy would shelter a sovereign. An attendant frequently waves a <em>chaur sahib</em>, a ceremonial whisk, over the Guru Granth Sahib as a traditional mark of honor.</p><p>These furnishings express the Sikh understanding of the scripture as a living Guru worthy of the highest dignity. The care lavished on the palki and rumalas is itself a form of devotion and craftsmanship.</p><h2>The Nishan Sahib</h2><p>Outside almost every Gurdwara stands a tall flagpole bearing the <em>Nishan Sahib</em>, the Sikh flag. It is typically saffron or sometimes blue, and displays the <em>Khanda</em> emblem. The flagpole is wrapped in cloth and crowned with a metal Khanda or spearhead. Visible from a distance, the Nishan Sahib marks the building as a Sikh place of worship and signals to all travelers, regardless of background, that they are welcome to enter, rest, and share in food. It functions as a beacon of refuge and hospitality.</p><h2>The Sarovar</h2><p>Many historic and larger Gurdwaras include a <em>sarovar</em>, a sacred pool or tank of water. Worshippers may bathe in or touch the water as an act of reverence and reflection. The sarovar carries layered meaning: water as a symbol of purity and of the dissolving of ego, and the pool as a tranquil setting that draws the eye and calms the mind. The most famous sarovar of all surrounds the Harmandir Sahib at Amritsar, which we will study in detail in a later lesson.</p>"
+        },
+        {
+          "title": "The Langar Hall: Architecture of Equality",
+          "html": "<h2>The Free Kitchen</h2><p>No institution expresses Sikh values more directly than the <em>langar</em>, the community kitchen that serves free, freshly cooked vegetarian meals to all visitors. The langar was established by Guru Nanak, the first Guru, and developed by his successors as a deliberate challenge to the social divisions of their time. In an era when sharing food across caste lines was taboo, the Gurus required everyone, rich and poor, of every background, to sit together in rows on the floor and eat the same meal as equals.</p><p>This practice of sitting together is called <em>pangat</em>. The simple act of dining side by side, on the same level, eating the same food, dissolves the visible markers of hierarchy. The langar is therefore not merely charity; it is a lived demonstration of the equality and oneness of humanity.</p><h2>Designing for Service</h2><p>The langar hall is a major architectural component of any sizable Gurdwara, and its design follows from its purpose. It needs a large kitchen capable of preparing food in great quantity, ample storage, washing areas, and a spacious dining hall where many people can be seated together. The flow of the building often moves from the worship hall to the langar, so that spiritual nourishment and physical nourishment are experienced as parts of one visit.</p><p>The work of the langar, from cooking to cleaning, is performed by volunteers as <em>seva</em>. The kitchen is thus also a space of collective labor, where service becomes a form of worship. The architecture supports this by providing generous, practical work areas rather than treating the kitchen as a hidden, secondary space.</p><h2>A Statement in Built Form</h2><p>By giving the kitchen and dining hall such prominence, Sikh architecture makes a quiet but powerful statement. The provision of food to all, without question or condition, is placed at the heart of the sacred complex. The building itself teaches that to feed the hungry and welcome the stranger is inseparable from the worship of the Divine.</p>"
+        },
+        {
+          "title": "The Four Doors: Openness to All Directions",
+          "html": "<h2>A Door on Every Side</h2><p>One of the most striking and meaningful features of Sikh sacred architecture is the principle of the four doors. Many Gurdwaras, and most famously the Harmandir Sahib, are designed with entrances on all four sides. This is a deliberate departure from temple traditions that orient a building toward a single sacred direction with one principal entrance.</p><p>The four doors carry a clear symbolic message. They declare that the Gurdwara is open to people coming from every direction, from the east, west, north, and south. No one is turned away because of where they come from. The design embodies the Sikh teaching that the Divine and the path to it are open to all of humanity, without exclusion.</p><h2>Welcoming the Four Castes</h2><p>The four doors are also traditionally understood to welcome people of all four <em>varnas</em>, the categories of the caste system, signaling that all may enter on equal footing. At a time when access to many places of worship was restricted by caste, this architectural choice was a bold assertion of equality. The building itself refuses to enforce social division.</p><h2>Form Carrying Belief</h2><p>The four doors illustrate a defining quality of Sikh architecture: its forms are not merely decorative but are carriers of belief. The openness of the building is the openness of the faith made visible in stone and space. When a visitor notices that there is no single \"main\" gate, no privileged direction, they are encountering a theological statement expressed through design.</p><p>This idea connects directly to the placement of the Guru Granth Sahib at the center and to the practice of sitting together on the floor. In each case, the architecture works to flatten hierarchy and to open the sacred space outward toward all people. The four doors are perhaps the clearest single emblem of this aspiration.</p>"
+        },
+        {
+          "title": "The Harmandir Sahib: The Golden Temple of Amritsar",
+          "html": "<h2>The Abode of God</h2><p>The Harmandir Sahib, often called the Golden Temple, in the city of Amritsar in Punjab, is the most revered Gurdwara in the Sikh world. Its name means \"the temple of God.\" It is also known as the Darbar Sahib. For Sikhs everywhere it is a spiritual center of profound importance, drawing pilgrims and visitors of all faiths.</p><h2>History of the Site</h2><p>The site was developed by the Sikh Gurus over several generations. Guru Ram Das, the fourth Guru, founded the city and began excavating the great sacred pool. Guru Arjan, the fifth Guru, completed the sarovar and oversaw the building of the central shrine within it. Guru Arjan also compiled the Adi Granth, the first edition of the Sikh scripture, and installed it in the Harmandir Sahib, making the shrine the home of the scripture that would become the eternal Guru. Tradition holds that the foundation was laid in a spirit of inclusiveness, reflecting the shrine's openness to all.</p><p>Over the centuries the building suffered destruction and desecration during periods of conflict and was repeatedly rebuilt by the Sikh community. In the early nineteenth century, the upper portions were richly adorned with gilded copper, giving rise to the popular name Golden Temple.</p><h2>The Sarovar and the Causeway</h2><p>The Harmandir Sahib sits in the middle of the great <em>sarovar</em> known as the <em>Amrit Sarovar</em>, the pool of nectar, from which the city of Amritsar takes its name. The shrine appears to float upon the water, its reflection shimmering on the surface. A single marble <em>causeway</em>, sometimes called the <em>Guru's Bridge</em>, leads from the surrounding walkway out to the central building. Pilgrims walk this causeway to reach the shrine, a passage often understood as a symbol of the soul's journey across the waters of existence toward the Divine.</p><h2>Distinctive Design</h2><p>The Harmandir Sahib is famous for its blend of architectural influences, drawing on the decorative richness of Mughal traditions and the forms of older Indian temple building, yet transforming them into something distinctly Sikh. Its position low within the sarovar, reached by descending steps, expresses humility, in contrast to temples that rise on lofty platforms. With entrances on all four sides, it stands as the supreme expression of the four-door principle of openness. Kirtan flows from within it almost continuously, carried across the water to all who gather around the pool.</p>"
+        },
+        {
+          "title": "The Rise of a Sikh Architectural Style",
+          "html": "<h2>A Recognizable Tradition</h2><p>Over time, Sikh sacred buildings developed a set of features distinctive enough to be recognized as a coherent architectural style. While early Gurdwaras borrowed freely from the building traditions around them, especially Mughal and regional Punjabi forms, the cumulative result was a vocabulary of shapes and ornament that came to feel unmistakably Sikh. The Harmandir Sahib both drew upon and helped to define this emerging style.</p><h2>Domes and Chhatris</h2><p>The most recognizable element is the dome. Sikh architecture favors a distinctive bulbous, often fluted dome, frequently shaped like an inverted lotus topped by a finial. Larger Gurdwaras are commonly crowned by a prominent central dome surrounded by smaller ones. Alongside these stand <em>chhatris</em>, small domed kiosks or pavilions raised on slender pillars, which decorate rooftops, corners, and parapets. The chhatris give Sikh roofscapes their characteristic rhythm of small canopied forms clustered around a larger dome.</p><h2>Fluting, Ornament, and Light</h2><p>Surfaces in the developed Sikh style are often enriched with <em>fluting</em>, the use of vertical grooves and ribs that catch the light and lend the domes and arches a sense of movement. Decoration may include intricate inlay, gilded copper work, floral and geometric patterns, and finely carved or painted detail. At the Harmandir Sahib, gilded panels and decorative inlay create surfaces that seem to glow, especially as they reflect off the surrounding water.</p><h2>Arches, Cupolas, and Symmetry</h2><p>Other recurring features include cusped or multifoil arches, ornamental parapets, kiosks at the corners, and an overall fondness for symmetry and balanced composition. These elements combine to produce buildings that feel both ornate and serene. The style is generous in decoration yet ordered in plan, mirroring the Sikh ideal of a life that is rich in devotion and service while grounded in discipline and balance.</p>"
+        },
+        {
+          "title": "Other Gurdwaras and the Expression of Values",
+          "html": "<h2>Significant Gurdwaras Beyond Amritsar</h2><p>While the Harmandir Sahib stands at the center of Sikh devotion, many other Gurdwaras hold deep significance, several of them counted among the most important historic shrines. The <em>Akal Takht</em>, which faces the Harmandir Sahib across the causeway at Amritsar, is the seat of temporal authority in the Sikh tradition, expressing the balance of spiritual and worldly dimensions of life.</p><p>Other revered shrines mark key moments and places in Sikh history. <em>Sri Hazur Sahib</em> in Nanded is associated with Guru Gobind Singh, the tenth Guru. <em>Takht Sri Patna Sahib</em> marks his birthplace. <em>Sri Keshgarh Sahib</em> at Anandpur is linked to the founding of the Khalsa. <em>Gurdwara Janam Asthan</em> at Nankana Sahib, in present-day Pakistan, honors the birthplace of Guru Nanak. Each of these draws on the shared Sikh architectural vocabulary while remaining tied to its own history and setting. In recent generations, Gurdwaras have also been built across the world, adapting the tradition to new lands while preserving its essential forms and functions.</p><h2>Architecture as a Teacher</h2><p>Throughout this course we have seen that Sikh sacred architecture does more than house worship; it teaches. The central placement of the Guru Granth Sahib affirms the supremacy of divine wisdom. The seating of all people together on the floor, and side by side in the langar, makes equality visible and tangible. The four doors proclaim openness to every direction and every people. The Nishan Sahib offers a beacon of refuge to travelers of all faiths.</p><h2>Equality and Remembrance</h2><p>Two values shine through the built form above all. The first is <em>equality</em>: in plan, in seating, in the sharing of food, and in the very entrances, the Gurdwara dismantles hierarchy and welcomes all as one. The second is <em>remembrance</em>: the entire building is oriented toward keeping the Divine in mind, through continuous kirtan, the dignified presence of scripture, and spaces that draw the heart toward reflection. In stone, water, dome, and door, Sikh architecture gives lasting form to a faith centered on the oneness of God and the oneness of humanity.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does the word \"Gurdwara\" mean?",
+          "options": [
+            "House of prayer",
+            "The doorway of the Guru",
+            "Temple of God",
+            "Hall of equality"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is installed at the heart of every Gurdwara and defines it as a place of worship?",
+          "options": [
+            "A statue of Guru Nanak",
+            "An eternal flame",
+            "The Guru Granth Sahib",
+            "A sacred relic"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the name of the main worship hall in a Gurdwara, meaning \"the royal court\"?",
+          "options": [
+            "Langar hall",
+            "Darbar Sahib",
+            "Akal Takht",
+            "Palki Sahib"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the Nishan Sahib refer to?",
+          "options": [
+            "The sacred pool of water",
+            "The canopy over the scripture",
+            "The Sikh flag flown outside the Gurdwara",
+            "The community kitchen"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What do the four doors found on many Gurdwaras primarily symbolize?",
+          "options": [
+            "The four Gurus who built Amritsar",
+            "Openness and welcome to people of all directions and backgrounds",
+            "The four seasons of devotion",
+            "The four daily prayers"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which Guru completed the sarovar and installed the scripture at the Harmandir Sahib?",
+          "options": [
+            "Guru Nanak",
+            "Guru Ram Das",
+            "Guru Arjan",
+            "Guru Gobind Singh"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the langar and what value does it most directly express?",
+          "options": [
+            "A meditation hall expressing silence",
+            "A free community kitchen expressing equality and service",
+            "A library expressing learning",
+            "A treasury expressing prosperity"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which feature is characteristic of the developed Sikh architectural style?",
+          "options": [
+            "Tall spires with no ornament",
+            "Fluted bulbous domes and small domed chhatris",
+            "Flat roofs with single entrances",
+            "Underground prayer chambers"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "working-with-llms",
+      "title": "Working with AI: Prompting & Large Language Models",
+      "topic": "modern-skills",
+      "level": 200,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A practical, vendor-agnostic guide to getting reliable, useful work out of large language models. You will build an intuition for how these systems generate text, learn to write prompts that clearly communicate task, context, constraints, and format, and pick up core techniques such as role framing, worked examples, and step-by-step reasoning. The course also covers how to structure longer projects, supply reference material, recognize and verify common failure modes, and use AI responsibly with attention to privacy, attribution, and fact-checking. It closes with a repeatable everyday workflow you can apply to writing, analysis, coding, and learning.",
+      "lessons": [
+        {
+          "title": "How Language Models Actually Work (Just Enough)",
+          "html": "<h2>A useful mental model</h2><p>A large language model (LLM) is a system trained on enormous amounts of text to predict what comes next. You give it some text, and it produces a continuation one piece at a time, each piece chosen based on everything it has seen so far. You do not need to understand the math to use one well. You do need a working intuition, because that intuition explains nearly every quirk you will encounter.</p><h3>Tokens: the units the model reads and writes</h3><p>Models do not see words or letters directly. They break text into <strong>tokens</strong>, which are common chunks of characters. A token might be a whole short word, a fragment of a longer word, a space plus a word, or a piece of punctuation. As a rough rule of thumb in English, one token is about four characters, and 100 tokens is roughly 75 words. This matters for two practical reasons: the model has a limit on how many tokens it can handle at once, and many services price usage by tokens. Knowing this helps you estimate whether a long document will fit and why very long requests cost more.</p><h3>Context: the model's short-term memory</h3><p>Everything the model can consider at one time, including your instructions, any reference material you paste in, and its own reply, lives in the <strong>context window</strong>. Think of it as a desk of fixed size. If a conversation or document grows beyond that size, the oldest material falls off the edge and the model effectively forgets it. The model has no memory between separate sessions unless a tool deliberately stores and re-supplies information. When a model seems to lose track of something you said much earlier, the cause is usually a context limit rather than carelessness.</p><h3>Why outputs vary</h3><p>At each step the model has a probability distribution over possible next tokens, and it samples from that distribution. This is why asking the same question twice can give two different answers. Many tools expose a setting often called <strong>temperature</strong>: lower values make the output more focused and repeatable, higher values make it more varied and creative. Variation is a feature for brainstorming and a hazard for tasks that need exact, consistent results, so match the setting to the job.</p><h3>What this implies for you</h3><ul><li>The model is predicting plausible text, not looking up verified facts. Plausible and true are not the same thing.</li><li>Clear, specific input narrows the range of plausible continuations, which is why good prompting works.</li><li>The model has no awareness of events after its training cutoff unless given current information, and it cannot truly know what it does not know.</li></ul><p>Hold on to one sentence: the model is a very capable pattern continuer, not an oracle. Every later lesson is an application of that idea.</p>"
+        },
+        {
+          "title": "The Anatomy of a Good Prompt",
+          "html": "<h2>What a prompt really is</h2><p>A prompt is the instruction you give the model. Because the model continues whatever you provide, the quality of your input largely determines the quality of the output. Vague prompts produce generic results; precise prompts produce useful ones. Strong prompts tend to contain up to five ingredients.</p><h3>1. A clear task</h3><p>State exactly what you want done, using a concrete verb. Compare <em>tell me about marketing emails</em> with <em>write three subject lines for a marketing email announcing a 20 percent discount</em>. The second leaves little room for the model to guess.</p><h3>2. Context</h3><p>Give the background the model needs but cannot infer: who the audience is, what the goal is, any relevant facts or prior decisions. <em>The audience is existing customers who have not purchased in six months</em> changes the output far more than the task verb alone.</p><h3>3. Constraints</h3><p>Spell out the boundaries: length, tone, reading level, what to include, and what to avoid. <em>Keep each line under ten words, friendly but not pushy, and do not use exclamation points</em> turns a loose request into a controlled one.</p><h3>4. Examples (when helpful)</h3><p>Showing one or two samples of what good output looks like is often more effective than describing it. If you have a brand voice or a specific format in mind, a single example communicates it instantly. This is covered in depth later.</p><h3>5. Desired format</h3><p>Tell the model how to structure the answer: a bulleted list, a table, JSON, a short paragraph, a numbered procedure. If you plan to paste the result somewhere specific, name that target so the structure fits.</p><h3>Putting it together</h3><p>A complete prompt might read: <em>You are helping a small bakery. Write three email subject lines (task) for customers who have not ordered in six months (context). Each must be under ten words, warm, and free of exclamation points (constraints). Return them as a numbered list (format).</em> Notice how each ingredient removes a source of ambiguity.</p><h3>Start simple, then add</h3><p>You do not need all five ingredients every time. For quick questions, a clear task is enough. Add context, constraints, examples, and format as the stakes and complexity rise. A practical habit: write the simplest prompt first, look at what is wrong with the result, and add the ingredient that fixes it.</p>"
+        },
+        {
+          "title": "Core Technique 1: Roles, Instructions, and Format Control",
+          "html": "<h2>Shaping the model with framing</h2><p>Once you can write a clear prompt, you can steer the output more deliberately. The first set of techniques is about framing: telling the model what perspective to take and exactly how to respond.</p><h3>Role and persona framing</h3><p>Assigning a role primes the model to draw on a particular style and body of patterns. <em>You are an experienced copy editor</em> tends to produce more careful, precise edits than no framing at all. <em>Explain this as if to a curious twelve-year-old</em> shifts vocabulary and pacing. Roles are most powerful when they carry concrete expectations about tone, depth, and priorities. A vague role like <em>you are an expert</em> does little; a specific one like <em>you are a tax preparer who flags risky deductions</em> does a lot.</p><h3>Instruction clarity over politeness</h3><p>The model responds to clear directives. Phrases such as <em>list only</em>, <em>do not explain</em>, <em>limit to 100 words</em>, or <em>if information is missing, say so rather than guessing</em> reliably shape behavior. Positive instructions (do this) usually work better than negative ones (do not do that), so when you can, describe the result you want rather than only the result you fear.</p><h3>Controlling format precisely</h3><p>When the output needs to plug into something else, be explicit and, ideally, show the shape. Asking for <em>a table with columns Name, Role, and Status</em> is good; providing one example row is better. For machine-readable output, name the format and the exact fields, and ask for nothing outside it: <em>Return only valid JSON with keys title and summary, no surrounding text.</em> Extra commentary is a common reason automated pipelines break.</p><h3>Order and emphasis</h3><p>Instructions placed at the very beginning or the very end of a prompt tend to carry the most weight, and material in the long middle of a very large prompt gets the least reliable attention. Put the most important constraint where it will not get lost, and repeat a critical requirement if you truly need it honored.</p><h3>A quick checklist</h3><ul><li>Did you assign a role only when it adds a concrete perspective?</li><li>Are your instructions stated as actions to take?</li><li>Did you name the exact output format and fields?</li><li>Is the single most important constraint impossible to miss?</li></ul>"
+        },
+        {
+          "title": "Core Technique 2: Examples and Step-by-Step Reasoning",
+          "html": "<h2>Teaching by showing and slowing down</h2><p>Two of the most reliable ways to improve output are to show the model what you want and to ask it to reason before it answers.</p><h3>Few-shot examples</h3><p>Providing a handful of input-output examples is called <strong>few-shot prompting</strong> (zero examples is <strong>zero-shot</strong>). Examples are especially effective for format, tone, and edge cases that are hard to describe in words. To classify support messages, you might show: <em>Message: My package never arrived. Category: Shipping.</em> followed by <em>Message: I was charged twice. Category: Billing.</em> Then supply a new message and ask for its category. The model infers the pattern from your examples.</p><p>Good examples are representative, varied enough to cover the cases you care about, and consistent in format with each other. If your examples disagree with your written instructions, the examples usually win, so keep them aligned. Two or three well-chosen examples often beat a long verbal description.</p><h3>Step-by-step reasoning</h3><p>For problems that involve multiple steps, math, logic, or careful analysis, asking the model to work through its reasoning before giving a final answer improves accuracy. A simple cue such as <em>think through this step by step before answering</em> prompts the model to lay out intermediate steps rather than leaping to a conclusion. Because the model builds each token on the ones before it, written-out reasoning gives it a better foundation than an immediate guess.</p><p>When you only want the final answer but still want the accuracy benefit, you can ask the model to reason internally or in a separate section and then present a clean conclusion: <em>Work out the steps, then give only the final number on the last line.</em></p><h3>Decomposing hard tasks</h3><p>If a request is large or tangled, break it into stages and let the model handle one at a time: first outline, then draft a section, then revise. This keeps each step focused and makes errors easier to catch. You can do the stages in one prompt as a numbered sequence or across several turns of a conversation.</p><h3>When to use which</h3><ul><li>Use examples when format and style matter or when the category is fuzzy.</li><li>Use step-by-step reasoning for calculation, logic, and analysis.</li><li>Use decomposition when a task is too big to do well in one pass.</li></ul>"
+        },
+        {
+          "title": "Core Technique 3: Iterating and Refining",
+          "html": "<h2>The first answer is a draft</h2><p>The most common mistake new users make is treating the model's first response as final. Skilled users treat it as a starting point and steer toward what they want through a short conversation. Iteration is not a sign of a bad prompt; it is the normal way good results are produced.</p><h3>Refine, do not restart</h3><p>Because the conversation stays in context, you can build on what the model already produced. Instead of rewriting your whole prompt, give targeted follow-ups: <em>Make the second paragraph shorter and more concrete.</em> <em>That tone is too formal; loosen it.</em> <em>Keep the structure but replace the example with one about healthcare.</em> Each correction reuses the prior work and nudges it closer to the goal.</p><h3>Diagnose before you correct</h3><p>When output is wrong, name the specific problem before asking for a fix. Is it too long, off-topic, too generic, missing a constraint, or factually shaky? The clearer your diagnosis, the more precise your follow-up. <em>This is too generic; add two specific data points and a concrete example</em> works better than <em>make it better.</em></p><h3>Steering levers you can pull</h3><ul><li><strong>Length:</strong> ask for a specific word or item count.</li><li><strong>Specificity:</strong> ask for concrete examples, numbers, or names.</li><li><strong>Tone:</strong> name the feeling you want and a feeling to avoid.</li><li><strong>Focus:</strong> tell it what to cut and what to expand.</li><li><strong>Alternatives:</strong> ask for two or three different versions, then combine the best parts.</li></ul><h3>Generate options, then converge</h3><p>For creative or strategic work, ask for several distinct approaches before committing. Variety early gives you raw material; you then narrow down by asking the model to develop the most promising option. This mirrors how good human work happens: diverge, then converge.</p><h3>Know when to start fresh</h3><p>Sometimes a conversation accumulates so many corrections and dead ends that the context is cluttered and the model keeps repeating old mistakes. When follow-ups stop helping, it is often faster to open a clean session and write one improved prompt that folds in everything you learned. Iteration includes knowing when to reset.</p>"
+        },
+        {
+          "title": "Structuring Longer Work and Supplying Reference Material",
+          "html": "<h2>Beyond one-shot questions</h2><p>Quick prompts handle small tasks. Larger projects such as reports, analyses, or drafts grounded in specific documents need more structure and, often, source material you provide yourself.</p><h3>Give the model the facts it needs</h3><p>The model only knows its training data plus whatever you put in the context. For anything specific to your situation, recent events, or private documents, you must supply the material. Paste in the relevant text, notes, data, or policy and instruct the model to base its answer on that material: <em>Using only the report below, summarize the three main findings.</em> This grounding both improves accuracy and reduces invented content.</p><h3>Separate instructions from source clearly</h3><p>When you mix your instructions with pasted material, mark the boundary so the model does not confuse the two. A simple convention works well: label the reference with something like <em>--- SOURCE ---</em> and place your instructions clearly above or below it. This also reduces the chance that text inside a document is mistaken for a command to follow.</p><h3>Work in stages for long outputs</h3><p>A long document is better built in pieces than demanded all at once. A reliable sequence is: ask for an outline, review and adjust it, then have the model draft each section against the agreed outline, then revise for consistency and flow. Staging keeps each step within a manageable size, gives you control points, and avoids the quality drop that long single-shot generations can suffer.</p><h3>Mind the context budget</h3><p>Reference material, instructions, and the growing reply all share the same limited context. If you paste a very large document, the model may attend less reliably to the middle of it, and a long back-and-forth can crowd out earlier material. Practical responses: include only the relevant portions, summarize sections you do not need verbatim, and for big bodies of text process them in chunks and then combine the chunk results.</p><h3>Carry state deliberately</h3><p>Across separate sessions the model remembers nothing. If a project spans multiple sittings, keep your own running summary of decisions, requirements, and the current draft, and paste the relevant parts back in when you resume. You are the project's memory; the model is the worker you brief each time.</p>"
+        },
+        {
+          "title": "Failure Modes and How to Verify Output",
+          "html": "<h2>Trust, but verify</h2><p>LLMs are fluent, which makes their mistakes dangerous: errors arrive in confident, well-formed prose. Knowing the common failure modes lets you catch them.</p><h3>Fabrication (hallucination)</h3><p>The model can invent facts, citations, quotes, names, and statistics that look entirely real. This happens because it generates plausible text, and a fake citation is often more plausible-sounding than admitting ignorance. Treat any specific claim, especially names, numbers, dates, legal or medical points, and references, as unverified until you check it against a trustworthy source.</p><h3>Outdated information</h3><p>Without current data supplied to it, the model's knowledge stops at its training cutoff and it may not know recent developments. It can also state old information as if it were current. For anything time-sensitive, confirm against an up-to-date source or give the model current material to work from.</p><h3>Confident wrongness and sycophancy</h3><p>The model rarely signals uncertainty on its own, and it tends to agree with the framing of your question. If you ask a leading question, it may confirm a false premise. Phrase questions neutrally, and when a claim matters, ask the model to argue the other side or to identify what would make its answer wrong.</p><h3>Subtle errors in structured work</h3><p>In code, math, and data, output can look correct yet contain a flaw: an off-by-one error, a wrong unit, a misattributed quote. Fluency does not guarantee correctness. Run code, recompute key numbers, and spot-check transformations.</p><h3>Misreading or ignoring instructions</h3><p>Long or crowded prompts can lead the model to drop a constraint or follow part of an instruction. If a requirement is critical, state it prominently and check the output against it explicitly.</p><h3>A verification habit</h3><ul><li>For facts: confirm specifics with an independent, reliable source.</li><li>For reasoning: read the steps, not just the conclusion.</li><li>For code and data: execute and test rather than eyeballing.</li><li>For high stakes: get a second opinion, human or a fresh model session.</li><li>Match scrutiny to consequences: low-stakes brainstorming needs little, anything published or acted upon needs real checking.</li></ul>"
+        },
+        {
+          "title": "Responsible Use and an Everyday Workflow",
+          "html": "<h2>Using AI well and ethically</h2><p>The same fluency that makes LLMs useful also makes careless use easy. A few principles keep your work honest, safe, and reliable.</p><h3>Protect privacy</h3><p>Be deliberate about what you put into a model. Avoid pasting sensitive personal data, confidential business information, secrets, or anything covered by a legal or contractual duty unless you know how the service handles and retains data and you are permitted to share it. Once submitted, you may not control where that text goes. When in doubt, redact or paraphrase.</p><h3>Attribute and stay honest</h3><p>Be transparent when AI materially produced work that others will judge as yours, especially in academic, professional, and journalistic settings, and follow the rules of your institution. AI output can also echo copyrighted or proprietary phrasing, so review and substantively make the work your own rather than passing along verbatim generation. Take responsibility for what you publish; the tool does not.</p><h3>Do not over-trust</h3><p>Keep the human in the loop for consequential decisions. The model is an assistant, not an authority. For medical, legal, financial, or safety matters, treat its output as a starting point to discuss with a qualified professional, not as advice to act on directly. Always verify facts before you rely on them.</p><h3>Watch for bias and harm</h3><p>Models learn from human text and can reproduce its biases and blind spots. Review output for unfair assumptions or stereotypes, particularly when it touches people, groups, or decisions that affect them.</p><h2>A practical everyday workflow</h2><ol><li><strong>Define the task.</strong> Decide what done looks like before you prompt.</li><li><strong>Gather context.</strong> Collect the facts, documents, and constraints the model will need, and note what is sensitive.</li><li><strong>Write a clear first prompt.</strong> Include task, context, constraints, and desired format; add examples if format or tone matters.</li><li><strong>Review the draft critically.</strong> Check it against your constraints and look for fabrication, outdated claims, and subtle errors.</li><li><strong>Iterate with targeted follow-ups.</strong> Diagnose the specific problem and steer; reset to a clean session if it gets cluttered.</li><li><strong>Verify what matters.</strong> Confirm facts, run code, recompute numbers, scaled to the stakes.</li><li><strong>Finalize and own it.</strong> Make the work genuinely yours, attribute as required, and take responsibility for the result.</li></ol><p>Used this way, an LLM becomes a fast, tireless collaborator that amplifies your judgment rather than replacing it. The skill is not in the tool; it is in how clearly you direct it and how carefully you check it.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Why can asking a language model the exact same question twice produce two different answers?",
+          "options": [
+            "The model permanently rewrites its training data after each question",
+            "At each step the model samples from a probability distribution over possible next tokens",
+            "The model has no instructions and must guess randomly every time",
+            "Different answers only happen when the internet connection changes"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the context window of a language model determine?",
+          "options": [
+            "How fast the model can type its response",
+            "How much text (instructions, references, and reply) the model can consider at one time",
+            "Which language the model will answer in",
+            "How many separate users can chat at once"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which of these is the strongest example of a well-specified task in a prompt?",
+          "options": [
+            "Tell me about marketing emails",
+            "Write three subject lines, each under ten words, for an email announcing a 20 percent discount",
+            "Make something good for marketing",
+            "Help me with my business"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the main benefit of giving the model a few input-output examples (few-shot prompting)?",
+          "options": [
+            "It permanently teaches the model new facts for all future users",
+            "It lets the model infer the desired format, tone, and pattern from the samples",
+            "It removes the model's token limit",
+            "It guarantees the output will always be factually correct"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "For a multi-step math or logic problem, which technique most improves accuracy?",
+          "options": [
+            "Telling the model to answer as fast as possible",
+            "Asking the model to think through the problem step by step before giving the final answer",
+            "Raising the temperature setting to maximum",
+            "Forbidding the model from showing any reasoning"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "When a model's first response is close but not quite right, what is usually the best next move?",
+          "options": [
+            "Accept it as final since the model cannot improve",
+            "Give a targeted follow-up that diagnoses the specific problem and builds on the existing work",
+            "Always start a brand-new session with no context",
+            "Ask the same question again with no changes"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is hallucination in the context of language models?",
+          "options": [
+            "The model refusing to answer any question",
+            "The model confidently generating plausible but false information, such as fake citations or statistics",
+            "The model running out of tokens mid-sentence",
+            "The model translating text into the wrong language"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which practice best reflects responsible use of an LLM?",
+          "options": [
+            "Pasting confidential client data freely since the model forgets everything",
+            "Treating its medical or legal output as final professional advice",
+            "Verifying important facts, protecting sensitive data, attributing as required, and keeping a human in the loop for consequential decisions",
+            "Publishing its output verbatim and crediting it as fully your own original work"
+          ],
+          "answer": 2
+        }
+      ]
     }
   ]
 }
