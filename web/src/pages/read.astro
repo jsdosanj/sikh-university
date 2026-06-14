@@ -6,6 +6,7 @@ import Base from '../layouts/Base.astro';
     <div class="flex flex-wrap items-center justify-between gap-3">
       <h1 id="title" class="text-2xl font-bold">Read-along</h1>
       <div class="flex items-center gap-2 font-sans text-sm">
+        <select id="chapter" aria-label="Jump to chapter" class="max-w-[60vw] rounded-lg border border-line bg-surface px-2 py-1.5 sm:max-w-xs"></select>
         <button id="prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
         <label id="anglabel">Ang <input id="angin" type="number" min="1" value="1" class="w-20 rounded-lg border border-line px-2 py-1"></label>
         <button id="next" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
@@ -119,7 +120,23 @@ import Base from '../layouts/Base.astro';
       if (!santhya) return;
       for (var i = 0; i < santhya.length; i++) { if (santhya[i].url === curUrl) { var nx = santhya[i + 1]; if (nx) { load(nx.start); aud.play().catch(function () {}); } return; } }
     });
-    function go(n) { load(n); }
+    var chapSel = document.getElementById('chapter'), chapList = [];
+    function syncChapter(n) {
+      if (!chapList.length) return;
+      var sel = chapList[0].ang;
+      for (var i = 0; i < chapList.length; i++) { if (chapList[i].ang <= n) sel = chapList[i].ang; }
+      chapSel.value = String(sel);
+    }
+    fetch('/assets/gurbani/chapters.json').then(function (r) { return r.json(); }).then(function (all) {
+      chapList = all[src] || [];
+      if (!chapList.length) { chapSel.style.display = 'none'; return; }
+      chapSel.innerHTML = chapList.map(function (c) {
+        return '<option value="' + c.ang + '">' + (c.gur ? c.gur + ' · ' : '') + c.label + (cfg.max > 1 ? ' (' + cfg.unit + ' ' + c.ang + ')' : '') + '</option>';
+      }).join('');
+      syncChapter(ang);
+      chapSel.addEventListener('change', function () { go(parseInt(chapSel.value, 10) || 1); });
+    }).catch(function () { chapSel.style.display = 'none'; });
+    function go(n) { load(n); syncChapter(n); }
     document.getElementById('next').onclick = document.getElementById('next2').onclick = function () { go(ang + 1); };
     document.getElementById('prev').onclick = document.getElementById('prev2').onclick = function () { go(ang - 1); };
     angin.addEventListener('change', function () { go(parseInt(angin.value, 10) || 1); });
