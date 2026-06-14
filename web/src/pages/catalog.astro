@@ -19,7 +19,7 @@ const itemListLd = {
       class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
     <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
       <button data-t="all" class={btn}>All</button>
-      {topics.map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
+      {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
     </div>
     <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {sorted.map((c) => (
