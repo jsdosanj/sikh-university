@@ -11,7 +11,9 @@ database_id = "76977fdc-94aa-4088-9572-420d2a0ea329"
 binding = "MEDIA"
 bucket_name = "sikh-university-media"
 
-# Set as Pages env vars / secrets in the dashboard (not committed):
-#   ADMIN_EMAILS   = "you@example.com"   (comma-separated admins)
-#   RESEND_API_KEY = "re_..."            (to actually send magic-link emails)
-#   SITE_URL       = "https://sikhuniversity.pages.dev"
+# Non-secret vars deploy with the Git build (Pages reads wrangler.toml).
+[vars]
+SITE_URL = "https://sikhuniversity.pages.dev"
+ADMIN_EMAILS = "singhsxdhi@gmail.com,contact@sikhism.io"
+MAIL_FROM = "onboarding@resend.dev"
+# RESEND_API_KEY is a secret — set in the Pages dashboard (you've added it).
