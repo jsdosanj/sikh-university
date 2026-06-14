@@ -44,7 +44,37 @@ export default {
       }
       return handler({ request, env });
     }
-    // Everything else: static assets (site/).
+    // Audio + media streamed from R2 (zero egress), same-origin so <audio> + CSP work.
+    if (pathname.startsWith("/media/")) {
+      const key = decodeURIComponent(pathname.slice("/media/".length));
+      if (!key) return new Response("Not found", { status: 404 });
+      const rangeHeader = request.headers.get("range");
+      let opts;
+      if (rangeHeader) {
+        const m = /bytes=(\d*)-(\d*)/.exec(rangeHeader);
+        if (m) {
+          const start = m[1] ? parseInt(m[1], 10) : 0;
+          const end = m[2] ? parseInt(m[2], 10) : undefined;
+          opts = { range: end !== undefined ? { offset: start, length: end - start + 1 } : { offset: start } };
+        }
+      }
+      const obj = await env.MEDIA.get(key, opts);
+      if (!obj) return new Response("Not found", { status: 404 });
+      const headers = new Headers();
+      obj.writeHttpMetadata(headers);
+      headers.set("accept-ranges", "bytes");
+      headers.set("cache-control", "public, max-age=31536000, immutable");
+      if (obj.range) {
+        const s = obj.range.offset || 0;
+        const len = obj.range.length != null ? obj.range.length : obj.size - s;
+        headers.set("content-range", `bytes ${s}-${s + len - 1}/${obj.size}`);
+        headers.set("content-length", String(len));
+        return new Response(obj.body, { status: 206, headers });
+      }
+      headers.set("content-length", String(obj.size));
+      return new Response(obj.body, { status: 200, headers });
+    }
+    // Everything else: the Astro static build.
     return env.ASSETS.fetch(request);
   },
 };
