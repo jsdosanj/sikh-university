@@ -1,8 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import CourseCard from '../components/CourseCard.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
-const featured = published.slice(0, 3);
 const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
@@ -101,14 +99,5 @@ const websiteLd = {
     </section>
   )}
 
-  <section class="wrap py-14">
-    <div class="flex items-end justify-between">
-      <h2 class="text-2xl font-bold">Featured courses</h2>
-      <a href="/catalog" class="font-sans text-sm font-semibold text-saffron-deep">All {published.length} courses →</a>
-    </div>
-    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {featured.map((c) => <CourseCard course={c} />)}
-    </div>
-  </section>
 
 </Base>

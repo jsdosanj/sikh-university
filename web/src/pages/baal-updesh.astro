@@ -23,9 +23,30 @@ const sentences = [
   ['ੴ', 'Ik Onkar', 'There is One Creator.'],
   ['ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ॥', 'Sat Sri Akaal', 'A common Sikh greeting — "Truth is the Timeless One".'],
   ['ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ ॥ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫ਼ਤਿਹ ॥', 'Waheguru ji ka Khalsa, Waheguru ji ki Fateh', 'The Khalsa belongs to Waheguru; victory belongs to Waheguru.'],
+];
+// Graded reading practice, by length.
+const shortS = [
   ['ਇਹ ਘਰ ਹੈ ॥', 'ih ghar hai', 'This is a house.'],
   ['ਪਾਣੀ ਠੰਢਾ ਹੈ ॥', 'paaṇi ṭhanḍha hai', 'The water is cold.'],
-  ['ਮੇਰਾ ਨਾਮ ___ ਹੈ ॥', 'mera naam ___ hai', 'My name is ___.'],
+  ['ਬੱਚਾ ਖੇਡਦਾ ਹੈ ॥', 'bachcha kheḍda hai', 'The child plays.'],
+  ['ਫੁੱਲ ਸੋਹਣਾ ਹੈ ॥', 'phull sohṇa hai', 'The flower is beautiful.'],
+];
+const medS = [
+  ['ਅਸੀਂ ਗੁਰਦੁਆਰੇ ਜਾਂਦੇ ਹਾਂ ॥', 'aseeṁ gurduaare jaande haaṁ', 'We go to the gurdwara.'],
+  ['ਮੈਂ ਹਰ ਰੋਜ਼ ਪਾਠ ਕਰਦਾ ਹਾਂ ॥', 'maiṁ har roz paaṭh karda haaṁ', 'I read paath every day.'],
+  ['ਮਾਤਾ ਜੀ ਲੰਗਰ ਤਿਆਰ ਕਰਦੇ ਹਨ ॥', 'maata ji langar tiaar karde han', 'Mother prepares the langar.'],
+  ['ਸੰਗਤ ਰਲ਼ ਕੇ ਕੀਰਤਨ ਕਰਦੀ ਹੈ ॥', 'sangat ral ke keertan kardi hai', 'The sangat gathers and sings kirtan.'],
+];
+const longS = [
+  ['ਸਵੇਰੇ ਉੱਠ ਕੇ ਅਸੀਂ ਇਸ਼ਨਾਨ ਕਰਦੇ ਹਾਂ ਅਤੇ ਨਿਤਨੇਮ ਕਰਦੇ ਹਾਂ ॥', 'savere uṭṭh ke aseeṁ ishnaan karde haaṁ ate nitnem karde haaṁ', 'In the morning we rise, bathe, and do our nitnem.'],
+  ['ਵਾਹਿਗੁਰੂ ਨੇ ਸਾਰੀ ਸ੍ਰਿਸ਼ਟੀ ਰਚੀ ਹੈ ਅਤੇ ਸਭ ਜੀਆਂ ਦੀ ਸੰਭਾਲ ਕਰਦਾ ਹੈ ॥', 'Waheguru ne saari srishṭi rachi hai ate sabh jeeaaṁ di sambhaal karda hai', 'Waheguru created all of creation and cares for every being.'],
+];
+// Short reading paragraphs (a few simple sentences each).
+const paras = [
+  ['ਸਾਡਾ ਪਰਿਵਾਰ ਅੰਮ੍ਰਿਤ ਵੇਲੇ ਉੱਠਦਾ ਹੈ। ਅਸੀਂ ਇਸ਼ਨਾਨ ਕਰਕੇ ਵਾਹਿਗੁਰੂ ਦਾ ਨਾਮ ਜਪਦੇ ਹਾਂ। ਫਿਰ ਅਸੀਂ ਰਲ਼ ਕੇ ਨਿਤਨੇਮ ਦੀਆਂ ਬਾਣੀਆਂ ਪੜ੍ਹਦੇ ਹਾਂ।',
+   'Our family wakes at amrit vela. After bathing, we meditate on Waheguru’s Name. Then together we read the nitnem banis.'],
+  ['ਗੁਰੂ ਨਾਨਕ ਦੇਵ ਜੀ ਨੇ ਸਾਨੂੰ ਇੱਕ ਅਕਾਲ ਪੁਰਖ ਦਾ ਉਪਦੇਸ਼ ਦਿੱਤਾ। ਉਨ੍ਹਾਂ ਨੇ ਸਿਖਾਇਆ ਕਿ ਸਾਰੇ ਮਨੁੱਖ ਬਰਾਬਰ ਹਨ। ਸਾਨੂੰ ਮਿਹਨਤ ਕਰਨੀ, ਨਾਮ ਜਪਣਾ ਅਤੇ ਵੰਡ ਕੇ ਛਕਣਾ ਚਾਹੀਦਾ ਹੈ।',
+   'Guru Nanak Dev Ji taught us of the One Akal Purakh. He taught that all people are equal. We should work honestly, meditate on the Name, and share with others.'],
 ];
 // Gurmukhi numerals 0–100 (glyphs are generated mechanically; names below are the common forms).
 const gur = (n) => String(n).split('').map((d) => '੦੧੨੩੪੫੬੭੮੯'[+d]).join('');
@@ -114,16 +135,32 @@ const wordCard = (w) => w;
       </div>
     ))}
 
-    <h2 id="sentences" class="mt-12 text-xl font-bold">5. Simple sentences — <span class="gur">ਵਾਕ</span></h2>
-    <p class="mt-1 max-w-2xl text-muted">Read these aloud. The <span class="gur">॥</span> (danda) marks the end of a line, just as in Gurbani.</p>
-    <div class="mt-5 space-y-3">
-      {sentences.map(([s, tr, mean]) => (
-        <div class="rounded-xl2 border border-line bg-surface p-4 shadow-card">
-          <div class="gur text-2xl text-navy">{s}</div>
-          <div class="mt-1 font-sans text-sm text-blue">{tr}</div>
-          <div class="font-sans text-sm text-muted">{mean}</div>
+    <h2 id="sentences" class="mt-12 text-xl font-bold">5. Sentences & paragraphs — <span class="gur">ਵਾਕ ਤੇ ਪੈਰੇ</span></h2>
+    <p class="mt-1 max-w-2xl text-muted">Read these aloud, building from greetings to short, medium and long sentences, then full paragraphs. The <span class="gur">॥</span> (danda) and <span class="gur">।</span> mark line ends.</p>
+    {[['Greetings & sacred lines', sentences], ['Short sentences', shortS], ['Medium sentences', medS], ['Long sentences', longS]].map(([label, list]) => (
+      <div class="mt-5">
+        <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">{label}</h3>
+        <div class="mt-2 space-y-3">
+          {list.map(([s, tr, mean]) => (
+            <div class="rounded-xl2 border border-line bg-surface p-4 shadow-card">
+              <div class="gur text-2xl text-navy">{s}</div>
+              <div class="mt-1 font-sans text-sm text-blue">{tr}</div>
+              <div class="font-sans text-sm text-muted">{mean}</div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
+    ))}
+    <div class="mt-6">
+      <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">Paragraphs</h3>
+      <div class="mt-2 space-y-3">
+        {paras.map(([p, mean]) => (
+          <div class="rounded-xl2 border border-line bg-surface p-4 shadow-card">
+            <p class="gur text-xl leading-loose text-navy">{p}</p>
+            <p class="mt-2 font-sans text-sm text-muted">{mean}</p>
+          </div>
+        ))}
+      </div>
     </div>
 
     <h2 id="numbers" class="mt-12 text-xl font-bold">6. Numbers — <span class="gur">ਅੰਕ</span> (0–100)</h2>
