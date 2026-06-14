@@ -76,6 +76,7 @@ import Base from '../layouts/Base.astro';
             <button id="save-nm" class="btn btn-primary">Save</button>
           </div>
           <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(points, 'Points')}${stat(st, 'Day streak')}${stat(completed.length, 'Completed')}${stat(lessonsDone, 'Lessons done')}</div>
+          <a href="/flashcards" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="text-3xl">🃏</span><span><span class="block font-bold text-navy">Review flashcards</span><span class="block font-sans text-sm text-muted">Lock in Gurmukhi terms and the most-used words of Gurbani with spaced repetition.</span></span><span class="ml-auto font-sans text-sm text-saffron-deep">Study →</span></a>
           <h3 class="mt-10 text-xl font-bold">Badges</h3>
           <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">${badges.map((b) => `<div class="rounded-xl2 border ${b[2] ? 'border-saffron shadow-card' : 'border-line opacity-50 grayscale'} bg-surface p-4 text-center"><div class="text-3xl">${b[1]}</div><div class="mt-1 font-sans text-sm font-bold text-navy">${b[0]}</div><div class="font-sans text-xs text-muted">${b[3]}</div></div>`).join('')}</div>
           ${gradesHtml}
