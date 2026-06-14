@@ -7,17 +7,34 @@ const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
 const archive = c.topic === 'modern-skills'
   ? { url: 'https://sikharchive.net/courses', label: 'Free AI courses on Sikh Archive' }
   : { url: 'https://sikharchive.net', label: 'Dig deeper in the Sikh Archive' };
-const ld = {
-  '@context': 'https://schema.org', '@type': 'Course', name: c.title, description: c.summary,
-  inLanguage: 'en', isAccessibleForFree: true,
-  provider: { '@type': 'EducationalOrganization', name: 'Sikh University', sameAs: SITE + '/' },
-  author: { '@type': 'Person', name: c.professor },
-};
 const lessons = c.lessons || [];
 const quiz = c.quiz || [];
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Course', name: c.title, description: c.summary,
+  url: `${SITE}/course/${c.id}`,
+  inLanguage: 'en', isAccessibleForFree: true, educationalLevel: c.level,
+  provider: { '@type': 'EducationalOrganization', name: 'Sikh University', sameAs: SITE + '/' },
+  author: { '@type': 'Person', name: c.professor },
+  offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD', category: 'Free', availability: 'https://schema.org/InStock' },
+  hasCourseInstance: {
+    '@type': 'CourseInstance', courseMode: 'online',
+    courseWorkload: `PT${Math.max(1, lessons.length) * 15}M`,
+    instructor: { '@type': 'Person', name: c.professor },
+  },
+};
+const breadcrumb = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Sikh University', item: SITE + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Catalogue', item: SITE + '/catalog' },
+    { '@type': 'ListItem', position: 3, name: topicName(c.topic), item: `${SITE}/catalog#${c.topic}` },
+    { '@type': 'ListItem', position: 4, name: c.title, item: `${SITE}/course/${c.id}` },
+  ],
+};
 ---
 <Base title={`${c.title} — Sikh University`} description={c.summary} ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} slot="head" />
 
   <header class="bg-gradient-to-br from-brand to-navy-strong text-white">
     <div class="wrap py-12">
