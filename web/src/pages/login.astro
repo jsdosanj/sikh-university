@@ -1,11 +1,28 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Sign in — Sikh University" description="Sign in to Sikh University with a magic link — no password needed.">
+<Base title="Sign in / Sign up — Sikh University" description="Join Sikh University free with a magic link — as a student to learn, or apply to teach. No password needed.">
   <section class="wrap max-w-xl py-14">
-    <h1 class="text-3xl font-bold">Sign in</h1>
-    <p class="mt-2 text-lg text-muted">Enter your email and we'll send a magic sign-in link — no password needed.</p>
+    <h1 class="text-3xl font-bold">Sign in or sign up</h1>
+    <p class="mt-2 text-lg text-muted">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
     <div id="err" class="mt-4"></div>
+
+    <fieldset class="mt-6">
+      <legend class="font-sans text-sm font-semibold">I am joining as a…</legend>
+      <div class="mt-2 grid gap-3 sm:grid-cols-2">
+        <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
+          <input type="radio" name="role" value="student" class="mr-2" checked />
+          <span class="font-semibold text-navy">Student</span>
+          <p class="mt-1 font-sans text-sm text-muted">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
+        </label>
+        <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
+          <input type="radio" name="role" value="teacher" class="mr-2" />
+          <span class="font-semibold text-navy">Teacher</span>
+          <p class="mt-1 font-sans text-sm text-muted">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
+        </label>
+      </div>
+    </fieldset>
+
     <form id="login-form" class="mt-6 space-y-4">
       <label class="block font-sans text-sm font-semibold">Email
         <input id="email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
@@ -25,14 +42,18 @@ import Base from '../layouts/Base.astro';
       ev.preventDefault();
       const email = document.getElementById('email').value.trim();
       if (!email) return;
+      const role = (document.querySelector('input[name="role"]:checked') || {}).value || 'student';
+      // Everyone signs in as a learner; teacher applicants are routed to the application after sign-in.
+      try { localStorage.setItem('su_v1_signup_intent', JSON.stringify(role)); } catch {}
       btn.disabled = true; btn.textContent = 'Sending…';
       fetch('/api/auth/request', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) })
         .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
         .then(({ ok, d }) => {
           btn.disabled = false; btn.textContent = 'Send magic link';
           if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${(d && d.error) || 'Could not send the link.'}</strong></div>`; return; }
-          if (d.sent) out.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Check your email.</strong> A sign-in link was sent to ${email} (expires in 15 minutes).</div>`;
-          else out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${d.devLink}">click here to sign in</a>.</div>`;
+          const tail = role === 'teacher' ? ' After signing in, you’ll complete a short teacher application.' : '';
+          if (d.sent) out.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Check your email.</strong> A sign-in link was sent to ${email} (expires in 15 minutes).${tail}</div>`;
+          else out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${d.devLink}">click here to sign in</a>.${tail}</div>`;
         })
         .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
     });
