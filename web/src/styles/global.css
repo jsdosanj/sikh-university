@@ -24,8 +24,10 @@
 [data-theme="dark"] blockquote.gurbani { background: rgba(244, 178, 26, .12); color: rgb(var(--c-ink)); }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body { @apply bg-paper text-ink font-serif antialiased; line-height: 1.65; }
+  /* Stop iOS Safari zooming the page when a sub-16px input is focused. */
+  @media (max-width: 640px) { input, select, textarea { font-size: 16px; } }
   h1, h2, h3, h4 { @apply font-serif text-navy; }
   a { @apply text-navy; }
   .gur { @apply font-gur; font-size: 1.06em; }
