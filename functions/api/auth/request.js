@@ -5,7 +5,14 @@ export async function onRequestPost({ request, env }) {
   let email;
   try { ({ email } = await request.json()); } catch (e) { return json({ error: "bad request" }, 400); }
   email = (email || "").trim().toLowerCase();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: "Enter a valid email." }, 400);
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || email.length > 254) return json({ error: "Enter a valid email." }, 400);
+
+  // Throttle: at most one link per email per ~60s. Silently no-op so this can't be
+  // used to mail-bomb an address, burn the email quota, or enumerate users.
+  const recent = await env.DB.prepare(
+    "SELECT 1 FROM magic_tokens WHERE email=? AND expires_at > ?"
+  ).bind(email, Date.now() + 14 * 60 * 1000).first();
+  if (recent) return json({ ok: true, sent: true });
 
   const token = newId() + newId();
   const expires = Date.now() + 15 * 60 * 1000; // 15 minutes
@@ -33,12 +40,12 @@ export async function onRequestPost({ request, env }) {
       });
       if (!r.ok) {
         const detail = await r.text().catch(() => "");
+        // Log provider details server-side only; don't leak internal config to clients.
         console.log("Resend send failed", r.status, detail);
-        // Surface the provider message so the operator can fix config (e.g. verify a domain).
-        return json({ error: "Could not send email.", detail: detail.slice(0, 500), status: r.status }, 502);
+        return json({ error: "Could not send email. Please try again later." }, 502);
       }
       return json({ ok: true, sent: true });
-    } catch (e) { console.log("Resend threw", e && e.message); return json({ error: "Could not send email.", detail: String(e && e.message) }, 502); }
+    } catch (e) { console.log("Resend threw", e && e.message); return json({ error: "Could not send email. Please try again later." }, 502); }
   }
   // Dev fallback (no mail provider configured yet): return the link so sign-in is testable.
   return json({ ok: true, sent: false, devLink: link });

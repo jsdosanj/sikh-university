@@ -120,7 +120,7 @@ const wordCard = (w) => w;
         <tbody>
           {consonants.map((cn, r) => (
             <tr class={r % 2 ? 'bg-paper' : ''}>
-              <td class="gur border border-line p-2 text-2xl font-bold text-blue">{cn}</td>
+              <td class="gur border border-line p-2 text-2xl font-bold text-navy">{cn}</td>
               {matras.map((m) => <td class="gur border border-line p-2 text-2xl">{cn + m}</td>)}
             </tr>
           ))}
@@ -140,7 +140,7 @@ const wordCard = (w) => w;
           {list.map(([w, tr, mean]) => (
             <div class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card">
               <div class="gur text-3xl font-bold text-navy">{w}</div>
-              <div class="mt-1 font-sans text-xs text-blue">{tr}</div>
+              <div class="mt-1 font-sans text-xs text-navy">{tr}</div>
               <div class="font-sans text-xs text-muted">{mean}</div>
             </div>
           ))}
@@ -160,7 +160,7 @@ const wordCard = (w) => w;
           {list.map(([s, tr, mean]) => (
             <div class="rounded-xl2 border border-line bg-surface p-4 shadow-card">
               <div class="gur text-2xl text-navy">{s}</div>
-              <div class="mt-1 font-sans text-sm text-blue">{tr}</div>
+              <div class="mt-1 font-sans text-sm text-navy">{tr}</div>
               <div class="font-sans text-sm text-muted">{mean}</div>
             </div>
           ))}
@@ -189,7 +189,7 @@ const wordCard = (w) => w;
         <div class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card">
           <div class="gur text-2xl font-bold text-navy">{g}</div>
           <div class="font-sans text-xs text-muted">{n}</div>
-          <div class="gur mt-1 text-base text-blue">{nm}</div>
+          <div class="gur mt-1 text-base text-navy">{nm}</div>
           <div class="font-sans text-[0.7rem] text-muted">{tr}</div>
         </div>
       ))}
@@ -213,7 +213,7 @@ const wordCard = (w) => w;
       {gurbaniWords.map((w) => (
         <a href={w.url} target="_blank" rel="noopener" class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card hover:border-saffron">
           <div class="gur text-2xl font-bold text-navy">{w.gur}</div>
-          <div class="mt-1 font-sans text-xs text-blue">{w.tr}</div>
+          <div class="mt-1 font-sans text-xs text-navy">{w.tr}</div>
         </a>
       ))}
     </div>

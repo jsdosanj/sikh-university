@@ -53,9 +53,9 @@ const texts = [
       <h1 id="title" class="text-2xl font-bold">Read-along</h1>
       <div class="flex items-center gap-2 font-sans text-sm">
         <select id="chapter" aria-label="Jump to chapter" class="max-w-[60vw] rounded-lg border border-line bg-surface px-2 py-1.5 sm:max-w-xs"></select>
-        <button id="prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
+        <button id="prev" aria-label="Previous Ang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
         <label id="anglabel">Ang <input id="angin" type="number" min="1" value="1" class="w-20 rounded-lg border border-line px-2 py-1"></label>
-        <button id="next" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
+        <button id="next" aria-label="Next Ang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
       </div>
     </div>
 
@@ -63,14 +63,14 @@ const texts = [
       <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
       <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted">🔇 Audio for this Ang is being prepared.</div>
       <div class="flex items-center gap-2 font-sans text-sm">
-        <button data-fs="-" class="rounded-lg border border-line px-2.5 py-1">A−</button>
-        <button data-fs="+" class="rounded-lg border border-line px-2.5 py-1">A+</button>
-        <button id="larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
+        <button data-fs="-" aria-label="Decrease text size" class="rounded-lg border border-line px-2.5 py-1">A−</button>
+        <button data-fs="+" aria-label="Increase text size" class="rounded-lg border border-line px-2.5 py-1">A+</button>
+        <button id="larivaar" aria-pressed="false" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
       </div>
     </div>
     <p id="audnote" class="mt-1 font-sans text-xs text-muted"></p>
 
-    <div id="page" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
+    <div id="page" aria-live="polite" aria-label="Gurbani text" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
 
     <div class="mt-8 flex items-center justify-between font-sans text-sm">
       <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">← Previous</button>
@@ -189,7 +189,7 @@ const texts = [
     angin.addEventListener('change', function () { go(parseInt(angin.value, 10) || 1); });
     var fs = get('read_fs', 1.9); page.style.fontSize = fs + 'rem';
     document.querySelectorAll('[data-fs]').forEach(function (b) { b.onclick = function () { fs = Math.max(1.1, Math.min(3.2, fs + (b.dataset.fs === '+' ? 0.2 : -0.2))); page.style.fontSize = fs + 'rem'; set('read_fs', fs); }; });
-    document.getElementById('larivaar').onclick = function () { page.classList.toggle('lari'); };
+    document.getElementById('larivaar').onclick = function (e) { var on = page.classList.toggle('lari'); e.currentTarget.setAttribute('aria-pressed', String(on)); };
     load(ang);
     if (cfg.audio) {
       note.textContent = 'Loading Santhya audio…';

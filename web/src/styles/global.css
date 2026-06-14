@@ -11,7 +11,7 @@
   --c-line: 228 232 240;
   --c-navy: 22 51 92;
   --c-saffron-soft: 253 238 200;
-  --c-saffron-deep: 154 106 7;
+  --c-saffron-deep: 120 82 5; /* AA-contrast gold for pills/links on light bg */
   color-scheme: light;
 }
 [data-theme="dark"] {
@@ -29,6 +29,14 @@
 
 @layer base {
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  /* Respect users who prefer reduced motion (WCAG 2.3.3). */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important; scroll-behavior: auto !important;
+    }
+  }
   /* Visible keyboard-focus ring for accessibility (all interactive elements). */
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
     outline: 3px solid rgb(var(--c-navy)); outline-offset: 2px; border-radius: 4px;

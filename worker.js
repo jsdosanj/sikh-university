@@ -15,6 +15,7 @@ import { onRequestGet as adminUsersGet, onRequestPost as adminUsersPost } from "
 import { onRequestGet as adminCourseTeachersGet, onRequestPost as adminCourseTeachersPost } from "./functions/api/admin/course-teachers.js";
 import { onRequestGet as adminEventsGet } from "./functions/api/admin/events.js";
 import { onRequestGet as gradebookGet, onRequestPost as gradebookPost } from "./functions/api/gradebook.js";
+import { onRequestPost as quizPost } from "./functions/api/quiz.js";
 import { onRequestGet as announcementsGet, onRequestPost as announcementsPost } from "./functions/api/announcements.js";
 import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
 import { onRequestGet as ratingsGet, onRequestPost as ratingsPost } from "./functions/api/ratings.js";
@@ -36,6 +37,7 @@ const routes = {
   "/api/admin/course-teachers": { GET: adminCourseTeachersGet, POST: adminCourseTeachersPost },
   "/api/admin/events": { GET: adminEventsGet },
   "/api/gradebook": { GET: gradebookGet, POST: gradebookPost },
+  "/api/quiz": { POST: quizPost },
   "/api/announcements": { GET: announcementsGet, POST: announcementsPost },
   "/api/discussions": { GET: discussionsGet, POST: discussionsPost },
   "/api/ratings": { GET: ratingsGet, POST: ratingsPost },
@@ -63,7 +65,11 @@ export default {
     // Audio + media streamed from R2 (zero egress), same-origin so <audio> + CSP work.
     if (pathname.startsWith("/media/")) {
       const key = decodeURIComponent(pathname.slice("/media/".length));
-      if (!key) return new Response("Not found", { status: 404 });
+      // Only serve known public prefixes so the rest of the bucket can never be
+      // read via /media/ (defence-in-depth against a latent full-bucket disclosure).
+      if (!key || key.includes("..") || !/^(santhya|audio|gurbani|media)\//.test(key)) {
+        return new Response("Not found", { status: 404 });
+      }
       const rangeHeader = request.headers.get("range");
       let opts;
       if (rangeHeader) {
@@ -71,7 +77,10 @@ export default {
         if (m) {
           const start = m[1] ? parseInt(m[1], 10) : 0;
           const end = m[2] ? parseInt(m[2], 10) : undefined;
-          opts = { range: end !== undefined ? { offset: start, length: end - start + 1 } : { offset: start } };
+          // Ignore malformed ranges (negative or end<start) rather than computing a bad length.
+          if (start >= 0 && (end === undefined || end >= start)) {
+            opts = { range: end !== undefined ? { offset: start, length: end - start + 1 } : { offset: start } };
+          }
         }
       }
       const obj = await env.MEDIA.get(key, opts);
