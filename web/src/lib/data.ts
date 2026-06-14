@@ -72,6 +72,12 @@ export const PROF_BIOS: Record<string, string> = {
   'Sant Waryam Singh Ratwara Sahib': 'Sant Waryam Singh Ji (Ratwara Sahib) is a contemporary Sikh spiritual teacher known for discourses on Naam, meditation and Gurmat spirituality.',
   'Sant Seva Singh Rampur Khera': 'Sant Baba Seva Singh Ji (Rampur Khera) is known for large-scale kar seva, tree-planting and humanitarian service rooted in the Sikh ideal of seva.',
   'Bhai Chaupa Singh': 'Bhai Chaupa Singh Chhibber (17th-18th century) is associated with an early Rehatnama, a foundational text of the Sikh code of conduct.',
+  'Nikky-Guninder Kaur Singh': 'Nikky-Guninder Kaur Singh is a leading scholar of Sikhism, known for her work on gender and the feminine in the Sikh tradition and for translations of Sikh scripture.',
+  'Patwant Singh': 'Patwant Singh (1925-2009) was a writer on Sikh heritage and history, author of The Golden Temple and The Sikhs.',
+  'W.G. Archer': "W. G. Archer (1907-1979) was a curator and art historian whose Paintings of the Sikhs documented the Sikh visual tradition.",
+  'Bhai Avtar Singh': 'Bhai Avtar Singh (1925-2006) was a renowned exponent of Gurmat Sangeet who preserved and documented the traditional raags of Gurbani Kirtan.',
+  'Pal Singh Purewal': 'Pal Singh Purewal is a scholar of calendrics, best known for designing the Nanakshahi calendar used for dating Sikh observances.',
+  'Sikh Archive': 'The Sikh Archive (sikharchive.net) is a digital library and educational initiative; its free foundational and AI courses are shared here as a partner.',
 };
 export function profBio(name: string): string { return PROF_BIOS[name] || ''; }
 
