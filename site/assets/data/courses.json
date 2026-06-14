@@ -1,0 +1,48 @@
+{
+  "topics": [
+    { "id": "theology", "name": "Theology", "blurb": "Gurmat, Gurbani exegesis, and the message of the Guru Sahibs." },
+    { "id": "philosophy", "name": "Philosophy", "blurb": "Sikh thought, ethics, metaphysics, and worldview." },
+    { "id": "history", "name": "History", "blurb": "The Guru period, the Khalsa, the Sikh empire, and the diaspora." },
+    { "id": "literature", "name": "Literature", "blurb": "Classical and modern Sikh literary tradition." },
+    { "id": "language", "name": "Language", "blurb": "Gurmukhi, Punjabi, and the grammar of Gurbani." },
+    { "id": "spirituality", "name": "Spirituality", "blurb": "Naam, Simran, Rehat, and the lived practice of Sikhi." },
+    { "id": "music", "name": "Music", "blurb": "Gurmat Sangeet, Kirtan, and Raag." },
+    { "id": "arts", "name": "Arts", "blurb": "Sikh visual art, architecture, and material culture." },
+    { "id": "modern-skills", "name": "Modern Skills", "blurb": "21st-century skills for everyone, starting with AI." }
+  ],
+  "courses": [
+    {
+      "id": "ai-foundations",
+      "title": "AI Foundations",
+      "topic": "modern-skills",
+      "level": 100,
+      "professor": "Sikh Archive",
+      "source": "sikharchive.net/courses",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A practical, plain-English introduction to using today's AI tools well and responsibly — the assistants, image tools, model choices, and the new 'connectors' that let AI act for you.",
+      "lessons": [
+        { "title": "Why this guide exists", "html": "<p>AI went from a novelty to an everyday tool faster than almost any technology before it. This course is a calm, practical map: what the main tools are, what each is good at, and how to use them with good judgment — no hype, no jargon.</p><p>You don't need to be technical. By the end you'll be able to pick the right tool for a task, write clearer prompts, and understand the new wave of 'agentic' tools that can take actions for you.</p>" },
+        { "title": "Assistants: Claude & ChatGPT", "html": "<p><strong>Chat assistants</strong> are the front door to AI. You type a request; they respond. The skill is in <em>how</em> you ask: give context, say what good output looks like, and iterate.</p><ul><li><strong>Claude Desktop</strong> — a desktop assistant that can also connect to your files and tools (see the Connectors lesson).</li><li><strong>ChatGPT</strong> — a general assistant strong at writing, reasoning, and — increasingly — images.</li></ul><p>Rule of thumb: treat the assistant like a sharp, fast intern. Be specific, review its work, and never paste secrets or private data you wouldn't want stored.</p>" },
+        { "title": "Creating images: ChatGPT, Gemini & 'Nano Banana'", "html": "<p>Modern assistants can generate and edit images from a description. The craft is describing <em>subject, style, composition, and lighting</em> clearly, then refining.</p><ul><li><strong>ChatGPT image generation</strong> — good for illustrations, mockups, and edits.</li><li><strong>Gemini (and its image model nicknamed 'Nano Banana')</strong> — strong, fast image creation and editing.</li></ul><p>Always keep cultural and religious imagery respectful and accurate — AI can get sacred details wrong, so verify before sharing.</p>" },
+        { "title": "Choosing a model (and OpenRouter)", "html": "<p>There isn't one 'best' AI — different models lead at different things and the leaderboard changes monthly. A good habit in 2026: match the model to the task (writing vs. coding vs. images vs. cheap-and-fast).</p><p><strong>OpenRouter</strong> is a single doorway to many models from different companies — handy for trying options without separate accounts. Start cheap and small; reach for a frontier model only when the task is hard.</p>" },
+        { "title": "Agentic tools: Codex & getting things done", "html": "<p>The newest shift is <strong>agentic</strong> tools that don't just answer — they take steps to complete a goal (research, write code, edit files). OpenAI's <strong>Codex</strong>-style tools can act like a tireless assistant working through a task list.</p><p>Power comes with care: give clear goals, review what they did, and keep a human in the loop for anything that matters.</p>" },
+        { "title": "Connectors & MCP: letting AI use your tools", "html": "<p><strong>Connectors</strong> (often built on the <strong>Model Context Protocol, MCP</strong>) let an assistant securely reach your files, calendar, or apps — so it can work <em>with</em> your real information instead of guessing.</p><p>Security first: only connect what you need, review permissions, and never grant write access you can't undo. This same care is how we built this very university.</p>" }
+      ]
+    },
+
+    { "id": "gurbani-exegesis-sahib-singh", "title": "Gurbani Exegesis", "topic": "theology", "level": 300, "professor": "Prof. Sahib Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "A close-reading approach to Gurbani in the tradition of Prof. Sahib Singh's grammatical exegesis — how grammar (lagaa-maatraa) unlocks meaning. Course about his method and writings." },
+    { "id": "mahan-kosh-tradition", "title": "The Sikh Encyclopedic Tradition", "topic": "literature", "level": 250, "professor": "Bhai Kahn Singh Nabha", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "An introduction to Bhai Kahn Singh Nabha's reference legacy (the Mahan Kosh) and what it teaches us about Sikh concepts, terms, and history." },
+    { "id": "modern-sikh-literature-vir-singh", "title": "Modern Sikh Literature", "topic": "literature", "level": 200, "professor": "Bhai Vir Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The renaissance of Sikh letters through Bhai Vir Singh's poetry and prose — themes, context, and influence." },
+    { "id": "sikh-historical-chronicles", "title": "Sikh Historical Chronicles", "topic": "history", "level": 300, "professor": "Giani Gian Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "Reading the classical Sikh chronicles (e.g., Twarikh Guru Khalsa) — how Sikhs recorded their own history, and how to read these sources critically." },
+    { "id": "sikh-religion-english-scholarship", "title": "The Sikh Religion in English Scholarship", "topic": "history", "level": 250, "professor": "Max Arthur Macauliffe", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "How Sikhi was presented to the English-speaking world through Macauliffe's six-volume study — strengths, limits, and legacy." },
+    { "id": "documenting-sikh-history", "title": "Documenting Sikh History", "topic": "history", "level": 400, "professor": "Dr. Ganda Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "Source-based historiography in the work of Dr. Ganda Singh — archives, evidence, and the discipline of Sikh history." },
+    { "id": "naam-spiritual-discipline", "title": "Naam & Spiritual Discipline", "topic": "spirituality", "level": 200, "professor": "Bhai Randhir Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The path of Naam Simran and Rehat as expressed in Bhai Randhir Singh's writings and the Akhand Kirtani tradition." },
+    { "id": "gurmat-katha-maskeen", "title": "Gurmat Katha", "topic": "theology", "level": 150, "professor": "Giani Sant Singh Maskeen", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The art of Katha (discourse) and core Gurmat themes drawn from the teachings of Giani Sant Singh Maskeen." },
+    { "id": "classical-sikh-poetics", "title": "Classical Sikh Poetics", "topic": "literature", "level": 350, "professor": "Kavi Santokh Singh", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "The grand narrative poetry of Kavi Santokh Singh (Suraj Prakash) — form, devotion, and historical imagination." },
+    { "id": "gurmukhi-and-gurbani-grammar", "title": "Gurmukhi & the Grammar of Gurbani", "topic": "language", "level": 100, "professor": "Sikh University (survey)", "source": "SikhLibrary", "aiCreated": true, "status": "in-development", "summary": "Learn to read Gurmukhi and understand the grammatical features that carry meaning in Gurbani." },
+    { "id": "sikh-philosophy-survey", "title": "Foundations of Sikh Philosophy", "topic": "philosophy", "level": 100, "professor": "Sikh University (survey)", "source": "Sikh Archive", "aiCreated": true, "status": "in-development", "summary": "Ik Onkar, Hukam, Naam, Seva, and equality — the core ideas that shape the Sikh worldview." },
+    { "id": "gurmat-sangeet-survey", "title": "Introduction to Gurmat Sangeet", "topic": "music", "level": 100, "professor": "Sikh University (survey)", "source": "Sikh Archive", "aiCreated": true, "status": "in-development", "summary": "Kirtan, Raag, and the place of music in Sikh worship — an introduction for listeners and learners." },
+    { "id": "sikh-art-architecture", "title": "Sikh Art & Architecture", "topic": "arts", "level": 150, "professor": "Sikh University (survey)", "source": "Sikh Archive", "aiCreated": true, "status": "in-development", "summary": "Gurdwara architecture, manuscript art, and Sikh material culture across the centuries." }
+  ]
+}

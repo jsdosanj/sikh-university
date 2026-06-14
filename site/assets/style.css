@@ -1,0 +1,94 @@
+/* Sikh University — static interactive course site. Vanilla CSS, no build. */
+:root {
+  --bg: #f7f5ef;           /* warm cream */
+  --surface: #ffffff;
+  --surface-2: #f0ece1;
+  --text: #1f2433;
+  --muted: #5c6273;
+  --border: #e2dccd;
+  --navy: #16335c;          /* deep academic blue (brand) */
+  --navy-strong: #0f2547;
+  --saffron: #c8862a;       /* Sikh saffron/gold accent */
+  --saffron-soft: #f3e6cf;
+  --ok: #2f7d4f;
+  --on-navy: #ffffff;
+  --shadow: 0 1px 3px rgba(22,51,92,.07), 0 8px 24px rgba(22,51,92,.06);
+  --maxw: 1100px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; color: var(--text); background: var(--bg); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+a { color: var(--navy); }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 1.6rem 1.2rem 4rem; }
+
+/* nav */
+.nav { background: var(--navy); color: var(--on-navy); }
+.nav-inner { max-width: var(--maxw); margin: 0 auto; padding: .7rem 1.2rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.brand { font-weight: 700; font-size: 1.25rem; color: #fff; text-decoration: none; letter-spacing: .2px; }
+.brand span { color: var(--saffron); }
+.nav a:not(.brand) { color: #dfe6f2; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: .95rem; }
+.nav a:not(.brand):hover { color: #fff; }
+.nav .spacer { margin-left: auto; }
+
+/* hero */
+.hero { background: linear-gradient(160deg, var(--navy), var(--navy-strong)); color: #fff; }
+.hero-inner { max-width: var(--maxw); margin: 0 auto; padding: 3rem 1.2rem 3.2rem; }
+.hero h1 { font-size: 2.5rem; margin: 0 0 .6rem; line-height: 1.12; }
+.hero p { font-size: 1.15rem; color: #e7ecf5; max-width: 60ch; }
+.hero .accent { color: var(--saffron); }
+.btn { display: inline-block; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid var(--navy); border-radius: 9px; padding: .6rem 1.15rem; background: var(--surface); color: var(--navy); font-size: .98rem; }
+.btn.primary { background: var(--saffron); border-color: var(--saffron); color: #2a1c06; }
+.btn.onhero { background: var(--saffron); border-color: var(--saffron); color: #2a1c06; }
+.btn.ghost { background: transparent; color: #fff; border-color: #ffffff66; }
+.btn:hover { filter: brightness(1.05); }
+
+/* sections */
+h2 { font-size: 1.6rem; margin: 2rem 0 .8rem; }
+.lead { font-size: 1.1rem; color: var(--muted); }
+.muted { color: var(--muted); }
+
+/* topic + course grids */
+.grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 920px) { .grid.three { grid-template-columns: 1fr 1fr 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); display: block; text-decoration: none; color: var(--text); }
+.card:hover { border-color: var(--saffron); transform: translateY(-2px); transition: .12s; }
+.card h3 { margin: .1rem 0 .35rem; font-size: 1.18rem; color: var(--navy); }
+.card .meta { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .8rem; color: var(--muted); display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.card p { margin: .5rem 0 0; font-size: .96rem; }
+.topic-card { border-top: 3px solid var(--saffron); }
+
+/* badges / pills */
+.pill { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: .15rem .5rem; border-radius: 999px; white-space: nowrap; }
+.pill.ai { background: var(--saffron-soft); color: #8a5a14; }
+.pill.level { background: var(--surface-2); color: var(--muted); }
+.pill.dev { background: #fde9c8; color: #8a5a14; }
+.pill.live { background: #def0e3; color: var(--ok); }
+.pill.topic { background: #e7ecf5; color: var(--navy); }
+
+/* filters */
+.filters { display: flex; gap: .4rem; flex-wrap: wrap; margin: 1rem 0 1.4rem; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+.filters button { font: inherit; font-size: .85rem; padding: .35rem .8rem; border: 1px solid var(--border); background: var(--surface); border-radius: 999px; cursor: pointer; color: var(--muted); }
+.filters button.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+/* course viewer */
+.course-head { border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.2rem; }
+.course-head h1 { margin: .2rem 0; color: var(--navy); }
+.course-layout { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+@media (min-width: 860px) { .course-layout { grid-template-columns: 260px 1fr; } }
+.lesson-list { list-style: none; padding: 0; margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+.lesson-list li { margin: .25rem 0; }
+.lesson-list button { width: 100%; text-align: left; font: inherit; font-size: .92rem; padding: .55rem .7rem; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); cursor: pointer; display: flex; gap: .5rem; align-items: center; }
+.lesson-list button.on { border-color: var(--navy); background: var(--surface-2); font-weight: 600; }
+.lesson-list .done-dot { color: var(--ok); }
+.lesson-body { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem 1.6rem; box-shadow: var(--shadow); }
+.lesson-body h3 { margin-top: 0; color: var(--navy); }
+.progress { height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin: .5rem 0 1rem; }
+.progress span { display: block; height: 100%; background: var(--saffron); }
+
+.callout { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--saffron); border-radius: 10px; padding: .9rem 1.1rem; margin: 1rem 0; }
+.disclaimer { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .85rem; }
+
+footer.site { border-top: 1px solid var(--border); color: var(--muted); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .85rem; text-align: center; padding: 2rem 1rem; }
+:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }

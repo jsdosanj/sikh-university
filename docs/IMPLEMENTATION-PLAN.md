@@ -1,4 +1,4 @@
-# Implementation plan — E13 University on Open edX
+# Implementation plan — Sikh University on Open edX
 
 Platform decision: **Open edX** (see ADR-0001). Public, open to all. Edge via **Cloudflare**.
 
@@ -32,9 +32,9 @@ Learner ── Cloudflare edge (DNS, CDN, WAF, Access) ──┬── Pages: co
 ```
 
 ## 2. Content & rights plan (the gate, per CLAUDE.md + licensing register)
-- **E13 University content (Everythings 13 / Basics of Sikhi):** import/host **only with written
+- **Sikh University content (Everythings 13 / Basics of Sikhi):** import/host **only with written
   permission/partnership**. Until confirmed: embed their public YouTube videos / link out; don't rehost.
-  The **name "E13 University"** also needs their sign-off (it's their brand).
+  The **name "Sikh University"** also needs their sign-off (it's their brand).
 - **`jsdosanj/SikhLibrary` dataset (yours):** you confirm you own it and may use it freely. We build
   **author-as-professor** courses *about* each author's writings — original teaching content
   (summaries, key themes, analysis, historical context) with brief **attributed** quotations — **not**
