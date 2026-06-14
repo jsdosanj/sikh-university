@@ -9,7 +9,7 @@ const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
     <p class="mt-2 max-w-2xl text-lg text-muted">Follow a path from foundations to advanced study. Each path is an ordered set of courses — finish one to light up the next.</p>
     <div class="mt-8 space-y-10">
       {paths.map((p) => (
-        <section>
+        <section id={p.id} class="scroll-mt-24">
           <h2 class="text-xl font-bold">{p.name}</h2>
           <p class="text-muted">{p.blurb}</p>
           <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron" data-path={p.id} style="width:0%"></div></div>
