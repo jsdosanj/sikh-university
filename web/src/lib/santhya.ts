@@ -15,6 +15,17 @@ export const REF: Record<string, { gur: string; en: string; href?: string }> = {
   'baavan-akhri': { gur: 'ਬਾਵਨ ਅਖਰੀ', en: 'Baavan Akhri', href: '/read?src=sggs&ang=250' },
   'sidh-gosht': { gur: 'ਸਿਧ ਗੋਸਟਿ', en: 'Sidh Gosht', href: '/read?src=sggs&ang=938' },
   'dakhni-oankaar': { gur: 'ਦਖਣੀ ਓਅੰਕਾਰੁ', en: 'Dakhni Oankaar', href: '/read?src=sggs&ang=929' },
+  // Das Granthi — ten baanis of the DASAM GRANTH (standard Dasam Granth Angs).
+  'd-jaap': { gur: 'ਜਾਪੁ ਸਾਹਿਬ', en: 'Jaap Sahib', href: '/read?src=dasam&ang=1' },
+  'd-akal-ustat': { gur: 'ਅਕਾਲ ਉਸਤਤਿ', en: 'Akal Ustat', href: '/read?src=dasam&ang=11' },
+  'd-bachittar-natak': { gur: 'ਬਚਿਤ੍ਰ ਨਾਟਕ', en: 'Bachittar Natak', href: '/read?src=dasam&ang=39' },
+  'd-chandi-charitar-1': { gur: 'ਚੰਡੀ ਚਰਿਤ੍ਰ ਉਕਤਿ ਬਿਲਾਸ', en: 'Chandi Charitar (Ukti Bilas)', href: '/read?src=dasam&ang=74' },
+  'd-chandi-charitar-2': { gur: 'ਚੰਡੀ ਚਰਿਤ੍ਰ', en: 'Chandi Charitar II', href: '/read?src=dasam&ang=99' },
+  'd-chandi-di-vaar': { gur: 'ਚੰਡੀ ਦੀ ਵਾਰ', en: 'Chandi di Vaar', href: '/read?src=dasam&ang=119' },
+  'd-gyan-prabodh': { gur: 'ਗਿਆਨ ਪ੍ਰਬੋਧ', en: 'Gyan Prabodh', href: '/read?src=dasam&ang=127' },
+  'd-chaubis-avtar': { gur: 'ਚੌਬੀਸ ਅਵਤਾਰ', en: 'Chaubis Avtar', href: '/read?src=dasam&ang=155' },
+  'd-shastar-naam-mala': { gur: 'ਸ਼ਸਤ੍ਰ ਨਾਮ ਮਾਲਾ', en: 'Shastar Naam Mala', href: '/read?src=dasam&ang=717' },
+  'd-zafarnama': { gur: 'ਜ਼ਫ਼ਰਨਾਮਾ', en: 'Zafarnama', href: '/read?src=dasam&ang=1389' },
   // Panj Granthavali — non-Gurbani granths (no read-along text available).
   'chanakya-niti': { gur: 'ਚਾਣਕਯ ਨੀਤੀ', en: 'Chanakya Niti' },
   sarkutavali: { gur: 'ਸਾਰੁਕਤਾਵਲੀ', en: 'Sarukatavali' },
@@ -51,9 +62,9 @@ export const COLLECTIONS: Record<string, Collection> = {
   },
   'das-granthi': {
     name: 'Das Granthi', gur: 'ਦਸ ਗ੍ਰੰਥੀ',
-    blurb: 'Ten selected baanis — fuller santhya before the complete Granth.',
-    note: 'Selections vary by edition; a common set is shown.',
-    groups: [{ t: 'The ten', items: ['japji', 'jaap', 'anand', 'rehras', 'sohila', 'sukhmani', 'asadivar', 'baavan-akhri', 'sidh-gosht', 'dakhni-oankaar'] }],
+    blurb: 'Ten baanis of the Dasam Granth — the compositions associated with Guru Gobind Singh Ji.',
+    note: 'Das Granthi is a Dasam Granth collection (not SGGS). Exact selections vary by edition; a common set is shown, opening in the Dasam Granth reader.',
+    groups: [{ t: 'The ten (Dasam Granth)', items: ['d-jaap', 'd-akal-ustat', 'd-bachittar-natak', 'd-chandi-charitar-1', 'd-chandi-charitar-2', 'd-chandi-di-vaar', 'd-gyan-prabodh', 'd-chaubis-avtar', 'd-shastar-naam-mala', 'd-zafarnama'] }],
   },
   'panj-granthavali': {
     name: 'Panj Granthavali', gur: 'ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ',
