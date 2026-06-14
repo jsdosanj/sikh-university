@@ -1,7 +1,7 @@
 /* Sikh University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v3';
-var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/assets/icon.svg', '/assets/data/courses.json', '/assets/data/professors.json', '/manifest.webmanifest'];
+var CACHE = 'su-web-v4';
+var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/courses.json', '/assets/data/professors.json', '/manifest.webmanifest'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE).catch(function () {}); }).then(function () { return self.skipWaiting(); }));
