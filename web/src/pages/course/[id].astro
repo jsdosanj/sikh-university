@@ -49,7 +49,7 @@ const breadcrumb = {
         {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]">Created by AI</span>}
       </div>
       <h1 class="mt-3 max-w-3xl text-3xl font-bold text-white sm:text-4xl">{c.title}</h1>
-      <p class="mt-2 font-sans text-sm text-white/75">Professor: <a class="underline" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> · Source: {c.source || 'Sikh University'}</p>
+      <p class="mt-2 font-sans text-sm text-white/75">Professor: <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> · Source: {c.source || 'Sikh University'}</p>
       <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
       <div class="mt-6 flex flex-wrap items-center gap-3">
         <a href="#lesson-0" class="btn btn-primary">Begin course</a>
@@ -97,7 +97,7 @@ const breadcrumb = {
               <div class="lesson-prose mt-3 leading-relaxed" set:html={ls.html} />
               <div class="mt-4 border-t border-dashed border-line pt-3">
                 <label class="font-sans text-xs text-muted">📝 Your notes — saved on this device</label>
-                <textarea data-note={i} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…"></textarea>
+                <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…"></textarea>
                 <button data-done={i} class="mt-2 rounded-lg border border-line px-3 py-1.5 font-sans text-sm hover:border-saffron">Mark complete</button>
               </div>
             </article>
@@ -147,7 +147,7 @@ const breadcrumb = {
                 : c.sourceText.gurmukhi
                   ? ' This is the author’s original Gurmukhi text (OCR), shown as a study excerpt — OCR may contain errors.'
                   : ' Shown as a short study excerpt — refer to the original for an authoritative reading.'}
-              <a class="ml-1 font-semibold text-blue underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>
+              <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>
             </figcaption>
           </figure>
         </section>
@@ -198,27 +198,27 @@ const breadcrumb = {
       <div>
         <h2 class="text-xl font-bold">Rate this course</h2>
         <div id="rate-summary" class="mt-1 font-sans text-sm text-muted">…</div>
-        <div id="rate-stars" class="mt-2 flex gap-1 text-3xl text-saffron">
-          <button data-s="1" aria-label="1 star">☆</button><button data-s="2" aria-label="2 stars">☆</button><button data-s="3" aria-label="3 stars">☆</button><button data-s="4" aria-label="4 stars">☆</button><button data-s="5" aria-label="5 stars">☆</button>
+        <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" class="mt-2 flex gap-1 text-3xl text-saffron">
+          <button type="button" data-s="1" aria-label="1 star">☆</button><button type="button" data-s="2" aria-label="2 stars">☆</button><button type="button" data-s="3" aria-label="3 stars">☆</button><button type="button" data-s="4" aria-label="4 stars">☆</button><button type="button" data-s="5" aria-label="5 stars">☆</button>
         </div>
-        <textarea id="rate-review" rows="2" placeholder="Optional review…" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
+        <textarea id="rate-review" rows="2" aria-label="Optional written review" placeholder="Optional review…" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
         <button id="rate-submit" class="btn btn-primary mt-2">Submit rating</button>
         <div id="rate-msg" class="mt-2 font-sans text-sm"></div>
       </div>
       <div>
         <h2 class="text-xl font-bold">Discussion &amp; Q&amp;A</h2>
         <div id="disc-list" class="mt-3 space-y-2"></div>
-        <textarea id="disc-msg" rows="2" placeholder="Ask a question or share a thought…" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
+        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" placeholder="Ask a question or share a thought…" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
         <button id="disc-submit" class="btn mt-2">Post</button>
         <div id="disc-note" class="mt-1 font-sans text-xs text-muted">Sign in to post.</div>
       </div>
     </div>
   </section>
 
-  <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, quiz })}></script>
+  <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, nQuiz: quiz.length })}></script>
   <script>
     const __d = JSON.parse(document.getElementById('course-data').textContent);
-    const id = __d.id, nLessons = __d.nLessons, quiz = __d.quiz;
+    const id = __d.id, nLessons = __d.nLessons, nQuiz = __d.nQuiz;
     const P = 'su_v1_';
     const get = (k, d) => { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
     const set = (k, v) => { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch {} };
@@ -226,7 +226,7 @@ const breadcrumb = {
     // Write progress + grade to the server (the source of truth); localStorage is a cache.
     function push() {
       return fetch('/api/progress', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ courseId: id, done: Object.keys(done).filter((k) => done[k]).map(Number), passedScore: get(scoreKey, null) }) }).catch(() => {});
+        body: JSON.stringify({ courseId: id, done: Object.keys(done).filter((k) => done[k]).map(Number) }) }).catch(() => {});
     }
     // Cross-device pull: the server's record wins, so grades survive a cleared device.
     fetch('/api/progress', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
@@ -253,16 +253,24 @@ const breadcrumb = {
     document.querySelectorAll('[data-note]').forEach((t) => { const k = 'note_' + id + '_' + t.dataset.note; t.value = get(k, ''); t.addEventListener('input', () => set(k, t.value)); });
     document.querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => { const i = b.dataset.done; done[i] = !done[i]; if (!done[i]) delete done[i]; else recordActivity(); set(doneKey, done); refresh(); push(); }));
     const submit = document.getElementById('quiz-submit');
-    if (submit) submit.addEventListener('click', () => {
-      let correct = 0; quiz.forEach((q, i) => { const s = document.querySelector(`input[name="q${i}"]:checked`); if (s && +s.value === q.answer) correct++; });
-      const score = Math.round((correct / quiz.length) * 100);
-      const best = Math.max(score, get(scoreKey, 0)); set(scoreKey, best);
-      if (score >= 80) set('passed_' + id, score);
-      recordActivity();
-      push(); // record this attempt's grade on the server immediately
+    if (submit) submit.addEventListener('click', async () => {
+      // Collect the chosen option index per question; the SERVER grades it.
+      const answers = [];
+      for (let i = 0; i < nQuiz; i++) { const s = document.querySelector(`input[name="q${i}"]:checked`); answers.push(s ? +s.value : -1); }
       const r = document.getElementById('quiz-result');
-      if (score >= 80) r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`;
-      else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${quiz.length}).</strong> You need 80%. Review the lessons and try again.</div>`;
+      submit.disabled = true; submit.textContent = 'Submitting…';
+      let res;
+      try { res = await fetch('/api/quiz', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: id, answers }) }).then((x) => x.json()); } catch (e) { res = null; }
+      submit.disabled = false; submit.textContent = 'Submit test';
+      if (!res || typeof res.score !== 'number') { r.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not submit your test — please try again.</div>'; return; }
+      const score = res.score, correct = res.correct, total = res.total;
+      set(scoreKey, Math.max(score, get(scoreKey, 0)));
+      if (res.passed) set('passed_' + id, score);
+      recordActivity();
+      if (res.passed) {
+        const cert = res.signedIn ? ` <a class="underline" href="/cert?course=${id}">View your certificate →</a>` : ' <a class="underline" href="/login">Sign in</a> to save this and earn a certificate.';
+        r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${total}).</strong> Course complete.${cert}</div>`;
+      } else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${total}).</strong> You need 80%. Review the lessons and try again.</div>`;
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     refresh();

@@ -37,9 +37,9 @@ const extra = { professors, readings, pages };
 <Base title="Search — Sikh University" description="Search everything at Sikh University — courses, professors, topics, learning paths, banis and scripture.">
   <section class="wrap py-12">
     <h1 class="text-3xl font-bold">Search Sikh University</h1>
-    <input id="q" type="search" placeholder="Search courses, professors, topics, paths, banis…" autofocus
+    <input id="q" type="search" aria-label="Search Sikh University" placeholder="Search courses, professors, topics, paths, banis…" autofocus
       class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-    <div id="out" class="mt-6"></div>
+    <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
   <script type="application/json" id="extra-index" set:html={JSON.stringify(extra)}></script>
   <script>

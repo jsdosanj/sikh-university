@@ -6,10 +6,10 @@ import Base from '../layouts/Base.astro';
     <h1 class="text-3xl font-bold">Verify a certificate</h1>
     <p class="mt-2 text-muted">Enter a certificate ID (e.g. <code>SU-XXXXXXXXXX</code>) to confirm it was issued by Sikh University.</p>
     <form id="vf" class="mt-6 flex gap-2">
-      <input id="vid" type="text" placeholder="SU-…" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
+      <input id="vid" type="text" aria-label="Certificate ID" placeholder="SU-…" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
       <button class="btn btn-primary">Verify</button>
     </form>
-    <div id="out" class="mt-6"></div>
+    <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
   <script>
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
