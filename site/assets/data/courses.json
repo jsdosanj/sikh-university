@@ -56,31 +56,31 @@
       "source": "sikharchive.net/courses",
       "aiCreated": true,
       "status": "published",
-      "summary": "A practical, plain-English introduction to using today's AI tools well and responsibly \u2014 the assistants, image tools, model choices, and the new 'connectors' that let AI act for you.",
+      "summary": "A practical, plain-English introduction to using today's AI tools well and responsibly — the assistants, image tools, model choices, and the new 'connectors' that let AI act for you.",
       "lessons": [
         {
           "title": "Why this guide exists",
-          "html": "<p>AI went from a novelty to an everyday tool faster than almost any technology before it. This course is a calm, practical map: what the main tools are, what each is good at, and how to use them with good judgment \u2014 no hype, no jargon.</p><p>You don't need to be technical. By the end you'll be able to pick the right tool for a task, write clearer prompts, and understand the new wave of 'agentic' tools that can take actions for you.</p>"
+          "html": "<p>AI went from a novelty to an everyday tool faster than almost any technology before it. This course is a calm, practical map: what the main tools are, what each is good at, and how to use them with good judgment — no hype, no jargon.</p><p>You don't need to be technical. By the end you'll be able to pick the right tool for a task, write clearer prompts, and understand the new wave of 'agentic' tools that can take actions for you.</p>"
         },
         {
           "title": "Assistants: Claude & ChatGPT",
-          "html": "<p><strong>Chat assistants</strong> are the front door to AI. You type a request; they respond. The skill is in <em>how</em> you ask: give context, say what good output looks like, and iterate.</p><ul><li><strong>Claude Desktop</strong> \u2014 a desktop assistant that can also connect to your files and tools (see the Connectors lesson).</li><li><strong>ChatGPT</strong> \u2014 a general assistant strong at writing, reasoning, and \u2014 increasingly \u2014 images.</li></ul><p>Rule of thumb: treat the assistant like a sharp, fast intern. Be specific, review its work, and never paste secrets or private data you wouldn't want stored.</p>"
+          "html": "<p><strong>Chat assistants</strong> are the front door to AI. You type a request; they respond. The skill is in <em>how</em> you ask: give context, say what good output looks like, and iterate.</p><ul><li><strong>Claude Desktop</strong> — a desktop assistant that can also connect to your files and tools (see the Connectors lesson).</li><li><strong>ChatGPT</strong> — a general assistant strong at writing, reasoning, and — increasingly — images.</li></ul><p>Rule of thumb: treat the assistant like a sharp, fast intern. Be specific, review its work, and never paste secrets or private data you wouldn't want stored.</p>"
         },
         {
           "title": "Creating images: ChatGPT, Gemini & 'Nano Banana'",
-          "html": "<p>Modern assistants can generate and edit images from a description. The craft is describing <em>subject, style, composition, and lighting</em> clearly, then refining.</p><ul><li><strong>ChatGPT image generation</strong> \u2014 good for illustrations, mockups, and edits.</li><li><strong>Gemini (and its image model nicknamed 'Nano Banana')</strong> \u2014 strong, fast image creation and editing.</li></ul><p>Always keep cultural and religious imagery respectful and accurate \u2014 AI can get sacred details wrong, so verify before sharing.</p>"
+          "html": "<p>Modern assistants can generate and edit images from a description. The craft is describing <em>subject, style, composition, and lighting</em> clearly, then refining.</p><ul><li><strong>ChatGPT image generation</strong> — good for illustrations, mockups, and edits.</li><li><strong>Gemini (and its image model nicknamed 'Nano Banana')</strong> — strong, fast image creation and editing.</li></ul><p>Always keep cultural and religious imagery respectful and accurate — AI can get sacred details wrong, so verify before sharing.</p>"
         },
         {
           "title": "Choosing a model (and OpenRouter)",
-          "html": "<p>There isn't one 'best' AI \u2014 different models lead at different things and the leaderboard changes monthly. A good habit in 2026: match the model to the task (writing vs. coding vs. images vs. cheap-and-fast).</p><p><strong>OpenRouter</strong> is a single doorway to many models from different companies \u2014 handy for trying options without separate accounts. Start cheap and small; reach for a frontier model only when the task is hard.</p>"
+          "html": "<p>There isn't one 'best' AI — different models lead at different things and the leaderboard changes monthly. A good habit in 2026: match the model to the task (writing vs. coding vs. images vs. cheap-and-fast).</p><p><strong>OpenRouter</strong> is a single doorway to many models from different companies — handy for trying options without separate accounts. Start cheap and small; reach for a frontier model only when the task is hard.</p>"
         },
         {
           "title": "Agentic tools: Codex & getting things done",
-          "html": "<p>The newest shift is <strong>agentic</strong> tools that don't just answer \u2014 they take steps to complete a goal (research, write code, edit files). OpenAI's <strong>Codex</strong>-style tools can act like a tireless assistant working through a task list.</p><p>Power comes with care: give clear goals, review what they did, and keep a human in the loop for anything that matters.</p>"
+          "html": "<p>The newest shift is <strong>agentic</strong> tools that don't just answer — they take steps to complete a goal (research, write code, edit files). OpenAI's <strong>Codex</strong>-style tools can act like a tireless assistant working through a task list.</p><p>Power comes with care: give clear goals, review what they did, and keep a human in the loop for anything that matters.</p>"
         },
         {
           "title": "Connectors & MCP: letting AI use your tools",
-          "html": "<p><strong>Connectors</strong> (often built on the <strong>Model Context Protocol, MCP</strong>) let an assistant securely reach your files, calendar, or apps \u2014 so it can work <em>with</em> your real information instead of guessing.</p><p>Security first: only connect what you need, review permissions, and never grant write access you can't undo. This same care is how we built this very university.</p>"
+          "html": "<p><strong>Connectors</strong> (often built on the <strong>Model Context Protocol, MCP</strong>) let an assistant securely reach your files, calendar, or apps — so it can work <em>with</em> your real information instead of guessing.</p><p>Security first: only connect what you need, review permissions, and never grant write access you can't undo. This same care is how we built this very university.</p>"
         }
       ],
       "quiz": [
@@ -99,7 +99,7 @@
           "options": [
             "One model is best at everything",
             "Always use the most expensive model",
-            "Different models lead at different tasks \u2014 match the model to the task",
+            "Different models lead at different tasks — match the model to the task",
             "Model choice never matters"
           ],
           "answer": 2
@@ -405,14 +405,126 @@
     },
     {
       "id": "sikh-historical-chronicles",
-      "title": "Sikh Historical Chronicles",
+      "title": "Sikh Historical Chronicles with Giani Gian Singh",
       "topic": "history",
       "level": 300,
       "professor": "Giani Gian Singh",
       "source": "SikhLibrary",
       "aiCreated": true,
-      "status": "in-development",
-      "summary": "Reading the classical Sikh chronicles (e.g., Twarikh Guru Khalsa) \u2014 how Sikhs recorded their own history, and how to read these sources critically."
+      "status": "published",
+      "summary": "An upper-division study of the life, methods, and legacy of Giani Gian Singh (1822-1921), one of the most influential traditional Sikh historians. The course examines his major chronicles, the techniques and sources of pre-modern Sikh historiography, and the critical reading skills a modern student needs to weigh devotional narrative against documented fact. Students learn how Sikh historical memory was shaped by writers like him, where these chronicles excel, where they must be read with care, and how to place them responsibly within the wider field of historical inquiry.",
+      "lessons": [
+        {
+          "title": "Introducing the Historian: Who Was Giani Gian Singh?",
+          "html": "<h2>A Life Spanning a Century of Change</h2><p>Giani Gian Singh lived from roughly 1822 to 1921, a span that placed him at a remarkable crossroads in Punjab's history. He was born during the era of the Sikh kingdom under Maharaja Ranjit Singh, came of age as that sovereign state fell to British annexation in 1849, and wrote most of his major works during the decades of colonial rule that followed. Understanding this timeline matters: he was not a detached observer of a distant past but a man who witnessed the political world of the Sikhs transform within his own lifetime.</p><p>He was a <em>Giani</em>, a title earned by scholarly mastery of Sikh scripture and tradition, and he belonged to the Nirmala scholarly current, a stream of Sikh learning known for its training in classical texts and its devotional orientation. This formation shaped everything he wrote. He approached the past not primarily as an archivist sifting documents, but as a learned member of the community committed to preserving and transmitting the memory of the Gurus and the Khalsa.</p><h2>Why He Set Out to Write</h2><p>By the later nineteenth century, Sikhs faced a question many communities confront under colonial conditions: who would tell their story, and how? European officials and scholars were beginning to write about the Sikhs from the outside, often with limited sympathy or understanding. At the same time, the oral and manuscript traditions that had carried Sikh history for generations risked being scattered or forgotten. Giani Gian Singh undertook the enormous labor of gathering, organizing, and committing this inherited memory to writing in Punjabi, for a Sikh readership.</p><p>His motivation was largely preservational and devotional. He wanted later generations to know the lives of the Gurus, the sacrifices of the martyrs, the rise of the misls (the confederacies that governed Punjab in the eighteenth century), and the deeds of the Khalsa. In this sense he should be understood as a tradition-bearer who became a historian, rather than a modern academic historian who happened to be a Sikh.</p><h2>Why He Still Matters</h2><p>Few writers have shaped how Sikhs remember their own past as powerfully as Giani Gian Singh. For more than a century, students, preachers, and ordinary devotees have drawn on his retellings, often without knowing the source. To study him is therefore to study one of the great channels through which Sikh historical memory has flowed into the present.</p>"
+        },
+        {
+          "title": "The Major Works and What They Cover",
+          "html": "<h2>Twarikh Guru Khalsa</h2><p>Giani Gian Singh's most ambitious and best-known work is the <em>Twarikh Guru Khalsa</em>, a sweeping history whose title can be rendered as a chronicle of the Gurus and the Khalsa. It is a multi-part work that attempts to narrate Sikh history in a continuous arc: the lives and teachings of the ten Gurus, the founding and shaping of the Khalsa, the period of struggle and persecution in the eighteenth century, the era of the misls, the kingdom of Ranjit Singh, and the events leading into the writer's own time. Its scale is one of its defining features; relatively few earlier writers had attempted to hold so much of the Sikh past within a single organized narrative.</p><h2>Panth Prakash</h2><p>His <em>Panth Prakash</em> (a title meaning, broadly, an illumination or exposition of the Panth, the Sikh community) is the other pillar of his output. It is often composed in verse and concentrates heavily on the eighteenth century, the heroic and turbulent age of Sikh resistance against Mughal and Afghan power, the martyrdoms, the guerrilla campaigns, and the eventual emergence of Sikh sovereignty. It is worth noting that an earlier and separate work bearing a similar name was composed by Rattan Singh Bhangu; students should take care not to confuse the two, as they are different works by different authors, though both are central to traditional Sikh historiography.</p><h2>The Character of His Output</h2><p>Across his writings, certain features recur. He wrote in Punjabi for a community audience. He blended prose and poetry depending on the work. He organized material around persons and episodes, lives of Gurus, deeds of warriors, accounts of battles and martyrdoms, rather than around abstract themes or statistical analysis. And he treated his subject with deep reverence, presenting the Gurus and the Khalsa within a frame of faith. These qualities make his works invaluable as records of how the community understood itself, while also signaling to the careful reader that they belong to a devotional historiographical tradition rather than to modern critical scholarship.</p>"
+        },
+        {
+          "title": "How Traditional Sikh Chronicle-Writing Worked",
+          "html": "<h2>A Genre With Its Own Rules</h2><p>To read Giani Gian Singh well, a student must first understand the kind of writing he was doing. Pre-modern Sikh chronicle-writing was a recognizable genre with its own conventions, purposes, and standards, and these differ in important ways from the conventions of modern academic history.</p><p>Several established forms fed into this tradition. The <em>janamsakhis</em> were narrative accounts of the life of Guru Nanak, rich in story and spiritual meaning. The <em>gurbilas</em> literature celebrated the lives and martial deeds of particular Gurus, especially Guru Hargobind and Guru Gobind Singh, in a heroic register. Works styled as <em>twarikh</em> (history) or <em>prakash</em> (illumination) sought to give broader chronological accounts. Giani Gian Singh inherited all of these streams and drew them together.</p><h2>The Purposes That Shaped the Writing</h2><p>The aims of this genre were not identical to those of a modern historian. Traditional chroniclers wrote to inspire devotion, to preserve communal memory, to teach moral and spiritual lessons, and to honor the Gurus and martyrs. A vivid account that strengthened faith and transmitted the meaning of an event was, by the standards of the genre, a successful one. Precision about dates, cross-checking of independent sources, and skepticism toward inherited accounts, the hallmarks of modern critical method, were not the governing priorities.</p><h2>Conventions to Recognize</h2><p>This genre had characteristic features that the trained reader learns to spot. Miraculous and providential elements appear naturally, because the writers understood the Gurus as spiritually exalted figures. Speeches and dialogue are sometimes reconstructed to convey the spirit of a moment rather than transcribed from a record. Numbers, for instance the size of armies, can be rhetorical, signaling scale and drama rather than offering a precise census. Recognizing these conventions is not a way of dismissing the chronicles; it is the necessary first step to reading them on their own terms and using them responsibly.</p>"
+        },
+        {
+          "title": "Where the Chronicles Drew Their Material",
+          "html": "<h2>The Web of Sources</h2><p>A historian is only as good as the material he can reach, and Giani Gian Singh worked from a rich but uneven web of sources. Understanding what fed into his writing helps us judge where it is strongest and where it is most vulnerable.</p><h2>Oral Tradition and Living Memory</h2><p>A great deal of Sikh history in the eighteenth and early nineteenth centuries lived in oral form, in the memories of families, the recitations of bards and preachers, and the stories told within communities and at historic shrines. For events of the relatively recent past, especially the misl period, this living memory was a powerful resource. Its strength is immediacy and human detail; its weakness is that oral transmission can compress, embellish, and reshape events over time.</p><h2>Earlier Written Works</h2><p>He also built upon the written tradition that came before him: janamsakhis, gurbilas texts, earlier chronicles, and devotional literature. By drawing these together he produced a more comprehensive synthesis than any single earlier work offered. But this also means that errors or legendary elements present in his sources could be carried forward into his own narrative, and a careful reader must remember that a claim repeated by many traditional sources is not automatically more reliable, since they may all descend from a common origin.</p><h2>Shrines, Custodians, and Local Knowledge</h2><p>Historic gurdwaras and the families that served them preserved local traditions, relics, and accounts tied to specific places and events. Such local knowledge gave his work texture and rootedness. At the same time, local traditions can be shaped by the interests and pride of particular communities, another reason for measured reading.</p><h2>The Limits of His Archive</h2><p>It is important to note what he generally did not have in the way a modern historian would: systematic access to Persian administrative records, Mughal court chronicles, European archives, and the comparative apparatus of cross-referenced documentary sources. His foundation was overwhelmingly the internal Sikh tradition. This gives his work its authentic communal voice, and it also defines the boundary where his accounts most need to be checked against external evidence.</p>"
+        },
+        {
+          "title": "Strengths of the Chronicles as History",
+          "html": "<h2>Reading With Appreciation, Not Only Suspicion</h2><p>A critical reader is not a hostile one. Before turning to the limits of these chronicles, we should be clear about their genuine and lasting value, because dismissing them would be as serious an error as accepting them uncritically.</p><h2>Preservation of Endangered Memory</h2><p>The single greatest contribution of Giani Gian Singh's work is preservation. Much of what he recorded, especially traditions of the eighteenth century, might otherwise have faded as the generations who remembered it passed away and as colonial rule disrupted older patterns of transmission. By writing it down in a comprehensive and organized form, he rescued a vast body of Sikh memory and handed it to the future.</p><h2>An Insider's Understanding</h2><p>He wrote from within the tradition he described. He understood the spiritual meaning of events, the significance of institutions, and the values of the Khalsa in a way an outside observer could rarely match. For questions of how the Sikh community understood itself, its ideals, its sense of mission, its memory of sacrifice, his work is a primary witness of the first importance.</p><h2>Scope and Synthesis</h2><p>The sheer breadth of his narrative is itself an achievement. He attempted to connect the whole arc of Sikh history into a coherent story, giving later readers a single framework within which to locate particular events. This organizing labor is one reason his works became so foundational.</p><h2>A Window Into Collective Self-Understanding</h2><p>Even where a specific detail may not withstand documentary scrutiny, the chronicle still tells us something true: it tells us what the community believed, valued, and remembered. For the historian of culture and memory, this is data of real worth. The chronicles are, among other things, a reliable record of Sikh self-understanding at the time they were written.</p>"
+        },
+        {
+          "title": "The Limits and How to Read Critically",
+          "html": "<h2>The Core Skill: Separating Layers</h2><p>The central skill this course aims to build is the ability to read a pre-modern chronicle and distinguish, as far as the evidence allows, between several layers within it: documented fact, plausible tradition, devotional interpretation, and legendary embellishment. These layers are woven together in the text, and learning to feel the seams between them is the work of the critical historian.</p><h2>Where Caution Is Most Needed</h2><p>Several kinds of claims call for particular care. Precise dates in traditional chronicles are often uncertain and sometimes conflict with documentary evidence, so they should be treated as approximate unless independently confirmed. Numbers, especially the size of armies or crowds, frequently function as rhetoric rather than measurement. Miraculous events should be understood as expressions of devotion and theological meaning rather than as documentary reports. Reconstructed speeches convey the spirit of a figure but are rarely verbatim. And accounts that flatter or elevate a particular group should be weighed against the natural tendency of communities to honor their own.</p><h2>A Practical Method</h2><p>A disciplined approach helps. First, identify the genre and purpose of the passage you are reading. Second, ask where the information ultimately came from, and whether it is early or late, internal or independent. Third, look for corroboration from sources that do not share the same origin, including, where they exist, Persian, European, and archival materials. Fourth, distinguish the factual core of an account from its devotional framing, keeping both but labeling each honestly. Fifth, where the evidence is genuinely unsettled, say so plainly rather than forcing a false certainty.</p><h2>Avoiding Two Errors</h2><p>The student should steer between two opposite mistakes. One is naive acceptance, treating every detail in a beloved traditional source as established fact. The other is reflexive dismissal, discarding the chronicles because they contain devotional and legendary elements. The mature position uses the chronicles as a vital source, reads them with discernment, and is candid about what can and cannot be confirmed.</p>"
+        },
+        {
+          "title": "His Influence on Sikh Historical Memory",
+          "html": "<h2>A Story That Became the Story</h2><p>The deepest measure of Giani Gian Singh's importance is not any single work but his influence on how the Sikh past is remembered. His retellings of the lives of the Gurus, the martyrdoms, the heroism of the eighteenth century, and the rise of the Khalsa entered the bloodstream of the community. They were drawn upon by preachers, teachers, writers, and dramatists, and through them by ordinary Sikhs, often at second or third hand and without attribution. In this way his narrative framework became, for very many people, simply the way the past was understood.</p><h2>A Bridge Between Eras</h2><p>He stands at a hinge point between older oral and manuscript traditions and the modern era of print, scholarship, and colonial-era debate. He gathered the inherited tradition and gave it durable written form just as the conditions that produced it were passing away. Later historians, whether they relied on him, built upon him, or argued with him, have rarely been able to ignore him. He set much of the agenda and supplied much of the raw material for later Sikh historiography.</p><h2>An Ongoing Conversation</h2><p>Modern scholars have approached his work in varied ways, and this is a healthy sign of a living field. Some emphasize his role as an indispensable preserver of tradition; others examine particular accounts critically against documentary evidence; debates continue over the reliability of specific episodes and dates. These differences should be presented neutrally: they reflect the normal, ongoing labor of historical inquiry, not a verdict against the chronicler.</p><h2>Why the Modern Student Should Care</h2><p>For today's student, engaging with Giani Gian Singh is doubly valuable. First, his works are a major source for Sikh history and self-understanding that no serious student can bypass. Second, learning to read him well, with both appreciation and discernment, teaches the broader craft of handling pre-modern sources of every kind. To understand him is to understand both a remarkable man and the very nature of how communities remember, record, and transmit their past.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "During which period did Giani Gian Singh live?",
+          "options": [
+            "Approximately 1822 to 1921, spanning the Sikh kingdom, British annexation, and colonial rule",
+            "The lifetime of Guru Gobind Singh in the early eighteenth century",
+            "Entirely before the founding of the Khalsa",
+            "The post-independence period of the mid-twentieth century"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which two works are most central to Giani Gian Singh's reputation as a historian?",
+          "options": [
+            "The Adi Granth and the Dasam Granth",
+            "Twarikh Guru Khalsa and his Panth Prakash",
+            "A collection of janamsakhis and a Persian court chronicle",
+            "Two volumes of British administrative records"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which statement best describes the primary purpose of traditional Sikh chronicle-writing?",
+          "options": [
+            "To produce statistical and economic analysis",
+            "To debate European scholarship point by point",
+            "To preserve communal memory and inspire devotion while honoring the Gurus and martyrs",
+            "To maintain neutral administrative tax records"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What was the dominant source base for Giani Gian Singh's writing?",
+          "options": [
+            "Systematic Persian administrative records and European archives",
+            "Oral tradition, earlier Sikh written works, and local shrine knowledge from within the tradition",
+            "Archaeological excavation reports",
+            "Newly discovered Mughal court diaries"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why should a careful reader treat large army or crowd numbers in the chronicles with caution?",
+          "options": [
+            "Because they are always deliberately falsified",
+            "Because such numbers often function as rhetoric signaling scale and drama rather than precise counts",
+            "Because numbers were forbidden in the genre",
+            "Because they were added by later British editors"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is identified as the single greatest contribution of Giani Gian Singh's work?",
+          "options": [
+            "Inventing the printing press in Punjab",
+            "Preserving a vast body of endangered Sikh memory in organized written form",
+            "Translating the chronicles into English",
+            "Producing the first statistical census of Punjab"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the central critical skill the course aims to build?",
+          "options": [
+            "Memorizing every date in the chronicles",
+            "Translating Punjabi verse into prose",
+            "Distinguishing among documented fact, plausible tradition, devotional interpretation, and legendary embellishment",
+            "Rejecting all traditional sources as unreliable"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How should the differing approaches of modern scholars to Giani Gian Singh's work be understood?",
+          "options": [
+            "As proof that his work has no value",
+            "As the normal, ongoing labor of historical inquiry in a living field, to be presented neutrally",
+            "As evidence that he never existed",
+            "As a reason to accept every detail without question"
+          ],
+          "answer": 1
+        }
+      ]
     },
     {
       "id": "sikh-religion-english-scholarship",
@@ -423,7 +535,7 @@
       "source": "SikhLibrary",
       "aiCreated": true,
       "status": "in-development",
-      "summary": "How Sikhi was presented to the English-speaking world through Macauliffe's six-volume study \u2014 strengths, limits, and legacy."
+      "summary": "How Sikhi was presented to the English-speaking world through Macauliffe's six-volume study — strengths, limits, and legacy."
     },
     {
       "id": "documenting-sikh-history",
@@ -434,7 +546,7 @@
       "source": "SikhLibrary",
       "aiCreated": true,
       "status": "in-development",
-      "summary": "Source-based historiography in the work of Dr. Ganda Singh \u2014 archives, evidence, and the discipline of Sikh history."
+      "summary": "Source-based historiography in the work of Dr. Ganda Singh — archives, evidence, and the discipline of Sikh history."
     },
     {
       "id": "naam-spiritual-discipline",
@@ -467,7 +579,7 @@
       "source": "SikhLibrary",
       "aiCreated": true,
       "status": "in-development",
-      "summary": "The grand narrative poetry of Kavi Santokh Singh (Suraj Prakash) \u2014 form, devotion, and historical imagination."
+      "summary": "The grand narrative poetry of Kavi Santokh Singh (Suraj Prakash) — form, devotion, and historical imagination."
     },
     {
       "id": "gurmukhi-and-gurbani-grammar",
@@ -978,7 +1090,7 @@
       "lessons": [
         {
           "title": "Guru Nanak Sahib and the Founding of Sikhi",
-          "html": "<p><strong>Guru Nanak Sahib</strong> (born 1469, traditionally near Talwandi, a village in the Punjab now called Nankana Sahib in present-day Pakistan) is revered as the first of the Ten Gurus and the founder of the Sikh faith, known as <strong>Sikhi</strong>. The word <em>Sikh</em> derives from a term meaning learner or disciple, and the heart of Guru Nanak Sahib's message was the call to learn, to remember the Divine, and to live truthfully in the world.</p><p>Guru Nanak Sahib taught the oneness of God, expressed in the opening words of Sikh scripture as <strong>Ik Onkar</strong> \u2014 One Universal Creator. He rejected the idea that any one community, ritual, or caste held a monopoly on the sacred. According to widely shared tradition, after a profound spiritual experience he declared that there is neither Hindu nor Muslim in the eyes of the Divine, meaning that outward labels matter far less than sincere devotion and ethical living.</p><p>Three principles are commonly used to summarize his practical teaching:</p><ul><li><strong>Naam Japna</strong> \u2014 remembering and meditating on the Divine Name.</li><li><strong>Kirat Karni</strong> \u2014 earning an honest living through one's own labor.</li><li><strong>Vand Chakna</strong> \u2014 sharing with and serving others, especially those in need.</li></ul><p>Guru Nanak Sahib is traditionally described as undertaking long journeys, called the <strong>Udasis</strong>, traveling widely to engage people of many backgrounds in spiritual dialogue. His teachings were preserved in hymns of striking poetic beauty that were later included in Sikh scripture. Toward the end of his life he settled at <strong>Kartarpur</strong>, where he established a community organized around collective worship, honest work, and the shared meal.</p><p>One of his most consequential acts was the institution of <strong>succession</strong>. Rather than passing leadership to a family member by default, Guru Nanak Sahib is said to have chosen a devoted disciple, Bhai Lehna, for his humility and service, renaming him <strong>Guru Angad Sahib</strong>. This deliberate choice of a successor based on spiritual merit established the principle that the light of Guruship would continue through a line of Gurus, ensuring continuity of the message beyond the founder's lifetime.</p>"
+          "html": "<p><strong>Guru Nanak Sahib</strong> (born 1469, traditionally near Talwandi, a village in the Punjab now called Nankana Sahib in present-day Pakistan) is revered as the first of the Ten Gurus and the founder of the Sikh faith, known as <strong>Sikhi</strong>. The word <em>Sikh</em> derives from a term meaning learner or disciple, and the heart of Guru Nanak Sahib's message was the call to learn, to remember the Divine, and to live truthfully in the world.</p><p>Guru Nanak Sahib taught the oneness of God, expressed in the opening words of Sikh scripture as <strong>Ik Onkar</strong> — One Universal Creator. He rejected the idea that any one community, ritual, or caste held a monopoly on the sacred. According to widely shared tradition, after a profound spiritual experience he declared that there is neither Hindu nor Muslim in the eyes of the Divine, meaning that outward labels matter far less than sincere devotion and ethical living.</p><p>Three principles are commonly used to summarize his practical teaching:</p><ul><li><strong>Naam Japna</strong> — remembering and meditating on the Divine Name.</li><li><strong>Kirat Karni</strong> — earning an honest living through one's own labor.</li><li><strong>Vand Chakna</strong> — sharing with and serving others, especially those in need.</li></ul><p>Guru Nanak Sahib is traditionally described as undertaking long journeys, called the <strong>Udasis</strong>, traveling widely to engage people of many backgrounds in spiritual dialogue. His teachings were preserved in hymns of striking poetic beauty that were later included in Sikh scripture. Toward the end of his life he settled at <strong>Kartarpur</strong>, where he established a community organized around collective worship, honest work, and the shared meal.</p><p>One of his most consequential acts was the institution of <strong>succession</strong>. Rather than passing leadership to a family member by default, Guru Nanak Sahib is said to have chosen a devoted disciple, Bhai Lehna, for his humility and service, renaming him <strong>Guru Angad Sahib</strong>. This deliberate choice of a successor based on spiritual merit established the principle that the light of Guruship would continue through a line of Gurus, ensuring continuity of the message beyond the founder's lifetime.</p>"
         },
         {
           "title": "The Early Gurus and the Building of Institutions",
@@ -990,7 +1102,7 @@
         },
         {
           "title": "Guru Hargobind Sahib and the Doctrine of Miri-Piri",
-          "html": "<p>Following the martyrdom of his father Guru Arjan Sahib, <strong>Guru Hargobind Sahib</strong>, the sixth Guru (Guru from 1606), introduced a development that gave Sikh history a new dimension. He articulated the concept of <strong>Miri-Piri</strong>, the principle that spiritual authority and temporal responsibility are joined rather than separate.</p><p>Tradition relates that Guru Hargobind Sahib wore two swords, symbolizing these two domains: <strong>Piri</strong>, representing spiritual sovereignty and devotion, and <strong>Miri</strong>, representing worldly authority and the duty to uphold justice and defend the community. This was not a turn away from Guru Nanak Sahib's spiritual message but an extension of it into the social and political realities of the age. A faith committed to truth and the protection of the vulnerable, the teaching implied, could not remain indifferent to oppression in the world.</p><p>He is also associated with the establishment of the <strong>Akal Takht</strong> at Amritsar, a seat representing temporal authority that stands facing the Harmandir Sahib. The pairing of these two centers physically embodied the balance of Miri and Piri \u2014 the temporal and the spiritual standing together.</p><p>The <strong>militarization</strong> of this period must be understood in context. It was a defensive and protective response to the political pressures and persecution the community had experienced, including the martyrdom of Guru Arjan Sahib. The Guru is traditionally remembered for maintaining a body of trained followers and horses, and for engaging in defensive conflicts, while continuing to emphasize spiritual devotion. The aim, as understood in mainstream Sikh tradition, was not conquest but the capacity to protect the innocent and resist tyranny. The Miri-Piri principle remains central to Sikh thought, expressing the conviction that genuine spirituality is inseparable from a commitment to justice in everyday life.</p>"
+          "html": "<p>Following the martyrdom of his father Guru Arjan Sahib, <strong>Guru Hargobind Sahib</strong>, the sixth Guru (Guru from 1606), introduced a development that gave Sikh history a new dimension. He articulated the concept of <strong>Miri-Piri</strong>, the principle that spiritual authority and temporal responsibility are joined rather than separate.</p><p>Tradition relates that Guru Hargobind Sahib wore two swords, symbolizing these two domains: <strong>Piri</strong>, representing spiritual sovereignty and devotion, and <strong>Miri</strong>, representing worldly authority and the duty to uphold justice and defend the community. This was not a turn away from Guru Nanak Sahib's spiritual message but an extension of it into the social and political realities of the age. A faith committed to truth and the protection of the vulnerable, the teaching implied, could not remain indifferent to oppression in the world.</p><p>He is also associated with the establishment of the <strong>Akal Takht</strong> at Amritsar, a seat representing temporal authority that stands facing the Harmandir Sahib. The pairing of these two centers physically embodied the balance of Miri and Piri — the temporal and the spiritual standing together.</p><p>The <strong>militarization</strong> of this period must be understood in context. It was a defensive and protective response to the political pressures and persecution the community had experienced, including the martyrdom of Guru Arjan Sahib. The Guru is traditionally remembered for maintaining a body of trained followers and horses, and for engaging in defensive conflicts, while continuing to emphasize spiritual devotion. The aim, as understood in mainstream Sikh tradition, was not conquest but the capacity to protect the innocent and resist tyranny. The Miri-Piri principle remains central to Sikh thought, expressing the conviction that genuine spirituality is inseparable from a commitment to justice in everyday life.</p>"
         },
         {
           "title": "Guru Gobind Singh Sahib and the Founding of the Khalsa",
@@ -2508,6 +2620,764 @@
             "Sikhi requires withdrawal from work and family life",
             "Equality across caste, gender, and background is a founding principle of Sikhi, not a later addition",
             "The turban has no spiritual meaning for Sikhs"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "bhai-gurdas-vaaran",
+      "title": "Bhai Gurdas: The First Interpreter of Gurbani",
+      "topic": "literature",
+      "level": 250,
+      "professor": "Bhai Gurdas",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An academic study of Bhai Gurdas (c.1551-1636), the scribe of the Adi Granth and the earliest systematic interpreter of Sikh teaching. This course examines his life and proximity to the Gurus, his two great bodies of work, the Vaaran and the Kabitt Savaiye, and the reasons his writing is celebrated as the Gurbani di kunji, the key that unlocks Gurbani. Lessons explore his major themes, his characteristic metaphors and arguments, his place in the literary history of Punjabi, and the practical ways students of the tradition read him alongside the scripture. Throughout, the focus is analytical and descriptive: we study what Bhai Gurdas wrote and why it matters, rather than reproducing his verses.",
+      "lessons": [
+        {
+          "title": "Who Was Bhai Gurdas? Life and Times",
+          "html": "<h2>A Life Lived Close to the Gurus</h2><p>Bhai Gurdas Bhalla, traditionally dated to around 1551 and passing in 1636, stands as one of the most significant figures in early Sikh history who was not himself a Guru. To understand his importance, it helps to picture the world he inhabited. He was born into the formative decades of the Sikh community, when the teachings of Guru Nanak were being carried forward by his successors and the movement was growing from a circle of devotees into an organized spiritual society with its own institutions, gathering places, and emerging body of sacred writing.</p><p>Bhai Gurdas was connected to the house of the Gurus by both kinship and devotion. He is traditionally understood to have been a relative of Guru Amar Das, the third Guru, and he served the Gurus across several generations, living through the time of the third, fourth, fifth, and sixth Gurus. This long span of service is itself remarkable: few individuals were positioned to witness so much of the early shaping of the tradition from so close a vantage point.</p><h2>A Scholar Among Devotees</h2><p>What set Bhai Gurdas apart was the rare combination of deep personal devotion with formidable learning. He was steeped in the religious and philosophical vocabulary of his age, familiar with the imagery of the broader devotional currents of the time, and at the same time fully immersed in the distinctive message of the Gurus. This dual fluency made him uniquely suited to explain Sikh teaching to audiences who came from many different backgrounds.</p><p>He was also a missionary and an emissary. The Gurus entrusted him with responsibilities that took him to important centers of the day, where he taught, represented the community, and helped establish the Sikh presence. He was, in other words, not a cloistered writer but an active participant in building the early community.</p><h2>Why His Life Matters for Reading His Work</h2><p>Because Bhai Gurdas wrote from within the living circle of the Gurus rather than as a later commentator looking back across centuries, his interpretation carries a special weight. He was not reconstructing the meaning of the teaching from fragments; he was articulating an understanding formed in direct contact with those who gave the teaching. As we move through this course, keep this proximity in mind. It is the reason his writing is treated not merely as good literature but as an authoritative window into how the earliest community understood its own message.</p>"
+        },
+        {
+          "title": "The Scribe of the Adi Granth",
+          "html": "<h2>The Great Compilation</h2><p>One of the defining achievements of Sikh history was the compilation of the Adi Granth, the first authoritative collection of the sacred writings, brought together under the direction of Guru Arjan, the fifth Guru, in the early years of the seventeenth century. This was a monumental undertaking. It gathered the compositions of the Gurus together with selected writings of saints and devotees from varied backgrounds, arranged with great care according to musical measure and structure. The result was a scripture of extraordinary coherence and scope.</p><p>Bhai Gurdas served as the scribe, the one who physically wrote out this collection under the Guru's supervision. To appreciate what this meant, consider that a scribe of a sacred text in that era was no mere copyist. The work demanded exact accuracy, deep familiarity with the material, and complete trust. The Guru directed the arrangement and content; Bhai Gurdas was the trusted hand that set it down.</p><h2>What This Role Tells Us</h2><p>The selection of Bhai Gurdas for this task speaks volumes about the regard in which he was held. Among an entire community, he was chosen for the most sensitive and important literary labor of the age. It confirms both his scholarly reliability and his standing in the eyes of the Guru.</p><p>This connection also helps explain a deeper point about his own writing. A person who had carefully transcribed the entire body of scripture, line by line, had absorbed it as perhaps no one else of his time had. His mind was saturated with its language, its arguments, and its spirit. When he then composed his own works explaining the teaching, he wrote as someone who knew the scripture from the inside out.</p><h2>From Scribe to Interpreter</h2><p>It is natural, then, that the man who recorded the scripture should also become its first great explainer. The two roles flow into one another. Having helped fix the words of the tradition in their authoritative form, Bhai Gurdas turned to the task of making those words intelligible, opening their meaning for the many who would read or hear them. In the lessons that follow, we examine the two bodies of work in which he carried out that task.</p>"
+        },
+        {
+          "title": "The Vaaran: Form and Purpose",
+          "html": "<h2>What Is a Vaar?</h2><p>The Vaar is a traditional poetic form in Punjabi, historically associated with the ballad of heroic deeds, songs sung to celebrate valor and great events. Bhai Gurdas took this familiar, vigorous form and turned it to a new purpose. In his hands the heroism celebrated is spiritual: the triumph of devotion over ego, of truth over falsehood, of the disciplined seeker over the wandering mind. He composed a series of these Vaaran, a collection of long poetic discourses, each built from many stanzas, that together form a sustained exposition of Sikh teaching.</p><p>The choice of form was itself meaningful. The Vaar carried connotations of strength, struggle, and victory in the popular imagination. By framing the spiritual life in this idiom, Bhai Gurdas presented the path of the seeker not as passive retreat but as a demanding and noble contest worthy of a hero's resolve.</p><h2>Composed in the Language of the People</h2><p>Equally important was his choice of language. He wrote in Punjabi, the everyday speech of the region, rather than in a remote scholarly tongue reserved for the learned few. This was a deliberate act of accessibility. The teaching was meant for all, and so its first great commentary was offered in words ordinary listeners could understand. This decision had lasting consequences for the development of Punjabi as a vehicle for serious religious and philosophical thought.</p><h2>Teaching Through Story and Image</h2><p>The Vaaran do not proceed as dry argument. Bhai Gurdas teaches through vivid comparison, through brief illustrative stories, and through observations drawn from ordinary life: the natural world, crafts and trades, family relationships, and the everyday conduct of people. He continually grounds lofty spiritual points in concrete, recognizable images. A reader meets the abstract idea already clothed in something familiar, which makes the lesson both clear and memorable.</p><p>This pedagogical instinct, the steady movement from the seen to the unseen, from the daily to the divine, is one of the most characteristic features of his writing and one of the chief reasons it has remained beloved for centuries.</p>"
+        },
+        {
+          "title": "The Kabitt Savaiye and the Two Bodies of Work",
+          "html": "<h2>A Second Great Collection</h2><p>Alongside the Vaaran, Bhai Gurdas left a second major body of poetry composed in different metrical forms, commonly known together as the Kabitt Savaiye. These are shorter, intensely concentrated poems, each one a self-contained meditation. Where a Vaar unfolds an argument at length across many stanzas, a Kabitt or Savaiya often presses a single insight into a compact, polished form, frequently turning on an extended comparison or a striking paradox.</p><p>The language and register of this second collection differ from the Vaaran. It draws on the broader poetic vocabulary current among the literate devotional circles of the time. This gives the Kabitt Savaiye a somewhat more ornate and literary texture, while the Vaaran feel closer to the spoken Punjabi of the land. Together, the two collections show the range of Bhai Gurdas as a writer, equally at home in the popular ballad and in the refined lyric.</p><h2>Two Approaches to One Message</h2><p>It would be a mistake to treat the two bodies of work as carrying different teachings. The message is one and the same. What differs is the manner of delivery. The Vaaran are expansive, patient, and conversational, ideal for laying out a full picture of the spiritual life and the ideal Sikh. The Kabitt Savaiye are concentrated and jewel-like, ideal for fixing a single truth in the mind through the force of a perfect image.</p><h2>Reading Them Together</h2><p>Students of Bhai Gurdas often find it rewarding to read the two collections in tandem. A theme treated at length in a Vaar may appear elsewhere distilled into a single luminous Kabitt, and seeing the same idea in both forms deepens understanding. The expansive treatment supplies context and reasoning; the compact treatment supplies a memorable point of focus. In this way the two halves of his work complement and reinforce one another, and the full measure of his achievement emerges only when both are considered.</p>"
+        },
+        {
+          "title": "The Key to Gurbani: Why His Work Unlocks the Scripture",
+          "html": "<h2>The Honored Title</h2><p>Within the tradition, the writings of Bhai Gurdas are given a celebrated description: they are called the key to Gurbani, the Gurbani di kunji. This is among the highest compliments that could be paid to a body of interpretive writing, and it is worth examining carefully what it means and why it is deserved.</p><p>To call something a key is to say that it opens what would otherwise remain closed. The scripture is profound, dense with meaning, and expressed in a language and imagery that can challenge the reader. Bhai Gurdas provides a way in. His writing does not replace the scripture; it grants access to it. The honor of the title rests precisely on this relationship of service: his work points beyond itself, toward the sacred text it illuminates.</p><h2>What Makes a Reliable Key</h2><p>Several features make his interpretation trustworthy in the eyes of the tradition. First, his proximity to the Gurus, examined in earlier lessons, means his understanding was formed in direct contact with the source. Second, his role as scribe gave him an unmatched intimacy with the full body of scripture. Third, his learning allowed him to explain difficult ideas clearly without distorting them. And fourth, his evident devotion ensured that he approached the task in the right spirit, as a servant of the teaching rather than a clever interpreter showing off his own ingenuity.</p><h2>How the Key Works in Practice</h2><p>Concretely, his writing unlocks the scripture in a few recurring ways. He restates compressed scriptural ideas at greater length, giving the reader room to follow the thought. He supplies illustrative examples that make abstract teaching tangible. He draws connections between different parts of the message, showing how individual teachings fit into a coherent whole. And he models the right attitude of the seeker, so that the reader learns not only what the scripture says but how it asks to be received.</p><p>For these reasons the title is not honorary flattery but an accurate description of a genuine function. To read Bhai Gurdas is to be handed a tool that makes the scripture more open, more intelligible, and more livable.</p>"
+        },
+        {
+          "title": "Major Themes: The Guru, the Gurmukh, and Devotion",
+          "html": "<h2>The Nature of the Guru</h2><p>At the center of Bhai Gurdas's writing stands the figure of the Guru. He returns again and again to the meaning of the Guru, the relationship between the seeker and the Guru, and the transformation that this relationship makes possible. He presents the Guru as the indispensable guide who awakens the seeker, dispels confusion, and points the way from a life governed by ego to a life rooted in truth. The teaching is consistent: no amount of unaided striving substitutes for the guidance the Guru provides.</p><h2>The Ideal Sikh: The Gurmukh</h2><p>A second great theme is the portrait of the ideal seeker, the one whose face is turned toward the Guru, often called the Gurmukh. Bhai Gurdas devotes much of his attention to describing what this ideal life looks like in practice. The Gurmukh he depicts is humble, truthful, free of pride, content, generous, and steady. Such a person serves others without seeking reward, accepts what comes without resentment, and keeps the divine constantly in mind through ordinary activity.</p><p>This portrait is one of his most valuable contributions. Rather than leaving the spiritual ideal abstract, he fills it in with concrete qualities and behaviors, so that the reader gains a clear and usable picture of what to aspire to. The Gurmukh is contrasted, often pointedly, with the self-centered person who follows the dictates of the ego, and the contrast sharpens the reader's understanding of both.</p><h2>Devotion and the Inner Life</h2><p>Running through all of this is the theme of devotion, the loving remembrance of the divine that Bhai Gurdas treats as the heart of the whole path. He emphasizes that true devotion is inward and sincere rather than merely outward and performed. He is critical of empty ritual and hollow display, and he insists that the real work happens in the conduct and disposition of the seeker. Devotion, in his treatment, is inseparable from honest living and humble service.</p><h2>A Unified Vision</h2><p>These themes are not separate compartments but facets of one vision. The Guru makes the seeker into a Gurmukh; the Gurmukh's life is one of devotion; and devotion expresses itself in truthful, humble, serviceable conduct. Bhai Gurdas weaves these strands together so consistently that, across the whole of his work, a single integrated picture of the good life emerges.</p>"
+        },
+        {
+          "title": "Ethics, Metaphor, and the Art of Persuasion",
+          "html": "<h2>The Moral Vision</h2><p>Bhai Gurdas is, among other things, a great teacher of ethics, though he never reduces the spiritual life to a list of rules. For him, right conduct flows naturally from right understanding and a transformed heart. Still, his writing is full of practical moral instruction: he praises truthfulness, humility, contentment, patience, and selfless service, and he warns against pride, greed, anger, attachment, and hypocrisy. He is especially severe toward those who make an outward show of piety while remaining inwardly corrupt, and he holds up sincerity as the test of all conduct.</p><h2>Teaching Through Comparison</h2><p>What gives his ethical and spiritual teaching its enduring power is his mastery of metaphor and illustration. Rather than asserting a point bluntly, he characteristically reaches for a comparison that lets the reader see and feel the truth. He draws on the behavior of animals, the qualities of plants and trees, the working of natural processes, the practices of various trades, and the dynamics of family life. Each comparison is chosen so that a familiar pattern from ordinary experience suddenly illuminates a spiritual principle.</p><p>For example, he is fond of pointing to humble or self-effacing things in nature that quietly give benefit to others, using them to teach the value of selfless service performed without seeking recognition. He observes how certain results follow inevitably from certain causes in daily life and uses this to teach the moral law that conduct shapes destiny. He notes how something small and steady can accomplish what force cannot, to teach the power of patience and humility. In each case the verse itself is brief, but the image opens into a wide field of reflection. (Here we describe his method in our own words rather than reproducing his lines.)</p><h2>The Persuasive Effect</h2><p>This method is more than decoration. By grounding every teaching in shared experience, Bhai Gurdas persuades rather than merely instructs. The reader is not told to accept a claim on authority; the reader is invited to recognize a truth already half-known from life. This is why his comparisons stay in the memory long after the argument that prompted them, and why generations of readers have found his writing both convincing and delightful. The art of the image is, for him, inseparable from the work of teaching.</p>"
+        },
+        {
+          "title": "Literary Legacy and How Students Use His Work Today",
+          "html": "<h2>A Foundation of Punjabi Literature</h2><p>Beyond his religious importance, Bhai Gurdas holds a major place in the literary history of Punjabi. By choosing to compose serious, sustained, philosophically ambitious poetry in Punjabi, he helped establish the language as a worthy vehicle for the highest subjects. His Vaaran are studied not only for their content but as landmarks in the development of the language and its poetry. His command of the Vaar form, his disciplined construction, and his memorable imagery set a standard that later writers looked back upon.</p><p>His influence on style is felt as well. The clarity of his exposition, his habit of illuminating the abstract through the concrete, and the moral seriousness of his voice all contributed to a tradition of devotional and didactic writing in the language. To study the roots of Punjabi literary culture is, in part, to study Bhai Gurdas.</p><h2>How Students Read Him</h2><p>For students of the tradition, the practical value of Bhai Gurdas lies in the way his work supports the reading of scripture. A common and time-honored approach is to read him alongside Gurbani, using his expansive treatments to shed light on compressed scriptural passages. When a scriptural idea is difficult, turning to his fuller discussion of the same theme often clarifies it. His vivid examples give the student a foothold; his portraits of the ideal seeker give the student a model; his connecting of themes gives the student a sense of the whole.</p><h2>A Companion for the Path</h2><p>Teachers frequently recommend his writing precisely because it bridges the gap between the profound and the accessible. A newcomer can read Bhai Gurdas and come away with a clear, ordered understanding of the teaching's main ideas. A more advanced student can return to him and find depths that earlier readings missed. In this way his work serves a wide range of readers, functioning as an introduction, a commentary, and a source of lasting reflection all at once.</p><h2>Why He Endures</h2><p>The lasting reputation of Bhai Gurdas rests on a rare convergence: he combined nearness to the source, mastery of language, depth of devotion, and a gift for teaching. He recorded the scripture, then unlocked it. He honored the past forms of his language, then carried them to new heights. Centuries later, his role as the first and most trusted interpreter of Gurbani remains secure, and his writing continues to open the door for all who seek to understand the teaching he loved.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What major literary and historical role did Bhai Gurdas play in the compilation of the first authoritative Sikh scripture?",
+          "options": [
+            "He served as the scribe who wrote out the Adi Granth under the Guru's direction",
+            "He selected which writings to exclude from the collection",
+            "He translated the scripture into a foreign language",
+            "He composed the majority of the hymns in the collection himself"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Under which Guru's direction was the Adi Granth compiled, with Bhai Gurdas serving as scribe?",
+          "options": [
+            "Guru Nanak, the first Guru",
+            "Guru Arjan, the fifth Guru",
+            "Guru Amar Das, the third Guru",
+            "Guru Hargobind, the sixth Guru"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "By what honored title is the writing of Bhai Gurdas traditionally known?",
+          "options": [
+            "The mirror of the Gurus",
+            "The crown of poetry",
+            "The key to Gurbani, the Gurbani di kunji",
+            "The voice of the people"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What were the two major bodies of poetic work left by Bhai Gurdas?",
+          "options": [
+            "The Vaaran and the Kabitt Savaiye",
+            "The Vaaran and a prose biography",
+            "A collection of letters and a hymnal",
+            "The Kabitt Savaiye and a book of laws"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Why was Bhai Gurdas's choice to write his Vaaran in Punjabi significant?",
+          "options": [
+            "It allowed only scholars to read his work",
+            "It made the teaching accessible to ordinary people and helped establish Punjabi as a vehicle for serious thought",
+            "It was required by the rules of the Vaar form",
+            "It concealed the meaning from outsiders"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does the course describe the figure of the Gurmukh in Bhai Gurdas's writing?",
+          "options": [
+            "A ruler who governs the community by force",
+            "A scholar who memorizes texts but does not act",
+            "The ideal seeker who is humble, truthful, content, and devoted in service",
+            "A wandering ascetic who rejects all community life"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is identified as a characteristic feature of Bhai Gurdas's teaching method?",
+          "options": [
+            "Asserting points bluntly without explanation",
+            "Relying only on abstract philosophical argument",
+            "Illuminating spiritual truths through metaphors and examples drawn from everyday life",
+            "Avoiding any reference to ordinary experience"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How do students of the tradition commonly use the work of Bhai Gurdas today?",
+          "options": [
+            "As a replacement for reading the scripture itself",
+            "As a companion read alongside Gurbani to clarify and open up its meaning",
+            "Purely as historical record with no interpretive value",
+            "Only as an example of poor literary style to avoid"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "colonial-singh-sabha",
+      "title": "The Colonial Era & the Singh Sabha Movement",
+      "topic": "history",
+      "level": 350,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This upper-level course traces the Sikh experience from the British annexation of Punjab in 1849 through the upheavals of the colonial period. Students examine how foreign rule, missionary activity, and rapid social change placed Sikh identity under strain, and how the Singh Sabha movement (beginning in 1873) responded with a remarkable renaissance of reform, education, and printing. The course studies leading figures and institutions, surveys the internal Tat Khalsa and Sanatan debates in a balanced way, and follows the path to the Gurdwara Reform (Akali) movement and the landmark Sikh Gurdwaras Act of 1925. Throughout, approximate dates are flagged and contested interpretations are presented neutrally so that learners can appreciate both the achievements and the unresolved questions of this formative era.",
+      "lessons": [
+        {
+          "title": "The Annexation of Punjab and Sikhs Under British Rule",
+          "html": "<p>The Sikh empire founded by Maharaja Ranjit Singh reached its height in the early nineteenth century, uniting much of the Punjab under a single sovereign power. After Ranjit Singh's death in 1839, a series of succession struggles and court intrigues weakened the Lahore Darbar. Two Anglo-Sikh wars followed, and in <strong>1849</strong> the British East India Company formally annexed the Punjab, ending Sikh political sovereignty and absorbing the region into colonial India.</p><p>British administration brought sweeping changes. New systems of land revenue, law courts, railways, the telegraph, and a cash economy reshaped rural and urban life. The colonial state also developed a particular interest in the Sikhs as a community. Recognizing their reputation as soldiers, the army recruited Sikhs in large numbers, and over time a policy sometimes described by historians as the encouragement of a distinct martial identity took shape. Recruits were often required to maintain visible markers of the Khalsa, such as unshorn hair, which had practical and symbolic consequences for how Sikh identity was understood.</p><p>For ordinary Sikhs, the experience was mixed. Some found new economic and military opportunities, while others felt the loss of self-rule keenly. The disestablishment of Sikh political power also removed a source of patronage that had long supported gurdwaras, scholarship, and religious institutions. Into this changed landscape entered Christian missionaries and Western-style schools, setting the stage for the religious and cultural anxieties that would soon spur reform.</p><ul><li><strong>1849:</strong> Annexation of the Punjab by the British.</li><li><strong>Key shifts:</strong> new revenue and legal systems, infrastructure, and a cash economy.</li><li><strong>Army recruitment:</strong> Sikhs enlisted in large numbers, often with emphasis on Khalsa identity markers.</li></ul>"
+        },
+        {
+          "title": "Pressures on Sikh Identity in the Colonial Period",
+          "html": "<p>The decades after annexation brought intense pressure on how Sikhs understood and practiced their faith. Several forces converged at once. <strong>Christian missionary activity</strong> expanded across the Punjab, opening schools and hospitals and seeking converts; a small number of high-profile conversions, including from notable families, alarmed many Sikhs. At the same time, Hindu reform movements such as the <strong>Arya Samaj</strong>, founded in the 1870s, grew rapidly in the region and at times criticized Sikh practices or sought to absorb Sikhs into a broader Hindu fold.</p><p>Internally, many reformers worried about practices they viewed as inconsistent with the teachings of the Gurus. These concerns included the presence of idols and Brahminical rituals within some major gurdwaras, the management of shrines by hereditary custodians (mahants) who were sometimes seen as corrupt or worldly, and a general blurring of the boundary between Sikh and surrounding religious customs. Literacy in Punjabi and Gurmukhi was limited, and access to authoritative religious knowledge was uneven.</p><p>A central question of the age was deceptively simple yet deeply contested: who is a Sikh, and what defines Sikh practice? Different communities answered differently. Some emphasized the Khalsa initiation and a sharply distinct identity, while others embraced a more inclusive, pluralistic understanding rooted in long-standing local traditions. These differences were not merely abstract; they shaped control of shrines, the content of education, and the community's standing under colonial law and census categories.</p><ul><li><strong>External pressures:</strong> Christian missions and Hindu reform movements such as the Arya Samaj.</li><li><strong>Internal concerns:</strong> ritual practices in gurdwaras, hereditary shrine management, and low literacy.</li><li><strong>Core debate:</strong> the definition and boundaries of Sikh identity.</li></ul>"
+        },
+        {
+          "title": "The Rise of the Singh Sabha Movement",
+          "html": "<p>In response to these pressures, Sikh leaders organized to defend, clarify, and renew their faith. The first <strong>Singh Sabha</strong> (literally a society or assembly of Sikhs) was established in <strong>Amritsar in 1873</strong>. A few years later, in <strong>1879</strong>, a second prominent Singh Sabha was founded in Lahore. These two centers, while sharing broad aims, reflected somewhat different emphases that would shape later debates within the movement.</p><p>The Singh Sabha set out several interlinked goals. It sought to restore what reformers saw as the authentic teachings of the Gurus and the Sikh scriptures, to remove practices considered foreign to the faith, to promote education through modern schools while strengthening knowledge of Gurmukhi and Punjabi, and to publish religious and historical literature for a wide readership. It also aimed to raise the standing of the community in a colonial society where other groups were actively organizing.</p><p>Crucially, the movement worked largely through persuasion, scholarship, and institution-building rather than political agitation, at least in its early decades. Local Singh Sabhas multiplied across towns and villages, and in time umbrella organizations emerged to coordinate their efforts. This network of societies, schools, presses, and committees became the engine of a broad Sikh revival, transforming religious life and laying foundations that would carry into the twentieth century.</p><ul><li><strong>1873:</strong> First Singh Sabha founded at Amritsar.</li><li><strong>1879:</strong> Singh Sabha established at Lahore.</li><li><strong>Aims:</strong> religious reform, education, publishing, and community uplift, pursued mainly through peaceful means.</li></ul>"
+        },
+        {
+          "title": "Key Figures and Institutions",
+          "html": "<p>The Singh Sabha era produced a remarkable generation of scholars, organizers, and patrons. Among the most influential was <strong>Bhai Vir Singh</strong> (1872 to 1957), often celebrated as a foundational figure of modern Punjabi literature, who wrote poetry, novels, and devotional and scholarly works that shaped Sikh self-understanding. Another towering figure was <strong>Bhai Kahn Singh Nabha</strong>, whose monumental encyclopedia of Sikh tradition and whose writings on Sikh distinctiveness became standard references. Earlier reformers such as <strong>Giani Ditt Singh</strong> contributed energetic preaching and journalism in service of the reform cause. Aristocratic and princely patrons also lent crucial financial and political support to the movement's institutions.</p><p>Institution-building was central. The most celebrated achievement was the founding of <strong>Khalsa College, Amritsar</strong>, established around the turn of the 1890s (commonly dated to 1892), which became a flagship of Sikh higher education and a symbol of communal aspiration. Alongside it, numerous Khalsa schools were created to combine modern education with religious instruction. Coordinating bodies, most notably the <strong>Chief Khalsa Diwan</strong>, founded in <strong>1902</strong>, brought together many local Singh Sabhas and provided a more unified leadership for educational, religious, and social initiatives.</p><p>These institutions did more than spread literacy. They trained a new class of educated Sikhs, nurtured Punjabi-language scholarship, standardized religious knowledge, and gave the community durable organizational structures. Their influence extended well beyond the colonial period, shaping Sikh education and public life for generations.</p><ul><li><strong>Scholars:</strong> Bhai Vir Singh, Bhai Kahn Singh Nabha, Giani Ditt Singh, and others.</li><li><strong>Khalsa College, Amritsar:</strong> a leading institution of Sikh higher education (commonly dated to 1892).</li><li><strong>Chief Khalsa Diwan (1902):</strong> a coordinating body uniting many Singh Sabhas.</li></ul>"
+        },
+        {
+          "title": "The Tat Khalsa and Sanatan Debates",
+          "html": "<p>The Singh Sabha movement was not a single unified voice; it contained internal currents that disagreed about the nature of Sikh identity. Historians generally describe two broad tendencies. The <strong>Tat Khalsa</strong> (sometimes rendered as the \"pure\" or \"true\" Khalsa) emphasized a sharply distinct Sikh identity, centered on the Guru Granth Sahib and the ten Gurus, the Khalsa initiation, and a clear separation from Hindu ritual practices and Brahminical authority. The <strong>Sanatan</strong> tendency, associated with some traditional scholars and shrine custodians, held a more inclusive and pluralistic view that accommodated a range of long-standing devotional practices and saw Sikh tradition as embedded within a broader Indic religious world.</p><p>These were genuine and good-faith disagreements among devout people who cared deeply about the faith. The questions at stake were profound: What rituals belong in a gurdwara? What is the place of caste and of hereditary religious authority? How should the boundaries of the community be defined for purposes of practice, scholarship, and even colonial census categories? Each side could point to scripture, history, and tradition in support of its understanding.</p><p>Over time, the Tat Khalsa perspective became broadly influential in shaping mainstream modern Sikh practice and self-definition, including standardized rites and a strong emphasis on distinct identity. It is important, however, to approach this history without caricature. Both currents reflected sincere efforts to honor the Gurus' message in a period of rapid change, and scholars continue to discuss the nuances and the lasting effects of these debates.</p><ul><li><strong>Tat Khalsa:</strong> emphasis on a distinct Sikh identity, the Khalsa, and separation from Brahminical ritual.</li><li><strong>Sanatan:</strong> a more inclusive view accommodating diverse traditional practices.</li><li><strong>Outcome:</strong> the Tat Khalsa perspective broadly shaped mainstream modern practice; both reflected sincere devotion.</li></ul>"
+        },
+        {
+          "title": "The Print and Education Renaissance",
+          "html": "<p>One of the most enduring legacies of the Singh Sabha era was a flowering of printing, journalism, and education. The arrival of the printing press in the Punjab allowed religious texts, tracts, periodicals, and books to be produced cheaply and circulated widely. Reformers seized this opportunity to make scripture, history, and devotional literature accessible far beyond the small circles that had previously controlled religious knowledge. Newspapers and journals in Punjabi and other languages carried debates, news, and reform appeals to a growing readership.</p><p>This renaissance had several important dimensions. It strengthened the <strong>Gurmukhi script and the Punjabi language</strong> as vehicles of serious literature and learning, helping to forge a modern Punjabi literary culture. It supported the standardization of religious knowledge, including efforts to clarify Sikh history, theology, and codes of conduct. It also fostered a sense of shared community across distant towns and villages, as readers encountered common texts, debates, and heroes.</p><p>Education and print reinforced each other. Khalsa schools and colleges produced literate readers and writers, while the press supplied them with reading material and a public forum. Together they cultivated a self-aware, articulate Sikh public capable of engaging both colonial authorities and rival movements. This intellectual and cultural infrastructure proved decisive in the more politically charged campaigns that followed.</p><ul><li><strong>Printing:</strong> cheap reproduction of scriptures, tracts, and periodicals widened access to knowledge.</li><li><strong>Language:</strong> Gurmukhi and Punjabi were strengthened as media of modern literature.</li><li><strong>Effect:</strong> a more literate, connected, and self-aware Sikh public emerged.</li></ul>"
+        },
+        {
+          "title": "The Gurdwara Reform (Akali) Movement and the Act of 1925",
+          "html": "<p>The reforming energy of the Singh Sabha period eventually turned to the control and management of the gurdwaras themselves. Many historic shrines remained under hereditary custodians known as <strong>mahants</strong>, some of whom were accused of mismanagement, of permitting practices reformers rejected, or of using shrine endowments for personal ends. From around <strong>1920</strong>, a broad campaign arose to free the gurdwaras and place them under representative community control. This became known as the <strong>Gurdwara Reform movement</strong> or the <strong>Akali movement</strong>.</p><p>To coordinate the effort, the <strong>Shiromani Gurdwara Parbandhak Committee (SGPC)</strong> was formed in <strong>1920</strong> to oversee gurdwara management, and the <strong>Akali Dal</strong> emerged as the activist body leading the campaigns. The movement was marked by its commitment to nonviolent, disciplined agitation. Volunteers courted arrest and, in several painful episodes, endured beatings and worse without retaliation. The events at <strong>Nankana Sahib in 1921</strong>, where a number of Sikhs were killed, and the long protest at <strong>Guru ka Bagh</strong> in 1922 became powerful symbols of sacrifice and discipline.</p><p>After years of struggle, the campaign achieved a major legislative victory. The <strong>Sikh Gurdwaras Act of 1925</strong> placed many historic gurdwaras under the control of an elected representative body, effectively recognizing the SGPC's authority over their management. This was a landmark in modern Sikh history, establishing a lasting framework for the democratic administration of Sikh shrines.</p><ul><li><strong>From about 1920:</strong> a nonviolent campaign to reform gurdwara management.</li><li><strong>1920:</strong> formation of the SGPC; the Akali Dal led the agitation.</li><li><strong>1921 to 1922:</strong> Nankana Sahib and Guru ka Bagh became symbols of peaceful sacrifice.</li><li><strong>1925:</strong> the Sikh Gurdwaras Act placed many historic shrines under elected community control.</li></ul>"
+        },
+        {
+          "title": "Legacy into the Twentieth Century",
+          "html": "<p>The combined achievements of the Singh Sabha and Gurdwara Reform movements reshaped Sikh life for the long term. By the mid-1920s the community possessed a network of modern schools and colleges, a vigorous Punjabi press, a body of standardized religious scholarship, and durable institutions such as the Chief Khalsa Diwan and the SGPC. Together these gave Sikhs unprecedented tools for self-organization, education, and public engagement under colonial conditions.</p><p>The reforms also clarified and strengthened a distinct Sikh identity in religious practice and public life. Efforts to define and standardize Sikh conduct continued in the following decades, eventually contributing to a widely recognized code of practice. The democratic management of gurdwaras through elected bodies created a model of community self-governance that remained central to Sikh affairs well beyond the colonial era. At the same time, the political organization forged in these campaigns fed into the broader currents of Indian and Punjabi politics in the run-up to independence in 1947.</p><p>Historians continue to debate the full meaning of this period. Some emphasize its revival and empowerment of the community; others examine how its definitions of identity affected internal diversity and relations with neighbors. Approached with care and balance, the colonial era and the Singh Sabha movement stand as a formative chapter in which Sikhs, under great pressure, renewed their faith, built lasting institutions, and asserted their place in a rapidly changing world.</p><ul><li><strong>Institutions:</strong> schools, colleges, the press, the Chief Khalsa Diwan, and the SGPC endured well beyond 1925.</li><li><strong>Identity and governance:</strong> strengthened distinct practice and a model of democratic shrine management.</li><li><strong>Ongoing study:</strong> historians continue to weigh the movement's achievements and its complexities.</li></ul>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "In what year did the British annex the Punjab, ending Sikh political sovereignty?",
+          "options": [
+            "1839",
+            "1849",
+            "1873",
+            "1902"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Where and when was the first Singh Sabha established?",
+          "options": [
+            "Lahore in 1879",
+            "Amritsar in 1873",
+            "Delhi in 1892",
+            "Nankana Sahib in 1920"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which external movement, founded in the 1870s, is often cited as a source of pressure on Sikh identity in the colonial Punjab?",
+          "options": [
+            "The Akali Dal",
+            "The Arya Samaj",
+            "The Chief Khalsa Diwan",
+            "The SGPC"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which institution is the celebrated flagship of Sikh higher education founded around 1892?",
+          "options": [
+            "Khalsa College, Amritsar",
+            "Lahore Singh Sabha School",
+            "The Lahore Darbar",
+            "Guru ka Bagh"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How are the two broad internal tendencies within the Singh Sabha movement commonly described?",
+          "options": [
+            "Akali and Mahant",
+            "Tat Khalsa and Sanatan",
+            "Lahore and Amritsar parties",
+            "Arya and Khalsa"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which body was formed in 1920 to coordinate the management of gurdwaras?",
+          "options": [
+            "The Arya Samaj",
+            "The Chief Khalsa Diwan",
+            "The Shiromani Gurdwara Parbandhak Committee (SGPC)",
+            "The East India Company"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "A defining characteristic of the Gurdwara Reform (Akali) movement was its commitment to:",
+          "options": [
+            "Armed rebellion against the British",
+            "Nonviolent, disciplined agitation",
+            "Withdrawal from public life",
+            "Conversion of mahants"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What did the Sikh Gurdwaras Act of 1925 accomplish?",
+          "options": [
+            "It annexed the Punjab to British India",
+            "It founded the first Singh Sabha",
+            "It placed many historic gurdwaras under elected representative control",
+            "It abolished the Khalsa initiation"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "haumai-self-liberation",
+      "title": "Haumai, the Self, and Liberation",
+      "topic": "philosophy",
+      "level": 300,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An upper-division study of one of the central problems in Sikh philosophy: Haumai, the deep-rooted sense of a separate, self-asserting 'I' that the Gurus identify as the root of human bondage. The course traces how Haumai arises, how it entangles the self in Maya and attachment, and how it underlies the five inner adversaries. It contrasts the self-willed (Manmukh) and Guru-oriented (Gurmukh) orientations, examines the dissolving of ego through Naam, Shabad and divine grace, and explores Jivan Mukti, liberation realized while still living. A respectful, brief comparison with broader philosophical and religious views of the self situates Gurmat within a wider conversation. Throughout, debated nuances are presented neutrally and Gurbani is referenced and explained rather than reproduced.",
+      "lessons": [
+        {
+          "title": "Lesson 1: Haumai as the Core Human Predicament",
+          "html": "<h2>The Word and the Problem</h2><p>The Punjabi term <em>Haumai</em> is often rendered as ego, egoism, or self-centredness, but these English words capture only part of its meaning. The word itself is usually read as a compound of <em>hau</em> (I) and <em>mai</em> (me or mine), so that Haumai literally names the relentless saying of 'I' and 'mine.' It is not merely vanity or pride in the everyday sense. In Gurmat (the teaching of the Gurus) Haumai denotes the basic structuring of experience around a separate, self-asserting self that takes itself to be the center and the agent of all it does.</p><p>This makes Haumai the core human predicament rather than one moral flaw among many. The Gurus diagnose human suffering not first as a problem of bad behaviour but as a problem of mistaken self-understanding. When a person lives as though the small, bounded 'I' is the true and ultimate reality, every perception, desire, and relationship is colored by that error. The result is a life of restlessness, comparison, and separation from the divine Source.</p><h2>A Disease That Carries Its Own Cure</h2><p>One of the most quoted teachings on this theme, found in the Asa di Var section of the Guru Granth Sahib, describes Haumai as a deep, chronic affliction, often translated as a long-lasting disease. The same passage offers a striking turn: within the malady lies its own remedy. The point is that the very faculty that, when misdirected, produces egoism is also what can, when reoriented toward the divine, become the means of healing. Haumai is therefore not portrayed as a foreign invader to be destroyed by force, but as a misdirection of the self that must be transformed.</p><p>This framing matters for the whole course. It rules out two extremes. On one side is the view that the self is simply evil and must be annihilated; on the other is the view that the ego is harmless and can be left as it is. Gurmat holds a middle position: the assertive sense of 'I' is real in its effects and genuinely binding, yet it is curable, and its cure is available within ordinary human life.</p><h2>Why Haumai Binds</h2><p>Haumai binds because it generates a cycle. Acting from a sense of separate selfhood produces consequences; those consequences reinforce the sense of being a separate doer; and that reinforced self acts again. In the vocabulary the Gurus inherited and reworked, this is closely tied to the cycle of action and reaction and to repeated birth and death. The person caught in Haumai is described as coming and going, never at rest, because the 'I' is always seeking, defending, and comparing.</p><p>It is important to read this carefully. The Gurus do not teach that having a personality, a name, or responsibilities is the problem. The problem is the inner claim that this finite self is sovereign and self-sufficient, the author of its own existence. That claim is, in the Sikh diagnosis, both false and the source of bondage.</p><h2>Setting the Course Direction</h2><p>The lessons that follow build outward from this diagnosis. We will examine the nature of the self and how it becomes entangled with Maya and attachment; how Haumai underlies the so-called five thieves; the contrast between the self-willed and the Guru-oriented person; the role of Naam, Shabad, and grace in dissolving the ego; the meaning of liberation while living; and finally a brief, respectful comparison with other traditions. The aim is not to resolve every scholarly debate but to give a clear, reverent, and philosophically serious account of how the Gurus understood the self and its freedom.</p>"
+        },
+        {
+          "title": "Lesson 2: The Nature of the Self and Its Entanglement",
+          "html": "<h2>The Self in Gurmat</h2><p>To understand Haumai we must first ask what the Gurus mean by the self. Sikh thought speaks of the <em>atma</em> or inner soul as deriving from and oriented toward the one divine reality, often named with terms such as Ik Onkar (the one all-pervading Being). The human being is not regarded as a mere accident of matter; the inner self carries a spark of, and a longing for, its Source. The fundamental human situation is therefore one of relationship: a self that comes from the divine and is meant to recognize and merge back into it.</p><p>Haumai is precisely the forgetting of this relationship. When the self loses the awareness of its origin, it does not become nothing; instead it constructs a substitute identity built on what it possesses, controls, and is praised for. This constructed identity feels solid and urgent, but in the Sikh view it is a kind of veil over the truer self that is already linked to the divine.</p><h2>Maya: The World as Distraction and Deception</h2><p>Closely bound up with Haumai is the concept of <em>Maya</em>. In Gurmat, Maya does not mean that the physical world is unreal or worthless. Creation is celebrated as the play and expression of the divine. Rather, Maya names the world's power to draw attention away from the divine and toward the transient as if it were ultimate. It is the seductive surface of existence that the ego mistakes for the whole.</p><p>The relationship between Haumai and Maya is mutually reinforcing. Haumai, the inner claim of a separate self, makes the person vulnerable to Maya, the outer pull of impermanent things; and immersion in Maya thickens Haumai, because the more the self grasps at possessions, status, and sensation, the more it experiences itself as a needy, defended center. The two together describe the inner and outer dimensions of the same captivity.</p><h2>Attachment as the Glue</h2><p>If Haumai is the false self and Maya is the deceptive field, <em>moh</em> (attachment) is the glue that binds them. Attachment is the emotional investment by which the self clings to objects, persons, and outcomes as sources of its identity and security. The Gurus repeatedly point to attachment to family, wealth, and reputation not because these things are wicked, but because clinging to them as though they were permanent and self-defining keeps the person bound.</p><p>Here a careful distinction belongs to mainstream Gurmat. Sikh teaching does not counsel withdrawal from the world, from family, or from honest labour. The householder's life is affirmed. What is rejected is not engagement but enslaving attachment, the inner posture that treats the impermanent as ultimate. To live in the world while inwardly anchored in the divine is the aim; to be inwardly owned by the world is the entanglement.</p><h2>The Veiled Self and the Possibility of Recognition</h2><p>Because the true self is veiled rather than destroyed, the entanglement is reversible. The Gurus speak of the divine light dwelling within every being, often using the image of an inner treasure or jewel that the person fails to recognize while searching outside. This image carries the whole hope of the tradition: liberation is not the acquisition of something foreign but the recognition of something already present and obscured by Haumai. The remaining lessons explore how that obscuring works in practice and how recognition becomes possible.</p>"
+        },
+        {
+          "title": "Lesson 3: The Five Thieves and the Root of Haumai",
+          "html": "<h2>The Five Inner Adversaries</h2><p>Sikh ethical psychology names five powerful impulses that drive a person away from the divine and toward suffering. They are commonly listed as <em>kam</em> (often glossed as lust or uncontrolled desire), <em>krodh</em> (anger), <em>lobh</em> (greed), <em>moh</em> (attachment), and <em>ahankar</em> (pride or arrogance). They are traditionally called the five thieves because they steal a person's inner peace and spiritual clarity, often without the person noticing the theft.</p><p>It is worth being precise about what is condemned. The Gurus do not teach that desire, energy, or feeling are evil in themselves. Desire that seeks the divine is praised. The five are named as thieves when they become unrestrained masters of the person, redirecting the whole life toward the transient and the self-serving. They are impulses that have slipped their proper bounds.</p><h2>How Haumai Underlies Them All</h2><p>The philosophical heart of this lesson is the claim, well grounded in Gurmat, that the five thieves are not five independent enemies but five expressions of one underlying condition: Haumai. Each of the five presupposes and feeds a self that takes itself as the center. Consider each in turn. Uncontrolled desire arises because the self seeks to fill its felt emptiness through possession and pleasure. Anger flares when the self's wishes or status are obstructed. Greed is the self's drive to accumulate as a hedge against its own insecurity. Attachment is the self's clinging to what it identifies with. Pride is the most direct, the self's open assertion of its own superiority.</p><p>Seen this way, the five thieves are like branches of a single tree whose root is the egoic sense of 'I' and 'mine.' This is why the Gurus place such weight on Haumai: striking only at the branches while leaving the root intact yields temporary and partial results. A person may suppress anger yet remain proud of that suppression, or curb greed yet grow attached to a reputation for generosity. Without addressing the root, the energy of Haumai simply migrates from one thief to another.</p><h2>A Note on Listings and Emphasis</h2><p>Scholars and teachers sometimes discuss whether the five should be understood as a fixed set or as representative examples of a larger family of egoic impulses, and the exact translation of each term is debated, especially the first. These are matters of emphasis rather than disagreement about the core teaching. The mainstream and widely shared point is consistent: a small cluster of self-centred drives, rooted in Haumai, constitutes the inner obstacles to spiritual life. The course presents the conventional fivefold list while noting that the underlying analysis, not the exact count, is what carries the weight.</p><h2>The Practical Upshot</h2><p>This diagnosis reframes the spiritual task. The goal is not to wage five separate battles but to address the common root. As later lessons will show, the Gurus do not prescribe sheer willpower against each impulse, since willpower itself can become another form of egoism. Instead they point toward a reorientation of the whole self, away from the assertive 'I' and toward the divine, which loosens the grip of all five thieves at once because it drains the root that fed them.</p>"
+        },
+        {
+          "title": "Lesson 4: Manmukh and Gurmukh, Two Orientations of the Self",
+          "html": "<h2>Two Words for Two Lives</h2><p>Sikh philosophy offers a pair of terms that crystallize its understanding of the self: <em>Manmukh</em> and <em>Gurmukh</em>. A Manmukh is, literally, one who faces or follows the <em>man</em>, a word for the mind in its restless, desire-driven aspect. A Gurmukh is one who faces or follows the Guru, the divine wisdom. The two terms do not name two kinds of people by birth or status; they name two orientations of the self that are available to anyone in any moment.</p><h2>The Manmukh: Self-Willed Existence</h2><p>The Manmukh is the self-willed person, the one who lives outward from Haumai. Such a person treats the promptings of the egoic mind as the final authority. Because the man, in this restless aspect, is shaped by the five thieves and pulled by Maya, the Manmukh's life is described as fragmented and unsatisfied. The self chases one object after another, defends itself against imagined threats, and measures its worth by comparison. Even apparent successes do not bring rest, because the underlying self remains insecure and separate.</p><p>It is important to read the term without contempt. The Gurus describe the Manmukh condition compassionately, as a predicament shared by all human beings rather than a label for despised others. The point is diagnostic: to live by the unguided self is to live in a kind of spiritual sleep, often unaware of the very bondage one is in.</p><h2>The Gurmukh: Guru-Oriented Existence</h2><p>The Gurmukh is the person whose face is turned toward the Guru, whose inner life is governed by divine wisdom rather than by the demands of the ego. This is not the replacement of one's mind by an external command but the alignment of the mind with truth, so that the self acts from a center beyond Haumai. The Gurmukh still lives in the world, works, and maintains relationships, but does so without being inwardly owned by them. The defining mark is that the assertive 'I' has been subordinated to the divine will.</p><p>A crucial nuance, central to Gurmat, is that one does not become a Gurmukh purely by personal achievement. The orientation toward the Guru is itself bound up with grace and with sustained practice; it is received and cultivated rather than simply willed into being. This guards against a subtle trap: the idea that one could become egoless through one's own heroic effort, which would merely be Haumai congratulating itself.</p><h2>The Role of the Guru</h2><p>For the Sikh tradition, the Guru is not finally a human personality to be venerated for its own sake. The line of the ten human Gurus is understood to have conveyed one light, and that authority now rests in the Guru Granth Sahib as the living embodiment of the eternal Guru, the Shabad Guru, the Guru as divine Word. To be a Gurmukh, then, is to live in relationship with this Word, allowing it to reshape the self from within. The next lesson takes up exactly how that reshaping is understood to occur.</p><h2>Orientation, Not Fixed Identity</h2><p>Finally, Manmukh and Gurmukh are best understood as directions rather than permanent identities. A person may turn toward the Guru and then, in another moment, slip back into self-will. The spiritual life is portrayed as the gradual and grace-assisted turning of the whole self from the first orientation to the second, until the Gurmukh disposition becomes stable. This dynamic, hopeful picture sets the stage for the means of transformation.</p>"
+        },
+        {
+          "title": "Lesson 5: Naam, Shabad, and Grace, the Dissolving of Ego",
+          "html": "<h2>Why Effort Alone Is Not Enough</h2><p>If Haumai is the assertion of a separate self, then any purely self-driven program to defeat it risks becoming a more refined version of the same disease. The self that proudly conquers its own ego has simply relocated its pride. Gurmat takes this danger seriously, and so its account of liberation centers not on self-conquest but on self-surrender to the divine, made possible through Naam, Shabad, and grace.</p><h2>Naam: Living Connection with the Divine</h2><p>The term <em>Naam</em> is usually translated as the Name, but in Gurmat it means far more than a label. Naam points to the living presence, reality, and remembrance of the divine, the active awareness of the one Being who pervades all. To dwell in Naam, often described as <em>Naam Simran</em> (loving remembrance), is to keep the divine continually before the mind, so that the divine, rather than the ego, becomes the organizing center of consciousness.</p><p>Naam works against Haumai by displacement. The egoic mind sustains itself through constant inner chatter of 'I' and 'mine.' Remembrance of the divine gradually replaces that chatter with a different content. As the self becomes absorbed in the divine, the felt urgency of the separate 'I' diminishes, not because it has been attacked but because it has been quietly crowded out and reabsorbed into a larger awareness.</p><h2>Shabad: The Word That Reshapes</h2><p>The means by which Naam takes hold is the <em>Shabad</em>, the divine Word. For Sikhs the Shabad is the sacred utterance through which divine wisdom enters and transforms the human heart, embodied above all in the Guru Granth Sahib. To meditate on, listen to, and live by the Shabad is to let it act as an inner teacher that exposes the workings of Haumai and reorients the self. The Word is sometimes described as the instrument that breaks the wall of ego that separates the self from the divine.</p><p>This is why the Shabad and the Guru are deeply connected, as noted in the previous lesson. The Shabad Guru is the divine Word functioning as the true teacher. Engagement with it is not the passive intake of information but a relationship that gradually dissolves the egoic self and reveals the divine light already within.</p><h2>Grace: The Indispensable Gift</h2><p>Running through all of this is the concept of grace, often expressed by terms such as <em>Nadar</em> (the glance of grace) or <em>Kirpa</em> (mercy). Mainstream Gurmat holds that the final dissolving of Haumai and union with the divine are not earned achievements but gifts of divine grace. The self cannot lift itself out of its own egoism by its own bootstraps; the decisive movement comes from the divine side.</p><p>At the same time, the tradition does not teach passivity. Human effort, in the form of remembrance, ethical living, honest labour, and humble service, is real and necessary. The widely held understanding is that effort and grace are not rivals: sincere effort opens the person to receive grace, while grace makes the effort fruitful. How exactly to balance these, and whether grace is wholly unconditioned, is a point of devotional emphasis that different teachers express in slightly different language, but the core conviction that liberation is ultimately a gift is broadly shared.</p><h2>The Shape of Transformation</h2><p>Put together, Naam, Shabad, and grace describe a single process. Through the Word, the divine reality becomes present to the mind; through remembrance, that presence becomes the center of the self; and through grace, the separating wall of Haumai finally gives way. The self is not destroyed but transfigured, freed from the small, defended 'I' into a life lived in conscious union with the divine. That transfigured life is the subject of the next lesson.</p>"
+        },
+        {
+          "title": "Lesson 6: Jivan Mukti, Liberation While Living",
+          "html": "<h2>Freedom Now, Not Only Hereafter</h2><p>One of the most distinctive and hopeful teachings of Gurmat is <em>Jivan Mukti</em>, liberation attained while still living. The compound joins <em>jivan</em> (life) and <em>mukti</em> (liberation): freedom is not postponed to some state after death but can be realized here, in an embodied human life. The liberated one, the <em>Jivan Mukt</em>, walks the same earth as everyone else yet is inwardly free from the grip of Haumai.</p><p>This teaching follows directly from the diagnosis offered throughout the course. If bondage is essentially the false orientation of the self around the egoic 'I', then liberation is the dissolving of that false orientation, and there is no reason it must wait for death. The change is fundamentally a change of consciousness and relationship, available within life.</p><h2>What Liberation Is and Is Not</h2><p>It is important to clarify what Jivan Mukti does not mean. It is not the acquisition of magical powers, the abandonment of duties, or escape from the world into isolation. The liberated person typically remains a householder, working honestly and serving others. Nor is it the erasure of personality or the loss of the capacity to feel. Rather, Jivan Mukti is freedom from inner enslavement: the five thieves no longer rule, attachment no longer binds, and the restless craving of the separate self is stilled.</p><p>Positively, the state is described through several recurring marks. The liberated person lives in continual remembrance of the divine and in harmony with the divine will, a disposition often expressed by the phrase about accepting what comes as the divine command. Such a person is marked by equanimity, treating honour and dishonour, pleasure and pain, with a steady mind; by deep humility, the natural fruit of an ego that has been dissolved; and by compassion and service toward others. These are not rules imposed from outside but the spontaneous expression of a self no longer centered on itself.</p><h2>Equanimity and the Will of the Divine</h2><p>A key concept here is acceptance of the divine will, often referred to with terms pointing to living in harmony with the divine order. The Jivan Mukt does not passively resign in despair but actively embraces life as the unfolding of the divine. This is the practical form of egolessness: where the Manmukh demands that reality conform to the self's wishes, the liberated Gurmukh aligns the self with reality as the divine's expression, and so finds peace that does not depend on circumstances.</p><h2>The Final Horizon</h2><p>Gurmat also speaks of the soul's ultimate merging with the divine, sometimes imaged as a drop returning to the ocean or a flame merging with light. There is a respectful range of understanding among Sikhs about how to describe the relationship between Jivan Mukti in this life and final union, and about the precise nature of that union, whether it is best spoken of as merging, as abiding nearness, or in other terms. What is consistently affirmed is that liberation begins now, in a life transformed by Naam and grace, and that this transformed life is itself the foretaste and substance of the soul's homecoming. The emphasis falls less on speculative detail than on the living reality of freedom in remembrance of the divine.</p>"
+        },
+        {
+          "title": "Lesson 7: The Sikh Self in Wider Conversation",
+          "html": "<h2>Why Compare at All</h2><p>Placing the Sikh understanding of self and liberation beside other traditions can sharpen our grasp of what is distinctive in Gurmat, provided the comparison is done with care and respect. The aim here is not to rank traditions or to flatten real differences, but to locate Sikh thought within the broader human conversation about the self. Each tradition addresses these questions in its own integrity, and brief comparison should not be mistaken for a claim that they all say the same thing.</p><h2>Resonances and Differences with Indic Thought</h2><p>Because Sikhism arose in a North Indian context, it shares vocabulary with neighbouring traditions, including terms such as Maya, mukti, and karma. Yet the Gurus consistently reworked this inherited language. With some streams of classical Indian thought, Gurmat shares the conviction that egoism and ignorance of one's true relationship to ultimate reality lie at the root of bondage, and that liberation involves transcending the small self. The diagnosis that the assertive 'I' is the problem has clear resonances across the region's spiritual traditions.</p><p>The differences are equally important. Some traditions in the region understand liberation primarily through monastic renunciation and withdrawal from the world; Gurmat firmly affirms the householder's life and honest labour as the proper arena of spiritual realization. Some philosophical schools emphasize liberation as the fruit of knowledge or technique; Gurmat, while valuing wisdom and disciplined remembrance, places decisive weight on loving devotion to a personal divine and on grace. And where certain analyses treat the world as fundamentally to be escaped, the Gurus celebrate creation as the divine's expression even as they warn against attachment to it. These contrasts are real, and Sikhs understand their tradition as a distinct path, not a variant of any other.</p><h2>Resonances with Theistic and Contemplative Traditions</h2><p>The Sikh stress on a single, personal, all-pervading divine, on devotion, surrender, and grace, finds echoes in the devotional and mystical currents of several theistic traditions, including those that speak of dissolving the ego before God and living in continual remembrance of the divine. The themes of humility, surrender of self-will, and union through love are widely shared across mystical literatures. Here too the comparison illuminates without erasing difference: the specific shape of the Sikh vision, with its distinctive theology of the divine Word and its insistence on the householder path, remains its own.</p><h2>A Brief Word on Modern Discussions of the Self</h2><p>Modern philosophy and psychology also speak of the self, sometimes describing the ego as a constructed and changeable pattern rather than a fixed essence, and sometimes exploring how excessive self-focus undermines well-being. There are interesting points of contact with the Gurmat insight that the assertive 'I' is in some sense constructed and that fixation on it produces suffering. But the resemblance has limits: Gurmat's account is finally theological, grounded in a relationship between the self and a divine Source, and its goal is union with that Source rather than merely psychological adjustment. Recognizing both the contact and the limit keeps the comparison honest.</p><h2>What the Comparison Reveals</h2><p>Set in this wider conversation, the Sikh view emerges with a recognizable profile: a diagnosis of Haumai as the root of bondage that resonates broadly; a firm rejection of escapist withdrawal in favour of liberated engagement in the world; a strong theology of grace and the divine Word; and a vision of liberation as a present, embodied reality. The comparison does not dilute the tradition; it brings its particular emphases into clearer focus.</p>"
+        },
+        {
+          "title": "Lesson 8: Practical Implications and Conclusion",
+          "html": "<h2>From Concept to Life</h2><p>The study of Haumai would remain incomplete if it stayed purely theoretical, because Gurmat is finally a path to be lived rather than a system to be admired. This closing lesson gathers the practical implications of the preceding analysis, drawing them directly from the tradition's own emphases.</p><h2>Remembrance Woven Through Daily Life</h2><p>The foundational practice is the cultivation of Naam through remembrance. This is not confined to set times of prayer but is meant to permeate ordinary activity, so that the divine remains present to the mind through work, relationships, and rest. The practical effect is the steady displacement of egoic preoccupation: as remembrance grows, the inner monologue of self-assertion quietens. Engagement with the Shabad, through reading, listening to, and reflecting on sacred utterance, supports this by continually reorienting the self toward divine wisdom.</p><h2>The Householder Path and Honest Living</h2><p>Because Gurmat rejects withdrawal, its ethics are worked out within ordinary life. Three principles are widely taught as practical anchors: earning one's living through honest effort, sharing with others rather than hoarding, and remembering the divine. Lived together, these counter the very dynamics of Haumai. Honest labour grounds the self in reality rather than fantasy; sharing directly opposes greed and the self's instinct to accumulate; and remembrance keeps the divine, not the ego, at the center. The point is that liberation is pursued in the marketplace and the home, not apart from them.</p><h2>Service and Humility as Anti-Egoism</h2><p>Selfless service, often referred to as <em>seva</em>, occupies a central practical place precisely because it works against Haumai at the level of action. To serve others without seeking recognition is to act from a center other than the self, and to do so repeatedly is to wear down the habit of self-assertion. Closely linked is humility, which Gurmat treats not as low self-esteem but as the clear-eyed disposition of a self that no longer needs to inflate itself. The tradition often praises the posture of regarding oneself as the servant of all and seeking the dust of others' feet, a vivid image for the emptying of pride.</p><h2>The Inner Reorientation</h2><p>Underlying all these practices is the single movement the whole course has traced: the turning of the self from a Manmukh to a Gurmukh orientation, accomplished through effort and grace together. The practices are not mechanical techniques that guarantee a result; they are ways of opening the self so that the divine can dissolve Haumai. This guards against turning the path itself into a new occasion for ego, the subtle pride of the accomplished practitioner.</p><h2>Conclusion: The Self Set Free</h2><p>We began with Haumai as the core human predicament, the assertion of a separate 'I' that entangles the self in Maya, attachment, and the five thieves, and that defines the self-willed Manmukh existence. We traced the alternative orientation of the Gurmukh, the dissolving of ego through Naam, Shabad, and grace, and the reality of Jivan Mukti, liberation realized while living. We set this vision briefly and respectfully alongside other traditions, and finally drew out its practical demands. The thread running through it all is a single, hopeful conviction at the heart of Gurmat: the self that suffers under its own egoism is not condemned to that suffering. Through remembrance of the divine, humble engagement in the world, and the gift of grace, the assertive 'I' can be dissolved and the true self, already linked to its divine Source, can be set free, here and now, in a life of peace, equanimity, and love.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "In Gurmat, what does the term Haumai most precisely refer to?",
+          "options": [
+            "The physical body and its appetites",
+            "The deep-rooted sense of a separate, self-asserting 'I' and 'mine' at the center of experience",
+            "Ignorance of religious rituals",
+            "The natural world and its beauty"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How does the widely cited Gurmat teaching characterize the relationship between Haumai and its remedy?",
+          "options": [
+            "Haumai is incurable and must simply be endured",
+            "Haumai is a minor flaw with no real consequences",
+            "Haumai is described as a chronic affliction that nonetheless carries its own cure within it",
+            "Haumai can only be removed after death"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does Maya mean in mainstream Sikh thought?",
+          "options": [
+            "That the physical world is entirely unreal and an illusion to be denied",
+            "A goddess who must be worshipped",
+            "The world's power to draw attention away from the divine toward the transient as if it were ultimate",
+            "The reward given to the liberated soul"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "According to the course, what is the deeper claim about the five thieves (kam, krodh, lobh, moh, ahankar)?",
+          "options": [
+            "They are five wholly independent enemies unrelated to one another",
+            "They are expressions of one underlying condition, Haumai, the egoic sense of self",
+            "They are external demons that possess a person",
+            "They are harmless and require no attention"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What best distinguishes a Gurmukh from a Manmukh?",
+          "options": [
+            "The Gurmukh has withdrawn from the world while the Manmukh remains a householder",
+            "The Manmukh is wealthy while the Gurmukh is poor",
+            "The Gurmukh orients the self toward the Guru and divine wisdom, while the Manmukh follows the self-willed, desire-driven mind",
+            "The terms refer to fixed castes determined at birth"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What role does grace (such as Nadar or Kirpa) play in dissolving Haumai according to mainstream Gurmat?",
+          "options": [
+            "Grace is unnecessary because liberation is purely a self-earned achievement",
+            "The final dissolving of ego and union are ultimately a gift of divine grace, with which human effort cooperates",
+            "Grace replaces the need for any human effort whatsoever",
+            "Grace is available only after the soul leaves the body"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does Jivan Mukti mean?",
+          "options": [
+            "Liberation attainable while still living in an embodied human life",
+            "Liberation only possible through monastic renunciation",
+            "The acquisition of supernatural powers",
+            "A liberation reserved exclusively for the Gurus"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How does the course characterize Gurmat's stance compared with traditions that emphasize world-renunciation?",
+          "options": [
+            "Gurmat also requires withdrawal from the world to attain liberation",
+            "Gurmat denies that egoism causes bondage",
+            "Gurmat affirms the householder's life and honest labour as the proper arena for liberation rather than escapist withdrawal",
+            "Gurmat regards creation as evil and to be escaped"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "raag-in-gurbani",
+      "title": "Raag in Gurbani",
+      "topic": "music",
+      "level": 200,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An introduction to the role of Raag, the classical melodic framework of South Asian music, within Gurbani and the worship tradition of the Sikhs. This course explains what a Raag is, how Sri Guru Granth Sahib Ji is organized by Raag, the emotional character associated with the principal Raags, and how melody is meant to carry and deepen the meaning of a Shabad. It also covers the practical structure of compositions, historical performance practice, and ways a new listener can begin to hear and appreciate Raag in Kirtan.",
+      "lessons": [
+        {
+          "title": "What Is a Raag? Melody and Mood",
+          "html": "<h2>What Is a Raag?</h2><p>A Raag is not simply a tune or a song. It is a melodic framework, a set of rules and tendencies that govern how a group of musical notes may be combined to create a particular feeling. Within the classical music traditions of South Asia, a Raag defines which notes are used, which are emphasized, how a melody is allowed to rise and fall, and which phrases give the Raag its recognizable character. Two musicians may sing the same Raag using entirely different words and melodies, yet a trained ear will recognize the underlying Raag because of these shared structural features.</p><h3>Notes, Scale, and Movement</h3><p>The seven basic notes of the Indian system are commonly named Sa, Re, Ga, Ma, Pa, Dha, and Ni. A Raag selects certain of these notes for its ascending pattern and certain notes for its descending pattern, and these two patterns may differ. A Raag also identifies a most important note and a secondary important note, around which the melody tends to settle and resolve. Beyond the bare scale, a Raag carries characteristic turns of phrase, small ornaments and movements that distinguish it from other Raags built on similar notes.</p><h3>The Idea of Rasa, or Emotional Essence</h3><p>Central to the concept of Raag is Rasa, a word that may be understood as flavor, essence, or mood. Each Raag is traditionally associated with a particular emotional coloring. One Raag may evoke serenity and devotion, another longing and separation, another courage or celebration. The purpose of performing a Raag is to draw the listener into its Rasa, so that the feeling is not merely described but actually experienced. In the context of Gurbani, this emotional power is harnessed for a sacred purpose, helping a listener absorb the spiritual message of a Shabad through the heart as well as the mind.</p><p>Understanding Raag as a union of structure and feeling is the foundation for everything that follows in this course.</p>"
+        },
+        {
+          "title": "Sri Guru Granth Sahib Ji Organized by Raag",
+          "html": "<h2>A Scripture Arranged by Music</h2><p>One of the most remarkable features of Sri Guru Granth Sahib Ji is its organization. After the opening section, the great body of the scripture is arranged not by author and not by theme alone, but by Raag. The compositions are grouped together under the heading of the musical mode in which they are to be sung. This arrangement was carried out with great care by Sri Guru Arjan Dev Ji when the scripture was first compiled, and it reflects a deliberate vision of how Gurbani is meant to be received.</p><h3>Why Musical Organization Matters</h3><p>This structure tells us something profound: Gurbani was given to be sung, not merely read. The Gurus were themselves musicians and poets, and they composed their revelation in specific Raags. By preserving the Raag of each composition, the scripture preserves the intended emotional and spiritual atmosphere of the words. The melody is treated as part of the message, a vessel chosen to carry a particular truth.</p><h3>The Sequence of Raags</h3><p>Within the scripture, the Raags follow a settled order, beginning with Raag Sri Raag and proceeding through a sequence of major modes. Under each Raag, compositions are further arranged in a consistent internal order, by the Gurus in succession and then by the other contributors whose writings are included. This layered organization gives the scripture a coherent musical architecture from beginning to end.</p><p>To open Sri Guru Granth Sahib Ji is therefore to enter a structured world of song, in which each section invites a distinct mood of devotion. Recognizing this is essential to appreciating why Raag holds such an honored place in Sikh worship.</p>"
+        },
+        {
+          "title": "The Main Raags and Their Emotional Character",
+          "html": "<h2>An Overview of the Principal Raags</h2><p>Sri Guru Granth Sahib Ji draws upon a substantial collection of Raags, each contributing its own emotional shade to the whole. While a full study of every Raag is the work of years, an introductory survey of several prominent ones helps reveal the range of feeling that the scripture embraces. The associations described below reflect long standing tradition; individual experience of a Raag can vary, and the words of a Shabad always guide the final meaning.</p><h3>Several Notable Raags</h3><p><strong>Sri Raag</strong> opens the musical body of the scripture and is associated with a contemplative, dignified, and steadying mood, well suited to reflection on the nature of the soul and the fleeting quality of worldly attachment.</p><p><strong>Raag Asa</strong> carries a sense of hope and aspiration, and is closely linked with the morning and with rousing the mind toward devotion. The well known morning liturgy is set largely in this Raag.</p><p><strong>Raag Gauri</strong> is a versatile and serious mode, often associated with thoughtfulness and inward searching, and it appears extensively throughout the scripture.</p><p><strong>Raag Sorath</strong> is frequently associated with a feeling of devotion and the heartfelt praise of the Divine, conveying warmth and sincerity.</p><p><strong>Raag Vadhans</strong> is connected with both joyful and sorrowful occasions, and is notably used in compositions touching on separation and the passing of life.</p><p><strong>Raag Bilaval</strong> tends toward a bright, contented, and uplifting feeling.</p><p><strong>Raag Ramkali</strong> is associated with the early dawn and with a meditative, ascetic quality.</p><h3>A Spectrum of Devotion</h3><p>Taken together, these and the other Raags of the scripture form a wide spectrum of human emotion, from longing to serenity, from sorrow to celebration. The point is not that one Raag is happy and another sad in a simple sense, but that each opens a particular doorway of feeling through which the seeker may approach the Divine.</p>"
+        },
+        {
+          "title": "Aligning Melody With Message",
+          "html": "<h2>How Raag Serves the Shabad</h2><p>The deepest purpose of Raag in Gurbani is the union of sound and meaning. A Shabad is a sacred composition whose words convey spiritual teaching. The Raag in which that Shabad is placed is meant to align the listener's mood with the message of the words, so that the emotional experience and the intellectual understanding reinforce one another.</p><h3>An Intentional Pairing</h3><p>When a composition speaks of longing for the Divine and the pain of separation, it may be set in a Raag whose Rasa naturally evokes yearning. When a composition celebrates union, gratitude, or the joy of remembrance, it may be set in a Raag of brightness and contentment. This pairing is not accidental. The Gurus, as accomplished musicians, chose the musical setting to amplify the inner sense of the verse. The melody becomes a kind of commentary, preparing the heart to feel what the words declare.</p><h3>Why This Alignment Matters</h3><p>Human beings are moved by feeling, not only by argument. A truth that is merely understood may remain distant, while a truth that is felt can transform. By wedding the message to a mood, Raag allows Gurbani to reach the listener at a level deeper than ordinary speech. This is why faithful Kirtan in the prescribed Raag is so treasured: it honors the complete form in which the revelation was given and allows its full power to unfold.</p><h3>Respecting the Intended Setting</h3><p>For this reason, traditional Kirtan places great value on singing each Shabad in its designated Raag wherever possible. While devotion expressed in any sincere form is welcome, performing Gurbani in its intended Raag is understood as a way of preserving and transmitting the wholeness of the Guru's gift.</p>"
+        },
+        {
+          "title": "The Structure of a Composition: Ghar and Partaal",
+          "html": "<h2>Beyond the Raag: Structural Markings</h2><p>Alongside the name of the Raag, the scripture contains additional musical instructions embedded in the headings of compositions. Two of the most important of these are Ghar and Partaal. Understanding them gives insight into how precisely the musical setting of Gurbani was specified.</p><h3>Ghar</h3><p>The word Ghar literally means house. In the musical headings, a number is often given with the term Ghar, for example indicating the first house, the second house, and so on. Scholars understand Ghar to refer to aspects of rhythm and the rhythmic cycle, or the manner in which a composition is to be set rhythmically. It functions as a guide for the percussion and the rhythmic framework within which the melody unfolds. While the exact original system has been the subject of careful study, the presence of Ghar markings shows that rhythm, not only melody, was prescribed with intention.</p><h3>Partaal</h3><p>The term Partaal appears in the headings of certain compositions and points to a more elaborate musical treatment. In a Partaal composition, the rhythmic cycle and the melodic pattern shift and change within the piece, rather than remaining constant throughout. This produces a varied and dynamic performance, demanding greater skill from the performers. The use of Partaal demonstrates that the musical settings of Gurbani range from the simple and steady to the intricate and changing.</p><h3>Why These Markings Endure</h3><p>These structural notations, preserved across the centuries, are evidence of the seriousness with which the musical dimension of Gurbani was treated. They are instructions to the performer, ensuring that the tradition is carried forward not as a vague impression but as a living, specified art. For the learner, even a basic awareness of Ghar and Partaal deepens respect for the craftsmanship contained in every page.</p>"
+        },
+        {
+          "title": "Historical Performance Practice and Instruments",
+          "html": "<h2>The Living Tradition of Kirtan</h2><p>From the very beginning of the Sikh tradition, the singing of Gurbani was a central act of worship. Sri Guru Nanak Dev Ji traveled in the company of a devoted musician who accompanied his recitation, establishing from the outset the pattern of revelation joined to music. The succeeding Gurus continued and enriched this practice, and a dedicated community of performers grew around the service of Kirtan.</p><h3>The Rababi Tradition</h3><p>Among the earliest and most honored performers were musicians who played the rabab, a plucked string instrument, and who became known for their devoted rendering of Gurbani over generations. This lineage of performers contributed greatly to the preservation and transmission of the musical tradition, carrying forward the melodies and styles associated with the sacred compositions.</p><h3>Traditional Instruments</h3><p>A range of instruments has been used in the performance of Kirtan. Stringed instruments such as the rabab and other plucked and bowed instruments provided melodic accompaniment in the classical style. Percussion instruments supplied the rhythmic foundation, supporting the cycles indicated by markings such as Ghar. In later periods, the harmonium, a hand pumped keyboard instrument, became widely used and is now common in many congregations, though there is ongoing appreciation and revival of the older string based styles that allow the subtle movements of a Raag to be more fully expressed.</p><h3>Continuity and Revival</h3><p>Over the centuries the practice of Kirtan has continued without interruption in Sikh worship, and in recent times there has been a renewed interest in studying and reviving the traditional Raag based performance of Gurbani. Teachers and students alike work to recover the classical settings, to learn the old instruments, and to sing each Shabad in its intended Raag. This effort reflects a desire to honor the complete form of the tradition as it was given and developed by the Gurus and their musicians.</p>"
+        },
+        {
+          "title": "Beginning to Hear and Appreciate Raag in Kirtan",
+          "html": "<h2>Learning to Listen</h2><p>For a newcomer, the world of Raag can seem vast and technical. Yet appreciation does not require mastery. With patient and attentive listening, anyone can begin to perceive the beauty and purpose of Raag in Kirtan. The journey starts not with analysis but with openness of heart.</p><h3>Practical Steps for the Beginner</h3><p>First, listen often and without rushing. Choose a single Shabad performed in its traditional Raag and return to it many times. Familiarity allows the ear to settle and the mood of the Raag to make itself felt. Second, pay attention to the feeling the music evokes before trying to name notes or patterns. Ask yourself whether the melody seems peaceful, longing, joyful, or solemn, and then notice how that feeling relates to the meaning of the words. Third, learn the names of a few principal Raags and seek out examples of each, comparing how they differ in mood. Over time the distinct character of each begins to emerge.</p><h3>Connecting Sound and Meaning</h3><p>A particularly rewarding practice is to read the meaning of a Shabad and then listen to it sung in its prescribed Raag, observing how the melody mirrors and deepens the message. This direct experience of melody and meaning united is the heart of what this course has described. It reveals why the Gurus chose to give their revelation in song.</p><h3>Growing in Appreciation</h3><p>As listening deepens, a beginner may wish to learn from skilled performers and teachers, to attend live Kirtan, and perhaps eventually to study the structure of Raags more formally. But even without formal study, the simple discipline of attentive, repeated, heartfelt listening opens the door. Raag in Gurbani is ultimately an invitation, offered freely, to feel the truth of the Shabad and to draw nearer to the Divine through the power of sacred sound.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What best describes a Raag?",
+          "options": [
+            "A single fixed song that never changes",
+            "A melodic framework with rules, characteristic phrases, and an associated mood",
+            "A type of drum used in Kirtan",
+            "A written prayer with no musical element"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The term Rasa, central to the concept of Raag, refers to:",
+          "options": [
+            "The speed of a composition",
+            "The emotional essence or mood of a Raag",
+            "The name of a musical instrument",
+            "The number of notes in a scale"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How is the main body of Sri Guru Granth Sahib Ji primarily organized?",
+          "options": [
+            "Alphabetically by first word",
+            "By length of each composition",
+            "By Raag, the musical mode in which compositions are sung",
+            "Randomly, without any system"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Why is the Raag based organization of the scripture significant?",
+          "options": [
+            "It shows that Gurbani was given to be sung, preserving the intended mood of each composition",
+            "It was done only to save space",
+            "It indicates the compositions should never be sung",
+            "It groups texts by author rather than music"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which Raag opens the musical body of the scripture and is associated with a contemplative, dignified mood?",
+          "options": [
+            "Raag Bilaval",
+            "Raag Asa",
+            "Sri Raag",
+            "Raag Ramkali"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the primary purpose of pairing a Shabad with a particular Raag?",
+          "options": [
+            "To make the music harder to perform",
+            "To align the listener's mood with the message of the words",
+            "To shorten the composition",
+            "To hide the meaning of the words"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In the musical headings of Gurbani, what does the marking Ghar most relate to?",
+          "options": [
+            "The author of the composition",
+            "Aspects of rhythm and the rhythmic cycle",
+            "The page number",
+            "The translation of the text"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is a recommended first step for a beginner learning to appreciate Raag in Kirtan?",
+          "options": [
+            "Memorize every note of every Raag before listening",
+            "Listen attentively and repeatedly, noticing the feeling before analyzing the notes",
+            "Only study written music and never listen",
+            "Avoid traditional Raag settings entirely"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "seva-sarbat-da-bhala",
+      "title": "Seva & Sarbat da Bhala: Service in Sikhi",
+      "topic": "spirituality",
+      "level": 250,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "An in-depth study of seva (selfless service) as a foundational practice of the Sikh way of life and of sarbat da bhala (the welfare of all) as its guiding ethical horizon. The course examines what seva means, its three classical forms of tan, man, and dhan, the institution of langar as service made permanent, the role of service in dissolving ego (haumai), the discipline of daswandh, and the long Sikh tradition of humanitarian relief that continues today. Students finish with a practical framework for living a life of service.",
+      "lessons": [
+        {
+          "title": "What Seva Means in Sikhi",
+          "html": "<h2>Service as a Way of Living</h2><p>Seva is the Punjabi word for selfless service: action offered for the good of others without any expectation of reward, recognition, or return. In many traditions service is treated as a charitable extra, something good people do when they have time and means to spare. In Sikhi it is something closer to a spiritual necessity. To follow the Guru is to serve, and a life that contains no service is understood to be spiritually incomplete.</p><p>The Sikh tradition holds together three pillars often summarized as <em>naam japna</em> (remembering the divine), <em>kirat karni</em> (earning an honest living through one's own labor), and <em>vand chhakna</em> (sharing what one earns with others). Seva belongs to this same family of practices. It is the natural outward expression of an inner life devoted to the divine. A person who truly remembers God, Sikhi teaches, cannot remain indifferent to the needs of God's creation.</p><h3>Service Without Self-Interest</h3><p>The defining quality of seva is selflessness. The moment service is performed in order to be seen, praised, or repaid, it loses much of its spiritual value. The Sikh Gurus repeatedly emphasized inner sincerity over outward show. Gurbani, the sacred writing gathered in the Guru Granth Sahib, teaches in many places that the divine looks at the intention of the heart rather than the size of the gesture. A humble act done in love outweighs a grand act done for reputation.</p><p>This is why seva is so often performed quietly and anonymously. In a gurdwara, the place of Sikh worship and gathering, much of the most important work happens out of view: cleaning, washing dishes, preparing food, polishing shoes left at the door. None of these tasks carry status, and that is precisely the point. They train the server to find dignity in lowly work and to let go of the constant human craving to be important.</p><h3>Seva as Devotion in Motion</h3><p>For the Sikh, service and worship are not separate activities. Sweeping the floor of a gurdwara or cooking for strangers is itself a form of prayer. The hands work while the mind remembers the divine, and the two reinforce each other. This integration of the spiritual and the practical is one of the most distinctive features of the Sikh path. There is no withdrawal from the world into isolated holiness; instead, the world becomes the very place where devotion is practiced and proven.</p><p>In the lessons that follow we will look at the different forms seva can take, at the institutions the Gurus built to make service permanent, at the inner transformation service produces, and at the wide ethical vision known as sarbat da bhala that turns personal service into a concern for all of humanity.</p>"
+        },
+        {
+          "title": "The Three Forms of Seva: Tan, Man, Dhan",
+          "html": "<h2>Serving With Body, Mind, and Means</h2><p>Sikh teaching traditionally describes three forms of seva, distinguished by what the server offers. These are <em>tan</em> (the body), <em>man</em> (the mind), and <em>dhan</em> (material wealth). Together they cover the full range of human capacity, so that no one is ever left without a way to serve. A person with no money can still give labor; a person who is physically limited can still give thought, prayer, and wisdom.</p><h3>Tan: Physical Service</h3><p>Seva of the body is the most visible form. It includes all the hands-on work that keeps a community running: preparing and serving food, cleaning shared spaces, building and maintaining the gurdwara, caring for the sick, and carrying supplies to those in need. Physical seva is deliberately humbling. The tradition treasures stories of devoted Sikhs, including those of high standing, who chose the most menial chores. The point is that no honest work is beneath anyone, and that the body is a tool to be spent in the service of others.</p><h3>Man: Mental Service</h3><p>Seva of the mind asks a person to dedicate their thought, attention, and emotional energy to the welfare of others. This includes teaching, counseling, listening to someone in distress, sharing knowledge, planning and organizing community efforts, and holding others in genuine goodwill and prayer. Mental seva also includes the discipline of keeping one's own attitude humble and loving while serving, since service performed with irritation or pride is compromised at its root. To serve with the mind is to give one's focus and care, which can be as demanding as any physical labor.</p><h3>Dhan: Material Service</h3><p>Seva of wealth is the sharing of material resources: money, food, goods, land, and anything else of value. Because earning an honest living is itself a Sikh value, the wealth a Sikh shares is understood to be honestly earned, which gives the giving its integrity. Material seva ranges from a small contribution to a community kitchen to the funding of schools, hospitals, and large relief efforts. The discipline of daswandh, sharing roughly a tenth of one's income, which we will study later, is a structured form of this material service.</p><h3>One Spirit, Many Hands</h3><p>These three forms are not ranked against one another. They are complementary, and a balanced life of service usually involves all three over time. A single community project, such as running a kitchen for flood survivors, naturally combines the labor of many bodies, the planning of many minds, and the donations of many givers. The threefold scheme reminds every Sikh that whatever they possess, whether strength, skill, or means, can be turned toward the good of others.</p>"
+        },
+        {
+          "title": "Langar: Service Made Permanent",
+          "html": "<h2>The Free Kitchen and the Common Table</h2><p>Langar is the community kitchen attached to every gurdwara, where free meals are prepared and served to all who come, regardless of religion, background, status, or wealth. It is one of the most recognizable Sikh institutions and one of the clearest examples of seva built into the very structure of Sikh life. Langar is not an occasional charity event; it is a permanent, daily practice that has continued for centuries.</p><h3>Origins in the Vision of the Gurus</h3><p>The institution traces back to Guru Nanak, the first Sikh Guru, who taught that the sacred and the social cannot be separated. A well known account associated with his early life tells of him using money meant for trade to feed the hungry, calling it a truly worthwhile use of resources. The langar was then developed and formalized by the Gurus who followed. It became a deliberate tool for breaking down the rigid social hierarchies of the time, particularly the caste system, which dictated who could eat with whom.</p><h3>Eating Together as Equals</h3><p>In langar everyone sits together on the floor in rows called <em>pangat</em>, at the same level, and eats the same simple vegetarian food. Sitting on the floor is a quiet but powerful statement: the wealthy and the poor, the educated and the illiterate, people of every faith and origin share one space and one meal as equals. The food is vegetarian so that no one's dietary or religious restrictions exclude them from the common table. In this way langar enacts the Sikh conviction that all human beings are equal before the divine.</p><h3>Service From Beginning to End</h3><p>Langar is sustained entirely by seva. Volunteers grow, donate, chop, cook, serve, and clean, and the donations that fund it are themselves a form of material service. A person may help prepare vegetables one day and wash dishes the next, taking turns at every task without regard to their position in ordinary society. The diner of today is encouraged to become the server of tomorrow. Langar therefore teaches both the giving and the receiving of service with equal grace, and it trains the whole community in humility and generosity.</p><h3>A Living Symbol</h3><p>Beyond feeding the body, langar feeds an ideal. It makes visible, every single day, what a society of equality and shared care might look like. For many visitors, a meal in langar is their first and most memorable encounter with Sikhi, because the values of the tradition are not merely described to them but offered to them on a plate.</p>"
+        },
+        {
+          "title": "Seva and the Dissolving of Ego",
+          "html": "<h2>How Service Heals Haumai</h2><p>To understand why seva occupies such a central place in Sikhi, we must look at the Sikh understanding of the human problem. Gurbani teaches that the deepest obstacle to a spiritual life is <em>haumai</em>, a word usually translated as ego or self-centeredness, literally something like the chronic assertion of I and mine. Haumai is the inflated sense of a separate self that craves recognition, accumulates for itself, and measures everything by personal gain. It is described as a kind of inner sickness that keeps a person trapped in cycles of pride, attachment, and unrest.</p><h3>The Remedy in Action</h3><p>Seva is one of the most effective remedies for haumai, because it works directly against the ego's habits. The ego wants to be served; seva makes one a servant. The ego wants recognition; seva is often anonymous. The ego hoards; seva gives. By repeatedly placing the needs of others above one's own preferences, the server gradually loosens the grip of self-importance. Over time, the constant inner question of what do I get is quieted, and the person begins to find a settled peace that no amount of self-seeking could provide.</p><h3>Humility as the Inner Fruit</h3><p>The natural fruit of sincere service is <em>nimrata</em>, humility. Gurbani holds humility in the very highest regard, comparing the truly humble person to lowly things that nonetheless give life and nourishment, and teaching that greatness in the divine court belongs to those who make themselves small in service. This is not a humility of low self-worth, but a freedom from the exhausting need to prove and promote oneself. Such humility is considered a mark of spiritual maturity.</p><h3>Service and Remembrance Together</h3><p>It is important to note that seva alone is not presented as a complete path. The Gurus paired service with <em>naam simran</em, the loving remembrance of the divine name. Service keeps the ego in check and turns devotion outward into the world, while remembrance keeps the heart anchored in the divine and protects service from itself becoming a source of pride. When the two are joined, action and contemplation reinforce each other. The server works for others while the mind rests in God, and through this union the self is slowly emptied of haumai and filled with love.</p><h3>The Paradox of Selflessness</h3><p>There is a gentle paradox at the heart of seva. By giving without seeking return, the server in fact receives the greatest gift, which is liberation from the prison of the self. What looks like loss, the surrender of time, effort, and resources, turns out to be the path to inner freedom and joy. This is why Sikhs speak of seva not as a burden but as a privilege and a blessing.</p>"
+        },
+        {
+          "title": "Sarbat da Bhala: The Welfare of All",
+          "html": "<h2>The Universal Horizon of Sikh Ethics</h2><p>If seva is the personal practice of service, <em>sarbat da bhala</em> is the vast ethical vision that gives it direction. The phrase means the welfare, well-being, or blessing of all, and it expresses the Sikh aspiration that goodness extend not merely to one's own family, community, or faith, but to the whole of humanity and indeed to all of creation. It is one of the most important phrases in Sikh thought.</p><h3>A Daily Prayer for Everyone</h3><p>Sarbat da bhala is most famously enshrined in the <em>Ardas</em>, the formal Sikh prayer offered at the close of worship and on important occasions. The Ardas ends with a plea that asks for the well-being of all people, of every kind, everywhere. This is striking: the central communal prayer of the Sikhs does not conclude by asking only for the prosperity of Sikhs, but for the good of all humankind. The phrase trains every Sikh, every day, to widen the circle of concern beyond the self and the in-group.</p><h3>Rooted in the Oneness of Creation</h3><p>This universal ethic flows directly from Sikh theology. Gurbani teaches that there is one divine reality, often called <em>Ik Onkar</em>, the One, present in and pervading all of creation. If the same divine light dwells in every person, then no human being can be regarded as fundamentally other, lesser, or beyond the reach of care. To wish harm or remain indifferent to anyone is, in a sense, to be indifferent to the divine present within them. Service to humanity thus becomes service to God, and the welfare of all becomes a religious duty rather than a mere sentiment.</p><h3>Beyond Tolerance to Active Goodwill</h3><p>Sarbat da bhala asks for more than tolerance. Tolerance can be passive, a mere willingness to leave others alone. Sarbat da bhala is active goodwill: a positive desire for others to flourish and a readiness to work toward that flourishing. It does not require others to share one's faith. The Sikh prays and labors for the good of people of every religion and none, including those with whom one disagrees. This generosity of spirit is meant to govern how a Sikh treats neighbors, strangers, and even opponents.</p><h3>From Ideal to Action</h3><p>Crucially, sarbat da bhala is not only a wish but a charge to act. The vision of universal welfare is what turns private piety into public service. It is why Sikh communities have historically opened their kitchens, hospitals, and resources to all, and why they continue to respond to human need wherever it appears. In the next lessons we will see this principle expressed concretely in centuries of Sikh humanitarian action.</p>"
+        },
+        {
+          "title": "A Tradition of Service: History and Today",
+          "html": "<h2>From the Gurus to Global Relief</h2><p>The Sikh commitment to service is not a recent or occasional phenomenon. It is woven through the tradition's history and continues vigorously in the present. Looking at concrete examples helps us see how the principles studied so far translate into action on a large scale.</p><h3>Service in the Time of the Gurus</h3><p>The Gurus themselves modeled service through the building of community institutions. Beyond establishing and expanding langar, the early Sikh community dug wells and water tanks, founded towns, and created gathering places open to all. The Gurus also taught that service must extend protection to the vulnerable and defense of the oppressed, a principle later embodied in the ideal of the saint-soldier who combines inner devotion with the courage to stand up for justice. Service, in this fuller sense, includes not only feeding the hungry but defending the defenseless and resisting tyranny on behalf of all people.</p><h3>The Spirit of Selfless Aid</h3><p>Sikh tradition cherishes figures whose service crossed every boundary of friend and enemy. The most beloved example is the memory of those who tended the wounded on the battlefield, giving water and care to all who suffered without asking which side they had fought on. This image, of compassion offered even to one's opponents, became a lasting model of what sarbat da bhala looks like in practice: aid measured by need alone, never by allegiance.</p><h3>Modern Humanitarian Action</h3><p>In recent times, Sikh organizations and volunteers have become widely recognized for rapid humanitarian relief. When floods, earthquakes, and other disasters strike, Sikh volunteers frequently arrive among the first responders, setting up mobile langars that serve thousands of hot meals a day to survivors of every faith and background. During global crises, including widespread public health emergencies, gurdwaras and Sikh charities have distributed enormous quantities of food, water, and supplies to people in need, often working alongside other relief agencies.</p><h3>Langar at Scale</h3><p>The capacity of langar to scale is one of its most remarkable features. Some major gurdwaras feed tens of thousands of people every day as a matter of routine, and during festivals or emergencies the numbers rise dramatically. This is not a centrally commanded operation but the cumulative result of countless ordinary people performing seva: donating, cooking, serving, and cleaning. The same institution that teaches humility in a small village gurdwara becomes, when summed across a global community, one of the largest free food efforts in the world.</p><h3>A Continuous Thread</h3><p>What unites the well-digging of the Gurus, the battlefield compassion of beloved Sikh figures, and the modern disaster kitchen is a single continuous ethic. The forms change with the times, but the principle does not: where there is human need, the Sikh is called to serve, freely and without discrimination.</p>"
+        },
+        {
+          "title": "Daswandh: Sharing a Tenth",
+          "html": "<h2>The Discipline of Structured Giving</h2><p><em>Daswandh</em> means a tenth part, and it refers to the Sikh practice of dedicating roughly one tenth of one's income and resources to selfless and charitable purposes. It is the most concrete and disciplined expression of <em>dhan seva</em>, the service of wealth, and of the principle of <em>vand chhakna</em>, sharing what one earns.</p><h3>Why a Fixed Portion</h3><p>Generosity left entirely to mood tends to fade when life gets busy or money feels tight. By setting aside a regular, predictable portion, daswandh turns giving from an occasional impulse into a steady habit and a spiritual discipline. The specific proportion of a tenth gives the practice structure and seriousness without being so large as to be impossible for ordinary earners. It is understood as a guideline expressing wholehearted commitment rather than a rigidly enforced tax; many give more, and the spirit of the practice matters more than precise accounting.</p><h3>What It Supports</h3><p>Daswandh funds the wide range of activities that the Sikh community sustains through service: langar and community kitchens, the upkeep of gurdwaras, education, medical care, support for the poor and for those struck by disaster, and other works carried out for the welfare of all. In this way the individual's earnings become a stream feeding the larger river of communal service. The honest labor of kirat karni produces wealth, and daswandh returns a portion of that wealth to the good of society.</p><h3>An Inner Discipline as Well as an Outer One</h3><p>Like all forms of seva, daswandh is meant to work on the giver as much as on the recipient. Regularly parting with a portion of one's income loosens attachment to money and counters the ego's instinct to hoard. It is a practical, repeated reminder that what one earns is not entirely one's own, that one's abilities and opportunities are gifts, and that a share of one's good fortune rightly belongs to others. In this sense daswandh trains the heart in detachment and gratitude even as it funds tangible good in the world.</p><h3>Beyond Money</h3><p>Although daswandh is most often discussed in terms of income, its spirit naturally extends to time and talent as well. Many Sikhs think of dedicating a tenth of their time and energy to service alongside a tenth of their earnings. Understood broadly, daswandh becomes a way of holding all of one's resources, financial and personal, with an open hand, ready to be shared for the welfare of all.</p>"
+        },
+        {
+          "title": "Living a Life of Seva Today",
+          "html": "<h2>Putting Service Into Practice</h2><p>Everything studied in this course points toward a practical question: how does one actually live a life of seva in the conditions of modern life? The Sikh tradition is intensely practical, and its teaching on service is meant to be enacted, not merely admired. This closing lesson offers a framework for doing so.</p><h3>Start Where You Are</h3><p>Seva does not require waiting for a grand opportunity. The three forms, tan, man, and dhan, ensure that everyone can begin immediately with whatever they have. One can offer physical help to a neighbor, give attention and a listening ear to someone who is struggling, or contribute resources to a cause. The most ordinary acts, done with sincerity and for the good of others, are genuine seva. The gurdwara remains a natural training ground, where one can join in cooking, cleaning, serving langar, or welcoming visitors.</p><h3>Cultivate the Right Inner Attitude</h3><p>Because seva is as much about the heart of the server as about the help given, inner attitude matters greatly. Aim to serve without seeking thanks or recognition, to remain humble when praised, and to treat those you serve with genuine respect rather than condescension. Pairing service with a few moments of remembrance or prayer helps keep the work anchored in love rather than in pride. When you notice the ego creeping in, wanting credit or feeling superior, treat that noticing itself as part of the practice.</p><h3>Make It Regular and Structured</h3><p>Occasional service is good, but the tradition values steadiness. Consider committing to a regular rhythm of seva, much as daswandh structures giving. This might mean a fixed time each week for volunteering, a planned portion of income for charitable work, and a habit of looking for small daily opportunities to help. Structure protects good intentions from being eroded by a busy schedule.</p><h3>Let the Circle Widen</h3><p>Finally, let sarbat da bhala stretch the boundaries of your concern. Begin with family and community, but do not stop there. Serve people of other faiths and backgrounds, support relief for distant suffering, and care for the wider creation and environment as part of the welfare of all. The aim is to grow steadily beyond a narrow self-interest toward a genuine wish, expressed in action, for the flourishing of everyone.</p><h3>Service as a Whole Life</h3><p>Lived fully, seva is not a set of tasks added onto an otherwise ordinary life; it becomes the texture of the life itself. Work becomes honest labor shared with others, prayer becomes devotion that overflows into care, and relationships become opportunities to give. In this way the Sikh ideal comes within reach of any person who chooses it: a life of remembrance, honest effort, and selfless service, lived for the welfare of all, that quietly dissolves the ego and fills the heart with peace.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is the defining quality of seva in Sikhi?",
+          "options": [
+            "It is performed only inside a gurdwara",
+            "It is selfless service offered without expectation of reward or recognition",
+            "It must always involve giving money",
+            "It is reserved for religious leaders"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "The three classical forms of seva, tan, man, and dhan, refer respectively to service through:",
+          "options": [
+            "Speech, silence, and song",
+            "Family, community, and nation",
+            "Body, mind, and material wealth",
+            "Past, present, and future"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is langar?",
+          "options": [
+            "A special prayer recited at dawn",
+            "The free community kitchen serving meals to all regardless of background",
+            "A title given to senior Sikh volunteers",
+            "A festival held once a year"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why is sitting together on the floor in pangat significant in langar?",
+          "options": [
+            "It saves money on furniture",
+            "It is required for hygiene reasons",
+            "It expresses the equality of all people who eat as equals",
+            "It is a form of physical exercise"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In Sikh teaching, what inner obstacle does seva especially help to dissolve?",
+          "options": [
+            "Haumai, the ego or self-centeredness",
+            "Physical illness",
+            "Lack of education",
+            "Financial debt"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What does the phrase sarbat da bhala mean, and where is it famously enshrined?",
+          "options": [
+            "The welfare of all, enshrined in the closing of the Ardas prayer",
+            "Honest earning, enshrined in daily labor",
+            "Remembrance of the name, enshrined in morning meditation",
+            "Defense of the faith, enshrined in martial training"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What is daswandh?",
+          "options": [
+            "A pilgrimage to ten sacred sites",
+            "The practice of dedicating roughly a tenth of one's income and resources to selfless purposes",
+            "A set of ten daily prayers",
+            "A ten-day festival of service"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which statement best captures how seva relates to the rest of the Sikh path?",
+          "options": [
+            "Seva replaces the need for remembrance of the divine",
+            "Seva is paired with naam simran so that outward service and inner devotion reinforce each other",
+            "Seva is optional and unrelated to spiritual growth",
+            "Seva is only valuable when done publicly for recognition"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "understanding-mool-mantar",
+      "title": "Understanding the Mool Mantar",
+      "topic": "theology",
+      "level": 150,
+      "professor": "Sikh University",
+      "source": "Sikh University (original)",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "A guided, term-by-term study of the Mool Mantar, the foundational statement that opens Sri Guru Granth Sahib Ji. This course explains each phrase in plain language, shows how these few words frame the entire body of Gurbani, and explores how Sikhs reflect on and live with the Mool Mantar. Mainstream and reverent in tone, it notes places where sincere interpreters differ, while keeping the focus on the shared core: a description of the one Divine Reality and the way that understanding shapes Sikh life.",
+      "lessons": [
+        {
+          "title": "What the Mool Mantar Is and Why It Comes First",
+          "html": "<h2>The opening words of Sikh scripture</h2><p>The Mool Mantar is the short statement that stands at the very beginning of Sri Guru Granth Sahib Ji, the Sikh scripture revered by Sikhs as the eternal Guru. The name itself is a useful guide: <em>mool</em> means root, source, or foundation, and <em>mantar</em> here means a sacred formula or set of words meant to be remembered and reflected upon. Together the term points to a root statement, the seed from which the rest of the teaching grows.</p><p>Because it opens the scripture, the Mool Mantar functions like a thesis placed before a long work. Everything that follows, page after page of hymns by the Gurus and other devoted voices, can be read as an unfolding, deepening, and application of the truths compressed into these first words. To understand the Mool Mantar well is to hold a key that unlocks the larger text.</p><h2>A description, not a list of rules</h2><p>It helps to notice what kind of statement this is. The Mool Mantar does not begin with commands about what to do. It begins with a description of what the Divine is like. In other words, Sikh teaching opens not with instructions but with a vision of reality. The ethics, the practices, and the way of life all flow from this vision rather than the other way around.</p><p>This ordering carries a quiet message. Before a person is told how to act, they are invited to see clearly. The qualities named in the Mool Mantar, such as fearlessness and freedom from hatred, are first and foremost descriptions of the Divine, and only afterward become qualities a seeker hopes to grow toward.</p><h2>How this course will proceed</h2><p>Over the next several lessons we will walk through the Mool Mantar phrase by phrase, in the order the words appear: Ik Onkar, Sat Naam, Karta Purakh, Nirbhau, Nirvair, Akal Murat, Ajooni, Saibhang, and Gur Prasad. For each, we will explain in ordinary language what it conveys about the nature of the Divine. After the term-by-term study, we will step back to see how the whole statement frames Gurbani and how Sikhs actually use the Mool Mantar in daily life, reflection, and prayer.</p><h2>A note on translation and reverence</h2><p>These words come from a living tradition in the Gurmukhi script and the language of the Gurus. Any rendering into English is an approximation. The short terms can be translated and explained, and that is the work of this course, but no translation fully captures their depth. Approaching the Mool Mantar with humility, as countless students before us have done, is itself part of understanding it.</p>"
+        },
+        {
+          "title": "Ik Onkar: One Reality",
+          "html": "<h2>The first symbol and the first claim</h2><p>The Mool Mantar opens with Ik Onkar, often written with the numeral one joined to a single flowing character. The choice to begin with a number is deliberate and striking. Before any word at all, the scripture asserts oneness. <em>Ik</em> means one. <em>Onkar</em> points to the all-pervading Reality, the primal Being that sounds through and sustains all that exists.</p><p>Putting them together, Ik Onkar declares that there is One Reality, undivided and without a second. This is the cornerstone of Sikh thought. Everything else in the Mool Mantar describes this One.</p><h2>Oneness beyond mere counting</h2><p>It is easy to read the number one as simply ruling out the idea of many gods, and it does include that. But the oneness intended here goes deeper than counting. To say the Divine is One is to say it is whole, indivisible, and present everywhere without being split up among things. The same single Reality underlies the vast sky and the smallest detail of a life. There is no corner of existence where it is absent and no rival power standing outside it.</p><p>This understanding gently dissolves the sense of separation that we usually take for granted. If there is truly One, then the boundary we feel between ourselves and the Divine, and even between ourselves and other beings, is not the final truth. Much of Gurbani returns to this theme of an underlying unity beneath apparent variety.</p><h2>Beyond form, yet present in all forms</h2><p>Onkar is understood as formless in its essence, not captured by any single image or idol. At the same time, this formless Reality is not distant or detached. It expresses itself in and through creation. Sikh teaching holds these two truths together: the Divine cannot be reduced to any object, and yet nothing exists apart from it.</p><h2>Why it stands first</h2><p>Placing Ik Onkar at the head of everything sets the frame for all that follows. Each later phrase, fearlessness, timelessness, self-existence, and the rest, is a quality of this One. The whole Mool Mantar can be read as the question, who or what is this One, answered attribute by attribute. Holding the oneness in mind keeps the later terms from being read as separate ideas; they are facets of a single Reality.</p>"
+        },
+        {
+          "title": "Sat Naam: The Name Is Truth",
+          "html": "<h2>Truth as the very identity of the Divine</h2><p>After declaring oneness, the Mool Mantar gives this One a defining quality: Sat Naam. <em>Sat</em> means true, real, and enduring. <em>Naam</em> means name, but in Gurbani the Naam is far richer than a label. It is the living presence and identity of the Divine, the reality that a seeker remembers, dwells upon, and connects with.</p><p>Sat Naam can be understood as the assertion that the Name, the very identity of the One, is Truth itself. The Divine is not merely truthful in the sense of telling no lies; it is Truth, the abiding reality that does not change or pass away while everything else shifts and fades.</p><h2>What we mean by truth here</h2><p>In everyday speech, truth often means a statement that matches the facts. The truth spoken of in Sat Naam is more like the bedrock of existence, that which is genuinely real and permanent. Our ordinary experiences come and go, but the One that is Sat remains constant beneath them. To anchor oneself in the Naam, in this teaching, is to stand on what is truly real rather than on what is fleeting.</p><h2>The Naam as the heart of practice</h2><p>The idea of Naam is one of the most important in all of Sikh teaching, and it appears here at the very start. Sikh devotional life centers on remembrance of the Naam, often through the practice known as Naam Simran, the loving recollection and repetition of the Divine. By naming the One as Sat Naam at the outset, the Mool Mantar establishes that the relationship between seeker and Divine runs through this remembrance of a Name that is itself Truth.</p><h2>A subtle point on reading the phrase</h2><p>Readers and scholars sometimes discuss how closely Sat Naam should be tied to the preceding Ik Onkar, and whether to read it as one continuous flow, the One whose Name is Truth, or as a distinct attribute. These are matters of emphasis rather than of conflict. In every mainstream reading, the shared meaning holds firm: the One Reality is Truth, and its Name is the enduring real that the heart is invited to remember.</p>"
+        },
+        {
+          "title": "Karta Purakh: The Creating Being",
+          "html": "<h2>The One who creates and is present</h2><p>The next phrase, Karta Purakh, describes the Divine as the active source of all that is. <em>Karta</em> means doer or creator, the one who brings things into being and keeps them in motion. <em>Purakh</em> means being or person, in the sense of a conscious, present, all-pervading reality rather than a human-like individual.</p><p>Together, Karta Purakh conveys the Creator who is also the living presence within creation. The Divine is not only the One who made the world at some distant beginning; it is the ongoing doer, continuously involved, and it pervades what it has made.</p><h2>Creator and creation held together</h2><p>Some ways of thinking imagine a maker who builds the world and then steps away, leaving it to run on its own. The Mool Mantar resists that picture. By joining <em>Karta</em>, the creating, with <em>Purakh</em>, the pervading presence, it affirms that the Creator remains intimately within the creation. The world is not abandoned machinery; it is sustained moment to moment by the One.</p><p>This balances neatly with Ik Onkar. If there is truly One Reality present everywhere, then creation cannot be something separate that the Divine merely observes from outside. Creator and creation are distinct in our description yet never truly divided.</p><h2>Why naming the Divine as Creator matters</h2><p>Calling the One the Creator grounds the seeker in gratitude and humility. Life, breath, the world, and the very capacity to seek are received, not self-made. Much of Gurbani expresses wonder at the vastness and intricacy of what the Creator has brought forth, and that wonder begins here, in the simple recognition that the One is Karta Purakh.</p><h2>Active, not passive, divinity</h2><p>It is worth noting that this Reality is described as a doer. The Divine in Sikh teaching is dynamic, the source of action and of the unfolding order of things. This is not a remote abstraction but a creative presence whose activity upholds existence. Keeping this in view helps later phrases like Akal Murat and Saibhang make sense, for they describe the nature of a Creator who is at once timeless and self-existent.</p>"
+        },
+        {
+          "title": "Nirbhau and Nirvair: Without Fear, Without Hatred",
+          "html": "<h2>Two qualities that belong together</h2><p>The Mool Mantar next names two closely linked attributes: Nirbhau and Nirvair. <em>Nir</em> is a prefix meaning without or free from. <em>Bhau</em> means fear, so Nirbhau means without fear, fearless. <em>Vair</em> means enmity or hatred, so Nirvair means without enmity, free from hatred. We study them together because they illuminate one another.</p><h2>Nirbhau: free from fear</h2><p>To say the Divine is Nirbhau is to say it fears nothing and is subject to nothing. Fear arises where there is a threat, a superior power, or something that can take away what we hold dear. The One, being the sole and supreme Reality, has nothing above it and nothing that can diminish it. There is no rival, no limit, and no end that could cause it to fear.</p><p>This attribute also carries a freeing message for the seeker. A person who truly takes refuge in the fearless One begins, over time, to be released from the many fears that crowd a human life. Living in remembrance of a fearless Divine is, in this teaching, a path toward a steadier and less anxious heart.</p><h2>Nirvair: free from hatred</h2><p>To say the Divine is Nirvair is to say it holds no enmity toward anyone or anything. The One does not divide existence into favored and despised, friend and foe. Its relationship to all of creation is one of impartial love and care rather than rivalry or resentment.</p><p>This has profound consequences for how Sikhs are encouraged to see other people. If the Divine bears enmity toward no one, then a seeker who wishes to grow toward the Divine is called to let go of hatred as well, to look upon all of humanity without the walls of hostility that so often divide people.</p><h2>Why the pair matters</h2><p>Fear and hatred are two of the deepest roots of human suffering and conflict, and they feed each other. We often hate what we fear and fear what we hate. By describing the Divine as wholly free of both, the Mool Mantar offers an image of perfect security and perfect goodwill. The seeker is quietly invited toward the same: to live without the fear that shrinks the heart and without the enmity that hardens it.</p>"
+        },
+        {
+          "title": "Akal Murat, Ajooni, and Saibhang: Timeless, Unborn, Self-Existent",
+          "html": "<h2>Three attributes about the Divine and time</h2><p>This lesson gathers three terms that together address how the One relates to time, birth, and origin: Akal Murat, Ajooni, and Saibhang. They form a natural cluster because each, in its own way, sets the Divine apart from the cycle of coming into being and passing away that marks all created things.</p><h2>Akal Murat: the timeless form</h2><p><em>Akal</em> means beyond time, deathless, not subject to the passage of ages; <em>kal</em> refers to time or death, and the prefix negates it. <em>Murat</em> means form or image. Akal Murat is often rendered as the timeless form, the deathless reality. The Divine is not worn down by time and does not perish.</p><p>The pairing of timelessness with the word form invites careful reflection. The One is formless in essence, as Ik Onkar makes clear, yet here it is spoken of as the Akal Murat, the timeless reality that is, in a sense, ever-present and beyond change. Interpreters describe this as the abiding, deathless presence of the Divine rather than a physical shape. The shared point across readings is plain: the One is untouched by time and never ceases to be.</p><h2>Ajooni: free from birth</h2><p><em>Ajooni</em> means not subject to birth, not entering the cycle of being born. <em>Jooni</em> refers to birth or to coming into bodily existence. To say the Divine is Ajooni is to say it does not take birth as creatures do and does not enter the wheel of birth, life, and death.</p><p>This distinguishes the Sikh understanding of the Divine from notions in which the supreme being descends and is born as a creature. In the Mool Mantar, the One remains the unborn source, never becoming a mortal being subject to the limits of birth and death. This is offered as a description, stated plainly and without polemic.</p><h2>Saibhang: self-existent</h2><p><em>Saibhang</em> means self-existent, self-illuminated, brought into being by nothing other than itself. The One depends on no prior cause and is owed to no maker. It simply is, of itself, and shines by its own light.</p><p>Saibhang follows naturally from what came before. A Reality that is one, true, the creator of all, beyond time, and unborn must also be self-existent, for there is nothing else from which it could derive. It is the source on which all else depends while depending on nothing.</p><h2>The cluster as a whole</h2><p>Read together, these three terms place the Divine entirely outside the conditions that limit creatures. Created things are born, change over time, decay, and depend on causes. The One is unborn, timeless, deathless, and self-existent. This is not a cold abstraction but a way of pointing to a Reality utterly reliable because it is not subject to the losses and endings that mark everything else.</p>"
+        },
+        {
+          "title": "Gur Prasad: By the Guru's Grace",
+          "html": "<h2>The closing of the foundational statement</h2><p>The Mool Mantar concludes with Gur Prasad. <em>Gur</em> refers to the Guru, the enlightener who dispels darkness and reveals truth. <em>Prasad</em> means grace, favor, or a gift freely given. Gur Prasad therefore means by the grace of the Guru, or attained through the Guru's grace.</p><p>This ending changes the character of the whole statement. The first terms describe the Divine. The final phrase tells us how that Divine becomes known to a seeker: not by personal cleverness, effort alone, or intellectual mastery, but through grace.</p><h2>Grace, not achievement</h2><p>A profound humility is built into these last words. After describing the One in such exalted terms, the Mool Mantar does not say that we grasp this One by our own power. It says that realization comes as a gift. The seeker prepares, remembers, and lives rightly, but the actual knowing of the Divine is received through grace rather than seized through accomplishment.</p><p>This guards against spiritual pride. No one can boast of having earned the realization of Truth. It also offers great encouragement: because realization is grace, it is not reserved for the learned or the powerful. It is open to any sincere heart upon whom grace descends.</p><h2>The role of the Guru</h2><p>The word Gur points to the role of the Guru as the channel of this grace. In Sikh understanding, the Guru is the one who awakens the seeker, turns the mind toward Truth, and makes the unknowable approachable. With the Guru Granth Sahib honored as the living Guru, Sikhs receive guidance and grace through the wisdom enshrined in the scripture, which the Mool Mantar itself opens.</p><h2>How the ending frames the beginning</h2><p>There is a beautiful circle here. The Mool Mantar begins with the One Reality and ends by telling us that this One is realized through grace, and grace flows through the Guru, whose words begin with the Mool Mantar. The statement points beyond itself to the whole of Gurbani as the means by which its opening vision becomes lived experience.</p>"
+        },
+        {
+          "title": "The Mool Mantar in the Life of a Sikh",
+          "html": "<h2>How the foundation shapes the whole</h2><p>Having walked through each term, we can now see the Mool Mantar as a single unfolding statement. It begins with oneness, names the One as Truth, describes the One as the present Creator, frees the One of fear and hatred, places the One beyond time, birth, and dependence, and finally tells us that the One is realized by grace through the Guru. In a handful of words, it offers a complete frame for everything that follows in Sri Guru Granth Sahib Ji.</p><p>Every later hymn can be read as an exploration of one or more of these truths: praising the wonder of the Creator, urging remembrance of the Naam, calling the heart toward fearlessness and goodwill, marveling at the timeless One, or expressing dependence on grace. The Mool Mantar is the lens through which the rest comes into focus.</p><h2>A statement to be remembered, not just studied</h2><p>For Sikhs, the Mool Mantar is not only a subject of study but a living part of daily life. Many learn it early and recite it from memory. It is the opening of the daily morning prayer and recurs throughout Sikh liturgy and practice. To say the Mool Mantar is to recall, again and again, the most basic truths about the Divine and to orient the heart toward them at the start of the day and throughout it.</p><h2>From description to transformation</h2><p>A central insight of this tradition is that the attributes of the Divine are also an invitation. We reflect on the fearless One and pray to grow less ruled by fear. We contemplate the One without enmity and seek to release our own hatreds. We remember the One as Truth and try to live truthfully. In this way the Mool Mantar is both a description of the Divine and a quiet map of the qualities a seeker hopes, by grace, to develop.</p><h2>Holding interpretation with humility</h2><p>Sincere readers sometimes differ on fine points, such as how far the Mool Mantar extends in some recitations, or how best to render a particular word in another language. These differences are real and are discussed respectfully within the tradition, yet they do not touch the shared heart of the statement. The core vision, one timeless, true, creating, fearless, loving, unborn, self-existent Reality realized by grace, is held in common.</p><h2>Carrying the study forward</h2><p>The best way to deepen what this course has begun is to return to the Mool Mantar slowly and often, letting each phrase open in the mind, and then to read on into Gurbani with these foundations in view. What started as the root of the teaching can become, over time, a root in the seeker's own life: a steady place to stand, a vision of the Divine, and a direction for the heart.</p>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does the term Mool Mantar most directly indicate about this statement?",
+          "options": [
+            "That it is a rule for daily conduct",
+            "That it is a root or foundational formula to be reflected upon",
+            "That it is a closing prayer of the scripture",
+            "That it is a list of the Gurus"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does Ik Onkar primarily declare?",
+          "options": [
+            "That there are many divine powers",
+            "That the Divine has a fixed physical image",
+            "That there is One all-pervading Reality",
+            "That creation exists apart from the Divine"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In the phrase Sat Naam, the word Sat conveys that the Divine is:",
+          "options": [
+            "Fearful and distant",
+            "True and enduringly real",
+            "Born into the world",
+            "Dependent on a maker"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does Karta Purakh emphasize about the Divine?",
+          "options": [
+            "A creator who made the world and then withdrew from it",
+            "The creating Being who also pervades and sustains creation",
+            "A being subject to birth and death",
+            "A power that fears a rival"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Taken together, Nirbhau and Nirvair describe the Divine as:",
+          "options": [
+            "Both fearful and hostile",
+            "Without fear and without enmity",
+            "Timeless and unborn",
+            "Self-existent and formless"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which set of qualities is conveyed by Akal Murat, Ajooni, and Saibhang?",
+          "options": [
+            "Creator, truthful, and gracious",
+            "One, fearless, and loving",
+            "Timeless, unborn, and self-existent",
+            "Hidden, distant, and changing"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does Gur Prasad add at the close of the Mool Mantar?",
+          "options": [
+            "That the Divine is realized through grace, by means of the Guru",
+            "That realization is earned solely by intellectual effort",
+            "That the Divine takes birth as a creature",
+            "That there are several divine realities"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How does the Mool Mantar function in relation to the rest of Gurbani?",
+          "options": [
+            "It contradicts the hymns that follow",
+            "It is unrelated to the rest of the scripture",
+            "It serves as a foundational frame that the rest unfolds and applies",
+            "It is only a closing summary placed at the end"
           ],
           "answer": 2
         }
