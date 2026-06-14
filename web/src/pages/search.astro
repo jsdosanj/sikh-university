@@ -92,7 +92,7 @@ const extra = { professors, readings, pages };
       let html = `<p class="mb-4 text-muted">${m.length} result${m.length === 1 ? '' : 's'}</p>`;
       ORDER.forEach((k) => {
         const g = groups[k]; if (!g || !g.length) return;
-        html += `<h2 class="mb-3 mt-6 text-lg font-bold">${LABEL[k]} <span class="font-sans text-sm font-normal text-muted">(${g.length})</span></h2><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">${g.map(row).join('')}</div>`;
+        html += `<h2 class="mb-3 mt-6 text-lg font-bold">${LABEL[k]} <span class="font-sans text-sm font-normal text-muted">(${g.length})</span></h2><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:grid-cols-4">${g.map(row).join('')}</div>`;
       });
       out.innerHTML = html;
     }
