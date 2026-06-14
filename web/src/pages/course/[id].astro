@@ -206,17 +206,18 @@ const breadcrumb = {
     const P = 'su_v1_';
     const get = (k, d) => { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
     const set = (k, v) => { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch {} };
-    const doneKey = 'done_' + id; let done = get(doneKey, {});
-    function syncPush() {
-      fetch('/api/progress', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ courseId: id, done: Object.keys(done).filter((k) => done[k]).map(Number), passedScore: get('passed_' + id, null) }) }).catch(() => {});
+    const doneKey = 'done_' + id, scoreKey = 'score_' + id; let done = get(doneKey, {});
+    // Write progress + grade to the server (the source of truth); localStorage is a cache.
+    function push() {
+      return fetch('/api/progress', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ courseId: id, done: Object.keys(done).filter((k) => done[k]).map(Number), passedScore: get(scoreKey, null) }) }).catch(() => {});
     }
-    // Cross-device pull: merge any progress saved while signed in.
+    // Cross-device pull: the server's record wins, so grades survive a cleared device.
     fetch('/api/progress', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
       if (!d || !d.progress) return;
       const row = d.progress.filter((p) => p.course_id === id)[0]; if (!row) return;
       try { JSON.parse(row.done || '[]').forEach((i) => { done[i] = true; }); set(doneKey, done); } catch {}
-      if (row.passed_score >= 80) set('passed_' + id, row.passed_score);
+      if (row.passed_score != null) { set(scoreKey, row.passed_score); if (row.passed_score >= 80) set('passed_' + id, row.passed_score); }
       refresh();
     }).catch(() => {});
     // Announcements posted by this course's teacher(s).
@@ -234,13 +235,17 @@ const breadcrumb = {
       document.querySelectorAll('[data-done]').forEach((b) => { const i = b.dataset.done; b.textContent = done[i] ? '✓ Completed' : 'Mark complete'; b.classList.toggle('border-saffron', !!done[i]); });
     }
     document.querySelectorAll('[data-note]').forEach((t) => { const k = 'note_' + id + '_' + t.dataset.note; t.value = get(k, ''); t.addEventListener('input', () => set(k, t.value)); });
-    document.querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => { const i = b.dataset.done; done[i] = !done[i]; if (!done[i]) delete done[i]; else recordActivity(); set(doneKey, done); refresh(); syncPush(); }));
+    document.querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => { const i = b.dataset.done; done[i] = !done[i]; if (!done[i]) delete done[i]; else recordActivity(); set(doneKey, done); refresh(); push(); }));
     const submit = document.getElementById('quiz-submit');
     if (submit) submit.addEventListener('click', () => {
       let correct = 0; quiz.forEach((q, i) => { const s = document.querySelector(`input[name="q${i}"]:checked`); if (s && +s.value === q.answer) correct++; });
       const score = Math.round((correct / quiz.length) * 100);
+      const best = Math.max(score, get(scoreKey, 0)); set(scoreKey, best);
+      if (score >= 80) set('passed_' + id, score);
+      recordActivity();
+      push(); // record this attempt's grade on the server immediately
       const r = document.getElementById('quiz-result');
-      if (score >= 80) { set('passed_' + id, score); recordActivity(); syncPush(); r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`; }
+      if (score >= 80) r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`;
       else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${quiz.length}).</strong> You need 80%. Review the lessons and try again.</div>`;
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });

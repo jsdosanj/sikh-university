@@ -75,6 +75,7 @@ const wordCard = (w) => w;
       <a href="#sentences" class="rounded-full border border-line px-3 py-1 hover:border-saffron">5. Sentences</a>
       <a href="#numbers" class="rounded-full border border-line px-3 py-1 hover:border-saffron">6. Numbers 0–100</a>
       <a href="#common-words" class="rounded-full border border-line px-3 py-1 hover:border-saffron">7. Common words</a>
+      <a href="#flashcards" class="rounded-full border border-line px-3 py-1 hover:border-saffron">8. Flashcards</a>
     </nav>
 
     <details id="painti" open class="mt-8 border-t border-line pt-3">
@@ -218,6 +219,12 @@ const wordCard = (w) => w;
     </div>
     </details>
 
+    <details id="flashcards" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">8. Flashcards — <span class="gur">ਯਾਦ ਪੱਤੇ</span> (spaced repetition)</summary>
+    <p class="mt-1 max-w-2xl text-muted">Active recall with spaced repetition — the fastest way to remember. Cards you find hard come back sooner; cards you know come back later. Built from the common words above plus the key terms of every course.</p>
+    <div id="fc"><p class="mt-4 text-muted">Loading deck…</p></div>
+    </details>
+
     <div class="mt-12 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
       <h2 class="text-xl font-bold">Next steps</h2>
       <ol class="mt-3 list-decimal space-y-1 pl-5">
@@ -227,4 +234,97 @@ const wordCard = (w) => w;
       </ol>
     </div>
   </section>
+  <script type="application/json" id="fc-words-data" set:html={JSON.stringify(gurbaniWords)}></script>
+  <script>
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const strip = (h) => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    const get = (k, d) => { try { const v = localStorage.getItem('su_v1_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
+    const set = (k, v) => { try { localStorage.setItem('su_v1_' + k, JSON.stringify(v)); } catch {} };
+    const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h.toString(36); };
+    const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+    const INTERVALS = [0, 1, 3, 7, 16, 40]; // days by box (1-5)
+
+    let words = [];
+    try { words = JSON.parse(document.getElementById('fc-words-data').textContent || '[]'); } catch {}
+    fetch('/assets/data/courses.json').then((r) => r.json()).then((data) => {
+      const topics = data.topics;
+      const pub = data.courses.filter((c) => c.status === 'published');
+      const seen = new Set();
+      const deck = [];
+      pub.forEach((c) => (c.terms || []).forEach((t) => {
+        const key = strip(t.t); if (!key || seen.has(key)) return; seen.add(key);
+        deck.push({ id: hash(key), front: t.t, back: esc(t.m), topic: c.topic, src: c.title });
+      }));
+      (words || []).forEach((w) => {
+        const key = strip(w.gur); if (!key || seen.has(key)) return; seen.add(key);
+        deck.push({ id: hash(key), front: '<span class="gur">' + esc(w.gur) + '</span>', back: '<strong>' + esc(w.tr) + '</strong>' + (w.url ? ' · <a class="underline" href="' + esc(w.url) + '" target="_blank" rel="noopener">full meaning ↗</a>' : ''), topic: 'reference', src: 'Most-used words of Gurbani' });
+      });
+
+      const root = document.getElementById('fc');
+      const tn = (t) => (topics.find((x) => x.id === t) || {}).name || t;
+      const card = (c) => get('fc_' + c.id, { box: 0, due: 0 });
+      const due = (c) => card(c).due <= Date.now();
+      let topic = 'all', queue = [], idx = 0, flipped = false;
+
+      function build() {
+        let pool = deck.filter((c) => topic === 'all' || c.topic === topic);
+        pool.sort((a, b) => (card(a).due - card(b).due) || (card(a).box - card(b).box));
+        queue = pool.filter(due);
+        if (!queue.length) queue = pool.slice();
+        idx = 0; flipped = false;
+      }
+      function grade(ok) {
+        const c = queue[idx]; if (!c) return;
+        const st = card(c); let box = st.box || 0;
+        box = ok ? Math.min(5, box + 1) : 1;
+        const days = INTERVALS[Math.min(box, INTERVALS.length - 1)];
+        set('fc_' + c.id, { box, due: Date.now() + days * 86400000 });
+        const t = get('fc_today', { d: '', n: 0 }); if (t.d !== today()) { t.d = today(); t.n = 0; } t.n++; set('fc_today', t);
+        idx++; flipped = false; render();
+      }
+
+      function render() {
+        const mastered = deck.filter((c) => (card(c).box || 0) >= 5).length;
+        const dueCount = deck.filter((c) => (topic === 'all' || c.topic === topic) && due(c)).length;
+        const reviewedToday = (get('fc_today', { d: '', n: 0 }).d === today()) ? get('fc_today', { n: 0 }).n : 0;
+        const opts = ['<option value="all">All topics</option>'].concat(topics.filter((tp) => deck.some((c) => c.topic === tp.id)).map((tp) => `<option value="${tp.id}"${tp.id === topic ? ' selected' : ''}>${esc(tp.name)}</option>`)).join('');
+        const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-3 text-center"><div class="text-2xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
+        let body;
+        if (idx >= queue.length) {
+          body = `<div class="mt-6 rounded-xl2 border border-line bg-surface p-8 text-center"><div class="text-4xl">✅</div><h3 class="mt-2 text-xl font-bold">Session complete</h3><p class="mt-1 text-muted">You reviewed ${queue.length} card${queue.length === 1 ? '' : 's'}. Come back tomorrow for the ones due next.</p><button id="again" class="btn btn-primary mt-4">Study again</button></div>`;
+        } else {
+          const c = queue[idx];
+          body = `<div class="mt-6"><div id="cardbox" class="mx-auto flex min-h-[220px] max-w-xl cursor-pointer select-none flex-col items-center justify-center rounded-xl2 border border-line bg-surface p-8 text-center shadow-card">
+              <div class="${flipped ? 'text-lg' : 'gur text-4xl font-bold text-navy'}">${flipped ? c.back : c.front}</div>
+              ${flipped ? `<div class="mt-3 font-sans text-xs text-muted">from ${esc(c.src)}</div>` : `<div class="mt-4 font-sans text-xs text-muted">tap to reveal · ${esc(tn(c.topic))}</div>`}
+            </div>
+            ${flipped
+              ? `<div class="mx-auto mt-4 flex max-w-xl gap-3"><button id="g0" class="btn flex-1">↺ Review soon</button><button id="g1" class="btn btn-primary flex-1">✓ Got it</button></div>`
+              : `<div class="mx-auto mt-4 max-w-xl text-center"><button id="flip" class="btn">Reveal answer</button></div>`}
+            <p class="mt-3 text-center font-sans text-xs text-muted">Card ${idx + 1} of ${queue.length} · space = flip · 1 = review · 2 = got it</p></div>`;
+        }
+        root.innerHTML = `
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <label class="font-sans text-sm text-muted">Topic <select id="topic" class="ml-1 rounded-lg border border-line bg-surface px-2 py-1.5 font-sans text-sm">${opts}</select></label>
+          </div>
+          <div class="mt-4 grid grid-cols-3 gap-3">${stat(dueCount, 'Due now')}${stat(reviewedToday, 'Reviewed today')}${stat(mastered, 'Mastered')}</div>
+          ${body}`;
+        document.getElementById('topic').addEventListener('change', (e) => { topic = e.target.value; build(); render(); });
+        const cb = document.getElementById('cardbox'); if (cb) cb.addEventListener('click', () => { flipped = !flipped; render(); });
+        const fl = document.getElementById('flip'); if (fl) fl.addEventListener('click', () => { flipped = true; render(); });
+        const g0 = document.getElementById('g0'); if (g0) g0.addEventListener('click', () => grade(false));
+        const g1 = document.getElementById('g1'); if (g1) g1.addEventListener('click', () => grade(true));
+        const ag = document.getElementById('again'); if (ag) ag.addEventListener('click', () => { build(); render(); });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (!document.getElementById('cardbox') && !document.getElementById('flip')) return;
+        if (idx >= queue.length) return;
+        if (e.key === ' ') { e.preventDefault(); flipped = !flipped; render(); }
+        else if (flipped && e.key === '1') grade(false);
+        else if (flipped && e.key === '2') grade(true);
+      });
+      if (!deck.length) { root.innerHTML = '<p class="mt-4 text-muted">No cards yet.</p>'; return; }
+      build(); render();
+    }).catch(() => { document.getElementById('fc').innerHTML = '<p class="mt-4 text-muted">Could not load the deck.</p>'; });
+  </script>
 </Base>
