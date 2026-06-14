@@ -1,0 +1,13 @@
+name = "sikhuniversity"
+pages_build_output_dir = "site"
+compatibility_date = "2026-06-14"
+
+# Future backend bindings (Phase B/C) — uncomment once created:
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "sikh-university"
+# database_id = "<run: wrangler d1 create sikh-university>"
+#
+# [[r2_buckets]]
+# binding = "MEDIA"
+# bucket_name = "sikh-university-media"
