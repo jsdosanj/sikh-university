@@ -28,9 +28,14 @@ export async function onRequestPost({ request, env }) {
           html: `<p>Click to sign in to Sikh University:</p><p><a href="${link}">Sign in</a></p><p>This link expires in 15 minutes. If you didn't request it, ignore this email.</p>`,
         }),
       });
-      if (!r.ok) return json({ error: "Could not send email." }, 502);
+      if (!r.ok) {
+        const detail = await r.text().catch(() => "");
+        console.log("Resend send failed", r.status, detail);
+        // Surface the provider message so the operator can fix config (e.g. verify a domain).
+        return json({ error: "Could not send email.", detail: detail.slice(0, 500), status: r.status }, 502);
+      }
       return json({ ok: true, sent: true });
-    } catch (e) { return json({ error: "Could not send email." }, 502); }
+    } catch (e) { console.log("Resend threw", e && e.message); return json({ error: "Could not send email.", detail: String(e && e.message) }, 502); }
   }
   // Dev fallback (no mail provider configured yet): return the link so sign-in is testable.
   return json({ ok: true, sent: false, devLink: link });
