@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sikh University">
   <rect width="512" height="512" rx="96" fill="#16335c"/>
-  <circle cx="256" cy="256" r="150" fill="none" stroke="#c8862a" stroke-width="18"/>
-  <text x="256" y="318" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="700" fill="#c8862a">S</text>
+  <g transform="translate(96 84) scale(5)" fill="none" stroke="#c8862a" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="31" r="27.5" stroke-width="2.3" stroke-dasharray="0.1 5.4"/>
+    <circle cx="32" cy="58.5" r="2.9" fill="#c8862a" stroke="none"/>
+    <path d="M17.5 47 Q22 28 44 16.5" stroke-width="3.1"/>
+    <path d="M46.5 47 Q42 28 20 16.5" stroke-width="3.1"/>
+    <path d="M12.5 43.5 L22.5 47.5" stroke-width="2.4"/>
+    <path d="M51.5 43.5 L41.5 47.5" stroke-width="2.4"/>
+    <circle cx="17" cy="48.5" r="2.5" fill="#c8862a" stroke="none"/>
+    <circle cx="47" cy="48.5" r="2.5" fill="#c8862a" stroke="none"/>
+  </g>
 </svg>

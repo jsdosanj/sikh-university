@@ -1,4 +1,5 @@
 ---
+import Logo from './Logo.astro';
 const links = [
   { href: '/catalog', label: 'Courses', m: '/catalog' },
   { href: '/santhiya', label: 'Santhya', m: '/santhiya' },
@@ -11,9 +12,7 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
 <nav aria-label="Primary" class="bg-brand text-white sticky top-0 z-40 shadow-md">
   <div class="wrap flex items-center gap-x-5 py-3">
     <a href="/" aria-label="Sikh University — home" class="flex items-center gap-2 font-serif text-xl font-bold tracking-tight">
-      <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" class="text-saffron shrink-0">
-        <path d="M11.4 1.6a.6.6 0 0 1 1.2 0v6.06c.9.46 1.52 1.4 1.52 2.48 0 .9-.43 1.7-1.1 2.2l.83 1.7c1.04-.86 1.7-2.16 1.7-3.6 0-1.74-.96-3.26-2.38-4.05V6.1c2.07.86 3.53 2.9 3.53 5.28 0 1.92-.95 3.62-2.4 4.66l.5 1.03 1.78-1.5a.4.4 0 0 1 .6.5l-1.43 2.04 2.36-.5a.4.4 0 0 1 .27.74l-3.32 1.78a.6.6 0 0 1-.82-.27l-1.03-2.12a5.9 5.9 0 0 1-1.42 0l-1.03 2.12a.6.6 0 0 1-.82.27L6.9 20.6a.4.4 0 0 1 .27-.74l2.36.5-1.43-2.04a.4.4 0 0 1 .6-.5l1.78 1.5.5-1.03A5.46 5.46 0 0 1 8.58 13.7c0-2.38 1.46-4.42 3.53-5.28v2.45c-1.42.79-2.38 2.31-2.38 4.05 0 1.44.66 2.74 1.7 3.6l.83-1.7a2.74 2.74 0 0 1-1.1-2.2c0-1.08.62-2.02 1.52-2.48V1.6z"/>
-      </svg>
+      <Logo class="h-7 w-7 shrink-0 text-saffron" />
       <span class="text-white">Sikh <span class="text-saffron">University</span></span>
     </a>
 
