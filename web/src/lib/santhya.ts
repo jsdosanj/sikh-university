@@ -27,11 +27,11 @@ export const REF: Record<string, { gur: string; en: string; href?: string }> = {
   'd-shastar-naam-mala': { gur: 'ਸ਼ਸਤ੍ਰ ਨਾਮ ਮਾਲਾ', en: 'Shastar Naam Mala', href: '/read?src=dasam&ang=717' },
   'd-zafarnama': { gur: 'ਜ਼ਫ਼ਰਨਾਮਾ', en: 'Zafarnama', href: '/read?src=dasam&ang=1389' },
   // Panj Granthavali — non-Gurbani granths (no read-along text available).
-  'chanakya-niti': { gur: 'ਚਾਣਕਯ ਨੀਤੀ', en: 'Chanakya Niti' },
-  sarkutavali: { gur: 'ਸਾਰੁਕਤਾਵਲੀ', en: 'Sarukatavali' },
-  bhavrasamrit: { gur: 'ਭਾਵਰਸਾਮ੍ਰਿਤ', en: 'Bhavrasamrit' },
-  'vichar-mala': { gur: 'ਵਿਚਾਰ ਮਾਲਾ', en: 'Vichar Mala' },
-  'adhyatam-prakash': { gur: 'ਅਧਯਾਤਮ ਪ੍ਰਕਾਸ਼', en: 'Adhyatam Prakash' },
+  'chanakya-niti': { gur: 'ਚਾਣਕਯ ਨੀਤੀ', en: 'Chanakya Niti', href: '/course/chanakya-niti' },
+  sarkutavali: { gur: 'ਸਾਰੁਕਤਾਵਲੀ', en: 'Sarukatavali', href: '/course/sarukatavali' },
+  bhavrasamrit: { gur: 'ਭਾਵਰਸਾਮ੍ਰਿਤ', en: 'Bhavrasamrit', href: '/course/bhavrasamrit' },
+  'vichar-mala': { gur: 'ਵਿਚਾਰ ਮਾਲਾ', en: 'Vichar Mala', href: '/course/vichar-mala' },
+  'adhyatam-prakash': { gur: 'ਅਧਯਾਤਮ ਪ੍ਰਕਾਸ਼', en: 'Adhyatam Prakash', href: '/course/mahant-ganesha-singh' },
 };
 
 export type Collection = { name: string; gur: string; blurb: string; note?: string; groups: { t: string; items: string[] }[] };
@@ -69,7 +69,7 @@ export const COLLECTIONS: Record<string, Collection> = {
   'panj-granthavali': {
     name: 'Panj Granthavali', gur: 'ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ',
     blurb: 'A collection of five non-Gurbani granths — philosophical and niti (ethical-political) compositions.',
-    note: 'These are non-Gurbani works, included for completeness; read-along text is not provided.',
+    note: 'These are non-Gurbani works (placed last); each now opens as a study course drawn from its traditional teeka.',
     groups: [{ t: 'The five', items: ['chanakya-niti', 'sarkutavali', 'bhavrasamrit', 'vichar-mala', 'adhyatam-prakash'] }],
   },
 };

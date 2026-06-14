@@ -15448,6 +15448,702 @@
           "answer": 1
         }
       ]
+    },
+    {
+      "id": "bhavrasamrit",
+      "title": "Bhavrasamrit: The Nectar of Devotion",
+      "topic": "spirituality",
+      "level": 300,
+      "professor": "Giani Bishan Singh",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course studies Bhavrasamrit (<span class=\"gur\">ਭਾਵ ਰਸ ਅੰਮ੍ਰਿਤ</span>), one of the five non-Gurbani texts gathered under the Panj Granthavali tradition, as explained in the teeka (commentary) by Giani Bishan Singh in the SikhLibrary collection. The work belongs to the world of bhakti aesthetics: it treats <span class=\"gur\">ਭਾਵ</span> (bhav, devotional feeling) and <span class=\"gur\">ਰਸ</span> (rasa, aesthetic mood or sentiment) as the inner mechanics of <span class=\"gur\">ਭਗਤੀ</span> (bhakti, devotion). Students learn what devotional rasa-theory is, how a steek (line-by-line commentary) opens a difficult devotional poem for ordinary readers, and where such a text sits relative to Gurbani. The course is descriptive and reverent: it explains ideas without reproducing long passages, and it states clearly throughout that Bhavrasamrit is a non-Gurbani devotional work, not scripture.",
+      "outcomes": [
+        "Define bhav (<span class=\"gur\">ਭਾਵ</span>) and rasa (<span class=\"gur\">ਰਸ</span>) and explain how they relate to devotion (<span class=\"gur\">ਭਗਤੀ</span>) in Indic devotional literature.",
+        "Describe what the Panj Granthavali is and identify Bhavrasamrit as one of its five non-Gurbani granths.",
+        "Explain the purpose and method of a steek (teeka / commentary) and why Giani Bishan Singh's commentary on Bhavrasamrit matters to readers.",
+        "Distinguish a non-Gurbani devotional text from Gurbani, and articulate why this distinction is treated carefully in Sikh scholarship.",
+        "Summarize the major rasa categories used in devotional aesthetics and connect them to moods of worship.",
+        "Evaluate, at an introductory level, how devotional-aesthetic literature has been studied in modern Sikh scholarship."
+      ],
+      "terms": [
+        {
+          "t": "ਭਾਵ (bhav)",
+          "m": "Inner feeling or emotional disposition; the felt attitude a devotee brings to worship."
+        },
+        {
+          "t": "ਰਸ (rasa)",
+          "m": "Aesthetic 'flavour' or sustained mood evoked in the reader or listener; the savoured essence of an emotion."
+        },
+        {
+          "t": "ਅੰਮ੍ਰਿਤ (amrit)",
+          "m": "Nectar; the sweet, life-giving essence — here a metaphor for the distilled experience of devotion."
+        },
+        {
+          "t": "ਭਗਤੀ (bhakti)",
+          "m": "Loving devotion to the Divine; the broad tradition this text serves."
+        },
+        {
+          "t": "ਟੀਕਾ (teeka / steek)",
+          "m": "A commentary that explains a text word by word and line by line for readers."
+        },
+        {
+          "t": "ਗ੍ਰੰਥਾਵਲੀ (granthavali)",
+          "m": "A collection or series of granths (books) grouped together as a set."
+        },
+        {
+          "t": "ਗੁਰਬਾਣੀ (Gurbani)",
+          "m": "The revealed words of the Sikh Gurus and Bhagats in the Sikh scriptural canon; distinct from non-Gurbani works."
+        },
+        {
+          "t": "ਅਲੰਕਾਰ (alankar)",
+          "m": "Figures of speech and poetic ornament used to shape and intensify rasa."
+        }
+      ],
+      "references": [
+        "Pashaura Singh and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Bishan Singh, Giani. Bhavrasamrit Steek. SikhLibrary digital collection (non-Gurbani granth series).",
+        "McLeod, W. H. Textual Sources for the Study of Sikhism. Manchester: Manchester University Press, 1984.",
+        "Mandair, Arvind-Pal Singh. Sikhism: A Guide for the Perplexed. London: Bloomsbury, 2013.",
+        "Pollock, Sheldon. A Rasa Reader: Classical Indian Aesthetics. New York: Columbia University Press, 2016."
+      ],
+      "lessons": [
+        {
+          "title": "Orientation: What Bhavrasamrit Is (and Is Not)",
+          "summary": "Introduces the text, its place in the Panj Granthavali, and the firm point that it is a non-Gurbani devotional work.",
+          "html": "<div class=\"toc\"><strong>Course Contents</strong><ol><li>Orientation: What Bhavrasamrit Is (and Is Not)</li><li>Bhav and Rasa: The Grammar of Feeling</li><li>The Panj Granthavali Tradition</li><li>Reading the Steek of Giani Bishan Singh</li><li>The Map of Rasas in Devotion</li><li>Place, Caution, and Modern Study</li></ol></div><p>The title <em>Bhavrasamrit</em> can be read as a compound of three ideas: <span class=\"gur\">ਭਾਵ</span> (bhav, feeling), <span class=\"gur\">ਰਸ</span> (rasa, savoured mood), and <span class=\"gur\">ਅੰਮ੍ਰਿਤ</span> (amrit, nectar). Together the name points to a single theme: the nectar that arises when devotional feeling ripens into a sustained, savoured mood. The work is a treatise in the devotional-aesthetic tradition rather than a book of prayer.</p><p>It is important to be clear from the start: Bhavrasamrit is one of the <strong>five non-Gurbani granths</strong> grouped under the Panj Granthavali. It is <em>not</em> Gurbani (<span class=\"gur\">ਗੁਰਬਾਣੀ</span>) and should never be treated as scripture. Scholarship on Sikh and allied traditions takes care to separate revealed scripture from supporting literature (Pashaura Singh and Fenech 2014). This course honours that boundary throughout.</p><p>In the SikhLibrary collection the text reaches modern readers as a <em>steek</em> — a commentary — titled <em>Bhavrasamrit Steek</em> by Giani Bishan Singh. We study the text mainly through that commentary, and our aim is to describe and explain, not to reproduce long passages.</p><div class=\"refs\"><strong>References:</strong> Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em> (Oxford: Oxford University Press, 2014); Giani Bishan Singh, <em>Bhavrasamrit Steek</em>, SikhLibrary digital collection.</div>"
+        },
+        {
+          "title": "Bhav and Rasa: The Grammar of Feeling",
+          "summary": "Explains the core pair of concepts — bhav as feeling and rasa as savoured mood — that the whole text depends on.",
+          "html": "<p>Devotional aesthetics begins with a simple observation: feelings can be cultivated and, when cultivated well, can be tasted like a flavour. The word <span class=\"gur\">ਭਾਵ</span> (bhav) names the raw inner feeling — longing, awe, tenderness. The word <span class=\"gur\">ਰਸ</span> (rasa) names what that feeling becomes when it is shaped and held long enough to be savoured. The metaphor is literally one of taste; <em>rasa</em> means 'juice' or 'flavour'.</p><p>In this tradition a feeling does not become rasa on its own. It is supported by poetic ornament (<span class=\"gur\">ਅਲੰਕਾਰ</span>, alankar), by setting, and by the reader's own readiness. The general theory of how transient feelings rise into stable, relishable moods is the backbone of classical Indian aesthetics (Pollock 2016). Bhavrasamrit applies this machinery to <span class=\"gur\">ਭਗਤੀ</span> (bhakti): the goal is the nectar (<span class=\"gur\">ਅੰਮ੍ਰਿਤ</span>) of devotional mood.</p><table><thead><tr><th>Term</th><th>Plain meaning</th><th>Role</th></tr></thead><tbody><tr><td><span class=\"gur\">ਭਾਵ</span> bhav</td><td>Inner feeling</td><td>The raw material</td></tr><tr><td><span class=\"gur\">ਰਸ</span> rasa</td><td>Savoured mood</td><td>The finished experience</td></tr><tr><td><span class=\"gur\">ਅੰਮ੍ਰਿਤ</span> amrit</td><td>Nectar</td><td>The metaphor for the result</td></tr></tbody></table><p>Holding these apart — feeling versus the savouring of feeling — is the single most useful idea for the rest of the course.</p><div class=\"refs\"><strong>References:</strong> Sheldon Pollock, <em>A Rasa Reader: Classical Indian Aesthetics</em> (New York: Columbia University Press, 2016).</div>"
+        },
+        {
+          "title": "The Panj Granthavali Tradition",
+          "summary": "Situates Bhavrasamrit among the five non-Gurbani granths collected as the Panj Granthavali.",
+          "html": "<p>The phrase <em>Panj Granthavali</em> means a set of five granths (<span class=\"gur\">ਗ੍ਰੰਥਾਵਲੀ</span>, a collection of books). These are works that circulated alongside the wider devotional and educational life of the community but are distinct from the scriptural canon. Bhavrasamrit is counted among these five non-Gurbani texts.</p><p>Why group such works together? Collections like this preserve a teaching tradition: poems on devotion, aesthetics, and conduct that supported study without claiming scriptural authority. Modern Sikh studies treats this layer of literature as historically valuable while keeping it carefully separate from Gurbani (Pashaura Singh and Fenech 2014). Textual scholars have long stressed reading each source for what it is — scripture, commentary, or supporting treatise (McLeod 1984).</p><p>For our purposes, the key facts are modest and reliable: Bhavrasamrit is <strong>one of five</strong>, it is <strong>non-Gurbani</strong>, and it concerns <strong>devotional aesthetics</strong>. We avoid claiming specific dates, page numbers, or biographical details that are not securely known.</p><div class=\"refs\"><strong>References:</strong> Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em> (Oxford: Oxford University Press, 2014); W. H. McLeod, <em>Textual Sources for the Study of Sikhism</em> (Manchester: Manchester University Press, 1984).</div>"
+        },
+        {
+          "title": "Reading the Steek of Giani Bishan Singh",
+          "summary": "Describes how a steek works and what Giani Bishan Singh's commentary does for the reader.",
+          "html": "<p>A <span class=\"gur\">ਟੀਕਾ</span> (teeka, or steek) is a commentary that walks through a text closely, often phrase by phrase, glossing hard words and unpacking compressed poetry. Devotional treatises are dense; without help, much of their meaning is locked away. The commentator's job is to hand the reader a key.</p><p>Giani Bishan Singh's <em>Bhavrasamrit Steek</em>, preserved in the SikhLibrary collection, performs this service for Bhavrasamrit. A steek of this kind typically: (1) restates a line in plain language, (2) explains the technical aesthetic terms such as bhav and rasa, and (3) draws out the devotional point so a non-specialist can follow it. We describe the method here rather than quoting at length.</p><p>About the author we keep to essentials: he is the giani (learned teacher) who authored this commentary as it appears in the collection. We do not assert dates or life details that are not securely documented. The value of the steek lies in its function — making a difficult devotional-aesthetic poem readable.</p><div class=\"refs\"><strong>References:</strong> Giani Bishan Singh, <em>Bhavrasamrit Steek</em>, SikhLibrary digital collection; W. H. McLeod, <em>Textual Sources for the Study of Sikhism</em> (Manchester: Manchester University Press, 1984).</div>"
+        },
+        {
+          "title": "The Map of Rasas in Devotion",
+          "summary": "Surveys the main rasa categories and connects them to moods of worship.",
+          "html": "<p>Classical aesthetics names a set of basic rasas — moods such as the peaceful, the loving, the wondrous, the heroic, and the compassionate. Devotional writing borrows this map and bends it toward the Divine: peace becomes the rasa of stillness in God, love becomes longing for the Beloved, wonder becomes awe before the infinite (Pollock 2016).</p><p>A text in the Bhavrasamrit family uses these categories to explain <em>why</em> certain devotional poetry moves us. When a verse stirs longing, it is cultivating one rasa; when it calms, another. Understanding the map helps a reader notice what mood a passage is working to build.</p><table><thead><tr><th>Mood (rasa)</th><th>Devotional turn</th></tr></thead><tbody><tr><td>Peace (<span class=\"gur\">ਸ਼ਾਂਤ</span>)</td><td>Restfulness in the Divine</td></tr><tr><td>Love (<span class=\"gur\">ਪ੍ਰੇਮ</span>)</td><td>Longing for the Beloved</td></tr><tr><td>Wonder (<span class=\"gur\">ਅਦਭੁਤ</span>)</td><td>Awe at the infinite</td></tr><tr><td>Compassion (<span class=\"gur\">ਕਰੁਣਾ</span>)</td><td>Tenderness and humility</td></tr></tbody></table><p>These groupings are illustrative aids for study, not a rigid doctrine, and they remain firmly in the realm of non-Gurbani devotional literature.</p><div class=\"refs\"><strong>References:</strong> Sheldon Pollock, <em>A Rasa Reader: Classical Indian Aesthetics</em> (New York: Columbia University Press, 2016).</div>"
+        },
+        {
+          "title": "Place, Caution, and Modern Study",
+          "summary": "Closes by re-stating the text's place, the non-Gurbani caution, and how such works are studied today.",
+          "html": "<p>We end where we began, with a boundary clearly drawn. Bhavrasamrit is a <strong>non-Gurbani</strong> devotional-aesthetic treatise, one of the five works of the Panj Granthavali. It enriches our sense of how devotion was thought about and savoured, but it is not scripture and carries no scriptural authority (Pashaura Singh and Fenech 2014).</p><p>Modern Sikh studies reads texts like this with two habits worth adopting. First, respect the categories: scripture, commentary, and supporting treatise each ask to be read differently (Mandair 2013). Second, be honest about uncertainty: where dates, authorship details, or exact contents are not securely known, say so rather than invent. This course has tried to model both.</p><p>What endures from Bhavrasamrit, even at this introductory distance, is its central insight: devotion has an inner aesthetic life, and feeling (<span class=\"gur\">ਭਾਵ</span>) carefully cultivated can ripen into a savoured nectar (<span class=\"gur\">ਰਸ ਅੰਮ੍ਰਿਤ</span>). A good steek lets a later reader taste a little of that.</p><div class=\"refs\"><strong>References:</strong> Pashaura Singh and Louis E. Fenech, eds., <em>The Oxford Handbook of Sikh Studies</em> (Oxford: Oxford University Press, 2014); Arvind-Pal Singh Mandair, <em>Sikhism: A Guide for the Perplexed</em> (London: Bloomsbury, 2013).</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does the title 'Bhavrasamrit' most directly point to?",
+          "options": [
+            "A book of daily prayers",
+            "The nectar that arises when devotional feeling ripens into a savoured mood",
+            "A historical chronicle of the Gurus",
+            "A legal code of conduct"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Bhavrasamrit is best described as:",
+          "options": [
+            "A part of Gurbani",
+            "A non-Gurbani granth of the Panj Granthavali",
+            "A modern English novel",
+            "A government document"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "In this tradition, what is the difference between bhav and rasa?",
+          "options": [
+            "They are identical terms",
+            "Bhav is raw feeling; rasa is that feeling shaped and savoured",
+            "Bhav is a place; rasa is a person",
+            "Bhav is prose; rasa is poetry"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is a steek (teeka)?",
+          "options": [
+            "A musical instrument",
+            "A commentary that explains a text closely for readers",
+            "A type of prayer beads",
+            "A pilgrimage route"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who authored the commentary on Bhavrasamrit in the SikhLibrary collection?",
+          "options": [
+            "Sheldon Pollock",
+            "W. H. McLeod",
+            "Giani Bishan Singh",
+            "Pashaura Singh"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does 'Panj Granthavali' mean?",
+          "options": [
+            "A set of five granths collected together",
+            "A single long poem",
+            "The five rivers of Punjab",
+            "A modern academic journal"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "The literal sense of the word 'rasa' is closest to:",
+          "options": [
+            "Stone",
+            "Flavour or juice",
+            "Silence",
+            "Distance"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which habit does the course recommend from modern Sikh studies?",
+          "options": [
+            "Treat all texts as scripture",
+            "Be honest about uncertainty and respect text categories",
+            "Ignore commentaries entirely",
+            "Assume dates when they are unknown"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "chanakya-niti",
+      "title": "Chanakya Niti: Statecraft and Ethics",
+      "topic": "philosophy",
+      "level": 250,
+      "professor": "Sant Jagjit Singh Harkhowal",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "Chanakya Niti is a classical collection of niti (ethical-political) aphorisms attributed to Chanakya, also known as Kautilya, the ancient strategist linked to the rise of the Maurya empire. In the South Asian manuscript tradition this body of worldly-wisdom verses was sometimes gathered alongside spiritual works, and it appears as one of the five non-Gurbani classical granths grouped under the title Panj Granthavali. In the SikhLibrary collection the text is presented as a Punjabi teeka (commentary) titled \"Chanakya Rajneeti Atey Hor Jeevan Jugtaan\" by Sant Jagjit Singh Harkhowal, which translates and explains the aphorisms for modern Punjabi readers. This course studies the text ABOUT itself: what niti literature is, its recurring themes of wise conduct, leadership, prudence, friendship, and governance, why such worldly-wisdom texts were preserved alongside (but distinct from) spiritual scripture in the granthavali tradition, and how a teeka makes a difficult classical source accessible. It is essential to understand throughout that Chanakya Niti is a NON-Gurbani classical text. It is not scripture, it carries no Ang or canonical authority within the Sikh Guru Granth Sahib, and it is read here as a historical work of practical ethics. The course treats Sikh tradition with reverence and the classical text with scholarly neutrality, describing themes rather than reproducing long passages.",
+      "outcomes": [
+        "Define niti literature and explain how Chanakya Niti fits within the broader genre of practical-wisdom aphorisms.",
+        "Distinguish clearly between Gurbani scripture and non-Gurbani classical texts such as Chanakya Niti within the Panj Granthavali grouping.",
+        "Summarize the major themes of the text, including leadership, prudence, friendship, and governance.",
+        "Explain the purpose and method of a teeka and how Sant Jagjit Singh Harkhowal's commentary makes the source accessible.",
+        "Describe the historical context of Chanakya (Kautilya) and the cautions scholars apply to authorship and dating.",
+        "Evaluate why worldly-wisdom texts were collected and transmitted alongside spiritual works in manuscript traditions."
+      ],
+      "terms": [
+        {
+          "t": "ਨੀਤੀ",
+          "m": "Niti: ethical and practical conduct; the genre of guidance verses on right living and policy."
+        },
+        {
+          "t": "ਰਾਜਨੀਤੀ",
+          "m": "Rajneeti: statecraft or political conduct; the art of governance and leadership."
+        },
+        {
+          "t": "ਟੀਕਾ",
+          "m": "Teeka: a commentary or explanatory translation that interprets a difficult text line by line."
+        },
+        {
+          "t": "ਗ੍ਰੰਥ",
+          "m": "Granth: a book or text; in this tradition a collected volume of writings."
+        },
+        {
+          "t": "ਗੁਰਬਾਣੀ",
+          "m": "Gurbani: the divine word of the Sikh Gurus; sacred scripture, distinct from classical non-Gurbani texts."
+        },
+        {
+          "t": "ਸਿਆਣਪ",
+          "m": "Siaanap: wisdom or prudence; the practical good judgment that niti literature seeks to cultivate."
+        },
+        {
+          "t": "ਮਿੱਤਰਤਾ",
+          "m": "Mittarta: friendship; a recurring subject in the aphorisms on choosing and keeping companions."
+        },
+        {
+          "t": "ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ",
+          "m": "Panj Granthavali: a grouping of five classical granths, transmitted together as worldly-wisdom companions to spiritual study."
+        }
+      ],
+      "references": [
+        "Pashaura Singh and Louis E. Fenech, eds., The Oxford Handbook of Sikh Studies (Oxford: Oxford University Press, 2014).",
+        "Jagjit Singh Harkhowal, Chanakya Rajneeti Atey Hor Jeevan Jugtaan (Punjabi teeka), SikhLibrary digital collection.",
+        "Patrick Olivelle, King, Governance, and Law in Ancient India: Kautilya's Arthashastra (New York: Oxford University Press, 2013).",
+        "Ludo Rocher, \"The Kautiliya Arthasastra and the Niti Literature,\" in Studies in Hindu Law and Dharmasastra (London: Anthem Press, 2012).",
+        "Wendy Doniger, The Hindus: An Alternative History (New York: Penguin Press, 2009)."
+      ],
+      "lessons": [
+        {
+          "title": "What Is Niti Literature?",
+          "summary": "Introduces the genre of niti aphorisms and frames Chanakya Niti as a classical, non-Gurbani text of practical wisdom.",
+          "html": "<div class=\"toc\"><strong>Full course contents</strong><ol><li>What Is Niti Literature?</li><li>Chanakya and the Question of Authorship</li><li>The Panj Granthavali and Why Worldly Texts Were Collected</li><li>Major Themes: Wisdom, Friendship, and Conduct</li><li>Statecraft and Leadership in the Aphorisms</li><li>The Teeka of Sant Jagjit Singh Harkhowal</li></ol></div><p>This course studies <em>Chanakya Niti</em>, a classical body of aphorisms about right living and governance. The Punjabi word <span class=\"gur\">ਨੀਤੀ</span> (niti) names a whole genre of guidance verses that teach practical wisdom, or <span class=\"gur\">ਸਿਆਣਪ</span> (siaanap). Niti literature does not tell long stories. Instead it offers short, memorable sayings that a reader can carry into daily decisions.</p><p>Before anything else, one point must be clear. <em>Chanakya Niti</em> is a NON-Gurbani text. It is not scripture, it has no canonical place within the Guru Granth Sahib, and it carries no Ang. We study it as a historical work of practical ethics, not as a source of religious authority. Sikh scholarship treats the sacred word, <span class=\"gur\">ਗੁਰਬਾਣੀ</span> (Gurbani), as wholly distinct from classical works like this one (Singh and Fenech 2014).</p><p>Niti aphorisms tend to be condensed and easy to recall. A simple contrast helps:</p><table><thead><tr><th>Feature</th><th>Niti aphorism</th><th>Long narrative text</th></tr></thead><tbody><tr><td>Length</td><td>Short, single saying</td><td>Extended story</td></tr><tr><td>Aim</td><td>Practical decision</td><td>Description or plot</td></tr><tr><td>Memory</td><td>Easy to recall</td><td>Harder to recall</td></tr></tbody></table><p>Throughout the course we describe themes rather than reproduce long passages. The goal is understanding the text, not memorizing it (Rocher 2012).</p><div class=\"refs\">Singh, Pashaura, and Louis E. Fenech, eds. <em>The Oxford Handbook of Sikh Studies</em>. Oxford: Oxford University Press, 2014. Rocher, Ludo. \"The Kautiliya Arthasastra and the Niti Literature.\" In <em>Studies in Hindu Law and Dharmasastra</em>. London: Anthem Press, 2012.</div>"
+        },
+        {
+          "title": "Chanakya and the Question of Authorship",
+          "summary": "Examines who Chanakya (Kautilya) was and why scholars are careful about authorship and dating.",
+          "html": "<p>The aphorisms are attributed to Chanakya, also called Kautilya, an ancient strategist linked in tradition to the rise of the Maurya empire. He is remembered as a teacher of <span class=\"gur\">ਰਾਜਨੀਤੀ</span> (rajneeti), the art of governance. Tradition associates him with a famous treatise on statecraft, the <em>Arthashastra</em> (Olivelle 2013).</p><p>We must be careful here. Scholars caution that the figure of Chanakya is wrapped in legend, and that texts attributed to a famous name often grow over time as later editors add verses. For this reason we avoid stating precise dates or claiming that every aphorism comes from one author. What matters for this course is the body of teaching, not a fixed biography (Doniger 2009).</p><p>So when we say a saying is \"by Chanakya,\" we mean it belongs to the tradition that carries his name. This careful, neutral stance is normal in the academic study of classical sources.</p><div class=\"refs\">Olivelle, Patrick. <em>King, Governance, and Law in Ancient India: Kautilya's Arthashastra</em>. New York: Oxford University Press, 2013. Doniger, Wendy. <em>The Hindus: An Alternative History</em>. New York: Penguin Press, 2009.</div>"
+        },
+        {
+          "title": "The Panj Granthavali and Why Worldly Texts Were Collected",
+          "summary": "Explains the grouping of five classical granths and why worldly-wisdom texts were preserved alongside spiritual ones.",
+          "html": "<p>In the manuscript tradition, certain classical works were gathered and transmitted together under the title <span class=\"gur\">ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ</span> (Panj Granthavali), a grouping of five non-Gurbani granths. <em>Chanakya Niti</em> is one of them. Each item in such a grouping is a <span class=\"gur\">ਗ੍ਰੰਥ</span> (granth), meaning a collected book of writings.</p><p>Why would worldly-wisdom texts be copied and kept alongside spiritual study? In older centers of learning, students were trained in both inner devotion and outer conduct. A scribe might preserve practical-ethics works as companions to devotional reading, useful for daily life, leadership, and judgment. Importantly, sitting near a spiritual text in a collection did NOT make a classical work into scripture.</p><p>The distinction stays sharp:</p><table><thead><tr><th>Type</th><th>Example</th><th>Authority</th></tr></thead><tbody><tr><td>Gurbani scripture</td><td>Guru Granth Sahib</td><td>Sacred, canonical</td></tr><tr><td>Non-Gurbani classical</td><td>Chanakya Niti</td><td>Practical wisdom only</td></tr></tbody></table><p>Holding both kinds of text in one library reflects a respect for learning, while keeping their status clearly separate (Singh and Fenech 2014).</p><div class=\"refs\">Singh, Pashaura, and Louis E. Fenech, eds. <em>The Oxford Handbook of Sikh Studies</em>. Oxford: Oxford University Press, 2014.</div>"
+        },
+        {
+          "title": "Major Themes: Wisdom, Friendship, and Conduct",
+          "summary": "Surveys the recurring themes of prudence, friendship, and personal conduct in the aphorisms.",
+          "html": "<p>The aphorisms return again and again to a few practical themes. The first is prudence, or <span class=\"gur\">ਸਿਆਣਪ</span> (siaanap): the idea that a wise person thinks ahead, weighs consequences, and acts with care rather than impulse.</p><p>A second theme is friendship, <span class=\"gur\">ਮਿੱਤਰਤਾ</span> (mittarta). The text gives advice on choosing companions, recognizing loyalty, and being cautious about whom to trust. A third theme is personal conduct: honesty, self-control, generosity, and learning. The verses often frame these as the qualities that make daily life stable and respected.</p><p>The tone of niti is realistic. It does not promise that the world is always fair. Instead it advises how a thoughtful person can act well within an imperfect world. We describe these themes here rather than quoting long passages, in keeping with the course's approach (Rocher 2012).</p><div class=\"refs\">Rocher, Ludo. \"The Kautiliya Arthasastra and the Niti Literature.\" In <em>Studies in Hindu Law and Dharmasastra</em>. London: Anthem Press, 2012.</div>"
+        },
+        {
+          "title": "Statecraft and Leadership in the Aphorisms",
+          "summary": "Focuses on the governance and leadership dimension of the text.",
+          "html": "<p>A large part of the tradition concerns <span class=\"gur\">ਰਾਜਨੀਤੀ</span> (rajneeti), the conduct of rulers and leaders. The aphorisms address how a leader should choose advisors, manage resources, anticipate threats, and treat the people under their care. This connects the niti tradition to the broader literature on governance associated with Chanakya (Olivelle 2013).</p><p>The advice is practical rather than idealized. It assumes that power brings both responsibility and risk, and it counsels foresight, discipline, and steady judgment. Modern readers often find that these leadership themes translate beyond kingship to any setting where people must organize, decide, and lead others.</p><p>Here too the course keeps a neutral, descriptive stance toward the classical material, summarizing its leadership themes without endorsing any specific historical policy.</p><div class=\"refs\">Olivelle, Patrick. <em>King, Governance, and Law in Ancient India: Kautilya's Arthashastra</em>. New York: Oxford University Press, 2013.</div>"
+        },
+        {
+          "title": "The Teeka of Sant Jagjit Singh Harkhowal",
+          "summary": "Explains how the Punjabi teeka makes the classical text accessible to modern readers.",
+          "html": "<p>In the SikhLibrary collection the text appears as a Punjabi <span class=\"gur\">ਟੀਕਾ</span> (teeka) titled <em>Chanakya Rajneeti Atey Hor Jeevan Jugtaan</em> by Sant Jagjit Singh Harkhowal. A teeka is a commentary that translates and explains a difficult source so ordinary readers can follow it (Harkhowal, SikhLibrary).</p><p>The value of a teeka is accessibility. Classical aphorisms can be terse and culturally distant. A commentary in everyday Punjabi opens the meaning, supplies context, and connects the sayings to lived experience. This is the same method used across the manuscript tradition to make older works usable for new generations.</p><p>The course closes by restating its central caution: the teeka helps us read a NON-Gurbani classical text with understanding, while always keeping it distinct from <span class=\"gur\">ਗੁਰਬਾਣੀ</span> (Gurbani). We approach Sikh tradition with reverence and the classical source with scholarly neutrality (Singh and Fenech 2014).</p><div class=\"refs\">Harkhowal, Jagjit Singh. <em>Chanakya Rajneeti Atey Hor Jeevan Jugtaan</em> (Punjabi teeka). SikhLibrary digital collection. Singh, Pashaura, and Louis E. Fenech, eds. <em>The Oxford Handbook of Sikh Studies</em>. Oxford: Oxford University Press, 2014.</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does the term niti most directly refer to?",
+          "options": [
+            "A musical form",
+            "Ethical and practical conduct or guidance",
+            "A type of temple",
+            "A royal coin"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the correct status of Chanakya Niti within Sikh tradition?",
+          "options": [
+            "It is Gurbani scripture",
+            "It is a canonical text with an Ang",
+            "It is a non-Gurbani classical text",
+            "It is a hymn of the Gurus"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Who is the author of the Punjabi teeka in the SikhLibrary collection?",
+          "options": [
+            "Sant Jagjit Singh Harkhowal",
+            "Patrick Olivelle",
+            "Pashaura Singh",
+            "Kautilya"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What is a teeka?",
+          "options": [
+            "A type of granth binding",
+            "A commentary that translates and explains a text",
+            "A royal decree",
+            "A musical scale"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "By what other name is Chanakya traditionally known?",
+          "options": [
+            "Olivelle",
+            "Kautilya",
+            "Harkhowal",
+            "Fenech"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does the Panj Granthavali refer to?",
+          "options": [
+            "Five sacred Gurbani compositions",
+            "Five rulers of an empire",
+            "A grouping of five classical non-Gurbani granths",
+            "Five Punjabi poets"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Why do scholars avoid giving Chanakya Niti precise authorship and dates?",
+          "options": [
+            "The text is recent",
+            "The figure is wrapped in legend and texts often grew over time",
+            "It was never written down",
+            "It has no known language"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which is a recurring theme of the aphorisms?",
+          "options": [
+            "Cooking recipes",
+            "Astronomy charts",
+            "Wise conduct, friendship, and governance",
+            "Boat building"
+          ],
+          "answer": 2
+        }
+      ]
+    },
+    {
+      "id": "sarukatavali",
+      "title": "Sarukatavali: A Granthavali Reflection",
+      "topic": "philosophy",
+      "level": 300,
+      "professor": "Mahant Amir Singh Mukatsar",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "This course studies the Sarukatavali (also written Sarkutavali), one of the five non-Gurbani granths grouped under the Panj Granthavali tradition. The text is a reflective and philosophical work, and in the SikhLibrary collection it is preserved as a steek (commentary) titled 'Sarkutavli Steek' by Mahant Amir Singh of Muktsar. Across six lessons, students learn what kind of text the Sarukatavali is, why it is counted as a non-Gurbani granth, how it sits within the Nirmala and granthavali scholarly tradition, and how a steek explains a difficult source text for readers. The course is descriptive: it explains themes, vocabulary, and scholarly method rather than reproducing long passages. It treats the author and the tradition with respect while keeping biographical claims minimal and avoiding any invented dates, page numbers, or Gurbani references.",
+      "outcomes": [
+        "Explain what the Sarukatavali is and why it is described as a reflective, philosophical text.",
+        "Identify the Sarukatavali as one of the five non-Gurbani granths within the Panj Granthavali grouping.",
+        "Describe the role of a steek (commentary) and how Mahant Amir Singh's teeka helps readers approach the source.",
+        "Situate the text within the Nirmala and granthavali scholarly tradition of Sikh learning.",
+        "Use key Punjabi study terms such as steek, granthavali, and viakhya correctly in context.",
+        "Apply careful, neutral scholarly habits when reading and citing a commentarial source."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਸਟੀਕ</span>",
+          "m": "Steek: a line-by-line commentary that explains a source text for readers."
+        },
+        {
+          "t": "<span class=\"gur\">ਗ੍ਰੰਥਾਵਲੀ</span>",
+          "m": "Granthavali: a collection or series of granths grouped together as a body."
+        },
+        {
+          "t": "<span class=\"gur\">ਵਿਆਖਿਆ</span>",
+          "m": "Viakhya: explanation or exposition of meaning."
+        },
+        {
+          "t": "<span class=\"gur\">ਨਿਰਮਲਾ</span>",
+          "m": "Nirmala: a Sikh scholarly tradition known for study and exposition of texts."
+        },
+        {
+          "t": "<span class=\"gur\">ਮਹੰਤ</span>",
+          "m": "Mahant: a custodian or head associated with a religious establishment."
+        },
+        {
+          "t": "<span class=\"gur\">ਗ੍ਰੰਥ</span>",
+          "m": "Granth: a book or treatise; here a non-Gurbani composition."
+        },
+        {
+          "t": "<span class=\"gur\">ਟੀਕਾ</span>",
+          "m": "Teeka: a gloss or commentary, closely related in sense to steek."
+        },
+        {
+          "t": "<span class=\"gur\">ਪੰਜ</span>",
+          "m": "Panj: the number five, as in the Panj Granthavali grouping."
+        }
+      ],
+      "references": [
+        "Mahant Amir Singh, Mukatsar. Sarkutavli Steek. SikhLibrary collection.",
+        "Pashaura Singh and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Harjot Oberoi. The Construction of Religious Boundaries: Culture, Identity and Diversity in the Sikh Tradition. Chicago: University of Chicago Press, 1994.",
+        "W. H. McLeod. Textual Sources for the Study of Sikhism. Manchester: Manchester University Press, 1984.",
+        "Christopher Shackle and Arvind-Pal Singh Mandair, eds. Teachings of the Sikh Gurus: Selections from the Sikh Scriptures. London: Routledge, 2005."
+      ],
+      "lessons": [
+        {
+          "title": "Orientation: What Is the Sarukatavali?",
+          "summary": "Introduces the text, its alternate spelling, and its status as a non-Gurbani reflective granth.",
+          "html": "<div class=\"toc\"><strong>Course Contents</strong><ol><li>Orientation: What Is the Sarukatavali?</li><li>A Non-Gurbani Granth: Boundaries and Care</li><li>The Panj Granthavali Grouping</li><li>Reading a Steek: Method and Purpose</li><li>The Nirmala and Granthavali Scholarly Tradition</li><li>Reflective Themes and Careful Study</li></ol></div><p>The <em>Sarukatavali</em>, sometimes written <em>Sarkutavali</em>, is a reflective and philosophical text studied within Sikh scholarly circles. It is not part of Gurbani. In the SikhLibrary collection it is preserved through a <span class=\"gur\">ਸਟੀਕ</span> (steek), a commentary titled 'Sarkutavli Steek' attributed to Mahant Amir Singh of Muktsar.</p><p>The word steek matters from the start: readers usually meet this text through its commentary rather than the bare source. A general survey of the field helps set context (Singh and Fenech 2014).</p><table><thead><tr><th>Aspect</th><th>Description</th></tr></thead><tbody><tr><td>Type</td><td>Reflective, philosophical granth</td></tr><tr><td>Category</td><td>Non-Gurbani</td></tr><tr><td>Form studied</td><td>Steek (commentary)</td></tr></tbody></table><p>This lesson keeps biography minimal and focuses on the work itself.</p><div class=\"refs\"><strong>References:</strong> Singh and Fenech 2014; Mahant Amir Singh, <em>Sarkutavli Steek</em>.</div>"
+        },
+        {
+          "title": "A Non-Gurbani Granth: Boundaries and Care",
+          "summary": "Explains clearly that the Sarukatavali is not Gurbani and why that distinction matters.",
+          "html": "<p>A central point of this course is that the <em>Sarukatavali</em> is a <strong>non-Gurbani</strong> text. Gurbani refers to the revealed compositions within the Sikh scriptural canon. The Sarukatavali sits outside that canon as a separate <span class=\"gur\">ਗ੍ਰੰਥ</span> (granth) of reflective character.</p><p>Keeping this boundary clear protects both reverence and accuracy. We do not assign Gurbani status, Ang numbers, or scriptural authority to this work. The careful drawing of such boundaries has itself been a topic of scholarship (Oberoi 1994).</p><table><thead><tr><th>Category</th><th>Authority</th><th>How we treat it</th></tr></thead><tbody><tr><td>Gurbani</td><td>Scriptural / revealed</td><td>Not the subject here</td></tr><tr><td>Sarukatavali</td><td>Reflective composition</td><td>Studied as a granth</td></tr></tbody></table><p>This neutral framing lets us appreciate the text without overstating its standing.</p><div class=\"refs\"><strong>References:</strong> Oberoi 1994; Singh and Fenech 2014.</div>"
+        },
+        {
+          "title": "The Panj Granthavali Grouping",
+          "summary": "Places the text among the five non-Gurbani granths gathered as the Panj Granthavali.",
+          "html": "<p>The <em>Sarukatavali</em> is counted as one of five non-Gurbani granths grouped under the name <span class=\"gur\">ਪੰਜ</span> <span class=\"gur\">ਗ੍ਰੰਥਾਵਲੀ</span> (Panj Granthavali). A <span class=\"gur\">ਗ੍ਰੰਥਾਵਲੀ</span> (granthavali) is a series or collection of granths held together as one body of study.</p><p>Grouping texts this way is a common scholarly habit: it signals that the works share a setting, a purpose, or a tradition of reading (McLeod 1984). The grouping does not make the texts Gurbani; it simply organizes them for learners.</p><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>Panj</td><td>Five</td></tr><tr><td>Granthavali</td><td>Collection of granths</td></tr><tr><td>Member</td><td>Sarukatavali (one of five)</td></tr></tbody></table><p>We name the grouping but avoid inventing a fixed canonical list beyond what is reliably known.</p><div class=\"refs\"><strong>References:</strong> McLeod 1984; Singh and Fenech 2014.</div>"
+        },
+        {
+          "title": "Reading a Steek: Method and Purpose",
+          "summary": "Describes what a steek does and how Mahant Amir Singh's commentary serves the reader.",
+          "html": "<p>Because the source text is difficult, readers rely on the <span class=\"gur\">ਸਟੀਕ</span> (steek). A steek, closely related to a <span class=\"gur\">ਟੀਕਾ</span> (teeka), provides <span class=\"gur\">ਵਿਆਖਿਆ</span> (viakhya), the explanation of meaning, often phrase by phrase.</p><p>Mahant Amir Singh's 'Sarkutavli Steek' performs this service: it restates hard lines in plainer language and supplies context so a student is not left guessing. We describe this method rather than reproduce long passages from it.</p><table><thead><tr><th>Steek element</th><th>What it offers</th></tr></thead><tbody><tr><td>Gloss</td><td>Plain restatement of a difficult line</td></tr><tr><td>Context</td><td>Background needed to understand a term</td></tr><tr><td>Explanation</td><td>Viakhya of the intended meaning</td></tr></tbody></table><p>A commentary is a guide, not a replacement for the source (Shackle and Mandair 2005).</p><div class=\"refs\"><strong>References:</strong> Shackle and Mandair 2005; Mahant Amir Singh, <em>Sarkutavli Steek</em>.</div>"
+        },
+        {
+          "title": "The Nirmala and Granthavali Scholarly Tradition",
+          "summary": "Situates the text and its commentary within the Nirmala tradition of textual study.",
+          "html": "<p>The work of explaining granths through steeks belongs to a long tradition of Sikh learning, including the <span class=\"gur\">ਨਿਰਮਲਾ</span> (Nirmala) scholars known for study and exposition of texts. A <span class=\"gur\">ਮਹੰਤ</span> (mahant), such as the author of this commentary, was often associated with such custodial and teaching roles.</p><p>Understanding this tradition helps us read the Sarukatavali in the right spirit: as part of a culture of careful reading and explanation, not as an isolated book (Singh and Fenech 2014; McLeod 1984).</p><table><thead><tr><th>Tradition feature</th><th>Relevance here</th></tr></thead><tbody><tr><td>Nirmala study</td><td>Exposition of texts through commentary</td></tr><tr><td>Mahant role</td><td>Custodian and teacher</td></tr><tr><td>Granthavali</td><td>Organized body for learners</td></tr></tbody></table><p>We keep claims about persons and dates minimal and avoid speculation.</p><div class=\"refs\"><strong>References:</strong> Singh and Fenech 2014; McLeod 1984.</div>"
+        },
+        {
+          "title": "Reflective Themes and Careful Study",
+          "summary": "Summarizes the reflective character of the text and the habits of responsible reading.",
+          "html": "<p>As a reflective and philosophical granth, the <em>Sarukatavali</em> invites the reader to think rather than merely recite. Its value for study lies in its themes of reflection and its place within the granthavali grouping, approached through the steek.</p><p>Responsible study means describing themes, defining vocabulary, and citing sources carefully. We do not fabricate biographies, dates, page numbers, or Gurbani Angs, and we keep a reverent, neutral tone throughout (Oberoi 1994; Singh and Fenech 2014).</p><table><thead><tr><th>Good habit</th><th>Why it matters</th></tr></thead><tbody><tr><td>Describe, do not copy</td><td>Respects the source</td></tr><tr><td>Define terms</td><td>Aids accuracy</td></tr><tr><td>Cite carefully</td><td>Supports trust</td></tr></tbody></table><p>With these habits, a student can engage the Sarukatavali thoughtfully and honestly.</p><div class=\"refs\"><strong>References:</strong> Oberoi 1994; Singh and Fenech 2014.</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What kind of text is the Sarukatavali described as?",
+          "options": [
+            "A reflective, philosophical granth",
+            "A musical score",
+            "A historical census",
+            "A legal code"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Is the Sarukatavali part of Gurbani?",
+          "options": [
+            "Yes, it is scriptural Gurbani",
+            "No, it is a non-Gurbani text",
+            "Only partly",
+            "It is unknown"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How many non-Gurbani granths are grouped under the Panj Granthavali?",
+          "options": [
+            "Three",
+            "Four",
+            "Five",
+            "Seven"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "In the SikhLibrary collection, in what form is the Sarukatavali preserved?",
+          "options": [
+            "As an audio recording",
+            "As a steek (commentary)",
+            "As a translation only",
+            "As a poster"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Who is credited with the 'Sarkutavli Steek'?",
+          "options": [
+            "W. H. McLeod",
+            "Harjot Oberoi",
+            "Mahant Amir Singh of Muktsar",
+            "Pashaura Singh"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does the term 'viakhya' mean?",
+          "options": [
+            "A musical note",
+            "Explanation or exposition of meaning",
+            "A pilgrimage",
+            "A type of granthavali"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the main purpose of a steek?",
+          "options": [
+            "To replace the source text",
+            "To explain a difficult source for readers",
+            "To list Ang numbers",
+            "To set the text to music"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which scholarly tradition is associated with the study and exposition of such texts?",
+          "options": [
+            "Nirmala",
+            "Census bureau",
+            "Modern journalism",
+            "Cartography"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "vichar-mala",
+      "title": "Vichar Mala: A Garland of Reflections",
+      "topic": "philosophy",
+      "level": 250,
+      "professor": "Lala Sri Ram",
+      "source": "SikhLibrary",
+      "aiCreated": true,
+      "status": "published",
+      "summary": "Vichar Mala (\"a garland or string of reflections\") is one of the five non-Gurbani granths gathered in the Panj Granthavali, a small collection of philosophical and reflective compositions. This course studies the text as a practice of structured contemplation, or vichaar: the disciplined turning over of a thought until its meaning becomes clear. We examine its main themes of worldly and contemplative wisdom, the way short reflections are strung together like beads, and how such a text sits beside spiritual scripture without being treated as Gurbani. Throughout, the course keeps a clear line between revered scripture and this devotional-but-secondary literature, describing the work rather than reproducing long passages. Author biography is kept minimal because reliable dates are scarce; the focus is the reflective method and its place in the granthavali tradition.",
+      "outcomes": [
+        "Define vichaar as a method of structured reflection and explain why the text is named a \"garland\" of such reflections.",
+        "Distinguish clearly between Gurbani and the non-Gurbani compositions of the Panj Granthavali.",
+        "Summarize the main themes of worldly and contemplative wisdom that recur across the reflections.",
+        "Locate Vichar Mala within the five-text granthavali grouping and its related steek (commentary) tradition.",
+        "Describe how a string of short reflections functions as a reading and memory practice.",
+        "Apply a respectful, source-careful method when discussing devotional-but-secondary Sikh literature."
+      ],
+      "terms": [
+        {
+          "t": "<span class=\"gur\">ਵਿਚਾਰ</span> (vichaar)",
+          "m": "Structured reflection or contemplation; the disciplined act of turning a thought over to reach its meaning."
+        },
+        {
+          "t": "<span class=\"gur\">ਮਾਲਾ</span> (mala)",
+          "m": "A garland or string of beads; here, a metaphor for reflections threaded one after another."
+        },
+        {
+          "t": "<span class=\"gur\">ਪੰਜ</span> (panj)",
+          "m": "Five; the number of granths grouped together in the Panj Granthavali."
+        },
+        {
+          "t": "<span class=\"gur\">ਗ੍ਰੰਥਾਵਲੀ</span> (granthavali)",
+          "m": "A gathered set or series of texts collected under one cover."
+        },
+        {
+          "t": "<span class=\"gur\">ਸਟੀਕ</span> (steek)",
+          "m": "A commentary or annotated explanation that unpacks a base text."
+        },
+        {
+          "t": "<span class=\"gur\">ਭੰਡਾਰ</span> (bhandar)",
+          "m": "A storehouse or treasury; used in the related title \"Vichar Bhandar\" (a treasury of reflections)."
+        },
+        {
+          "t": "<span class=\"gur\">ਗੁਰਬਾਣੀ</span> (Gurbani)",
+          "m": "The revealed scripture of the Guru; revered as sacred and distinct from secondary reflective texts."
+        },
+        {
+          "t": "<span class=\"gur\">ਗਿਆਨ</span> (giaan)",
+          "m": "Knowledge or understanding that reflection is meant to cultivate."
+        }
+      ],
+      "references": [
+        "Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014.",
+        "Mann, Gurinder Singh. The Making of Sikh Scripture. New York: Oxford University Press, 2001.",
+        "McLeod, W. H. Textual Sources for the Study of Sikhism. Chicago: University of Chicago Press, 1990.",
+        "Shackle, Christopher, and Arvind-Pal Singh Mandair. Teachings of the Sikh Gurus: Selections from the Sikh Scriptures. London: Routledge, 2005.",
+        "Singh, Nikky-Guninder Kaur. Sikhism: An Introduction. London: I.B. Tauris, 2011."
+      ],
+      "lessons": [
+        {
+          "title": "What Vichar Mala Is",
+          "summary": "Introduces the text, its title, and its place as a non-Gurbani granth.",
+          "html": "<div class=\"toc\"><strong>Course Contents</strong><ol><li>What Vichar Mala Is</li><li>Vichaar: The Practice of Reflection</li><li>The Panj Granthavali Setting</li><li>Themes of Worldly and Contemplative Wisdom</li><li>Vichar Bhandar and the Steek Tradition</li><li>Reading a Garland of Reflections Today</li></ol></div><p>The title <span class=\"gur\">ਵਿਚਾਰ ਮਾਲਾ</span> joins two simple ideas. <span class=\"gur\">ਵਿਚਾਰ</span> (vichaar) means reflection or contemplation, and <span class=\"gur\">ਮਾਲਾ</span> (mala) means a garland or string of beads. Together they describe a work that threads many short reflections together, one after another, the way beads are strung on a single cord. In the SikhLibrary collection the text appears as \"Vichar Mala\" by Lala Sri Ram, with an accompanying English rendering, and a related companion volume titled \"Vichar Bhandar (Vichar Mala Steek)\" (SikhLibrary).</p><p><strong>An important boundary.</strong> Vichar Mala is a <em>non-Gurbani</em> text. It is not scripture and is not treated as the revealed word of the Guru. Sikh tradition keeps a careful line between <span class=\"gur\">ਗੁਰਬਾਣੀ</span> (Gurbani), which is revered as sacred, and secondary devotional or reflective writings that sit alongside it as human contemplation. This course studies Vichar Mala only as the latter (Singh and Fenech 2014).</p><p>Because reliable dates for the author are scarce, this course keeps biography to a minimum and focuses instead on the reflective method and the themes that the text carries.</p><div class=\"refs\"><strong>References</strong><br>SikhLibrary collection record for \"Vichar Mala\" and \"Vichar Bhandar (Vichar Mala Steek).\"<br>Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "Vichaar: The Practice of Reflection",
+          "summary": "Explains vichaar as a structured method of thinking.",
+          "html": "<p><span class=\"gur\">ਵਿਚਾਰ</span> (vichaar) is more than casual thinking. It is the disciplined act of taking a single thought or saying and turning it over until its meaning becomes clear. In this sense a reflection has a shape: a starting idea, a slow examination, and a settled understanding, or <span class=\"gur\">ਗਿਆਨ</span> (giaan) (McLeod 1990).</p><p>The table below contrasts ordinary thought with structured vichaar.</p><table><thead><tr><th>Feature</th><th>Ordinary thought</th><th>Vichaar (structured reflection)</th></tr></thead><tbody><tr><td>Aim</td><td>Quick reaction</td><td>Settled understanding</td></tr><tr><td>Pace</td><td>Fast, passing</td><td>Slow, deliberate</td></tr><tr><td>Result</td><td>Opinion</td><td>Insight (giaan)</td></tr></tbody></table><p>Naming the work a <span class=\"gur\">ਮਾਲਾ</span> (garland) is meaningful. Just as a worshipper moves bead by bead, the reader moves reflection by reflection, pausing on each before passing to the next. The form encourages return and repetition rather than a single straight read (Shackle and Mandair 2005).</p><div class=\"refs\"><strong>References</strong><br>McLeod, <em>Textual Sources for the Study of Sikhism</em> (1990).<br>Shackle and Mandair, <em>Teachings of the Sikh Gurus</em> (2005).</div>"
+        },
+        {
+          "title": "The Panj Granthavali Setting",
+          "summary": "Places Vichar Mala among the five non-Gurbani granths.",
+          "html": "<p>Vichar Mala is one of five texts gathered in the <span class=\"gur\">ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ</span> (Panj Granthavali), literally a set of five collected granths. <span class=\"gur\">ਪੰਜ</span> (panj) means five and <span class=\"gur\">ਗ੍ਰੰਥਾਵਲੀ</span> (granthavali) means a gathered series of texts. The grouping brings several reflective and philosophical compositions together under one heading so they can be read as companions.</p><p>The key point is how the grouping relates to scripture. The compositions in this set are reflective <span class=\"gur\">ਵਿਚਾਰ</span> rather than Gurbani. They are read as worldly and contemplative wisdom that may sit beside spiritual texts, but they do not share the sacred standing of revealed scripture (Singh and Fenech 2014; Mann 2001).</p><table><thead><tr><th>Category</th><th>Standing</th><th>How it is read</th></tr></thead><tbody><tr><td>Gurbani</td><td>Revealed, sacred</td><td>With reverence as scripture</td></tr><tr><td>Panj Granthavali texts</td><td>Non-Gurbani reflection</td><td>As contemplative wisdom</td></tr></tbody></table><p>This course does not list or rank the other four texts by invented detail. It simply notes that Vichar Mala belongs to a small reflective family within the collection (Mann 2001).</p><div class=\"refs\"><strong>References</strong><br>Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).<br>Mann, <em>The Making of Sikh Scripture</em> (2001).</div>"
+        },
+        {
+          "title": "Themes of Worldly and Contemplative Wisdom",
+          "summary": "Surveys recurring themes without quoting long passages.",
+          "html": "<p>The reflections in Vichar Mala move between two registers. One is <em>worldly wisdom</em>: practical guidance about conduct, patience, and how a person carries themselves among others. The other is <em>contemplative wisdom</em>: quieter reflection on meaning, impermanence, and the inner life. The two are not opposed; the text treats steady conduct in the world and a reflective mind as parts of one balanced life (Singh 2011).</p><p>Rather than reproduce passages, we describe the pattern. Each reflection tends to state a simple observation, then draw a lesson from it, leaving the reader to weigh it through their own <span class=\"gur\">ਵਿਚਾਰ</span>. Because the lessons are short and self-contained, a reader can begin anywhere, much like choosing a single bead on a <span class=\"gur\">ਮਾਲਾ</span> (Shackle and Mandair 2005).</p><p>Keeping the non-Gurbani boundary in view matters here too: these are reflective teachings offered as human counsel, valued for insight rather than received as scripture (Singh and Fenech 2014).</p><div class=\"refs\"><strong>References</strong><br>Singh, <em>Sikhism: An Introduction</em> (2011).<br>Shackle and Mandair, <em>Teachings of the Sikh Gurus</em> (2005).<br>Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).</div>"
+        },
+        {
+          "title": "Vichar Bhandar and the Steek Tradition",
+          "summary": "Introduces the related commentary volume.",
+          "html": "<p>Alongside Vichar Mala the SikhLibrary collection records a companion titled \"Vichar Bhandar (Vichar Mala Steek)\" (SikhLibrary). The word <span class=\"gur\">ਭੰਡਾਰ</span> (bhandar) means a storehouse or treasury, so the title reads as a treasury of reflections. The bracketed phrase identifies it as a <span class=\"gur\">ਸਟੀਕ</span> (steek), meaning a commentary or annotated explanation of the base Vichar Mala text.</p><p>A steek is a familiar form in this literature. It places explanation next to a source so a reader who finds a reflection compact can see it unpacked. The table summarizes the relationship.</p><table><thead><tr><th>Title</th><th>Role</th></tr></thead><tbody><tr><td>Vichar Mala</td><td>Base text: the garland of reflections</td></tr><tr><td>Vichar Bhandar (Vichar Mala Steek)</td><td>Commentary: a treasury that explains the reflections</td></tr></tbody></table><p>Reading the two together shows how reflective texts were transmitted: not only preserved, but explained for new readers (McLeod 1990).</p><div class=\"refs\"><strong>References</strong><br>SikhLibrary collection record for \"Vichar Bhandar (Vichar Mala Steek).\"<br>McLeod, <em>Textual Sources for the Study of Sikhism</em> (1990).</div>"
+        },
+        {
+          "title": "Reading a Garland of Reflections Today",
+          "summary": "Offers a respectful, source-careful reading method.",
+          "html": "<p>A modern reader can approach Vichar Mala as it was intended: bead by bead. Take one reflection, sit with it as <span class=\"gur\">ਵਿਚਾਰ</span>, and let it settle before moving on. Because each bead is short, the practice fits easily into daily reading and supports memory through return and repetition (Shackle and Mandair 2005).</p><p>Two cautions keep the reading honest. First, hold the non-Gurbani boundary: value the text as reflective counsel, not as <span class=\"gur\">ਗੁਰਬਾਣੀ</span>. Second, be source-careful. Where dates, authorship, or scriptural references are uncertain, describe the uncertainty rather than invent detail; this course deliberately avoids assigning specific Angs or dates it cannot verify (Singh and Fenech 2014).</p><p>Read this way, the granth offers what its title promises: a garland of reflections, threaded together to be taken up one at a time and carried into ordinary life (Singh 2011).</p><div class=\"refs\"><strong>References</strong><br>Shackle and Mandair, <em>Teachings of the Sikh Gurus</em> (2005).<br>Singh and Fenech, <em>The Oxford Handbook of Sikh Studies</em> (2014).<br>Singh, <em>Sikhism: An Introduction</em> (2011).</div>"
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What does the word \"vichaar\" mean in this text?",
+          "options": [
+            "A type of hymn",
+            "Structured reflection or contemplation",
+            "A musical scale",
+            "A pilgrimage route"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why is the text called a \"mala\"?",
+          "options": [
+            "It must be sung aloud",
+            "It threads reflections together like beads on a string",
+            "It was written by five authors",
+            "It is a list of names"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How should Vichar Mala be classified?",
+          "options": [
+            "As revealed Gurbani",
+            "As a non-Gurbani reflective text",
+            "As a legal code",
+            "As a historical chronicle"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the Panj Granthavali?",
+          "options": [
+            "A single long poem",
+            "A set of five gathered granths",
+            "A village in Punjab",
+            "A type of commentary only"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does \"steek\" refer to?",
+          "options": [
+            "A commentary or annotated explanation",
+            "A musical instrument",
+            "A festival",
+            "A sacred thread"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What does \"bhandar\" mean in \"Vichar Bhandar\"?",
+          "options": [
+            "A garden",
+            "A storehouse or treasury",
+            "A river",
+            "A debate"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which two registers of wisdom does the text move between?",
+          "options": [
+            "Legal and medical",
+            "Worldly and contemplative",
+            "Military and economic",
+            "Astronomical and culinary"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What careful boundary does the course keep throughout?",
+          "options": [
+            "Between prose and poetry",
+            "Between Gurbani and non-Gurbani reflective texts",
+            "Between old and new spellings",
+            "Between two different authors"
+          ],
+          "answer": 1
+        }
+      ]
     }
   ],
   "paths": [
