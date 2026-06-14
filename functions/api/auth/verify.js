@@ -23,6 +23,9 @@ export async function onRequestGet({ request, env }) {
     user = { id, role };
   } else if (wantAdmin && user.role !== "admin") {
     await env.DB.prepare("UPDATE users SET role='admin' WHERE id=?").bind(user.id).run();
+  } else if (!wantAdmin && user.role === "admin") {
+    // Only ADMIN_EMAILS accounts may be admin — defensively demote anyone else.
+    await env.DB.prepare("UPDATE users SET role='learner' WHERE id=?").bind(user.id).run();
   }
 
   const sid = newId() + newId();
