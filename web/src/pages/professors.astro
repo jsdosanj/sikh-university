@@ -8,7 +8,7 @@ const list = professorList().sort((a, b) => a.name.localeCompare(b.name));
   <section class="wrap py-12">
     <h1 class="text-3xl font-bold">Our professors</h1>
     <p class="mt-2 max-w-2xl text-lg text-muted">Sikh University courses are built on the works of leading Sikh scholars and writers. Each course is taught in the voice of, or drawn from, its author.</p>
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {list.map(({ name, courses }) => (
         <a href={`/professor/${profSlug(name)}`} class="card text-center">
           <div class="flex justify-center"><Avatar name={name} size={76} /></div>

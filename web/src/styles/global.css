@@ -50,7 +50,14 @@
 }
 
 @layer components {
-  .wrap { @apply mx-auto w-full max-w-content px-5; }
+  /* Full-width on desktop with responsive, safe-area-aware gutters (PWA notch-safe). */
+  .wrap {
+    @apply mx-auto w-full;
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  @media (min-width: 768px)  { .wrap { padding-left: max(2rem, env(safe-area-inset-left));   padding-right: max(2rem, env(safe-area-inset-right)); } }
+  @media (min-width: 1280px) { .wrap { padding-left: max(3.5rem, env(safe-area-inset-left)); padding-right: max(3.5rem, env(safe-area-inset-right)); } }
   .btn { @apply inline-flex items-center gap-2 rounded-xl2 border border-navy px-5 py-2.5 font-sans font-semibold text-navy bg-surface transition duration-150 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 active:shadow-card; }
   .btn-primary { @apply border-saffron bg-saffron text-black hover:brightness-105; }
   .btn-blue { @apply border-blue bg-blue text-white hover:brightness-110; }
