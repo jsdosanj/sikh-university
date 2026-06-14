@@ -4921,121 +4921,167 @@
       "source": "Sikh University (original)",
       "aiCreated": true,
       "status": "published",
-      "summary": "This course examines Miri-Piri, the foundational Sikh principle that joins temporal authority (miri) with spiritual sovereignty (piri) in a single, integrated vision of life. Beginning with the engaged, householder spirituality taught by Guru Nanak Dev Ji and the early Gurus, the course traces how Guru Hargobind Sahib Ji gave the principle dramatic public form through the two swords and the building of the Akal Takht in the early seventeenth century. Lessons explore the theology behind rejecting world-renunciation, the resulting ideal of the saint-soldier (sant-sipahi), Sikh conceptions of just sovereignty and Halemi Raj, the ways the concept can be distorted, and what Miri-Piri means for Sikh ethics and civic life today.",
+      "summary": "A close study of the Sikh teaching that the spiritual and the worldly belong together: the two swords of Guru Hargobind Ji, the Akal Takht, the saint-soldier ideal, and what just power (Halimi Raj, Deg Teg) means in Sikh life.",
+      "outcomes": [
+        "Explain in simple terms what Miri and Piri mean and why Sikhi joins them.",
+        "Describe the events of 1606 that gave rise to the teaching.",
+        "Explain the meaning of the two swords and the Akal Takht.",
+        "Describe the saint-soldier (Sant-Sipahi) ideal and its balance.",
+        "Explain Halimi Raj and Deg Teg as a model of just power.",
+        "Recognise how Miri-Piri is used well today and how it can be distorted."
+      ],
+      "terms": [
+        {
+          "t": "ਮੀਰੀ",
+          "m": "Worldly or temporal power."
+        },
+        {
+          "t": "ਪੀਰੀ",
+          "m": "Spiritual authority."
+        },
+        {
+          "t": "ਅਕਾਲ ਤਖ਼ਤ",
+          "m": "The 'Throne of the Timeless One'; seat of the community's worldly authority, built 1606."
+        },
+        {
+          "t": "ਸੰਤ-ਸਿਪਾਹੀ",
+          "m": "The saint-soldier: a person both devoted to God and ready to protect others."
+        },
+        {
+          "t": "ਹਲੀਮੀ ਰਾਜ",
+          "m": "Rule built on humility, where the strong serve rather than crush."
+        },
+        {
+          "t": "ਦੇਗ ਤੇਗ਼",
+          "m": "'Pot and sword'; power must both feed (care) and protect."
+        },
+        {
+          "t": "ਧਰਮ",
+          "m": "Righteous duty and moral order."
+        },
+        {
+          "t": "ਨਿਰਭਉ",
+          "m": "Fearlessness; bravery without hatred."
+        }
+      ],
+      "references": [
+        "Grewal, J. S. The Sikhs of the Punjab. Rev. ed. The New Cambridge History of India. Cambridge: Cambridge University Press, 1998.",
+        "McLeod, W. H. The Sikhs: History, Religion, and Society. New York: Columbia University Press, 1989.",
+        "Kalra, Virinder. \"Secular and Religious (Miri/Piri) Domains in Sikhism.\" In The Oxford Handbook of Sikh Studies, edited by Pashaura Singh and Louis E. Fenech. Oxford: Oxford University Press, 2014.",
+        "Singh, Pashaura, and Louis E. Fenech, eds. The Oxford Handbook of Sikh Studies. Oxford: Oxford University Press, 2014."
+      ],
       "lessons": [
         {
-          "title": "What Miri-Piri Means",
-          "html": "<h2>Two Words, One Vision</h2><p>The term <em>Miri-Piri</em> joins two ideas. <strong>Miri</strong> derives from the Persian <em>mir</em> (commander or leader) and points to temporal life: worldly responsibility, political authority, the duty to act justly in the affairs of society. <strong>Piri</strong> derives from <em>pir</em> (spiritual guide) and points to the inner life: devotion, ethical purity, and connection with the Divine. Together they name a single conviction at the heart of the Sikh path: that the spiritual and the worldly are not rivals but partners.</p><p>Many religious traditions have treated the holy and the political as separate spheres, sometimes assuming that a serious spiritual life requires withdrawal from power, property, and public struggle. The Sikh Gurus rejected that division. They taught that a person can seek God fully while remaining a worker, a citizen, a defender of justice, and a member of a family. Miri-Piri is the name later given to this balance.</p><h2>Integration, Not Compromise</h2><p>It is important to read Miri-Piri as integration rather than as a negotiated truce between religion and politics. The principle does not say \"be spiritual on certain days and worldly on others.\" It says the same God-centered ethic should govern both prayer and action. The hand that folds in devotion is the same hand that works honestly and, when necessary, protects the weak. Spiritual sovereignty gives temporal action its moral compass; temporal engagement gives spiritual life its field of practice.</p><p>This course follows the idea from its roots in the teaching of the earliest Gurus, through its decisive public expression under Guru Hargobind Sahib Ji, into Sikh ideas of sovereignty and just rule, and finally into questions of distortion and contemporary meaning.</p>"
+          "title": "Introduction: Why Miri-Piri Matters",
+          "summary": "What the teaching is, and the questions it answers.",
+          "html": "<div class=\"toc\"><strong>Full course contents</strong><ol><li>Introduction: Why Mīrī-Pīrī Matters</li><li>The Historical Moment of 1606</li><li>The Two Swords and the ਅਕਾਲ ਤਖ਼ਤ</li><li>The Saint-Soldier (ਸੰਤ-ਸਿਪਾਹੀ)</li><li>Sovereignty: ਹਲੀਮੀ ਰਾਜ and ਦੇਗ ਤੇਗ਼</li><li>Mīrī-Pīrī Today: Use and Misuse</li></ol></div><p>This course studies one of the most important ideas in Sikh thought: <span class=\"gur\">ਮੀਰੀ-ਪੀਰੀ</span> &mdash; the teaching that worldly life and spiritual life are joined, not split apart. <span class=\"gur\">ਮੀਰੀ</span> means worldly or temporal power. <span class=\"gur\">ਪੀਰੀ</span> means spiritual authority. Sikhi holds that a good person must care for both: the soul and the world, prayer and justice.</p><p>Many religions ask people to leave the world to find God. The Sikh Gurus taught the opposite path. They taught that you stay in the world, work honestly, raise a family, and still keep God in your heart. Mīrī-Pīrī is the clearest form of this idea. It says a Sikh should be devoted to God and, at the same time, ready to stand up for what is right (Grewal 1998).</p><h4>What this idea answers</h4><table><thead><tr><th>Question</th><th>The Mīrī-Pīrī answer</th></tr></thead><tbody><tr><td>Should holy people stay out of politics?</td><td>No. Faith must also protect the weak and seek justice.</td></tr><tr><td>Is power dangerous to the soul?</td><td>Power without <span class=\"gur\">ਧਰਮ</span> (righteous duty) is dangerous; power used for service is good.</td></tr><tr><td>What is the ideal Sikh?</td><td>The <span class=\"gur\">ਸੰਤ-ਸਿਪਾਹੀ</span> &mdash; a saint and a soldier in one person.</td></tr></tbody></table><p>In the lessons ahead we will see how this teaching was born in a hard moment of history, what the two swords and the <span class=\"gur\">ਅਕਾਲ ਤਖ਼ਤ</span> mean, and how the idea guides Sikh life today.</p><div class=\"refs\"><strong>References:</strong> Grewal, <i>The Sikhs of the Punjab</i> (1998); Kalra, \"Secular and Religious (Mīrī/Pīrī) Domains in Sikhism,\" in Singh and Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i> (2014).</div>"
         },
         {
-          "title": "Roots in the Early Gurus: A Householder Faith",
-          "html": "<h2>Guru Nanak's Engaged Path</h2><p>Long before the phrase Miri-Piri was used, Guru Nanak Dev Ji established a spirituality rooted in ordinary life. Where some traditions of his time honored the ascetic who renounced the world, Guru Nanak honored the householder who lived honestly within it. His widely remembered teaching can be summarized in three duties: <em>Naam Japna</em> (remembering the Divine), <em>Kirat Karni</em> (earning an honest living through one's own labor), and <em>Vand Chhakna</em> (sharing with others). None of these requires leaving society; all of them are practiced within it.</p><h2>Critique of Empty Renunciation</h2><p>The early Gurus questioned the assumption that holiness depends on fleeing the world. In encounters preserved in the tradition, such as Guru Nanak's dialogues with yogis, the Guru argued that purity is a matter of inner state, not outer withdrawal, and that one may live amid worldly responsibilities while remaining detached in mind. Gurbani repeatedly praises remaining unstained while immersed in the world, like the lotus that grows in muddy water yet stays clean. The point is not that the world is to be despised, but that it is the very arena in which spiritual character is formed.</p><h2>Institutions of Engagement</h2><p>This worldly engagement took concrete institutional form. The practice of <em>langar</em>, the free community kitchen, made spiritual fellowship inseparable from social service and equality. The building of towns and the organizing of community life under successive Gurus showed that devotion naturally expressed itself in shaping the world. By the time Guru Hargobind Sahib Ji formalized Miri-Piri, the ground had been prepared by generations of teaching that faith and worldly responsibility belong together.</p>"
+          "title": "The Historical Moment of 1606",
+          "summary": "Guru Arjan's martyrdom and Guru Hargobind Ji's response.",
+          "html": "<p>To understand Mīrī-Pīrī, we must look at the year <strong>1606</strong>. In that year the fifth Guru, Guru Arjan Dev Ji, gave his life under Mughal rule. This was the first great martyrdom in Sikh history (McLeod 1989).</p><p>His young son, Guru Hargobind Ji, became the sixth Guru at this very moment. He saw that the community now needed to protect itself and the helpless. So he taught that faith and strength must walk together.</p><h4>The setting in brief</h4><table><thead><tr><th>Year (CE)</th><th>Event</th></tr></thead><tbody><tr><td>1606</td><td>Martyrdom of Guru Arjan Dev Ji; Guru Hargobind Ji becomes Guru.</td></tr><tr><td>1606</td><td>Guru Hargobind Ji takes up two swords and lays the foundation of the <span class=\"gur\">ਅਕਾਲ ਤਖ਼ਤ</span>.</td></tr></tbody></table><p>This was not a call to attack others. It was a call to be ready to defend <span class=\"gur\">ਧਰਮ</span> &mdash; righteous duty and the right of all people to live in dignity (Kalra 2014).</p><div class=\"refs\"><strong>References:</strong> Grewal, <i>The Sikhs of the Punjab</i> (1998); Kalra, \"Secular and Religious (Mīrī/Pīrī) Domains in Sikhism,\" in Singh and Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i> (2014).</div>"
         },
         {
-          "title": "Guru Hargobind Sahib Ji and the Two Swords",
-          "html": "<h2>A New Form for an Old Truth</h2><p>The principle of Miri-Piri received its most famous expression under the sixth Guru, Guru Hargobind Sahib Ji, who guided the community in the early seventeenth century. According to Sikh tradition, at the time of his succession he wore two swords, one symbolizing <strong>miri</strong> (temporal authority) and the other <strong>piri</strong> (spiritual authority). The image declared openly what the earlier Gurus had taught: that the Guru's charge embraced both the soul and the world.</p><h2>Historical Context</h2><p>This step did not arise in a vacuum. The community had grown in numbers and visibility, and the preceding Guru, Guru Arjan Dev Ji, had been martyred. Many historians and traditional accounts understand Guru Hargobind Sahib Ji's emphasis on temporal strength as a response to the need for the community to be able to defend its dignity, conscience, and very survival, without abandoning its spiritual center. The two swords thus expressed continuity with the past, not a break from it: the spiritual mission now openly carried the responsibility to resist injustice.</p><h2>Reading the Symbol Carefully</h2><p>The two swords are best read as a statement of balance. Piri remains primary in the sense that spiritual values direct everything; miri is the willingness to act, and if needed to use force, in defense of righteousness and the oppressed. The symbol is not a celebration of violence but an insistence that a spiritual community must not be helpless in the face of tyranny. Authority over worldly affairs, exercised under God, is part of the religious vocation rather than a distraction from it.</p>"
+          "title": "The Two Swords and the Akal Takht",
+          "summary": "The meaning of the swords and the throne facing the Harmandir Sahib.",
+          "html": "<p>When Guru Hargobind Ji took up the Guruship, he wore <strong>two swords</strong>. One stood for <span class=\"gur\">ਪੀਰੀ</span> (spiritual authority) and one for <span class=\"gur\">ਮੀਰੀ</span> (worldly power). Together they say a simple truth: the Guru guides both the inner life and the outer life.</p><p>He then built the <span class=\"gur\">ਅਕਾਲ ਤਖ਼ਤ</span> (the \"Throne of the Timeless One\") at Amritsar, facing the Harmandir Sahib. The original platform was raised by the Guru with Bhai Gurdas Ji and Baba Buddha Ji (Grewal 1998).</p><h4>Two centres, two roles</h4><table><thead><tr><th>Place</th><th>Stands for</th><th>Role</th></tr></thead><tbody><tr><td>Harmandir Sahib</td><td><span class=\"gur\">ਪੀਰੀ</span></td><td>Prayer, worship, the inner path.</td></tr><tr><td><span class=\"gur\">ਅਕਾਲ ਤਖ਼ਤ</span></td><td><span class=\"gur\">ਮੀਰੀ</span></td><td>Community decisions, justice, worldly matters.</td></tr></tbody></table><p>Placing the two side by side was itself the lesson: the spiritual and the worldly are partners, and true authority belongs to <span class=\"gur\">ਅਕਾਲ</span> &mdash; the Timeless One alone (Kalra 2014).</p><div class=\"refs\"><strong>References:</strong> Grewal, <i>The Sikhs of the Punjab</i> (1998); Kalra, \"Secular and Religious (Mīrī/Pīrī) Domains in Sikhism,\" in Singh and Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i> (2014).</div>"
         },
         {
-          "title": "The Akal Takht: Sovereignty Made Visible",
-          "html": "<h2>The Throne of the Timeless</h2><p>Guru Hargobind Sahib Ji gave Miri-Piri an architectural and institutional home by establishing the <strong>Akal Takht</strong>, the \"Throne of the Timeless One,\" at Amritsar in the early seventeenth century. It stood facing the Harmandir Sahib (the central place of worship), and the relationship between the two structures expressed the whole principle in stone: the house of devotion and the seat of temporal authority side by side, neither swallowing the other.</p><h2>A Seat of Decision and Justice</h2><p>The Harmandir Sahib was the focus of worship and remembrance of the Divine, embodying piri. The Akal Takht was a place where the community gathered to deliberate on collective affairs, hear grievances, and make decisions affecting its temporal life, embodying miri. By building a takht, a word implying a throne or seat of authority, the Guru signaled that sovereignty in worldly matters belonged with the community under divine guidance, not with any unjust external power.</p><h2>Enduring Significance</h2><p>The Akal Takht became, and remains, the highest temporal institution of the Sikhs, a center from which matters concerning the community as a whole have historically been addressed. Its very existence is a standing reminder that, in the Sikh vision, spiritual life is meant to organize itself, take responsibility, and speak to the powers of the world. The pairing of worship and authority in one sacred precinct is perhaps the clearest physical embodiment of Miri-Piri.</p>"
+          "title": "The Saint-Soldier (Sant-Sipahi)",
+          "summary": "Bravery joined to devotion; fearless but never hateful.",
+          "html": "<p>The ideal person in this teaching is the <span class=\"gur\">ਸੰਤ-ਸਿਪਾਹੀ</span> &mdash; the saint-soldier. This is someone whose heart is full of love for God (the saint) and who is also brave and ready to protect others (the soldier).</p><p>The \"soldier\" part does not mean anger or pride. It means <span class=\"gur\">ਨਿਰਭਉ</span> (fearlessness) used for good. In the <span class=\"gur\">ਮੂਲ ਮੰਤਰ</span> at the very start of Sri Guru Granth Sahib Ji, God is described as <span class=\"gur\">ਨਿਰਭਉ</span> (without fear) and <span class=\"gur\">ਨਿਰਵੈਰੁ</span> (without hate). The saint-soldier tries to live by these same qualities: brave, but never full of hatred.</p><h4>Two sides, one person</h4><table><thead><tr><th>The saint (<span class=\"gur\">ਸੰਤ</span>)</th><th>The soldier (<span class=\"gur\">ਸਿਪਾਹੀ</span>)</th></tr></thead><tbody><tr><td>Prays and remembers God</td><td>Protects the weak</td></tr><tr><td>Humble and calm</td><td>Brave and firm for justice</td></tr><tr><td>Free of ego (<span class=\"gur\">ਹਉਮੈ</span>)</td><td>Free of fear (<span class=\"gur\">ਨਿਰਭਉ</span>)</td></tr></tbody></table><p>So strength is always guided by prayer, and prayer is always ready to act. That balance is the heart of Mīrī-Pīrī (McLeod 1989).</p><div class=\"refs\"><strong>References:</strong> Grewal, <i>The Sikhs of the Punjab</i> (1998); Kalra, \"Secular and Religious (Mīrī/Pīrī) Domains in Sikhism,\" in Singh and Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i> (2014).</div>"
         },
         {
-          "title": "The Saint-Soldier Ideal",
-          "html": "<h2>Sant-Sipahi</h2><p>Miri-Piri shapes a distinctive human ideal in Sikhi: the <strong>sant-sipahi</strong>, or saint-soldier. This is the person in whom devotion and courage are fully joined, who cultivates an inner life of love and humility before God while also being ready to stand, and if necessary fight, for justice. The saint without the soldier risks being unable to protect what is good; the soldier without the saint risks becoming merely violent. Sikhi insists on both at once.</p><h2>Saint First</h2><p>The order of the words matters. Sainthood comes first. The discipline of remembrance, ethical living, and self-mastery is what makes the use of strength trustworthy. A sant-sipahi does not seek conflict, harbor hatred, or pursue domination. Strength is governed by spiritual values: humility, compassion, and the readiness to defend others rather than to aggrandize oneself. The inner battle against ego, greed, and anger is considered the primary struggle, and outward courage flows from winning it.</p><h2>A Later Flowering</h2><p>This ideal was deepened by later Gurus, especially in the creation of the Khalsa under Guru Gobind Singh Ji, where commitments to devotion, discipline, and the readiness to defend righteousness were bound together in a single identity. The saint-soldier is thus the living human expression of Miri-Piri: one body, one life, holding both swords in balance.</p>"
+          "title": "Sovereignty: Halimi Raj and Deg Teg",
+          "summary": "Just power that both feeds and protects.",
+          "html": "<p>Mīrī-Pīrī also shapes how Sikhi thinks about <strong>power and rule</strong>. The Sikh ideal is not to grab power for oneself. It is <span class=\"gur\">ਹਲੀਮੀ ਰਾਜ</span> &mdash; a rule built on humility, where the strong serve the weak instead of crushing them.</p><p>A second well-known pair of words is <span class=\"gur\">ਦੇਗ ਤੇਗ਼</span>. <span class=\"gur\">ਦੇਗ</span> is the cooking pot &mdash; it stands for feeding and caring for all people (as in <span class=\"gur\">ਲੰਗਰ</span>). <span class=\"gur\">ਤੇਗ਼</span> is the sword &mdash; it stands for protecting people. Together they teach that real power must both <em>feed</em> and <em>protect</em> (Grewal 1998).</p><h4>What just power looks like</h4><table><thead><tr><th>Symbol</th><th>Meaning</th><th>In practice</th></tr></thead><tbody><tr><td><span class=\"gur\">ਦੇਗ</span></td><td>Care and sharing</td><td>Feed the hungry; serve all without caste or creed.</td></tr><tr><td><span class=\"gur\">ਤੇਗ਼</span></td><td>Protection</td><td>Defend the weak; stand against cruelty.</td></tr><tr><td><span class=\"gur\">ਹਲੀਮੀ ਰਾਜ</span></td><td>Humble rule</td><td>Lead by service, not by pride.</td></tr></tbody></table><p>Power, in this view, is a trust from <span class=\"gur\">ਅਕਾਲ</span>. It is given so that <span class=\"gur\">ਧਰਮ</span> can be kept alive (Kalra 2014).</p><div class=\"refs\"><strong>References:</strong> Grewal, <i>The Sikhs of the Punjab</i> (1998); Kalra, \"Secular and Religious (Mīrī/Pīrī) Domains in Sikhism,\" in Singh and Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i> (2014).</div>"
         },
         {
-          "title": "Sovereignty, Raj, and Halemi Raj",
-          "html": "<h2>Sikh Ideas of Just Authority</h2><p>Miri raises the question of legitimate power: what makes authority just? Sikh thought does not glorify rule for its own sake. It distinguishes sharply between authority used to serve and protect and authority used to oppress. Worldly power is valued only when it upholds righteousness, defends the vulnerable, and reflects the will of a just and compassionate God.</p><h2>Halemi Raj</h2><p>Gurbani speaks of a vision sometimes summarized as <strong>Halemi Raj</strong>, a rule of humility and gentleness in which no one inflicts pain on another and the weak are not tyrannized. The expression points to an order where power is exercised with compassion and equality rather than arrogance and cruelty. This is the moral horizon toward which miri is meant to aim: not conquest, but a just and humane society. Sovereignty, in this vision, is at root the sovereignty of truth and conscience over the soul, which then expresses itself outward in just dealings.</p><h2>Sovereignty of Conscience</h2><p>A key Sikh insight is that genuine sovereignty begins within. A person aligned with the Divine is, in a deep sense, already free and answerable to a higher authority than any worldly ruler. This inner sovereignty is what gives Sikhs the moral standing to resist unjust commands and to refuse to bow before tyranny. Temporal sovereignty, when it is legitimate, is an outward extension of this inner freedom, organized for the common good rather than for the glory of rulers.</p>"
-        },
-        {
-          "title": "Distortions and Boundaries",
-          "html": "<h2>How the Concept Can Be Misused</h2><p>Because Miri-Piri unites the spiritual and the political, it can be distorted if either side is torn from the other. A common distortion is to seize on miri alone, treating the principle as a license for force, ambition, or partisan power-seeking while neglecting the spiritual discipline that is supposed to govern it. Stripped of piri, miri becomes mere worldly power dressed in religious language, which is precisely what the Gurus warned against.</p><h2>The Opposite Error</h2><p>The opposite distortion withdraws into piri alone, reducing Sikhi to private devotion and treating engagement with justice, society, and collective responsibility as somehow unspiritual. This too misreads the principle, since the whole point of Miri-Piri is that retreat from the world is not the Sikh ideal. The teaching holds the two together precisely so that neither can be used to cancel the other.</p><h2>Debated Applications</h2><p>How Miri-Piri should be applied in specific modern situations, for example in relations between religious institutions and political movements, is a matter on which sincere Sikhs hold differing views. Some emphasize the principle's call to active engagement in public and political life; others stress caution about entangling sacred authority with ordinary partisan politics. These are genuine debates within the tradition, and this course presents them as live questions rather than settled answers. What is broadly agreed is the underlying balance: spiritual values must guide worldly action, and worldly action must remain accountable to spiritual values.</p>"
-        },
-        {
-          "title": "Miri-Piri for Sikh Life Today",
-          "html": "<h2>An Ethic of Engaged Spirituality</h2><p>For Sikhs today, Miri-Piri remains a practical compass. It teaches that faith is not meant to be confined to a place of worship or to private feeling. The same God-centered ethic that shapes prayer should shape how one earns a living, treats neighbors, participates in civic life, and responds to injustice. To live by Miri-Piri is to refuse the split between a \"religious self\" and a \"public self.\"</p><h2>Everyday Expressions</h2><p>In ordinary terms, Miri-Piri can be lived through honest work joined to daily remembrance of God; through service (<em>seva</em>) that meets real worldly needs while springing from spiritual love; through standing up for the marginalized as an act of devotion; and through cultivating inner humility so that whatever influence one holds is used responsibly. The saint-soldier today is less often a literal warrior and more often a person of conscience who combines spiritual depth with the courage to act rightly in the world.</p><h2>A Balanced Sovereignty</h2><p>Finally, Miri-Piri offers a model of sovereignty grounded in conscience. It invites Sikhs to be inwardly free, answerable first to truth and to the Divine, and from that freedom to engage the world constructively: building just communities, resisting oppression without hatred, and keeping spiritual values at the center of public life. The two swords of Guru Hargobind Sahib Ji and the twin houses at Amritsar still pose the same question to every generation: can we hold the spiritual and the temporal together, in balance, as one whole life?</p>"
+          "title": "Miri-Piri Today: Use and Misuse",
+          "summary": "Living the balance, and guarding against distortion.",
+          "html": "<p>Mīrī-Pīrī is still alive in Sikh life today. It is why Sikhs run free kitchens (<span class=\"gur\">ਲੰਗਰ</span>), help in disasters, and speak up for human rights &mdash; while also keeping daily prayer (<span class=\"gur\">ਨਿਤਨੇਮ</span>). The two swords still hang together.</p><p>But every strong idea can be misused. Mīrī-Pīrī is <strong>not</strong> a licence for anger, hatred, or grabbing power. The \"Mīrī\" side must always stay joined to the \"Pīrī\" side. When power forgets prayer and <span class=\"gur\">ਧਰਮ</span>, it stops being Mīrī-Pīrī and becomes simple worldly ambition (Kalra 2014).</p><h4>Keeping the balance</h4><table><thead><tr><th>True Mīrī-Pīrī</th><th>A distortion of it</th></tr></thead><tbody><tr><td>Strength used to serve and protect</td><td>Strength used for ego or revenge</td></tr><tr><td>Power guided by prayer and <span class=\"gur\">ਧਰਮ</span></td><td>Power cut off from faith</td></tr><tr><td>Humble rule (<span class=\"gur\">ਹਲੀਮੀ ਰਾਜ</span>)</td><td>Pride and domination</td></tr></tbody></table><p><strong>In summary:</strong> Mīrī-Pīrī teaches that the soul and the world belong together. The Sikh ideal is the <span class=\"gur\">ਸੰਤ-ਸਿਪਾਹੀ</span>: loving God, serving people, and standing for justice &mdash; all at once (Grewal 1998; McLeod 1989).</p><div class=\"refs\"><strong>References:</strong> Grewal, <i>The Sikhs of the Punjab</i> (1998); Kalra, \"Secular and Religious (Mīrī/Pīrī) Domains in Sikhism,\" in Singh and Fenech, eds., <i>The Oxford Handbook of Sikh Studies</i> (2014).</div>"
         }
       ],
       "quiz": [
         {
-          "q": "What do the two parts of the term Miri-Piri most directly refer to?",
+          "q": "What does Miri-Piri teach?",
           "options": [
-            "Temporal authority and spiritual sovereignty",
-            "Wealth and poverty",
-            "Past and future",
-            "War and peace"
+            "That the spiritual and worldly life belong together",
+            "That Sikhs should leave the world to find God",
+            "That only prayer matters",
+            "That only worldly power matters"
           ],
           "answer": 0
         },
         {
-          "q": "Which Guru is most closely associated with giving Miri-Piri its famous public expression through the two swords?",
+          "q": "What does Miri mean?",
           "options": [
-            "Guru Nanak Dev Ji",
-            "Guru Hargobind Sahib Ji",
-            "Guru Angad Dev Ji",
-            "Guru Ram Das Ji"
+            "Worldly or temporal power",
+            "Spiritual authority",
+            "Daily prayer",
+            "A free kitchen"
           ],
-          "answer": 1
+          "answer": 0
         },
         {
-          "q": "How did the early Gurus, beginning with Guru Nanak Dev Ji, frame the ideal spiritual life?",
+          "q": "What does Piri mean?",
           "options": [
-            "As renunciation of the world and withdrawal into asceticism",
-            "As an engaged householder life of honest work, remembrance, and sharing",
-            "As silent solitude apart from any community",
-            "As purely ritual observance without ethics"
+            "Spiritual authority",
+            "Worldly power",
+            "A sword",
+            "A throne"
           ],
-          "answer": 1
+          "answer": 0
         },
         {
-          "q": "What is the Akal Takht and what does its placement express?",
+          "q": "Which event in 1606 shaped the teaching?",
           "options": [
-            "A private meditation cell hidden from the community",
-            "The Throne of the Timeless One, a seat of temporal authority facing the house of worship",
-            "A military barracks unrelated to spiritual life",
-            "A library of Gurbani manuscripts"
+            "The martyrdom of Guru Arjan Dev Ji",
+            "The founding of Amritsar",
+            "The first Vaisakhi of the Khalsa",
+            "The compilation of the Adi Granth"
           ],
-          "answer": 1
+          "answer": 0
         },
         {
-          "q": "What does the saint-soldier (sant-sipahi) ideal emphasize?",
+          "q": "What is the Akal Takht?",
           "options": [
-            "Soldiering valued above all spiritual concerns",
-            "The joining of devotion and courage, with spiritual character governing strength",
-            "Renouncing both spirituality and worldly action",
-            "Seeking conflict and domination as religious goals"
+            "The seat of the community's worldly authority, facing the Harmandir Sahib",
+            "A book of prayers",
+            "A type of sword",
+            "A festival"
           ],
-          "answer": 1
+          "answer": 0
         },
         {
-          "q": "What does the Sikh vision sometimes called Halemi Raj describe?",
+          "q": "Who is the Sant-Sipahi?",
           "options": [
-            "A rule based on conquest and accumulation of power",
-            "A rule of humility and gentleness where the weak are not tyrannized",
-            "A system requiring withdrawal from all governance",
-            "Authority belonging only to hereditary kings"
+            "A person both devoted to God and ready to protect others",
+            "A full-time soldier",
+            "A king",
+            "A priest who avoids the world"
           ],
-          "answer": 1
+          "answer": 0
         },
         {
-          "q": "Which of the following is a distortion of Miri-Piri described in the course?",
+          "q": "What do Deg and Teg stand for?",
           "options": [
-            "Holding spiritual values and worldly responsibility together",
-            "Letting spiritual discipline guide the use of strength",
-            "Seizing on temporal power alone as a license for force without spiritual governance",
-            "Practicing honest work alongside daily remembrance"
+            "Feeding/caring and protecting",
+            "Prayer and fasting",
+            "Reading and writing",
+            "Trade and farming"
           ],
-          "answer": 2
+          "answer": 0
         },
         {
-          "q": "How is Miri-Piri best understood overall?",
+          "q": "When is Miri-Piri distorted?",
           "options": [
-            "As a strict separation between religion and worldly life",
-            "As the integration of spiritual values and temporal action into one whole life",
-            "As a rule that spirituality must yield to politics",
-            "As a teaching that power matters more than devotion"
+            "When power is used for ego or revenge, cut off from faith and dharam",
+            "When Sikhs run free kitchens",
+            "When Sikhs pray daily",
+            "When the two swords are kept together"
           ],
-          "answer": 1
+          "answer": 0
         }
       ]
     },
