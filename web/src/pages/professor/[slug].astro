@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import Avatar from '../../components/Avatar.astro';
+import CourseCard from '../../components/CourseCard.astro';
+import { professorList, profBio, profSlug, professorPhotos } from '../../lib/data';
+export function getStaticPaths() {
+  return professorList().map(({ name, courses }) => ({ params: { slug: profSlug(name) }, props: { name, courses } }));
+}
+const { name, courses } = Astro.props;
+const bio = profBio(name);
+const photo = professorPhotos[name];
+const sorted = [...courses].sort((a, b) => a.level - b.level);
+---
+<Base title={`${name} — Sikh University`} description={bio || `${name} teaches courses at Sikh University.`} ogType="profile">
+  <section class="wrap py-12">
+    <div class="flex flex-wrap items-center gap-5 border-b border-line pb-6">
+      <Avatar name={name} size={110} />
+      <div>
+        <a href="/professors.html" class="font-sans text-sm text-muted hover:text-navy">← All professors</a>
+        <h1 class="mt-1 text-3xl font-bold">{name}</h1>
+        <div class="font-sans text-sm text-muted">{courses.length} course{courses.length === 1 ? '' : 's'}</div>
+      </div>
+    </div>
+    {bio && <p class="mt-5 max-w-3xl text-lg text-muted">{bio}</p>}
+    {photo && photo.img && (
+      <p class="mt-2 font-sans text-xs text-muted">Portrait via {photo.source ? <a class="underline" href={photo.source} target="_blank" rel="noopener">{photo.credit || 'Wikimedia Commons'}</a> : (photo.credit || 'Wikimedia Commons')}.</p>
+    )}
+    <h2 class="mt-10 text-xl font-bold">Courses</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {sorted.map((c) => <CourseCard course={c} />)}
+    </div>
+  </section>
+</Base>

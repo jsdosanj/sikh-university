@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Avatar from '../components/Avatar.astro';
+import { professorList, profBio, profSlug } from '../lib/data';
+const list = professorList();
+---
+<Base title="Our professors — Sikh University" description="The Sikh scholars and writers whose works anchor Sikh University's courses.">
+  <section class="wrap py-12">
+    <h1 class="text-3xl font-bold">Our professors</h1>
+    <p class="mt-2 max-w-2xl text-lg text-muted">Sikh University courses are built on the works of leading Sikh scholars and writers. Each course is taught in the voice of, or drawn from, its author.</p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {list.map(({ name, courses }) => (
+        <a href={`/professor/${profSlug(name)}.html`} class="card text-center">
+          <div class="flex justify-center"><Avatar name={name} size={76} /></div>
+          <h3 class="mt-3 text-base font-bold">{name}</h3>
+          <div class="font-sans text-xs text-muted">{courses.length} course{courses.length === 1 ? '' : 's'}</div>
+          <p class="mt-2 text-[0.9rem] text-muted">{(profBio(name).split('. ')[0] || '') + (profBio(name) ? '.' : '')}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

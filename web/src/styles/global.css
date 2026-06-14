@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-paper text-ink font-serif antialiased; line-height: 1.65; }
+  h1, h2, h3, h4 { @apply font-serif text-navy; }
+  a { @apply text-navy; }
+  .gur { @apply font-gur; font-size: 1.06em; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-content px-5; }
+  .btn { @apply inline-flex items-center gap-2 rounded-xl2 border border-navy px-5 py-2.5 font-sans font-semibold text-navy bg-surface transition hover:shadow-lift hover:-translate-y-0.5; }
+  .btn-primary { @apply border-saffron bg-saffron text-[#2a1c06] hover:brightness-105; }
+  .btn-ghost { @apply border-white/40 bg-transparent text-white hover:bg-white/10; }
+  .pill { @apply inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[0.68rem] font-bold uppercase tracking-wide; }
+  .card { @apply block rounded-xl2 border border-line bg-surface p-5 shadow-card transition hover:-translate-y-0.5 hover:border-saffron hover:shadow-lift; }
+  .lesson-prose :where(p,ul,ol,table){ @apply my-3; }
+  .lesson-prose h4 { @apply mt-6 mb-1 text-navy; }
+  .lesson-prose table { @apply w-full border-collapse text-[0.95rem]; }
+  .lesson-prose th, .lesson-prose td { @apply border border-line p-2.5 text-left align-top; }
+  .lesson-prose thead th { @apply bg-navy text-white font-sans text-[0.82rem]; }
+  .lesson-prose tbody tr:nth-child(even){ @apply bg-paper; }
+  .lesson-prose .toc { @apply rounded-xl border border-line bg-paper p-4 font-sans text-[0.92rem] mb-5; }
+  .lesson-prose .toc strong { @apply block mb-1 text-navy; }
+  .lesson-prose blockquote.gurbani { @apply border-l-4 border-saffron bg-saffron-soft rounded-r-lg my-4 px-4 py-2; }
+  .lesson-prose .refs { @apply font-sans text-[0.85rem] text-muted border-t border-line mt-6 pt-3; }
+}

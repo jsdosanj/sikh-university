@@ -1,0 +1,15 @@
+---
+import { professorPhotos, profInitials, avatarColor } from '../lib/data';
+interface Props { name: string; size?: number; }
+const { name, size = 64 } = Astro.props;
+const ph = professorPhotos[name];
+---
+{ph && ph.img ? (
+  <img src={`/${ph.img}`} width={size} height={size} alt={`Portrait of ${name}`} loading="lazy"
+    class="rounded-xl2 border border-line object-cover" style={`width:${size}px;height:${size}px`} />
+) : (
+  <svg width={size} height={size} viewBox="0 0 64 64" class="rounded-xl2" role="img" aria-label={name}>
+    <rect width="64" height="64" rx="14" fill={avatarColor(name)} />
+    <text x="32" y="42" text-anchor="middle" font-family="Georgia,serif" font-size="26" font-weight="700" fill="#f3e6cf">{profInitials(name)}</text>
+  </svg>
+)}
