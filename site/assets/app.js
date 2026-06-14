@@ -37,21 +37,39 @@
     return a;
   }
 
+  var TOPIC_ICONS = { theology: "🪔", philosophy: "💭", history: "📜", literature: "📖", language: "✍️", spirituality: "🧘", music: "🎵", arts: "🎨", "modern-skills": "🤖", reference: "📚" };
   function initHome(root, data) {
     var pub = data.courses.filter(function (c) { return c.status === "published"; });
+    setMeta({ title: "Sikh University — free, open learning in Sikhi & modern skills", desc: "A free, open online university. Study Sikh history, theology, philosophy, language, music and the arts — from authentic sources — alongside modern skills like AI.", path: "index.html" });
+    injectJsonLd({ "@context": "https://schema.org", "@type": "EducationalOrganization", "name": "Sikh University", "url": SITE_BASE, "description": "A free, open online university for Sikhi and modern skills.", "logo": SITE_BASE + "assets/icon.svg" });
+    injectJsonLd({ "@context": "https://schema.org", "@type": "WebSite", "name": "Sikh University", "url": SITE_BASE, "potentialAction": { "@type": "SearchAction", "target": SITE_BASE + "search.html?q={q}", "query-input": "required name=q" } });
     var feat = pub.concat(data.courses.filter(function (c) { return c.status !== "published"; })).slice(0, 6);
     root.appendChild(el("h2", null, "Browse by topic"));
     var tg = el("div", "grid three");
     data.topics.forEach(function (t) {
       var a = el("a", "card topic-card"); a.href = "catalog.html#" + t.id;
-      a.innerHTML = "<h3>" + esc(t.name) + "</h3><p>" + esc(t.blurb) + "</p>";
+      a.innerHTML = '<div class="topic-ic">' + (TOPIC_ICONS[t.id] || "📘") + "</div><h3>" + esc(t.name) + "</h3><p>" + esc(t.blurb) + "</p>";
       tg.appendChild(a);
     });
     root.appendChild(tg);
-    root.appendChild(el("h2", null, "Courses"));
+    if (data.paths && data.paths.length) {
+      root.appendChild(el("h2", null, "Guided learning paths"));
+      root.appendChild(el("p", "muted", "Not sure where to start? Follow a path from the basics to deeper study."));
+      var pg = el("div", "grid three");
+      data.paths.slice(0, 6).forEach(function (p) {
+        var a = el("a", "card path-card"); a.href = "paths.html";
+        a.innerHTML = '<div class="meta"><span class="pill level">' + p.courseIds.length + " courses</span></div><h3>" + esc(p.name) + "</h3><p>" + esc(p.blurb) + '</p><div class="path-go">Start path &rarr;</div>';
+        pg.appendChild(a);
+      });
+      root.appendChild(pg);
+    }
+    root.appendChild(el("h2", null, "Featured courses"));
     var cg = el("div", "grid three");
     feat.forEach(function (c) { cg.appendChild(courseCard(data, c)); });
     root.appendChild(cg);
+    var more = el("p"); more.style.textAlign = "center"; more.style.margin = "1.4rem 0";
+    more.innerHTML = '<a class="btn primary" href="catalog.html">Browse all ' + pub.length + ' courses &rarr;</a>';
+    root.appendChild(more);
     root.appendChild(el("p", "muted disclaimer", "Courses marked “Created by AI” are AI-drafted and reviewed by a Sikh University editor for accuracy. Sacred content is handled with care; report any correction via the footer."));
   }
 
@@ -92,10 +110,12 @@
   function initCourse(root, data) {
     var c = data.courses.filter(function (x) { return x.id === qs("id"); })[0];
     if (!c) { root.innerHTML = '<p class="muted">Course not found. <a href="catalog.html">Back to catalogue</a>.</p>'; return; }
+    setMeta({ title: c.title + " — Sikh University", desc: c.summary, type: "article", path: "course.html?id=" + c.id });
+    injectJsonLd({ "@context": "https://schema.org", "@type": "Course", "name": c.title, "description": c.summary, "inLanguage": "en", "isAccessibleForFree": true, "provider": { "@type": "EducationalOrganization", "name": "Sikh University", "sameAs": SITE_BASE }, "author": { "@type": "Person", "name": c.professor } });
     var head = el("div", "course-head");
     head.innerHTML = '<div class="meta"><a href="catalog.html">← Catalogue</a> &nbsp;·&nbsp; <span class="pill topic">' + esc(topicName(data, c.topic)) + '</span>'
       + '<span class="pill level">' + esc(String(c.level)) + " level</span>" + statusPill(c) + aiBadge(c) + "</div>"
-      + "<h1>" + esc(c.title) + "</h1><div class='meta'>Professor: " + esc(c.professor) + " &nbsp;·&nbsp; Source: " + esc(c.source || "Sikh University") + "</div>"
+      + "<h1>" + esc(c.title) + "</h1><div class='meta'>Professor: <a href='professor.html?name=" + encodeURIComponent(c.professor) + "'>" + esc(c.professor) + "</a> &nbsp;·&nbsp; Source: " + esc(c.source || "Sikh University") + "</div>"
       + "<p class='lead'>" + esc(c.summary) + "</p>";
     root.appendChild(head);
     if (c.aiCreated) root.appendChild(el("div", "callout disclaimer", "<strong>Created by AI.</strong> This course was drafted with AI and is reviewed by a Sikh University editor for accuracy. Found an error? Please report it so we can correct it."));
@@ -162,6 +182,12 @@
         var rol = el("ol", "references"); c.references.forEach(function (r) { rol.appendChild(el("li", null, esc(r))); });
         s5.appendChild(rol); wrap.appendChild(s5);
       }
+
+      var al = archiveLinkFor(c);
+      var s6 = el("section", "ov-sec archive-band");
+      s6.innerHTML = "<h2>Dig deeper</h2><p>Sikh University learns alongside the <strong>Sikh Archive</strong> &mdash; a growing library of Sikh sources. Continue exploring this subject there.</p>"
+        + '<p><a class="btn" href="' + al.url + '" target="_blank" rel="noopener">' + esc(al.label) + " &rarr;</a></p>";
+      wrap.appendChild(s6);
 
       stage.appendChild(wrap);
     }
@@ -262,20 +288,31 @@
   }
   function injectAuthNav() {
     var nav = document.querySelector(".nav-inner");
-    if (!nav || nav.querySelector(".auth-added")) return;
-    function add(href, text, onclick) { var a = document.createElement("a"); a.className = "auth-added"; a.href = href; a.textContent = text; if (onclick) a.onclick = onclick; nav.appendChild(a); }
-    function render(u) {
-      add("search.html", "Search");
-      add("paths.html", "Paths");
-      add("feedback.html", "Feedback");
-      var sp = document.createElement("span"); sp.className = "spacer auth-added"; nav.appendChild(sp);
+    if (!nav) return;
+    var here = (location.pathname.split("/").pop() || "index.html");
+    nav.innerHTML = '<a class="brand" href="index.html">Sikh<span>University</span></a>';
+    function add(href, text, onclick, cls) {
+      var a = document.createElement("a"); a.href = href; a.textContent = text;
+      if (cls) a.className = cls;
+      if (href.split("?")[0] === here) a.classList.add("on");
+      if (onclick) a.onclick = onclick;
+      nav.appendChild(a); return a;
+    }
+    add("catalog.html", "Catalogue");
+    add("paths.html", "Paths");
+    add("professors.html", "Professors");
+    add("about.html", "About");
+    var sp = document.createElement("span"); sp.className = "spacer"; nav.appendChild(sp);
+    add("search.html", "Search");
+    add("dashboard.html", "My Learning");
+    fetch("/api/me", { credentials: "same-origin" }).then(function (r) { return r.ok ? r.json() : { user: null }; }).then(function (d) {
+      var u = d && d.user;
       if (u) {
         add("teach.html", (u.role === "teacher" || u.role === "admin") ? "Teach" : "Become a teacher");
         if (u.role === "admin") add("admin.html", "Admin");
         add("#", "Sign out", function (e) { e.preventDefault(); fetch("/api/auth/logout", { method: "POST", credentials: "same-origin" }).then(function () { location.href = "index.html"; }); });
-      } else { add("login.html", "Sign in"); }
-    }
-    fetch("/api/me", { credentials: "same-origin" }).then(function (r) { return r.ok ? r.json() : { user: null }; }).then(function (d) { render(d && d.user); }).catch(function () { render(null); });
+      } else { add("login.html", "Sign in", null, "btn-nav"); }
+    }).catch(function () { add("login.html", "Sign in", null, "btn-nav"); });
   }
 
   function initLogin(root) {
@@ -667,6 +704,28 @@
     if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(function () {}); }
   }
 
+  // ---- SEO: dynamic meta + structured data ----
+  var SITE_BASE = "https://sikh-university.jasvant-dosanjh.workers.dev/";
+  function setMeta(o) {
+    if (o.title) document.title = o.title;
+    function m(sel, attr, key, val) {
+      var e = document.head.querySelector(sel);
+      if (!e) { e = document.createElement("meta"); e.setAttribute(attr, key); document.head.appendChild(e); }
+      e.setAttribute("content", val);
+    }
+    if (o.title) { m('meta[property="og:title"]', "property", "og:title", o.title); m('meta[name="twitter:title"]', "name", "twitter:title", o.title); }
+    if (o.desc) { m('meta[name="description"]', "name", "description", o.desc); m('meta[property="og:description"]', "property", "og:description", o.desc); m('meta[name="twitter:description"]', "name", "twitter:description", o.desc); }
+    m('meta[property="og:type"]', "property", "og:type", o.type || "website");
+    m('meta[property="og:site_name"]', "property", "og:site_name", "Sikh University");
+    m('meta[name="twitter:card"]', "name", "twitter:card", "summary");
+    m('meta[property="og:image"]', "property", "og:image", SITE_BASE + "assets/icon.svg");
+    var path = o.path || (location.pathname.split("/").pop() + location.search);
+    m('meta[property="og:url"]', "property", "og:url", SITE_BASE + path);
+    var link = document.head.querySelector('link[rel="canonical"]'); if (!link) { link = document.createElement("link"); link.rel = "canonical"; document.head.appendChild(link); }
+    link.href = SITE_BASE + path;
+  }
+  function injectJsonLd(obj) { var s = document.createElement("script"); s.type = "application/ld+json"; s.textContent = JSON.stringify(obj); document.head.appendChild(s); }
+
   // ---- Gamification ----
   function dayKey(d) { d = d || new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
   function recordActivity() { var a = load("activity", []); var t = dayKey(); if (a[a.length - 1] !== t) { a.push(t); if (a.length > 500) a = a.slice(-500); save("activity", a); } }
@@ -717,6 +776,85 @@
     });
   }
 
+  // ---- Professors ----
+  var PROF_PHOTOS = {};
+  function loadPhotos(cb) {
+    if (PROF_PHOTOS.__loaded) { cb(); return; }
+    fetch("assets/data/professors.json").then(function (r) { return r.ok ? r.json() : {}; }).then(function (m) { PROF_PHOTOS = m || {}; PROF_PHOTOS.__loaded = 1; cb(); }).catch(function () { PROF_PHOTOS.__loaded = 1; cb(); });
+  }
+  var PROF_BIOS = {
+    "Sikh University": "Sikh University is a free, open online university. These original courses are drafted with AI and reviewed for accuracy, offering a welcoming way for anyone, anywhere to begin learning about Sikhi and modern skills.",
+    "Prof. Sahib Singh": "Prof. Sahib Singh (1892-1977) was a towering Sikh scholar and grammarian, best known for his ten-volume exegesis Sri Guru Granth Sahib Darpan and his pioneering work on Gurbani grammar (Gurbani Viakaran).",
+    "Bhai Vir Singh": "Bhai Vir Singh (1872-1957) is regarded as the father of modern Punjabi literature and a leading figure of the Singh Sabha renaissance, writing novels, poetry and extensive scriptural commentary.",
+    "Bhai Kahn Singh Nabha": "Bhai Kahn Singh Nabha (1861-1938) was a great Sikh encyclopedist, author of the monumental Mahan Kosh and the influential tract Ham Hindu Nahin.",
+    "Giani Sant Singh Maskeen": "Giani Sant Singh Maskeen (1934-2005) was among the most beloved Sikh katha-vachaks (expositors), known for clear, profound discourses on Gurbani and Gurmat.",
+    "Bhai Randhir Singh": "Bhai Randhir Singh (1878-1961) was a Sikh freedom fighter and devotee renowned for his writings on Naam practice and his prison memoir Jail Chithian.",
+    "Dr. Darshan Singh": "Dr. Darshan Singh is a scholar of Sikh philosophy and religion whose academic work examines Gurmat thought and the Sikh tradition.",
+    "Bhai Gurdas": "Bhai Gurdas (c.1551-1636) was the scribe of the Adi Granth and a foundational interpreter of Gurbani; his Vaaran are called the 'key' to understanding Sikh scripture.",
+    "Bhai Nand Lal": "Bhai Nand Lal 'Goya' (1633-1713) was a celebrated Persian and Punjabi poet of Guru Gobind Singh Ji's court, counted among its fifty-two poets.",
+    "Giani Gian Singh": "Giani Gian Singh (1822-1921) was a Sikh historian and chronicler, author of Twarikh Guru Khalsa and Panth Prakash.",
+    "Max Arthur Macauliffe": "Max Arthur Macauliffe (1841-1913) produced the six-volume The Sikh Religion, presenting Sikh history and scripture to English readers in close consultation with Sikh scholars.",
+    "Kavi Santokh Singh": "Kavi Santokh Singh (1787-1843) was a major Sikh poet-historian, author of the vast Sri Gur Pratap Suraj Granth and Nanak Prakash on the lives of the Gurus.",
+    "Dr. Ganda Singh": "Dr. Ganda Singh (1900-1987) was a pioneering Sikh historian whose rigorous, source-based works shaped the modern study of Sikh history.",
+    "W.H. McLeod": "W. H. McLeod (1932-2009) was an influential Western scholar of Sikh studies, known for academic works on Sikh history, religion and society.",
+    "Pyara Singh Padam": "Pyara Singh Padam (1922-2001) was a prolific scholar and editor of Punjabi and Sikh literature, history and rehat traditions.",
+    "Bhai Sohan Singh Sital": "Bhai Sohan Singh Sital (1909-1998) was a noted dhadi, novelist and historian of the Sikh misls and Sikh rule.",
+    "Giani Ditt Singh": "Giani Ditt Singh (1850-1901) was a leading Singh Sabha reformer, writer and editor who championed Sikh identity and education.",
+    "Bhai Joginder Singh Talwara": "Bhai Joginder Singh Talwara is a respected Gurbani scholar known for works on Gurbani grammar and correct recitation (path bodh)."
+  };
+  function profBio(n) { return PROF_BIOS[n] || ""; }
+  function profInitials(name) {
+    var p = String(name).replace(/^(Prof\.|Dr\.|Bhai|Giani|Sant|Baba|Mahant|Pandit|Kavi|Swami|Sodhi|Subedar|Raja|Mata)\s+/i, "").trim().split(/\s+/);
+    return (((p[0] || "")[0] || "") + (p.length > 1 ? (p[p.length - 1][0] || "") : "")).toUpperCase();
+  }
+  function profAvatar(name, size) {
+    size = size || 64;
+    var ph = PROF_PHOTOS[name];
+    if (ph && ph.img) return '<img class="prof-av photo" width="' + size + '" height="' + size + '" src="' + esc(ph.img) + '" alt="Portrait of ' + esc(name) + '" loading="lazy">';
+    var pal = ["#16335c", "#1d4e89", "#2f7d4f", "#8a5a14", "#5c3b8a", "#0f2547"];
+    var h = 0, s = String(name); for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997;
+    var bg = pal[h % pal.length];
+    return '<svg class="prof-av" width="' + size + '" height="' + size + '" viewBox="0 0 64 64" role="img" aria-label="' + esc(name) + '"><rect width="64" height="64" rx="14" fill="' + bg + '"/><text x="32" y="42" text-anchor="middle" font-family="Georgia,serif" font-size="26" font-weight="700" fill="#f3e6cf">' + esc(profInitials(name)) + '</text></svg>';
+  }
+  function archiveLinkFor(c) {
+    if (c.topic === "modern-skills") return { url: "https://sikharchive.net/courses", label: "Free AI courses on Sikh Archive" };
+    return { url: "https://sikharchive.net", label: "Dig deeper in the Sikh Archive" };
+  }
+  function initProfessors(root, data) { loadPhotos(function () { renderProfessors(root, data); }); }
+  function renderProfessors(root, data) {
+    root.innerHTML = "";
+    root.appendChild(el("h2", null, "Our professors"));
+    root.appendChild(el("p", "lead", "Sikh University courses are built on the works of leading Sikh scholars and writers. Each course is taught in the voice of, or drawn from, its author."));
+    var map = {}; data.courses.forEach(function (c) { (map[c.professor] = map[c.professor] || []).push(c); });
+    var names = Object.keys(map).sort(function (a, b) { if (a === "Sikh University") return 1; if (b === "Sikh University") return -1; return map[b].length - map[a].length; });
+    var grid = el("div", "grid three");
+    names.forEach(function (n) {
+      var a = el("a", "card prof-card"); a.href = "professor.html?name=" + encodeURIComponent(n);
+      var bio = profBio(n); var snip = bio ? bio.split(". ")[0] + "." : "";
+      a.innerHTML = profAvatar(n, 72) + "<h3>" + esc(n) + "</h3><div class='meta'>" + map[n].length + " course" + (map[n].length === 1 ? "" : "s") + "</div><p>" + esc(snip) + "</p>";
+      grid.appendChild(a);
+    });
+    root.appendChild(grid);
+  }
+  function initProfessor(root, data) { loadPhotos(function () { renderProfessor(root, data); }); }
+  function renderProfessor(root, data) {
+    var name = qs("name");
+    var courses = data.courses.filter(function (c) { return c.professor === name; });
+    root.innerHTML = "";
+    if (!name || !courses.length) { root.innerHTML = '<p class="muted">Professor not found. <a href="professors.html">See all professors</a>.</p>'; return; }
+    setMeta({ title: name + " — Sikh University", desc: (profBio(name) || (name + " teaches courses at Sikh University.")).slice(0, 300), type: "profile", path: "professor.html?name=" + encodeURIComponent(name) });
+    var head = el("div", "prof-head");
+    head.innerHTML = profAvatar(name, 110) + "<div><div class='meta'><a href='professors.html'>&larr; All professors</a></div><h1>" + esc(name) + "</h1><div class='meta'>" + courses.length + " course" + (courses.length === 1 ? "" : "s") + "</div></div>";
+    root.appendChild(head);
+    var bio = profBio(name); if (bio) root.appendChild(el("p", "lead", esc(bio)));
+    var ph = PROF_PHOTOS[name];
+    if (ph && ph.img) root.appendChild(el("p", "muted credit", 'Portrait via ' + (ph.source ? '<a href="' + esc(ph.source) + '" target="_blank" rel="noopener">' + esc(ph.credit || "Wikimedia Commons") + '</a>' : esc(ph.credit || "Wikimedia Commons")) + '.'));
+    else if (name !== "Sikh University") root.appendChild(el("div", "callout disclaimer", "Courses here are drawn from this author's writings and tradition, drafted with AI and reviewed for accuracy."));
+    root.appendChild(el("h3", null, "Courses"));
+    var grid = el("div", "grid three"); courses.sort(function (a, b) { return a.level - b.level; }).forEach(function (c) { grid.appendChild(courseCard(data, c)); });
+    root.appendChild(grid);
+  }
+
   function exportNotes(data) {
     var lines = ["# My Sikh University notes", ""];
     data.courses.forEach(function (c) {
@@ -744,6 +882,8 @@
       else if (page === "cert") initCert(root, data);
       else if (page === "search") initSearch(root, data);
       else if (page === "paths") initPaths(root, data);
+      else if (page === "professors") initProfessors(root, data);
+      else if (page === "professor") initProfessor(root, data);
     }).catch(function () { root.innerHTML = '<p class="muted">Could not load courses.</p>'; });
   });
 })();

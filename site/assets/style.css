@@ -219,9 +219,44 @@ body.hc .btn { background: #ffd479; color: #000; border-color: #ffd479; }
 body.hc .terms-table thead th, body.hc .lesson-body thead th { background: #000; color: #ffd479; }
 body.hc .muted, body.hc .meta { color: #ddd; }
 
+/* ---- nav polish ---- */
+.nav-inner { gap: .35rem 1rem; }
+.nav a:not(.brand) { padding: .25rem 0; border-bottom: 2px solid transparent; transition: color .12s, border-color .12s; }
+.nav a:not(.brand).on { color: #fff; border-bottom-color: var(--saffron); }
+.nav a.btn-nav { background: var(--saffron); color: #2a1c06 !important; padding: .35rem .85rem; border-radius: 999px; font-weight: 600; }
+.nav a.btn-nav:hover { filter: brightness(1.06); }
+
+/* ---- topic icons + path cards (home vibrancy) ---- */
+.topic-ic { font-size: 1.9rem; line-height: 1; margin-bottom: .2rem; }
+.path-card { border-left: 4px solid var(--saffron); background: linear-gradient(180deg, var(--surface), var(--surface-2)); }
+.path-card:nth-child(3n+2) { border-left-color: var(--navy); }
+.path-card:nth-child(3n) { border-left-color: var(--ok); }
+.path-go { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: .85rem; font-weight: 700; color: var(--saffron); margin-top: .5rem; }
+
+/* ---- professors ---- */
+.prof-av { border-radius: 14px; display: block; object-fit: cover; background: var(--surface-2); }
+.prof-av.photo { border: 1px solid var(--border); }
+.prof-card { text-align: center; }
+.prof-card .prof-av { margin: 0 auto .6rem; }
+.prof-card h3 { font-size: 1.05rem; }
+.prof-head { display: flex; gap: 1.2rem; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1.1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.prof-head h1 { margin: .15rem 0; color: var(--navy); }
+.credit { font-size: .82rem; }
+
+/* ---- archive cross-link band ---- */
+.archive-band { background: linear-gradient(150deg, var(--saffron-soft), var(--surface)); border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 1.4rem; }
+.archive-band h2 { border: 0; margin-top: 0; }
+
+/* ---- extra vibrancy ---- */
+.card { transition: transform .12s, box-shadow .12s, border-color .12s; }
+.card:hover { box-shadow: 0 8px 24px rgba(22,51,92,.13); }
+.hero { position: relative; overflow: hidden; }
+.hero::after { content: ""; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(200,134,42,.28), transparent 70%); pointer-events: none; }
+h2 { color: var(--navy); }
+
 /* ---- print (certificate) ---- */
 @media print {
-  .noprint, .nav, footer.site { display: none !important; }
+  .noprint, .nav, footer.site, .a11y-fab, .a11y-panel { display: none !important; }
   body { background: #fff; }
   .wrap { padding: 0; max-width: none; }
   .cert { border-width: 4px; box-shadow: none; margin: 0; }

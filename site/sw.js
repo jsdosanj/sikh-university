@@ -1,11 +1,11 @@
 /* Sikh University service worker — offline app shell + course data. */
-var CACHE = "su-v1";
+var CACHE = "su-v2";
 var SHELL = [
   "index.html", "catalog.html", "course.html", "dashboard.html", "cert.html",
-  "search.html", "paths.html", "feedback.html", "contact.html", "legal.html",
-  "login.html", "teach.html", "admin.html",
+  "search.html", "paths.html", "professors.html", "professor.html", "about.html",
+  "feedback.html", "contact.html", "legal.html", "login.html", "teach.html", "admin.html",
   "assets/style.css", "assets/app.js", "assets/icon.svg",
-  "assets/data/courses.json", "manifest.webmanifest"
+  "assets/data/courses.json", "assets/data/professors.json", "manifest.webmanifest"
 ];
 
 self.addEventListener("install", function (e) {
