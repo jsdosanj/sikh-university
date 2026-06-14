@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import fs from 'node:fs';
+// Single source: reuse the existing legal content (GDPR/CCPA-aligned drafts).
+const file = new URL('../../../site/legal.html', import.meta.url);
+let inner = '';
+try {
+  const raw = fs.readFileSync(file, 'utf8');
+  const m = raw.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
+  inner = (m ? m[1] : '').replace(/\.html/g, '.html');
+} catch (e) { inner = '<p>Terms &amp; Privacy are being prepared.</p>'; }
+---
+<Base title="Terms & Privacy — Sikh University" description="Sikh University Terms of Service and Privacy Policy (GDPR/CCPA-aligned drafts).">
+  <section class="wrap py-12">
+    <article class="legal mx-auto max-w-3xl" set:html={inner} />
+  </section>
+  <style is:global>
+    .legal h2 { @apply mt-10 text-2xl font-bold text-navy; }
+    .legal h3 { @apply mt-6 text-lg font-bold text-navy; }
+    .legal p, .legal li { @apply my-2 leading-relaxed; }
+    .legal ul { @apply list-disc pl-6; }
+    .legal a { @apply text-navy underline; }
+    .legal .callout { @apply my-4 rounded-xl border border-line border-l-4 border-l-saffron bg-surface p-4 font-sans text-sm; }
+    .legal .sans { @apply font-sans; }
+  </style>
+</Base>

@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Teach at Sikh University" description="Apply to author and maintain courses at Sikh University.">
+  <section class="wrap max-w-2xl py-14">
+    <h1 class="text-3xl font-bold">Teach at Sikh University</h1>
+    <div id="teach"><p class="mt-4 text-muted">Loading…</p></div>
+  </section>
+  <script>
+    const root = document.getElementById('teach');
+    fetch('/api/me', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).then(({ user: u }) => {
+      if (!u) { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4">Please <a class="underline" href="/login.html">sign in</a> first, then apply to teach.</div>'; return; }
+      if (u.role === 'teacher' || u.role === 'admin') { root.innerHTML = `<div class="mt-4 rounded-xl border-l-4 border-ok bg-surface p-4">You're an approved <strong>${u.role}</strong>. Course-authoring tools are coming next.</div>`; return; }
+      root.innerHTML = `
+        <p class="mt-2 text-lg text-muted">Are you a scholar or knowledgeable teacher? Apply to author and maintain courses. Each application is reviewed by an admin.</p>
+        <form id="ap" class="mt-6 space-y-4">
+          <label class="block font-sans text-sm font-semibold">Your background<textarea id="bg" rows="6" required placeholder="Your background, qualifications, and area(s) of expertise." class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea></label>
+          <label class="block font-sans text-sm font-semibold">Courses you'd like to teach<textarea id="co" rows="3" placeholder="What course(s) would you like to teach?" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea></label>
+          <button id="sub" type="submit" class="btn btn-primary">Submit application</button>
+        </form><div id="out" class="mt-4"></div>`;
+      const form = document.getElementById('ap'); const out = document.getElementById('out'); const btn = document.getElementById('sub');
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault(); const bg = document.getElementById('bg').value.trim(); if (!bg) return;
+        btn.disabled = true;
+        fetch('/api/teacher/apply', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ background: bg, courses: document.getElementById('co').value }) })
+          .then((r) => r.json().then((d) => ({ ok: r.ok, d }))).then(({ ok, d }) => {
+            if (ok) form.outerHTML = '<div class="rounded-xl border-l-4 border-ok bg-surface p-4"><strong>Application submitted.</strong> An admin will review it and you\'ll be notified by email.</div>';
+            else { btn.disabled = false; out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">${(d && d.error) || 'Error'}</div>`; }
+          }).catch(() => { btn.disabled = false; });
+      });
+    }).catch(() => { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4">Please <a class="underline" href="/login.html">sign in</a> first.</div>'; });
+  </script>
+</Base>
