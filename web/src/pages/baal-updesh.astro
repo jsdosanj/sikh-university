@@ -75,7 +75,8 @@ const wordCard = (w) => w;
       <a href="#numbers" class="rounded-full border border-line px-3 py-1 hover:border-saffron">6. Numbers 0–100</a>
     </nav>
 
-    <h2 id="painti" class="mt-10 text-xl font-bold">1. The Painti — <span class="gur">ਪੈਂਤੀ</span> (35 letters)</h2>
+    <details id="painti" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">1. The Painti — <span class="gur">ਪੈਂਤੀ</span> (35 letters)</summary>
     <p class="mt-1 max-w-2xl text-muted">Three are vowel-bearers (<span class="gur">ੳ ਅ ੲ</span>); the rest are consonants. Say each letter aloud.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
       {akhar.map(([ch, name]) => (
@@ -86,7 +87,10 @@ const wordCard = (w) => w;
       ))}
     </div>
 
-    <h2 id="navin" class="mt-12 text-xl font-bold">2. The extra letters — <span class="gur">ਨਵੀਨ ਟੋਲੀ</span></h2>
+    </details>
+
+    <details id="navin" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">2. The extra letters — <span class="gur">ਨਵੀਨ ਟੋਲੀ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Six later letters, written by adding a dot (<span class="gur">ਪੈਰ ਬਿੰਦੀ</span>) beneath a base letter, for sounds used in borrowed words.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
       {navin.map(([ch, name]) => (
@@ -97,7 +101,10 @@ const wordCard = (w) => w;
       ))}
     </div>
 
-    <h2 id="muharni" class="mt-12 text-xl font-bold">3. The Muharni — <span class="gur">ਮੁਹਾਰਨੀ</span></h2>
+    </details>
+
+    <details id="muharni" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">3. The Muharni — <span class="gur">ਮੁਹਾਰਨੀ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Sound each consonant through the ten vowel signs (<span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span>). Read across each row aloud — this builds <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> (correct pronunciation).</p>
     <div class="mt-5 overflow-x-auto rounded-xl2 border border-line">
       <table class="w-full border-collapse text-center">
@@ -118,7 +125,10 @@ const wordCard = (w) => w;
       </table>
     </div>
 
-    <h2 id="words" class="mt-12 text-xl font-bold">4. Reading words — <span class="gur">ਸ਼ਬਦ ਜੋੜ</span></h2>
+    </details>
+
+    <details id="words" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">4. Reading words — <span class="gur">ਸ਼ਬਦ ਜੋੜ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Now blend letters into words. Start with two letters, then three, then longer. Sound each one out, then read the whole word.</p>
     {[['Two-letter words', words2], ['Three-letter words', words3], ['Longer words', words4]].map(([label, list]) => (
       <div class="mt-5">
@@ -135,7 +145,10 @@ const wordCard = (w) => w;
       </div>
     ))}
 
-    <h2 id="sentences" class="mt-12 text-xl font-bold">5. Sentences & paragraphs — <span class="gur">ਵਾਕ ਤੇ ਪੈਰੇ</span></h2>
+    </details>
+
+    <details id="sentences" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">5. Sentences & paragraphs — <span class="gur">ਵਾਕ ਤੇ ਪੈਰੇ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Read these aloud, building from greetings to short, medium and long sentences, then full paragraphs. The <span class="gur">॥</span> (danda) and <span class="gur">।</span> mark line ends.</p>
     {[['Greetings & sacred lines', sentences], ['Short sentences', shortS], ['Medium sentences', medS], ['Long sentences', longS]].map(([label, list]) => (
       <div class="mt-5">
@@ -163,7 +176,10 @@ const wordCard = (w) => w;
       </div>
     </div>
 
-    <h2 id="numbers" class="mt-12 text-xl font-bold">6. Numbers — <span class="gur">ਅੰਕ</span> (0–100)</h2>
+    </details>
+
+    <details id="numbers" open class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">6. Numbers — <span class="gur">ਅੰਕ</span> (0–100)</summary>
     <p class="mt-1 max-w-2xl text-muted">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
     <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
       {numNames.map(([g, n, nm, tr]) => (
@@ -184,6 +200,8 @@ const wordCard = (w) => w;
         </div>
       ))}
     </div>
+
+    </details>
 
     <div class="mt-12 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
       <h2 class="text-xl font-bold">Next steps</h2>

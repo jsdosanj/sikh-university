@@ -33,7 +33,7 @@ export const TOPIC_ICONS: Record<string, string> = {
   ethics: '⚖️', rehat: '🪯', comparative: '🌍',
   sociology: '👥', economics: '💰', politics: '🏛️', parenting: '👨‍👩‍👧',
   apologetics: '🛡️', science: '🔬',
-  finance: '💵', gardening: '🌱',
+  finance: '💵', gardening: '🌱', 'mental-health': '💚',
 };
 
 export function professorList() {
