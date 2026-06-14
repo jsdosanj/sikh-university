@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sikh-university.jasvant-dosanjh.workers.dev/sitemap.xml
+Sitemap: https://sikh-university.dosanjhlabs.com/sitemap.xml

@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
-const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
+const SITE = 'https://sikh-university.dosanjhlabs.com';
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
-  name: 'Sikh University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon.svg',
+  name: 'Sikh University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon-512.png', image: SITE + '/assets/og-image.png',
   sameAs: ['https://sikharchive.net'],
 };
 const websiteLd = {

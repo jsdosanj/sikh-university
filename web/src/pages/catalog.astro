@@ -5,7 +5,7 @@ import { topics, courses, topicName, paths, TOPIC_ICONS } from '../lib/data';
 const sorted = [...courses].sort((a, b) => a.level - b.level);
 const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
 const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer';
-const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
+const SITE = 'https://sikh-university.dosanjhlabs.com';
 const itemListLd = {
   '@context': 'https://schema.org', '@type': 'ItemList',
   name: 'Sikh University course catalogue', numberOfItems: sorted.length,
