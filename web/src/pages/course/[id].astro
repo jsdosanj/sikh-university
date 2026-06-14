@@ -7,19 +7,36 @@ const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
 const archive = c.topic === 'modern-skills'
   ? { url: 'https://sikharchive.net/courses', label: 'Free AI courses on Sikh Archive' }
   : { url: 'https://sikharchive.net', label: 'Dig deeper in the Sikh Archive' };
-const ld = {
-  '@context': 'https://schema.org', '@type': 'Course', name: c.title, description: c.summary,
-  inLanguage: 'en', isAccessibleForFree: true,
-  provider: { '@type': 'EducationalOrganization', name: 'Sikh University', sameAs: SITE + '/' },
-  author: { '@type': 'Person', name: c.professor },
-};
 const lessons = c.lessons || [];
 const quiz = c.quiz || [];
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Course', name: c.title, description: c.summary,
+  url: `${SITE}/course/${c.id}`,
+  inLanguage: 'en', isAccessibleForFree: true, educationalLevel: c.level,
+  provider: { '@type': 'EducationalOrganization', name: 'Sikh University', sameAs: SITE + '/' },
+  author: { '@type': 'Person', name: c.professor },
+  offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD', category: 'Free', availability: 'https://schema.org/InStock' },
+  hasCourseInstance: {
+    '@type': 'CourseInstance', courseMode: 'online',
+    courseWorkload: `PT${Math.max(1, lessons.length) * 15}M`,
+    instructor: { '@type': 'Person', name: c.professor },
+  },
+};
+const breadcrumb = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Sikh University', item: SITE + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Catalogue', item: SITE + '/catalog' },
+    { '@type': 'ListItem', position: 3, name: topicName(c.topic), item: `${SITE}/catalog#${c.topic}` },
+    { '@type': 'ListItem', position: 4, name: c.title, item: `${SITE}/course/${c.id}` },
+  ],
+};
 ---
 <Base title={`${c.title} — Sikh University`} description={c.summary} ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} slot="head" />
 
-  <header class="bg-gradient-to-br from-navy to-navy-strong text-white">
+  <header class="bg-gradient-to-br from-brand to-navy-strong text-white">
     <div class="wrap py-12">
       <div class="flex flex-wrap items-center gap-2 font-sans text-xs">
         <a href="/catalog" class="text-white/70 hover:text-white">← Catalogue</a>
@@ -58,7 +75,7 @@ const quiz = c.quiz || [];
         <section class="mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Key terms — ਸ਼ਬਦਾਵਲੀ</h2>
           <table class="mt-3 w-full border-collapse text-[0.95rem]">
-            <thead><tr><th class="border border-line bg-navy p-2 text-left font-sans text-xs text-white">Term</th><th class="border border-line bg-navy p-2 text-left font-sans text-xs text-white">Academic context</th></tr></thead>
+            <thead><tr><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Term</th><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Academic context</th></tr></thead>
             <tbody>{c.terms.map((t) => <tr class="even:bg-paper"><td class="border border-line p-2 align-top"><span class="font-semibold" set:html={t.t} /></td><td class="border border-line p-2 align-top">{t.m}</td></tr>)}</tbody>
           </table>
         </section>
@@ -211,8 +228,8 @@ const quiz = c.quiz || [];
       let correct = 0; quiz.forEach((q, i) => { const s = document.querySelector(`input[name="q${i}"]:checked`); if (s && +s.value === q.answer) correct++; });
       const score = Math.round((correct / quiz.length) * 100);
       const r = document.getElementById('quiz-result');
-      if (score >= 80) { set('passed_' + id, score); recordActivity(); syncPush(); r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-white p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`; }
-      else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-white p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${quiz.length}).</strong> You need 80%. Review the lessons and try again.</div>`;
+      if (score >= 80) { set('passed_' + id, score); recordActivity(); syncPush(); r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${quiz.length}).</strong> Course complete. <a class="underline" href="/cert?course=${id}">View your certificate →</a></div>`; }
+      else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${quiz.length}).</strong> You need 80%. Review the lessons and try again.</div>`;
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     refresh();

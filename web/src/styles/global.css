@@ -1,9 +1,33 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
 
+/* Theme palette. The neutral + navy tokens read these variables (see
+   tailwind.config.mjs) so the whole site flips between light and dark. */
+:root {
+  --c-paper: 247 248 251;
+  --c-surface: 255 255 255;
+  --c-ink: 16 19 26;
+  --c-muted: 91 100 115;
+  --c-line: 228 232 240;
+  --c-navy: 22 51 92;
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --c-paper: 13 16 22;
+  --c-surface: 24 28 37;
+  --c-ink: 226 230 238;
+  --c-muted: 156 166 182;
+  --c-line: 44 52 68;
+  --c-navy: 150 181 236;
+  color-scheme: dark;
+}
+[data-theme="dark"] blockquote.gurbani { background: rgba(244, 178, 26, .12); color: rgb(var(--c-ink)); }
+
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body { @apply bg-paper text-ink font-serif antialiased; line-height: 1.65; }
+  /* Stop iOS Safari zooming the page when a sub-16px input is focused. */
+  @media (max-width: 640px) { input, select, textarea { font-size: 16px; } }
   h1, h2, h3, h4 { @apply font-serif text-navy; }
   a { @apply text-navy; }
   .gur { @apply font-gur; font-size: 1.06em; }
@@ -22,7 +46,7 @@
   .lesson-prose h4 { @apply mt-6 mb-1 text-navy; }
   .lesson-prose table { @apply w-full border-collapse text-[0.95rem]; }
   .lesson-prose th, .lesson-prose td { @apply border border-line p-2.5 text-left align-top; }
-  .lesson-prose thead th { @apply bg-navy text-white font-sans text-[0.82rem]; }
+  .lesson-prose thead th { @apply bg-brand text-white font-sans text-[0.82rem]; }
   .lesson-prose tbody tr:nth-child(even){ @apply bg-paper; }
   .lesson-prose .toc { @apply rounded-xl border border-line bg-paper p-4 font-sans text-[0.92rem] mb-5; }
   .lesson-prose .toc strong { @apply block mb-1 text-navy; }

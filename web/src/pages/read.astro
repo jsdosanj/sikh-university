@@ -61,7 +61,6 @@ import Base from '../layouts/Base.astro';
     var P = 'su_v1_';
     var get = function (k, d) { try { var v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
     var set = function (k, v) { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch (e) {} };
-    var pad = function (n) { return ('0000' + n).slice(-4); };
     var qp = new URLSearchParams(location.search);
     var src = SRC[qp.get('src')] ? qp.get('src') : 'sggs';
     var cfg = SRC[src];
@@ -71,6 +70,29 @@ import Base from '../layouts/Base.astro';
     angin.max = cfg.max;
     var ang = parseInt(qp.get('ang') || get(src + '_ang', 1), 10) || 1;
     var words = [], cum = [], total = 0, curIdx = -1;
+
+    // SGGS Santhya audio (Bhindran Taksal) is a set of recordings each covering
+    // a RANGE of Angs, streamed directly from gurmatveechar.com. We map the
+    // current Ang to the recording that contains it.
+    var santhya = null, curUrl = '';
+    function trackFor(n) {
+      if (!santhya || !santhya.length) return null;
+      var best = null;
+      for (var i = 0; i < santhya.length; i++) {
+        var r = santhya[i];
+        if (n >= r.start && n <= r.end) return r;     // exact cover
+        if (r.start <= n) best = r;                    // else nearest recording in progress
+      }
+      return best || santhya[0];
+    }
+    function setAudio(n) {
+      if (!cfg.audio) { aud.style.display = 'none'; audph.style.display = 'none'; note.textContent = 'Text read-along (no audio for this Granth yet).'; return; }
+      var t = trackFor(n);
+      if (!t) return;                                  // index not loaded yet
+      aud.style.display = ''; audph.style.display = 'none';
+      if (t.url !== curUrl) { curUrl = t.url; aud.src = t.url; aud.load(); }
+      note.textContent = '🎧 Santhya · ' + t.title + ' — Bhindrān Taksāl (gurmatveechar.com)';
+    }
 
     function vishramWeight(w) { if (w.indexOf('॥') !== -1) return 3.2; if (w.indexOf(';') !== -1) return 1.6; if (w.indexOf('.') !== -1) return 0.9; return 0; }
     function buildTiming() { cum = []; total = 0; for (var i = 0; i < words.length; i++) { var w = words[i].textContent || ''; total += 0.6 + 0.22 * w.replace(/[॥;.]/g, '').length + vishramWeight(w); cum.push(total); } }
@@ -97,12 +119,16 @@ import Base from '../layouts/Base.astro';
       history.replaceState(null, '', '/read?src=' + src + '&ang=' + n);
       note.textContent = '';
       fetch('/assets/gurbani/' + src + '/' + n + '.json').then(function (r) { return r.json(); }).then(render).catch(function () { page.innerHTML = '<p class="text-muted" style="font-size:1rem">Could not load this ' + cfg.unit + '.</p>'; });
-      if (cfg.audio) { aud.style.display = ''; audph.style.display = 'none'; aud.src = '/media/santhya/sggs/' + pad(n) + '.mp3'; aud.load(); }
-      else { aud.style.display = 'none'; audph.style.display = 'none'; note.textContent = 'Text read-along (no audio for this Granth yet).'; }
+      setAudio(n);
     }
-    aud.addEventListener('timeupdate', function () { highlight(aud.currentTime); });
-    aud.addEventListener('error', function () { if (cfg.audio) { aud.style.display = 'none'; audph.style.display = 'flex'; note.textContent = 'Audio for this Ang is not uploaded yet — text read-along still works.'; } });
-    aud.addEventListener('ended', function () { if (ang < cfg.max) { load(ang + 1); aud.play().catch(function () {}); } });
+    // The santhya recordings span many Angs, so the per-word timing heuristic
+    // can't sync to them — highlight only runs if a single-Ang track is ever used.
+    aud.addEventListener('timeupdate', function () { if (curUrl && curUrl.indexOf('gurmatveechar') === -1) highlight(aud.currentTime); });
+    aud.addEventListener('error', function () { if (cfg.audio && curUrl) { aud.style.display = 'none'; audph.style.display = 'flex'; note.textContent = 'This Santhya recording could not be reached just now — text read-along still works.'; } });
+    aud.addEventListener('ended', function () {
+      if (!santhya) return;
+      for (var i = 0; i < santhya.length; i++) { if (santhya[i].url === curUrl) { var nx = santhya[i + 1]; if (nx) { load(nx.start); aud.play().catch(function () {}); } return; } }
+    });
     function go(n) { load(n); }
     document.getElementById('next').onclick = document.getElementById('next2').onclick = function () { go(ang + 1); };
     document.getElementById('prev').onclick = document.getElementById('prev2').onclick = function () { go(ang - 1); };
@@ -115,5 +141,9 @@ import Base from '../layouts/Base.astro';
     applyTheme();
     document.getElementById('bg').onclick = function () { ti = (ti + 1) % themes.length; set('read_theme', ti); applyTheme(); };
     load(ang);
+    if (cfg.audio) {
+      note.textContent = 'Loading Santhya audio…';
+      fetch('/assets/gurbani/santhya-sggs-index.json').then(function (r) { return r.json(); }).then(function (d) { santhya = d; setAudio(ang); }).catch(function () { note.textContent = 'Santhya audio is unavailable right now — text read-along still works.'; });
+    }
   </script>
 </Base>

@@ -4,8 +4,15 @@ import CourseCard from '../components/CourseCard.astro';
 import { topics, courses, topicName } from '../lib/data';
 const sorted = [...courses].sort((a, b) => a.level - b.level);
 const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer';
+const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
+const itemListLd = {
+  '@context': 'https://schema.org', '@type': 'ItemList',
+  name: 'Sikh University course catalogue', numberOfItems: sorted.length,
+  itemListElement: sorted.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/course/${c.id}`, name: c.title })),
+};
 ---
 <Base title="Course catalogue — Sikh University" description="Browse all Sikh University courses by topic — history, theology, philosophy, language, music, the arts and modern skills.">
+  <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
   <section class="wrap py-12">
     <h1 class="text-3xl font-bold">Course catalogue</h1>
     <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
@@ -33,9 +40,9 @@ const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-mu
     function setActive() {
       filters.forEach((b) => {
         const on = b.dataset.t === topic;
-        b.classList.toggle('bg-navy', on); b.classList.toggle('text-white', on);
+        b.classList.toggle('bg-brand', on); b.classList.toggle('text-white', on);
         b.classList.toggle('border-navy', on); b.classList.toggle('text-muted', !on);
-        b.classList.toggle('bg-surface', !on); // else bg-surface wins over bg-navy -> white-on-white
+        b.classList.toggle('bg-surface', !on); // else bg-surface wins over bg-brand -> white-on-white
       });
     }
     function render() {
