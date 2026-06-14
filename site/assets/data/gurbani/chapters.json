@@ -1,0 +1,276 @@
+{
+  "sggs": [
+    {
+      "ang": 1,
+      "label": "Japji Sahib",
+      "gur": "ਜਪੁ"
+    },
+    {
+      "ang": 8,
+      "label": "Rehras / So Dar",
+      "gur": "ਸੋ ਦਰੁ"
+    },
+    {
+      "ang": 12,
+      "label": "Kirtan Sohila",
+      "gur": "ਸੋਹਿਲਾ"
+    },
+    {
+      "ang": 14,
+      "label": "Raag Siri Raag",
+      "gur": "ਸਿਰੀਰਾਗੁ"
+    },
+    {
+      "ang": 94,
+      "label": "Raag Maajh",
+      "gur": "ਮਾਝ"
+    },
+    {
+      "ang": 151,
+      "label": "Raag Gauri",
+      "gur": "ਗਉੜੀ"
+    },
+    {
+      "ang": 347,
+      "label": "Raag Aasaa",
+      "gur": "ਆਸਾ"
+    },
+    {
+      "ang": 489,
+      "label": "Raag Gujri",
+      "gur": "ਗੂਜਰੀ"
+    },
+    {
+      "ang": 527,
+      "label": "Raag Devgandhari",
+      "gur": "ਦੇਵਗੰਧਾਰੀ"
+    },
+    {
+      "ang": 537,
+      "label": "Raag Bihagra",
+      "gur": "ਬਿਹਾਗੜਾ"
+    },
+    {
+      "ang": 557,
+      "label": "Raag Wadhans",
+      "gur": "ਵਡਹੰਸੁ"
+    },
+    {
+      "ang": 595,
+      "label": "Raag Sorath",
+      "gur": "ਸੋਰਠਿ"
+    },
+    {
+      "ang": 660,
+      "label": "Raag Dhanasari",
+      "gur": "ਧਨਾਸਰੀ"
+    },
+    {
+      "ang": 696,
+      "label": "Raag Jaitsri",
+      "gur": "ਜੈਤਸਰੀ"
+    },
+    {
+      "ang": 711,
+      "label": "Raag Todi",
+      "gur": "ਟੋਡੀ"
+    },
+    {
+      "ang": 719,
+      "label": "Raag Bairari",
+      "gur": "ਬੈਰਾੜੀ"
+    },
+    {
+      "ang": 721,
+      "label": "Raag Tilang",
+      "gur": "ਤਿਲੰਗ"
+    },
+    {
+      "ang": 728,
+      "label": "Raag Suhi",
+      "gur": "ਸੂਹੀ"
+    },
+    {
+      "ang": 795,
+      "label": "Raag Bilaval",
+      "gur": "ਬਿਲਾਵਲੁ"
+    },
+    {
+      "ang": 859,
+      "label": "Raag Gond",
+      "gur": "ਗੋਂਡ"
+    },
+    {
+      "ang": 876,
+      "label": "Raag Ramkali",
+      "gur": "ਰਾਮਕਲੀ"
+    },
+    {
+      "ang": 975,
+      "label": "Raag Nat Narayan",
+      "gur": "ਨਟ"
+    },
+    {
+      "ang": 984,
+      "label": "Raag Mali Gaura",
+      "gur": "ਮਾਲੀ ਗਉੜਾ"
+    },
+    {
+      "ang": 989,
+      "label": "Raag Maru",
+      "gur": "ਮਾਰੂ"
+    },
+    {
+      "ang": 1107,
+      "label": "Raag Tukhari",
+      "gur": "ਤੁਖਾਰੀ"
+    },
+    {
+      "ang": 1118,
+      "label": "Raag Kedara",
+      "gur": "ਕੇਦਾਰਾ"
+    },
+    {
+      "ang": 1125,
+      "label": "Raag Bhairo",
+      "gur": "ਭੈਰਉ"
+    },
+    {
+      "ang": 1168,
+      "label": "Raag Basant",
+      "gur": "ਬਸੰਤੁ"
+    },
+    {
+      "ang": 1197,
+      "label": "Raag Sarang",
+      "gur": "ਸਾਰਗ"
+    },
+    {
+      "ang": 1254,
+      "label": "Raag Malar",
+      "gur": "ਮਲਾਰ"
+    },
+    {
+      "ang": 1294,
+      "label": "Raag Kanra",
+      "gur": "ਕਾਨੜਾ"
+    },
+    {
+      "ang": 1319,
+      "label": "Raag Kalyan",
+      "gur": "ਕਲਿਆਨ"
+    },
+    {
+      "ang": 1327,
+      "label": "Raag Prabhati",
+      "gur": "ਪ੍ਰਭਾਤੀ"
+    },
+    {
+      "ang": 1352,
+      "label": "Raag Jaijawanti",
+      "gur": "ਜੈਜਾਵੰਤੀ"
+    },
+    {
+      "ang": 1353,
+      "label": "Salok Sehskriti",
+      "gur": "ਸਹਸਕ੍ਰਿਤੀ"
+    },
+    {
+      "ang": 1360,
+      "label": "Gatha",
+      "gur": "ਗਾਥਾ"
+    },
+    {
+      "ang": 1361,
+      "label": "Phunhe",
+      "gur": "ਫੁਨਹੇ"
+    },
+    {
+      "ang": 1363,
+      "label": "Chaubole",
+      "gur": "ਚਉਬੋਲੇ"
+    },
+    {
+      "ang": 1364,
+      "label": "Salok Bhagat Kabir",
+      "gur": "ਕਬੀਰ"
+    },
+    {
+      "ang": 1377,
+      "label": "Salok Sheikh Farid",
+      "gur": "ਫਰੀਦ"
+    },
+    {
+      "ang": 1389,
+      "label": "Swaiye",
+      "gur": "ਸਵਈਏ"
+    },
+    {
+      "ang": 1410,
+      "label": "Salok Vaaran Te Vadeek",
+      "gur": "ਸਲੋਕ ਵਾਰਾਂ"
+    },
+    {
+      "ang": 1426,
+      "label": "Salok Mahalla 9",
+      "gur": "ਮਹਲਾ ੯"
+    },
+    {
+      "ang": 1429,
+      "label": "Mundavani & Raagmala",
+      "gur": "ਮੁੰਦਾਵਣੀ"
+    }
+  ],
+  "dasam": [
+    {
+      "ang": 1,
+      "label": "Jaap Sahib"
+    },
+    {
+      "ang": 11,
+      "label": "Akal Ustat"
+    },
+    {
+      "ang": 39,
+      "label": "Bachittar Natak"
+    },
+    {
+      "ang": 74,
+      "label": "Chandi Charitar (Ukti Bilas)"
+    },
+    {
+      "ang": 99,
+      "label": "Chandi Charitar II"
+    },
+    {
+      "ang": 119,
+      "label": "Chandi di Vaar"
+    },
+    {
+      "ang": 127,
+      "label": "Gyan Prabodh"
+    },
+    {
+      "ang": 155,
+      "label": "Chaubis Avtar"
+    },
+    {
+      "ang": 717,
+      "label": "Shastar Naam Mala"
+    },
+    {
+      "ang": 809,
+      "label": "Charitropakhyan"
+    },
+    {
+      "ang": 1389,
+      "label": "Zafarnama"
+    }
+  ],
+  "sarbloh": [
+    {
+      "ang": 1,
+      "label": "Sarbloh Granth (excerpt)"
+    }
+  ]
+}
