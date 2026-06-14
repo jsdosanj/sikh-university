@@ -5,12 +5,23 @@ import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 const featured = published.slice(0, 6);
 const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
 const ld = {
-  '@context': 'https://schema.org', '@type': 'EducationalOrganization',
+  '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
   name: 'Sikh University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon.svg',
+  sameAs: ['https://sikharchive.net'],
+};
+const websiteLd = {
+  '@context': 'https://schema.org', '@type': 'WebSite',
+  name: 'Sikh University', url: SITE + '/',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: { '@type': 'EntryPoint', urlTemplate: SITE + '/search?q={search_term_string}' },
+    'query-input': 'required name=search_term_string',
+  },
 };
 ---
 <Base title="Sikh University — free, open learning in Sikhi & modern skills">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} slot="head" />
 
   <header class="relative overflow-hidden bg-gradient-to-br from-navy via-navy-strong to-blue text-white">
     <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-saffron/30 blur-3xl"></div>
