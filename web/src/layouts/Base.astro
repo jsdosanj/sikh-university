@@ -5,8 +5,11 @@ import Footer from '../components/Footer.astro';
 
 interface Props { title: string; description?: string; canonical?: string; ogType?: string; }
 const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website' } = Astro.props;
-const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
-const canon = canonical || SITE + Astro.url.pathname;
+const SITE = 'https://sikh-university.dosanjhlabs.com';
+// Normalise to the extensionless URLs the site is actually served/linked at
+// (e.g. /catalog, not /catalog.html; / for the homepage).
+const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
+const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
 ---
 <!doctype html>
 <html lang="en">
@@ -42,8 +45,14 @@ const canon = canonical || SITE + Astro.url.pathname;
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canon} />
-  <meta property="og:image" content={`${SITE}/assets/icon.svg`} />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content={`${SITE}/assets/og-image.png`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="1200" />
+  <meta property="og:image:alt" content="Sikh University — free, open learning in Sikhi" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={`${SITE}/assets/og-image.png`} />
   <slot name="head" />
 </head>
 <body>

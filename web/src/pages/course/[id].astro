@@ -7,7 +7,7 @@ const { c } = Astro.props;
 const profCourseCount = courses.filter((x) => x.professor === c.professor && x.status === 'published').length;
 const bio = profBio(c.professor);
 const bioShort = bio ? (bio.split('. ').slice(0, 2).join('. ').replace(/\.?$/, '.')) : '';
-const SITE = 'https://sikh-university.jasvant-dosanjh.workers.dev';
+const SITE = 'https://sikh-university.dosanjhlabs.com';
 const archive = c.topic === 'modern-skills'
   ? { url: 'https://sikharchive.net/courses', label: 'Free AI courses on Sikh Archive' }
   : { url: 'https://sikharchive.net', label: 'Dig deeper in the Sikh Archive' };
