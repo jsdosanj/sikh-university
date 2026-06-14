@@ -125,7 +125,10 @@ const quiz = c.quiz || [];
     </aside>
   </div>
 
-  <script define:vars={{ id: c.id, nLessons: lessons.length, quiz }}>
+  <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, quiz })}></script>
+  <script>
+    const __d = JSON.parse(document.getElementById('course-data').textContent);
+    const id = __d.id, nLessons = __d.nLessons, quiz = __d.quiz;
     const P = 'su_v1_';
     const get = (k, d) => { try { const v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
     const set = (k, v) => { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch {} };

@@ -23,7 +23,9 @@ const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
       ))}
     </div>
   </section>
-  <script define:vars={{ paths }}>
+  <script type="application/json" id="paths-data" set:html={JSON.stringify(paths)}></script>
+  <script>
+    const paths = JSON.parse(document.getElementById('paths-data').textContent);
     const passed = (id) => { try { return !!localStorage.getItem('su_v1_passed_' + id); } catch { return false; } };
     paths.forEach((p) => {
       const done = p.courseIds.filter(passed).length;

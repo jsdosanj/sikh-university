@@ -2,9 +2,13 @@ name = "sikh-university"
 main = "worker.js"
 compatibility_date = "2026-06-14"
 
-# Static site (site/) is served by the assets binding; the Worker handles /api/*.
+# Build the Astro frontend (web/) before deploying; its output is the static site.
+[build]
+command = "cd web && npm install && npm run build"
+
+# Astro build output (web/dist) is served by the assets binding; the Worker handles /api/*.
 [assets]
-directory = "./site"
+directory = "./web/dist"
 binding = "ASSETS"
 
 [[d1_databases]]
