@@ -26,7 +26,7 @@ const sorted = [...courses].sort((a, b) => a.level - b.level);
       <p class="mt-2 font-sans text-xs text-muted">Portrait via {photo.source ? <a class="underline" href={photo.source} target="_blank" rel="noopener">{photo.credit || 'Wikimedia Commons'}</a> : (photo.credit || 'Wikimedia Commons')}.</p>
     )}
     <h2 class="mt-10 text-xl font-bold">Courses</h2>
-    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {sorted.map((c) => <CourseCard course={c} />)}
     </div>
   </section>

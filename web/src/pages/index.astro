@@ -70,7 +70,7 @@ const websiteLd = {
 
   <section class="wrap pb-14 pt-10">
     <h2 class="text-2xl font-bold">Browse by topic</h2>
-    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {topics.map((t, i) => (
         <a href={`/catalog#${t.id}`} class={`card border-t-4 ${['border-t-saffron', 'border-t-blue', 'border-t-navy'][i % 3]}`}>
           <div class="text-3xl">{TOPIC_ICONS[t.id] || '📘'}</div>
@@ -86,7 +86,7 @@ const websiteLd = {
       <div class="wrap py-14">
         <h2 class="text-2xl font-bold">Guided learning paths</h2>
         <p class="mt-1 text-muted">Not sure where to start? Follow a path from the basics to deeper study.</p>
-        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {paths.slice(0, 6).map((p, i) => (
             <a href="/catalog#paths" class={`card border-l-4 ${['border-l-saffron', 'border-l-blue', 'border-l-navy'][i % 3]}`}>
               <span class="pill bg-paper text-muted">{p.courseIds.length} courses</span>

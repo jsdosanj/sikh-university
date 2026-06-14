@@ -2,10 +2,10 @@
   "name": "Sikh University",
   "short_name": "SikhUni",
   "description": "A free, open online university for Sikhi and modern skills.",
-  "start_url": "index.html",
-  "scope": "./",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f6f1e7",
+  "background_color": "#16335c",
   "theme_color": "#16335c",
   "categories": ["education", "books", "lifestyle"],
   "icons": [
@@ -16,7 +16,7 @@
   ],
   "shortcuts": [
     { "name": "Course catalogue", "url": "/catalog" },
-    { "name": "Read Gurbani", "url": "/read" },
-    { "name": "Learning paths", "url": "/paths" }
+    { "name": "Read Gurbani", "url": "/santhiya?src=sggs" },
+    { "name": "Learning paths", "url": "/catalog#paths" }
   ]
 }

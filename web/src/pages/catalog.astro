@@ -45,7 +45,7 @@ const withGrad = (list: typeof paths, offset: number) => list.map((p, gi) => ({ 
         <button data-t="all" class={btn}>All</button>
         {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
       </div>
-      <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sorted.map((c) => (
           <div class="cat-item" data-topic={c.topic} data-hay={`${c.title} ${c.summary} ${c.professor} ${topicName(c.topic)}`.toLowerCase()}>
             <CourseCard course={c} />
