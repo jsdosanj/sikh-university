@@ -107,9 +107,15 @@ const quiz = c.quiz || [];
       )}
 
       <section class="rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
-        <h2 class="text-xl font-bold">Dig deeper</h2>
-        <p class="mt-1">Sikh University learns alongside the <strong>Sikh Archive</strong>. Continue exploring this subject there.</p>
-        <a class="btn mt-3" href={archive.url} target="_blank" rel="noopener">{archive.label} →</a>
+        <h2 class="text-xl font-bold">Read the source texts</h2>
+        <p class="mt-1">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
+        <div class="mt-3 flex flex-wrap gap-3">
+          <a class="btn" href="/read?src=sggs">📖 Read Gurbani (reader)</a>
+          {c.source && c.source.indexOf('SikhLibrary') !== -1 && (
+            <a class="btn" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener">Source library (SikhLibrary) ↗</a>
+          )}
+          <a class="btn" href={archive.url} target="_blank" rel="noopener">{archive.label} →</a>
+        </div>
       </section>
     </div>
 
