@@ -4,20 +4,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Deep blues
-        navy: { DEFAULT: '#16335c', strong: '#0b2444', soft: '#1d4e89' },
+        // Deep blues. `navy` is the content text/link colour — variable-driven
+        // so it flips to a light blue in dark mode. `brand` is the fixed navy
+        // used for the few navy *backgrounds* (nav, table headers, FAB) that
+        // must stay dark in both themes.
+        navy: { DEFAULT: 'rgb(var(--c-navy) / <alpha-value>)', strong: '#0b2444', soft: '#1d4e89' },
+        brand: { DEFAULT: '#16335c', strong: '#0b2444' },
         // Bright blue accents (variations)
         blue: { DEFAULT: '#1f6feb', bright: '#3b82f6', light: '#6aa6ff', sky: '#dbeafe' },
         // Vibrant yellow / gold (variations)
         saffron: { DEFAULT: '#f4b21a', soft: '#fdeec8', deep: '#9a6a07' },
         gold: { DEFAULT: '#f4b21a', bright: '#ffc83d', soft: '#fdeec8', deep: '#9a6a07' },
         // Neutrals
-        paper: '#f7f8fb',
-        surface: '#ffffff',
-        ink: '#10131a',
+        paper: 'rgb(var(--c-paper) / <alpha-value>)',
+        surface: 'rgb(var(--c-surface) / <alpha-value>)',
+        ink: 'rgb(var(--c-ink) / <alpha-value>)',
         black: '#0a0d14',
-        muted: '#5b6473',
-        line: '#e4e8f0',
+        muted: 'rgb(var(--c-muted) / <alpha-value>)',
+        line: 'rgb(var(--c-line) / <alpha-value>)',
         ok: '#2f7d4f',
       },
       fontFamily: {
