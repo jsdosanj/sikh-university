@@ -2,6 +2,14 @@ name = "sikh-university"
 main = "worker.js"
 compatibility_date = "2026-06-14"
 
+# Custom domain. dosanjhlabs.com is in this (Jasvant Dosanjh) account, so on
+# `wrangler deploy` Cloudflare provisions the DNS record + edge TLS cert
+# automatically. SITE_URL stays unset so auth/magic-links follow the request
+# origin — no other change needed.
+routes = [
+  { pattern = "sikh-university.dosanjhlabs.com", custom_domain = true }
+]
+
 # Build the Astro frontend (web/) before deploying; its output is the static site.
 [build]
 command = "cd web && npm install && npm run build"
