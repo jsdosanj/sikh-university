@@ -147,7 +147,12 @@ const breadcrumb = {
                 : c.sourceText.gurmukhi
                   ? ' This is the author’s original Gurmukhi text (OCR), shown as a study excerpt — OCR may contain errors.'
                   : ' Shown as a short study excerpt — refer to the original for an authoritative reading.'}
-              <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>
+              {c.sourceText.sikhArchiveUrl
+                ? <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener">Read the full work on Sikh Archive ↗</a>
+                : <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>}
+              {c.sourceText.sikhArchiveUrl && (
+                <a class="ml-1 text-muted underline" href={c.sourceText.url} target="_blank" rel="noopener">(or on SikhLibrary ↗)</a>
+              )}
             </figcaption>
           </figure>
         </section>
@@ -158,6 +163,9 @@ const breadcrumb = {
         <p class="mt-1">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
         <div class="mt-3 flex flex-wrap gap-3">
           <a class="btn" href="/santhiya?src=sggs">📖 Read Gurbani (reader)</a>
+          {c.sourceText?.sikhArchiveUrl && (
+            <a class="btn" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener">📚 Read this work on Sikh Archive ↗</a>
+          )}
           {c.sourceText && c.sourceText.url && (
             <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener">This work on SikhLibrary ↗</a>
           )}
