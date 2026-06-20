@@ -131,7 +131,7 @@ export const COLLECTIONS: Record<string, Collection> = {
     name: 'Political & Governance Texts', gur: 'ਰਾਜਨੀਤਕ ਗ੍ਰੰਥ',
     blurb: 'Primary sources on Sikh political vision — Hukamnamas from the Gurus and the Zafarnama.',
     groups: [
-      { t: 'The Gurus' Letters', items: ['hukamnamme'] },
+      { t: "The Gurus' Letters", items: ['hukamnamme'] },
       { t: 'Guru Gobind Singh (Dasam Granth)', items: ['d-zafarnama'] },
     ],
   },
