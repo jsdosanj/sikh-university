@@ -86,6 +86,34 @@ const breadcrumb = {
         </section>
       )}
 
+      {c.terms && c.terms.length > 0 && (
+        <section id="flashcards" class="mb-8">
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Flashcards — ਕਾਰਡ ਅਭਿਆਸ</h2>
+          <p class="mt-1 font-sans text-sm text-muted">Click a card to flip it and reveal the definition.</p>
+          <div class="mt-4 relative">
+            <!-- Card display -->
+            <div id="fc-card" class="cursor-pointer select-none rounded-xl2 border border-line bg-surface shadow-card min-h-[160px] flex flex-col items-center justify-center p-8 text-center transition-all hover:border-saffron" role="button" aria-label="Flip card" tabindex="0">
+              <div id="fc-front" class="text-lg font-bold text-navy"></div>
+              <div id="fc-back" class="hidden mt-3 text-[0.95rem] text-muted leading-relaxed"></div>
+              <div id="fc-hint" class="mt-4 font-sans text-xs text-muted/60">Click to reveal</div>
+            </div>
+            <!-- Navigation -->
+            <div class="mt-4 flex items-center justify-between gap-3">
+              <button id="fc-prev" class="btn font-sans text-sm px-4 py-1.5">← Prev</button>
+              <div class="flex items-center gap-3">
+                <span id="fc-counter" class="font-sans text-sm text-muted"></span>
+                <button id="fc-known" class="btn btn-primary font-sans text-sm px-4 py-1.5">Mark learned ✓</button>
+              </div>
+              <button id="fc-next" class="btn font-sans text-sm px-4 py-1.5">Next →</button>
+            </div>
+            <div class="mt-3 flex items-center justify-between">
+              <div id="fc-progress" class="font-sans text-xs text-muted"></div>
+              <button id="fc-reset" class="font-sans text-xs text-muted hover:text-saffron-deep underline">Reset progress</button>
+            </div>
+          </div>
+        </section>
+      )}
+
       <div id="course-ann" class="mb-8 empty:mb-0"></div>
 
       <section class="mb-8">
@@ -223,7 +251,7 @@ const breadcrumb = {
     </div>
   </section>
 
-  <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, nQuiz: quiz.length })}></script>
+  <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, nQuiz: quiz.length, terms: (c.terms || []).map((t) => ({ t: t.t, m: t.m })) })}></script>
   <script>
     const __d = JSON.parse(document.getElementById('course-data').textContent);
     const id = __d.id, nLessons = __d.nLessons, nQuiz = __d.nQuiz;
@@ -282,6 +310,52 @@ const breadcrumb = {
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     refresh();
+
+    // --- Flashcards ---
+    (function () {
+      const __fc = JSON.parse(document.getElementById('course-data').textContent);
+      const terms = __fc.terms || [];
+      if (!terms.length) return;
+      const fcKey = P + 'fc_known_' + id;
+      let idx = 0, flipped = false;
+      let known = get(fcKey, {});
+      const card = document.getElementById('fc-card');
+      const front = document.getElementById('fc-front');
+      const back = document.getElementById('fc-back');
+      const hint = document.getElementById('fc-hint');
+      const counter = document.getElementById('fc-counter');
+      const progress = document.getElementById('fc-progress');
+      if (!card) return;
+      function stripHtml(s) { const d = document.createElement('div'); d.innerHTML = s; return d.textContent || d.innerText || s; }
+      function renderCard() {
+        flipped = false;
+        const t = terms[idx];
+        front.innerHTML = t.t;
+        back.textContent = t.m;
+        back.classList.add('hidden');
+        hint.textContent = known[idx] ? '✓ Learned — click to review' : 'Click to reveal';
+        hint.className = known[idx] ? 'mt-4 font-sans text-xs text-ok' : 'mt-4 font-sans text-xs text-muted/60';
+        card.classList.toggle('border-ok', !!known[idx]);
+        card.classList.toggle('bg-ok/5', !!known[idx]);
+        counter.textContent = `${idx + 1} / ${terms.length}`;
+        progress.textContent = `${Object.keys(known).length} / ${terms.length} learned`;
+      }
+      function flip() {
+        flipped = !flipped;
+        back.classList.toggle('hidden', !flipped);
+        hint.textContent = flipped ? '' : (known[idx] ? '✓ Learned' : 'Click to reveal');
+      }
+      card.addEventListener('click', flip);
+      card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+      document.getElementById('fc-prev')?.addEventListener('click', () => { idx = (idx - 1 + terms.length) % terms.length; renderCard(); });
+      document.getElementById('fc-next')?.addEventListener('click', () => { idx = (idx + 1) % terms.length; renderCard(); });
+      document.getElementById('fc-known')?.addEventListener('click', () => {
+        if (known[idx]) { delete known[idx]; } else { known[idx] = true; }
+        set(fcKey, known); renderCard();
+      });
+      document.getElementById('fc-reset')?.addEventListener('click', () => { known = {}; set(fcKey, known); idx = 0; renderCard(); });
+      renderCard();
+    })();
   </script>
 
   <script>
