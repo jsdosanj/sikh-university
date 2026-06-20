@@ -60,6 +60,18 @@ export const REF: Record<string, { gur: string; en: string; href?: string }> = {
   'bhagti-intro': { gur: 'ਭਗਤੀ ਦੀ ਨੀਂਹ', en: 'The Foundation of Bhagti', href: '/course/bhagti-foundation' },
   'naam-simran-guide': { gur: 'ਨਾਮ ਸਿਮਰਨ ਅਭਿਆਸ', en: 'Naam Simran — A Practical Guide', href: '/course/naam-simran' },
   'anhad-naad': { gur: 'ਅਨਹਦ ਨਾਦ', en: 'Anhad Naad — The Unstruck Sound', href: '/course/bhai-randhir-singh-anhad-shabad' },
+  // Additional SGGS banis (well-attested Ang numbers)
+  laavan: { gur: 'ਲਾਵਾਂ', en: 'Laavan — The Wedding Hymns (Guru Ram Das Ji)', href: '/santhiya?src=sggs&ang=773' },
+  sadd: { gur: 'ਸੱਦ', en: 'Sadd — (Baba Sundar Ji, Ramkali)', href: '/santhiya?src=sggs&ang=923' },
+  // ── Study Guide course links ─────────────────────────────────────────────
+  'study-historical-intro': { gur: 'ਇਤਿਹਾਸਕ ਗ੍ਰੰਥ — ਅਧਿਐਨ ਮਾਰਗ', en: 'Historical Chronicles — Study Guide', href: '/course/suraj-prakash-overview' },
+  'study-historical-adv': { gur: 'ਸੂਰਜ ਪ੍ਰਕਾਸ਼ ਅਧਿਐਨ', en: 'Sikh Historical Chronicles (Advanced)', href: '/course/sikh-historical-chronicles' },
+  'study-spiritual-intro': { gur: 'ਵਾਰਾਂ ਭਾਈ ਗੁਰਦਾਸ — ਜਾਣ-ਪਛਾਣ', en: 'Vaaran Bhai Gurdas — Introduction', href: '/course/vaaran-bhai-gurdas-intro' },
+  'study-spiritual-theology': { gur: 'ਵਾਰਾਂ ਭਾਈ ਗੁਰਦਾਸ — ਧਰਮ', en: 'Vaaran Bhai Gurdas — Theology', href: '/course/vaaran-bhai-gurdas-theology' },
+  'study-political-hukam': { gur: 'ਹੁਕਮਨਾਮੇ — ਗੁਰੂ ਦੇ ਪੱਤਰ', en: 'Hukamnamas — Letters of the Gurus', href: '/course/hukamname-all-gurus' },
+  'study-political-zafar': { gur: 'ਜ਼ਫ਼ਰਨਾਮਾ — ਅਧਿਐਨ', en: 'Zafarnama — Study Course', href: '/course/zafarnama-full-study' },
+  'study-rehat-foundations': { gur: 'ਰਹਿਤ ਦੀਆਂ ਨੀਂਹਾਂ', en: 'Foundations of Rehat', href: '/course/rehat-foundations' },
+  'study-rehat-maryada': { gur: 'ਸਿੱਖ ਰਹਿਤ ਮਰਯਾਦਾ — ਅਧਿਐਨ', en: 'Sikh Rehat Maryada — Study Course', href: '/course/sikh-rehat-maryada' },
 };
 
 export type Collection = { name: string; gur: string; blurb: string; note?: string; groups: { t: string; items: string[] }[] };
@@ -79,8 +91,9 @@ export const COLLECTIONS: Record<string, Collection> = {
     blurb: 'The common collection of daily and occasional banis.',
     note: 'Exact contents vary by edition; the major banis are linked here.',
     groups: [
-      { t: 'Daily', items: ['japji', 'jaap', 'savaiye', 'chaupai', 'anand', 'rehras', 'sohila'] },
+      { t: 'Daily (Nitnem)', items: ['japji', 'jaap', 'savaiye', 'chaupai', 'anand', 'rehras', 'sohila'] },
       { t: 'Major banis', items: ['sukhmani', 'asadivar'] },
+      { t: 'Ceremonial & occasional', items: ['laavan', 'sadd'] },
     ],
   },
   'panj-granthi': {
@@ -112,10 +125,11 @@ export const COLLECTIONS: Record<string, Collection> = {
   'historical-chronicles': {
     name: 'Historical Chronicles', gur: 'ਇਤਿਹਾਸਕ ਗ੍ਰੰਥ',
     blurb: 'The great historical works documenting the lives of the Gurus, the Khalsa, and the Sikh Panth.',
-    note: 'These open in the Sikh Archive reader. Full page content may be in progress for some works.',
+    note: 'Texts open in the Sikh Archive reader. Study Guides open an academic course on each work — full page content in reader may be in progress for some works.',
     groups: [
       { t: 'Lives of the Gurus', items: ['suraj-prakash', 'sri-nanak-prakash', 'gurbilas-6', 'gurbilas-10'] },
       { t: 'Panth History', items: ['panth-prakash', 'twarikh-guru-khalsa', 'bansavalinama'] },
+      { t: 'Study Guides (Academic Courses)', items: ['study-historical-intro', 'study-historical-adv'] },
     ],
   },
   'spiritual-commentaries': {
@@ -125,6 +139,7 @@ export const COLLECTIONS: Record<string, Collection> = {
       { t: 'Bhai Gurdas', items: ['vaaran-bhai-gurdas', 'vaaran-bhai-gurdas-steek', 'kabitt-savaiye'] },
       { t: 'Bhai Nand Lal', items: ['kulliyat-bhai-nand-lal', 'ganj-namah'] },
       { t: 'SGGS Teekas', items: ['faridkot-teeka', 'guru-granth-darpan'] },
+      { t: 'Study Guides (Academic Courses)', items: ['study-spiritual-intro', 'study-spiritual-theology'] },
     ],
   },
   'political-governance': {
@@ -133,6 +148,7 @@ export const COLLECTIONS: Record<string, Collection> = {
     groups: [
       { t: "The Gurus' Letters", items: ['hukamnamme'] },
       { t: 'Guru Gobind Singh (Dasam Granth)', items: ['d-zafarnama'] },
+      { t: 'Study Guides (Academic Courses)', items: ['study-political-hukam', 'study-political-zafar'] },
     ],
   },
   'rehat-ethics': {
@@ -142,6 +158,7 @@ export const COLLECTIONS: Record<string, Collection> = {
       { t: 'Historical Rehatnamas', items: ['rahitnama', 'rehatnama-chaupa-singh'] },
       { t: 'Codes of Conduct', items: ['rehat-maryada', 'tankhahnama'] },
       { t: 'Social Ethics', items: ['prem-sumarag'] },
+      { t: 'Study Guides (Academic Courses)', items: ['study-rehat-foundations', 'study-rehat-maryada'] },
     ],
   },
 };
