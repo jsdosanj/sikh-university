@@ -63,5 +63,10 @@
     "img": "assets/professors/j-s-grewal.jpg",
     "credit": "Wikimedia Commons (CC BY 4.0)",
     "source": "https://en.wikipedia.org/wiki/J._S._Grewal"
+  },
+  "Jodh Singh": {
+    "img": "assets/professors/jodh-singh.jpg",
+    "credit": "Wikimedia Commons",
+    "source": "https://en.wikipedia.org/wiki/Jodh_Singh"
   }
 }
