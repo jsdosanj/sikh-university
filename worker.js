@@ -99,6 +99,17 @@ export default {
       headers.set("content-length", String(obj.size));
       return new Response(obj.body, { status: 200, headers });
     }
+    // courses.json is too large for Cloudflare's 25 MiB asset limit; serve from R2 instead.
+    if (pathname === '/assets/data/courses.json') {
+      const obj = await env.MEDIA.get('courses.json');
+      if (!obj) return new Response('Not found', { status: 404 });
+      const headers = new Headers();
+      obj.writeHttpMetadata(headers);
+      headers.set('content-type', 'application/json; charset=utf-8');
+      headers.set('cache-control', 'public, max-age=3600');
+      headers.set('access-control-allow-origin', '*');
+      return new Response(obj.body, { status: 200, headers });
+    }
     // Everything else: the Astro static build — inject security headers on HTML responses.
     const assetResp = await env.ASSETS.fetch(request);
     const ct = assetResp.headers.get('content-type') || '';
