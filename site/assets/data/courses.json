@@ -47784,6 +47784,20 @@
       ]
     },
     {
+      "id": "sikh-marriage-family",
+      "name": "Sikh Marriage & Family Life",
+      "blurb": "From dating to Anand Karaj, raising children to building a Sikh home — the complete family path.",
+      "courseIds": [
+        "dating-relationships-sikhi",
+        "sikh-partner-search",
+        "sikh-marriage-laavan",
+        "sikh-life-ceremonies",
+        "gender-family-society",
+        "sikh-women-leadership-equality",
+        "parenting-adolescence"
+      ]
+    },
+    {
       "id": "topic-theology",
       "name": "Theology",
       "blurb": "From Mool Mantar to deep Gurbani exegesis — the message of the Guru Sahibs, in order.",
