@@ -1,0 +1,273 @@
+---
+import Base from '../../layouts/Base.astro';
+import programsData from '../../../public/assets/data/programs.json';
+import coursesData from '../../../public/assets/data/courses.json';
+
+export function getStaticPaths() {
+  return programsData.programs.map((p) => ({ params: { id: p.id } }));
+}
+
+const { id } = Astro.params;
+const prog = programsData.programs.find((p) => p.id === id);
+if (!prog) return Astro.redirect('/programs');
+
+const courseMap = Object.fromEntries(coursesData.courses.map((c) => [c.id, c]));
+const progCourses = prog.courseIds.map((cid) => courseMap[cid]).filter(Boolean);
+
+const topicSet = [...new Set(progCourses.map((c) => c.topic))].sort();
+const levelSet = [...new Set(progCourses.map((c) => c.level))].sort((a, b) => a - b);
+
+const typeLabel = {
+  certificate: 'Certificate Program',
+  associate: 'Associate Degree',
+  bachelor: "Bachelor's Degree",
+  master: "Master's Degree",
+  giani: 'Giani — Highest Distinction',
+};
+---
+<Base title={`${prog.title} — Sikh University`} description={prog.description}>
+  <section class="wrap py-10">
+    <!-- Header -->
+    <div class="flex flex-wrap items-start gap-4">
+      <div class="text-5xl">{prog.icon}</div>
+      <div class="flex-1">
+        <div class="font-sans text-sm font-semibold uppercase tracking-wider text-muted">{typeLabel[prog.type]} · {prog.abbreviation}</div>
+        <h1 class="text-3xl font-bold text-navy">{prog.title}</h1>
+        <div class="mt-0.5 font-gurmukhi text-lg text-muted">{prog.titleGur}</div>
+      </div>
+    </div>
+    <p class="mt-4 max-w-3xl text-lg text-muted">{prog.description}</p>
+
+    <!-- Stats bar -->
+    <div class="mt-6 flex flex-wrap gap-4 font-sans text-sm">
+      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+        <div class="text-2xl font-bold text-navy">{prog.courseIds.length}</div>
+        <div class="text-xs text-muted">Courses required</div>
+      </div>
+      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+        <div class="text-2xl font-bold text-navy">{prog.duration.split('(')[0].trim()}</div>
+        <div class="text-xs text-muted">Estimated duration</div>
+      </div>
+      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+        <div class="text-2xl font-bold text-navy">{prog.testQuestions}</div>
+        <div class="text-xs text-muted">Cumulative exam questions</div>
+      </div>
+      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+        <div class="text-2xl font-bold text-navy">{prog.passMark}%</div>
+        <div class="text-xs text-muted">Pass mark</div>
+      </div>
+    </div>
+
+    <!-- Progress and exam (client-side) -->
+    <div id="prog-status" class="mt-8 rounded-xl2 border border-line bg-surface p-5">
+      <p class="font-sans text-sm text-muted">Loading your progress…</p>
+    </div>
+
+    <!-- Prerequisites -->
+    {prog.prerequisites.length > 0 && (
+      <div class="mt-6 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/30 p-4 font-sans text-sm">
+        <strong>Prerequisites:</strong> Complete{' '}
+        {prog.prerequisites.map((pid, i) => {
+          const pre = programsData.programs.find((p) => p.id === pid);
+          return (
+            <span>{i > 0 ? ' and ' : ' '}<a href={`/program/${pid}`} class="underline font-semibold">{pre ? pre.abbreviation : pid}</a></span>
+          );
+        })} before starting this program.
+      </div>
+    )}
+
+    <!-- Course list by topic -->
+    <div class="mt-10">
+      <h2 class="text-xl font-bold">Required Courses</h2>
+      <p class="mt-1 font-sans text-sm text-muted">Complete all {prog.courseIds.length} courses below, then take the cumulative examination.</p>
+
+      <div id="course-list-progress" class="mt-6 space-y-8">
+        {topicSet.map((topic) => {
+          const tCourses = progCourses.filter((c) => c.topic === topic);
+          return (
+            <div>
+              <h3 class="text-base font-bold capitalize border-b border-line pb-1 mb-3">{topic.replace(/-/g, ' ')}</h3>
+              <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {tCourses.map((c) => (
+                  <a href={`/course/${c.id}`} class="card flex items-start gap-3 hover:border-saffron transition" data-course-id={c.id}>
+                    <span class="mt-0.5 text-xl" data-course-check="⬜">{/* filled by JS */}</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-sans text-xs text-muted">{c.level} level</div>
+                      <div class="text-sm font-semibold text-navy leading-tight">{c.title}</div>
+                      <div class="font-sans text-xs text-muted mt-0.5">{(c.lessons || []).length} lessons</div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Cumulative Test Modal -->
+  <div id="cum-test-modal" class="hidden fixed inset-0 z-50 flex items-start justify-center bg-black/60 overflow-y-auto py-10">
+    <div class="w-full max-w-2xl rounded-xl2 bg-surface p-8 shadow-xl mx-4">
+      <h2 class="text-2xl font-bold" id="cum-test-title">Cumulative Examination</h2>
+      <p class="mt-1 font-sans text-sm text-muted" id="cum-test-subtitle"></p>
+      <div id="cum-test-body" class="mt-6 space-y-6"></div>
+      <div id="cum-test-result" class="hidden mt-6 rounded-xl2 border border-line bg-paper p-5 text-center">
+        <div class="text-4xl" id="cum-result-icon">🎓</div>
+        <div class="mt-2 text-2xl font-bold text-navy" id="cum-result-score"></div>
+        <div class="mt-1 font-sans text-sm text-muted" id="cum-result-msg"></div>
+        <button id="cum-retry" class="btn mt-4 hidden">Retry Exam</button>
+        <a id="cum-cert-link" href="#" class="btn btn-primary mt-4 hidden">Download Certificate →</a>
+      </div>
+      <div class="mt-6 flex justify-between">
+        <button id="cum-close" class="btn">Close</button>
+        <button id="cum-submit" class="btn btn-primary hidden">Submit Exam</button>
+      </div>
+    </div>
+  </div>
+
+<script define:vars={{ progId: prog.id, progTitle: prog.title, courseIds: prog.courseIds, testQuestions: prog.testQuestions, passMark: prog.passMark }}>
+  const get = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
+  const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+  const passed = (cid) => {
+    const p = get('progress_' + cid, {});
+    const lessons = Object.values(p).filter(Boolean).length;
+    const score = get('score_' + cid, null);
+    if (score !== null) return score >= 70;
+    const total = get('lesson_count_' + cid, 6);
+    return lessons >= total * 0.8;
+  };
+
+  const completedIds = courseIds.filter(passed);
+  const total = courseIds.length;
+  const done = completedIds.length;
+  const pct = Math.round((done / total) * 100);
+  const allDone = done === total;
+
+  // Update status panel
+  const statusEl = document.getElementById('prog-status');
+  const cumPassed = get('cum_passed_' + progId, false);
+  statusEl.innerHTML = `
+    <div class="flex flex-wrap items-center gap-4">
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-1">
+          <span class="font-sans text-sm font-semibold text-navy">Course progress</span>
+          <span class="font-sans text-sm text-muted">${done} / ${total} completed</span>
+        </div>
+        <div class="h-3 w-full overflow-hidden rounded-full bg-paper border border-line">
+          <div class="h-full bg-saffron transition-all" style="width:${pct}%"></div>
+        </div>
+        <div class="mt-1 font-sans text-xs text-muted">${pct}% complete</div>
+      </div>
+      ${allDone
+        ? cumPassed
+          ? `<div class="flex flex-col items-center gap-1"><span class="text-3xl">🎓</span><span class="font-sans text-xs text-saffron-deep font-bold">Credential earned</span><a href="/cert?program=${progId}" class="btn btn-primary mt-1">View credential →</a></div>`
+          : `<button id="start-cum-test" class="btn btn-primary">Take Cumulative Exam →</button>`
+        : `<div class="font-sans text-sm text-muted text-center">Complete all courses<br>to unlock the exam</div>`
+      }
+    </div>
+  `;
+
+  // Update course cards with completion checkmarks
+  document.querySelectorAll('[data-course-id]').forEach((card) => {
+    const cid = card.getAttribute('data-course-id');
+    const icon = card.querySelector('[data-course-check]');
+    if (icon) icon.textContent = passed(cid) ? '✅' : '⬜';
+  });
+
+  // Cumulative test logic
+  document.getElementById('start-cum-test')?.addEventListener('click', launchTest);
+  document.getElementById('cum-close')?.addEventListener('click', () => {
+    document.getElementById('cum-test-modal').classList.add('hidden');
+  });
+
+  function launchTest() {
+    // Pull quiz questions from courses.json (available in window via data island)
+    fetch('/assets/data/courses.json').then(r => r.json()).then(data => {
+      const pool = [];
+      data.courses.forEach(c => {
+        if (!courseIds.includes(c.id)) return;
+        (c.quiz || []).forEach((q, qi) => {
+          pool.push({ cid: c.id, qi, q: q.q, options: q.options, answer: q.answer, courseTitle: c.title });
+        });
+      });
+      // Shuffle and pick N questions
+      const shuffled = pool.sort(() => Math.random() - 0.5).slice(0, testQuestions);
+      if (shuffled.length === 0) {
+        alert('No quiz questions found for this program yet.');
+        return;
+      }
+      renderTest(shuffled);
+    });
+  }
+
+  function renderTest(questions) {
+    const modal = document.getElementById('cum-test-modal');
+    const title = document.getElementById('cum-test-title');
+    const sub = document.getElementById('cum-test-subtitle');
+    const body = document.getElementById('cum-test-body');
+    const result = document.getElementById('cum-test-result');
+    const submitBtn = document.getElementById('cum-submit');
+
+    title.textContent = progTitle + ' — Cumulative Examination';
+    sub.textContent = `${questions.length} questions · ${passMark}% required to pass · Drawn from all courses in this program`;
+    result.classList.add('hidden');
+    submitBtn.classList.remove('hidden');
+
+    body.innerHTML = questions.map((q, i) => `
+      <div class="space-y-2" data-qi="${i}" data-answer="${q.answer}">
+        <p class="font-semibold text-navy"><span class="text-muted font-normal">${i+1}.</span> ${esc(q.q)}</p>
+        <div class="font-sans text-xs text-muted mb-1">— ${esc(q.courseTitle)}</div>
+        ${q.options.map((opt, oi) => `
+          <label class="flex items-start gap-2 cursor-pointer rounded-lg border border-line p-2 hover:bg-paper transition">
+            <input type="radio" name="q${i}" value="${oi}" class="mt-0.5 accent-saffron shrink-0" />
+            <span class="text-sm">${esc(opt)}</span>
+          </label>
+        `).join('')}
+      </div>
+    `).join('');
+
+    submitBtn.onclick = () => gradeTest(questions);
+    modal.classList.remove('hidden');
+    modal.scrollTop = 0;
+  }
+
+  function gradeTest(questions) {
+    let correct = 0;
+    questions.forEach((q, i) => {
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      if (sel && parseInt(sel.value) === q.answer) correct++;
+    });
+    const score = Math.round((correct / questions.length) * 100);
+    const passed_exam = score >= passMark;
+
+    const resultEl = document.getElementById('cum-test-result');
+    const iconEl = document.getElementById('cum-result-icon');
+    const scoreEl = document.getElementById('cum-result-score');
+    const msgEl = document.getElementById('cum-result-msg');
+    const retryBtn = document.getElementById('cum-retry');
+    const certLink = document.getElementById('cum-cert-link');
+
+    iconEl.textContent = passed_exam ? '🎓' : '📚';
+    scoreEl.textContent = `${score}% (${correct} / ${questions.length} correct)`;
+    if (passed_exam) {
+      msgEl.textContent = `Congratulations — you have passed the ${progTitle} cumulative examination. Your credential is ready.`;
+      certLink.href = `/cert?program=${progId}`;
+      certLink.classList.remove('hidden');
+      retryBtn.classList.add('hidden');
+      set('cum_passed_' + progId, true);
+      set('cum_score_' + progId, score);
+    } else {
+      msgEl.textContent = `You scored ${score}% — you need ${passMark}% to pass. Review the material and try again.`;
+      retryBtn.classList.remove('hidden');
+      certLink.classList.add('hidden');
+    }
+
+    document.getElementById('cum-submit').classList.add('hidden');
+    resultEl.classList.remove('hidden');
+    retryBtn.onclick = launchTest;
+  }
+</script>
+</Base>
