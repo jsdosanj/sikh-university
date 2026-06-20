@@ -78,7 +78,7 @@ const wordCard = (w) => w;
       <a href="#flashcards" class="rounded-full border border-line px-3 py-1 hover:border-saffron">8. Flashcards</a>
     </nav>
 
-    <details id="painti" open class="mt-8 border-t border-line pt-3">
+    <details id="painti" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">1. The Painti — <span class="gur">ਪੈਂਤੀ</span> (35 letters)</summary>
     <p class="mt-1 max-w-2xl text-muted">Three are vowel-bearers (<span class="gur">ੳ ਅ ੲ</span>); the rest are consonants. Say each letter aloud.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
@@ -92,7 +92,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="navin" open class="mt-8 border-t border-line pt-3">
+    <details id="navin" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">2. The extra letters — <span class="gur">ਨਵੀਨ ਟੋਲੀ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Six later letters, written by adding a dot (<span class="gur">ਪੈਰ ਬਿੰਦੀ</span>) beneath a base letter, for sounds used in borrowed words.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
@@ -106,7 +106,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="muharni" open class="mt-8 border-t border-line pt-3">
+    <details id="muharni" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">3. The Muharni — <span class="gur">ਮੁਹਾਰਨੀ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Sound each consonant through the ten vowel signs (<span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span>). Read across each row aloud — this builds <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> (correct pronunciation).</p>
     <div class="mt-5 overflow-x-auto rounded-xl2 border border-line">
@@ -130,7 +130,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="words" open class="mt-8 border-t border-line pt-3">
+    <details id="words" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">4. Reading words — <span class="gur">ਸ਼ਬਦ ਜੋੜ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Now blend letters into words. Start with two letters, then three, then longer. Sound each one out, then read the whole word.</p>
     {[['Two-letter words', words2], ['Three-letter words', words3], ['Longer words', words4]].map(([label, list]) => (
@@ -150,7 +150,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="sentences" open class="mt-8 border-t border-line pt-3">
+    <details id="sentences" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">5. Sentences & paragraphs — <span class="gur">ਵਾਕ ਤੇ ਪੈਰੇ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Read these aloud, building from greetings to short, medium and long sentences, then full paragraphs. The <span class="gur">॥</span> (danda) and <span class="gur">।</span> mark line ends.</p>
     {[['Greetings & sacred lines', sentences], ['Short sentences', shortS], ['Medium sentences', medS], ['Long sentences', longS]].map(([label, list]) => (
@@ -181,7 +181,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="numbers" open class="mt-8 border-t border-line pt-3">
+    <details id="numbers" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">6. Numbers — <span class="gur">ਅੰਕ</span> (0–100)</summary>
     <p class="mt-1 max-w-2xl text-muted">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
     <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
@@ -206,7 +206,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="common-words" open class="mt-8 border-t border-line pt-3">
+    <details id="common-words" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">7. Common words of Gurbani — <span class="gur">ਸ਼ਬਦ ਭੰਡਾਰ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Some of the most-used words in Sri Guru Granth Sahib Ji. Learn a few each day; tap a word for its full meaning. Shared with permission from the <a class="underline" href="https://365gurbaniwords.blogspot.com" target="_blank" rel="noopener">365 Gurbani Words</a> project.</p>
     <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
@@ -219,7 +219,7 @@ const wordCard = (w) => w;
     </div>
     </details>
 
-    <details id="flashcards" open class="mt-8 border-t border-line pt-3">
+    <details id="flashcards" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">8. Flashcards — <span class="gur">ਯਾਦ ਪੱਤੇ</span> (spaced repetition)</summary>
     <p class="mt-1 max-w-2xl text-muted">Active recall with spaced repetition — the fastest way to remember. Cards you find hard come back sooner; cards you know come back later. Built from the common words above plus the key terms of every course.</p>
     <div id="fc"><p class="mt-4 text-muted">Loading deck…</p></div>
