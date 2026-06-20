@@ -32,31 +32,31 @@ import Base from '../layouts/Base.astro';
     <div id="out" class="mt-4"></div>
   </section>
   <script>
-    function esc(s) { return String(s).replace(/&/g,’&amp;’).replace(/</g,’&lt;’).replace(/>/g,’&gt;’).replace(/"/g,’&quot;’).replace(/’/g,’&#39;’); }
+    function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
     const params = new URLSearchParams(location.search);
-    const e = params.get(‘error’);
-    if (e) document.getElementById(‘err’).innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc(e)}</strong></div>`;
-    const form = document.getElementById(‘login-form’);
-    const out = document.getElementById(‘out’);
-    const btn = document.getElementById(‘send’);
-    form.addEventListener(‘submit’, (ev) => {
+    const e = params.get('error');
+    if (e) document.getElementById('err').innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc(e)}</strong></div>`;
+    const form = document.getElementById('login-form');
+    const out = document.getElementById('out');
+    const btn = document.getElementById('send');
+    form.addEventListener('submit', (ev) => {
       ev.preventDefault();
-      const email = document.getElementById(‘email’).value.trim();
+      const email = document.getElementById('email').value.trim();
       if (!email) return;
-      const role = (document.querySelector(‘input[name="role"]:checked’) || {}).value || ‘student’;
+      const role = (document.querySelector('input[name="role"]:checked') || {}).value || 'student';
       // Everyone signs in as a learner; teacher applicants are routed to the application after sign-in.
-      try { localStorage.setItem(‘su_v1_signup_intent’, JSON.stringify(role)); } catch {}
-      btn.disabled = true; btn.textContent = ‘Sending…’;
-      fetch(‘/api/auth/request’, { method: ‘POST’, credentials: ‘same-origin’, headers: { ‘content-type’: ‘application/json’ }, body: JSON.stringify({ email }) })
+      try { localStorage.setItem('su_v1_signup_intent', JSON.stringify(role)); } catch {}
+      btn.disabled = true; btn.textContent = 'Sending…';
+      fetch('/api/auth/request', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) })
         .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
         .then(({ ok, d }) => {
-          btn.disabled = false; btn.textContent = ‘Send magic link’;
-          if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || ‘Could not send the link.’)}</strong></div>`; return; }
-          const tail = role === ‘teacher’ ? ‘ After signing in, you’ll complete a short teacher application.’ : ‘’;
+          btn.disabled = false; btn.textContent = 'Send magic link';
+          if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not send the link.')}</strong></div>`; return; }
+          const tail = role === 'teacher' ? " After signing in, you'll complete a short teacher application." : '';
           if (d.sent) out.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Check your email.</strong> A sign-in link was sent to ${esc(email)} (expires in 15 minutes).${tail}</div>`;
           else out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${esc(d.devLink)}">click here to sign in</a>.${tail}</div>`;
         })
-        .catch(() => { btn.disabled = false; btn.textContent = ‘Send magic link’; out.innerHTML = ‘<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>’; });
+        .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
     });
   </script>
 </Base>
