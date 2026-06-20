@@ -10,12 +10,32 @@ const path = Astro.url.pathname;
 const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !== '/' && path.startsWith(m));
 ---
 <nav aria-label="Primary" class="bg-brand text-white sticky top-0 z-40 shadow-md">
-  <div class="wrap flex items-center gap-x-5 py-3">
-    <a href="/" aria-label="Sikh University — home" class="flex items-center gap-2 font-serif text-xl font-bold tracking-tight">
+  <div class="wrap flex flex-wrap items-center gap-x-4 py-3">
+    <!-- Logo -->
+    <a href="/" aria-label="Sikh University — home" class="flex items-center gap-2 font-serif text-xl font-bold tracking-tight shrink-0">
       <Logo class="h-7 w-7 shrink-0 text-saffron" />
       <span class="text-white">Sikh <span class="text-saffron">University</span></span>
     </a>
 
+    <!-- Inline search — grows to fill available space on desktop, full-width on mobile -->
+    <form id="nav-search-form" action="/search" method="get" role="search" class="order-last w-full md:order-none md:w-auto md:flex-1 md:max-w-sm mt-2 md:mt-0">
+      <label class="sr-only" for="nav-search-input">Search courses</label>
+      <div class="relative">
+        <svg aria-hidden="true" class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input
+          id="nav-search-input"
+          type="search"
+          name="q"
+          placeholder="Search in English or ਪੰਜਾਬੀ…"
+          autocomplete="off"
+          class="w-full rounded-full bg-white/10 pl-8 pr-3 py-1.5 font-sans text-sm text-white placeholder-white/50 outline-none ring-1 ring-white/20 focus:bg-white/20 focus:ring-saffron/60 transition"
+        />
+      </div>
+    </form>
+
+    <!-- Hamburger (mobile) -->
     <button id="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"
       class="ml-auto md:hidden inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:bg-white/10 hover:text-white transition">
       <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -23,7 +43,8 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
       </svg>
     </button>
 
-    <div id="nav-menu" class="hidden md:flex md:items-center md:gap-x-5 w-full md:w-auto md:ml-0 order-last md:order-none flex-col md:flex-row items-start gap-y-2 pb-2 md:pb-0">
+    <!-- Nav links -->
+    <div id="nav-menu" class="hidden md:flex md:items-center md:gap-x-4 order-last md:order-none w-full md:w-auto flex-col md:flex-row items-start gap-y-2 pb-2 md:pb-0">
       {links.map((l) => (
         <a
           href={l.href}
@@ -31,8 +52,6 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
           class={`font-sans text-sm border-b-2 pb-0.5 transition ${isActive(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}
         >{l.label}</a>
       ))}
-      <span class="hidden md:block ml-auto"></span>
-      <a href="/search" aria-current={isActive('/search') ? 'page' : undefined} class="font-sans text-sm text-white/80 hover:text-white">Search</a>
       <a href="/dashboard" aria-current={isActive('/dashboard') ? 'page' : undefined} class="font-sans text-sm text-white/80 hover:text-white">My Learning</a>
       <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle light/dark"
         class="inline-flex h-8 w-8 items-center justify-center rounded-full text-base text-white/90 hover:bg-white/10 hover:text-white transition"><span data-theme-icon>◐</span></button>
@@ -41,8 +60,6 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
   </div>
 </nav>
 <script>
-  // Light/dark theme toggle. The pre-paint script in Base.astro has already set
-  // data-theme on <html>; here we just flip and persist it.
   (function () {
     const btn = document.getElementById('theme-toggle');
     const icon = btn && btn.querySelector('[data-theme-icon]');
@@ -57,7 +74,6 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
   })();
 </script>
 <script>
-  // Responsive menu toggle (dependency-free).
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('nav-menu');
   if (toggle && menu) {
@@ -69,7 +85,16 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
   }
 </script>
 <script>
-  // Auth-aware nav: swap "Sign in" for role links when a session exists.
+  // Seed search input from current URL query if on /search page
+  (function () {
+    const input = document.getElementById('nav-search-input') as HTMLInputElement | null;
+    if (input && location.pathname === '/search') {
+      const q = new URLSearchParams(location.search).get('q');
+      if (q) input.value = q;
+    }
+  })();
+</script>
+<script>
   fetch('/api/me', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).then((d) => {
     const a = document.getElementById('nav-auth'); if (!a || !d || !d.user) return;
     const u = d.user; a.textContent = 'Sign out'; a.href = '#';
