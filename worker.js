@@ -99,7 +99,17 @@ export default {
       headers.set("content-length", String(obj.size));
       return new Response(obj.body, { status: 200, headers });
     }
-    // Everything else: the Astro static build.
-    return env.ASSETS.fetch(request);
+    // Everything else: the Astro static build — inject security headers on HTML responses.
+    const assetResp = await env.ASSETS.fetch(request);
+    const ct = assetResp.headers.get('content-type') || '';
+    if (!ct.includes('text/html')) return assetResp;
+    const h = new Headers(assetResp.headers);
+    h.set('X-Content-Type-Options', 'nosniff');
+    h.set('X-Frame-Options', 'SAMEORIGIN');
+    h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    h.set('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
+    h.set('Content-Security-Policy',
+      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'");
+    return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
   },
 };
