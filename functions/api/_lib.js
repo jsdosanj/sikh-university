@@ -10,7 +10,8 @@ export function newId() { return crypto.randomUUID().replace(/-/g, ""); }
 
 export function readCookie(request, name) {
   const c = request.headers.get("Cookie") || "";
-  const m = c.match(new RegExp("(?:^|; )" + name + "=([^;]+)"));
+  const safeName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const m = c.match(new RegExp("(?:^|; )" + safeName + "=([^;]+)"));
   return m ? decodeURIComponent(m[1]) : null;
 }
 

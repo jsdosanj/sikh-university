@@ -19,7 +19,7 @@ export async function onRequestGet({ request, env }) {
     learners: await one(env, "SELECT COUNT(*) FROM users WHERE role='learner'"),
     teachers: await one(env, "SELECT COUNT(*) FROM users WHERE role='teacher'"),
     admins: await one(env, "SELECT COUNT(*) FROM users WHERE role='admin'"),
-    activeSessions: await one(env, "SELECT COUNT(*) FROM sessions WHERE expires_at > " + Date.now()),
+    activeSessions: await (async () => { try { const r = await env.DB.prepare("SELECT COUNT(*) FROM sessions WHERE expires_at > ?").bind(Date.now()).first(); return r ? Object.values(r)[0] : 0; } catch(e) { return 0; } })(),
     enrollments: await one(env, "SELECT COUNT(*) FROM progress"),
     completions: await one(env, "SELECT COUNT(*) FROM progress WHERE passed_score >= 80"),
     pendingApplications: await one(env, "SELECT COUNT(*) FROM teacher_applications WHERE status='pending'"),
