@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import programsData from '../../public/assets/data/programs.json';
+
+const typeOrder = ['certificate', 'associate', 'bachelor', 'master', 'giani'];
+const typeLabel = {
+  certificate: 'Certificates',
+  associate: 'Associate Degree',
+  bachelor: "Bachelor's Degrees",
+  master: "Master's Degrees",
+  giani: 'Giani — Highest Distinction',
+};
+const typeBg = {
+  certificate: 'bg-saffron-soft',
+  associate: 'bg-blue-50 dark:bg-blue-950/20',
+  bachelor: 'bg-paper',
+  master: 'bg-navy/5 dark:bg-navy/20',
+  giani: 'bg-saffron-soft',
+};
+const grouped = typeOrder.map((t) => ({
+  type: t,
+  label: typeLabel[t],
+  programs: programsData.programs.filter((p) => p.type === t),
+}));
+---
+<Base title="Degree Programs — Sikh University" description="Certificate, Associate, Bachelor's, Master's and Giani degree programs in Sikh Studies — free, open, and comprehensive.">
+  <section class="wrap py-12">
+    <h1 class="text-3xl font-bold">Academic Programs</h1>
+    <p class="mt-3 max-w-2xl text-lg text-muted">Sikh University offers a full academic ladder — from introductory certificates through the prestigious Giani qualification. All programs are free and open to every learner worldwide.</p>
+
+    <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm">
+      <strong>Accreditation roadmap:</strong> Sikh University is pursuing co-accreditation with Anandpur Institute and Basics of Sikhi. When live, the Giani and Master's degrees will carry formal recognition from these institutions.
+    </div>
+
+    {grouped.map(({ type, label, programs }) => programs.length > 0 && (
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold border-b border-line pb-2">{label}</h2>
+        <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {programs.map((p) => (
+            <a href={`/program/${p.id}`} class={`card flex flex-col gap-2 hover:border-saffron transition ${typeBg[type]}`}>
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">{p.icon}</span>
+                <div>
+                  <div class="font-sans text-xs font-bold uppercase tracking-wider text-muted">{p.abbreviation}</div>
+                  <h3 class="text-lg font-bold text-navy leading-tight">{p.title}</h3>
+                  <div class="font-gurmukhi text-sm text-muted">{p.titleGur}</div>
+                </div>
+              </div>
+              <p class="font-sans text-sm text-muted flex-1">{p.description.slice(0, 140)}…</p>
+              <div class="mt-auto flex flex-wrap gap-3 font-sans text-xs text-muted">
+                <span>📚 {p.courseIds.length} courses</span>
+                <span>⏱ {p.duration}</span>
+                <span>✅ {p.passMark}% to pass cumulative exam</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="mt-16 rounded-xl2 border border-line bg-surface p-6">
+      <h2 class="text-xl font-bold">How programs work</h2>
+      <ol class="mt-4 space-y-3 font-sans text-sm text-muted list-decimal list-inside">
+        <li>Complete all courses in the program — each has lectures, reading, and a quiz.</li>
+        <li>Once every course is passed (70% quiz score), unlock the <strong>Cumulative Examination</strong>.</li>
+        <li>Pass the cumulative exam with <strong>80% or higher</strong> to earn the credential.</li>
+        <li>Download your certificate and share your academic credential.</li>
+      </ol>
+      <p class="mt-4 font-sans text-sm text-muted">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
+    </div>
+  </section>
+</Base>
