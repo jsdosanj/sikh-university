@@ -95,7 +95,7 @@ const extra = { professors, readings, pages, gWords };
       if (!v) { out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`; return; }
       const ts = v.split(/\s+/);
       const m = index.filter((r) => ts.every((t) => r.hay.indexOf(t) !== -1));
-      if (!m.length) { out.innerHTML = `<p class="text-muted">No results for “${esc(q.value)}”.</p>`; return; }
+      if (!m.length) { out.innerHTML = `<p class="text-muted">No results for "${esc(q.value)}".</p>`; return; }
       const groups = {};
       m.forEach((r) => (groups[r.kind] = groups[r.kind] || []).push(r));
       let html = `<p class="mb-4 text-muted">${m.length} result${m.length === 1 ? '' : 's'}</p>`;
