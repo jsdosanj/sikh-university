@@ -241,19 +241,122 @@ const wordCard = (w) => w;
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">10. The Five Kakaars — <span class="gur">ਪੰਜ ਕਕਾਰ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">The five articles of faith worn by baptised (<span class="gur">ਅੰਮ੍ਰਿਤਧਾਰੀ</span>) Sikhs. Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699. <strong>Click each one</strong> to learn more.</p>
     <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-      {[
-        { id:'kesh',   gur:'ਕੇਸ',    icon:'✂️',  label:'Kesh',    color:'bg-blue/10 border-blue/30' },
-        { id:'kangha', gur:'ਕੰਘਾ',   icon:'🪮',  label:'Kangha',  color:'bg-saffron/10 border-saffron/30' },
-        { id:'kara',   gur:'ਕੜਾ',    icon:'⭕',  label:'Kara',    color:'bg-ok/10 border-ok/30' },
-        { id:'kachera',gur:'ਕਛਹਿਰਾ', icon:'🩲',  label:'Kachera', color:'bg-blue/10 border-blue/30' },
-        { id:'kirpan', gur:'ਕਿਰਪਾਨ', icon:'⚔️',  label:'Kirpan',  color:'bg-red/10 border-red/30' },
-      ].map((k) => (
-        <button data-kakaar={k.id} class={`kakaar-card rounded-xl2 border-2 ${k.color} p-5 text-center cursor-pointer hover:shadow-card transition-all`}>
-          <div class="text-4xl">{k.icon}</div>
-          <div class="gur mt-2 text-xl font-bold text-navy">{k.gur}</div>
-          <div class="mt-0.5 font-sans text-sm font-semibold text-muted">{k.label}</div>
-        </button>
-      ))}
+
+      <!-- 1. Kesh — uncut hair -->
+      <button data-kakaar="kesh" class="kakaar-card rounded-xl2 border-2 bg-blue/10 border-blue/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 52 72" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto">
+            <!-- Long flowing hair -->
+            <path d="M26 3C13 3 7 15 7 25c0 9 1 21-1 33s5 12 9 12c3 0 4.5-11 6.5-20 1.5 8 3 17 6.5 20 1 1 2 1 2 0 3.5-3 5-12 6.5-20 2 9 3.5 20 6.5 20 4 0 11-4 9-12S48 34 48 25C48 15 39 3 26 3Z" fill="#1a0900"/>
+            <!-- Face -->
+            <ellipse cx="26" cy="23" rx="13" ry="15" fill="#c8906a"/>
+            <!-- Eyes -->
+            <circle cx="21" cy="21" r="2.2" fill="#1a0900"/>
+            <circle cx="31" cy="21" r="2.2" fill="#1a0900"/>
+            <circle cx="21.9" cy="20.2" r="0.8" fill="#fff"/>
+            <circle cx="31.9" cy="20.2" r="0.8" fill="#fff"/>
+            <!-- Eyebrows -->
+            <path d="M18.5 17q3-2 5.5 0M27 17q3-2 5.5 0" stroke="#3a1800" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Smile -->
+            <path d="M21 30q5 4 10 0" stroke="#a06040" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕੇਸ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kesh</div>
+      </button>
+
+      <!-- 2. Kangha — wooden comb -->
+      <button data-kakaar="kangha" class="kakaar-card rounded-xl2 border-2 bg-saffron/10 border-saffron/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 66 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto">
+            <!-- Comb body -->
+            <rect x="3" y="4" width="60" height="18" rx="5" fill="#9a6818"/>
+            <rect x="3" y="4" width="60" height="9" rx="4" fill="#c58c28"/>
+            <!-- Wood grain lines -->
+            <line x1="18" y1="5" x2="18" y2="21" stroke="#b07820" stroke-width="0.6" opacity="0.5"/>
+            <line x1="33" y1="5" x2="33" y2="21" stroke="#b07820" stroke-width="0.6" opacity="0.5"/>
+            <line x1="48" y1="5" x2="48" y2="21" stroke="#b07820" stroke-width="0.6" opacity="0.5"/>
+            <!-- Teeth -->
+            <rect x="8"  y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="18" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="28" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="38" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="48" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="56" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕੰਘਾ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kangha</div>
+      </button>
+
+      <!-- 3. Kara — steel bracelet -->
+      <button data-kakaar="kara" class="kakaar-card rounded-xl2 border-2 bg-ok/10 border-ok/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-16">
+            <!-- Steel ring (thick stroke = the bracelet) -->
+            <circle cx="32" cy="32" r="24" stroke="#757575" stroke-width="13" fill="none"/>
+            <!-- Highlight arc — top-left rim catches light -->
+            <path d="M32 8q16 5 21 22" stroke="#d4d4d4" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- Shadow arc — bottom-right in shadow -->
+            <path d="M13 48q6 12 20 13" stroke="#3e3e3e" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕੜਾ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kara</div>
+      </button>
+
+      <!-- 4. Kachera — cotton breeches -->
+      <button data-kakaar="kachera" class="kakaar-card rounded-xl2 border-2 bg-blue/10 border-blue/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 56 58" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-14 w-auto">
+            <!-- Waistband -->
+            <rect x="6" y="3" width="44" height="11" rx="4" fill="#dfdbd0"/>
+            <rect x="6" y="3" width="44" height="6" rx="3" fill="#edeae0"/>
+            <!-- Drawstring -->
+            <path d="M21 8.5q7-3.5 14 0" stroke="#b8b4a0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Left leg -->
+            <path d="M6 14 L9 49 Q13 57 22 55 L27 47 L25 14Z" fill="#e8e4d8"/>
+            <!-- Right leg -->
+            <path d="M50 14 L47 49 Q43 57 34 55 L29 47 L31 14Z" fill="#e8e4d8"/>
+            <!-- Gusset/center seam -->
+            <path d="M25 14 L27 47 L29 47 L31 14Z" fill="#ccc8b8"/>
+            <!-- Leg cuffs -->
+            <path d="M9 48 Q13 58 22 55" stroke="#c0bcac" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M47 48 Q43 58 34 55" stroke="#c0bcac" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕਛਹਿਰਾ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kachera</div>
+      </button>
+
+      <!-- 5. Kirpan — steel sword -->
+      <button data-kakaar="kirpan" class="kakaar-card rounded-xl2 border-2 bg-red/10 border-red/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 36 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto">
+            <!-- Blade -->
+            <path d="M18 4C20 4 22 9 22 19L20 58 18 63 16 58 14 19C14 9 16 4 18 4Z" fill="#bdbdbd"/>
+            <!-- Blade highlight -->
+            <path d="M19 5 L20 56" stroke="#e8e8e8" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Blade fuller groove -->
+            <path d="M17.5 11 L17.5 57" stroke="#9e9e9e" stroke-width="0.8" stroke-linecap="round"/>
+            <!-- Guard -->
+            <rect x="8" y="59" width="20" height="5" rx="2.5" fill="#b8841e"/>
+            <rect x="8" y="59" width="20" height="2.5" rx="1.5" fill="#d4a030"/>
+            <!-- Handle -->
+            <rect x="14" y="64" width="8" height="14" rx="3" fill="#7a480e"/>
+            <!-- Grip wraps -->
+            <rect x="14" y="67" width="8" height="2" rx="1" fill="#3a2008" opacity="0.7"/>
+            <rect x="14" y="71" width="8" height="2" rx="1" fill="#3a2008" opacity="0.7"/>
+            <rect x="14" y="75" width="8" height="2" rx="1" fill="#3a2008" opacity="0.7"/>
+            <!-- Pommel -->
+            <ellipse cx="18" cy="79" rx="5.5" ry="3" fill="#b8841e"/>
+            <ellipse cx="18" cy="78.5" rx="4" ry="2" fill="#d4a030"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕਿਰਪਾਨ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kirpan</div>
+      </button>
+
     </div>
     </details>
 
