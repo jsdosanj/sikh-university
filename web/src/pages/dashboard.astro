@@ -55,10 +55,23 @@ import Base from '../layouts/Base.astro';
         const st = streak();
         let topicMaster = false;
         data.topics.forEach((t) => { const inT = pub.filter((c) => c.topic === t.id); if (inT.length && inT.every((c) => passed(c.id))) topicMaster = true; });
+        // Academic standing badges — based on completing all courses at each level tier
+        const lvl = (min, max) => pub.filter((c) => c.level >= min && c.level < max);
+        const lvl1 = lvl(100, 200), lvl2 = lvl(200, 300), lvl3 = lvl(300, 400), lvl4 = lvl(400, 500), lvl5 = lvl(500, 600);
+        const allPassed = (cs) => cs.length > 0 && cs.every((c) => passed(c.id));
+        const levelProg = (cs) => `${cs.filter((c) => passed(c.id)).length}/${cs.length}`;
         const badges = [
-          ['First Step', '🌱', lessonsDone >= 1, 'Complete a lesson'], ['Graduate', '🎓', completed.length >= 1, 'Pass a course'],
-          ['Dedicated', '📚', completed.length >= 25, 'Pass 25 courses'], ['Scholar', '🏅', completed.length >= 100, 'Pass 100 courses'],
-          ['Vidhvaan', '👑', completed.length >= 250, 'Pass 250 courses'], ['Steady', '🔥', st >= 7, '7-day streak'], ['Topic Master', '⭐', topicMaster, 'Finish a topic'],
+          ['First Step', '🌱', lessonsDone >= 1, 'Complete your first lesson'],
+          ['Freshman', '🎒', allPassed(lvl1), 'Pass all 100-level courses'],
+          ['Sophomore', '📖', allPassed(lvl2), 'Pass all 200-level courses'],
+          ['Junior', '🔬', allPassed(lvl3), 'Pass all 300-level courses'],
+          ['Senior', '🎖️', allPassed(lvl4), 'Pass all 400-level courses'],
+          ['Graduate', '🏛️', allPassed(lvl5), 'Pass all 500-level courses'],
+          ['Dedicated', '📚', completed.length >= 25, 'Pass 25 courses'],
+          ['Scholar', '🏅', completed.length >= 100, 'Pass 100 courses'],
+          ['Vidhvaan', '👑', completed.length >= 250, 'Pass 250 courses'],
+          ['Steady', '🔥', st >= 7, '7-day streak'],
+          ['Topic Master', '⭐', topicMaster, 'Finish an entire topic'],
         ];
         const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-4 text-center shadow-card"><div class="text-3xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
         function section(title, list, mode) {
@@ -87,9 +100,13 @@ import Base from '../layouts/Base.astro';
           <a href="/baal-updesh#flashcards" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="text-3xl">🃏</span><span><span class="block font-bold text-navy">Review flashcards</span><span class="block font-sans text-sm text-muted">Lock in Gurmukhi terms and the most-used words of Gurbani with spaced repetition.</span></span><span class="ml-auto font-sans text-sm text-saffron-deep">Study →</span></a>
           <h3 class="mt-10 text-xl font-bold">Badges</h3>
           <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">${badges.map((b) => {
-            // Show progress toward course-count badges
             let prog = '';
-            if (b[0] === 'Dedicated') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${Math.min(completed.length,25)}/25</div>`;
+            if (b[0] === 'Freshman') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${levelProg(lvl1)} courses</div>`;
+            else if (b[0] === 'Sophomore') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${levelProg(lvl2)} courses</div>`;
+            else if (b[0] === 'Junior') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${levelProg(lvl3)} courses</div>`;
+            else if (b[0] === 'Senior') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${levelProg(lvl4)} courses</div>`;
+            else if (b[0] === 'Graduate') prog = lvl5.length ? `<div class="mt-1 font-sans text-xs text-muted/70">${levelProg(lvl5)} courses</div>` : `<div class="mt-1 font-sans text-xs text-muted/70">Coming soon</div>`;
+            else if (b[0] === 'Dedicated') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${Math.min(completed.length,25)}/25</div>`;
             else if (b[0] === 'Scholar') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${Math.min(completed.length,100)}/100</div>`;
             else if (b[0] === 'Vidhvaan') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${Math.min(completed.length,250)}/250</div>`;
             else if (b[0] === 'Steady') prog = `<div class="mt-1 font-sans text-xs text-muted/70">${Math.min(st,7)}/7 days</div>`;
