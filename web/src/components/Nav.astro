@@ -9,7 +9,7 @@ const links = [
 const path = Astro.url.pathname;
 const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !== '/' && path.startsWith(m));
 ---
-<nav aria-label="Primary" class="bg-brand text-white sticky top-0 z-40 shadow-md">
+<nav aria-label="Primary" class="bg-brand text-white sticky top-0 z-40 shadow-md" style="padding-top: env(safe-area-inset-top)">
   <div class="wrap flex items-center gap-x-3 py-3">
     <!-- Logo -->
     <a href="/" aria-label="Sikh University — home" class="flex shrink-0 items-center gap-2 font-serif text-xl font-bold tracking-tight">
