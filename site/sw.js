@@ -5,7 +5,7 @@ var SHELL = [
   "search.html", "paths.html", "professors.html", "professor.html", "about.html",
   "feedback.html", "contact.html", "legal.html", "login.html", "teach.html", "admin.html",
   "assets/style.css", "assets/app.js", "assets/icon.svg",
-  "assets/data/courses.json", "assets/data/professors.json", "manifest.webmanifest"
+  "assets/data/professors.json", "manifest.webmanifest"
 ];
 
 self.addEventListener("install", function (e) {

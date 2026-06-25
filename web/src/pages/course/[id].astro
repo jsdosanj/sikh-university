@@ -340,7 +340,7 @@ const breadcrumb = {
       function renderCard() {
         flipped = false;
         const t = terms[idx];
-        front.innerHTML = t.t;
+        front.textContent = stripHtml(t.t);
         back.textContent = t.m;
         back.classList.add('hidden');
         hint.textContent = known[idx] ? '✓ Learned — click to review' : 'Click to reveal';
