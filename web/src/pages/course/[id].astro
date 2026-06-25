@@ -67,6 +67,16 @@ const breadcrumb = {
         </div>
       )}
 
+      {c.level >= 200 && (
+        <div class="mb-6 rounded-xl2 border border-line bg-surface p-4 font-sans text-sm text-muted">
+          <strong class="text-navy">Prerequisite recommended.</strong>{' '}
+          {c.level === 200 && <>This is a 200-level course. To get the most out of it, we recommend completing the <a class="underline text-navy" href="/catalog">100-level courses</a> first.</>}
+          {c.level === 300 && <>This is a 300-level course. We recommend completing <a class="underline text-navy" href="/catalog">200-level courses</a> before diving in — they build the foundation this course assumes.</>}
+          {c.level === 400 && <>This is a 400-level course. You'll get the most from it after completing <a class="underline text-navy" href="/catalog">300-level courses</a>, which cover the concepts this course builds on.</>}
+          {c.level >= 500 && <>This is a graduate-level (500-level) course. It assumes a solid background in the subject — we recommend working through <a class="underline text-navy" href="/catalog">400-level courses</a> (or equivalent 200–300 level courses in this topic) before starting.</>}
+        </div>
+      )}
+
       {c.outcomes && c.outcomes.length > 0 && (
         <section class="mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">What you'll learn</h2>
