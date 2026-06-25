@@ -20,9 +20,9 @@ const { c } = Astro.props;
           <ol class="mt-2 divide-y divide-line rounded-xl2 border border-line bg-surface">
             {g.items.map((id) => REF[id] && (
               REF[id].href
-                ? <li><a href={REF[id].href} class="flex items-center justify-between gap-4 px-4 py-3 hover:bg-paper">
+                ? <li><a href={REF[id].href} class="flex items-center justify-between gap-4 px-4 py-3 hover:bg-paper" {...(REF[id].href?.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>
                     <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>
-                    <span class="font-sans text-sm font-semibold text-navy">Read →</span>
+                    <span class="font-sans text-sm font-semibold text-navy">{REF[id].href?.startsWith('http') ? 'Open in Sikh Archive ↗' : REF[id].href?.startsWith('/course') ? 'Study →' : 'Read →'}</span>
                   </a></li>
                 : <li class="flex items-center justify-between gap-4 px-4 py-3">
                     <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>

@@ -45,7 +45,7 @@ const longS = [
 // Short reading paragraphs (a few simple sentences each).
 const paras = [
   ['ਸਾਡਾ ਪਰਿਵਾਰ ਅੰਮ੍ਰਿਤ ਵੇਲੇ ਉੱਠਦਾ ਹੈ। ਅਸੀਂ ਇਸ਼ਨਾਨ ਕਰਕੇ ਵਾਹਿਗੁਰੂ ਦਾ ਨਾਮ ਜਪਦੇ ਹਾਂ। ਫਿਰ ਅਸੀਂ ਰਲ਼ ਕੇ ਨਿਤਨੇਮ ਦੀਆਂ ਬਾਣੀਆਂ ਪੜ੍ਹਦੇ ਹਾਂ।',
-   'Our family wakes at amrit vela. After bathing, we meditate on Waheguru’s Name. Then together we read the nitnem banis.'],
+   "Our family wakes at amrit vela. After bathing, we meditate on Waheguru's Name. Then together we read the nitnem banis."],
   ['ਗੁਰੂ ਨਾਨਕ ਦੇਵ ਜੀ ਨੇ ਸਾਨੂੰ ਇੱਕ ਅਕਾਲ ਪੁਰਖ ਦਾ ਉਪਦੇਸ਼ ਦਿੱਤਾ। ਉਨ੍ਹਾਂ ਨੇ ਸਿਖਾਇਆ ਕਿ ਸਾਰੇ ਮਨੁੱਖ ਬਰਾਬਰ ਹਨ। ਸਾਨੂੰ ਮਿਹਨਤ ਕਰਨੀ, ਨਾਮ ਜਪਣਾ ਅਤੇ ਵੰਡ ਕੇ ਛਕਣਾ ਚਾਹੀਦਾ ਹੈ।',
    'Guru Nanak Dev Ji taught us of the One Akal Purakh. He taught that all people are equal. We should work honestly, meditate on the Name, and share with others.'],
 ];
@@ -76,9 +76,11 @@ const wordCard = (w) => w;
       <a href="#numbers" class="rounded-full border border-line px-3 py-1 hover:border-saffron">6. Numbers 0–100</a>
       <a href="#common-words" class="rounded-full border border-line px-3 py-1 hover:border-saffron">7. Common words</a>
       <a href="#flashcards" class="rounded-full border border-line px-3 py-1 hover:border-saffron">8. Flashcards</a>
+      <a href="#family-tree" class="rounded-full border border-line px-3 py-1 hover:border-saffron">9. Guru Family Tree</a>
+      <a href="#kakaars" class="rounded-full border border-line px-3 py-1 hover:border-saffron">10. Five Kakaars</a>
     </nav>
 
-    <details id="painti" open class="mt-8 border-t border-line pt-3">
+    <details id="painti" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">1. The Painti — <span class="gur">ਪੈਂਤੀ</span> (35 letters)</summary>
     <p class="mt-1 max-w-2xl text-muted">Three are vowel-bearers (<span class="gur">ੳ ਅ ੲ</span>); the rest are consonants. Say each letter aloud.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
@@ -92,7 +94,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="navin" open class="mt-8 border-t border-line pt-3">
+    <details id="navin" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">2. The extra letters — <span class="gur">ਨਵੀਨ ਟੋਲੀ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Six later letters, written by adding a dot (<span class="gur">ਪੈਰ ਬਿੰਦੀ</span>) beneath a base letter, for sounds used in borrowed words.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
@@ -106,7 +108,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="muharni" open class="mt-8 border-t border-line pt-3">
+    <details id="muharni" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">3. The Muharni — <span class="gur">ਮੁਹਾਰਨੀ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Sound each consonant through the ten vowel signs (<span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span>). Read across each row aloud — this builds <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> (correct pronunciation).</p>
     <div class="mt-5 overflow-x-auto rounded-xl2 border border-line">
@@ -130,7 +132,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="words" open class="mt-8 border-t border-line pt-3">
+    <details id="words" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">4. Reading words — <span class="gur">ਸ਼ਬਦ ਜੋੜ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Now blend letters into words. Start with two letters, then three, then longer. Sound each one out, then read the whole word.</p>
     {[['Two-letter words', words2], ['Three-letter words', words3], ['Longer words', words4]].map(([label, list]) => (
@@ -150,7 +152,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="sentences" open class="mt-8 border-t border-line pt-3">
+    <details id="sentences" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">5. Sentences & paragraphs — <span class="gur">ਵਾਕ ਤੇ ਪੈਰੇ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Read these aloud, building from greetings to short, medium and long sentences, then full paragraphs. The <span class="gur">॥</span> (danda) and <span class="gur">।</span> mark line ends.</p>
     {[['Greetings & sacred lines', sentences], ['Short sentences', shortS], ['Medium sentences', medS], ['Long sentences', longS]].map(([label, list]) => (
@@ -181,7 +183,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="numbers" open class="mt-8 border-t border-line pt-3">
+    <details id="numbers" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">6. Numbers — <span class="gur">ਅੰਕ</span> (0–100)</summary>
     <p class="mt-1 max-w-2xl text-muted">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
     <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
@@ -206,7 +208,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="common-words" open class="mt-8 border-t border-line pt-3">
+    <details id="common-words" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">7. Common words of Gurbani — <span class="gur">ਸ਼ਬਦ ਭੰਡਾਰ</span></summary>
     <p class="mt-1 max-w-2xl text-muted">Some of the most-used words in Sri Guru Granth Sahib Ji. Learn a few each day; tap a word for its full meaning. Shared with permission from the <a class="underline" href="https://365gurbaniwords.blogspot.com" target="_blank" rel="noopener">365 Gurbani Words</a> project.</p>
     <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
@@ -219,11 +221,153 @@ const wordCard = (w) => w;
     </div>
     </details>
 
-    <details id="flashcards" open class="mt-8 border-t border-line pt-3">
+    <details id="flashcards" class="mt-8 border-t border-line pt-3">
     <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">8. Flashcards — <span class="gur">ਯਾਦ ਪੱਤੇ</span> (spaced repetition)</summary>
     <p class="mt-1 max-w-2xl text-muted">Active recall with spaced repetition — the fastest way to remember. Cards you find hard come back sooner; cards you know come back later. Built from the common words above plus the key terms of every course.</p>
     <div id="fc"><p class="mt-4 text-muted">Loading deck…</p></div>
     </details>
+
+    <!-- ── 9. Guru Family Tree ──────────────────────────────────────────────── -->
+    <details id="family-tree" class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">9. Guru Family Tree — <span class="gur">ਗੁਰੂ ਪਰਿਵਾਰ</span></summary>
+    <p class="mt-1 max-w-2xl text-muted">The family lineages of the ten Sikh Gurus — ancestors, spouses, and children. <strong>Click any name</strong> to learn more about that person. Gurus are highlighted in <span class="font-semibold text-saffron-deep">saffron</span>.</p>
+    <div id="ft-wrap" class="mt-4 overflow-auto rounded-xl2 border border-line bg-paper" style="max-height:620px">
+      <div id="ft-canvas" class="relative select-none" style="width:800px;height:1700px"></div>
+    </div>
+    </details>
+
+    <!-- ── 10. Five Kakaars ─────────────────────────────────────────────────── -->
+    <details id="kakaars" class="mt-8 border-t border-line pt-3">
+    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">10. The Five Kakaars — <span class="gur">ਪੰਜ ਕਕਾਰ</span></summary>
+    <p class="mt-1 max-w-2xl text-muted">The five articles of faith worn by baptised (<span class="gur">ਅੰਮ੍ਰਿਤਧਾਰੀ</span>) Sikhs. Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699. <strong>Click each one</strong> to learn more.</p>
+    <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+
+      <!-- 1. Kesh — uncut hair -->
+      <button data-kakaar="kesh" class="kakaar-card rounded-xl2 border-2 bg-blue/10 border-blue/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 52 72" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto">
+            <!-- Long flowing hair -->
+            <path d="M26 3C13 3 7 15 7 25c0 9 1 21-1 33s5 12 9 12c3 0 4.5-11 6.5-20 1.5 8 3 17 6.5 20 1 1 2 1 2 0 3.5-3 5-12 6.5-20 2 9 3.5 20 6.5 20 4 0 11-4 9-12S48 34 48 25C48 15 39 3 26 3Z" fill="#1a0900"/>
+            <!-- Face -->
+            <ellipse cx="26" cy="23" rx="13" ry="15" fill="#c8906a"/>
+            <!-- Eyes -->
+            <circle cx="21" cy="21" r="2.2" fill="#1a0900"/>
+            <circle cx="31" cy="21" r="2.2" fill="#1a0900"/>
+            <circle cx="21.9" cy="20.2" r="0.8" fill="#fff"/>
+            <circle cx="31.9" cy="20.2" r="0.8" fill="#fff"/>
+            <!-- Eyebrows -->
+            <path d="M18.5 17q3-2 5.5 0M27 17q3-2 5.5 0" stroke="#3a1800" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- Smile -->
+            <path d="M21 30q5 4 10 0" stroke="#a06040" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕੇਸ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kesh</div>
+      </button>
+
+      <!-- 2. Kangha — wooden comb -->
+      <button data-kakaar="kangha" class="kakaar-card rounded-xl2 border-2 bg-saffron/10 border-saffron/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 66 46" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto">
+            <!-- Comb body -->
+            <rect x="3" y="4" width="60" height="18" rx="5" fill="#9a6818"/>
+            <rect x="3" y="4" width="60" height="9" rx="4" fill="#c58c28"/>
+            <!-- Wood grain lines -->
+            <line x1="18" y1="5" x2="18" y2="21" stroke="#b07820" stroke-width="0.6" opacity="0.5"/>
+            <line x1="33" y1="5" x2="33" y2="21" stroke="#b07820" stroke-width="0.6" opacity="0.5"/>
+            <line x1="48" y1="5" x2="48" y2="21" stroke="#b07820" stroke-width="0.6" opacity="0.5"/>
+            <!-- Teeth -->
+            <rect x="8"  y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="18" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="28" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="38" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="48" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+            <rect x="56" y="22" width="6" height="19" rx="3" fill="#8a5c14"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕੰਘਾ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kangha</div>
+      </button>
+
+      <!-- 3. Kara — steel bracelet -->
+      <button data-kakaar="kara" class="kakaar-card rounded-xl2 border-2 bg-ok/10 border-ok/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-16">
+            <!-- Steel ring (thick stroke = the bracelet) -->
+            <circle cx="32" cy="32" r="24" stroke="#757575" stroke-width="13" fill="none"/>
+            <!-- Highlight arc — top-left rim catches light -->
+            <path d="M32 8q16 5 21 22" stroke="#d4d4d4" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- Shadow arc — bottom-right in shadow -->
+            <path d="M13 48q6 12 20 13" stroke="#3e3e3e" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕੜਾ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kara</div>
+      </button>
+
+      <!-- 4. Kachera — cotton breeches -->
+      <button data-kakaar="kachera" class="kakaar-card rounded-xl2 border-2 bg-blue/10 border-blue/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 56 58" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-14 w-auto">
+            <!-- Waistband -->
+            <rect x="6" y="3" width="44" height="11" rx="4" fill="#dfdbd0"/>
+            <rect x="6" y="3" width="44" height="6" rx="3" fill="#edeae0"/>
+            <!-- Drawstring -->
+            <path d="M21 8.5q7-3.5 14 0" stroke="#b8b4a0" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Left leg -->
+            <path d="M6 14 L9 49 Q13 57 22 55 L27 47 L25 14Z" fill="#e8e4d8"/>
+            <!-- Right leg -->
+            <path d="M50 14 L47 49 Q43 57 34 55 L29 47 L31 14Z" fill="#e8e4d8"/>
+            <!-- Gusset/center seam -->
+            <path d="M25 14 L27 47 L29 47 L31 14Z" fill="#ccc8b8"/>
+            <!-- Leg cuffs -->
+            <path d="M9 48 Q13 58 22 55" stroke="#c0bcac" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M47 48 Q43 58 34 55" stroke="#c0bcac" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕਛਹਿਰਾ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kachera</div>
+      </button>
+
+      <!-- 5. Kirpan — steel sword -->
+      <button data-kakaar="kirpan" class="kakaar-card rounded-xl2 border-2 bg-red/10 border-red/30 p-4 text-center cursor-pointer hover:shadow-card transition-all">
+        <div class="flex h-16 items-center justify-center">
+          <svg viewBox="0 0 36 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto">
+            <!-- Blade -->
+            <path d="M18 4C20 4 22 9 22 19L20 58 18 63 16 58 14 19C14 9 16 4 18 4Z" fill="#bdbdbd"/>
+            <!-- Blade highlight -->
+            <path d="M19 5 L20 56" stroke="#e8e8e8" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Blade fuller groove -->
+            <path d="M17.5 11 L17.5 57" stroke="#9e9e9e" stroke-width="0.8" stroke-linecap="round"/>
+            <!-- Guard -->
+            <rect x="8" y="59" width="20" height="5" rx="2.5" fill="#b8841e"/>
+            <rect x="8" y="59" width="20" height="2.5" rx="1.5" fill="#d4a030"/>
+            <!-- Handle -->
+            <rect x="14" y="64" width="8" height="14" rx="3" fill="#7a480e"/>
+            <!-- Grip wraps -->
+            <rect x="14" y="67" width="8" height="2" rx="1" fill="#3a2008" opacity="0.7"/>
+            <rect x="14" y="71" width="8" height="2" rx="1" fill="#3a2008" opacity="0.7"/>
+            <rect x="14" y="75" width="8" height="2" rx="1" fill="#3a2008" opacity="0.7"/>
+            <!-- Pommel -->
+            <ellipse cx="18" cy="79" rx="5.5" ry="3" fill="#b8841e"/>
+            <ellipse cx="18" cy="78.5" rx="4" ry="2" fill="#d4a030"/>
+          </svg>
+        </div>
+        <div class="gur mt-2 text-xl font-bold text-navy">ਕਿਰਪਾਨ</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kirpan</div>
+      </button>
+
+    </div>
+    </details>
+
+    <!-- Shared info popup (used by both family tree and kakaars) -->
+    <div id="info-popup" class="fixed inset-0 z-[80] hidden items-center justify-center p-4">
+      <div id="popup-bg" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+      <div class="relative z-10 max-h-[80vh] w-full max-w-lg overflow-y-auto rounded-xl2 bg-paper shadow-xl">
+        <button id="popup-x" class="absolute right-4 top-3 text-2xl leading-none text-muted hover:text-navy">×</button>
+        <div id="popup-body" class="p-6"></div>
+      </div>
+    </div>
 
     <div class="mt-12 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
       <h2 class="text-xl font-bold">Next steps</h2>
@@ -326,5 +470,326 @@ const wordCard = (w) => w;
       if (!deck.length) { root.innerHTML = '<p class="mt-4 text-muted">No cards yet.</p>'; return; }
       build(); render();
     }).catch(() => { document.getElementById('fc').innerHTML = '<p class="mt-4 text-muted">Could not load the deck.</p>'; });
+  </script>
+
+  <!-- ── Family Tree + Kakaars interactive JS ──────────────────────────────── -->
+  <script>
+  // ── Shared popup helpers ──────────────────────────────────────────────────
+  const popup = document.getElementById('info-popup');
+  const popupBody = document.getElementById('popup-body');
+  const openPopup = (html) => { popupBody.innerHTML = html; popup.classList.replace('hidden','flex'); };
+  const closePopup = () => popup.classList.replace('flex','hidden');
+  document.getElementById('popup-x').addEventListener('click', closePopup);
+  document.getElementById('popup-bg').addEventListener('click', closePopup);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
+
+  // ── PEOPLE biographical data ──────────────────────────────────────────────
+  const PEOPLE = {
+    'rama':           { name:'Rama Ji', gur:'ਰਾਮਾ ਜੀ', role:'Maternal grandfather of Guru Nanak Dev Ji', born:'c. 1420 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'—', children:'Mata Tripta Ji, Krishan Ji', bio:'Rama Ji was the father of Mata Tripta Ji, the blessed mother of Guru Nanak Dev Ji. He was a respected member of the Bedi Khatri community.' },
+    'shiv-rama':      { name:'Shiv Rama Ji', gur:'ਸ਼ਿਵ ਰਾਮਾ ਜੀ', role:'Paternal grandfather of Guru Nanak Dev Ji', born:'c. 1415 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Banarasi Ji', children:'Bhai Kalian Das Ji (Mehta Kalu), Lalu Ji', bio:'Shiv Rama Ji was the paternal grandfather of Guru Nanak Dev Ji. He belonged to the Bedi Khatri clan of Punjab.' },
+    'banarasi':       { name:'Banarasi Ji', gur:'ਬਨਾਰਸੀ ਜੀ', role:'Paternal grandmother of Guru Nanak Dev Ji', born:'c. 1420 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Shiv Rama Ji', children:'Bhai Kalian Das Ji, Lalu Ji', bio:'Banarasi Ji was the wife of Shiv Rama Ji and the paternal grandmother of Guru Nanak Dev Ji.' },
+    'krishan':        { name:'Krishan Ji', gur:'ਕ੍ਰਿਸ਼ਨ ਜੀ', role:'Maternal uncle of Guru Nanak Dev Ji', born:'Unknown', died:'Unknown', parents:'Rama Ji', siblings:'Mata Tripta Ji', spouse:'—', children:'—', bio:'Krishan Ji was the brother of Mata Tripta Ji and the maternal uncle of Guru Nanak Dev Ji.' },
+    'mata-tripta':    { name:'Mata Tripta Ji', gur:'ਮਾਤਾ ਤ੍ਰਿਪਤਾ ਜੀ', role:'Mother of Guru Nanak Dev Ji', born:'c. 1447 CE', died:'c. 1522 CE', parents:'Rama Ji', siblings:'Krishan Ji', spouse:'Bhai Kalian Das Ji (Mehta Kalu)', children:'Bebe Nanki Ji, Guru Nanak Dev Ji', bio:'Mata Tripta Ji was the devoted mother of Guru Nanak Dev Ji. She was known for her gentle nature and deep spirituality. She recognised the divine spark in her son from his very earliest years.' },
+    'bhai-kalian-das':{ name:'Bhai Kalian Das Ji (Mehta Kalu)', gur:'ਭਾਈ ਕਾਲਿਆਨ ਦਾਸ ਜੀ (ਮਹਿਤਾ ਕਾਲੂ)', role:'Father of Guru Nanak Dev Ji', born:'c. 1440 CE', died:'c. 1522 CE', parents:'Shiv Rama Ji & Banarasi Ji', siblings:'Lalu Ji', spouse:'Mata Tripta Ji', children:'Bebe Nanki Ji, Guru Nanak Dev Ji', bio:'Mehta Kalu was a revenue official (patwari) under the local landlord Rai Bular Bhatti. He was a devout Hindu who initially struggled to understand his son Nanak\'s spiritual path. He eventually witnessed a miracle and accepted his son\'s divine status.' },
+    'lalu':           { name:'Lalu Ji', gur:'ਲਾਲੂ ਜੀ', role:'Paternal uncle of Guru Nanak Dev Ji', born:'Unknown', died:'Unknown', parents:'Shiv Rama Ji & Banarasi Ji', siblings:'Bhai Kalian Das Ji', spouse:'—', children:'—', bio:'Lalu Ji was the brother of Bhai Kalian Das Ji (Mehta Kalu) and the paternal uncle of Guru Nanak Dev Ji.' },
+    'bebe-nanki':     { name:'Bebe Nanki Ji', gur:'ਬੇਬੇ ਨਾਨਕੀ ਜੀ', role:'Sister of Guru Nanak Dev Ji — first to recognise his divinity', born:'1464 CE', died:'1518 CE', parents:'Bhai Kalian Das Ji & Mata Tripta Ji', siblings:'Guru Nanak Dev Ji', spouse:'Jai Ram Ji', children:'—', bio:'Bebe Nanki Ji was the beloved elder sister of Guru Nanak Dev Ji and the very first person to recognise his divine light. She provided him unconditional support from childhood. She is revered as a saint in her own right.' },
+    'guru-nanak':     { name:'Guru Nanak Dev Ji', gur:'ਗੁਰੂ ਨਾਨਕ ਦੇਵ ਜੀ', role:'1st Sikh Guru · Founder of the Sikh faith', born:'15 April 1469 CE, Rai Bhoe Ki Talwandi (Nankana Sahib, Pakistan)', died:'22 September 1539 CE, Kartarpur, Punjab', parents:'Bhai Kalian Das Ji & Mata Tripta Ji', siblings:'Bebe Nanki Ji', spouse:'Mata Sulakhni Ji', children:'Baba Sri Chand Ji, Baba Lakhmi Chand Ji', bio:'Guru Nanak Dev Ji is the founder of the Sikh faith and first of the Ten Gurus. He taught the oneness of the Creator (Ik Onkar), the equality of all humanity, and a path of honest living, meditating on the Divine Name, and sharing with others. He undertook four great journeys (Udaasis) across South Asia, Tibet, and Arabia, engaging scholars, mystics and leaders of every tradition. He founded the city of Kartarpur and established the Langar and Sangat traditions.', isGuru:true },
+    'mata-sulakhni':  { name:'Mata Sulakhni Ji', gur:'ਮਾਤਾ ਸੁਲੱਖਣੀ ਜੀ', role:'Wife of Guru Nanak Dev Ji', born:'c. 1473 CE, Batala, Punjab', died:'c. 1522 CE', parents:'Mool Chand & Chando Rani', siblings:'—', spouse:'Guru Nanak Dev Ji', children:'Baba Sri Chand Ji, Baba Lakhmi Chand Ji', bio:'Mata Sulakhni Ji was married to Guru Nanak Dev Ji in 1487. She managed the household faithfully while Guru Sahib undertook his long journeys across the world.' },
+    'baba-sri-chand': { name:'Baba Sri Chand Ji', gur:'ਬਾਬਾ ਸ੍ਰੀ ਚੰਦ ਜੀ (ਉਦਾਸੀ)', role:'Son of Guru Nanak Dev Ji · Founder of the Udasi order', born:'8 September 1494 CE', died:'13 January 1643 CE', parents:'Guru Nanak Dev Ji & Mata Sulakhni Ji', siblings:'Baba Lakhmi Chand Ji', spouse:'—', children:'—', bio:'Baba Sri Chand Ji was the elder son of Guru Nanak Dev Ji. He founded the Udasi order, a sect of ascetic Sikh scholars. He lived an extraordinarily long life and was deeply respected by subsequent Sikh Gurus.' },
+    'baba-lakhmi':    { name:'Baba Lakhmi Chand Ji', gur:'ਬਾਬਾ ਲਖਮੀ ਚੰਦ ਜੀ', role:'Son of Guru Nanak Dev Ji', born:'c. 1497 CE', died:'c. 1555 CE', parents:'Guru Nanak Dev Ji & Mata Sulakhni Ji', siblings:'Baba Sri Chand Ji', spouse:'—', children:'—', bio:'Baba Lakhmi Chand Ji was the younger son of Guru Nanak Dev Ji. He lived a householder\'s life.' },
+    'pheru-mal':      { name:'Pheru Mal Ji', gur:'ਫੇਰੂ ਮਲ ਜੀ', role:'Father of Guru Angad Dev Ji', born:'c. 1470 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Mata Dhaya Kaur Ji', children:'Guru Angad Dev Ji', bio:'Pheru Mal Ji was the father of Guru Angad Dev Ji. He was a trader by profession and a devotee of the goddess Durga. He died when Guru Angad was still young.' },
+    'mata-dhaya':     { name:'Mata Dhaya Kaur Ji', gur:'ਮਾਤਾ ਧਿਆ ਕੌਰ ਜੀ', role:'Mother of Guru Angad Dev Ji', born:'c. 1475 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Pheru Mal Ji', children:'Guru Angad Dev Ji', bio:'Mata Dhaya Kaur Ji was the mother of Guru Angad Dev Ji. It was largely her influence that led her son toward a life of devotion and seva.' },
+    'guru-angad':     { name:'Guru Angad Dev Ji', gur:'ਗੁਰੂ ਅੰਗਦ ਦੇਵ ਜੀ', role:'2nd Sikh Guru', born:'31 March 1504 CE, Harike, Ferozpur, Punjab', died:'29 March 1552 CE, Khadur Sahib, Punjab', parents:'Pheru Mal Ji & Mata Dhaya Kaur Ji', siblings:'—', spouse:'Mata Khivi Ji', children:'Dassu Ji, Dattu Ji, Bibi Amro Ji, Bibi Anokhi (Alakhi) Ji', bio:'Guru Angad Dev Ji was selected as the second Sikh Guru by Guru Nanak Dev Ji. He standardised and popularised the Gurmukhi script, making Gurbani accessible to all. Mata Khivi Ji, his wife, is one of the only women mentioned directly in the Sri Guru Granth Sahib Ji for her seva in managing the Langar.', isGuru:true },
+    'mata-khivi':     { name:'Mata Khivi Ji', gur:'ਮਾਤਾ ਖੀਵੀ ਜੀ', role:'Wife of Guru Angad Dev Ji · Langar seva', born:'c. 1506 CE', died:'c. 1582 CE', parents:'—', siblings:'—', spouse:'Guru Angad Dev Ji', children:'Dassu Ji, Dattu Ji, Bibi Amro Ji, Bibi Anokhi Ji', bio:'Mata Khivi Ji is celebrated in the Sri Guru Granth Sahib Ji (Ang 967) for her selfless service in the Langar. She managed the Langar with great devotion, serving the congregation ghee-enriched kheer.' },
+    'dassu':          { name:'Dassu Ji', gur:'ਦਾਸੂ ਜੀ', role:'Son of Guru Angad Dev Ji', born:'Unknown', died:'Unknown', parents:'Guru Angad Dev Ji & Mata Khivi Ji', siblings:'Dattu Ji, Bibi Amro Ji, Bibi Anokhi Ji', spouse:'—', children:'—', bio:'Dassu Ji was the elder son of Guru Angad Dev Ji.' },
+    'dattu':          { name:'Dattu Ji', gur:'ਦਾਤੂ ਜੀ', role:'Son of Guru Angad Dev Ji', born:'Unknown', died:'Unknown', parents:'Guru Angad Dev Ji & Mata Khivi Ji', siblings:'Dassu Ji, Bibi Amro Ji, Bibi Anokhi Ji', spouse:'—', children:'—', bio:'Dattu Ji was the second son of Guru Angad Dev Ji. He is known for having momentarily kicked Guru Amar Das Ji in anger when Guru-ship was passed over him.' },
+    'bibi-amro':      { name:'Bibi Amro Ji', gur:'ਬੀਬੀ ਅਮਰੋ ਜੀ', role:'Daughter of Guru Angad Dev Ji · Teacher of Gurbani', born:'c. 1532 CE', died:'c. 1600 CE', parents:'Guru Angad Dev Ji & Mata Khivi Ji', siblings:'Dassu Ji, Dattu Ji, Bibi Anokhi Ji', spouse:'Jasoo (son of Guru Amar Das\'s brother)', children:'—', bio:'Bibi Amro Ji was a gifted Gurbani reciter. It was through hearing her sing Gurbani that Guru Amar Das Ji was first drawn to the spiritual path and ultimately to Guru Angad Dev Ji.' },
+    'alakhi':         { name:'Bibi Anokhi (Alakhi) Ji', gur:'ਬੀਬੀ ਅਨੋਖੀ ਜੀ', role:'Daughter of Guru Angad Dev Ji', born:'Unknown', died:'Unknown', parents:'Guru Angad Dev Ji & Mata Khivi Ji', siblings:'Dassu Ji, Dattu Ji, Bibi Amro Ji', spouse:'—', children:'—', bio:'Bibi Anokhi Ji, also known as Alakhi Ji, was the youngest daughter of Guru Angad Dev Ji and Mata Khivi Ji.' },
+    'tej-bhan':       { name:'Tej Bhan Ji', gur:'ਤੇਜ ਭਾਨ ਜੀ', role:'Father of Guru Amar Das Ji', born:'c. 1449 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Mata Lachmi Ji', children:'Guru Amar Das Ji', bio:'Tej Bhan Ji was a Khatri of the Bhalla clan and the father of Guru Amar Das Ji. He lived in the village of Basarke.' },
+    'mata-lachmi':    { name:'Mata Lachmi Ji', gur:'ਮਾਤਾ ਲਖਮੀ ਜੀ', role:'Mother of Guru Amar Das Ji', born:'c. 1455 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Tej Bhan Ji', children:'Guru Amar Das Ji', bio:'Mata Lachmi Ji was the mother of Guru Amar Das Ji.' },
+    'guru-amar-das':  { name:'Guru Amar Das Ji', gur:'ਗੁਰੂ ਅਮਰ ਦਾਸ ਜੀ', role:'3rd Sikh Guru', born:'5 May 1479 CE, Basarke, Amritsar, Punjab', died:'1 September 1574 CE, Goindwal, Punjab', parents:'Tej Bhan Ji & Mata Lachmi Ji', siblings:'—', spouse:'Mata Mansa Devi Ji', children:'Mohan Ji, Mohari Ji, Bibi Dani Ji, Bibi Bhanni Ji', bio:'Guru Amar Das Ji became the third Sikh Guru at the age of 73, after decades of devoted service to Guru Angad Dev Ji. He established the Manji and Piri systems to spread the Guru\'s teaching, abolished purdah (the veil) and sati (widow immolation), and established 22 women preachers (Manjidars). He composed the Anand Sahib and the laavan (wedding hymns).', isGuru:true },
+    'mata-mansa':     { name:'Mata Mansa Devi Ji', gur:'ਮਾਤਾ ਮਾਨਸਾ ਦੇਵੀ ਜੀ', role:'Wife of Guru Amar Das Ji', born:'Unknown', died:'Unknown', parents:'—', siblings:'—', spouse:'Guru Amar Das Ji', children:'Mohan Ji, Mohari Ji, Bibi Dani Ji, Bibi Bhanni Ji', bio:'Mata Mansa Devi Ji was the devoted wife of Guru Amar Das Ji.' },
+    'har-das':        { name:'Har Das Ji', gur:'ਹਰਿ ਦਾਸ ਜੀ', role:'Father of Guru Ram Das Ji', born:'c. 1505 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Mata Daya Ji', children:'Guru Ram Das Ji', bio:'Har Das Ji was the father of Guru Ram Das Ji. He was a devoted Sikh who passed away when Guru Ram Das Ji was still a child.' },
+    'mata-daya':      { name:'Mata Daya Ji', gur:'ਮਾਤਾ ਦਾਇਆ ਜੀ', role:'Mother of Guru Ram Das Ji', born:'c. 1510 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Har Das Ji', children:'Guru Ram Das Ji', bio:'Mata Daya Ji was the mother of Guru Ram Das Ji. She was widowed young and raised her son in Lahore in poverty before he came to serve in the Guru\'s Langar.' },
+    'mohan':          { name:'Mohan Ji', gur:'ਮੋਹਨ ਜੀ', role:'Son of Guru Amar Das Ji', born:'c. 1538 CE', died:'Unknown', parents:'Guru Amar Das Ji & Mata Mansa Devi Ji', siblings:'Mohari Ji, Bibi Dani Ji, Bibi Bhanni Ji', spouse:'—', children:'—', bio:'Mohan Ji was the elder son of Guru Amar Das Ji. He compiled a collection of bani (the Mohan Vali Pothi) that was later used by Guru Arjan Dev Ji in compiling the Adi Granth.' },
+    'mohari':         { name:'Mohari Ji', gur:'ਮੋਹਰੀ ਜੀ', role:'Son of Guru Amar Das Ji', born:'c. 1541 CE', died:'Unknown', parents:'Guru Amar Das Ji & Mata Mansa Devi Ji', siblings:'Mohan Ji, Bibi Dani Ji, Bibi Bhanni Ji', spouse:'—', children:'—', bio:'Mohari Ji was the second son of Guru Amar Das Ji.' },
+    'bibi-dani':      { name:'Bibi Dani Ji', gur:'ਬੀਬੀ ਦਾਨੀ ਜੀ', role:'Daughter of Guru Amar Das Ji', born:'Unknown', died:'Unknown', parents:'Guru Amar Das Ji & Mata Mansa Devi Ji', siblings:'Mohan Ji, Mohari Ji, Bibi Bhanni Ji', spouse:'—', children:'—', bio:'Bibi Dani Ji was a daughter of Guru Amar Das Ji.' },
+    'bibi-bhanni':    { name:'Bibi Bhanni Ji', gur:'ਬੀਬੀ ਭਾਨੀ ਜੀ', role:'Daughter of Guru Amar Das Ji · Wife of Guru Ram Das Ji', born:'c. 1535 CE', died:'c. 1598 CE', parents:'Guru Amar Das Ji & Mata Mansa Devi Ji', siblings:'Mohan Ji, Mohari Ji, Bibi Dani Ji', spouse:'Guru Ram Das Ji', children:'Pirthi Chand Ji, Maha Dev Ji, Guru Arjan Dev Ji', bio:'Bibi Bhanni Ji was the devoted daughter of Guru Amar Das Ji and wife of Guru Ram Das Ji. She is famous for her extraordinary seva — holding a water pot still with her own hand beneath a broken leg of her father\'s seat so his meditation would not be disturbed. For this selfless seva, she was blessed that the Guruship would remain in her family.' },
+    'guru-ram-das':   { name:'Guru Ram Das Ji', gur:'ਗੁਰੂ ਰਾਮ ਦਾਸ ਜੀ', role:'4th Sikh Guru · Founded Amritsar', born:'24 September 1534 CE, Lahore (Pakistan)', died:'1 September 1581 CE, Goindwal, Punjab', parents:'Har Das Ji & Mata Daya Ji', siblings:'—', spouse:'Bibi Bhanni Ji', children:'Pirthi Chand Ji, Maha Dev Ji, Guru Arjan Dev Ji', bio:'Guru Ram Das Ji was the fourth Sikh Guru. He founded the city of Ramdaspur (now Amritsar) and began excavation of the sacred Amrit Sarovar (Pool of Nectar). He composed the Laavan (wedding hymns for Anand Karaj) and a great body of Gurbani, including Bihaagra ki Vaar.', isGuru:true },
+    'pirthi-chand':   { name:'Pirthi Chand Ji', gur:'ਪ੍ਰਿਥੀ ਚੰਦ ਜੀ', role:'Elder son of Guru Ram Das Ji', born:'c. 1558 CE', died:'c. 1618 CE', parents:'Guru Ram Das Ji & Bibi Bhanni Ji', siblings:'Maha Dev Ji, Guru Arjan Dev Ji', spouse:'—', children:'Miharvan Ji', bio:'Pirthi Chand Ji was the elder son of Guru Ram Das Ji. He expected to inherit the Guruship but it passed to his younger brother Guru Arjan Dev Ji. He is known historically for opposing the Sikh Gurus and composing fake bani (known as "Meena" bani) which Guru Arjan Dev Ji compiled the Adi Granth to exclude.' },
+    'maha-dev':       { name:'Maha Dev Ji', gur:'ਮਹਾ ਦੇਵ ਜੀ', role:'Son of Guru Ram Das Ji', born:'c. 1560 CE', died:'Unknown', parents:'Guru Ram Das Ji & Bibi Bhanni Ji', siblings:'Pirthi Chand Ji, Guru Arjan Dev Ji', spouse:'—', children:'—', bio:'Maha Dev Ji was the second son of Guru Ram Das Ji. He lived a life of renunciation and austerity.' },
+    'guru-arjan':     { name:'Guru Arjan Dev Ji', gur:'ਗੁਰੂ ਅਰਜਨ ਦੇਵ ਜੀ', role:'5th Sikh Guru · First Sikh Martyr · Compiled the Adi Granth', born:'15 April 1563 CE, Goindwal, Punjab', died:'30 May 1606 CE, Lahore (martyrdom)', parents:'Guru Ram Das Ji & Bibi Bhanni Ji', siblings:'Pirthi Chand Ji, Maha Dev Ji', spouse:'Mata Ganga Ji', children:'Guru Hargobind Sahib Ji', bio:'Guru Arjan Dev Ji compiled the Sri Guru Granth Sahib Ji (Adi Granth) and enshrined it in the newly completed Harmandar Sahib (Golden Temple) in Amritsar in 1604. He became the first Sikh martyr when he was tortured to death on the orders of the Mughal Emperor Jahangir in 1606 for refusing to convert to Islam.', isGuru:true },
+    'mata-ganga':     { name:'Mata Ganga Ji', gur:'ਮਾਤਾ ਗੰਗਾ ਜੀ', role:'Wife of Guru Arjan Dev Ji', born:'c. 1565 CE', died:'c. 1621 CE', parents:'—', siblings:'—', spouse:'Guru Arjan Dev Ji', children:'Guru Hargobind Sahib Ji', bio:'Mata Ganga Ji was the devoted wife of Guru Arjan Dev Ji. She is famous for walking barefoot to seek the blessings of Baba Buddha Ji, the great Sikh elder, for a son. Baba Buddha Ji blessed her with a son who would be a warrior and a hero — Guru Hargobind Sahib Ji.' },
+    'mata-dhamodari': { name:'Mata Dhamodari Ji', gur:'ਮਾਤਾ ਡਾਮੋਦਰੀ ਜੀ', role:'First wife of Guru Hargobind Sahib Ji', born:'c. 1596 CE', died:'c. 1640 CE', parents:'—', siblings:'—', spouse:'Guru Hargobind Sahib Ji', children:'Gurditta Ji, Ani Rai Ji, Atal Rai Ji, Bibi Viro Ji', bio:'Mata Dhamodari Ji was the first wife of Guru Hargobind Sahib Ji and mother of Baba Gurditta Ji.' },
+    'guru-hargobind': { name:'Guru Hargobind Sahib Ji', gur:'ਗੁਰੂ ਹਰਗੋਬਿੰਦ ਸਾਹਿਬ ਜੀ', role:'6th Sikh Guru · Miri-Piri · Warrior Guru', born:'19 June 1595 CE, Guru Ki Wadali, Amritsar', died:'3 March 1644 CE, Kiratpur Sahib', parents:'Guru Arjan Dev Ji & Mata Ganga Ji', siblings:'—', spouse:'Mata Dhamodari Ji, Mata Nanki Ji (Marwahi), Mata Marvahi Ji', children:'Baba Gurditta Ji, Ani Rai Ji, Atal Rai Ji, Bibi Viro Ji, Guru Tegh Bahadur Sahib Ji', bio:'Guru Hargobind Sahib Ji was the sixth Sikh Guru who transformed the Sikh tradition by donning two swords: Miri (temporal sovereignty) and Piri (spiritual authority). He built the Akal Takht, trained a Sikh army, and fought four battles against the Mughal Empire. He was imprisoned in Gwalior Fort for two years alongside 52 Hindu kings, whom he secured release for — earning the title Bandi Chhor Divas (Diwali).', isGuru:true },
+    'mata-nanki-6':   { name:'Mata Nanki Ji / Marwahi Ji', gur:'ਮਾਤਾ ਨਾਨਕੀ ਜੀ / ਮਰਵਾਹੀ ਜੀ', role:'Wife of Guru Hargobind Sahib Ji', born:'c. 1598 CE', died:'Unknown', parents:'—', siblings:'—', spouse:'Guru Hargobind Sahib Ji', children:'Guru Tegh Bahadur Sahib Ji, Suraj Mal', bio:'Mata Nanki Ji (also called Marwahi Ji) was one of the wives of Guru Hargobind Sahib Ji and the blessed mother of Guru Tegh Bahadur Sahib Ji.' },
+    'gurditta':       { name:'Baba Gurditta Ji', gur:'ਬਾਬਾ ਗੁਰਦਿੱਤਾ ਜੀ', role:'Elder son of Guru Hargobind Sahib Ji', born:'16 November 1613 CE', died:'1638 CE', parents:'Guru Hargobind Sahib Ji & Mata Dhamodari Ji', siblings:'Ani Rai Ji, Atal Rai Ji, Bibi Viro Ji', spouse:'Bibi Nihal Kaur Ji', children:'Dhirmal Ji, Guru Har Rai Ji', bio:'Baba Gurditta Ji was the eldest son of Guru Hargobind Sahib Ji. He was a deeply spiritual young man who died at the young age of 24. His son Guru Har Rai Ji became the 7th Sikh Guru.' },
+    'bibi-nihal':     { name:'Bibi Nihal Kaur Ji', gur:'ਬੀਬੀ ਨਿਹਾਲ ਕੌਰ ਜੀ', role:'Wife of Baba Gurditta Ji', born:'Unknown', died:'Unknown', parents:'—', siblings:'—', spouse:'Baba Gurditta Ji', children:'Dhirmal Ji, Guru Har Rai Ji', bio:'Bibi Nihal Kaur Ji was the wife of Baba Gurditta Ji and mother of Guru Har Rai Ji.' },
+    'ani-rai':        { name:'Ani Rai Ji', gur:'ਅਣੀ ਰਾਇ ਜੀ', role:'Son of Guru Hargobind Sahib Ji', born:'Unknown', died:'Unknown', parents:'Guru Hargobind Sahib Ji', siblings:'Baba Gurditta Ji, Atal Rai Ji, Bibi Viro Ji', spouse:'—', children:'—', bio:'Ani Rai Ji was one of the sons of Guru Hargobind Sahib Ji.' },
+    'atal-rai':       { name:'Baba Atal Rai Ji', gur:'ਬਾਬਾ ਅਟੱਲ ਰਾਇ ਜੀ', role:'Son of Guru Hargobind Sahib Ji · Child saint', born:'c. 1619 CE', died:'c. 1628 CE', parents:'Guru Hargobind Sahib Ji & Mata Dhamodari Ji', siblings:'Baba Gurditta Ji, Ani Rai Ji, Bibi Viro Ji', spouse:'—', children:'—', bio:'Baba Atal Rai Ji is celebrated as a child saint who performed a miracle, resurrecting a playmate who had died. When his father Guru Hargobind Ji reminded him that miracles should not be shown off, Baba Atal Rai Ji offered his own life in exchange. He left his body at age nine. The Baba Atal Rai tower in Amritsar stands in his honour.' },
+    'bibi-viro':      { name:'Bibi Viro Ji', gur:'ਬੀਬੀ ਵੀਰੋ ਜੀ', role:'Daughter of Guru Hargobind Sahib Ji', born:'c. 1616 CE', died:'Unknown', parents:'Guru Hargobind Sahib Ji & Mata Dhamodari Ji', siblings:'Baba Gurditta Ji, Ani Rai Ji, Atal Rai Ji', spouse:'Lal Chand', children:'Mata Gujri Ji', bio:'Bibi Viro Ji was the daughter of Guru Hargobind Sahib Ji. Her daughter Mata Gujri Ji married Guru Tegh Bahadur Sahib Ji, making Bibi Viro Ji the maternal grandmother of Guru Gobind Singh Ji.' },
+    'suraj-mal':      { name:'Suraj Mal', gur:'ਸੂਰਜ ਮਲ', role:'Grandson of Guru Hargobind Sahib Ji (through Mata Nanki Ji)', born:'Unknown', died:'Unknown', parents:'Mata Nanki Ji (wife of Guru Hargobind)', siblings:'Guru Tegh Bahadur Sahib Ji', spouse:'—', children:'Nand Chand', bio:'Suraj Mal was a descendant from Mata Nanki Ji\'s line.' },
+    'nand-chand':     { name:'Nand Chand', gur:'ਨੰਦ ਚੰਦ', role:'Descendant of Guru Hargobind Sahib Ji', born:'Unknown', died:'Unknown', parents:'Suraj Mal', siblings:'—', spouse:'—', children:'Gulab Rai', bio:'Nand Chand was a member of the Guru\'s extended family.' },
+    'gulab-rai':      { name:'Gulab Rai', gur:'ਗੁਲਾਬ ਰਾਇ', role:'Descendant of Guru Hargobind Sahib Ji', born:'Unknown', died:'Unknown', parents:'Nand Chand', siblings:'—', spouse:'—', children:'—', bio:'Gulab Rai was a member of the Guru\'s extended family.' },
+    'dhirmal':        { name:'Dhirmal Ji', gur:'ਧੀਰ ਮਲ ਜੀ', role:'Elder son of Baba Gurditta Ji', born:'c. 1627 CE', died:'c. 1677 CE', parents:'Baba Gurditta Ji & Bibi Nihal Kaur Ji', siblings:'Guru Har Rai Ji', spouse:'—', children:'—', bio:'Dhirmal Ji was the elder son of Baba Gurditta Ji and elder brother of Guru Har Rai Ji. He expected the Guruship but it passed to his younger brother. He is known for his opposition to the Sikh Gurus and is said to have kept a copy of the Adi Granth (known as the Kartarpuri Bir). He conspired with enemies of the Gurus.' },
+    'guru-har-rai':   { name:'Guru Har Rai Ji', gur:'ਗੁਰੂ ਹਰਿ ਰਾਇ ਜੀ', role:'7th Sikh Guru · Healer · Guardian of nature', born:'16 January 1630 CE, Kiratpur Sahib, Punjab', died:'6 October 1661 CE, Kiratpur Sahib', parents:'Baba Gurditta Ji & Bibi Nihal Kaur Ji', siblings:'Dhirmal Ji', spouse:'Bibi Krishan Kaur Ji (Mata Ram Kaur)', children:'Ram Rai Ji, Guru Harkrishan Sahib Ji', bio:'Guru Har Rai Ji was the seventh Sikh Guru and a deeply compassionate healer who maintained a large menagerie of animals and a herb garden with hundreds of medicinal plants. He treated Dara Shikoh (Mughal prince) with Ayurvedic medicines when others refused. He maintained a 2,200-strong cavalry while spreading the message of peace and love.', isGuru:true },
+    'mata-ram-kaur':  { name:'Bibi Krishan Kaur Ji (Mata Ram Kaur Ji)', gur:'ਮਾਤਾ ਰਾਮ ਕੌਰ ਜੀ', role:'Wife of Guru Har Rai Ji', born:'Unknown', died:'Unknown', parents:'—', siblings:'—', spouse:'Guru Har Rai Ji', children:'Ram Rai Ji, Guru Harkrishan Sahib Ji', bio:'Mata Ram Kaur Ji (also known as Bibi Krishan Kaur) was the devoted wife of Guru Har Rai Ji and mother of Guru Harkrishan Sahib Ji.' },
+    'ram-rai':        { name:'Ram Rai Ji', gur:'ਰਾਮ ਰਾਇ ਜੀ', role:'Elder son of Guru Har Rai Ji', born:'c. 1646 CE', died:'1687 CE', parents:'Guru Har Rai Ji & Mata Ram Kaur Ji', siblings:'Guru Harkrishan Sahib Ji', spouse:'—', children:'—', bio:'Ram Rai Ji was the elder son of Guru Har Rai Ji. He was sent to the court of Emperor Aurangzeb to explain Sikh scriptures. To please the Emperor, he altered a line of Gurbani, and for this Guru Har Rai Ji disowned him, saying that a person who could alter the Guru\'s word could not be the Guru\'s representative.' },
+    'guru-harkrishan':{ name:'Guru Harkrishan Sahib Ji', gur:'ਗੁਰੂ ਹਰਿ ਕ੍ਰਿਸ਼ਨ ਸਾਹਿਬ ਜੀ', role:'8th Sikh Guru · Child Guru', born:'7 July 1656 CE, Kiratpur Sahib, Punjab', died:'30 March 1664 CE, Delhi (at age 8)', parents:'Guru Har Rai Ji & Mata Ram Kaur Ji', siblings:'Ram Rai Ji', spouse:'—', children:'—', bio:'Guru Harkrishan Sahib Ji became Guru at the age of five, the youngest of the Sikh Gurus. He died at eight years of age in Delhi of smallpox, having selflessly tended to thousands of smallpox victims during an epidemic in Delhi. His last words pointed to his successor: "Baba Bakale" — indicating that the next Guru was in Bakala. The Bangla Sahib Gurdwara in Delhi stands where he healed the sick.', isGuru:true },
+    'mata-gujri':     { name:'Mata Gujri Ji', gur:'ਮਾਤਾ ਗੁਜਰੀ ਜੀ', role:'Wife of Guru Tegh Bahadur Sahib Ji · Grandmother of the Sahibzade', born:'c. 1624 CE, Kartarpur, Punjab', died:'27 December 1704 CE, Sirhind', parents:'Lal Chand & Bibi Viro Ji', siblings:'—', spouse:'Guru Tegh Bahadur Sahib Ji', children:'Guru Gobind Singh Ji', bio:'Mata Gujri Ji was the devoted and extraordinarily strong-willed wife of Guru Tegh Bahadur Sahib Ji and mother of Guru Gobind Singh Ji. After the Guru\'s martyrdom she raised Guru Gobind Singh Ji alone. After the evacuation of Anandpur Sahib in 1704 she was separated from Guru Gobind Singh Ji. She was imprisoned in the Cold Tower (Thanda Burj) of Sirhind with her four young grandsons. She kept the Sahibzade\'s spirits high with stories of the Gurus until her death.' },
+    'guru-tegh-bahadur':{ name:'Guru Tegh Bahadur Sahib Ji', gur:'ਗੁਰੂ ਤੇਗ਼ ਬਹਾਦਰ ਸਾਹਿਬ ਜੀ', role:'9th Sikh Guru · Hind di Chaadar (Shield of Hindustan)', born:'1 April 1621 CE, Amritsar, Punjab', died:'24 November 1675 CE, Chandni Chowk, Delhi (martyrdom)', parents:'Guru Hargobind Sahib Ji & Mata Nanki Ji', siblings:'Baba Gurditta Ji, Ani Rai Ji, Atal Rai Ji, Bibi Viro Ji', spouse:'Mata Gujri Ji', children:'Guru Gobind Singh Ji', bio:'Guru Tegh Bahadur Sahib Ji was the ninth Sikh Guru and the "Hind di Chaadar" (Shield of Hindustan). He was executed on the orders of Mughal Emperor Aurangzeb in Chandni Chowk, Delhi, for refusing to convert to Islam — and for championing the right of Kashmiri Pandits (Hindus) to freely practise their own faith, even though they were of a different religion. His sacrifice stands as one of history\'s greatest acts of defending the freedom of conscience.', isGuru:true },
+    'mata-sundri':    { name:'Mata Sundri Ji', gur:'ਮਾਤਾ ਸੁੰਦਰੀ ਜੀ', role:'Wife of Guru Gobind Singh Ji · Led the Panth after Guru Ji\'s departure', born:'c. 1667 CE', died:'1747 CE', parents:'—', siblings:'—', spouse:'Guru Gobind Singh Ji', children:'Sahibzada Ajit Singh Ji (adopted)', bio:'Mata Sundri Ji was the most prominent of Guru Gobind Singh Ji\'s wives. After the Guru\'s passing in 1708, she led the Sikh Panth for nearly 40 years from Delhi, issuing Hukamnamas (letters of authority) to the Khalsa. She is revered as a leader of the Panth in her own right.' },
+    'guru-gobind-singh':{ name:'Guru Gobind Singh Ji', gur:'ਗੁਰੂ ਗੋਬਿੰਦ ਸਿੰਘ ਜੀ', role:'10th Sikh Guru · Founder of the Khalsa', born:'22 December 1666 CE, Patna Sahib, Bihar', died:'7 October 1708 CE, Nanded, Maharashtra', parents:'Guru Tegh Bahadur Sahib Ji & Mata Gujri Ji', siblings:'—', spouse:'Mata Jito Ji, Mata Sundri Ji, Mata Sahib Devan (Sahib Kaur Ji)', children:'Sahibzada Ajit Singh Ji, Sahibzada Jujhar Singh Ji, Sahibzada Jorawar Singh Ji, Sahibzada Fateh Singh Ji', bio:'Guru Gobind Singh Ji was the tenth and final human Sikh Guru. On Vaisakhi 1699 he created the Khalsa — the Sovereign Brotherhood of the Pure — initiating the Panj Pyare (Five Beloved) with Amrit. He composed the Dasam Granth, defeated numerous Mughal and Hill Rajah armies, and sacrificed his father, mother, and all four sons for the faith. Before his passing he declared the Sri Guru Granth Sahib Ji as the eternal living Guru of the Sikhs.', isGuru:true },
+    'mata-jito':      { name:'Mata Jito Ji', gur:'ਮਾਤਾ ਜੀਤੋ ਜੀ', role:'First wife of Guru Gobind Singh Ji · Mother of three Sahibzade', born:'c. 1666 CE', died:'5 December 1700 CE', parents:'—', siblings:'—', spouse:'Guru Gobind Singh Ji', children:'Sahibzada Jujhar Singh Ji, Sahibzada Jorawar Singh Ji, Sahibzada Fateh Singh Ji', bio:'Mata Jito Ji (also known as Mata Ajit Kaur) was the first wife of Guru Gobind Singh Ji. She is believed to have ground wheat flour for the Amrit during the Vaisakhi 1699 Khalsa initiation ceremony, making a supreme contribution to that historic moment. She passed away in 1700 CE.' },
+    'mata-sahib':     { name:'Mata Sahib Kaur Ji', gur:'ਮਾਤਾ ਸਾਹਿਬ ਕੌਰ ਜੀ', role:'Wife of Guru Gobind Singh Ji · Mother of the Khalsa', born:'c. 1681 CE', died:'1747 CE', parents:'—', siblings:'—', spouse:'Guru Gobind Singh Ji', children:'—', bio:'Mata Sahib Kaur Ji is revered as the "Mother of the Khalsa." During the Vaisakhi 1699 Khalsa initiation, she added sugar crystals (patasas) to the Amrit at Guru Gobind Singh Ji\'s request, symbolising that the Khalsa would have sweetness alongside strength. Every Khalsa is spiritually her child.' },
+    'ajit-singh':     { name:'Sahibzada Ajit Singh Ji', gur:'ਸਾਹਿਬਜ਼ਾਦਾ ਅਜੀਤ ਸਿੰਘ ਜੀ', role:'Eldest son of Guru Gobind Singh Ji · Shaheed', born:'26 January 1687 CE, Paunta Sahib', died:'22 December 1704 CE, Chamkaur Sahib (martyrdom, aged 17)', parents:'Guru Gobind Singh Ji & Mata Sundri Ji', siblings:'Sahibzada Jujhar Singh Ji, Sahibzada Jorawar Singh Ji, Sahibzada Fateh Singh Ji', spouse:'—', children:'—', bio:'Sahibzada Ajit Singh Ji was the eldest son of Guru Gobind Singh Ji. He was a skilled warrior who fell in the Battle of Chamkaur Sahib on 22 December 1704 at the age of 17, fighting alongside his father against thousands of Mughal and Hill Rajah soldiers. When he fell, Guru Gobind Singh Ji said: "I still have one more Ajit (invincible)."' },
+    'jujhar-singh':   { name:'Sahibzada Jujhar Singh Ji', gur:'ਸਾਹਿਬਜ਼ਾਦਾ ਜੁਝਾਰ ਸਿੰਘ ਜੀ', role:'Second son of Guru Gobind Singh Ji · Shaheed', born:'14 March 1691 CE, Anandpur Sahib', died:'22 December 1704 CE, Chamkaur Sahib (martyrdom, aged 13)', parents:'Guru Gobind Singh Ji & Mata Jito Ji', siblings:'Sahibzada Ajit Singh Ji, Sahibzada Jorawar Singh Ji, Sahibzada Fateh Singh Ji', spouse:'—', children:'—', bio:'Sahibzada Jujhar Singh Ji was the second son of Guru Gobind Singh Ji. He was martyred at the Battle of Chamkaur Sahib alongside his elder brother Ajit Singh Ji at the age of 13, fighting bravely against the overwhelming Mughal forces.' },
+    'jorawar-singh':  { name:'Sahibzada Jorawar Singh Ji', gur:'ਸਾਹਿਬਜ਼ਾਦਾ ਜ਼ੋਰਾਵਰ ਸਿੰਘ ਜੀ', role:'Third son of Guru Gobind Singh Ji · Shaheed', born:'17 November 1696 CE, Anandpur Sahib', died:'27 December 1704 CE, Sirhind (bricked alive, aged 8)', parents:'Guru Gobind Singh Ji & Mata Jito Ji', siblings:'Sahibzada Ajit Singh Ji, Sahibzada Jujhar Singh Ji, Sahibzada Fateh Singh Ji', spouse:'—', children:'—', bio:'Sahibzada Jorawar Singh Ji was the third son of Guru Gobind Singh Ji. At the age of just 8, he was captured with his younger brother Fateh Singh by the treachery of Gangu (their family cook) and handed to the Nawab of Sirhind. He and his brother refused to convert to Islam despite threats and were bricked alive. His resolve in the face of death inspires Sikhs to this day.' },
+    'fateh-singh':    { name:'Sahibzada Fateh Singh Ji', gur:'ਸਾਹਿਬਜ਼ਾਦਾ ਫ਼ਤਿਹ ਸਿੰਘ ਜੀ', role:'Youngest son of Guru Gobind Singh Ji · Shaheed', born:'25 February 1699 CE, Anandpur Sahib', died:'27 December 1704 CE, Sirhind (bricked alive, aged 5)', parents:'Guru Gobind Singh Ji & Mata Jito Ji', siblings:'Sahibzada Ajit Singh Ji, Sahibzada Jujhar Singh Ji, Sahibzada Jorawar Singh Ji', spouse:'—', children:'—', bio:'Sahibzada Fateh Singh Ji was the youngest son of Guru Gobind Singh Ji — born in the same year the Khalsa was created. At just 5 years of age, he was bricked alive along with his brother Jorawar Singh at Sirhind. He is the youngest known martyr in Sikh history. He reportedly greeted his executioners with "Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh," inspiring awe even in his murderers.' },
+  };
+
+  // ── Kakaars data ──────────────────────────────────────────────────────────
+  const KAKAARS = {
+    kesh:    { name:'Kesh — Uncut Hair', gur:'ਕੇਸ', icon:'✂️', color:'#1d4e89', history:'Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699 CE, Anandpur Sahib.', meaning:'Kesh represents acceptance of God\'s will and the natural form in which the Creator made us. It is a mark of sovereignty and dignity — the Sikh does not cut what God gave them. Long hair (kesh) is associated with spiritual power and the identity of the Khalsa warrior.', significance:'Every baptised (Amritdhari) Sikh must keep their hair intact and uncut. The dastar (turban) is worn to protect and honour the kesh. Kesh is the most visible identifier of a Sikh. Guru Gobind Singh Ji said: "The Khalsa is my true image."', gurbani:'ਕੇਸ ਸੰਗਿ ਦਾਸਨ ਕੇ ਧੋਵਾ ॥ — With my hair I wash the feet of the servants of the Lord. (Guru Granth Sahib, Ang 500)' },
+    kangha:  { name:'Kangha — Wooden Comb', gur:'ਕੰਘਾ', icon:'🪮', color:'#8a5a14', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kangha symbolises discipline, cleanliness, and order. The Guru taught that spiritual purity must be matched by physical cleanliness. It reminds the Sikh to keep the mind as well as the hair combed and untangled.', significance:'The kangha must be carried in the kesh (hair) at all times. It is used twice daily to comb the hair before tying the turban. It represents a middle path — rejecting both neglect and vanity.', gurbani:'ਸੁੰਦਰ ਸੁਘੜ ਸੁਜਾਨ ਸੁਭਾਈ ॥ — Beautiful, skilled, wise, and naturally gracious. (Guru Granth Sahib, Ang 785)' },
+    kara:    { name:'Kara — Steel Bracelet', gur:'ਕੜਾ', icon:'⭕', color:'#2f7d4f', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kara is a circular band of steel worn on the right wrist. The circle has no beginning and no end — representing the eternal, infinite nature of Waheguru. It reminds the Sikh before every action: "With this hand, am I doing the will of the Guru?"', significance:'Steel (sarabloh) is the metal of the Khalsa — strong, pure, and uncompromising. The kara acts as a restraint: the Sikh who wears it is reminded to use their hands only in God\'s service, never for evil. It is also a symbol of unity — all Khalsa wear the same kara.', gurbani:'ਸਭੁ ਕੋ ਰੁਲਤਾ ਫਿਰੈ ਬਿਨੁ ਕਾਰਨ ਸੋਇ ॥ — Without God\'s grace, all wander lost. The kara anchors us. (Guru Granth Sahib, Ang 15)' },
+    kachera: { name:'Kachera — Cotton Breeches', gur:'ਕਛਹਿਰਾ', icon:'🩲', color:'#16335c', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kachera is a specific style of short breeches (undergarment) worn by Sikhs. It represents chastity, self-control, and moral discipline. It was also practical — allowing freedom of movement for a warrior on horseback.', significance:'The kachera replaced the dhoti which could easily come undone in battle. As a garment of self-control, it reminds the Sikh to exercise discipline over the five vices (ਪੰਜ ਵਿਕਾਰ), especially kaam (lust). It represents fidelity in relationships and the Sikh ideal of one loyal, loving marriage.', gurbani:'ਕਾਮੁ ਕ੍ਰੋਧੁ ਕਾਇਆ ਕਉ ਗਾਲੈ ॥ — Lust and anger consume the body. (Guru Granth Sahib, Ang 932)' },
+    kirpan:  { name:'Kirpan — Steel Sword', gur:'ਕਿਰਪਾਨ', icon:'⚔️', color:'#a23b2e', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kirpan (from ਕਿਰਪਾ — grace, and ਆਨ — honour) is a steel sword carried by Khalsa Sikhs. It represents the Sikh\'s duty to stand up against injustice and protect the weak — regardless of their religion, caste, or background.', significance:'The kirpan is not merely a weapon — it is a symbol of sovereignty, dignity, and the Sikh commitment to justice. Guru Gobind Singh Ji taught that the sword is the last resort of the righteous. The Khalsa does not carry the kirpan to harm the innocent; they carry it to serve as the sword arm of the Akal Purakh (the Timeless One) in protecting the truth. Guru Tegh Bahadur Ji gave his life as a metaphorical kirpan — the shield of Hindustan.', gurbani:'ਦੇਗ ਤੇਗ ਫ਼ਤਹਿ ਨਿਰਭਉ ਨਿਰਵੈਰੁ ॥ — Victory of the Deg (cauldron of plenty) and Teg (sword of justice), fearless and without enmity. (Guru Gobind Singh Ji)' },
+  };
+
+  // ── Family Tree renderer ──────────────────────────────────────────────────
+  const NODES = [
+    // Ancestors of Guru Nanak
+    {id:'rama',            x:160, y:25},
+    {id:'shiv-rama',       x:480, y:25},
+    {id:'banarasi',        x:640, y:25},
+    {id:'krishan',         x:50,  y:105},
+    {id:'mata-tripta',     x:185, y:105},
+    {id:'bhai-kalian-das', x:410, y:105},
+    {id:'lalu',            x:620, y:105},
+    {id:'bebe-nanki',      x:135, y:190},
+    {id:'guru-nanak',      x:340, y:190},
+    {id:'mata-sulakhni',   x:570, y:190},
+    {id:'baba-sri-chand',  x:260, y:275},
+    {id:'baba-lakhmi',     x:460, y:275},
+    // Guru Angad family
+    {id:'pheru-mal',       x:25,  y:365},
+    {id:'mata-dhaya',      x:185, y:365},
+    {id:'guru-angad',      x:105, y:445},
+    {id:'mata-khivi',      x:310, y:445},
+    {id:'dassu',           x:30,  y:525},
+    {id:'dattu',           x:145, y:525},
+    {id:'bibi-amro',       x:260, y:525},
+    {id:'alakhi',          x:380, y:525},
+    // Guru Amar Das family
+    {id:'tej-bhan',        x:25,  y:610},
+    {id:'mata-lachmi',     x:175, y:610},
+    {id:'har-das',         x:480, y:610},
+    {id:'mata-daya',       x:625, y:610},
+    {id:'guru-amar-das',   x:100, y:690},
+    {id:'mata-mansa',      x:290, y:690},
+    {id:'guru-ram-das',    x:545, y:690},
+    {id:'mohan',           x:30,  y:770},
+    {id:'mohari',          x:135, y:770},
+    {id:'bibi-dani',       x:235, y:770},
+    {id:'bibi-bhanni',     x:340, y:770},
+    // Guru Arjan family
+    {id:'pirthi-chand',    x:80,  y:860},
+    {id:'maha-dev',        x:215, y:860},
+    {id:'guru-arjan',      x:355, y:860},
+    {id:'mata-ganga',      x:525, y:860},
+    // Guru Hargobind family
+    {id:'mata-dhamodari',  x:30,  y:945},
+    {id:'guru-hargobind',  x:200, y:945},
+    {id:'mata-nanki-6',    x:470, y:945},
+    {id:'ani-rai',         x:310, y:1020},
+    {id:'gurditta',        x:50,  y:1070},
+    {id:'bibi-nihal',      x:220, y:1070},
+    {id:'suraj-mal',       x:610, y:1010},
+    {id:'nand-chand',      x:610, y:1080},
+    {id:'gulab-rai',       x:610, y:1150},
+    {id:'atal-rai',        x:30,  y:1155},
+    {id:'bibi-viro',       x:165, y:1155},
+    // Guru Har Rai family
+    {id:'dhirmal',         x:30,  y:1240},
+    {id:'guru-har-rai',    x:180, y:1240},
+    {id:'mata-ram-kaur',   x:360, y:1240},
+    {id:'ram-rai',         x:100, y:1320},
+    {id:'guru-harkrishan', x:280, y:1320},
+    // Guru Tegh Bahadur + Guru Gobind Singh
+    {id:'mata-gujri',      x:250, y:1420},
+    {id:'guru-tegh-bahadur',x:445,y:1420},
+    {id:'mata-sundri',     x:40,  y:1515},
+    {id:'guru-gobind-singh',x:250,y:1515},
+    {id:'mata-jito',       x:465, y:1515},
+    {id:'mata-sahib',      x:640, y:1515},
+    // The Four Sahibzade
+    {id:'ajit-singh',      x:25,  y:1610},
+    {id:'jujhar-singh',    x:180, y:1610},
+    {id:'jorawar-singh',   x:360, y:1610},
+    {id:'fateh-singh',     x:535, y:1610},
+  ];
+
+  // Edges: {f: fromId, t: toId, type: 'm'=marriage, 'c'=child}
+  const EDGES = [
+    // Guru Nanak ancestors
+    {f:'rama', t:'mata-tripta', type:'c'}, {f:'rama', t:'krishan', type:'c'},
+    {f:'shiv-rama', t:'bhai-kalian-das', type:'c'}, {f:'shiv-rama', t:'lalu', type:'c'},
+    {f:'shiv-rama', t:'banarasi', type:'m'},
+    {f:'mata-tripta', t:'bhai-kalian-das', type:'m'},
+    {f:'mata-tripta', t:'guru-nanak', type:'c'}, {f:'mata-tripta', t:'bebe-nanki', type:'c'},
+    {f:'guru-nanak', t:'mata-sulakhni', type:'m'},
+    {f:'guru-nanak', t:'baba-sri-chand', type:'c'}, {f:'guru-nanak', t:'baba-lakhmi', type:'c'},
+    // Guru Angad
+    {f:'pheru-mal', t:'mata-dhaya', type:'m'}, {f:'pheru-mal', t:'guru-angad', type:'c'},
+    {f:'guru-angad', t:'mata-khivi', type:'m'},
+    {f:'guru-angad', t:'dassu', type:'c'}, {f:'guru-angad', t:'dattu', type:'c'},
+    {f:'guru-angad', t:'bibi-amro', type:'c'}, {f:'guru-angad', t:'alakhi', type:'c'},
+    // Guru Amar Das
+    {f:'tej-bhan', t:'mata-lachmi', type:'m'}, {f:'tej-bhan', t:'guru-amar-das', type:'c'},
+    {f:'har-das', t:'mata-daya', type:'m'}, {f:'har-das', t:'guru-ram-das', type:'c'},
+    {f:'guru-amar-das', t:'mata-mansa', type:'m'},
+    {f:'guru-amar-das', t:'mohan', type:'c'}, {f:'guru-amar-das', t:'mohari', type:'c'},
+    {f:'guru-amar-das', t:'bibi-dani', type:'c'}, {f:'guru-amar-das', t:'bibi-bhanni', type:'c'},
+    {f:'bibi-bhanni', t:'guru-ram-das', type:'m'},
+    {f:'bibi-bhanni', t:'pirthi-chand', type:'c'}, {f:'bibi-bhanni', t:'maha-dev', type:'c'},
+    {f:'bibi-bhanni', t:'guru-arjan', type:'c'},
+    // Guru Arjan
+    {f:'guru-arjan', t:'mata-ganga', type:'m'}, {f:'guru-arjan', t:'guru-hargobind', type:'c'},
+    // Guru Hargobind
+    {f:'mata-dhamodari', t:'guru-hargobind', type:'m'},
+    {f:'guru-hargobind', t:'mata-nanki-6', type:'m'},
+    {f:'guru-hargobind', t:'gurditta', type:'c'}, {f:'guru-hargobind', t:'ani-rai', type:'c'},
+    {f:'guru-hargobind', t:'atal-rai', type:'c'}, {f:'guru-hargobind', t:'bibi-viro', type:'c'},
+    {f:'guru-hargobind', t:'guru-tegh-bahadur', type:'c'},
+    {f:'mata-nanki-6', t:'suraj-mal', type:'c'},
+    {f:'suraj-mal', t:'nand-chand', type:'c'}, {f:'nand-chand', t:'gulab-rai', type:'c'},
+    {f:'gurditta', t:'bibi-nihal', type:'m'},
+    {f:'gurditta', t:'dhirmal', type:'c'}, {f:'gurditta', t:'guru-har-rai', type:'c'},
+    // Guru Har Rai
+    {f:'guru-har-rai', t:'mata-ram-kaur', type:'m'},
+    {f:'guru-har-rai', t:'ram-rai', type:'c'}, {f:'guru-har-rai', t:'guru-harkrishan', type:'c'},
+    // Guru Tegh Bahadur
+    {f:'bibi-viro', t:'mata-gujri', type:'c'},
+    {f:'mata-gujri', t:'guru-tegh-bahadur', type:'m'},
+    {f:'guru-tegh-bahadur', t:'guru-gobind-singh', type:'c'},
+    // Guru Gobind Singh
+    {f:'mata-sundri', t:'guru-gobind-singh', type:'m'},
+    {f:'guru-gobind-singh', t:'mata-jito', type:'m'},
+    {f:'guru-gobind-singh', t:'mata-sahib', type:'m'},
+    {f:'guru-gobind-singh', t:'ajit-singh', type:'c'},
+    {f:'guru-gobind-singh', t:'jujhar-singh', type:'c'},
+    {f:'guru-gobind-singh', t:'jorawar-singh', type:'c'},
+    {f:'guru-gobind-singh', t:'fateh-singh', type:'c'},
+  ];
+
+  function initFamilyTree() {
+    const canvas = document.getElementById('ft-canvas');
+    if (!canvas) return;
+    const nodeMap = {};
+    NODES.forEach(n => { nodeMap[n.id] = n; });
+    // Render SVG
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('style','position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible');
+    EDGES.forEach(e => {
+      const a = nodeMap[e.f], b = nodeMap[e.t];
+      if (!a || !b) return;
+      const line = document.createElementNS(NS, 'path');
+      const ax = a.x + 62, ay = a.y + 14, bx = b.x + 62, by = b.y + 14;
+      if (e.type === 'm') {
+        // horizontal dotted marriage line
+        line.setAttribute('d', `M ${ax} ${ay} L ${bx} ${by}`);
+        line.setAttribute('stroke','#94a3b8');
+        line.setAttribute('stroke-dasharray','4,3');
+        line.setAttribute('stroke-width','1.5');
+      } else {
+        // child: go down from parent midpoint
+        const mx = (ax + bx) / 2, my = Math.max(ay, by) - 20;
+        line.setAttribute('d', `M ${ax} ${ay+2} L ${ax} ${my} L ${bx} ${my} L ${bx} ${by-2}`);
+        line.setAttribute('stroke','#cbd5e1');
+        line.setAttribute('stroke-dasharray','none');
+        line.setAttribute('stroke-width','1.5');
+        line.setAttribute('fill','none');
+      }
+      line.setAttribute('fill','none');
+      svg.appendChild(line);
+    });
+    canvas.appendChild(svg);
+    // Render nodes
+    NODES.forEach(n => {
+      const p = PEOPLE[n.id]; if (!p) return;
+      const btn = document.createElement('button');
+      btn.className = [
+        'absolute rounded-md px-2 py-1 text-xs font-bold leading-tight border transition-all',
+        'hover:shadow-md hover:scale-105 active:scale-95',
+        p.isGuru
+          ? 'bg-saffron text-white border-saffron-deep shadow-sm'
+          : 'bg-surface text-navy border-line hover:border-saffron-deep',
+      ].join(' ');
+      btn.style.cssText = `left:${n.x}px;top:${n.y}px;min-width:110px;max-width:145px;white-space:normal;text-align:center;z-index:1`;
+      const shortName = (p.name.replace(' Ji','').replace(' Sahib','').replace('Guru ','').replace('Mata ','').replace('Bhai ','').replace('Bebe ','').replace('Bibi ','').replace('Baba ','').replace('Sahibzada ','').replace('Gurbani','') || p.name).trim();
+      btn.textContent = p.isGuru ? p.name.replace(' Dev Ji','').replace(' Sahib Ji','') + ' ✦' : p.name.split('(')[0].trim().replace('Bhai Kalian Das Ji ','Mehta Kalu').replace(' Kaur Ji',' Kaur').replace(' Singh Ji',' Singh');
+      btn.setAttribute('aria-label', 'Learn about ' + p.name);
+      btn.addEventListener('click', () => showPersonPopup(n.id));
+      canvas.appendChild(btn);
+    });
+  }
+
+  function showPersonPopup(id) {
+    const p = PEOPLE[id]; if (!p) return;
+    openPopup(`
+      <div class="flex items-center gap-3 mb-4">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white text-sm font-bold" style="background:${p.isGuru ? '#c27d1a' : '#1d4e89'}">
+          ${p.isGuru ? '✦' : (p.gur[0] || '?')}
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-navy leading-tight">${p.name}</h3>
+          <div class="gur text-base text-saffron-deep">${p.gur}</div>
+          <div class="text-xs text-muted mt-0.5">${p.role}</div>
+        </div>
+      </div>
+      <p class="text-sm leading-relaxed text-navy">${p.bio}</p>
+      <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
+        ${p.born ? `<dt class="text-muted font-semibold">Born</dt><dd class="text-navy">${p.born}</dd>` : ''}
+        ${p.died ? `<dt class="text-muted font-semibold">Passed</dt><dd class="text-navy">${p.died}</dd>` : ''}
+        ${p.parents && p.parents !== '—' ? `<dt class="text-muted font-semibold">Parents</dt><dd class="text-navy">${p.parents}</dd>` : ''}
+        ${p.spouse && p.spouse !== '—' ? `<dt class="text-muted font-semibold">Spouse</dt><dd class="text-navy">${p.spouse}</dd>` : ''}
+        ${p.siblings && p.siblings !== '—' ? `<dt class="text-muted font-semibold">Siblings</dt><dd class="text-navy">${p.siblings}</dd>` : ''}
+        ${p.children && p.children !== '—' ? `<dt class="text-muted font-semibold">Children</dt><dd class="text-navy">${p.children}</dd>` : ''}
+      </dl>
+    `);
+  }
+
+  // ── Kakaars popup handler ─────────────────────────────────────────────────
+  document.querySelectorAll('.kakaar-card').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const k = KAKAARS[btn.dataset.kakaar]; if (!k) return;
+      openPopup(`
+        <div class="flex items-center gap-3 mb-4">
+          <div class="text-5xl">${k.icon}</div>
+          <div>
+            <h3 class="text-xl font-bold text-navy">${k.name}</h3>
+            <div class="gur text-lg mt-0.5" style="color:${k.color}">${k.gur}</div>
+          </div>
+        </div>
+        <div class="space-y-3 text-sm leading-relaxed">
+          <div><span class="font-semibold text-navy">History: </span><span class="text-muted">${k.history}</span></div>
+          <div><span class="font-semibold text-navy">Meaning: </span><span class="text-muted">${k.meaning}</span></div>
+          <div><span class="font-semibold text-navy">Significance: </span><span class="text-muted">${k.significance}</span></div>
+          <div class="mt-3 rounded-lg border-l-4 border-saffron bg-saffron/5 px-3 py-2">
+            <p class="text-xs italic text-navy">${k.gurbani}</p>
+          </div>
+        </div>
+      `);
+    });
+  });
+
+  // Init tree when its section is first opened (lazy)
+  const ftSection = document.getElementById('family-tree');
+  let treeInited = false;
+  if (ftSection) {
+    ftSection.addEventListener('toggle', () => { if (ftSection.open && !treeInited) { treeInited = true; initFamilyTree(); } });
+  }
   </script>
 </Base>

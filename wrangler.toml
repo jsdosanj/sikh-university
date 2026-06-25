@@ -12,7 +12,7 @@ routes = [
 
 # Build the Astro frontend (web/) before deploying; its output is the static site.
 [build]
-command = "cd web && npm install && npm run build"
+command = "cd web && npm install && npm run build && rm -f dist/assets/data/courses.json"
 
 # Astro build output (web/dist) is served by the assets binding; the Worker handles /api/*.
 [assets]

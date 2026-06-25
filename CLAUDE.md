@@ -77,3 +77,22 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
   Never scrape or rehost copyrighted third-party material without permission.
 - **Handle Gurbani with reverence** — correct Gurmukhi, faithful sourcing, scholar review.
 - See `docs/` for the platform ADR, security model, licensing register, curriculum, and roadmap.
+
+**Instructional Constraints:**
+
+1. **Language:** The main body of the lecture must be in English. However, all key concepts, technical terms, and theological nuances must be written exclusively in **Punjabi Unicode**. Do not provide English transliterations (e.g., use **ਸੰਤ-ਸਿਪਾਹੀ** instead of "Sant-Sipahi").
+2. **Scripture:** Integrate at least four specific **ਸ਼ਬਦ** from the **ਸ੍ਰੀ ਗੁਰੂ ਗਰੰਥ ਸਾਹਿਬ ਜੀ**. These must be presented in **Punjabi Unicode** with a formal English translation immediately following.
+3. You must include in-text citations using Chicago Manual of Style (CMOS).
+4. MUST Reference the **ਸ੍ਰੀ ਗੁਰੂ ਗਰੰਥ ਸਾਹਿਬ ਜੀ**, ਸ੍ਰੀ ਦਸਮ ਗ੍ਰੰਥ, ਸ੍ਰੀ ਸਰਬਲੋਹ ਗ੍ਰੰਥ by **ਅੰਗ**. DO NOT MAKE UP YOUR OWN GURBANI PHRASES
+5. Provide a full table of contents list at the very beginning.
+6. Provide a full "Works Cited" list at the very end.
+7. For courses being written from the writings of multiple authors (MUST Reference at minimum four contemporary academic sources (e.g., works by Kapur Singh or Mandair and others).MUST Reference at minimum two contemporary historical sources (e.g., works by Kavi Santokh Singh, Giani Gian Singh, etc...)Double/Triple check your references and ensure all references are accurate and all gurbani references are not made up).
+8. add a keywords section after the table of contents in each course:
+| **Term (Unicode)** | **Academic Context**                                       |
+| ------------------ | ---------------------------------------------------------- |
+| **ਗੁਰਮਤਿ**         | The teachings/philosophy of the Guru.                      |
+| **ਸੰਗਤ**           | The collective congregation; a communal learning space.    |
+| **ਹਉਮੈ**           | The ego-construct that separates the self from the Divine. |
+| **ਧਰਮ**            | Righteous duty and cosmic order.                           |
+| **ਨਿਰਭਉ**          | Fearlessness as a prerequisite for justice.                |
+| **ਸੇਵਾ**           | Selfless service as a pedagogical tool for humility.       |

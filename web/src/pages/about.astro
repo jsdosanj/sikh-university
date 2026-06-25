@@ -14,56 +14,142 @@ const steps = [
   ['Take notes & track progress.', 'Make notes as you go, build a streak, and earn badges on your dashboard.'],
   ['Pass the test, earn a certificate.', 'Score 80%+ to complete a course and unlock what comes next.'],
 ];
+const stats = [
+  { n: '283+', label: 'Courses' },
+  { n: '22', label: 'Topics' },
+  { n: '31', label: 'Learning paths' },
+  { n: '100%', label: 'Free' },
+];
 ---
 <Base title="About — Sikh University" description="Why Sikh University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills.">
+  <!-- Hero -->
   <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
-    <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-saffron/25 blur-3xl"></div>
-    <div class="wrap relative py-16">
-      <h1 class="max-w-3xl text-4xl font-bold text-white">A space to <span class="text-saffron">dig deeper</span> into Sikhi.</h1>
-      <p class="mt-4 max-w-2xl text-lg text-white/85">Sikh University is a free, open online university — built so that anyone, anywhere can study Sikhi seriously, from authentic sources, at their own pace.</p>
+    <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-saffron/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute -left-12 bottom-0 h-64 w-64 rounded-full bg-blue/20 blur-3xl"></div>
+    <div class="wrap relative py-20">
+      <div class="inline-flex items-center gap-2 rounded-full border border-saffron/40 bg-saffron/10 px-4 py-1.5 font-sans text-sm text-saffron mb-6">
+        <span class="gur text-base">ਸਿੱਖ ਯੂਨੀਵਰਸਿਟੀ</span>
+        <span class="text-white/50">·</span>
+        <span>Free Open University</span>
+      </div>
+      <h1 class="max-w-3xl text-4xl font-bold text-white sm:text-5xl leading-tight">A space to <span class="text-saffron">dig deeper</span><br class="hidden sm:block" /> into Sikhi.</h1>
+      <p class="mt-5 max-w-2xl text-lg text-white/85 leading-relaxed">Sikh University is a free, open online university — built so that anyone, anywhere can study Sikhi seriously, from authentic sources, at their own pace.</p>
+      <!-- Stats row -->
+      <div class="mt-10 grid grid-cols-2 gap-4 sm:flex sm:gap-8">
+        {stats.map((s) => (
+          <div class="text-center sm:text-left">
+            <div class="text-3xl font-bold text-saffron">{s.n}</div>
+            <div class="font-sans text-sm text-white/60">{s.label}</div>
+          </div>
+        ))}
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a class="btn btn-primary" href="/catalog">Browse courses</a>
+        <a class="btn border-white/30 text-white hover:border-white" href="https://sikharchive.net" target="_blank" rel="noopener">Visit Sikh Archive →</a>
+      </div>
     </div>
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
 
-  <section class="wrap py-12">
-    <h2 class="text-2xl font-bold">Why we created Sikh University</h2>
-    <div class="mt-3 max-w-3xl space-y-3 text-lg">
-      <p>Sikhi is deep. Its history spans five centuries, its scripture holds the voices of the Gurus, the Bhagats, the Bhatts and devoted Gursikhs, and its philosophy speaks to the biggest questions of life. Yet for most people there has never been one welcoming, structured place to learn it — to move from a first question to real understanding.</p>
-      <p>We built Sikh University to be that place: a calm, organised home where a curious beginner and a serious student are equally welcome. No fees. No barriers. No sign-up needed to start learning. Just open, careful teaching — available to the whole world.</p>
+  <!-- Why we built it -->
+  <section class="wrap py-14">
+    <div class="max-w-3xl">
+      <h2 class="text-2xl font-bold">Why we created Sikh University</h2>
+      <div class="mt-4 space-y-4 text-lg leading-relaxed">
+        <p>Sikhi is deep. Its history spans five centuries, its scripture holds the voices of the Gurus, the Bhagats, the Bhatts and devoted Gursikhs, and its philosophy speaks to the biggest questions of life. Yet for most people there has never been one welcoming, structured place to learn it — to move from a first question to real understanding.</p>
+        <p>We built Sikh University to be that place: a calm, organised home where a curious beginner and a serious student are equally welcome. No fees. No barriers. No sign-up needed to start learning. Just open, careful teaching — available to the whole world.</p>
+      </div>
     </div>
   </section>
 
+  <!-- Offers -->
   <section class="bg-surface border-y border-line">
-    <div class="wrap py-12">
+    <div class="wrap py-14">
       <h2 class="text-2xl font-bold">What the university offers</h2>
-      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {offers.map((o) => (
-          <div class="rounded-xl2 border border-line bg-paper p-5">
-            <div class="text-2xl">{o[0]}</div><h3 class="mt-1 text-lg font-bold">{o[1]}</h3><p class="mt-1 text-[0.95rem] text-muted">{o[2]}</p>
+          <div class="rounded-xl2 border border-line bg-paper p-5 transition-shadow hover:shadow-card">
+            <div class="text-3xl">{o[0]}</div>
+            <h3 class="mt-2 text-base font-bold">{o[1]}</h3>
+            <p class="mt-1 text-[0.92rem] text-muted leading-relaxed">{o[2]}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="wrap py-12">
+  <!-- How it works -->
+  <section class="wrap py-14">
     <h2 class="text-2xl font-bold">How it works</h2>
-    <ol class="mt-4 list-decimal space-y-3 pl-5 text-lg">
-      {steps.map((s) => <li><span class="font-semibold text-navy">{s[0]}</span> <span class="text-muted">{s[1]}</span></li>)}
+    <ol class="mt-6 space-y-4">
+      {steps.map((s, i) => (
+        <li class="flex gap-4 items-start">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white text-sm font-bold">{i + 1}</span>
+          <div class="pt-0.5">
+            <span class="font-semibold text-navy">{s[0]}</span>{' '}
+            <span class="text-muted">{s[1]}</span>
+          </div>
+        </li>
+      ))}
     </ol>
   </section>
 
-  <section class="wrap pb-12">
-    <div class="rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-8">
-      <h2 class="text-2xl font-bold">Together with the Sikh Archive</h2>
-      <p class="mt-2 max-w-2xl">Sikh University works alongside the <strong>Sikh Archive</strong> — a growing library of Sikh sources, history and free courses. Our courses point you there to read deeper, and the two sites are designed to work hand in hand.</p>
-      <a class="btn mt-4" href="https://sikharchive.net" target="_blank" rel="noopener">Visit the Sikh Archive →</a>
+  <!-- Founder -->
+  <section class="wrap pb-14">
+    <div class="rounded-xl2 border border-line bg-surface overflow-hidden shadow-card">
+      <!-- Top accent bar -->
+      <div class="h-1.5 w-full bg-gradient-to-r from-saffron via-brand to-navy-strong"></div>
+      <div class="p-8">
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <!-- Avatar circle -->
+          <div class="shrink-0">
+            <div class="relative">
+              <div class="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-saffron to-brand text-white text-2xl font-bold shadow-lg ring-4 ring-saffron/20">
+                JS
+              </div>
+              <div class="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-ok flex items-center justify-center text-white text-xs">✓</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 min-w-0">
+            <div class="font-sans text-xs uppercase tracking-widest text-muted mb-1">Founder</div>
+            <h2 class="text-2xl font-bold text-navy">Bhai Jasvant Singh <span class="gur">ਪੰਛੀ</span></h2>
+            <div class="mt-1 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 rounded-full bg-saffron-soft px-3 py-1 font-sans text-xs font-semibold text-saffron-deep">Sikh Educator</span>
+              <span class="inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1 border border-line font-sans text-xs text-muted">Global Pracharik</span>
+              <span class="inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1 border border-line font-sans text-xs text-muted">Amrit Sanchar Lehar 2023–24</span>
+            </div>
+            <p class="mt-4 text-lg leading-relaxed max-w-3xl">Sikh University was founded by <strong>Bhai Jasvant Singh ਪੰਛੀ</strong>, a Sikh educator and pracharik who has dedicated his life to sharing the knowledge of Guru Sahib with the world. In 2023–2024, Bhai Jasvant Singh led a global Amrit Sanchar lehar — a movement through which thousands of souls took Amrit and reconnected with the path of the Guru.</p>
+            <p class="mt-3 text-muted max-w-3xl">He has traveled the world doing parchar for years, guided by one simple vision: that every person — regardless of background — deserves the opportunity to build their own personal, intimate relationship with God, and to become the best version of themselves.</p>
+            <div class="mt-4 rounded-lg border-l-4 border-saffron bg-saffron-soft/40 px-4 py-3">
+              <p class="text-sm italic text-navy">"Sikh University is an expression of that vision: free, open, and built for the world."</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- Sikh Archive partnership -->
+  <section class="wrap pb-14">
+    <div class="rounded-xl2 border border-line bg-gradient-to-br from-brand/5 to-surface p-8">
+      <div class="flex items-start gap-4">
+        <div class="text-4xl shrink-0">🗂️</div>
+        <div>
+          <h2 class="text-xl font-bold">Together with the Sikh Archive</h2>
+          <p class="mt-2 max-w-2xl text-muted">Sikh University works alongside the <strong>Sikh Archive</strong> — a growing library of Sikh sources, history and free courses. Our courses point you there to read deeper, and the two sites are designed to work hand in hand.</p>
+          <a class="btn mt-4" href="https://sikharchive.net" target="_blank" rel="noopener">Visit the Sikh Archive →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accuracy -->
   <section class="wrap pb-16">
-    <h2 class="text-2xl font-bold">A note on accuracy</h2>
-    <p class="mt-3 max-w-3xl text-lg">Accuracy is sacred to us. Many courses are drafted with AI to make broad teaching possible quickly, and every one carries a clear <strong>“Created by AI”</strong> label. All content is reviewed for accuracy, Gurbani is handled with reverence, and we welcome corrections — please use the <a class="underline" href="/feedback">feedback page</a> to tell us anything we should fix.</p>
-    <a class="btn btn-primary mt-6" href="/catalog">Start learning →</a>
+    <div class="max-w-3xl">
+      <h2 class="text-2xl font-bold">A note on accuracy</h2>
+      <p class="mt-3 text-lg leading-relaxed">Accuracy is sacred to us. Many courses are drafted with AI to make broad teaching possible quickly, and every one carries a clear <strong>"Created by AI"</strong> label. All content is reviewed for accuracy, Gurbani is handled with reverence, and we welcome corrections — please use the <a class="underline" href="/feedback">feedback page</a> to tell us anything we should fix.</p>
+      <a class="btn btn-primary mt-6" href="/catalog">Start learning →</a>
+    </div>
   </section>
 </Base>

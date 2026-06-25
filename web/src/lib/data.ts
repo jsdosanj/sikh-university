@@ -10,7 +10,7 @@ export type Course = {
   source?: string; aiCreated?: boolean; status: string; summary: string;
   outcomes?: string[]; terms?: Term[]; references?: string[];
   lessons?: Lesson[]; quiz?: Quiz[];
-  sourceText?: { work: string; url: string; gurmukhi?: string; english?: string };
+  sourceText?: { work: string; url: string; gurmukhi?: string; english?: string; sikhArchiveUrl?: string };
 };
 export type Topic = { id: string; name: string; blurb: string };
 export type Path = { id: string; name: string; blurb: string; courseIds: string[] };
@@ -56,6 +56,7 @@ export function avatarColor(name: string): string {
 }
 
 export const PROF_BIOS: Record<string, string> = {
+  'Bhai Jasvant Singh ਪੰਛੀ': 'Bhai Jasvant Singh ਪੰਛੀ is a Sikh educator and pracharik who founded Sikh University. In 2023–2024, he led a global Amrit Sanchar lehar through which thousands reconnected with the path of the Guru. He has traveled the world doing parchar, guided by a simple vision: that every person, regardless of background, deserves to build their own personal, intimate relationship with Waheguru.',
   'Sikh University': 'Sikh University is a free, open online university. These original courses are drafted with AI and reviewed for accuracy, offering a welcoming way for anyone, anywhere to begin learning about Sikhi and modern skills.',
   'Prof. Sahib Singh': 'Prof. Sahib Singh (1892-1977) was a towering Sikh scholar and grammarian, best known for his ten-volume exegesis Sri Guru Granth Sahib Darpan and his pioneering work on Gurbani grammar (Gurbani Viakaran).',
   'Bhai Vir Singh': 'Bhai Vir Singh (1872-1957) is regarded as the father of modern Punjabi literature and a leading figure of the Singh Sabha renaissance.',

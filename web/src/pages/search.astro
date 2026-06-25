@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { professorList, profBio, profSlug } from '../lib/data';
 import { REF, COLLECTIONS } from '../lib/santhya';
+import gurbaniWords from '../data/gurbani-words.json';
 
 // A universal index, built at compile time, of everything searchable that the
 // course catalogue alone doesn't cover: professors (with bios), banis, scripture,
@@ -32,12 +33,17 @@ const pages = [
   { title: 'Send feedback', url: '/feedback', sub: 'Report a correction or suggest a course' },
 ];
 
-const extra = { professors, readings, pages };
+const gWords = (gurbaniWords as { gur: string; tr: string; var?: string; url: string }[]).map((w) => ({
+  title: w.gur, sub: w.tr, url: w.url,
+  hay: `${w.gur} ${w.tr} ${w.var || ''}`.toLowerCase(),
+}));
+
+const extra = { professors, readings, pages, gWords };
 ---
 <Base title="Search — Sikh University" description="Search everything at Sikh University — courses, professors, topics, learning paths, banis and scripture.">
   <section class="wrap py-12">
     <h1 class="text-3xl font-bold">Search Sikh University</h1>
-    <input id="q" type="search" aria-label="Search Sikh University" placeholder="Search courses, professors, topics, paths, banis…" autofocus
+    <input id="q" type="search" aria-label="Search Sikh University" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" autofocus
       class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
     <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
@@ -74,19 +80,22 @@ const extra = { professors, readings, pages };
       extra.pages.forEach((p) => index.push({
         kind: 'Page', title: p.title, sub: p.sub || '', url: p.url, hay: (p.title + ' ' + (p.sub || '')).toLowerCase(),
       }));
+      (extra.gWords || []).forEach((w) => index.push({
+        kind: 'Word', title: w.title, sub: w.sub, url: w.url, hay: w.hay,
+      }));
     }
 
-    const ORDER = ['Course', 'Professor', 'Reading', 'Path', 'Topic', 'Page'];
-    const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
+    const ORDER = ['Course', 'Professor', 'Reading', 'Word', 'Path', 'Topic', 'Page'];
+    const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Word: 'Gurbani Words', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
     function row(r) {
       return `<a href="${r.url}" class="block rounded-xl2 border border-line bg-surface p-4 transition hover:border-saffron"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${esc(r.title)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${esc(r.sub)}</div>` : ''}</a>`;
     }
     function render() {
-      const v = q.value.toLowerCase().trim();
-      if (!v) { out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, topics, paths, banis and pages.</p>`; return; }
+      const v = q.value.normalize('NFC').toLowerCase().trim();
+      if (!v) { out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`; return; }
       const ts = v.split(/\s+/);
       const m = index.filter((r) => ts.every((t) => r.hay.indexOf(t) !== -1));
-      if (!m.length) { out.innerHTML = `<p class="text-muted">No results for “${esc(q.value)}”.</p>`; return; }
+      if (!m.length) { out.innerHTML = `<p class="text-muted">No results for "${esc(q.value)}".</p>`; return; }
       const groups = {};
       m.forEach((r) => (groups[r.kind] = groups[r.kind] || []).push(r));
       let html = `<p class="mb-4 text-muted">${m.length} result${m.length === 1 ? '' : 's'}</p>`;
