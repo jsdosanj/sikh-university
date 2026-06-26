@@ -27,6 +27,7 @@ export async function onRequestPost({ request, env }) {
       "ON CONFLICT(user_id, course_id) DO UPDATE SET updated_at=excluded.updated_at, " +
       "passed_score=CASE WHEN progress.passed_score IS NULL THEN excluded.passed_score ELSE MAX(progress.passed_score, excluded.passed_score) END"
     ).bind(user.id, b.courseId, score, Date.now()).run();
+    await logEvent(env, user, "quiz_attempted", b.courseId, "score=" + score);
     if (passed && !wasPassed) await logEvent(env, user, "passed_course", b.courseId, "score=" + score);
   }
   return json({ score, correct, total, passed, signedIn: !!user });

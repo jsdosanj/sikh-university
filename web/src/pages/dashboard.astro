@@ -17,13 +17,20 @@ import Base from '../layouts/Base.astro';
     const fmtRel = (ts) => { if (!ts) return '—'; const s = (Date.now() - ts) / 1000; if (s < 86400) return 'today'; const d = Math.floor(s / 86400); if (d < 7) return d + 'd ago'; if (d < 30) return Math.floor(d / 7) + 'w ago'; return Math.floor(d / 30) + 'mo ago'; };
     const grade = (s) => s >= 90 ? 'A' : s >= 80 ? 'B' : s >= 70 ? 'C' : s >= 60 ? 'D' : 'F';
     const api = (p, o) => fetch(p, { credentials: 'same-origin', headers: o ? { 'content-type': 'application/json' } : undefined, ...(o || {}) }).then((r) => (r.ok ? r.json() : { user: null, error: true })).catch(() => ({ user: null, error: true }));
-    Promise.all([api('/api/me'), fetch('/assets/data/courses.json').then((r) => r.json()), api('/api/progress')]).then(([me, data, prog]) => {
+    // Profile allowlists — keep in sync with functions/api/_profile-options.js.
+    const COUNTRIES = ['Afghanistan','Albania','Algeria','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahrain','Bangladesh','Belgium','Bhutan','Bolivia','Bosnia and Herzegovina','Brazil','Brunei','Bulgaria','Cambodia','Cameroon','Canada','Chile','China','Colombia','Croatia','Cyprus','Czechia','Denmark','Ecuador','Egypt','Estonia','Ethiopia','Fiji','Finland','France','Georgia','Germany','Ghana','Greece','Guatemala','Hong Kong','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Libya','Lithuania','Luxembourg','Malaysia','Maldives','Malta','Mauritius','Mexico','Moldova','Mongolia','Morocco','Myanmar','Nepal','Netherlands','New Zealand','Nigeria','North Macedonia','Norway','Oman','Pakistan','Panama','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saudi Arabia','Serbia','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','Sweden','Switzerland','Syria','Taiwan','Tanzania','Thailand','Tunisia','Turkey','Turkmenistan','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe','Other'];
+    const LANGUAGES = ['Punjabi','English','Hindi','Urdu','Gurmukhi','Shahmukhi','Bengali','Tamil','Telugu','Marathi','Gujarati','Kannada','Malayalam','Sindhi','Pashto','Farsi','Arabic','Spanish','French','German','Portuguese','Italian','Dutch','Russian','Mandarin','Cantonese','Japanese','Korean','Thai','Vietnamese','Indonesian','Malay','Swahili','Turkish','Other'];
+    Promise.all([api('/api/me'), fetch('/assets/data/courses.json').then((r) => r.json()), api('/api/progress'), api('/api/enrollments')]).then(([me, data, prog, enrollRes]) => {
       // Server is the source of truth for grades: merge it into the local cache before rendering.
       if (prog && prog.progress) prog.progress.forEach((row) => {
         if (row.passed_score != null) { set('score_' + row.course_id, row.passed_score); if (row.passed_score >= 80) set('passed_' + row.course_id, row.passed_score); }
         try { const arr = JSON.parse(row.done || '[]'); if (arr.length) { const d = get('done_' + row.course_id, {}); arr.forEach((i) => { d[i] = true; }); set('done_' + row.course_id, d); } } catch (e) {}
       });
       const user = me && me.user;
+      // Explicit registrations (server is source of truth for signed-in users).
+      const enr = (enrollRes && enrollRes.enrollments) || [];
+      const enrolledCourses = new Set(enr.filter((e) => e.kind === 'course').map((e) => e.target_id));
+      const registeredPrograms = new Set(enr.filter((e) => e.kind === 'program').map((e) => e.target_id));
       const isAdmin = !!(user && user.role === 'admin');
       const demo = new URLSearchParams(location.search).get('demo');
       const viewAs = (isAdmin && (demo === 'student' || demo === 'teacher')) ? demo : (user ? user.role : 'student');
@@ -43,14 +50,75 @@ import Base from '../layouts/Base.astro';
       const tn = (t) => (data.topics.find((x) => x.id === t) || {}).name || t;
       const pub = data.courses.filter((c) => c.status === 'published');
 
-      if (viewAs === 'teacher') { renderTeacher(); return; }
-      renderStudent();
+      // Tabs: My Learning | Profile. Any signed-in user can edit their account.
+      function renderLearning() { if (viewAs === 'teacher') renderTeacher(); else renderStudent(); }
+      let view = (user && location.hash === '#profile') ? 'profile' : 'learning';
+      function drawView() {
+        const nav = document.getElementById('dash-tabs');
+        if (nav) Array.from(nav.children).forEach((b) => { const on = b.dataset.v === view; b.className = 'px-4 py-2 font-sans text-sm border-b-2 ' + (on ? 'border-saffron text-navy font-semibold' : 'border-transparent text-muted'); });
+        if (view === 'profile') renderProfile(); else renderLearning();
+      }
+      if (user) {
+        const nav = document.createElement('div');
+        nav.id = 'dash-tabs';
+        nav.className = 'mb-6 flex gap-1 border-b border-line';
+        nav.innerHTML = [['learning', 'My Learning'], ['profile', 'Profile']].map(([k, l]) => `<button data-v="${k}" class="px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted">${l}</button>`).join('');
+        bar.appendChild(nav);
+        nav.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => { view = b.dataset.v; location.hash = view === 'profile' ? '#profile' : ''; drawView(); }));
+      }
+      drawView();
+      return;
+
+      function renderProfile() {
+        const cur = user || {};
+        const curLangs = new Set(((cur.languages || '') + '').split(',').map((s) => s.trim()).filter(Boolean));
+        const countryOpts = ['<option value="">— Select country —</option>'].concat(COUNTRIES.map((c) => `<option value="${esc(c)}" ${cur.country === c ? 'selected' : ''}>${esc(c)}</option>`)).join('');
+        const langChecks = LANGUAGES.map((l) => `<label class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-paper px-2.5 py-1 font-sans text-xs has-[:checked]:border-saffron has-[:checked]:bg-saffron-soft/40"><input type="checkbox" value="${esc(l)}" ${curLangs.has(l) ? 'checked' : ''} class="pf-lang" /> ${esc(l)}</label>`).join('');
+        root.innerHTML = `
+          <h1 class="text-3xl font-bold">Profile</h1>
+          <p class="mt-2 font-sans text-sm text-muted">Update your account details. Please don't include sensitive personal information — see our <a class="underline" href="/legal">Terms &amp; Privacy</a>.</p>
+          <div id="pf-msg" class="mt-4"></div>
+          <div class="mt-6 max-w-xl space-y-5">
+            <label class="block"><span class="font-sans text-sm font-semibold">Sign-in email</span>
+              <input type="email" value="${esc(cur.email || '')}" disabled class="mt-1 w-full rounded-xl border border-line bg-paper px-4 py-2.5 font-sans text-muted" />
+              <span class="font-sans text-xs text-muted">Your magic-link sign-in address — it can't be changed here.</span>
+            </label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Full name</span>
+              <input id="pf-name" type="text" maxlength="80" value="${esc(cur.name || '')}" placeholder="Your full name" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+              <span class="font-sans text-xs text-muted">Shown on your certificates and to your teachers.</span>
+            </label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Country</span>
+              <select id="pf-country" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none">${countryOpts}</select>
+            </label>
+            <div><span class="font-sans text-sm font-semibold">Languages</span>
+              <div class="mt-2 flex flex-wrap gap-2">${langChecks}</div>
+            </div>
+            <button id="pf-save" class="btn btn-primary">Save profile</button>
+          </div>`;
+        document.getElementById('pf-save').addEventListener('click', () => {
+          const btn = document.getElementById('pf-save'); btn.disabled = true; btn.textContent = 'Saving…';
+          const name = document.getElementById('pf-name').value.trim();
+          const country = document.getElementById('pf-country').value;
+          const languages = Array.from(document.querySelectorAll('.pf-lang:checked')).map((c) => c.value);
+          api('/api/me', { method: 'POST', body: JSON.stringify({ name, country, languages }) }).then((res) => {
+            btn.disabled = false; btn.textContent = 'Save profile';
+            const msg = document.getElementById('pf-msg');
+            if (res && res.user) {
+              user.name = res.user.name; user.country = res.user.country; user.languages = res.user.languages;
+              const p = get('profile', {}); p.name = res.user.name || ''; set('profile', p); // keep cert.astro in sync
+              if (msg) msg.innerHTML = '<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Saved.</strong> Your profile is up to date.</div>';
+            } else if (msg) {
+              msg.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not save your profile. Please try again.</div>';
+            }
+          });
+        });
+      }
 
       function renderStudent() {
         const completed = [], started = [], fresh = [];
-        pub.forEach((c) => { if (passed(c.id)) completed.push(c); else if (progress(c) > 0) started.push(c); else fresh.push(c); });
+        pub.forEach((c) => { if (passed(c.id)) completed.push(c); else if (progress(c) > 0 || enrolledCourses.has(c.id)) started.push(c); else fresh.push(c); });
         let lessonsDone = 0; pub.forEach((c) => { const d = get('done_' + c.id, {}); for (const k in d) if (d[k]) lessonsDone++; });
-        const name = (get('profile', {}) || {}).name || '';
+        const name = (user && user.name) || (get('profile', {}) || {}).name || '';
         const points = lessonsDone * 10 + completed.length * 100;
         const st = streak();
         let topicMaster = false;
@@ -91,11 +159,7 @@ import Base from '../layouts/Base.astro';
           <h1 class="text-3xl font-bold">${name ? 'Welcome back, ' + esc(name) : 'My Learning'}</h1>
           ${applyCta}
           <div id="ann-feed"></div>
-          <div class="mt-4 flex flex-wrap items-center gap-2 rounded-xl2 border border-line bg-surface p-4">
-            <span class="font-sans text-sm text-muted">Your name (shown on certificates):</span>
-            <input id="nm" type="text" aria-label="Your name, shown on certificates" value="${esc(name)}" placeholder="Your full name" class="min-w-[180px] flex-1 rounded-lg border border-line px-3 py-2 font-sans" />
-            <button id="save-nm" class="btn btn-primary">Save</button>
-          </div>
+          ${user ? `<p class="mt-3 font-sans text-sm text-muted">Set your name, country and languages in the <a class="underline" href="#profile" id="go-profile">Profile</a> tab — your name appears on certificates.</p>` : ''}
           <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(points, 'Points')}${stat(st, 'Day streak')}${stat(completed.length, 'Completed')}${stat(lessonsDone, 'Lessons done')}</div>
           <a href="/baal-updesh#flashcards" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="text-3xl">🃏</span><span><span class="block font-bold text-navy">Review flashcards</span><span class="block font-sans text-sm text-muted">Lock in Gurmukhi terms and the most-used words of Gurbani with spaced repetition.</span></span><span class="ml-auto font-sans text-sm text-saffron-deep">Study →</span></a>
           <h3 class="mt-10 text-xl font-bold">Badges</h3>
@@ -131,25 +195,27 @@ import Base from '../layouts/Base.astro';
           const el = document.getElementById('prog-summary-section'); if (!el) return;
           const active = pd.programs.filter(p => {
             const done = p.courseIds.filter(id => passed(id)).length;
-            return done > 0;
+            return done > 0 || registeredPrograms.has(p.id);
           });
           if (!active.length) return;
-          el.innerHTML = `<h3 class="mt-10 text-xl font-bold">Degree Programs</h3>
+          el.innerHTML = `<h3 class="mt-10 text-xl font-bold">My Degree Programs</h3>
           <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           ${active.map(p => {
             const done = p.courseIds.filter(id => passed(id)).length;
             const total = p.courseIds.length;
             const pct = Math.round((done/total)*100);
             const cumDone = get('cum_passed_' + p.id, false);
+            const reg = registeredPrograms.has(p.id);
             return `<a href="/program/${p.id}" class="card hover:border-saffron transition">
-              <div class="flex items-center gap-2"><span class="text-2xl">${p.icon}</span><div><div class="font-sans text-xs text-muted font-bold">${esc(p.abbreviation)}</div><div class="font-semibold text-navy text-sm leading-tight">${esc(p.title)}</div></div></div>
+              <div class="flex items-center gap-2"><span class="text-2xl">${p.icon}</span><div><div class="font-sans text-xs text-muted font-bold">${esc(p.abbreviation)}${reg ? ' · <span class="text-saffron-deep">Registered</span>' : ''}</div><div class="font-semibold text-navy text-sm leading-tight">${esc(p.title)}</div></div></div>
               <div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-paper border border-line"><div class="h-full bg-saffron" style="width:${pct}%"></div></div>
               <div class="mt-1 font-sans text-xs text-muted">${done}/${total} courses ${cumDone ? '· <span class="text-saffron-deep font-semibold">✓ Credential earned</span>' : ''}</div>
             </a>`;
           }).join('')}</div>
           <a href="/programs" class="mt-3 inline-block font-sans text-sm text-saffron-deep underline">Browse all degree programs →</a>`;
         }).catch(() => {});
-        document.getElementById('save-nm').addEventListener('click', () => { const p = get('profile', {}); p.name = document.getElementById('nm').value.trim(); set('profile', p); location.reload(); });
+        const goP = document.getElementById('go-profile');
+        if (goP) goP.addEventListener('click', (e) => { e.preventDefault(); view = 'profile'; location.hash = '#profile'; drawView(); });
         document.getElementById('exp').addEventListener('click', () => {
           const lines = ['# My Sikh University notes', ''];
           data.courses.forEach((c) => (c.lessons || []).forEach((ls, i) => { const n = get('note_' + c.id + '_' + i, ''); if (n && n.trim()) lines.push('## ' + c.title + ' — ' + ls.title, '', n.trim(), ''); }));

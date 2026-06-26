@@ -25,7 +25,7 @@ export async function getUser(env, request) {
   const sid = readCookie(request, "su_session");
   if (!sid) return null;
   const row = await env.DB.prepare(
-    "SELECT u.id, u.email, u.name, u.role FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.id = ? AND s.expires_at > ?"
+    "SELECT u.id, u.email, u.name, u.country, u.languages, u.role FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.id = ? AND s.expires_at > ?"
   ).bind(sid, Date.now()).first();
   return row || null;
 }
