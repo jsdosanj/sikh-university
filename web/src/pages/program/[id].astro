@@ -38,6 +38,10 @@ const typeLabel = {
     </div>
     <p class="mt-4 max-w-3xl text-lg text-muted">{prog.description}</p>
 
+    <div class="mt-5">
+      <button id="register-btn" class="btn btn-primary">Register for this program</button>
+    </div>
+
     <!-- Stats bar -->
     <div class="mt-6 flex flex-wrap gap-4 font-sans text-sm">
       <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
@@ -269,5 +273,26 @@ const typeLabel = {
     resultEl.classList.remove('hidden');
     retryBtn.onclick = launchTest;
   }
+
+  // Explicit program registration — server is the source of truth; localStorage mirrors it.
+  (function () {
+    const btn = document.getElementById('register-btn'); if (!btn) return;
+    const rk = 'su_v1_registered_program_' + progId;
+    let reg = get(rk, false);
+    function paint() { btn.textContent = reg ? '✓ Registered for this program' : 'Register for this program'; }
+    paint();
+    fetch('/api/enrollments', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
+      if (!d || !d.enrollments) return;
+      reg = d.enrollments.some((e) => e.kind === 'program' && e.target_id === progId);
+      set(rk, reg); paint();
+    }).catch(() => {});
+    btn.addEventListener('click', () => {
+      const next = !reg; btn.disabled = true;
+      fetch('/api/enrollments', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ kind: 'program', targetId: progId, action: next ? 'enroll' : 'unenroll' }) })
+        .then((r) => { if (r.status === 401) { location.href = '/login'; return null; } return r.ok ? r.json() : null; })
+        .then((res) => { btn.disabled = false; if (res) { reg = !!res.enrolled; set(rk, reg); paint(); } })
+        .catch(() => { btn.disabled = false; });
+    });
+  })();
 </script>
 </Base>

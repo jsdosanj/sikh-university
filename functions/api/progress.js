@@ -1,4 +1,4 @@
-import { json, getUser } from "./_lib.js";
+import { json, getUser, logEvent } from "./_lib.js";
 
 // GET /api/progress -> all of the user's course progress
 export async function onRequestGet({ request, env }) {
@@ -16,10 +16,15 @@ export async function onRequestPost({ request, env }) {
   if (!user) return json({ error: "unauthorized" }, 401);
   let b; try { b = await request.json(); } catch (e) { return json({ error: "bad request" }, 400); }
   if (!b.courseId) return json({ error: "courseId required" }, 400);
-  const done = JSON.stringify(Array.isArray(b.done) ? b.done.filter((n) => Number.isInteger(n)).slice(0, 1000) : []);
+  const doneArr = Array.isArray(b.done) ? b.done.filter((n) => Number.isInteger(n)).slice(0, 1000) : [];
+  const done = JSON.stringify(doneArr);
+  // Only log when the learner actually completes more lessons than before.
+  const prior = await env.DB.prepare("SELECT done FROM progress WHERE user_id=? AND course_id=?").bind(user.id, b.courseId).first();
+  let priorCount = 0; try { priorCount = JSON.parse((prior && prior.done) || "[]").length; } catch (e) {}
   await env.DB.prepare(
     "INSERT INTO progress (user_id, course_id, done, passed_score, updated_at) VALUES (?,?,?,NULL,?) " +
     "ON CONFLICT(user_id, course_id) DO UPDATE SET done=excluded.done, updated_at=excluded.updated_at"
   ).bind(user.id, b.courseId, done, Date.now()).run();
+  if (doneArr.length > priorCount) await logEvent(env, user, "lesson_completed", b.courseId, "lessons=" + doneArr.length);
   return json({ ok: true });
 }

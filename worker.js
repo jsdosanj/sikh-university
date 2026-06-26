@@ -1,7 +1,7 @@
 // Sikh University Worker entrypoint.
 // Static files in site/ are served by the [assets] binding; /api/* is dispatched
 // to the existing handlers (unchanged) that live under functions/api/.
-import { onRequestGet as meGet } from "./functions/api/me.js";
+import { onRequestGet as meGet, onRequestPost as mePost } from "./functions/api/me.js";
 import { onRequestGet as progressGet, onRequestPost as progressPost } from "./functions/api/progress.js";
 import { onRequestPost as authRequestPost } from "./functions/api/auth/request.js";
 import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
@@ -20,10 +20,11 @@ import { onRequestGet as announcementsGet, onRequestPost as announcementsPost } 
 import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
 import { onRequestGet as ratingsGet, onRequestPost as ratingsPost } from "./functions/api/ratings.js";
 import { onRequestGet as certGet, onRequestPost as certPost } from "./functions/api/certificates.js";
+import { onRequestGet as enrollmentsGet, onRequestPost as enrollmentsPost } from "./functions/api/enrollments.js";
 
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
-  "/api/me": { GET: meGet },
+  "/api/me": { GET: meGet, POST: mePost },
   "/api/progress": { GET: progressGet, POST: progressPost },
   "/api/auth/request": { POST: authRequestPost },
   "/api/auth/verify": { GET: authVerifyGet },
@@ -42,6 +43,7 @@ const routes = {
   "/api/discussions": { GET: discussionsGet, POST: discussionsPost },
   "/api/ratings": { GET: ratingsGet, POST: ratingsPost },
   "/api/certificates": { GET: certGet, POST: certPost },
+  "/api/enrollments": { GET: enrollmentsGet, POST: enrollmentsPost },
 };
 
 export default {

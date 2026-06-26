@@ -65,3 +65,25 @@ roles, secrets in Workers secrets (not code), rate limiting, audit logging (see 
 - R2: `wrangler r2 bucket create sikh-university-media` → bind; upload assets.
 - Functions: add `site/functions/api/*` (Pages Functions) bound to D1/R2.
 (These run when we start Phase B/C, after the auth decision.)
+
+### Publishing the course catalogue (IMPORTANT)
+`courses.json` is too large for Cloudflare's 25 MiB asset limit, so the build
+strips it from `web/dist` and the Worker serves it from R2 (`worker.js`). This
+means **`wrangler deploy` alone does NOT update the catalogue** — the R2 object
+must be pushed separately, or the admin/site will show a stale course count.
+
+After any change to `site/assets/data/courses.json`, run:
+```
+cd web && npm run deploy-data   # wrangler r2 object put sikh-university-media/courses.json …
+```
+Then `wrangler deploy` from the repo root for the code/site. (The Worker caches
+the object for 1 h; bump the service-worker cache version in `web/public/sw.js`
+if you need an immediate client refresh.)
+
+### Profile columns migration
+The `users` table gained `country` and `languages`. For an existing DB, run once:
+```
+wrangler d1 execute sikh-university --remote --command "ALTER TABLE users ADD COLUMN country TEXT"
+wrangler d1 execute sikh-university --remote --command "ALTER TABLE users ADD COLUMN languages TEXT"
+```
+(The `enrollments` table auto-creates on first write, so it needs no migration.)

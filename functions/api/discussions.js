@@ -1,4 +1,4 @@
-import { json, getUser, newId } from "./_lib.js";
+import { json, getUser, newId, logEvent } from "./_lib.js";
 
 async function ensure(env) {
   await env.DB.prepare(
@@ -31,5 +31,6 @@ export async function onRequestPost({ request, env }) {
   const name = (user.name || (user.email || "").split("@")[0] || "Learner").slice(0, 80);
   await env.DB.prepare("INSERT INTO discussions (id, course_id, user_id, name, message, created_at) VALUES (?,?,?,?,?,?)")
     .bind(newId(), courseId, user.id, name, message, Date.now()).run();
+  await logEvent(env, user, "discussion_post", courseId, message.slice(0, 80));
   return json({ ok: true });
 }

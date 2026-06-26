@@ -3,9 +3,14 @@ CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
   name TEXT,
+  country TEXT,                                -- self-reported, from a fixed allowlist
+  languages TEXT,                              -- comma-joined, from a fixed allowlist
   role TEXT NOT NULL DEFAULT 'learner',        -- learner | teacher | admin
   created_at INTEGER NOT NULL
 );
+-- Existing databases: run once to add the profile columns:
+--   ALTER TABLE users ADD COLUMN country TEXT;
+--   ALTER TABLE users ADD COLUMN languages TEXT;
 
 CREATE TABLE IF NOT EXISTS magic_tokens (
   token TEXT PRIMARY KEY,
@@ -77,6 +82,16 @@ CREATE TABLE IF NOT EXISTS grade_overrides (
 CREATE TABLE IF NOT EXISTS announcements (
   id TEXT PRIMARY KEY, course_id TEXT NOT NULL, author_id TEXT, author_name TEXT,
   title TEXT, body TEXT NOT NULL, created_at INTEGER NOT NULL
+);
+
+-- Explicit registration: a learner enrols in a course or registers for a program.
+-- Also auto-created by functions/api/enrollments.js on first write.
+CREATE TABLE IF NOT EXISTS enrollments (
+  user_id TEXT NOT NULL,
+  kind TEXT NOT NULL,                          -- 'course' | 'program'
+  target_id TEXT NOT NULL,                     -- course id or program id
+  created_at INTEGER NOT NULL,
+  PRIMARY KEY (user_id, kind, target_id)
 );
 
 -- Append-only audit log (sign-relevant actions: passes, overrides, role changes…).
