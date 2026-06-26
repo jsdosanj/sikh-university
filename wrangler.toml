@@ -1,4 +1,5 @@
 name = "sikh-university"
+account_id = "0d4412e40181808b16cce0225ddb5152"
 main = "worker.js"
 compatibility_date = "2026-06-14"
 

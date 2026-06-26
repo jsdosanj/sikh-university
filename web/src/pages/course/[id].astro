@@ -53,6 +53,7 @@ const breadcrumb = {
       <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
       <div class="mt-6 flex flex-wrap items-center gap-3">
         <a href="#lesson-0" class="btn btn-primary">Begin course</a>
+        <button id="enroll-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20">Enroll</button>
         <span class="font-sans text-sm text-white/70">{lessons.length} lessons · {quiz.length}-question test · 80% to pass</span>
       </div>
     </div>
@@ -294,6 +295,26 @@ const breadcrumb = {
       const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
       el.innerHTML = `<h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Announcements</h2><div class="mt-3 space-y-3">${list.slice(0, 5).map((a) => `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(a.author_name || '')}</div>${a.title ? `<div class="mt-1 font-bold text-navy">${esc(a.title)}</div>` : ''}<p class="mt-1 text-[0.97rem]">${esc(a.body)}</p></div>`).join('')}</div>`;
     }).catch(() => {});
+    // Explicit enrollment toggle — server is the source of truth; localStorage mirrors it for instant UI.
+    (function () {
+      const btn = document.getElementById('enroll-btn'); if (!btn) return;
+      const ek = 'enrolled_course_' + id;
+      let enrolled = get(ek, false);
+      function paint() { btn.textContent = enrolled ? '✓ Enrolled' : 'Enroll'; btn.classList.toggle('bg-saffron', enrolled); btn.classList.toggle('text-[#2a1c06]', enrolled); btn.classList.toggle('bg-white/10', !enrolled); btn.classList.toggle('text-white', !enrolled); }
+      paint();
+      fetch('/api/enrollments', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
+        if (!d || !d.enrollments) return;
+        enrolled = d.enrollments.some((e) => e.kind === 'course' && e.target_id === id);
+        set(ek, enrolled); paint();
+      }).catch(() => {});
+      btn.addEventListener('click', () => {
+        const next = !enrolled; btn.disabled = true;
+        fetch('/api/enrollments', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ kind: 'course', targetId: id, action: next ? 'enroll' : 'unenroll' }) })
+          .then((r) => { if (r.status === 401) { location.href = '/login'; return null; } return r.ok ? r.json() : null; })
+          .then((res) => { btn.disabled = false; if (res) { enrolled = !!res.enrolled; set(ek, enrolled); paint(); } })
+          .catch(() => { btn.disabled = false; });
+      });
+    })();
     function recordActivity() { const a = get('activity', []); const d = new Date(); const t = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); if (a[a.length - 1] !== t) { a.push(t); set('activity', a); } }
     function refresh() {
       let n = 0; for (let i = 0; i < nLessons; i++) if (done[i]) n++;
@@ -471,18 +492,34 @@ const breadcrumb = {
       });
     })();
 
-    // Wire course TOC (inside lesson 0) to lesson section anchors
-    (function () {
-      var toc = document.querySelector('#lesson-0 .toc ol, #lesson-0 .toc ul');
+    // Wire each lesson's TOC items to the h4/h3 headings within that same lesson
+    document.querySelectorAll('article[id^="lesson-"]').forEach(function (article, lessonIdx) {
+      var toc = article.querySelector('.toc ol, .toc ul');
       if (!toc) return;
-      toc.querySelectorAll('li').forEach(function (li, i) {
+      var prose = article.querySelector('.lesson-prose');
+      if (!prose) return;
+      // Collect all block headings inside the lesson prose, excluding any inside .toc itself
+      var headings = Array.from(prose.querySelectorAll('h2,h3,h4,h5')).filter(function (h) {
+        return !h.closest('.toc');
+      });
+      var items = toc.querySelectorAll('li');
+      items.forEach(function (li, i) {
+        var heading = headings[i];
+        var id, href;
+        if (heading) {
+          id = 'l' + lessonIdx + '-s' + i;
+          heading.id = id;
+          href = '#' + id;
+        } else {
+          href = '#lesson-' + lessonIdx;
+        }
         var a = document.createElement('a');
-        a.href = '#lesson-' + i;
+        a.href = href;
         a.style.cssText = 'color:inherit;text-decoration:underline;cursor:pointer;';
         a.innerHTML = li.innerHTML;
         li.innerHTML = '';
         li.appendChild(a);
       });
-    })();
+    });
   </script>
 </Base>

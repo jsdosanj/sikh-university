@@ -135,13 +135,56 @@ import Base from '../layouts/Base.astro';
 
       // ── Audit ──────────────────────────────────────────────────────────────
       function audit() {
-        api('/api/admin/events').then(({ ok, d }) => {
-          if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load the audit log.</div>'; return; }
-          const ev = d.events || [];
-          if (!ev.length) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4 text-muted">No events logged yet.</div>'; return; }
-          const fmtT = (ts) => { try { return new Date(ts).toLocaleString(); } catch { return ''; } };
-          panel.innerHTML = `<p class="font-sans text-sm text-muted">${ev.length} most recent events.</p><div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">When</th><th>Who</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead><tbody>${ev.map((e) => `<tr class="border-t border-line align-top"><td class="py-1 whitespace-nowrap">${fmtT(e.ts)}</td><td>${esc(e.email || e.user_id || '—')}</td><td><span class="pill bg-paper text-navy">${esc(e.action)}</span></td><td>${esc(e.target || '—')}</td><td>${esc(e.detail || '')}</td></tr>`).join('')}</tbody></table></div>`;
-        });
+        const state = { offset: 0, rows: [], actions: [], total: 0, barbuilt: false };
+        const fmtT = (ts) => { try { return new Date(ts).toLocaleString(); } catch { return ''; } };
+        const val = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
+        panel.innerHTML = '<p class="text-muted">Loading…</p>';
+
+        function params(reset) {
+          const sp = new URLSearchParams();
+          if (val('au-action')) sp.set('action', val('au-action'));
+          if (val('au-role')) sp.set('role', val('au-role'));
+          if (val('au-q').trim()) sp.set('q', val('au-q').trim());
+          if (val('au-from')) { const t = Date.parse(val('au-from')); if (!isNaN(t)) sp.set('from', String(t)); }
+          if (val('au-to')) { const t = Date.parse(val('au-to')); if (!isNaN(t)) sp.set('to', String(t + 86399999)); } // inclusive end-of-day
+          sp.set('sort', val('au-sort') || 'ts_desc');
+          sp.set('limit', '100');
+          sp.set('offset', String(reset ? 0 : state.offset));
+          return sp.toString();
+        }
+        function renderBody() {
+          const body = document.getElementById('au-body'); if (!body) return;
+          if (!state.rows.length) { body.innerHTML = '<div class="rounded-xl bg-surface p-4 text-muted">No events match these filters.</div>'; return; }
+          body.innerHTML = `<p class="font-sans text-sm text-muted">Showing ${state.rows.length} of ${state.total} event(s).</p><div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">When</th><th>Who</th><th>Role</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead><tbody>${state.rows.map((e) => `<tr class="border-t border-line align-top"><td class="py-1 whitespace-nowrap">${fmtT(e.ts)}</td><td>${esc(e.email || e.user_id || '—')}</td><td>${esc(e.role || '—')}</td><td><span class="pill bg-paper text-navy">${esc(e.action)}</span></td><td>${esc(e.target || '—')}</td><td>${esc(e.detail || '')}</td></tr>`).join('')}</tbody></table></div>${state.rows.length < state.total ? '<button id="au-more" class="btn mt-3 font-sans text-xs px-3 py-1.5">Load more</button>' : ''}`;
+          const more = document.getElementById('au-more'); if (more) more.addEventListener('click', () => load(false));
+        }
+        function buildBar() {
+          const actionOpts = ['<option value="">All actions</option>'].concat(state.actions.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`)).join('');
+          panel.innerHTML = `<div class="mb-4 flex flex-wrap items-end gap-2">
+            <input id="au-q" type="search" placeholder="Search email / target / detail…" class="rounded-lg border border-line bg-paper px-3 py-1.5 font-sans text-xs w-52" />
+            <select id="au-action" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-xs">${actionOpts}</select>
+            <select id="au-role" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-xs"><option value="">All roles</option><option value="learner">learner</option><option value="teacher">teacher</option><option value="admin">admin</option></select>
+            <label class="font-sans text-xs text-muted">From <input id="au-from" type="date" class="rounded-lg border border-line bg-paper px-2 py-1 font-sans text-xs" /></label>
+            <label class="font-sans text-xs text-muted">To <input id="au-to" type="date" class="rounded-lg border border-line bg-paper px-2 py-1 font-sans text-xs" /></label>
+            <select id="au-sort" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-xs"><option value="ts_desc">Newest first</option><option value="ts_asc">Oldest first</option></select>
+          </div><div id="au-body"></div>`;
+          let t;
+          const qEl = document.getElementById('au-q');
+          if (qEl) qEl.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => load(true), 300); });
+          ['au-action', 'au-role', 'au-from', 'au-to', 'au-sort'].forEach((id) => { const el = document.getElementById(id); if (el) el.addEventListener('change', () => load(true)); });
+          state.barbuilt = true;
+        }
+        function load(reset) {
+          api('/api/admin/events?' + params(reset)).then(({ ok, d }) => {
+            if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load the audit log.</div>'; return; }
+            if (reset) { state.rows = d.events || []; } else { state.rows = state.rows.concat(d.events || []); }
+            state.offset = state.rows.length;
+            state.total = d.total || 0;
+            if (!state.barbuilt) { state.actions = d.actions || []; buildBar(); }
+            renderBody();
+          });
+        }
+        load(true);
       }
 
       // ── Users ──────────────────────────────────────────────────────────────
@@ -325,7 +368,7 @@ import Base from '../layouts/Base.astro';
 
       // ── Bootstrap: load courses, topics, programs then draw ────────────────
       Promise.all([
-        fetch('/assets/data/courses.json').then((r) => r.json()),
+        fetch('/assets/data/courses.json', { cache: 'no-store' }).then((r) => r.json()),
         fetch('/assets/data/programs.json').then((r) => r.json()).catch(() => ({ programs: [] })),
       ]).then(([data, pd]) => {
         courses = data.courses || [];

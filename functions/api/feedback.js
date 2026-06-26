@@ -1,4 +1,4 @@
-import { json, getUser, newId } from "./_lib.js";
+import { json, getUser, newId, logEvent } from "./_lib.js";
 
 // Create the feedback table on demand so no separate migration is required.
 async function ensureTable(env) {
@@ -24,5 +24,6 @@ export async function onRequestPost({ request, env }) {
   await env.DB.prepare(
     "INSERT INTO feedback (id, user_id, email, course_id, category, message, status, created_at) VALUES (?,?,?,?,?,?, 'new', ?)"
   ).bind(newId(), user ? user.id : null, email, courseId, category, message, Date.now()).run();
+  if (user) await logEvent(env, user, "feedback_submitted", courseId, "category=" + category);
   return json({ ok: true });
 }

@@ -1,4 +1,4 @@
-import { newId, sessionCookie, isAdminEmail } from "../_lib.js";
+import { newId, sessionCookie, isAdminEmail, logEvent } from "../_lib.js";
 
 // GET /api/auth/verify?token=...  -> consumes token, creates session, redirects to dashboard
 export async function onRequestGet({ request, env }) {
@@ -21,6 +21,7 @@ export async function onRequestGet({ request, env }) {
     await env.DB.prepare("INSERT INTO users (id, email, name, role, created_at) VALUES (?,?,?,?,?)")
       .bind(id, email, null, role, Date.now()).run();
     user = { id, role };
+    await logEvent(env, { id, role }, "user_created", email, role);
   } else if (wantAdmin && user.role !== "admin") {
     await env.DB.prepare("UPDATE users SET role='admin' WHERE id=?").bind(user.id).run();
   } else if (!wantAdmin && user.role === "admin") {
@@ -31,6 +32,7 @@ export async function onRequestGet({ request, env }) {
   const sid = newId() + newId();
   const expires = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
   await env.DB.prepare("INSERT INTO sessions (id, user_id, expires_at) VALUES (?,?,?)").bind(sid, user.id, expires).run();
+  await logEvent(env, user, "login", email, null);
 
   return new Response(null, {
     status: 302,

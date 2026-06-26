@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "sync-data": "node -e \"const fs=require('fs');fs.mkdirSync('public/assets/data',{recursive:true});['courses.json','professors.json'].forEach(f=>fs.copyFileSync('../site/assets/data/'+f,'public/assets/data/'+f));console.log('synced data')\"",
     "build": "npm run sync-data && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy-data": "wrangler r2 object put sikh-university-media/courses.json --file ../site/assets/data/courses.json --remote --config ../wrangler.toml"
   },
   "dependencies": {
     "astro": "^6.4.6",

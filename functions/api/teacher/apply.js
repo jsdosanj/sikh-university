@@ -1,4 +1,4 @@
-import { json, getUser, newId } from "../_lib.js";
+import { json, getUser, newId, logEvent } from "../_lib.js";
 
 // POST /api/teacher/apply { background, courses } -> submit a teacher application (logged-in)
 export async function onRequestPost({ request, env }) {
@@ -14,5 +14,6 @@ export async function onRequestPost({ request, env }) {
 
   await env.DB.prepare("INSERT INTO teacher_applications (id, user_id, email, name, background, courses, status, created_at) VALUES (?,?,?,?,?,?, 'pending', ?)")
     .bind(newId(), user.id, user.email, user.name, background, courses, Date.now()).run();
+  await logEvent(env, user, "teacher_application", null, "pending");
   return json({ ok: true });
 }

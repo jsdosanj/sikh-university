@@ -1,4 +1,4 @@
-import { json, getUser, newId } from "./_lib.js";
+import { json, getUser, newId, logEvent } from "./_lib.js";
 
 async function ensure(env) {
   await env.DB.prepare(
@@ -46,5 +46,6 @@ export async function onRequestPost({ request, env }) {
   const id = "SU-" + newId().slice(0, 10).toUpperCase();
   await env.DB.prepare("INSERT INTO certificates (id, user_id, course_id, name, score, issued_at) VALUES (?,?,?,?,?,?)")
     .bind(id, user.id, courseId, name, score, Date.now()).run();
+  await logEvent(env, user, "certificate_issued", courseId, "cert_id=" + id);
   return json({ ok: true, id });
 }
