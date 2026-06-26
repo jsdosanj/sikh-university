@@ -3,8 +3,8 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
-interface Props { title: string; description?: string; canonical?: string; ogType?: string; }
-const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website' } = Astro.props;
+interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; }
+const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true } = Astro.props;
 const SITE = 'https://sikh-university.dosanjhlabs.com';
 // Normalise to the extensionless URLs the site is actually served/linked at
 // (e.g. /catalog, not /catalog.html; / for the homepage).
@@ -61,7 +61,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
 <body>
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
   <Nav />
-  <main id="main">
+  <main id="main" data-autotranslate={autoTranslate ? '1' : '0'}>
     <slot />
   </main>
   <Footer />
@@ -128,7 +128,58 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
           const kp = el.getAttribute('data-i18n-ph'); if (kp) el.setAttribute('placeholder', d[kp] != null ? d[kp] : o.ph);
           const ka = el.getAttribute('data-i18n-aria'); if (ka) el.setAttribute('aria-label', d[ka] != null ? d[ka] : o.aria);
         });
+        autoApply(lang);
       }
+
+      // ── Auto-translate: machine-translate the rest of the page UI via /api/translate.
+      // Captures only English (Latin-script) text in <main>; native scripts (Gurmukhi,
+      // Devanagari, Arabic, CJK…) and .gur/[lang=pa]/[data-i18n]/[data-no-i18n] are skipped,
+      // so Gurbani and course titles are never sent for translation. Opt out per page with
+      // <main data-autotranslate="0">. Results are cached per language in localStorage.
+      const main = document.getElementById('main');
+      const autoOn = !!main && main.getAttribute('data-autotranslate') !== '0';
+      const NATIVE = /[؀-ۿऀ-ॿঀ-৿਀-੿଀-୿஀-௿ఀ-౿ಀ-೿ഀ-ൿ฀-๿぀-ヿ一-鿿가-힯]/;
+      const reg = []; let captured = false;
+      function capture() {
+        if (captured || !main) return; captured = true;
+        const w = document.createTreeWalker(main, NodeFilter.SHOW_TEXT, {
+          acceptNode(n) {
+            const t = n.nodeValue;
+            if (!t || !/[A-Za-z]/.test(t) || NATIVE.test(t)) return NodeFilter.FILTER_REJECT;
+            let el = n.parentElement;
+            while (el && el !== main.parentElement) {
+              if (el.matches && el.matches('.gur,[lang="pa"],script,style,code,pre,[data-i18n],[data-no-i18n]')) return NodeFilter.FILTER_REJECT;
+              el = el.parentElement;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+          },
+        });
+        let n; while ((n = w.nextNode())) reg.push({ node: n, en: n.nodeValue });
+      }
+      const cacheKey = (lang) => 'su_v1_i18n_' + lang;
+      const loadCache = (lang) => { try { return JSON.parse(localStorage.getItem(cacheKey(lang)) || '{}'); } catch (e) { return {}; } };
+      const saveCache = (lang, c) => { try { localStorage.setItem(cacheKey(lang), JSON.stringify(c)); } catch (e) {} };
+      function applyAuto(cache) {
+        reg.forEach((r) => {
+          const tr = cache[r.en.trim()];
+          if (tr) { const lead = (r.en.match(/^\s*/) || [''])[0], trail = (r.en.match(/\s*$/) || [''])[0]; r.node.nodeValue = lead + tr + trail; }
+        });
+      }
+      async function autoApply(lang) {
+        if (!autoOn) return;
+        capture();
+        if (lang === 'en') { reg.forEach((r) => { if (r.node.nodeValue !== r.en) r.node.nodeValue = r.en; }); return; }
+        const cache = loadCache(lang);
+        applyAuto(cache);
+        const need = [], seen = {};
+        reg.forEach((r) => { const k = r.en.trim(); if (k && !(k in cache) && !seen[k]) { seen[k] = 1; need.push(k); } });
+        for (let i = 0; i < need.length; i += 25) {
+          const chunk = need.slice(i, i + 25);
+          let res; try { res = await fetch('/api/translate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ lang, texts: chunk }) }).then((r) => r.json()); } catch (e) { res = null; }
+          if (res && res.translations) { chunk.forEach((t, j) => { if (res.translations[j] != null) cache[t] = res.translations[j]; }); saveCache(lang, cache); applyAuto(cache); }
+        }
+      }
+
       let lang = 'en';
       try { lang = localStorage.getItem('su_v1_lang') || 'en'; } catch (e) {}
       const switches = document.querySelectorAll('[data-lang-switch]');

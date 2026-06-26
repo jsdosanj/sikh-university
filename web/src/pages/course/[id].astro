@@ -36,7 +36,7 @@ const breadcrumb = {
   ],
 };
 ---
-<Base title={`${c.title} — Sikh University`} description={c.summary} ogType="article">
+<Base title={`${c.title} — Sikh University`} description={c.summary} ogType="article" autoTranslate={false}>
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} slot="head" />
 
