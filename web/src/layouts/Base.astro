@@ -24,6 +24,9 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
         var t = localStorage.getItem('su_v1_theme');
         if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', t);
+        var lang = localStorage.getItem('su_v1_lang') || 'en';
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
       } catch (e) {}
     })();
   </script>
@@ -91,6 +94,55 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
       localStorage.setItem(P, JSON.stringify(p)); apply();
     });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+  </script>
+  <script>
+    // Lightweight UI i18n: swaps text/placeholders of [data-i18n*] elements from a
+    // per-language dictionary in /assets/i18n/<lang>.json. English is the in-markup
+    // source (no fetch). Gurbani/Gurmukhi content is never tagged, so it's preserved.
+    (function () {
+      const RTL = new Set(['ar']);
+      const orig = new WeakMap();
+      const nodes = () => document.querySelectorAll('[data-i18n],[data-i18n-ph],[data-i18n-aria]');
+      function snapshot() {
+        nodes().forEach((el) => {
+          if (orig.has(el)) return;
+          orig.set(el, {
+            t: el.hasAttribute('data-i18n') ? el.textContent : null,
+            ph: el.hasAttribute('data-i18n-ph') ? el.getAttribute('placeholder') : null,
+            aria: el.hasAttribute('data-i18n-aria') ? el.getAttribute('aria-label') : null,
+          });
+        });
+      }
+      async function dict(lang) {
+        if (lang === 'en') return {};
+        try { const r = await fetch('/assets/i18n/' + lang + '.json'); return r.ok ? await r.json() : {}; } catch (e) { return {}; }
+      }
+      async function apply(lang) {
+        snapshot();
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', RTL.has(lang) ? 'rtl' : 'ltr');
+        const d = await dict(lang);
+        nodes().forEach((el) => {
+          const o = orig.get(el) || {};
+          const kt = el.getAttribute('data-i18n'); if (kt) el.textContent = d[kt] != null ? d[kt] : o.t;
+          const kp = el.getAttribute('data-i18n-ph'); if (kp) el.setAttribute('placeholder', d[kp] != null ? d[kp] : o.ph);
+          const ka = el.getAttribute('data-i18n-aria'); if (ka) el.setAttribute('aria-label', d[ka] != null ? d[ka] : o.aria);
+        });
+      }
+      let lang = 'en';
+      try { lang = localStorage.getItem('su_v1_lang') || 'en'; } catch (e) {}
+      const switches = document.querySelectorAll('[data-lang-switch]');
+      switches.forEach((sel) => {
+        sel.value = lang;
+        sel.addEventListener('change', () => {
+          const v = sel.value;
+          try { localStorage.setItem('su_v1_lang', v); } catch (e) {}
+          switches.forEach((s) => { s.value = v; });
+          apply(v);
+        });
+      });
+      apply(lang);
+    })();
   </script>
   <style is:global>
     body.hc { background: #000; color: #fff; }

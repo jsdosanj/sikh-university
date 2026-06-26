@@ -11,8 +11,10 @@
     "deploy-data": "wrangler r2 object put sikh-university-media/courses.json --file ../site/assets/data/courses.json --remote --config ../wrangler.toml"
   },
   "dependencies": {
-    "astro": "^6.4.6",
     "@tailwindcss/vite": "^4.1.13",
+    "astro": "^6.4.6",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "tailwindcss": "^4.1.13"
   },
   "overrides": {

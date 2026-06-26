@@ -1,10 +1,14 @@
 ---
 import Logo from './Logo.astro';
 const links = [
-  { href: '/catalog', label: 'Courses', m: '/catalog' },
-  { href: '/santhiya', label: 'Santhya', m: '/santhiya' },
-  { href: '/professors', label: 'Professors', m: '/professor' },
-  { href: '/about', label: 'About', m: '/about' },
+  { href: '/catalog', label: 'Courses', m: '/catalog', key: 'nav.courses' },
+  { href: '/santhiya', label: 'Santhya', m: '/santhiya', key: 'nav.santhya' },
+  { href: '/professors', label: 'Professors', m: '/professor', key: 'nav.professors' },
+  { href: '/about', label: 'About', m: '/about', key: 'nav.about' },
+];
+const LANG_OPTS = [
+  ['en', 'English'], ['pa', 'ਪੰਜਾਬੀ'], ['hi', 'हिन्दी'], ['es', 'Español'],
+  ['ar', 'العربية'], ['fr', 'Français'], ['de', 'Deutsch'], ['zh', '中文'],
 ];
 const path = Astro.url.pathname;
 const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !== '/' && path.startsWith(m));
@@ -29,6 +33,7 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
           type="search"
           name="q"
           placeholder="Search in English or ਪੰਜਾਬੀ…"
+          data-i18n-ph="nav.searchph"
           autocomplete="off"
           class="w-full rounded-full bg-white/10 pl-8 pr-3 py-1.5 font-sans text-sm text-white placeholder-white/50 outline-none ring-1 ring-white/20 focus:bg-white/20 focus:ring-saffron/60 transition"
         />
@@ -44,13 +49,17 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
         <a
           href={l.href}
           aria-current={isActive(l.m) ? 'page' : undefined}
+          data-i18n={l.key}
           class={`font-sans text-sm border-b-2 pb-0.5 transition whitespace-nowrap ${isActive(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}
         >{l.label}</a>
       ))}
-      <a href="/dashboard" aria-current={isActive('/dashboard') ? 'page' : undefined} class="font-sans text-sm whitespace-nowrap text-white/80 hover:text-white">My Learning</a>
+      <a href="/dashboard" aria-current={isActive('/dashboard') ? 'page' : undefined} data-i18n="nav.mylearning" class="font-sans text-sm whitespace-nowrap text-white/80 hover:text-white">My Learning</a>
+      <select data-lang-switch aria-label="Language" data-i18n-aria="lang.label" class="shrink-0 rounded-full bg-white/10 px-2 py-1.5 font-sans text-xs text-white outline-none ring-1 ring-white/20 hover:bg-white/20 [&>option]:text-black">
+        {LANG_OPTS.map(([v, l]) => (<option value={v}>{l}</option>))}
+      </select>
       <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle light/dark"
         class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base text-white/90 hover:bg-white/10 hover:text-white transition"><span data-theme-icon>◐</span></button>
-      <a id="nav-auth" href="/login" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06] hover:brightness-105 whitespace-nowrap">Sign in</a>
+      <a id="nav-auth" href="/login" data-i18n="nav.signin" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06] hover:brightness-105 whitespace-nowrap">Sign in</a>
     </div>
 
     <!-- Hamburger (mobile) -->
@@ -71,17 +80,20 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
           <svg aria-hidden="true" class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
           </svg>
-          <input type="search" name="q" placeholder="Search in English or ਪੰਜਾਬੀ…" autocomplete="off"
+          <input type="search" name="q" placeholder="Search in English or ਪੰਜਾਬੀ…" data-i18n-ph="nav.searchph" autocomplete="off"
             class="w-full rounded-full bg-white/10 pl-8 pr-3 py-1.5 font-sans text-sm text-white placeholder-white/50 outline-none ring-1 ring-white/20" />
         </div>
       </form>
       {links.map((l) => (
-        <a href={l.href} class={`font-sans text-sm py-1.5 px-2 rounded ${isActive(l.m) ? 'text-white font-semibold' : 'text-white/80'}`}>{l.label}</a>
+        <a href={l.href} data-i18n={l.key} class={`font-sans text-sm py-1.5 px-2 rounded ${isActive(l.m) ? 'text-white font-semibold' : 'text-white/80'}`}>{l.label}</a>
       ))}
-      <a href="/dashboard" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">My Learning</a>
+      <a href="/dashboard" data-i18n="nav.mylearning" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">My Learning</a>
       <div class="mt-2 flex items-center gap-x-3 px-2">
         <button id="theme-toggle-mobile" type="button" aria-label="Toggle theme" class="inline-flex h-8 w-8 items-center justify-center rounded-full text-white/90 hover:bg-white/10 transition"><span data-theme-icon-mobile>◐</span></button>
-        <a id="nav-auth-mobile" href="/login" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06]">Sign in</a>
+        <select data-lang-switch aria-label="Language" data-i18n-aria="lang.label" class="rounded-full bg-white/10 px-2 py-1.5 font-sans text-xs text-white outline-none ring-1 ring-white/20 [&>option]:text-black">
+          {LANG_OPTS.map(([v, l]) => (<option value={v}>{l}</option>))}
+        </select>
+        <a id="nav-auth-mobile" href="/login" data-i18n="nav.signin" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06]">Sign in</a>
       </div>
     </div>
   </div>

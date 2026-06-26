@@ -94,7 +94,37 @@ import Base from '../layouts/Base.astro';
               <div class="mt-2 flex flex-wrap gap-2">${langChecks}</div>
             </div>
             <button id="pf-save" class="btn btn-primary">Save profile</button>
+          </div>
+          <div class="mt-10 max-w-xl border-t border-line pt-6">
+            <h2 class="text-xl font-bold">Your data</h2>
+            <p class="mt-1 font-sans text-sm text-muted">Download everything we hold for your account, or permanently delete it.</p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button id="pf-export" class="btn">⬇ Export my data (.json)</button>
+              <button id="pf-delete" class="btn border border-danger/40 text-danger hover:bg-danger/10">Delete my account…</button>
+            </div>
+            <div id="pf-del-confirm" class="mt-4 hidden rounded-xl2 border-l-4 border-danger bg-surface p-4">
+              <p class="font-sans text-sm">This permanently erases your profile, progress, enrolments, certificates, ratings and posts. <strong>It cannot be undone.</strong> Type <strong>DELETE</strong> to confirm.</p>
+              <div class="mt-3 flex flex-wrap items-center gap-2">
+                <input id="pf-del-input" type="text" placeholder="DELETE" class="rounded-lg border border-line bg-surface px-3 py-2 font-sans" />
+                <button id="pf-del-go" class="btn border border-danger/40 text-danger hover:bg-danger/10">Permanently delete</button>
+                <button id="pf-del-cancel" class="btn">Cancel</button>
+              </div>
+            </div>
           </div>`;
+        document.getElementById('pf-export').addEventListener('click', () => { window.location.href = '/api/account/export'; });
+        const delConfirm = document.getElementById('pf-del-confirm');
+        document.getElementById('pf-delete').addEventListener('click', () => { delConfirm.classList.remove('hidden'); document.getElementById('pf-del-input').focus(); });
+        document.getElementById('pf-del-cancel').addEventListener('click', () => { delConfirm.classList.add('hidden'); document.getElementById('pf-del-input').value = ''; });
+        document.getElementById('pf-del-go').addEventListener('click', () => {
+          const confirm = document.getElementById('pf-del-input').value.trim();
+          const btn = document.getElementById('pf-del-go');
+          if (confirm !== 'DELETE') { document.getElementById('pf-del-input').focus(); return; }
+          btn.disabled = true; btn.textContent = 'Deleting…';
+          api('/api/account/delete', { method: 'POST', body: JSON.stringify({ confirm: 'DELETE' }) }).then((res) => {
+            if (res && res.ok) { try { Object.keys(localStorage).filter((k) => k.indexOf('su_v1_') === 0).forEach((k) => localStorage.removeItem(k)); } catch (e) {} location.href = '/?deleted=1'; }
+            else { btn.disabled = false; btn.textContent = 'Permanently delete'; }
+          });
+        });
         document.getElementById('pf-save').addEventListener('click', () => {
           const btn = document.getElementById('pf-save'); btn.disabled = true; btn.textContent = 'Saving…';
           const name = document.getElementById('pf-name').value.trim();
