@@ -29,6 +29,15 @@ database_id = "76977fdc-94aa-4088-9572-420d2a0ea329"
 binding = "MEDIA"
 bucket_name = "sikh-university-media"
 
+# Workers AI — powers /api/translate (site-UI machine translation; courses stay English).
+[ai]
+binding = "AI"
+
+# Translation cache: <lang>:<sha256(text)> -> translated string.
+[[kv_namespaces]]
+binding = "TRANSLATIONS"
+id = "a965586c34ed4ddfa6c52754af53083d"
+
 # Non-secret vars. SITE_URL is intentionally omitted so magic-link URLs derive
 # from the request origin (works on workers.dev and any custom domain).
 [vars]

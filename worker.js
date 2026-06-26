@@ -23,6 +23,7 @@ import { onRequestGet as certGet, onRequestPost as certPost } from "./functions/
 import { onRequestGet as enrollmentsGet, onRequestPost as enrollmentsPost } from "./functions/api/enrollments.js";
 import { onRequestGet as accountExportGet } from "./functions/api/account/export.js";
 import { onRequestPost as accountDeletePost } from "./functions/api/account/delete.js";
+import { onRequestPost as translatePost } from "./functions/api/translate.js";
 
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
@@ -48,6 +49,7 @@ const routes = {
   "/api/enrollments": { GET: enrollmentsGet, POST: enrollmentsPost },
   "/api/account/export": { GET: accountExportGet },
   "/api/account/delete": { POST: accountDeletePost },
+  "/api/translate": { POST: translatePost },
 };
 
 export default {

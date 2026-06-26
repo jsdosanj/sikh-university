@@ -10,8 +10,8 @@ const { course: c } = Astro.props;
     <span class="pill bg-paper text-muted">{c.level} level</span>
     {c.aiCreated && <span class="pill bg-saffron-soft text-saffron-deep">Created by AI</span>}
   </div>
-  <h3 class="line-clamp-2 text-lg font-bold leading-snug text-navy group-hover:text-saffron-deep">{c.title}</h3>
-  <div class="mt-0.5 font-sans text-xs text-muted">Prof. {c.professor}</div>
-  <p class="mt-2 line-clamp-3 text-[0.95rem] text-ink/90">{c.summary}</p>
+  <h3 class="line-clamp-2 text-lg font-bold leading-snug text-navy group-hover:text-saffron-deep" data-no-i18n>{c.title}</h3>
+  <div class="mt-0.5 font-sans text-xs text-muted"><span data-i18n="card.prof">Prof.</span> <span data-no-i18n>{c.professor}</span></div>
+  <p class="mt-2 line-clamp-3 text-[0.95rem] text-ink/90" data-no-i18n>{c.summary}</p>
   <div class="mt-auto pt-3 font-sans text-sm font-semibold text-saffron-deep">View course →</div>
 </a>
