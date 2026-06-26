@@ -21,6 +21,8 @@ import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from
 import { onRequestGet as ratingsGet, onRequestPost as ratingsPost } from "./functions/api/ratings.js";
 import { onRequestGet as certGet, onRequestPost as certPost } from "./functions/api/certificates.js";
 import { onRequestGet as enrollmentsGet, onRequestPost as enrollmentsPost } from "./functions/api/enrollments.js";
+import { onRequestGet as accountExportGet } from "./functions/api/account/export.js";
+import { onRequestPost as accountDeletePost } from "./functions/api/account/delete.js";
 
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
@@ -44,6 +46,8 @@ const routes = {
   "/api/ratings": { GET: ratingsGet, POST: ratingsPost },
   "/api/certificates": { GET: certGet, POST: certPost },
   "/api/enrollments": { GET: enrollmentsGet, POST: enrollmentsPost },
+  "/api/account/export": { GET: accountExportGet },
+  "/api/account/delete": { POST: accountDeletePost },
 };
 
 export default {

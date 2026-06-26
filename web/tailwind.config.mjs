@@ -25,6 +25,7 @@ export default {
         muted: 'rgb(var(--c-muted) / <alpha-value>)',
         line: 'rgb(var(--c-line) / <alpha-value>)',
         ok: '#2f7d4f',
+        danger: '#c0392b',
       },
       fontFamily: {
         serif: ['Georgia', '"Iowan Old Style"', '"Times New Roman"', 'serif'],

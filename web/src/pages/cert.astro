@@ -9,21 +9,26 @@ import Base from '../layouts/Base.astro';
     @media print { nav, footer, .noprint { display: none !important; } body { background: #fff; } }
   </style>
   <script>
+    import { jsPDF } from 'jspdf';
+    import html2canvas from 'html2canvas';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const get = (k, d) => { try { const v = localStorage.getItem('su_v1_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
     const app = document.getElementById('cert-app');
     const id = new URLSearchParams(location.search).get('course');
-    fetch('/assets/data/courses.json').then((r) => r.json()).then((data) => {
+    Promise.all([
+      fetch('/assets/data/courses.json').then((r) => r.json()),
+      fetch('/api/me', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).catch(() => ({ user: null })),
+    ]).then(([data, me]) => {
       const c = data.courses.find((x) => x.id === id);
       const tn = (t) => (data.topics.find((x) => x.id === t) || {}).name || t;
       if (!c) { app.innerHTML = '<p class="text-muted">Course not found.</p>'; return; }
       const score = get('passed_' + c.id, null);
       if (!score) { app.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">🔒 Complete <a class="underline" href="/course/${c.id}">${esc(c.title)}</a> and pass its test (80%+) to earn your certificate.</div>`; return; }
-      const name = (get('profile', {}) || {}).name || '';
+      const name = (get('profile', {}) || {}).name || (me && me.user && me.user.name) || '';
       const issued = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
       app.innerHTML = `
         ${name ? '' : '<div class="noprint mb-4 rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Add your name on your <a class="underline" href="/dashboard">dashboard</a> so it appears on the certificate.</div>'}
-        <div class="mx-auto max-w-3xl rounded-lg border-4 border-saffron bg-[#fffdf8] p-2 shadow-card">
+        <div id="cert-card" class="mx-auto max-w-3xl rounded-lg border-4 border-saffron bg-[#fffdf8] p-2 shadow-card">
           <div class="border border-line px-8 py-12 text-center">
             <div class="font-serif text-2xl font-bold text-navy">Sikh<span class="text-saffron">University</span></div>
             <div class="mt-2 font-sans text-sm uppercase tracking-[0.18em] text-saffron-deep">Certificate of Completion</div>
@@ -37,8 +42,22 @@ import Base from '../layouts/Base.astro';
             <div class="mt-3 font-sans text-xs italic text-muted">Course content created by AI and reviewed for accuracy.</div>
           </div>
         </div>
-        <div class="noprint mt-6 text-center"><button id="print" class="btn btn-primary">🖨 Print / save as PDF</button></div>`;
+        <div class="noprint mt-6 flex flex-wrap justify-center gap-3"><button id="dl-pdf" class="btn btn-primary">⬇ Download PDF</button><button id="print" class="btn">🖨 Print</button></div>`;
       document.getElementById('print')?.addEventListener('click', () => window.print());
+      document.getElementById('dl-pdf')?.addEventListener('click', async () => {
+        const card = document.getElementById('cert-card'); const btn = document.getElementById('dl-pdf');
+        if (!card) return; const old = btn.textContent; btn.disabled = true; btn.textContent = 'Preparing…';
+        try {
+          const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#fffdf8', useCORS: true });
+          const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+          const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
+          const ratio = Math.min(pw / canvas.width, ph / canvas.height) * 0.92;
+          const w = canvas.width * ratio, h = canvas.height * ratio;
+          pdf.addImage(canvas.toDataURL('image/png'), 'PNG', (pw - w) / 2, (ph - h) / 2, w, h);
+          pdf.save('sikh-university-' + (c.id || 'certificate') + '.pdf');
+        } catch (e) { alert('Could not generate the PDF — please use Print instead.'); }
+        btn.disabled = false; btn.textContent = old;
+      });
       // Issue a verifiable certificate ID (needs sign-in; validates the synced pass server-side).
       fetch('/api/certificates', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: c.id, name }) })
         .then((r) => r.json().then((d) => ({ ok: r.ok, d }))).then(({ ok, d }) => {
