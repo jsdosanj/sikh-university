@@ -156,7 +156,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
         });
         let n; while ((n = w.nextNode())) reg.push({ node: n, en: n.nodeValue });
       }
-      const cacheKey = (lang) => 'su_v1_i18n_' + lang;
+      const cacheKey = (lang) => 'su_v1_i18n_v2_' + lang;
       const loadCache = (lang) => { try { return JSON.parse(localStorage.getItem(cacheKey(lang)) || '{}'); } catch (e) { return {}; } };
       const saveCache = (lang, c) => { try { localStorage.setItem(cacheKey(lang), JSON.stringify(c)); } catch (e) {} };
       function applyAuto(cache) {
