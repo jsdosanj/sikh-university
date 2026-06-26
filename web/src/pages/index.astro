@@ -28,12 +28,12 @@ const websiteLd = {
     <div class="pointer-events-none absolute -left-20 bottom-0 h-72 w-72 rounded-full bg-blue-bright/30 blur-3xl"></div>
     <div class="wrap relative grid items-center gap-12 py-20 lg:grid-cols-[minmax(0,1fr)_auto]">
       <div>
-        <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Free · Open · Worldwide</p>
+        <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron" data-i18n="home.eyebrow">Free · Open · Worldwide</p>
         <h1 class="mt-3 max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">Dive into the depths of <span class="text-saffron">Sikhi</span>.</h1>
-        <p class="mt-5 max-w-2xl text-lg text-white/85">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
+        <p class="mt-5 max-w-2xl text-lg text-white/85" data-i18n="home.herosub">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a class="btn btn-primary" href="/catalog">Browse courses</a>
-          <a class="btn btn-ghost" href="https://sikharchive.net" target="_blank" rel="noopener noreferrer">Visit Sikh Archive →</a>
+          <a class="btn btn-primary" href="/catalog" data-i18n="home.cta.browse">Browse courses</a>
+          <a class="btn btn-ghost" href="https://sikharchive.net" target="_blank" rel="noopener noreferrer" data-i18n="home.cta.archive">Visit Sikh Archive →</a>
         </div>
         <div class="mt-12 flex flex-wrap gap-x-12 gap-y-4">
           {[[published.length + '+', 'courses'], [topics.length, 'subjects'], ['100%', 'free'], ['Open', 'to all, worldwide']].map((s) => (
@@ -50,8 +50,8 @@ const websiteLd = {
   <!-- Mission -->
   <section class="bg-gradient-to-b from-blue to-brand text-white">
     <div class="wrap py-16">
-      <p class="text-center font-sans text-sm uppercase tracking-[0.2em] text-saffron">Our mission</p>
-      <h2 class="mx-auto mt-3 max-w-4xl xl:max-w-5xl text-center text-2xl font-bold text-white sm:text-3xl">From the wisdom of our ancestors to a living bond with Waheguru</h2>
+      <p class="text-center font-sans text-sm uppercase tracking-[0.2em] text-saffron" data-i18n="home.mission.eyebrow">Our mission</p>
+      <h2 class="mx-auto mt-3 max-w-4xl xl:max-w-5xl text-center text-2xl font-bold text-white sm:text-3xl" data-i18n="home.mission.heading">From the wisdom of our ancestors to a living bond with Waheguru</h2>
       <p class="mx-auto mt-4 max-w-4xl xl:max-w-5xl text-center text-lg text-white/90">We learn from those who came before us — the Gurus, the scholars, the saints and the soldiers — and carry their light forward. We begin with the basics of Sikhi and keep going into its depths, until one truth becomes unmistakable: that <strong>Sri Guru Granth Sahib Ji</strong> is the living Guru and the one universal Truth. And the real aim of all of it is simple — to build an intimate, personal relationship with <strong>Waheguru</strong>.</p>
       <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
@@ -183,12 +183,12 @@ const websiteLd = {
 
   <!-- Call to action -->
   <section class="wrap py-16 text-center">
-    <h2 class="text-3xl font-bold sm:text-4xl">Start your journey today.</h2>
-    <p class="mx-auto mt-4 max-w-xl text-lg text-muted">It takes thirty seconds to begin. No sign-up required. Pick a course, start a lesson — and see how deep Sikhi really goes.</p>
+    <h2 class="text-3xl font-bold sm:text-4xl" data-i18n="home.cta2.heading">Start your journey today.</h2>
+    <p class="mx-auto mt-4 max-w-xl text-lg text-muted" data-i18n="home.cta2.sub">It takes thirty seconds to begin. No sign-up required. Pick a course, start a lesson — and see how deep Sikhi really goes.</p>
     <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a class="btn btn-primary" href="/catalog">Browse all courses</a>
-      <a class="btn" href="/catalog#paths">Follow a learning path</a>
-      <a class="btn" href="/santhiya?src=sggs">Read the Guru Granth Sahib Ji</a>
+      <a class="btn btn-primary" href="/catalog" data-i18n="home.cta2.browseall">Browse all courses</a>
+      <a class="btn" href="/catalog#paths" data-i18n="home.cta2.path">Follow a learning path</a>
+      <a class="btn" href="/santhiya?src=sggs" data-i18n="home.cta2.read">Read the Guru Granth Sahib Ji</a>
     </div>
   </section>
 
