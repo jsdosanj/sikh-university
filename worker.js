@@ -54,6 +54,18 @@ const routes = {
   "/api/translate": { POST: translatePost },
 };
 
+// Which rate-limit binding guards which POST endpoint (keyed per IP in the dispatch).
+const RATE_LIMITS = {
+  "/api/auth/request": "RL_AUTH",       // magic-link sends (anti mail-bomb via rotating emails)
+  "/api/translate": "RL_TRANSLATE",     // paid Workers AI — cap per-IP cost
+  "/api/feedback": "RL_WRITE",
+  "/api/discussions": "RL_WRITE",
+  "/api/ratings": "RL_WRITE",
+};
+// Count-only for now: log would-be rejections without blocking, so real thresholds
+// can be tuned from logs before enforcing. Flip to true once logs look clean.
+const RL_ENFORCE = false;
+
 export default {
   async fetch(request, env) {
     const { pathname } = new URL(request.url);
@@ -69,6 +81,24 @@ export default {
         return new Response(JSON.stringify({ error: "method not allowed" }), {
           status: 405, headers: { "content-type": "application/json" },
         });
+      }
+      // Rate limiting, keyed per client IP. Count-only unless RL_ENFORCE: a
+      // limiter outage or an over-limit burst must never lock out the mission's
+      // shared-NAT users, so it fails open and (for now) only logs.
+      const limiterName = request.method === "POST" ? RATE_LIMITS[pathname] : null;
+      if (limiterName && env[limiterName]) {
+        const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+        try {
+          const { success } = await env[limiterName].limit({ key: `${pathname}:${ip}` });
+          if (!success) {
+            console.warn("rate_limit_exceeded", pathname, ip);
+            if (RL_ENFORCE) {
+              return new Response(JSON.stringify({ error: "rate_limited" }), {
+                status: 429, headers: { "content-type": "application/json", "retry-after": "60" },
+              });
+            }
+          }
+        } catch (e) { /* limiter unavailable — fail open */ }
       }
       // Single choke point: any handler exception returns a JSON 500 (never a raw
       // Cloudflare HTML error page) and is logged so failures are observable.
