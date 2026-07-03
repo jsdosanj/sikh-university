@@ -1,4 +1,4 @@
-import { json } from "./_lib.js";
+import { json, parseBody } from "./_lib.js";
 
 // Default engine: Meta m2m100 (covers all our languages).
 const M2M_NAMES = {
@@ -44,9 +44,12 @@ async function translateOne(env, lang, text) {
 // Machine-translates UI strings (English -> lang), cached in KV so each unique
 // string is only translated once. Course content is NOT translated (English-only).
 export async function onRequestPost({ request, env }) {
-  let b; try { b = await request.json(); } catch (e) { return json({ error: "bad request" }, 400); }
+  const { body: b, error } = await parseBody(request);
+  if (error) return error;
   const lang = b && b.lang;
-  const texts = Array.isArray(b.texts) ? b.texts.slice(0, 40) : [];
+  // Cap the batch to 25 items (matches the client) so one request can't fan out
+  // into unbounded paid Workers AI calls.
+  const texts = Array.isArray(b.texts) ? b.texts.slice(0, 25) : [];
   if (!M2M_NAMES[lang]) return json({ error: "unsupported language" }, 400);
   if (!env.AI) return json({ translations: texts }); // local dev / AI unavailable
 
@@ -54,9 +57,14 @@ export async function onRequestPost({ request, env }) {
   // with any earlier m2m100 entries for the same Punjabi/Hindi string.
   const tag = INDIC[lang] ? ":i2" : "";
 
+  const MAX_TEXT_LEN = 500;
+
   const translations = await Promise.all(texts.map(async (raw) => {
     const text = String(raw == null ? "" : raw);
     if (!text.trim()) return text;
+    // Hardening: an over-long string skips translation entirely (cache + AI)
+    // and is returned as-is, so a huge/abusive payload can't burn AI budget.
+    if (text.length > MAX_TEXT_LEN) return text;
     const key = lang + tag + ":" + (await sha(text));
     if (env.TRANSLATIONS) {
       try { const hit = await env.TRANSLATIONS.get(key); if (hit != null) return hit; } catch (e) {}
