@@ -54,3 +54,8 @@ jobs:
 
       - name: Dependency audit (fail on high/critical)
         run: cd web && npm audit --audit-level=high
+
+      - name: No emoji as UI glyphs (DESIGN.md iconography law)
+        # Emoji render differently per-OS and read as templated. The UI uses one
+        # inline-SVG line-icon set (web/src/lib/icons.ts + components/Icon.astro).
+        run: node scripts/check-no-emoji.mjs
