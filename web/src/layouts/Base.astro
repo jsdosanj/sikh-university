@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
+import InstallPrompt from '../components/InstallPrompt.astro';
 
 interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; }
 const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true } = Astro.props;
@@ -83,6 +84,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   </main>
   <Footer />
 
+  <InstallPrompt />
   <button id="a11y-fab" aria-label="Accessibility options" aria-expanded="false" aria-controls="a11y-panel" class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-lift hover:bg-brand-strong print:hidden"><Icon name="accessibility" class="h-6 w-6" /></button>
   <div id="a11y-panel" class="fixed right-4 bottom-20 z-50 hidden w-56 flex-col gap-1 rounded-xl2 border border-line bg-surface p-3 shadow-lift print:hidden">
     <strong class="font-sans text-xs uppercase tracking-wide text-muted">Accessibility</strong>
