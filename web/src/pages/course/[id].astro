@@ -66,7 +66,7 @@ const breadcrumb = {
       <p class="mt-2 font-sans text-sm text-white/75">Professor: <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> · Source: {c.source || 'Sikh University'}</p>
       <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
       <div class="mt-6 flex flex-wrap items-center gap-3">
-        <a href="#lesson-0" class="btn btn-primary">Begin course</a>
+        <a href="#lesson-0" class="btn btn-primary" data-i18n="course.begin">Begin course</a>
         <button id="enroll-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20">Enroll</button>
         <button id="offline-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"><Icon name="download" class="h-4 w-4" /><span id="offline-lbl">Save offline</span></button>
         <span class="font-sans text-sm text-white/70">{lessons.length} lessons · {quiz.length}-question test · 80% to pass</span>
@@ -147,7 +147,10 @@ const breadcrumb = {
         <div class="mt-4 space-y-4">
           {lessons.map((ls, i) => (
             <article id={`lesson-${i}`} class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
-              <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
+                <button data-listen={i} class="btn shrink-0 px-3 py-1.5 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl">Listen</span></button>
+              </div>
               <div class="lesson-prose mt-3 leading-relaxed" set:html={ls.html} />
               <div class="mt-4 border-t border-dashed border-line pt-3">
                 <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" />Your notes — saved on this device</label>
@@ -351,6 +354,44 @@ const breadcrumb = {
         navigator.serviceWorker.addEventListener('message', onMsg);
         navigator.serviceWorker.controller.postMessage({ type: 'cache-pack', id: id, urls: Array.from(new Set(urls)) });
       });
+    })();
+    // Lesson audio narration (E8): read a lesson's prose aloud via the browser's speech
+    // engine. Gurmukhi (.gur/.shabad/gurbani blockquotes) is stripped so an English voice
+    // never mispronounces Gurbani; the English translations that follow are read instead.
+    // Chunked by sentence so long lessons don't hit the browser's utterance cutoff.
+    (function () {
+      const buttons = Array.from(document.querySelectorAll('[data-listen]'));
+      if (!buttons.length) return;
+      if (!('speechSynthesis' in window)) { buttons.forEach((b) => b.remove()); return; }
+      let playing = null;
+      const label = (b, t) => { const l = b.querySelector('.listen-lbl'); if (l) l.textContent = t; };
+      const stopAll = () => { speechSynthesis.cancel(); buttons.forEach((b) => label(b, 'Listen')); playing = null; };
+      const readable = (art) => {
+        const p = art && art.querySelector('.lesson-prose'); if (!p) return '';
+        const clone = p.cloneNode(true);
+        clone.querySelectorAll('.gur, .shabad, blockquote.gurbani, [lang="pa"]').forEach((n) => n.remove());
+        return (clone.innerText || '').replace(/\s+/g, ' ').trim();
+      };
+      buttons.forEach((btn) => {
+        const i = btn.getAttribute('data-listen');
+        btn.addEventListener('click', () => {
+          if (playing === i) { stopAll(); return; }
+          stopAll();
+          const text = readable(document.getElementById('lesson-' + i));
+          if (!text) { window.suToast && window.suToast('This lesson has nothing to read aloud.', 'error'); return; }
+          const lang = document.documentElement.getAttribute('lang') === 'pa' ? 'pa-IN' : 'en-US';
+          const chunks = text.match(/[^.?!।॥]+[.?!।॥]*/g) || [text];
+          let k = 0;
+          const next = () => {
+            if (playing !== i || k >= chunks.length) { if (playing === i) stopAll(); return; }
+            const u = new SpeechSynthesisUtterance(chunks[k++].trim());
+            u.lang = lang; u.onend = next; u.onerror = next;
+            speechSynthesis.speak(u);
+          };
+          playing = i; label(btn, 'Stop'); next();
+        });
+      });
+      window.addEventListener('pagehide', () => { try { speechSynthesis.cancel(); } catch (e) {} });
     })();
     function recordActivity() { set('last_course', id); const a = get('activity', []); const d = new Date(); const t = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); if (a[a.length - 1] !== t) { a.push(t); set('activity', a); } }
     function refresh() {
