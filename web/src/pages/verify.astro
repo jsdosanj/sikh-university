@@ -12,6 +12,7 @@ import Base from '../layouts/Base.astro';
     <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
   <script>
+    import { iconSvg } from '../lib/icons';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const out = document.getElementById('out');
     let titles = {};
@@ -31,7 +32,7 @@ import Base from '../layouts/Base.astro';
         }
         if (d && d.valid) {
           const dt = d.issuedAt ? new Date(d.issuedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
-          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-ok bg-surface p-5"><div class="font-sans text-sm font-bold text-ok">✓ Valid certificate</div><div class="mt-2"><strong>${esc(d.name || '—')}</strong> completed <strong>${esc(titles[d.courseId] || d.courseId)}</strong></div><div class="font-sans text-sm text-muted">Score ${d.score}% · Issued ${dt}</div></div>`;
+          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-ok bg-surface p-5"><div class="flex items-center gap-1.5 font-sans text-sm font-bold text-ok">${iconSvg('check', 'h-4 w-4 shrink-0')} Valid certificate</div><div class="mt-2"><strong>${esc(d.name || '—')}</strong> completed <strong>${esc(titles[d.courseId] || d.courseId)}</strong></div><div class="font-sans text-sm text-muted">Score ${d.score}% · Issued ${dt}</div></div>`;
         } else {
           out.innerHTML = '<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong>Not found.</strong> No certificate matches that ID.</div>';
         }
