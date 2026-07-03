@@ -1,3 +1,8 @@
+> **HISTORICAL / SUPERSEDED.** This plan proposed building on Open edX (Django + a VM behind
+> Cloudflare); it was **never adopted**. Sikh University shipped instead as a single
+> Cloudflare Worker + Astro + D1/R2/KV/AI. For current reality see the [README](../README.md),
+> [docs/BACKEND-cloudflare.md](BACKEND-cloudflare.md), and [docs/DEPLOY.md](DEPLOY.md). Kept for context only.
+
 # Implementation plan — Sikh University on Open edX
 
 Platform decision: **Open edX** (see ADR-0001). Public, open to all. Edge via **Cloudflare**.
