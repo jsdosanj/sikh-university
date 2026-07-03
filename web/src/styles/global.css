@@ -4,8 +4,8 @@
 /* Theme palette. The neutral + navy tokens read these variables (see
    tailwind.config.mjs) so the whole site flips between light and dark. */
 :root {
-  --c-paper: 247 248 251;
-  --c-surface: 255 255 255;
+  --c-paper: 251 248 241;   /* warm manuscript ivory (was cool #F7F8FB) */
+  --c-surface: 255 254 251;
   --c-ink: 16 19 26;
   --c-muted: 91 100 115;
   --c-line: 228 232 240;
