@@ -35,6 +35,8 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   </script>
   <title>{title}</title>
   <meta name="description" content={description} />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="application-name" content="Sikh University" />
   <meta name="theme-color" content="#16335c" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0d1016" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href={canon} />
