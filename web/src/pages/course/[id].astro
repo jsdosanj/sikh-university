@@ -4,6 +4,18 @@ import Avatar from '../../components/Avatar.astro';
 import { published, courses, topicName, profSlug, profBio } from '../../lib/data';
 export function getStaticPaths() { return published.map((c) => ({ params: { id: c.id }, props: { c } })); }
 const { c } = Astro.props;
+// Build-time verification status (from web/scripts/verify-gurbani.mjs, which runs
+// before astro build). A course is "quotes verified" only if every quoted tuk matched
+// canonical text with nothing mismatched or uncovered.
+import { readFileSync, existsSync } from 'node:fs';
+let quotesVerified = false;
+try {
+  if (existsSync('./public/data/verification.json')) {
+    const vj = JSON.parse(readFileSync('./public/data/verification.json', 'utf-8'));
+    const cv = vj.courses && vj.courses[c.id];
+    quotesVerified = !!(cv && cv.verified > 0 && !cv.mismatch && !cv.uncovered);
+  }
+} catch (e) { /* verification data absent (e.g. astro dev) — no badge */ }
 const profCourseCount = courses.filter((x) => x.professor === c.professor && x.status === 'published').length;
 const bio = profBio(c.professor);
 const bioShort = bio ? (bio.split('. ').slice(0, 2).join('. ').replace(/\.?$/, '.')) : '';
@@ -47,6 +59,7 @@ const breadcrumb = {
         <span class="pill bg-white/15 text-white">{topicName(c.topic)}</span>
         <span class="pill bg-white/15 text-white">{c.level} level</span>
         {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]">Created by AI</span>}
+        {quotesVerified && <a href="/integrity" class="pill bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji">Quotes verified</a>}
       </div>
       <h1 class="mt-3 max-w-3xl text-3xl font-bold text-white sm:text-4xl">{c.title}</h1>
       <p class="mt-2 font-sans text-sm text-white/75">Professor: <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> · Source: {c.source || 'Sikh University'}</p>
