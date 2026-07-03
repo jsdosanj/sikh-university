@@ -1,0 +1,41 @@
+name: Deploy
+# Auto-deploy to production on merge to master. Requires one repo secret:
+# CLOUDFLARE_API_TOKEN — scoped to Workers Scripts:Edit, Workers R2 Storage:Edit,
+# D1:Edit on this account. account_id is read from wrangler.toml.
+on:
+  push:
+    branches: [master]
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  deploy:
+    name: deploy to production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Pre-deploy validation
+        run: |
+          python3 scripts/validate.py
+          python3 scripts/build_public_data.py --check
+
+      - name: Deploy Worker + Astro build
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Publish answer-stripped catalogue to R2
+        # Runs every deploy so R2 always matches the repo — this retires the old
+        # manual `npm run deploy-data` step that once shipped a stale catalogue.
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python3 scripts/build_public_data.py
+          npx --yes wrangler@4 r2 object put sikh-university-media/courses.json \
+            --file site/assets/data/courses.public.json --remote
