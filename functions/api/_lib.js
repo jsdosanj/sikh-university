@@ -47,3 +47,26 @@ export async function logEvent(env, user, action, target, detail) {
     ).bind(newId(), Date.now(), user ? user.id : null, user ? user.role : null, action, target || null, detail || null).run();
   } catch (e) { /* logging is non-critical */ }
 }
+
+// Resolve the signed-in user and, if `roles` is given, require their role to be
+// in that list. Callers do: `const { user, error } = await requireRole(env, request,
+// ["admin"]); if (error) return error;`. Matches the "forbidden"/403 + "Please
+// sign in."/401 wording already used by handlers adopting this helper.
+export async function requireRole(env, request, roles) {
+  const user = await getUser(env, request);
+  if (!user) return { error: json({ error: "Please sign in." }, 401) };
+  if (roles && roles.length && !roles.includes(user.role)) return { error: json({ error: "forbidden" }, 403) };
+  return { user };
+}
+
+// Same as requireRole but with no role check — just requires a signed-in user.
+export async function requireUser(env, request) {
+  return requireRole(env, request, null);
+}
+
+// Parse a JSON request body, returning a uniform 400 on malformed input.
+// Callers do: `const { body, error } = await parseBody(request); if (error) return error;`
+export async function parseBody(request) {
+  try { return { body: await request.json() }; }
+  catch (e) { return { error: json({ error: "bad request" }, 400) }; }
+}
