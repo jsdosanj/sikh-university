@@ -1,0 +1,26 @@
+name: Uptime check
+# Unattended synthetic monitoring: probes /api/health (which checks D1 + R2 directly,
+# since a D1 outage otherwise looks like a healthy 200) and the homepage every 30
+# minutes. A failure fails the workflow, which emails the maintainer. No secrets needed.
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    name: probe production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe health endpoint + homepage
+        run: |
+          SITE=https://sikh-university.dosanjhlabs.com
+          echo "Probing $SITE/api/health"
+          CODE=$(curl -s -o /tmp/health.json -w '%{http_code}' "$SITE/api/health" || echo 000)
+          echo "HTTP $CODE"; cat /tmp/health.json || true; echo
+          [ "$CODE" = "200" ] || { echo "::error::health endpoint returned $CODE"; exit 1; }
+          grep -q '"ok":true' /tmp/health.json || { echo "::error::health reports a failing binding"; exit 1; }
+          echo "Probing $SITE/ (homepage)"
+          curl -sf -o /dev/null "$SITE/" || { echo "::error::homepage unreachable"; exit 1; }
+          echo "All checks passed."
