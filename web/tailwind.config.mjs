@@ -28,9 +28,10 @@ export default {
         danger: '#c0392b',
       },
       fontFamily: {
-        serif: ['Georgia', '"Iowan Old Style"', '"Times New Roman"', 'serif'],
+        serif: ['"Source Serif 4"', 'Georgia', '"Iowan Old Style"', '"Times New Roman"', 'serif'],
         sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
         gur: ['"Noto Sans Gurmukhi"', '"Gurmukhi MN"', '"Gurbani Akhar"', '"Raavi"', 'serif'],
+        gurserif: ['"Noto Serif Gurmukhi"', '"Noto Sans Gurmukhi"', '"Gurbani Akhar"', 'serif'],
       },
       boxShadow: {
         card: '0 1px 3px rgba(16,19,26,.06), 0 10px 26px rgba(31,111,235,.08)',
