@@ -44,6 +44,17 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Sikh University" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Organization", "@id": SITE + "/#org", "name": "Sikh University", "url": SITE,
+        "description": "A free, open online university for Sikhi — Gurbani, history, philosophy, Rehat, Kirtan, and Gurmukhi/Punjabi — open to all, worldwide.",
+        "logo": SITE + "/assets/icon-192.png" },
+      { "@type": "WebSite", "@id": SITE + "/#website", "url": SITE, "name": "Sikh University",
+        "publisher": { "@id": SITE + "/#org" },
+        "potentialAction": { "@type": "SearchAction", "target": SITE + "/search?q={search_term_string}", "query-input": "required name=search_term_string" } }
+    ]
+  })} />
   <meta name="mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta property="og:type" content={ogType} />
