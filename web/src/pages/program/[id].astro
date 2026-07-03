@@ -1,5 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { iconSvg } from '../../lib/icons';
 import programsData from '../../../public/assets/data/programs.json';
 import coursesData from '../../../public/assets/data/courses.json';
 
@@ -29,7 +31,7 @@ const typeLabel = {
   <section class="wrap py-10">
     <!-- Header -->
     <div class="flex flex-wrap items-start gap-4">
-      <div class="text-5xl">{prog.icon}</div>
+      <Icon name={prog.icon} class="h-12 w-12 shrink-0 text-saffron-deep" />
       <div class="flex-1">
         <div class="font-sans text-sm font-semibold uppercase tracking-wider text-muted">{typeLabel[prog.type]} · {prog.abbreviation}</div>
         <h1 class="text-3xl font-bold text-navy">{prog.title}</h1>
@@ -94,7 +96,7 @@ const typeLabel = {
               <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {tCourses.map((c) => (
                   <a href={`/course/${c.id}`} class="card flex items-start gap-3 hover:border-saffron transition" data-course-id={c.id}>
-                    <span class="mt-0.5 text-xl" data-course-check="⬜">{/* filled by JS */}</span>
+                    <span class="mt-0.5" data-course-check>{/* filled by JS */}</span>
                     <div class="flex-1 min-w-0">
                       <div class="font-sans text-xs text-muted">{c.level} level</div>
                       <div class="text-sm font-semibold text-navy leading-tight">{c.title}</div>
@@ -117,7 +119,7 @@ const typeLabel = {
       <p class="mt-1 font-sans text-sm text-muted" id="cum-test-subtitle"></p>
       <div id="cum-test-body" class="mt-6 space-y-6"></div>
       <div id="cum-test-result" class="hidden mt-6 rounded-xl2 border border-line bg-paper p-5 text-center">
-        <div class="text-4xl" id="cum-result-icon">🎓</div>
+        <div id="cum-result-icon"><Icon name="cap" class="mx-auto h-9 w-9 text-saffron-deep" /></div>
         <div class="mt-2 text-2xl font-bold text-navy" id="cum-result-score"></div>
         <div class="mt-1 font-sans text-sm text-muted" id="cum-result-msg"></div>
         <button id="cum-retry" class="btn mt-4 hidden">Retry Exam</button>
@@ -130,7 +132,7 @@ const typeLabel = {
     </div>
   </div>
 
-<script define:vars={{ progId: prog.id, progTitle: prog.title, courseIds: prog.courseIds, testQuestions: prog.testQuestions, passMark: prog.passMark }}>
+<script define:vars={{ progId: prog.id, progTitle: prog.title, courseIds: prog.courseIds, testQuestions: prog.testQuestions, passMark: prog.passMark, ICONS: { check: iconSvg('check', 'h-4 w-4'), cap: iconSvg('cap', 'mx-auto h-9 w-9 text-saffron-deep'), books: iconSvg('books', 'mx-auto h-9 w-9 text-saffron-deep'), capSmall: iconSvg('cap', 'h-7 w-7 text-saffron-deep'), done: iconSvg('check-square', 'h-5 w-5 text-ok'), todo: iconSvg('square', 'h-5 w-5 text-muted') } }}>
   const get = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } };
   const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
   const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -167,7 +169,7 @@ const typeLabel = {
       </div>
       ${allDone
         ? cumPassed
-          ? `<div class="flex flex-col items-center gap-1"><span class="text-3xl">🎓</span><span class="font-sans text-xs text-saffron-deep font-bold">Credential earned</span><a href="/cert?program=${progId}" class="btn btn-primary mt-1">View credential →</a></div>`
+          ? `<div class="flex flex-col items-center gap-1"><span>${ICONS.capSmall}</span><span class="font-sans text-xs text-saffron-deep font-bold">Credential earned</span><a href="/cert?program=${progId}" class="btn btn-primary mt-1">View credential →</a></div>`
           : `<button id="start-cum-test" class="btn btn-primary">Take Cumulative Exam →</button>`
         : `<div class="font-sans text-sm text-muted text-center">Complete all courses<br>to unlock the exam</div>`
       }
@@ -178,7 +180,7 @@ const typeLabel = {
   document.querySelectorAll('[data-course-id]').forEach((card) => {
     const cid = card.getAttribute('data-course-id');
     const icon = card.querySelector('[data-course-check]');
-    if (icon) icon.textContent = passed(cid) ? '✅' : '⬜';
+    if (icon) icon.innerHTML = passed(cid) ? ICONS.done : ICONS.todo;
   });
 
   // Cumulative test logic
@@ -267,7 +269,7 @@ const typeLabel = {
     const retryBtn = document.getElementById('cum-retry');
     const certLink = document.getElementById('cum-cert-link');
 
-    iconEl.textContent = passed_exam ? '🎓' : '📚';
+    iconEl.innerHTML = passed_exam ? ICONS.cap : ICONS.books;
     scoreEl.textContent = `${score}% (${correct} / ${total} correct)`;
     if (passed_exam) {
       msgEl.textContent = `Congratulations — you have passed the ${progTitle} cumulative examination. Your credential is ready.`;
@@ -292,7 +294,7 @@ const typeLabel = {
     const btn = document.getElementById('register-btn'); if (!btn) return;
     const rk = 'su_v1_registered_program_' + progId;
     let reg = get(rk, false);
-    function paint() { btn.textContent = reg ? '✓ Registered for this program' : 'Register for this program'; }
+    function paint() { btn.innerHTML = reg ? ICONS.check + ' Registered for this program' : 'Register for this program'; }
     paint();
     fetch('/api/enrollments', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
       if (!d || !d.enrollments) return;

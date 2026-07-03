@@ -11,6 +11,7 @@ import Base from '../layouts/Base.astro';
   <script>
     import { jsPDF } from 'jspdf';
     import html2canvas from 'html2canvas';
+    import { iconSvg } from '../lib/icons';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const get = (k, d) => { try { const v = localStorage.getItem('su_v1_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
     const app = document.getElementById('cert-app');
@@ -23,7 +24,7 @@ import Base from '../layouts/Base.astro';
       const tn = (t) => (data.topics.find((x) => x.id === t) || {}).name || t;
       if (!c) { app.innerHTML = '<p class="text-muted">Course not found.</p>'; return; }
       const score = get('passed_' + c.id, null);
-      if (!score) { app.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">🔒 Complete <a class="underline" href="/course/${c.id}">${esc(c.title)}</a> and pass its test (80%+) to earn your certificate.</div>`; return; }
+      if (!score) { app.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-4"><span class="inline-flex items-center gap-1.5">${iconSvg('lock', 'h-4 w-4 shrink-0')}<span>Complete <a class="underline" href="/course/${c.id}">${esc(c.title)}</a> and pass its test (80%+) to earn your certificate.</span></span></div>`; return; }
       const name = (get('profile', {}) || {}).name || (me && me.user && me.user.name) || '';
       const issued = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
       app.innerHTML = `
@@ -44,11 +45,11 @@ import Base from '../layouts/Base.astro';
             </div>
           </div>
         </div>
-        <div class="noprint mt-6 flex flex-wrap justify-center gap-3"><button id="dl-pdf" class="btn btn-primary">⬇ Download PDF</button><button id="print" class="btn">🖨 Print</button></div>`;
+        <div class="noprint mt-6 flex flex-wrap justify-center gap-3"><button id="dl-pdf" class="btn btn-primary">${iconSvg('download', 'h-4 w-4')} Download PDF</button><button id="print" class="btn">${iconSvg('printer', 'h-4 w-4')} Print</button></div>`;
       document.getElementById('print')?.addEventListener('click', () => window.print());
       document.getElementById('dl-pdf')?.addEventListener('click', async () => {
         const card = document.getElementById('cert-card'); const btn = document.getElementById('dl-pdf');
-        if (!card) return; const old = btn.textContent; btn.disabled = true; btn.textContent = 'Preparing…';
+        if (!card) return; const old = btn.innerHTML; btn.disabled = true; btn.textContent = 'Preparing…';
         try {
           const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#fffdf8', useCORS: true });
           const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
@@ -58,7 +59,7 @@ import Base from '../layouts/Base.astro';
           pdf.addImage(canvas.toDataURL('image/png'), 'PNG', (pw - w) / 2, (ph - h) / 2, w, h);
           pdf.save('sikh-university-' + (c.id || 'certificate') + '.pdf');
         } catch (e) { window.suToast('Could not generate the PDF — please use Print instead.', 'error'); }
-        btn.disabled = false; btn.textContent = old;
+        btn.disabled = false; btn.innerHTML = old;
       });
       // Issue a verifiable certificate ID (needs sign-in; validates the synced pass server-side).
       fetch('/api/certificates', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: c.id, name }) })
