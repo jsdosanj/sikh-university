@@ -16,6 +16,7 @@ import { onRequestGet as adminCourseTeachersGet, onRequestPost as adminCourseTea
 import { onRequestGet as adminEventsGet } from "./functions/api/admin/events.js";
 import { onRequestGet as gradebookGet, onRequestPost as gradebookPost } from "./functions/api/gradebook.js";
 import { onRequestPost as quizPost } from "./functions/api/quiz.js";
+import { onRequestPost as programExamPost } from "./functions/api/program-exam.js";
 import { onRequestGet as announcementsGet, onRequestPost as announcementsPost } from "./functions/api/announcements.js";
 import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
 import { onRequestGet as ratingsGet, onRequestPost as ratingsPost } from "./functions/api/ratings.js";
@@ -42,6 +43,7 @@ const routes = {
   "/api/admin/events": { GET: adminEventsGet },
   "/api/gradebook": { GET: gradebookGet, POST: gradebookPost },
   "/api/quiz": { POST: quizPost },
+  "/api/program-exam": { POST: programExamPost },
   "/api/announcements": { GET: announcementsGet, POST: announcementsPost },
   "/api/discussions": { GET: discussionsGet, POST: discussionsPost },
   "/api/ratings": { GET: ratingsGet, POST: ratingsPost },
@@ -68,7 +70,16 @@ export default {
           status: 405, headers: { "content-type": "application/json" },
         });
       }
-      return handler({ request, env });
+      // Single choke point: any handler exception returns a JSON 500 (never a raw
+      // Cloudflare HTML error page) and is logged so failures are observable.
+      try {
+        return await handler({ request, env });
+      } catch (err) {
+        console.error("api_error", request.method, pathname, err && err.stack || String(err));
+        return new Response(JSON.stringify({ error: "server_error" }), {
+          status: 500, headers: { "content-type": "application/json" },
+        });
+      }
     }
     // Audio + media streamed from R2 (zero egress), same-origin so <audio> + CSP work.
     if (pathname.startsWith("/media/")) {

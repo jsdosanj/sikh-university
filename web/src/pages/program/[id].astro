@@ -188,13 +188,15 @@ const typeLabel = {
   });
 
   function launchTest() {
-    // Pull quiz questions from courses.json (available in window via data island)
+    // Pull quiz *questions* from the public catalogue. Answers are NOT present in
+    // the browser-served catalogue (stripped by build_public_data.py) — grading is
+    // done on the server via /api/program-exam, keyed by (courseId, question-index).
     fetch('/assets/data/courses.json').then(r => r.json()).then(data => {
       const pool = [];
       data.courses.forEach(c => {
         if (!courseIds.includes(c.id)) return;
         (c.quiz || []).forEach((q, qi) => {
-          pool.push({ cid: c.id, qi, q: q.q, options: q.options, answer: q.answer, courseTitle: c.title });
+          pool.push({ cid: c.id, qi, q: q.q, options: q.options, courseTitle: c.title });
         });
       });
       // Shuffle and pick N questions
@@ -221,7 +223,7 @@ const typeLabel = {
     submitBtn.classList.remove('hidden');
 
     body.innerHTML = questions.map((q, i) => `
-      <div class="space-y-2" data-qi="${i}" data-answer="${q.answer}">
+      <div class="space-y-2" data-qi="${i}" data-cid="${esc(q.cid)}" data-qidx="${q.qi}">
         <p class="font-semibold text-navy"><span class="text-muted font-normal">${i+1}.</span> ${esc(q.q)}</p>
         <div class="font-sans text-xs text-muted mb-1">— ${esc(q.courseTitle)}</div>
         ${q.options.map((opt, oi) => `
@@ -239,14 +241,25 @@ const typeLabel = {
   }
 
   function gradeTest(questions) {
-    let correct = 0;
-    questions.forEach((q, i) => {
+    // Grade on the server: submit (courseId, question-index, chosen-option) tuples.
+    // The browser no longer has the answer key, so this is the only path to a score.
+    const items = questions.map((q, i) => {
       const sel = document.querySelector(`input[name="q${i}"]:checked`);
-      if (sel && parseInt(sel.value) === q.answer) correct++;
+      return { cid: q.cid, qi: q.qi, sel: sel ? parseInt(sel.value) : -1 };
     });
-    const score = Math.round((correct / questions.length) * 100);
-    const passed_exam = score >= passMark;
+    const submitBtn = document.getElementById('cum-submit');
+    submitBtn.disabled = true;
+    fetch('/api/program-exam', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ items, passMark }),
+    })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('grade failed'))))
+      .then((res) => { submitBtn.disabled = false; showTestResult(res.score, res.correct, res.total, res.passed); })
+      .catch(() => { submitBtn.disabled = false; alert('Could not grade the exam right now. Please check your connection and try again.'); });
+  }
 
+  function showTestResult(score, correct, total, passed_exam) {
     const resultEl = document.getElementById('cum-test-result');
     const iconEl = document.getElementById('cum-result-icon');
     const scoreEl = document.getElementById('cum-result-score');
@@ -255,7 +268,7 @@ const typeLabel = {
     const certLink = document.getElementById('cum-cert-link');
 
     iconEl.textContent = passed_exam ? '🎓' : '📚';
-    scoreEl.textContent = `${score}% (${correct} / ${questions.length} correct)`;
+    scoreEl.textContent = `${score}% (${correct} / ${total} correct)`;
     if (passed_exam) {
       msgEl.textContent = `Congratulations — you have passed the ${progTitle} cumulative examination. Your credential is ready.`;
       certLink.href = `/cert?program=${progId}`;

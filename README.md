@@ -1,44 +1,99 @@
-# Sikh University — open learning platform (working title)
+# Sikh University
 
-A free, global, open online university where **anyone, anywhere** can learn about Sikhi —
-and grow modern skills (starting with AI) — taught by scholars and built on open content.
+A free, open, global online university for Sikhi — Gurbani, history, philosophy, Rehat,
+Kirtan, Gurmukhi/Punjabi — plus modern skills, taught through self-paced courses and open
+to **anyone, anywhere**.
 
-> Status: **planning + scaffold**. This repo holds the vision, the architecture decision,
-> the security model, the content/licensing register, the curriculum, and the deployment
-> runbook. Platform deployment begins once the direction is confirmed.
+**Live:** https://sikh-university.dosanjhlabs.com — 558 published courses, real accounts,
+quizzes, and certificates.
 
-## Mission
-- **Open to all** — free, no barriers, works on any device, available worldwide.
-- **Sikhi at the centre** — Gurbani, history, philosophy, Rehat, Kirtan, Gurmukhi/Punjabi,
-  sourced from authentic scholarship.
-- **21st-century skills** — start with AI literacy, extend to data, security, and more.
-- **Scholar-built** — verified scholars can author and maintain courses (with review).
-- **Security as a core mission** — privacy-respecting, hardened, auditable by design.
+> **Accuracy is sacred.** This platform teaches Sikhi, so doctrinal and historical accuracy
+> is a release gate, not a nicety. AI-drafted course content is labeled **"Created by AI"**
+> and routed to human scholar review before it is presented as authoritative. Gurbani is
+> handled with reverence — correct Gurmukhi, faithful sourcing. See [CLAUDE.md](CLAUDE.md).
 
-## What it is (and isn't)
-- It **is** a MOOC-style open university: self-paced courses, video, readings, quizzes,
-  discussion, certificates of completion, and a course-authoring studio for scholars.
-- It **is not** a fork of a legacy school LMS. See [docs/ADR-0001-platform-choice.md](docs/ADR-0001-platform-choice.md).
+## What it is
+- A MOOC-style open university: self-paced courses with lessons, readings, server-graded
+  quizzes, discussions, enrollments, a gradebook, teacher dashboards, and free certificates
+  of completion with public verification.
+- **Real accounts** via passwordless magic-link sign-in. Progress, certificates, and
+  enrollments sync across devices.
+- **Multi-language UI** — the site chrome machine-translates on demand (Workers AI,
+  IndicTrans2); course content stays in its authored language.
 
-## Content sources (see [docs/CONTENT-AND-LICENSING.md](docs/CONTENT-AND-LICENSING.md))
-- **Sikh Archive (sikharchive.net)** — Jasvant's own archive; primary source library.
-- **Basics of Sikhi** — third-party charity content; **requires written permission/partnership**
-  (embed/link, do not rehost without it).
-- **OpenCourseWare (MIT OCW, Harvard CS50, etc.)** — reusable under Creative Commons
-  **BY-NC-SA** with attribution; non-commercial use fits an open university.
-- **Original AI-skills curriculum** — authored in-house.
+## Architecture
+Sikh University is a **single Cloudflare Worker** ([`worker.js`](worker.js)), not a Pages
+site and not a VM. The Worker:
 
-## Name candidates (to decide)
-- **Miri-Piri Academy** / **Miri Piri Open University** — the Sikh concept of temporal + spiritual.
-- **Akal Academy / Akal Open University** — (note: "Akal University" already exists in Talwandi Sabo).
-- **Khalsa University Online** — clear, but "Khalsa University" is also an existing institution.
-- **Gurmat Vidyala** ("school of the Guru's wisdom") — distinctly Sikh, less collision risk.
-- **Charhdi Kala University** — uplifting, evocative.
-- Working repo name: `sikh-university`.
+- dispatches `/api/*` to handlers in [`functions/api/`](functions/api/) (auth, progress,
+  quizzes, certificates, enrollments, discussions, gradebook, admin, translate);
+- streams `/media/*` and the large course catalogue (`/assets/data/courses.json`) from **R2**;
+- serves everything else — the prerendered **Astro** static site — from the `web/dist`
+  build via the `[assets]` binding, injecting security headers on HTML responses.
+
+**Frontend:** Astro + Tailwind in [`web/`](web/) — pages in `web/src/pages/*.astro`, layout
+in `web/src/layouts/Base.astro`, shared content access in `web/src/lib/data.ts`. Course
+pages are **statically prerendered at build** (`web/src/pages/course/[id].astro`
+`getStaticPaths`).
+
+**Bindings** (see [`wrangler.toml`](wrangler.toml)):
+
+| Binding | Type | Purpose |
+|---|---|---|
+| `DB` | D1 (`sikh-university`) | users, sessions, magic tokens, progress, enrollments, discussions, ratings, certificates, gradebook, teacher applications, announcements, feedback, audit events |
+| `MEDIA` | R2 (`sikh-university-media`) | audio/media objects and the course catalogue (`courses.json`) |
+| `AI` | Workers AI | powers `/api/translate` (site-UI machine translation) |
+| `TRANSLATIONS` | KV | translation cache (`<lang>:<sha256(text)>` → string) |
+
+**Auth & security:** magic-link auth (`functions/api/auth/request.js` + `verify.js`) sends
+links via **Resend** (`RESEND_API_KEY` secret); a signed session cookie (`su_session`,
+HttpOnly/Secure/SameSite=Lax) is issued in `functions/api/_lib.js`. Admin access is granted
+by email allowlist (`ADMIN_EMAILS` in `wrangler.toml`). Quizzes are **server-graded** against
+answer keys the client never sees (`functions/api/_quiz-keys.js`, generated by
+`scripts/build_quiz_keys.py`).
+
+## Content
+All courses live in one large monolith, [`site/assets/data/courses.json`](site/assets/data/)
+(~43 MB), alongside `professors.json`. `web/src/lib/data.ts` reads it at build time to
+prerender course pages; at runtime the Worker serves it from R2. Because it exceeds
+Cloudflare's 25 MiB asset limit, the build strips it from `web/dist` and it is published to
+R2 separately — see [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Repo layout
 ```
-docs/    vision, ADR, security model, licensing register, curriculum, roadmap, deployment runbook
-theme/   custom branding / micro-frontend theme plan for the platform
-deploy/  infrastructure-as-code + Tutor config plan for the chosen platform
+worker.js            Worker entrypoint: routing, /media + courses.json from R2, static assets
+wrangler.toml        Worker config: bindings, custom domain, build command
+schema.sql           D1 schema (tables + migration notes)
+functions/api/       API handlers (auth, progress, quiz, certificates, admin, translate, …)
+web/                 Astro + Tailwind frontend (src/pages, src/layouts, src/components, src/lib)
+site/                content + legacy static HTML; site/assets/data/courses.json is the catalogue
+scripts/             Python build tools (course/quiz-key/reader generation, validate)
+docs/                architecture, deploy runbook, content licensing, security, curriculum
 ```
+
+## Run locally
+Local dev is driven from root scripts:
+
+```bash
+npm install       # installs root + web dependencies
+npm run dev       # runs the Worker + Astro frontend together
+npm run db:seed   # seeds a local D1 database
+```
+
+The frontend alone can also be run with `cd web && npm install && npm run dev`. See
+[docs/DEPLOY.md](docs/DEPLOY.md) for D1/R2 setup and the catalogue-to-R2 step.
+
+## Deploy
+Production **auto-deploys on merge to `master`** via GitHub Actions. Pushes and PRs first run
+the CI validation workflow (JS syntax checks + `scripts/validate.py` on the catalogue). The
+manual fallback is `wrangler deploy` from a maintainer laptop. The course catalogue is pushed
+to R2 as a separate step, and the service-worker cache version in `web/public/sw.js` is
+bumped for an immediate client refresh. Full operational detail — commands, the R2 catalogue
+push, D1 migrations, and restores — is in **[docs/DEPLOY.md](docs/DEPLOY.md)**.
+
+## More docs
+- [docs/DEPLOY.md](docs/DEPLOY.md) — operational runbook (deploy, catalogue push, migrations, restore)
+- [docs/BACKEND-cloudflare.md](docs/BACKEND-cloudflare.md) — backend architecture detail
+- [docs/CONTENT-AND-LICENSING.md](docs/CONTENT-AND-LICENSING.md) — content sources and rights
+- [docs/SECURITY.md](docs/SECURITY.md) — security model
+- [CLAUDE.md](CLAUDE.md) — accuracy gate and content-authoring constraints
