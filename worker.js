@@ -169,11 +169,18 @@ export default {
     if (!ct.includes('text/html')) return assetResp;
     const h = new Headers(assetResp.headers);
     h.set('X-Content-Type-Options', 'nosniff');
-    h.set('X-Frame-Options', 'SAMEORIGIN');
+    h.set('X-Frame-Options', 'DENY');
     h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     h.set('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
+    // Single authoritative CSP for HTML documents (this override wins over the
+    // static _headers file, so the CSP lives here only). connect-src is tightened
+    // to the one external origin the client actually calls (the BaniDB verse viewer).
     h.set('Content-Security-Policy',
-      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self'");
+      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; " +
+      "img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; " +
+      "connect-src 'self' https://api.banidb.com; " +
+      "frame-src https://www.youtube-nocookie.com https://www.youtube.com; " +
+      "form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'");
     return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
   },
 };
