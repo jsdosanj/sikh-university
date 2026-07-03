@@ -28,7 +28,13 @@
 [data-theme="dark"] blockquote.gurbani { background: rgba(244, 178, 26, .12); color: rgb(var(--c-ink)); }
 
 @layer base {
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(4.5rem + env(safe-area-inset-top)); }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(4.5rem + env(safe-area-inset-top)); -webkit-tap-highlight-color: transparent; }
+  /* Installed / standalone: feel like a native app — no rubber-band overscroll revealing
+     a blank edge, and don't let a long-press select chrome text (content stays selectable). */
+  @media (display-mode: standalone) {
+    html, body { overscroll-behavior-y: none; }
+    button, a, nav, [role="button"] { -webkit-touch-callout: none; }
+  }
   /* Respect users who prefer reduced motion (WCAG 2.3.3). */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -78,8 +84,10 @@
   .h-underline { @apply border-b-4 border-saffron pb-1; }
   .lesson-prose :where(p,ul,ol,table){ @apply my-3; }
   .lesson-prose h4 { @apply mt-6 mb-1 text-navy; }
-  .lesson-prose table { @apply w-full border-collapse text-[0.95rem]; }
-  .lesson-prose th, .lesson-prose td { @apply border border-line p-2.5 text-left align-top; }
+  /* Injected content tables (keywords, works-cited) size to content but scroll within
+     their own box on narrow screens instead of pushing the whole page sideways. */
+  .lesson-prose table { @apply border-collapse text-[0.95rem]; display: block; width: max-content; max-width: 100%; overflow-x: auto; }
+  .lesson-prose th, .lesson-prose td { @apply border border-line p-2.5 text-left align-top; overflow-wrap: anywhere; }
   .lesson-prose thead th { @apply bg-brand text-white font-sans text-[0.82rem]; }
   .lesson-prose tbody tr:nth-child(even){ @apply bg-paper; }
   .lesson-prose .toc { @apply rounded-xl border border-line bg-paper p-4 font-sans text-[0.92rem] mb-5; }
