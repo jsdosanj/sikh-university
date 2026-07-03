@@ -1,4 +1,4 @@
-import { json, getUser, logEvent } from "../_lib.js";
+import { json, getUser, logEvent, parseBody } from "../_lib.js";
 
 // GET /api/admin/applications -> list pending teacher applications (admin only)
 export async function onRequestGet({ request, env }) {
@@ -14,7 +14,8 @@ export async function onRequestGet({ request, env }) {
 export async function onRequestPost({ request, env }) {
   const user = await getUser(env, request);
   if (!user || user.role !== "admin") return json({ error: "forbidden" }, 403);
-  let body; try { body = await request.json(); } catch (e) { return json({ error: "bad request" }, 400); }
+  const { body, error } = await parseBody(request);
+  if (error) return error;
   const { id, decision } = body;
   if (!id || (decision !== "approve" && decision !== "deny")) return json({ error: "bad request" }, 400);
 
