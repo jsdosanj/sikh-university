@@ -203,5 +203,45 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     body.hc .card, body.hc .bg-surface, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
     body.hc a, body.hc h1, body.hc h2, body.hc h3 { color: #ffd479 !important; }
   </style>
+
+  <!-- Global toast + modal-form helpers (replace native alert()/prompt() dialogs). -->
+  <div id="su-toasts" class="fixed bottom-4 left-1/2 z-[60] flex -translate-x-1/2 flex-col items-center gap-2 print:hidden" aria-live="polite"></div>
+  <div id="su-modal-root"></div>
+  <script>
+    window.suToast = function (msg, kind) {
+      var box = document.getElementById('su-toasts'); if (!box) return;
+      var el = document.createElement('div');
+      var tone = kind === 'ok' ? 'border-ok text-ok' : kind === 'error' ? 'border-danger text-danger' : 'border-navy text-ink';
+      el.className = 'rounded-xl2 border-l-4 ' + tone + ' bg-surface px-4 py-2.5 shadow-lift font-sans text-sm max-w-sm';
+      el.setAttribute('role', 'status'); el.textContent = msg; box.appendChild(el);
+      setTimeout(function () { el.style.transition = 'opacity .3s'; el.style.opacity = '0'; setTimeout(function () { el.remove(); }, 300); }, 3400);
+    };
+    window.suModalForm = function (opts) {
+      return new Promise(function (resolve) {
+        var root = document.getElementById('su-modal-root');
+        var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]); }); };
+        var fields = opts.fields || [];
+        var inputs = fields.map(function (f, i) {
+          var id = 'suf-' + i;
+          var ctrl = f.type === 'textarea'
+            ? '<textarea id="' + id + '" rows="3" class="w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans"></textarea>'
+            : '<input id="' + id + '" type="' + (f.type || 'text') + '" class="w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans" />';
+          return '<label class="block"><span class="mb-1 block font-sans text-sm font-semibold text-navy">' + esc(f.label) + (f.optional ? ' <span class="font-normal text-muted">(optional)</span>' : '') + '</span>' + ctrl + '</label>';
+        }).join('');
+        root.innerHTML = '<div id="su-modal-ov" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4 print:hidden"><div role="dialog" aria-modal="true" aria-label="' + esc(opts.title) + '" class="w-full max-w-md rounded-xl2 border border-line bg-surface p-6 shadow-lift"><h2 class="font-serif text-xl font-bold text-navy">' + esc(opts.title) + '</h2><form id="su-modal-form" class="mt-4 grid gap-3">' + inputs + '<div class="mt-2 flex justify-end gap-2"><button type="button" id="su-modal-cancel" class="btn">Cancel</button><button type="submit" class="btn btn-primary">' + esc(opts.submitLabel || 'Save') + '</button></div></form></div></div>';
+        var close = function (val) { root.innerHTML = ''; document.removeEventListener('keydown', onKey); resolve(val); };
+        var onKey = function (e) { if (e.key === 'Escape') close(null); };
+        document.addEventListener('keydown', onKey);
+        document.getElementById('su-modal-cancel').addEventListener('click', function () { close(null); });
+        document.getElementById('su-modal-ov').addEventListener('click', function (e) { if (e.target === e.currentTarget) close(null); });
+        document.getElementById('su-modal-form').addEventListener('submit', function (e) {
+          e.preventDefault(); var vals = {};
+          fields.forEach(function (f, i) { vals[f.name] = document.getElementById('suf-' + i).value; });
+          close(vals);
+        });
+        var first = root.querySelector('input,textarea'); if (first) first.focus();
+      });
+    };
+  </script>
 </body>
 </html>

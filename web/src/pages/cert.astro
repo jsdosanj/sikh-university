@@ -57,7 +57,7 @@ import Base from '../layouts/Base.astro';
           const w = canvas.width * ratio, h = canvas.height * ratio;
           pdf.addImage(canvas.toDataURL('image/png'), 'PNG', (pw - w) / 2, (ph - h) / 2, w, h);
           pdf.save('sikh-university-' + (c.id || 'certificate') + '.pdf');
-        } catch (e) { alert('Could not generate the PDF — please use Print instead.'); }
+        } catch (e) { window.suToast('Could not generate the PDF — please use Print instead.', 'error'); }
         btn.disabled = false; btn.textContent = old;
       });
       // Issue a verifiable certificate ID (needs sign-in; validates the synced pass server-side).
