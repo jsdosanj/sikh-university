@@ -8,7 +8,7 @@ export default {
         // so it flips to a light blue in dark mode. `brand` is the fixed navy
         // used for the few navy *backgrounds* (nav, table headers, FAB) that
         // must stay dark in both themes.
-        navy: { DEFAULT: 'rgb(var(--c-navy) / <alpha-value>)', strong: '#0b2444', soft: '#1d4e89' },
+        navy: { DEFAULT: 'rgb(var(--c-navy) / <alpha-value>)', strong: '#0b2444', soft: '#1d4e89', deep: '#0b1e3a' },
         brand: { DEFAULT: '#16335c', strong: '#0b2444' },
         // Bright blue accents (variations)
         blue: { DEFAULT: '#1f6feb', bright: '#3b82f6', light: '#6aa6ff', sky: '#dbeafe' },
