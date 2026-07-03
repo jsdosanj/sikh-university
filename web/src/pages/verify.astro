@@ -15,7 +15,7 @@ import Base from '../layouts/Base.astro';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const out = document.getElementById('out');
     let titles = {};
-    fetch('/assets/data/courses.json').then((r) => r.json()).then((d) => { d.courses.forEach((c) => (titles[c.id] = c.title)); }).catch(() => {});
+    fetch('/data/index.json').then((r) => r.json()).then((d) => { d.courses.forEach((c) => (titles[c.id] = c.title)); }).catch(() => {});
     const btn = document.querySelector('#vf button');
     function verify(id) {
       if (!id) return;

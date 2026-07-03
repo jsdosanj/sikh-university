@@ -32,7 +32,7 @@ import Base from '../layouts/Base.astro';
         Promise.all([api('/api/gradebook'), Promise.resolve(programs)]).then(([{ ok, d }]) => {
           if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load the gradebook.</div>'; return; }
           const rows = d.rows || [], cids = d.courses || [];
-          const lc = (id) => { const c = courses.find((x) => x.id === id); return (c && c.lessons) ? c.lessons.length : 0; };
+          const lc = (id) => { const c = courses.find((x) => x.id === id); return c ? (c.nLessons || 0) : 0; };
           if (!rows.length) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4 text-muted">No enrolments yet.</div>'; return; }
 
           // Build program options
@@ -332,7 +332,7 @@ import Base from '../layouts/Base.astro';
             <div class="mt-2 flex flex-wrap gap-2">
               <a class="btn font-sans text-xs px-2 py-1" href="/course/${esc(c.id)}" target="_blank">View course →</a>
             </div>
-            <div class="mt-2 font-sans text-xs text-muted">${(c.lessons || []).length} lessons${c.quiz && c.quiz.length ? ' · ' + c.quiz.length + ' quiz questions' : ''}</div>
+            <div class="mt-2 font-sans text-xs text-muted">${c.nLessons || 0} lessons${c.nQuiz ? ' · ' + c.nQuiz + ' quiz questions' : ''}</div>
             </div></details></li>`;
         }
 
@@ -368,7 +368,7 @@ import Base from '../layouts/Base.astro';
 
       // ── Bootstrap: load courses, topics, programs then draw ────────────────
       Promise.all([
-        fetch('/assets/data/courses.json', { cache: 'no-store' }).then((r) => r.json()),
+        fetch('/data/index.json').then((r) => r.json()),
         fetch('/assets/data/programs.json').then((r) => r.json()).catch(() => ({ programs: [] })),
       ]).then(([data, pd]) => {
         courses = data.courses || [];

@@ -16,7 +16,7 @@ import Base from '../layouts/Base.astro';
     const app = document.getElementById('cert-app');
     const id = new URLSearchParams(location.search).get('course');
     Promise.all([
-      fetch('/assets/data/courses.json').then((r) => r.json()),
+      fetch('/data/index.json').then((r) => r.json()),
       fetch('/api/me', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).catch(() => ({ user: null })),
     ]).then(([data, me]) => {
       const c = data.courses.find((x) => x.id === id);
