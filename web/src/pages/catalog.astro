@@ -38,13 +38,14 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     <h1 class="text-3xl font-bold">Courses</h1>
 
     <div id="tabbar" role="tablist" aria-label="Browse courses" class="mt-5 inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
-      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="false" class="rounded-full px-4 py-1.5">Learning paths</button>
+      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white">Learning paths</button>
       <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-4 py-1.5">Catalogue</button>
       <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-4 py-1.5">Programs</button>
     </div>
 
-    <!-- Catalogue view -->
-    <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6">
+    <!-- Catalogue view (hidden by default: guided paths lead so slow connections
+         don't hit a wall of 558 cards before JS runs). -->
+    <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6" hidden>
       <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
         class="w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
       <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
@@ -67,7 +68,7 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     </div>
 
     <!-- Learning paths view -->
-    <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6" hidden>
+    <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6">
       <p class="text-muted">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
       <details id="guided-journeys-section" class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
         <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
