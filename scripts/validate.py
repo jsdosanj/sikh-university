@@ -25,8 +25,23 @@ for c in data.get("courses", []):
 dups = [i for i, n in collections.Counter(ids).items() if n > 1]
 if dups: err(f"duplicate course ids: {dups}")
 
+# No-shrink guard: a truncated/corrupt courses.json (say, 3 courses) parses fine and
+# would auto-merge over the whole catalogue. Refuse to pass if the published count
+# drops below the committed floor unless the shrink is explicit.
+published = len([c for c in data.get("courses", []) if c.get("status") == "published"])
+try:
+    baseline = json.load(open(os.path.join(ROOT, "scripts/catalogue-baseline.json"), encoding="utf-8"))
+    floor = int(baseline.get("published_min", 0))
+except Exception as e:
+    floor = 0
+    err(f"could not read scripts/catalogue-baseline.json: {e}")
+if floor and published < floor and not os.environ.get("ALLOW_CATALOGUE_SHRINK"):
+    err(f"published courses ({published}) fell below the floor ({floor}). "
+        f"If this shrink is intentional, re-run with ALLOW_CATALOGUE_SHRINK=1 and lower "
+        f"published_min in scripts/catalogue-baseline.json in the same change.")
+
 if errors:
     print("VALIDATION FAILED:")
     for e in errors: print("  -", e)
     sys.exit(1)
-print(f"OK — {len(data['courses'])} courses, {len([c for c in data['courses'] if c['status']=='published'])} published, {len(topics)} topics.")
+print(f"OK — {len(data['courses'])} courses, {published} published, {len(topics)} topics (floor {floor}).")

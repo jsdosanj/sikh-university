@@ -3,3 +3,12 @@
 config.yml
 *.env
 .DS_Store
+
+# Generated at deploy/CI time by scripts/build_public_data.py (answer-stripped catalogue served to browsers)
+site/assets/data/courses.public.json
+
+# Local wrangler dev secrets (copy from .dev.vars.example) — never commit
+.dev.vars
+
+# root tooling (wrangler devDep)
+/node_modules/

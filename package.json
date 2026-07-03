@@ -1,0 +1,16 @@
+{
+  "name": "sikh-university",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local dev entry point for the Sikh University Worker (API + D1/R2/KV bindings). See CONTRIBUTING.md.",
+  "scripts": {
+    "dev": "wrangler dev --local",
+    "dev:frontend": "cd web && npm run dev",
+    "db:seed": "wrangler d1 execute sikh-university --local --file=./schema.sql",
+    "db:seed:remote": "wrangler d1 execute sikh-university --remote --file=./schema.sql",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.98.0"
+  }
+}

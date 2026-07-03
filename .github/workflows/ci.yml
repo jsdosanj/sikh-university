@@ -14,11 +14,32 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - name: JS syntax check (frontend + Functions)
+          node-version: '22'
+
+      - name: JS syntax check (frontend + Functions + Worker)
         run: |
           node --check site/assets/app.js
           node --check worker.js
           find functions -name '*.js' -print0 | xargs -0 -n1 node --check
-      - name: Validate course catalogue
+
+      - name: Validate course catalogue (structure + no-shrink guard)
         run: python3 scripts/validate.py
+
+      - name: Assert public catalogue ships no quiz answers
+        # The browser-served catalogue must never contain quiz[].answer, or a learner
+        # can read the key and mint a real certificate without knowing the material.
+        run: python3 scripts/build_public_data.py --check
+
+      - name: Server quiz keys match the catalogue (no hand-forged grading)
+        # Under auto-merge with no human gate, _quiz-keys.js could be edited directly
+        # to change grades/certs. Regenerate it from courses.json and require a match.
+        run: |
+          python3 scripts/build_quiz_keys.py
+          git diff --exit-code functions/api/_quiz-keys.js \
+            || { echo "::error::functions/api/_quiz-keys.js does not match courses.json — regenerate with scripts/build_quiz_keys.py"; exit 1; }
+
+      - name: Build frontend (Astro build gate)
+        run: |
+          cd web
+          npm ci
+          npm run build

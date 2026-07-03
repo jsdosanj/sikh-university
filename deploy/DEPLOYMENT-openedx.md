@@ -1,3 +1,7 @@
+> **HISTORICAL / SUPERSEDED.** This Open edX / Tutor / Kubernetes runbook was **never
+> adopted** — Sikh University runs as a single Cloudflare Worker, with no VM. The real deploy
+> runbook is [docs/DEPLOY.md](../docs/DEPLOY.md). Kept for context only.
+
 # Deployment runbook — Open edX via Tutor
 
 > Reference for Phase 1. Open edX is heavy: **don't run this on a laptop sandbox** — use a

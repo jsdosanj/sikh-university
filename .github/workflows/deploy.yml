@@ -1,0 +1,38 @@
+name: Sync catalogue to R2
+# The Worker + Astro assets auto-deploy on merge via the Cloudflare Workers Build
+# git integration (no secret needed). That build does NOT push the catalogue to R2,
+# so this workflow republishes the answer-stripped courses.json to R2 on every merge,
+# retiring the old manual `npm run deploy-data` step. It needs one repo secret,
+# CLOUDFLARE_API_TOKEN (Workers R2 Storage:Edit), and skips gracefully without it.
+on:
+  push:
+    branches: [master]
+concurrency:
+  group: r2-catalogue-sync
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  sync-catalogue:
+    name: sync catalogue to R2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Publish answer-stripped catalogue to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "CLOUDFLARE_API_TOKEN is not set — skipping the R2 catalogue sync."
+            echo "Add it under repo Settings > Secrets and variables > Actions to enable"
+            echo "automatic publishing of the answer-stripped catalogue."
+            exit 0
+          fi
+          python3 scripts/validate.py
+          python3 scripts/build_public_data.py
+          npx --yes wrangler@4 r2 object put sikh-university-media/courses.json \
+            --file site/assets/data/courses.public.json --remote
