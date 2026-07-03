@@ -1,0 +1,4 @@
+{
+  "published_min": 550,
+  "note": "Floor for the no-shrink guard in validate.py. A truncated or corrupt courses.json (e.g. 3 courses) would otherwise validate green and auto-merge over the real catalogue. Bump this when the catalogue legitimately grows; to intentionally shrink below it, run validate with ALLOW_CATALOGUE_SHRINK=1 and lower this value in the same PR."
+}

@@ -44,3 +44,10 @@ id = "a965586c34ed4ddfa6c52754af53083d"
 ADMIN_EMAILS = "singhsxdhi@gmail.com,dots-whisks.6r@icloud.com,contact@sikhism.io"
 MAIL_FROM = "Sikh University <login@dosanjhlabs.com>"
 # RESEND_API_KEY is a secret — set in the dashboard (Settings > Variables and Secrets).
+
+# Workers Logs: persist console output (errors, magic-link/verify/translate failures)
+# so production problems are observable after the fact. Without this, console lines
+# only exist during a live `wrangler tail` and otherwise evaporate.
+[observability]
+enabled = true
+head_sampling_rate = 1

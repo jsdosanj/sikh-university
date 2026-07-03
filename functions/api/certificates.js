@@ -8,14 +8,20 @@ async function ensure(env) {
 
 // GET /api/certificates?id=... -> public verification of a certificate id
 export async function onRequestGet({ request, env }) {
-  await ensure(env);
   const id = new URL(request.url).searchParams.get("id");
   if (!id) return json({ valid: false });
   try {
+    await ensure(env);
     const r = await env.DB.prepare("SELECT course_id, name, score, issued_at FROM certificates WHERE id=?").bind(id).first();
     if (!r) return json({ valid: false });
     return json({ valid: true, courseId: r.course_id, name: r.name, score: r.score, issuedAt: r.issued_at });
-  } catch (e) { return json({ valid: false }); }
+  } catch (e) {
+    // A database outage must NOT declare a genuine certificate invalid on the
+    // public trust surface. Signal "couldn't check" (503) so the verify page
+    // tells the visitor to try again, rather than "no certificate matches".
+    console.error("cert_verify_db_error", id, e && e.stack || String(e));
+    return json({ error: "cannot_check" }, 503);
+  }
 }
 
 // POST /api/certificates { courseId, name } -> issue (or return existing) verifiable id.
