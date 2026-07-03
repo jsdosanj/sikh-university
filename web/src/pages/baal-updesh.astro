@@ -390,9 +390,9 @@ const wordCard = (w) => w;
 
     let words = [];
     try { words = JSON.parse(document.getElementById('fc-words-data').textContent || '[]'); } catch {}
-    fetch('/assets/data/courses.json').then((r) => r.json()).then((data) => {
+    fetch('/data/search.json').then((r) => r.json()).then((data) => {
       const topics = data.topics;
-      const pub = data.courses.filter((c) => c.status === 'published');
+      const pub = data.courses; // search.json is already published-only
       const seen = new Set();
       const deck = [];
       pub.forEach((c) => (c.terms || []).forEach((t) => {
