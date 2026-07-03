@@ -1,0 +1,26 @@
+name: Freshness check
+# Design-for-absence: if the monthly snapshot refresh stops (e.g. GitHub disables the
+# schedule after a period of repo inactivity), the canonical snapshot silently goes
+# stale. This daily check fails — emailing the maintainer — if the snapshot hasn't been
+# refreshed in over 100 days, so a stalled cron is noticed instead of quietly rotting.
+on:
+  schedule:
+    - cron: '30 6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    name: snapshot freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gurbani snapshot age
+        run: |
+          TS=$(git log -1 --format=%ct -- scripts/gurbani-snapshot.json)
+          [ -n "$TS" ] || { echo "::error::snapshot file missing from history"; exit 1; }
+          AGE=$(( ( $(date +%s) - TS ) / 86400 ))
+          echo "Canonical Gurbani snapshot last refreshed ${AGE} days ago."
+          [ "$AGE" -le 100 ] || { echo "::error::snapshot is stale (${AGE} days) — the refresh workflow may have stopped. Run it via workflow_dispatch."; exit 1; }
