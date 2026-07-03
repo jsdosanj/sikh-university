@@ -23,6 +23,9 @@ type Ctx = {
   certById: any;
   dbThrows: boolean;
   rows: any[] | null;
+  ownsCourse: boolean;
+  cohortByCode: any;
+  cohortById: any;
   DB: any;
 };
 
@@ -53,6 +56,12 @@ function resolveFirst(sql: string, bound: any[], ctx: Ctx) {
     );
     return found ? { id: found.id } : null;
   }
+  // cohorts.js ownsCourse(): SELECT 1 FROM course_teachers WHERE user_id=? AND course_id=?
+  if (sql.includes("FROM course_teachers WHERE user_id")) return ctx.ownsCourse ? { x: 1 } : null;
+  // cohorts.js join: SELECT ... FROM cohorts WHERE invite_code=?
+  if (sql.includes("FROM cohorts WHERE invite_code")) return ctx.cohortByCode;
+  // cohorts.js roster: SELECT * FROM cohorts WHERE id=?
+  if (sql.includes("FROM cohorts WHERE id=")) return ctx.cohortById;
   return null;
 }
 
@@ -120,6 +129,11 @@ export type MockEnvOpts = {
   rows?: any[] | null;
   // env.ADMIN_EMAILS value.
   adminEmails?: string;
+  // cohorts.js: does the user teach the course (course_teachers lookup)?
+  ownsCourse?: boolean;
+  // cohorts.js: cohort row returned for a join-by-invite-code / roster-by-id lookup.
+  cohortByCode?: any;
+  cohortById?: any;
 };
 
 export function mockEnv(opts: MockEnvOpts = {}) {
@@ -130,9 +144,12 @@ export function mockEnv(opts: MockEnvOpts = {}) {
     dbThrows = false,
     rows = null,
     adminEmails = "",
+    ownsCourse = false,
+    cohortByCode = null,
+    cohortById = null,
   } = opts;
   const DB: any = { _certStore: [] as CertRow[] };
-  const ctx: Ctx = { user, progress, certById, dbThrows, rows, DB };
+  const ctx: Ctx = { user, progress, certById, dbThrows, rows, ownsCourse, cohortByCode, cohortById, DB };
   DB.prepare = (sql: string) => makeStmt(sql, ctx);
   return { DB, ADMIN_EMAILS: adminEmails, AI: {}, MEDIA: {} };
 }
@@ -162,3 +179,4 @@ export function req({ url = "http://localhost/api/x", cookie, body, method }: Re
 // A signed-in learner and an admin, for authz tests.
 export const LEARNER = { id: "u-learner", email: "learner@example.com", name: "Learner", role: "learner" };
 export const ADMIN = { id: "u-admin", email: "admin@example.com", name: "Admin", role: "admin" };
+export const TEACHER = { id: "u-teacher", email: "teacher@example.com", name: "Teacher", role: "teacher" };
