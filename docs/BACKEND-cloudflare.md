@@ -1,89 +1,82 @@
-# Backend architecture — Cloudflare-native (Pages + Functions + D1 + R2)
+# Backend architecture — Cloudflare Worker
 
-Fully Cloudflare, no VM. Builds on ADR-0002 (static frontend) by adding a serverless backend.
+Sikh University runs as a **single Cloudflare Worker** (`worker.js`) on a custom domain
+(`sikh-university.dosanjhlabs.com`). There is no VM and no Cloudflare Pages project — the
+Worker is the whole backend and also the front door for the static site. Operational
+procedures (deploy, catalogue push, migrations, restore) live in
+[DEPLOY.md](DEPLOY.md); this file describes the architecture.
 
 ```
-Browser ── Cloudflare Pages (static frontend: site/) 
-              └─ Pages Functions / Workers  ── D1 (SQLite: courses, users, enrollment, progress)
-                                            └─ R2 (object storage: media, video, SikhLibrary PDFs)
+Browser ── Cloudflare Worker (worker.js)
+             ├─ /api/*                     → handlers in functions/api/*  (each { request, env })
+             ├─ /media/*                   → streamed from R2 (MEDIA), range-aware, public prefixes only
+             ├─ /assets/data/courses.json  → served from R2 (too large for the assets binding)
+             └─ everything else            → Astro static build (web/dist) via the ASSETS binding
+                                             (+ security headers injected on HTML responses)
 ```
 
-## What each piece does
-- **Pages** — serves the static site (already built in `site/`).
-- **Pages Functions / Workers** — the API (`/api/*`): read courses, record progress, auth (if enabled).
-- **D1** (serverless SQLite) — relational data: courses/lessons (so we can manage content without
-  redeploying), and — *if we add accounts* — users, enrollments, progress.
-- **R2** (S3-compatible) — large/binary content: course images, audio, **video**, and the
-  **SikhLibrary source files** (PDFs) that author-as-professor courses reference.
+## Request handling (`worker.js`)
+- **`/api/*`** — matched against a fixed route table to `onRequestGet` / `onRequestPost`
+  handlers imported from `functions/api/`. Unknown paths → 404; wrong method → 405.
+- **`/media/*`** — objects streamed from the `MEDIA` R2 bucket with HTTP range support (so
+  `<audio>` seeking works). Only known public key prefixes (`santhya/`, `audio/`, `gurbani/`,
+  `media/`) are served; anything else 404s, so the rest of the bucket is never web-readable.
+- **`/assets/data/courses.json`** — the course catalogue is larger than Cloudflare's 25 MiB
+  asset limit, so the build removes it from `web/dist` and the Worker serves it from R2
+  (`courses.json` key) with a 1-hour cache.
+- **Everything else** — fetched from the Astro build through the `ASSETS` binding. HTML
+  responses get security headers (CSP, `X-Content-Type-Options`, `X-Frame-Options`,
+  `Referrer-Policy`, `Permissions-Policy`) added on the way out.
 
-## Phased (don't overbuild)
-- **Phase A — now:** static frontend on Pages; courses in `courses.json`; progress in `localStorage`.
-  No backend required. **Deployable today.**
-- **Phase B — content at scale:** move course media + SikhLibrary PDFs into **R2**; serve via a
-  Function. Optionally move the course catalogue into **D1** so courses can be added without a redeploy.
-- **Phase C — accounts (needs a decision):** **D1** users + enrollments + progress-sync across
-  devices + completion certificates. **Requires choosing an auth method (see below).**
+## Bindings (`wrangler.toml`)
+- **`DB`** — D1 database `sikh-university` (SQLite). Schema in `schema.sql`; see below.
+- **`MEDIA`** — R2 bucket `sikh-university-media`: audio/media objects and `courses.json`.
+- **`AI`** — Workers AI, used by `/api/translate` for site-UI machine translation
+  (IndicTrans2). Course content is not machine-translated.
+- **`TRANSLATIONS`** — KV namespace caching translations as `<lang>:<sha256(text)>` → string.
 
-## D1 schema (initial — Phase B/C)
-```sql
-CREATE TABLE courses (
-  id TEXT PRIMARY KEY, title TEXT, topic TEXT, level INTEGER,
-  professor TEXT, source TEXT, ai_created INTEGER, status TEXT, summary TEXT
-);
-CREATE TABLE lessons (
-  course_id TEXT, idx INTEGER, title TEXT, body TEXT,
-  PRIMARY KEY (course_id, idx)
-);
--- Phase C (only if accounts are enabled):
-CREATE TABLE users (id TEXT PRIMARY KEY, email TEXT UNIQUE, role TEXT DEFAULT 'learner', created_at TEXT);
-CREATE TABLE enrollments (user_id TEXT, course_id TEXT, enrolled_at TEXT, PRIMARY KEY (user_id, course_id));
-CREATE TABLE progress (user_id TEXT, course_id TEXT, lesson_idx INTEGER, completed_at TEXT,
-  PRIMARY KEY (user_id, course_id, lesson_idx));
-```
+Non-secret vars live in `[vars]`: `ADMIN_EMAILS` (admin allowlist) and `MAIL_FROM`.
+`RESEND_API_KEY` is a **secret** (set in the dashboard, not in the repo). `SITE_URL` is
+intentionally omitted so magic-link URLs derive from the request origin.
+
+## Content model
+All courses are authored into one monolith, `site/assets/data/courses.json` (with
+`professors.json`). `web/src/lib/data.ts` imports it at build time; course pages are
+**statically prerendered** (`web/src/pages/course/[id].astro` `getStaticPaths` over published
+courses). At runtime the catalogue JSON is served from R2, so the site can render courses
+without shipping a 43 MB asset. This means the catalogue is deployed on its own track — see
+the catalogue push in [DEPLOY.md](DEPLOY.md).
+
+## Accounts & auth
+Accounts are live and passwordless:
+- **Magic link** — `functions/api/auth/request.js` creates a one-time token and emails a
+  sign-in link via **Resend**; `functions/api/auth/verify.js` consumes it and starts a session.
+- **Sessions** — a signed `su_session` cookie (`HttpOnly; Secure; SameSite=Lax`), issued and
+  read in `functions/api/_lib.js`, backed by the `sessions` table.
+- **Roles** — `learner | teacher | admin` on the `users` row; admins are bootstrapped from
+  the `ADMIN_EMAILS` allowlist.
+- **Quizzes** — graded on the server against `functions/api/_quiz-keys.js` (generated by
+  `scripts/build_quiz_keys.py`); the answer key is never sent to the client. A pass is ≥ 80.
+
+## D1 schema
+The authoritative schema is `schema.sql`. Core tables:
+
+- `users` (id, email, name, country, languages, role, created_at)
+- `magic_tokens`, `sessions` — auth
+- `progress` (per user × course: completed lessons + `passed_score`)
+- `enrollments`, `discussions`, `ratings`, `certificates`
+- `course_teachers`, `grade_overrides`, `announcements` — teaching/gradebook
+- `teacher_applications`, `feedback`, `events` (append-only audit log)
+
+Several tables (discussions, ratings, certificates, gradebook, announcements, enrollments,
+feedback, events) are also **auto-created by their handlers on first write**, so a fresh
+handler needs no manual migration. Column additions to existing tables still require a
+one-off migration — see [DEPLOY.md](DEPLOY.md).
 
 ## R2 layout
 ```
-media/<course-id>/...        course images / audio / video
-library/<author>/<file>.pdf  SikhLibrary source documents (private; served via Function with checks)
+courses.json          the course catalogue (served at /assets/data/courses.json)
+santhya/…             audio recordings (santhya)
+audio/…  gurbani/…  media/…   other public media, served at /media/<key>
 ```
-
-## Auth — the decision before Phase C (security is core)
-| Option | Friction | Security | Notes |
-|---|---|---|---|
-| **No accounts** (today) | none | n/a | progress per-browser only; anonymous; simplest |
-| **Email magic-link** (passwordless) | low | strong (no passwords) | needs a mail sender; good default for an open university |
-| **OAuth (Google/Apple)** | low | strong | relies on providers; quick sign-in |
-| **Passkeys (WebAuthn)** | low-med | strongest | most modern; a bit more build |
-
-Recommendation: stay **No accounts** through Phases A–B; if/when we want cross-device progress &
-certificates, add **email magic-link or OAuth**. Whichever we pick: MFA for admins, least-privilege
-roles, secrets in Workers secrets (not code), rate limiting, audit logging (see SECURITY.md).
-
-## Deploy (Cloudflare, free tier)
-- Frontend: connect this repo to **Cloudflare Pages**, build output dir = `site/`.
-- D1: `wrangler d1 create sikh-university` → bind in `wrangler.toml`; apply `schema.sql`.
-- R2: `wrangler r2 bucket create sikh-university-media` → bind; upload assets.
-- Functions: add `site/functions/api/*` (Pages Functions) bound to D1/R2.
-(These run when we start Phase B/C, after the auth decision.)
-
-### Publishing the course catalogue (IMPORTANT)
-`courses.json` is too large for Cloudflare's 25 MiB asset limit, so the build
-strips it from `web/dist` and the Worker serves it from R2 (`worker.js`). This
-means **`wrangler deploy` alone does NOT update the catalogue** — the R2 object
-must be pushed separately, or the admin/site will show a stale course count.
-
-After any change to `site/assets/data/courses.json`, run:
-```
-cd web && npm run deploy-data   # wrangler r2 object put sikh-university-media/courses.json …
-```
-Then `wrangler deploy` from the repo root for the code/site. (The Worker caches
-the object for 1 h; bump the service-worker cache version in `web/public/sw.js`
-if you need an immediate client refresh.)
-
-### Profile columns migration
-The `users` table gained `country` and `languages`. For an existing DB, run once:
-```
-wrangler d1 execute sikh-university --remote --command "ALTER TABLE users ADD COLUMN country TEXT"
-wrangler d1 execute sikh-university --remote --command "ALTER TABLE users ADD COLUMN languages TEXT"
-```
-(The `enrollments` table auto-creates on first write, so it needs no migration.)
+Only the `santhya/`, `audio/`, `gurbani/`, and `media/` prefixes are exposed over `/media/`.

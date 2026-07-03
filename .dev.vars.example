@@ -1,0 +1,21 @@
+# Local dev environment variables for `wrangler dev`.
+#
+# Copy this file to `.dev.vars` (gitignored) and adjust as needed:
+#   cp .dev.vars.example .dev.vars
+#
+# `wrangler dev` loads `.dev.vars` automatically — no export/source needed.
+# None of these are required to get a working local API; the defaults below
+# already make sign-in work without sending real email.
+
+# Resend API key for magic-link sign-in email (functions/api/auth/request.js).
+# Leave empty for local dev: with no RESEND_API_KEY set, the endpoint skips
+# Resend and returns the magic-link URL directly in the JSON response
+# (`devLink`) instead of emailing it — just copy that link into your browser.
+RESEND_API_KEY=
+
+# Checked by functions/api/auth/request.js to prod-guard the devLink fallback
+# above: if RESEND_API_KEY is unset AND (CF_ENV === 'production' OR
+# ENVIRONMENT === 'production'), the endpoint refuses to leak a sign-in link
+# and returns a 503 instead. Set to "development" (anything other than
+# "production") so local dev keeps getting the devLink fallback.
+CF_ENV=development
