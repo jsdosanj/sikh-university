@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Content integrity — Sikh University" description="How we verify the Gurbani quoted across Sikh University against the canonical text — the numbers, the method, and what's still in progress.">
+  <section class="wrap max-w-3xl py-14">
+    <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron-deep">Content integrity</p>
+    <h1 class="mt-2 text-3xl font-bold text-navy">Every quoted ਸ਼ਬਦ, checked against the canonical text</h1>
+    <p class="mt-3 text-muted">Accuracy is a release gate here, not a nicety. Each shabad embedded in a course is matched, at build time, against the canonical text of Sri Guru Granth Sahib Ji. A quote that doesn't match — or cites the wrong ang — fails the build and cannot ship. These numbers are generated from that check, not written by hand.</p>
+
+    <div id="stats" class="mt-8 grid gap-4 sm:grid-cols-3">
+      <p class="text-muted">Loading the latest verification…</p>
+    </div>
+
+    <div class="mt-10">
+      <h2 class="font-serif text-xl font-bold text-navy">How it works</h2>
+      <ul class="mt-3 grid gap-2 text-muted">
+        <li><strong class="text-ink">Canonical source.</strong> The reference text is a committed snapshot of Sri Guru Granth Sahib Ji from BaniDB. The check runs against that fixed snapshot, offline — never a live lookup — so the result is reproducible.</li>
+        <li><strong class="text-ink">Fail-closed matching.</strong> Each quoted tuk is normalised (Unicode form, spacing, vishraam markers) and must appear in the canonical text of the ang it cites. Anything that doesn't positively match is not counted as verified.</li>
+        <li><strong class="text-ink">Honest about coverage.</strong> This currently covers SGGS quotes. Quotes from Sri Dasam Granth and Sri Sarbloh Granth, and any ang not yet in the snapshot, are listed as <em>not yet verified</em> — never quietly counted as passed.</li>
+      </ul>
+      <p class="mt-4 text-sm text-muted">AI-drafted course prose is labelled "Created by AI" and is separate from this scripture check. Verification confirms the <em>quoted scripture</em> is faithful; it is not a scholarly endorsement of a course's interpretation.</p>
+    </div>
+  </section>
+
+  <script>
+    const esc = (s) => String(s == null ? '' : s);
+    fetch('/data/verification.json').then((r) => r.json()).then((d) => {
+      const t = d.totals || {};
+      const tile = (n, label, sub) => `<div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-3xl font-bold tabular-nums text-navy">${n}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">${label}</div>${sub ? `<div class="font-sans text-xs text-muted">${sub}</div>` : ''}</div></div>`;
+      document.getElementById('stats').innerHTML =
+        tile((t.verified || 0).toLocaleString(), 'Quotes verified', 'matched to canonical SGGS') +
+        tile(esc(d.coursesFullyVerified) + ' / ' + esc(d.coursesWithQuotes), 'Courses fully verified', 'every quote checked, none failing') +
+        tile(esc(d.snapshotAngs), 'Angs in the snapshot', 'canonical reference pages');
+      if (t.mismatch || t.uncovered) {
+        const note = document.createElement('p');
+        note.className = 'mt-4 font-sans text-sm text-muted sm:col-span-3';
+        note.textContent = (t.mismatch ? t.mismatch + ' quote(s) under review. ' : '') + (t.uncovered ? t.uncovered + ' quote(s) not yet in coverage (e.g. Dasam/Sarbloh).' : '');
+        document.getElementById('stats').appendChild(note);
+      }
+    }).catch(() => {
+      document.getElementById('stats').innerHTML = '<p class="text-muted sm:col-span-3">Verification data is temporarily unavailable.</p>';
+    });
+  </script>
+</Base>
