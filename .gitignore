@@ -12,3 +12,6 @@ site/assets/data/courses.public.json
 
 # root tooling (wrangler devDep)
 /node_modules/
+
+# Generated at build time by web/scripts/build-index.mjs (slim catalogue index)
+web/public/data/
