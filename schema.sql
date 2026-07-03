@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
   expires_at INTEGER NOT NULL,
   used INTEGER NOT NULL DEFAULT 0
 );
+-- The sign-in throttle looks tokens up by email; without this it full-scans.
+CREATE INDEX IF NOT EXISTS idx_magic_tokens_email ON magic_tokens(email, expires_at);
 
 CREATE TABLE IF NOT EXISTS sessions (
   id TEXT PRIMARY KEY,
@@ -52,6 +54,7 @@ CREATE TABLE IF NOT EXISTS discussions (
   id TEXT PRIMARY KEY, course_id TEXT NOT NULL, user_id TEXT, name TEXT,
   message TEXT NOT NULL, created_at INTEGER NOT NULL
 );
+CREATE INDEX IF NOT EXISTS idx_discussions_course ON discussions(course_id, created_at);
 CREATE TABLE IF NOT EXISTS ratings (
   course_id TEXT NOT NULL, user_id TEXT NOT NULL, stars INTEGER NOT NULL,
   review TEXT, updated_at INTEGER NOT NULL, PRIMARY KEY (course_id, user_id)
@@ -83,6 +86,7 @@ CREATE TABLE IF NOT EXISTS announcements (
   id TEXT PRIMARY KEY, course_id TEXT NOT NULL, author_id TEXT, author_name TEXT,
   title TEXT, body TEXT NOT NULL, created_at INTEGER NOT NULL
 );
+CREATE INDEX IF NOT EXISTS idx_announcements_course ON announcements(course_id, created_at);
 
 -- Explicit registration: a learner enrols in a course or registers for a program.
 -- Also auto-created by functions/api/enrollments.js on first write.
@@ -99,6 +103,8 @@ CREATE TABLE IF NOT EXISTS events (
   id TEXT PRIMARY KEY, ts INTEGER NOT NULL, user_id TEXT, role TEXT,
   action TEXT NOT NULL, target TEXT, detail TEXT
 );
+-- The admin events viewer sorts/filters by recency over this append-only table.
+CREATE INDEX IF NOT EXISTS idx_events_ts ON events(ts);
 
 -- Feedback is also auto-created by functions/api/feedback.js on first write.
 CREATE TABLE IF NOT EXISTS feedback (
