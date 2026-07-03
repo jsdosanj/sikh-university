@@ -68,6 +68,7 @@ const breadcrumb = {
       <div class="mt-6 flex flex-wrap items-center gap-3">
         <a href="#lesson-0" class="btn btn-primary">Begin course</a>
         <button id="enroll-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20">Enroll</button>
+        <button id="offline-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"><Icon name="download" class="h-4 w-4" /><span id="offline-lbl">Save offline</span></button>
         <span class="font-sans text-sm text-white/70">{lessons.length} lessons · {quiz.length}-question test · 80% to pass</span>
       </div>
     </div>
@@ -328,6 +329,27 @@ const breadcrumb = {
           .then((r) => { if (r.status === 401) { location.href = '/login'; return null; } return r.ok ? r.json() : null; })
           .then((res) => { btn.disabled = false; if (res) { enrolled = !!res.enrolled; set(ek, enrolled); paint(); } })
           .catch(() => { btn.disabled = false; });
+      });
+    })();
+    // Offline course pack (E1): cache this course's page + same-origin images via the
+    // service worker so the lessons read without a connection.
+    (function () {
+      const btn = document.getElementById('offline-btn'); const lbl = document.getElementById('offline-lbl'); if (!btn || !lbl) return;
+      const savedKey = 'offline_' + id;
+      if (get(savedKey, false)) lbl.textContent = 'Saved offline';
+      btn.addEventListener('click', () => {
+        if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) { window.suToast && window.suToast('Offline saving needs a supported browser.', 'error'); return; }
+        const urls = [location.pathname];
+        document.querySelectorAll('img[src]').forEach((img) => { try { const u = new URL(img.src, location.href); if (u.origin === location.origin) urls.push(u.pathname); } catch (e) {} });
+        btn.disabled = true; lbl.textContent = 'Saving…';
+        const onMsg = (ev) => {
+          if (!ev.data || ev.data.type !== 'pack-cached' || ev.data.id !== id) return;
+          navigator.serviceWorker.removeEventListener('message', onMsg); btn.disabled = false;
+          if (ev.data.ok) { set(savedKey, true); lbl.textContent = 'Saved offline'; window.suToast && window.suToast('Saved for offline — text and images work without a connection.', 'ok'); }
+          else { lbl.textContent = 'Save offline'; window.suToast && window.suToast('Could not save offline — please try again.', 'error'); }
+        };
+        navigator.serviceWorker.addEventListener('message', onMsg);
+        navigator.serviceWorker.controller.postMessage({ type: 'cache-pack', id: id, urls: Array.from(new Set(urls)) });
       });
     })();
     function recordActivity() { set('last_course', id); const a = get('activity', []); const d = new Date(); const t = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); if (a[a.length - 1] !== t) { a.push(t); set('activity', a); } }
