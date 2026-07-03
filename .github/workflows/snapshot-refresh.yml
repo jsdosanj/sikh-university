@@ -1,0 +1,42 @@
+name: Refresh Gurbani snapshot
+# Monthly: rebuild the canonical snapshot from BaniDB and open a PR if it changed.
+# The PR runs the normal CI, which re-verifies every quoted tuk against the new
+# snapshot (web/scripts/verify-gurbani.mjs in the build). If BaniDB corrected a tuk
+# that a course quotes, the accuracy gate fails the PR — so a drifting snapshot is
+# caught for review instead of silently merging. Keeps the snapshot from going stale
+# against canonical, and is the only intended way it changes.
+on:
+  schedule:
+    - cron: '0 5 1 * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  refresh:
+    name: refresh canonical snapshot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rebuild snapshot from BaniDB
+        run: python3 scripts/build_gurbani_snapshot.py
+
+      - name: Open a PR if the snapshot changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet scripts/gurbani-snapshot.json; then
+            echo "Snapshot unchanged — nothing to do."
+            exit 0
+          fi
+          BR="snapshot-refresh-$(date +%Y%m%d-%H%M%S)"
+          git config user.name "gurbani-snapshot-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout -b "$BR"
+          git add scripts/gurbani-snapshot.json
+          git commit -m "chore: refresh canonical Gurbani snapshot from BaniDB"
+          git push origin "$BR"
+          gh pr create --base master --head "$BR" \
+            --title "Refresh Gurbani canonical snapshot" \
+            --body "Automated monthly refresh of the canonical snapshot from BaniDB. CI re-verifies every quoted tuk against it; review any newly-flagged mismatches (a mismatch means BaniDB changed a tuk a course quotes) before this merges."
