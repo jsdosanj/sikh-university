@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Cohorts — Sikh University" description="Learn together: join a cohort with an invite code, or (for teachers) create a cohort and track your group's progress.">
+  <section class="wrap max-w-3xl py-12">
+    <h1 class="text-3xl font-bold text-navy">Cohorts</h1>
+    <p class="mt-2 text-muted">Learn together. Join a group with an invite code, or — if you teach a course — create a cohort and follow your group's progress. Made for camps, classes, and sangats studying as one.</p>
+    <div id="app" class="mt-8"><p class="text-muted">Loading…</p></div>
+  </section>
+
+  <script>
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const app = document.getElementById('app');
+    const titles = {};
+    let coursesList = [];
+
+    async function api(path, opts) {
+      const r = await fetch(path, Object.assign({ credentials: 'same-origin' }, opts || {}));
+      return { ok: r.ok, status: r.status, data: await r.json().catch(() => ({})) };
+    }
+
+    function joinBox() {
+      return `
+        <div class="card">
+          <h2 class="text-lg font-bold text-navy">Join a cohort</h2>
+          <p class="mt-1 text-sm text-muted">Enter the invite code your teacher shared.</p>
+          <form id="join-form" class="mt-3 flex gap-2">
+            <input id="join-code" aria-label="Invite code" placeholder="e.g. 4F9A2C" maxlength="12"
+              class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans uppercase tracking-wider" />
+            <button class="btn btn-primary">Join</button>
+          </form>
+          <div id="join-out" class="mt-3 text-sm" aria-live="polite"></div>
+        </div>`;
+    }
+
+    function teacherBox() {
+      const opts = coursesList.map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('');
+      return `
+        <div class="card mt-6">
+          <h2 class="text-lg font-bold text-navy">Create a cohort</h2>
+          <p class="mt-1 text-sm text-muted">Pick a course you teach and name the group. You'll get an invite code to share.</p>
+          <form id="create-form" class="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
+            <input id="c-course" list="course-list" aria-label="Course" placeholder="Course id or title"
+              class="rounded-xl border border-line bg-surface px-3 py-2.5 font-sans" />
+            <datalist id="course-list">${opts}</datalist>
+            <input id="c-name" aria-label="Cohort name" placeholder="e.g. Summer Camp 2026"
+              class="rounded-xl border border-line bg-surface px-3 py-2.5 font-sans" />
+            <button class="btn btn-primary">Create</button>
+          </form>
+          <div id="create-out" class="mt-3 text-sm" aria-live="polite"></div>
+        </div>
+        <div class="mt-6">
+          <h2 class="text-lg font-bold text-navy">Your cohorts</h2>
+          <div id="cohort-list" class="mt-3 grid gap-3"><p class="text-sm text-muted">Loading…</p></div>
+        </div>
+        <div id="roster" class="mt-6"></div>`;
+    }
+
+    function wireJoin() {
+      document.getElementById('join-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = document.getElementById('join-code').value.trim();
+        const out = document.getElementById('join-out');
+        if (!code) return;
+        out.textContent = 'Joining…';
+        const r = await api('/api/cohorts', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'join', code }) });
+        if (r.ok && r.data.ok) {
+          out.innerHTML = `<span class="text-ok font-semibold">Joined ${esc(r.data.cohortName || 'the cohort')}.</span> <a class="underline text-navy" href="/course/${esc(r.data.courseId)}">Open the course →</a>`;
+        } else {
+          out.innerHTML = `<span class="text-danger">${esc(r.data.error || 'Could not join.')}</span>`;
+        }
+      });
+    }
+
+    async function loadCohorts() {
+      const box = document.getElementById('cohort-list');
+      const r = await api('/api/cohorts');
+      if (!r.ok) { box.innerHTML = '<p class="text-sm text-muted">Could not load your cohorts.</p>'; return; }
+      const cs = r.data.cohorts || [];
+      if (!cs.length) { box.innerHTML = '<p class="text-sm text-muted">No cohorts yet — create one above.</p>'; return; }
+      box.innerHTML = cs.map((c) => `
+        <div class="rounded-xl2 border border-line bg-surface p-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <div class="font-bold text-navy">${esc(c.name)}</div>
+              <div class="font-sans text-xs text-muted">${esc(titles[c.course_id] || c.course_id)} · ${c.members} member${c.members === 1 ? '' : 's'}</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="pill bg-saffron-soft text-saffron-deep font-mono tracking-widest">${esc(c.invite_code)}</span>
+              <button class="btn text-sm" data-roster="${esc(c.id)}">Roster</button>
+            </div>
+          </div>
+        </div>`).join('');
+      box.querySelectorAll('[data-roster]').forEach((b) => b.addEventListener('click', () => loadRoster(b.getAttribute('data-roster'))));
+    }
+
+    async function loadRoster(id) {
+      const box = document.getElementById('roster');
+      box.innerHTML = '<p class="text-sm text-muted">Loading roster…</p>';
+      const r = await api('/api/cohorts?id=' + encodeURIComponent(id));
+      if (!r.ok) { box.innerHTML = '<p class="text-sm text-muted">Could not load the roster.</p>'; return; }
+      const roster = r.data.roster || [];
+      const rows = roster.map((m) => `
+        <tr>
+          <td class="border border-line p-2">${esc(m.name)}</td>
+          <td class="border border-line p-2 tabular-nums">${m.lessonsDone}</td>
+          <td class="border border-line p-2 tabular-nums">${m.score == null ? '—' : m.score + '%'}</td>
+          <td class="border border-line p-2">${m.passed ? '<span class="text-ok font-semibold">Passed</span>' : 'In progress'}</td>
+        </tr>`).join('');
+      box.innerHTML = `
+        <h2 class="text-lg font-bold text-navy">${esc(r.data.cohort.name)} — roster</h2>
+        <p class="mt-1 text-sm text-muted">${roster.length} member${roster.length === 1 ? '' : 's'} · invite code <span class="font-mono tracking-widest">${esc(r.data.cohort.inviteCode)}</span></p>
+        <div class="mt-3 overflow-x-auto">
+          <table class="w-full border-collapse text-sm"><thead><tr class="bg-brand text-white font-sans text-xs">
+            <th class="p-2 text-left">Member</th><th class="p-2 text-left">Lessons done</th><th class="p-2 text-left">Best score</th><th class="p-2 text-left">Status</th>
+          </tr></thead><tbody>${rows || '<tr><td colspan="4" class="border border-line p-3 text-muted">No members yet — share the invite code.</td></tr>'}</tbody></table>
+        </div>`;
+    }
+
+    function wireCreate() {
+      document.getElementById('create-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const raw = document.getElementById('c-course').value.trim();
+        // Accept an id directly, or a typed title that matches the datalist.
+        const match = coursesList.find((c) => c.id === raw || c.title === raw);
+        const courseId = match ? match.id : raw;
+        const name = document.getElementById('c-name').value.trim();
+        const out = document.getElementById('create-out');
+        if (!courseId || !name) { out.innerHTML = '<span class="text-danger">Pick a course and a name.</span>'; return; }
+        out.textContent = 'Creating…';
+        const r = await api('/api/cohorts', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'create', courseId, name }) });
+        if (r.ok && r.data.ok) {
+          out.innerHTML = `<span class="text-ok font-semibold">Created.</span> Invite code: <span class="font-mono tracking-widest text-navy">${esc(r.data.inviteCode)}</span>`;
+          document.getElementById('c-name').value = '';
+          loadCohorts();
+        } else {
+          out.innerHTML = `<span class="text-danger">${esc(r.data.error || 'Could not create the cohort.')}</span>`;
+        }
+      });
+    }
+
+    async function init() {
+      // Course titles for the picker + list labels.
+      try { const d = await (await fetch('/data/index.json')).json(); d.courses.forEach((c) => (titles[c.id] = c.title)); coursesList = d.courses.filter((c) => c.status === 'published').map((c) => ({ id: c.id, title: c.title })); } catch (e) {}
+      const me = await api('/api/me');
+      const user = me.data && me.data.user;
+      if (!user) {
+        app.innerHTML = `<div class="card"><p class="text-muted">Please <a class="underline text-navy" href="/login">sign in</a> to join or create a cohort.</p></div>`;
+        return;
+      }
+      const isTeacher = user.role === 'teacher' || user.role === 'admin';
+      app.innerHTML = joinBox() + (isTeacher ? teacherBox() : '');
+      wireJoin();
+      if (isTeacher) { wireCreate(); loadCohorts(); }
+    }
+    init();
+  </script>
+</Base>
