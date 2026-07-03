@@ -5,22 +5,14 @@ import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 const SITE = 'https://sikh-university.dosanjhlabs.com';
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
+  '@id': SITE + '/#org', // merges with the Organization node Base.astro emits site-wide
   name: 'Sikh University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon-512.png', image: SITE + '/assets/og-image.png',
   sameAs: ['https://sikharchive.net'],
 };
-const websiteLd = {
-  '@context': 'https://schema.org', '@type': 'WebSite',
-  name: 'Sikh University', url: SITE + '/',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: { '@type': 'EntryPoint', urlTemplate: SITE + '/search?q={search_term_string}' },
-    'query-input': 'required name=search_term_string',
-  },
-};
+// WebSite (with the sitelinks SearchAction) is now emitted site-wide by Base.astro.
 ---
 <Base title="Sikh University — free, open learning in Sikhi & modern skills">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
-  <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} slot="head" />
 
   <!-- Hero -->
   <header class="relative overflow-hidden bg-gradient-to-br from-brand via-brand-strong to-navy-deep text-white">
@@ -44,6 +36,44 @@ const websiteLd = {
       </div>
     </div>
   </header>
+
+  <!-- Continue-learning resume card (E5): shown only if the visitor has a course in
+       progress. Reads localStorage (no network for the anonymous case); resolves the
+       title from the slim index. Hidden by default so it never flashes empty. -->
+  <div id="su-resume" hidden class="wrap pt-6">
+    <a id="su-resume-link" href="#" class="flex items-center justify-between gap-4 rounded-xl2 border border-saffron bg-saffron-soft px-5 py-4 transition hover:-translate-y-0.5 hover:shadow-lift">
+      <span>
+        <span class="block font-sans text-xs font-bold uppercase tracking-wider text-saffron-deep">Continue learning</span>
+        <span id="su-resume-title" class="block font-serif text-lg font-bold text-navy"></span>
+      </span>
+      <span class="shrink-0 font-sans text-sm font-semibold text-navy">Resume &rarr;</span>
+    </a>
+  </div>
+  <script>
+    (function () {
+      var get = function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } };
+      // Prefer the explicit last-opened course; else the in-progress course with the
+      // most completed lessons.
+      var id = get('last_course', null);
+      if (!id) {
+        var best = null, bestN = 0;
+        for (var i = 0; i < localStorage.length; i++) {
+          var key = localStorage.key(i); if (key.indexOf('done_') !== 0) continue;
+          var d = get(key, {}); var n = 0; for (var k in d) if (d[k]) n++;
+          if (n > bestN) { bestN = n; best = key.slice(5); }
+        }
+        id = best;
+      }
+      if (!id) return;
+      fetch('/data/index.json').then(function (r) { return r.json(); }).then(function (data) {
+        var c = (data.courses || []).find(function (x) { return x.id === id; });
+        if (!c) return;
+        document.getElementById('su-resume-title').textContent = c.title;
+        document.getElementById('su-resume-link').href = '/course/' + id;
+        document.getElementById('su-resume').hidden = false;
+      }).catch(function () {});
+    })();
+  </script>
 
   <!-- Mission -->
   <section class="bg-gradient-to-b from-navy-deep to-brand text-white">
