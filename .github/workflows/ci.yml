@@ -22,6 +22,11 @@ jobs:
           node --check worker.js
           find functions -name '*.js' -print0 | xargs -0 -n1 node --check
 
+      - name: Security-invariant tests (grading, authz, cert, token)
+        run: |
+          npm ci
+          npm test
+
       - name: Validate course catalogue (structure + no-shrink guard)
         run: python3 scripts/validate.py
 
@@ -38,8 +43,14 @@ jobs:
           git diff --exit-code functions/api/_quiz-keys.js \
             || { echo "::error::functions/api/_quiz-keys.js does not match courses.json — regenerate with scripts/build_quiz_keys.py"; exit 1; }
 
+      - name: Content coverage report (CLAUDE.md authoring constraints)
+        run: python3 scripts/content_lint.py
+
       - name: Build frontend (Astro build gate)
         run: |
           cd web
           npm ci
           npm run build
+
+      - name: Dependency audit (fail on high/critical)
+        run: cd web && npm audit --audit-level=high
