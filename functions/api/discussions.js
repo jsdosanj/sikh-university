@@ -28,7 +28,8 @@ export async function onRequestPost({ request, env }) {
   const courseId = (b.courseId || "").toString().slice(0, 120);
   const message = (b.message || "").trim().slice(0, 2000);
   if (!courseId || !message) return json({ error: "Message required." }, 400);
-  const name = (user.name || (user.email || "").split("@")[0] || "Learner").slice(0, 80);
+  // Never derive a public display name from the email (leaks the local-part).
+  const name = (user.name || "Learner").slice(0, 80);
   await env.DB.prepare("INSERT INTO discussions (id, course_id, user_id, name, message, created_at) VALUES (?,?,?,?,?,?)")
     .bind(newId(), courseId, user.id, name, message, Date.now()).run();
   await logEvent(env, user, "discussion_post", courseId, message.slice(0, 80));

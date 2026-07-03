@@ -62,11 +62,19 @@ export async function onRequestGet({ request, env }) {
 
   if (url.searchParams.get("format") === "csv") {
     const head = ["course_id", "student", "email", "completed_lessons", "score", "passed", "overridden", "last_active"];
+    // Neutralise spreadsheet formula injection: a cell like =HYPERLINK(...) in a
+    // learner-set name executes when the CSV is opened in Excel/Sheets. Prefix any
+    // value starting with a formula trigger with a single quote.
+    const csvCell = (c) => {
+      let s = String(c);
+      if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+      return `"${s.replace(/"/g, '""')}"`;
+    };
     const lines = [head.join(",")];
     rows.forEach((r) => {
       const passed = (r.score != null && r.score >= 80) ? "yes" : "no";
       const cells = [r.course_id, r.name || "", r.email || "", r.done, r.score == null ? "" : r.score, passed, r.override ? "yes" : "no", new Date(r.last_active).toISOString()];
-      lines.push(cells.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","));
+      lines.push(cells.map(csvCell).join(","));
     });
     return new Response(lines.join("\n"), { headers: { "content-type": "text/csv; charset=utf-8", "content-disposition": "attachment; filename=gradebook.csv" } });
   }
