@@ -202,7 +202,7 @@ const typeLabel = {
       // Shuffle and pick N questions
       const shuffled = pool.sort(() => Math.random() - 0.5).slice(0, testQuestions);
       if (shuffled.length === 0) {
-        alert('No quiz questions found for this program yet.');
+        window.suToast('No quiz questions found for this program yet.', 'error');
         return;
       }
       renderTest(shuffled);
@@ -256,7 +256,7 @@ const typeLabel = {
     })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error('grade failed'))))
       .then((res) => { submitBtn.disabled = false; showTestResult(res.score, res.correct, res.total, res.passed); })
-      .catch(() => { submitBtn.disabled = false; alert('Could not grade the exam right now. Please check your connection and try again.'); });
+      .catch(() => { submitBtn.disabled = false; window.suToast('Could not grade the exam right now. Please check your connection and try again.', 'error'); });
   }
 
   function showTestResult(score, correct, total, passed_exam) {

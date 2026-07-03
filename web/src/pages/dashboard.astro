@@ -331,8 +331,22 @@ import Base from '../layouts/Base.astro';
             }).join('');
 
             root.querySelectorAll('[data-csv]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); window.location = '/api/gradebook?format=csv&course=' + encodeURIComponent(b.dataset.csv); }));
-            root.querySelectorAll('[data-ann]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); const cid = b.dataset.ann; const title = prompt('Announcement title (optional):'); if (title === null) return; const body = prompt('Message to your students:'); if (!body || !body.trim()) return; api('/api/announcements', { method: 'POST', body: JSON.stringify({ courseId: cid, title, body }) }).then((d) => { alert(d && !d.error ? 'Announcement posted.' : 'Could not post.'); }); }));
-            root.querySelectorAll('[data-ovr]').forEach((b) => b.addEventListener('click', () => { const tr = b.closest('[data-u]'); const cur = prompt('Override final score (0–100), or leave blank to clear:'); if (cur === null) return; const blank = cur.trim() === ''; const reason = blank ? '' : (prompt('Reason (optional):') || ''); api('/api/gradebook', { method: 'POST', body: JSON.stringify({ courseId: tr.dataset.c, userId: tr.dataset.u, score: blank ? null : Number(cur), reason }) }).then((d) => { if (d && !d.error) renderCourses(); else alert('Could not save.'); }); }));
+            root.querySelectorAll('[data-ann]').forEach((b) => b.addEventListener('click', async (e) => {
+              e.preventDefault();
+              const cid = b.dataset.ann;
+              const v = await window.suModalForm({ title: 'Post an announcement', submitLabel: 'Post', fields: [{ name: 'title', label: 'Title', optional: true }, { name: 'body', label: 'Message to your students', type: 'textarea' }] });
+              if (!v || !v.body.trim()) return;
+              const d = await api('/api/announcements', { method: 'POST', body: JSON.stringify({ courseId: cid, title: v.title, body: v.body }) });
+              window.suToast(d && !d.error ? 'Announcement posted.' : 'Could not post.', d && !d.error ? 'ok' : 'error');
+            }));
+            root.querySelectorAll('[data-ovr]').forEach((b) => b.addEventListener('click', async () => {
+              const tr = b.closest('[data-u]');
+              const v = await window.suModalForm({ title: 'Override final score', submitLabel: 'Save', fields: [{ name: 'score', label: 'Final score 0–100 (blank clears it)', type: 'number', optional: true }, { name: 'reason', label: 'Reason', optional: true }] });
+              if (!v) return;
+              const blank = v.score.trim() === '';
+              const d = await api('/api/gradebook', { method: 'POST', body: JSON.stringify({ courseId: tr.dataset.c, userId: tr.dataset.u, score: blank ? null : Number(v.score), reason: v.reason || '' }) });
+              if (d && !d.error) renderCourses(); else window.suToast('Could not save.', 'error');
+            }));
           }
 
           renderCourses();
