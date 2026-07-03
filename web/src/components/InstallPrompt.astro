@@ -1,0 +1,61 @@
+---
+// Installable-app prompt. Android/Chromium: captures beforeinstallprompt and offers a
+// native install. iOS Safari (no beforeinstallprompt): shows the Share → Add to Home
+// Screen instruction. Hidden when already running standalone; dismissible and remembered
+// for 14 days so it never nags. Sits above the iOS home indicator via safe-area inset.
+---
+<div id="pwa-install" class="fixed inset-x-0 bottom-0 z-[55] hidden px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] print:hidden" role="dialog" aria-label="Install Sikh University" aria-live="polite">
+  <div class="mx-auto flex max-w-md items-center gap-3 rounded-xl2 border border-line bg-surface/95 p-3 shadow-lift backdrop-blur">
+    <img src="/assets/icon-192.png" alt="" width="44" height="44" class="h-11 w-11 shrink-0 rounded-xl" />
+    <div class="min-w-0 flex-1">
+      <p class="font-serif text-sm font-bold text-navy">Install Sikh University</p>
+      <p id="pwa-install-msg" class="mt-0.5 font-sans text-xs leading-snug text-muted">Add it to your home screen — full-screen, offline-ready, a tap away.</p>
+    </div>
+    <button id="pwa-install-go" class="btn btn-primary shrink-0 px-3 py-1.5 text-sm">Install</button>
+    <button id="pwa-install-x" aria-label="Dismiss" class="shrink-0 rounded-lg p-1.5 text-muted hover:bg-paper hover:text-navy">
+      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+    </button>
+  </div>
+</div>
+<script>
+  (function () {
+    var el = document.getElementById('pwa-install'); if (!el) return;
+    var go = document.getElementById('pwa-install-go');
+    var msg = document.getElementById('pwa-install-msg');
+    var KEY = 'su_v1_pwa_dismissed';
+    var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    var fab = document.getElementById('a11y-fab');
+    function dismissed() { try { return Date.now() - (+localStorage.getItem(KEY) || 0) < 14 * 864e5; } catch (e) { return false; } }
+    function remember() { try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {} }
+    function show() { if (dismissed() || standalone) return; el.classList.remove('hidden'); if (fab) fab.style.bottom = 'calc(5.75rem + env(safe-area-inset-bottom))'; }
+    function hide() { el.classList.add('hidden'); if (fab) fab.style.bottom = ''; }
+    if (standalone || dismissed()) return;
+    document.getElementById('pwa-install-x').addEventListener('click', function () { hide(); remember(); });
+
+    // Android / Chromium desktop + mobile: real install flow.
+    var deferred = null;
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault(); deferred = e;
+      setTimeout(show, 2500);
+    });
+    go.addEventListener('click', function () {
+      if (!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.then(function () { deferred = null; hide(); remember(); });
+    });
+    window.addEventListener('appinstalled', function () {
+      hide(); remember();
+      if (window.suToast) window.suToast('Installed. Find Sikh University on your home screen.', 'ok');
+    });
+
+    // iOS Safari: no programmatic install — guide the manual gesture instead.
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var iosSafari = isIOS && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
+    if (iosSafari && !standalone) {
+      go.classList.add('hidden');
+      msg.innerHTML = 'Tap the Share button, then <strong>&ldquo;Add to Home Screen.&rdquo;</strong>';
+      setTimeout(show, 3000);
+    }
+  })();
+</script>
