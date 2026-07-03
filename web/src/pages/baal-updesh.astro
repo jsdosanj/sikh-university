@@ -380,6 +380,7 @@ const wordCard = (w) => w;
   </section>
   <script type="application/json" id="fc-words-data" set:html={JSON.stringify(gurbaniWords)}></script>
   <script>
+    import { iconSvg } from '../lib/icons';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const strip = (h) => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     const get = (k, d) => { try { const v = localStorage.getItem('su_v1_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
@@ -435,7 +436,7 @@ const wordCard = (w) => w;
         const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-3 text-center"><div class="text-2xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
         let body;
         if (idx >= queue.length) {
-          body = `<div class="mt-6 rounded-xl2 border border-line bg-surface p-8 text-center"><div class="text-4xl">✅</div><h3 class="mt-2 text-xl font-bold">Session complete</h3><p class="mt-1 text-muted">You reviewed ${queue.length} card${queue.length === 1 ? '' : 's'}. Come back tomorrow for the ones due next.</p><button id="again" class="btn btn-primary mt-4">Study again</button></div>`;
+          body = `<div class="mt-6 rounded-xl2 border border-line bg-surface p-8 text-center"><div class="flex justify-center text-ok">${iconSvg('check-square', 'h-10 w-10')}</div><h3 class="mt-2 text-xl font-bold">Session complete</h3><p class="mt-1 text-muted">You reviewed ${queue.length} card${queue.length === 1 ? '' : 's'}. Come back tomorrow for the ones due next.</p><button id="again" class="btn btn-primary mt-4">Study again</button></div>`;
         } else {
           const c = queue[idx];
           body = `<div class="mt-6"><div id="cardbox" class="mx-auto flex min-h-[220px] max-w-xl cursor-pointer select-none flex-col items-center justify-center rounded-xl2 border border-line bg-surface p-8 text-center shadow-card">
@@ -443,7 +444,7 @@ const wordCard = (w) => w;
               ${flipped ? `<div class="mt-3 font-sans text-xs text-muted">from ${esc(c.src)}</div>` : `<div class="mt-4 font-sans text-xs text-muted">tap to reveal · ${esc(tn(c.topic))}</div>`}
             </div>
             ${flipped
-              ? `<div class="mx-auto mt-4 flex max-w-xl gap-3"><button id="g0" class="btn flex-1">↺ Review soon</button><button id="g1" class="btn btn-primary flex-1">✓ Got it</button></div>`
+              ? `<div class="mx-auto mt-4 flex max-w-xl gap-3"><button id="g0" class="btn flex-1">↺ Review soon</button><button id="g1" class="btn btn-primary flex-1">${iconSvg('check', 'h-4 w-4')} Got it</button></div>`
               : `<div class="mx-auto mt-4 max-w-xl text-center"><button id="flip" class="btn">Reveal answer</button></div>`}
             <p class="mt-3 text-center font-sans text-xs text-muted">Card ${idx + 1} of ${queue.length} · space = flip · 1 = review · 2 = got it</p></div>`;
         }
@@ -474,6 +475,7 @@ const wordCard = (w) => w;
 
   <!-- ── Family Tree + Kakaars interactive JS ──────────────────────────────── -->
   <script>
+  import { iconSvg } from '../lib/icons';
   // ── Shared popup helpers ──────────────────────────────────────────────────
   const popup = document.getElementById('info-popup');
   const popupBody = document.getElementById('popup-body');
@@ -550,11 +552,11 @@ const wordCard = (w) => w;
 
   // ── Kakaars data ──────────────────────────────────────────────────────────
   const KAKAARS = {
-    kesh:    { name:'Kesh — Uncut Hair', gur:'ਕੇਸ', icon:'✂️', color:'#1d4e89', history:'Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699 CE, Anandpur Sahib.', meaning:'Kesh represents acceptance of God\'s will and the natural form in which the Creator made us. It is a mark of sovereignty and dignity — the Sikh does not cut what God gave them. Long hair (kesh) is associated with spiritual power and the identity of the Khalsa warrior.', significance:'Every baptised (Amritdhari) Sikh must keep their hair intact and uncut. The dastar (turban) is worn to protect and honour the kesh. Kesh is the most visible identifier of a Sikh. Guru Gobind Singh Ji said: "The Khalsa is my true image."', gurbani:'ਕੇਸ ਸੰਗਿ ਦਾਸਨ ਕੇ ਧੋਵਾ ॥ — With my hair I wash the feet of the servants of the Lord. (Guru Granth Sahib, Ang 500)' },
-    kangha:  { name:'Kangha — Wooden Comb', gur:'ਕੰਘਾ', icon:'🪮', color:'#8a5a14', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kangha symbolises discipline, cleanliness, and order. The Guru taught that spiritual purity must be matched by physical cleanliness. It reminds the Sikh to keep the mind as well as the hair combed and untangled.', significance:'The kangha must be carried in the kesh (hair) at all times. It is used twice daily to comb the hair before tying the turban. It represents a middle path — rejecting both neglect and vanity.', gurbani:'ਸੁੰਦਰ ਸੁਘੜ ਸੁਜਾਨ ਸੁਭਾਈ ॥ — Beautiful, skilled, wise, and naturally gracious. (Guru Granth Sahib, Ang 785)' },
-    kara:    { name:'Kara — Steel Bracelet', gur:'ਕੜਾ', icon:'⭕', color:'#2f7d4f', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kara is a circular band of steel worn on the right wrist. The circle has no beginning and no end — representing the eternal, infinite nature of Waheguru. It reminds the Sikh before every action: "With this hand, am I doing the will of the Guru?"', significance:'Steel (sarabloh) is the metal of the Khalsa — strong, pure, and uncompromising. The kara acts as a restraint: the Sikh who wears it is reminded to use their hands only in God\'s service, never for evil. It is also a symbol of unity — all Khalsa wear the same kara.', gurbani:'ਸਭੁ ਕੋ ਰੁਲਤਾ ਫਿਰੈ ਬਿਨੁ ਕਾਰਨ ਸੋਇ ॥ — Without God\'s grace, all wander lost. The kara anchors us. (Guru Granth Sahib, Ang 15)' },
-    kachera: { name:'Kachera — Cotton Breeches', gur:'ਕਛਹਿਰਾ', icon:'🩲', color:'#16335c', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kachera is a specific style of short breeches (undergarment) worn by Sikhs. It represents chastity, self-control, and moral discipline. It was also practical — allowing freedom of movement for a warrior on horseback.', significance:'The kachera replaced the dhoti which could easily come undone in battle. As a garment of self-control, it reminds the Sikh to exercise discipline over the five vices (ਪੰਜ ਵਿਕਾਰ), especially kaam (lust). It represents fidelity in relationships and the Sikh ideal of one loyal, loving marriage.', gurbani:'ਕਾਮੁ ਕ੍ਰੋਧੁ ਕਾਇਆ ਕਉ ਗਾਲੈ ॥ — Lust and anger consume the body. (Guru Granth Sahib, Ang 932)' },
-    kirpan:  { name:'Kirpan — Steel Sword', gur:'ਕਿਰਪਾਨ', icon:'⚔️', color:'#a23b2e', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kirpan (from ਕਿਰਪਾ — grace, and ਆਨ — honour) is a steel sword carried by Khalsa Sikhs. It represents the Sikh\'s duty to stand up against injustice and protect the weak — regardless of their religion, caste, or background.', significance:'The kirpan is not merely a weapon — it is a symbol of sovereignty, dignity, and the Sikh commitment to justice. Guru Gobind Singh Ji taught that the sword is the last resort of the righteous. The Khalsa does not carry the kirpan to harm the innocent; they carry it to serve as the sword arm of the Akal Purakh (the Timeless One) in protecting the truth. Guru Tegh Bahadur Ji gave his life as a metaphorical kirpan — the shield of Hindustan.', gurbani:'ਦੇਗ ਤੇਗ ਫ਼ਤਹਿ ਨਿਰਭਉ ਨਿਰਵੈਰੁ ॥ — Victory of the Deg (cauldron of plenty) and Teg (sword of justice), fearless and without enmity. (Guru Gobind Singh Ji)' },
+    kesh:    { name:'Kesh — Uncut Hair', gur:'ਕੇਸ', icon:'kesh', color:'#1d4e89', history:'Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699 CE, Anandpur Sahib.', meaning:'Kesh represents acceptance of God\'s will and the natural form in which the Creator made us. It is a mark of sovereignty and dignity — the Sikh does not cut what God gave them. Long hair (kesh) is associated with spiritual power and the identity of the Khalsa warrior.', significance:'Every baptised (Amritdhari) Sikh must keep their hair intact and uncut. The dastar (turban) is worn to protect and honour the kesh. Kesh is the most visible identifier of a Sikh. Guru Gobind Singh Ji said: "The Khalsa is my true image."', gurbani:'ਕੇਸ ਸੰਗਿ ਦਾਸਨ ਕੇ ਧੋਵਾ ॥ — With my hair I wash the feet of the servants of the Lord. (Guru Granth Sahib, Ang 500)' },
+    kangha:  { name:'Kangha — Wooden Comb', gur:'ਕੰਘਾ', icon:'kangha', color:'#8a5a14', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kangha symbolises discipline, cleanliness, and order. The Guru taught that spiritual purity must be matched by physical cleanliness. It reminds the Sikh to keep the mind as well as the hair combed and untangled.', significance:'The kangha must be carried in the kesh (hair) at all times. It is used twice daily to comb the hair before tying the turban. It represents a middle path — rejecting both neglect and vanity.', gurbani:'ਸੁੰਦਰ ਸੁਘੜ ਸੁਜਾਨ ਸੁਭਾਈ ॥ — Beautiful, skilled, wise, and naturally gracious. (Guru Granth Sahib, Ang 785)' },
+    kara:    { name:'Kara — Steel Bracelet', gur:'ਕੜਾ', icon:'kara', color:'#2f7d4f', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kara is a circular band of steel worn on the right wrist. The circle has no beginning and no end — representing the eternal, infinite nature of Waheguru. It reminds the Sikh before every action: "With this hand, am I doing the will of the Guru?"', significance:'Steel (sarabloh) is the metal of the Khalsa — strong, pure, and uncompromising. The kara acts as a restraint: the Sikh who wears it is reminded to use their hands only in God\'s service, never for evil. It is also a symbol of unity — all Khalsa wear the same kara.', gurbani:'ਸਭੁ ਕੋ ਰੁਲਤਾ ਫਿਰੈ ਬਿਨੁ ਕਾਰਨ ਸੋਇ ॥ — Without God\'s grace, all wander lost. The kara anchors us. (Guru Granth Sahib, Ang 15)' },
+    kachera: { name:'Kachera — Cotton Breeches', gur:'ਕਛਹਿਰਾ', icon:'kachera', color:'#16335c', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kachera is a specific style of short breeches (undergarment) worn by Sikhs. It represents chastity, self-control, and moral discipline. It was also practical — allowing freedom of movement for a warrior on horseback.', significance:'The kachera replaced the dhoti which could easily come undone in battle. As a garment of self-control, it reminds the Sikh to exercise discipline over the five vices (ਪੰਜ ਵਿਕਾਰ), especially kaam (lust). It represents fidelity in relationships and the Sikh ideal of one loyal, loving marriage.', gurbani:'ਕਾਮੁ ਕ੍ਰੋਧੁ ਕਾਇਆ ਕਉ ਗਾਲੈ ॥ — Lust and anger consume the body. (Guru Granth Sahib, Ang 932)' },
+    kirpan:  { name:'Kirpan — Steel Sword', gur:'ਕਿਰਪਾਨ', icon:'kirpan', color:'#a23b2e', history:'Instituted by Guru Gobind Singh Ji at Vaisakhi 1699.', meaning:'The kirpan (from ਕਿਰਪਾ — grace, and ਆਨ — honour) is a steel sword carried by Khalsa Sikhs. It represents the Sikh\'s duty to stand up against injustice and protect the weak — regardless of their religion, caste, or background.', significance:'The kirpan is not merely a weapon — it is a symbol of sovereignty, dignity, and the Sikh commitment to justice. Guru Gobind Singh Ji taught that the sword is the last resort of the righteous. The Khalsa does not carry the kirpan to harm the innocent; they carry it to serve as the sword arm of the Akal Purakh (the Timeless One) in protecting the truth. Guru Tegh Bahadur Ji gave his life as a metaphorical kirpan — the shield of Hindustan.', gurbani:'ਦੇਗ ਤੇਗ ਫ਼ਤਹਿ ਨਿਰਭਉ ਨਿਰਵੈਰੁ ॥ — Victory of the Deg (cauldron of plenty) and Teg (sword of justice), fearless and without enmity. (Guru Gobind Singh Ji)' },
   };
 
   // ── Family Tree renderer ──────────────────────────────────────────────────
@@ -729,7 +731,8 @@ const wordCard = (w) => w;
       ].join(' ');
       btn.style.cssText = `left:${n.x}px;top:${n.y}px;min-width:110px;max-width:145px;white-space:normal;text-align:center;z-index:1`;
       const shortName = (p.name.replace(' Ji','').replace(' Sahib','').replace('Guru ','').replace('Mata ','').replace('Bhai ','').replace('Bebe ','').replace('Bibi ','').replace('Baba ','').replace('Sahibzada ','').replace('Gurbani','') || p.name).trim();
-      btn.textContent = p.isGuru ? p.name.replace(' Dev Ji','').replace(' Sahib Ji','') + ' ✦' : p.name.split('(')[0].trim().replace('Bhai Kalian Das Ji ','Mehta Kalu').replace(' Kaur Ji',' Kaur').replace(' Singh Ji',' Singh');
+      btn.textContent = p.isGuru ? p.name.replace(' Dev Ji','').replace(' Sahib Ji','') : p.name.split('(')[0].trim().replace('Bhai Kalian Das Ji ','Mehta Kalu').replace(' Kaur Ji',' Kaur').replace(' Singh Ji',' Singh');
+      if (p.isGuru) btn.insertAdjacentHTML('beforeend', ' ' + iconSvg('star-filled', 'inline-block h-3 w-3 align-[-0.1em]'));
       btn.setAttribute('aria-label', 'Learn about ' + p.name);
       btn.addEventListener('click', () => showPersonPopup(n.id));
       canvas.appendChild(btn);
@@ -741,7 +744,7 @@ const wordCard = (w) => w;
     openPopup(`
       <div class="flex items-center gap-3 mb-4">
         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white text-sm font-bold" style="background:${p.isGuru ? '#c27d1a' : '#1d4e89'}">
-          ${p.isGuru ? '✦' : (p.gur[0] || '?')}
+          ${p.isGuru ? iconSvg('star-filled', 'h-5 w-5') : (p.gur[0] || '?')}
         </div>
         <div>
           <h3 class="text-lg font-bold text-navy leading-tight">${p.name}</h3>
@@ -767,7 +770,7 @@ const wordCard = (w) => w;
       const k = KAKAARS[btn.dataset.kakaar]; if (!k) return;
       openPopup(`
         <div class="flex items-center gap-3 mb-4">
-          <div class="text-5xl">${k.icon}</div>
+          <div class="flex h-12 w-12 items-center justify-center" style="color:${k.color}">${iconSvg(k.icon, 'h-11 w-11')}</div>
           <div>
             <h3 class="text-xl font-bold text-navy">${k.name}</h3>
             <div class="gur text-lg mt-0.5" style="color:${k.color}">${k.gur}</div>

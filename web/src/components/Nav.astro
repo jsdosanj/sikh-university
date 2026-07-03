@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import Icon from './Icon.astro';
 const links = [
   { href: '/catalog', label: 'Courses', m: '/catalog', key: 'nav.courses' },
   { href: '/santhiya', label: 'Santhya', m: '/santhiya', key: 'nav.santhya' },
@@ -59,7 +60,7 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
         {LANG_OPTS.map(([v, l]) => (<option value={v}>{l}</option>))}
       </select>
       <button id="theme-toggle" type="button" aria-label="Toggle light or dark theme" title="Toggle light/dark"
-        class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base text-white/90 hover:bg-white/10 hover:text-white transition"><span data-theme-icon>◐</span></button>
+        class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base text-white/90 hover:bg-white/10 hover:text-white transition"><span data-theme-icon><Icon name="moon" class="h-5 w-5" /></span></button>
       <a id="nav-auth" href="/login" data-i18n="nav.signin" class="rounded-full bg-saffron px-4 py-1.5 font-sans text-sm font-semibold text-[#2a1c06] hover:brightness-105 whitespace-nowrap">Sign in</a>
     </div>
 
@@ -91,7 +92,7 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
       <a href="/dashboard" data-i18n="nav.mylearning" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">My Learning</a>
       <a href="/cohorts" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">Cohorts</a>
       <div class="mt-2 flex items-center gap-x-3 px-2">
-        <button id="theme-toggle-mobile" type="button" aria-label="Toggle theme" class="inline-flex h-8 w-8 items-center justify-center rounded-full text-white/90 hover:bg-white/10 transition"><span data-theme-icon-mobile>◐</span></button>
+        <button id="theme-toggle-mobile" type="button" aria-label="Toggle theme" class="inline-flex h-8 w-8 items-center justify-center rounded-full text-white/90 hover:bg-white/10 transition"><span data-theme-icon-mobile><Icon name="moon" class="h-5 w-5" /></span></button>
         <select data-lang-switch aria-label="Language" data-i18n-aria="lang.label" class="rounded-full bg-white/10 px-2 py-1.5 font-sans text-xs text-white outline-none ring-1 ring-white/20 [&>option]:text-black">
           {LANG_OPTS.map(([v, l]) => (<option value={v}>{l}</option>))}
         </select>
@@ -101,8 +102,9 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
   </div>
 </nav>
 <script>
+  import { iconSvg } from '../lib/icons';
   (function () {
-    function syncIcon(icon, theme) { if (icon) icon.textContent = theme === 'dark' ? '☀' : '☾'; }
+    function syncIcon(icon, theme) { if (icon) icon.innerHTML = iconSvg(theme === 'dark' ? 'sun' : 'moon', 'h-5 w-5'); }
     const theme = () => document.documentElement.getAttribute('data-theme');
     const icon = document.querySelector('[data-theme-icon]');
     const iconM = document.querySelector('[data-theme-icon-mobile]');

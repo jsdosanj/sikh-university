@@ -1,13 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 const offers = [
-  ['📚', 'Real courses, by topic', 'Dozens of courses across theology, philosophy, history, language, spirituality, music, the arts — and modern skills like AI.'],
-  ['🎓', 'Taught from the sources', "Courses are drawn from the works of leading Sikh scholars and writers, each acting as the course's professor."],
-  ['🧭', 'Guided learning paths', 'Ordered tracks take you from the basics to deeper study, so you always know what to learn next.'],
-  ['📝', 'Tests & certificates', 'Each course ends with a test. Pass with 80%+ to unlock the next course and earn a printable certificate.'],
-  ['♿', 'Open & accessible', 'Read-aloud, larger text, high-contrast mode, offline access — built so everyone can use it.'],
-  ['🌍', 'Free, forever for now', 'Every course is free today. We may add paid offerings later, but open access stays at our core.'],
-  ['🎓', 'Graduate seminars', '500-level advanced seminars across every subject — research-focused, scholarly, for serious students who want to go as deep as possible.'],
+  ['books', 'Real courses, by topic', 'Dozens of courses across theology, philosophy, history, language, spirituality, music, the arts — and modern skills like AI.'],
+  ['cap', 'Taught from the sources', "Courses are drawn from the works of leading Sikh scholars and writers, each acting as the course's professor."],
+  ['compass', 'Guided learning paths', 'Ordered tracks take you from the basics to deeper study, so you always know what to learn next.'],
+  ['note', 'Tests & certificates', 'Each course ends with a test. Pass with 80%+ to unlock the next course and earn a printable certificate.'],
+  ['accessibility', 'Open & accessible', 'Read-aloud, larger text, high-contrast mode, offline access — built so everyone can use it.'],
+  ['globe', 'Free, forever for now', 'Every course is free today. We may add paid offerings later, but open access stays at our core.'],
+  ['cap', 'Graduate seminars', '500-level advanced seminars across every subject — research-focused, scholarly, for serious students who want to go as deep as possible.'],
 ];
 const steps = [
   ['Browse or follow a path.', 'Pick a topic, search the catalogue, or follow a guided learning path.'],
@@ -72,7 +73,7 @@ const stats = [
       <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {offers.map((o) => (
           <div class="rounded-xl2 border border-line bg-paper p-5 transition-shadow hover:shadow-card">
-            <div class="text-3xl">{o[0]}</div>
+            <Icon name={o[0]} class="h-8 w-8 text-saffron-deep" />
             <h3 class="mt-2 text-base font-bold">{o[1]}</h3>
             <p class="mt-1 text-[0.92rem] text-muted leading-relaxed">{o[2]}</p>
           </div>
@@ -110,7 +111,7 @@ const stats = [
               <div class="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-saffron to-brand text-white text-2xl font-bold shadow-lg ring-4 ring-saffron/20">
                 JS
               </div>
-              <div class="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-ok flex items-center justify-center text-white text-xs">✓</div>
+              <div class="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-ok flex items-center justify-center text-white"><Icon name="check" class="h-4 w-4" /></div>
             </div>
           </div>
           <!-- Content -->
@@ -137,7 +138,7 @@ const stats = [
   <section class="wrap pb-14">
     <div class="rounded-xl2 border border-line bg-gradient-to-br from-brand/5 to-surface p-8">
       <div class="flex items-start gap-4">
-        <div class="text-4xl shrink-0">🗂️</div>
+        <Icon name="folder" class="h-9 w-9 shrink-0 text-saffron-deep" />
         <div>
           <h2 class="text-xl font-bold">Together with the Sikh Archive</h2>
           <p class="mt-2 max-w-2xl text-muted">Sikh University works alongside the <strong>Sikh Archive</strong> — a growing library of Sikh sources, history and free courses. Our courses point you there to read deeper, and the two sites are designed to work hand in hand.</p>

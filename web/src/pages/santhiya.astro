@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 const texts = [
   { gur: 'ਬਾਲ ਉਪਦੇਸ਼', en: 'Baal Updesh', d: "The complete beginner's primer — the alphabet, the extra letters, the numerals, and the full Muharni (every consonant through the ten vowel signs). Where every reader begins.", href: '/baal-updesh', live: true },
   { gur: 'ਨਿਤਨੇਮ', en: 'Nitnem', d: 'The daily banis — the foundation of a Sikh reading practice.', href: '/collection/nitnem', live: true },
@@ -65,7 +66,7 @@ const texts = [
 
     <div id="audbar" class="mt-4 flex flex-wrap items-center gap-3 rounded-xl2 border border-line bg-surface p-3">
       <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
-      <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted">🔇 Audio for this Ang is being prepared.</div>
+      <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted"><Icon name="volume-off" class="h-4 w-4 shrink-0" />Audio for this Ang is being prepared.</div>
       <div class="flex items-center gap-2 font-sans text-sm">
         <button data-fs="-" aria-label="Decrease text size" class="rounded-lg border border-line px-2.5 py-1">A−</button>
         <button data-fs="+" aria-label="Increase text size" class="rounded-lg border border-line px-2.5 py-1">A+</button>
@@ -135,7 +136,7 @@ const texts = [
       if (!t) return;
       aud.style.display = ''; audph.style.display = 'none';
       if (t.url !== curUrl) { curUrl = t.url; aud.src = t.url; aud.load(); }
-      note.textContent = '🎧 Santhya · ' + t.title + ' — Bhindrān Taksāl (gurmatveechar.com)';
+      note.textContent = 'Santhya · ' + t.title + ' — Bhindrān Taksāl (gurmatveechar.com)';
     }
 
     function vishramWeight(w) { if (w.indexOf('॥') !== -1) return 3.2; if (w.indexOf(';') !== -1) return 1.6; if (w.indexOf('.') !== -1) return 0.9; return 0; }

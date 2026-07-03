@@ -6,6 +6,7 @@ import Base from '../layouts/Base.astro';
     <div id="admin"><p class="text-muted">Loading…</p></div>
   </section>
   <script>
+    import { iconSvg } from '../lib/icons';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const slugToTitle = (id) => String(id || '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
     const ctitle = (id, courses) => { const c = (courses || []).find((x) => x.id === id); return c ? c.title : slugToTitle(id); };
@@ -51,7 +52,7 @@ import Base from '../layouts/Base.astro';
                 <option value="avg">Sort: Avg score ↓</option>
                 <option value="pass">Sort: Pass rate ↓</option>
               </select>
-              <a class="btn font-sans text-xs px-3 py-1.5" href="/api/gradebook?format=csv">⬇ Export CSV</a>
+              <a class="btn font-sans text-xs px-3 py-1.5" href="/api/gradebook?format=csv">${iconSvg('download', 'h-3.5 w-3.5')} Export CSV</a>
             </div>
           </div><div id="gb-body"></div>`;
           panel.innerHTML = html;
@@ -89,7 +90,7 @@ import Base from '../layouts/Base.astro';
               const displayRows = q ? filtered : cr;
               const rows_html = displayRows.sort((a, b) => (b.score == null ? -1 : b.score) - (a.score == null ? -1 : a.score)).map((r) => {
                 const pct = l ? Math.round(r.done / l * 100) : 0;
-                return `<tr class="border-t border-line"><td class="py-1">${esc(r.name || r.email)}${r.override ? ' <span title="Overridden">✎</span>' : ''}</td><td>${pct}%</td><td>${r.score != null ? r.score + '%' : '—'}</td><td>${r.score != null ? grade(r.score) : '—'}</td></tr>`;
+                return `<tr class="border-t border-line"><td class="py-1">${esc(r.name || r.email)}${r.override ? ' <span title="Overridden" class="inline-flex align-[-0.15em] text-saffron-deep">' + iconSvg('edit', 'h-3.5 w-3.5') + '</span>' : ''}</td><td>${pct}%</td><td>${r.score != null ? r.score + '%' : '—'}</td><td>${r.score != null ? grade(r.score) : '—'}</td></tr>`;
               }).join('');
               return `<details class="mt-3 rounded-xl2 border border-line bg-surface p-3">
                 <summary class="cursor-pointer font-semibold text-navy select-none">${esc(ctitle(cid, courses))} <span class="font-sans text-xs font-normal text-muted">· ${cr.length} learners · avg ${cavg}% · ${pass}% passed</span></summary>

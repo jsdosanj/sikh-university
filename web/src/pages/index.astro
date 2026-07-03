@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 const SITE = 'https://sikh-university.dosanjhlabs.com';
 const ld = {
@@ -83,13 +84,13 @@ const ld = {
       <p class="mx-auto mt-4 max-w-4xl xl:max-w-5xl text-center text-lg text-white/90">We learn from those who came before us — the Gurus, the scholars, the saints and the soldiers — and carry their light forward. We begin with the basics of Sikhi and keep going into its depths, until one truth becomes unmistakable: that <strong>Sri Guru Granth Sahib Ji</strong> is the living Guru and the one universal Truth. And the real aim of all of it is simple — to build an intimate, personal relationship with <strong>Waheguru</strong>.</p>
       <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          ['🪔', 'Learn from our ancestors', 'The Gurus, scholars, saints and soldiers whose lives and writings light the way — taught from authentic sources.'],
-          ['🌊', 'From the basics to the depths', 'Start with the simplest questions and follow them as far as you dare. The deeper you go, the more there is.'],
-          ['📖', 'Sri Guru Granth Sahib Ji', 'The living Guru and the universal Truth. Every path here leads back to the Shabad — read it for yourself in our reader.'],
-          ['🪯', 'A relationship with Waheguru', 'Not just knowledge, but Naam, Simran and seva — a living, personal bond with the Divine.'],
+          ['diya', 'Learn from our ancestors', 'The Gurus, scholars, saints and soldiers whose lives and writings light the way — taught from authentic sources.'],
+          ['waves', 'From the basics to the depths', 'Start with the simplest questions and follow them as far as you dare. The deeper you go, the more there is.'],
+          ['book', 'Sri Guru Granth Sahib Ji', 'The living Guru and the universal Truth. Every path here leads back to the Shabad — read it for yourself in our reader.'],
+          ['lotus', 'A relationship with Waheguru', 'Not just knowledge, but Naam, Simran and seva — a living, personal bond with the Divine.'],
         ].map((m) => (
           <div class="rounded-xl2 bg-white/10 p-5 backdrop-blur">
-            <div class="text-3xl">{m[0]}</div>
+            <Icon name={m[0]} class="h-8 w-8 text-saffron" />
             <h3 class="mt-2 text-lg font-bold text-white">{m[1]}</h3>
             <p class="mt-1 text-[0.95rem] text-white/80">{m[2]}</p>
           </div>
@@ -115,38 +116,38 @@ const ld = {
     <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {[
         {
-          icon: '📐',
+          icon: 'ruler',
           title: 'A complete academic ladder',
           body: '100-level introductions to 500-level graduate seminars — the only Sikh learning platform with a full university-style curriculum, from your first question to doctoral depth.',
         },
         {
-          icon: '🏛️',
+          icon: 'pillar',
           title: 'Scholar-attributed courses',
           body: 'Every course is taught by a named scholar — Prof. Sahib Singh, Kavi Santokh Singh, Bhai Randhir Singh, Bhai Kahn Singh Nabha, Bhai Vir Singh and more — grounding each lesson in authentic, authoritative scholarship.',
         },
         {
-          icon: '🌍',
+          icon: 'globe',
           title: 'Open to the whole world',
           body: 'No fees. No visa. No Gurdwara nearby required. A Sikh in Kenya, Canada, Chile, or Australia gets the same world-class education as one sitting in Amritsar.',
         },
         {
-          icon: '📚',
+          icon: 'books',
           title: `${published.length}+ courses across 23 subjects`,
           body: 'Theology, philosophy, history, language, music, the arts, economics, science, health, parenting — Sikhi touches every dimension of life, and we cover all of it.',
         },
         {
-          icon: '🔬',
+          icon: 'microscope',
           title: 'Graduate seminars that go all the way',
           body: 'Sikh hermeneutics. Manuscript paleography. Gurmat metaphysics. Comparative mysticism. For students who refuse to stop at the surface — we go as deep as there is to go.',
         },
         {
-          icon: '🪯',
+          icon: 'lotus',
           title: 'Rooted in authentic sources',
           body: 'Every course draws from the Sri Guru Granth Sahib Ji, authenticated scholarly works, and the SikhLibrary dataset — not Wikipedia summaries or secondhand summaries.',
         },
       ].map((f) => (
         <div class="rounded-xl2 border border-line bg-surface p-6 shadow-card">
-          <div class="text-3xl">{f.icon}</div>
+          <Icon name={f.icon} class="h-8 w-8 text-saffron-deep" />
           <h3 class="mt-3 text-lg font-bold text-navy">{f.title}</h3>
           <p class="mt-2 text-[0.95rem] text-muted leading-relaxed">{f.body}</p>
         </div>
@@ -171,15 +172,15 @@ const ld = {
           </div>
           <div class="grid grid-cols-2 gap-4">
             {[
-              ['🌱', '100-level', 'Complete beginners — no background needed'],
-              ['📖', '200–300 level', 'Growing students ready to go deeper'],
-              ['🔬', '400-level', 'Advanced learners in serious study'],
-              ['🎓', '500-level', 'Graduate seminars for scholars'],
-              ['✍️', 'Languages change', 'Gurbani was written in Punjabi, Braj Bhasha, Sant Bhasha, and Persian. Every course here bridges the Guru\'s depth to the language you live in today.'],
-              ['🪔', 'ਸਿੱਖ means learner', 'Gurbani\'s call to forever seek is written into our name. This university exists to honour that call — for every generation, everywhere on Earth.'],
+              ['sprout', '100-level', 'Complete beginners — no background needed'],
+              ['book', '200–300 level', 'Growing students ready to go deeper'],
+              ['microscope', '400-level', 'Advanced learners in serious study'],
+              ['cap', '500-level', 'Graduate seminars for scholars'],
+              ['pen', 'Languages change', 'Gurbani was written in Punjabi, Braj Bhasha, Sant Bhasha, and Persian. Every course here bridges the Guru\'s depth to the language you live in today.'],
+              ['diya', 'ਸਿੱਖ means learner', 'Gurbani\'s call to forever seek is written into our name. This university exists to honour that call — for every generation, everywhere on Earth.'],
             ].map((t) => (
               <div class="rounded-xl2 bg-white/10 p-4 backdrop-blur">
-                <div class="text-2xl">{t[0]}</div>
+                <Icon name={t[0]} class="h-7 w-7 text-saffron" />
                 <div class="mt-2 font-bold text-white text-sm">{t[1]}</div>
                 <div class="mt-1 text-xs text-white/70">{t[2]}</div>
               </div>

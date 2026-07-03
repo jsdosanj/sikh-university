@@ -27,13 +27,14 @@ export function topicName(id: string): string {
   return t ? t.name : id;
 }
 
+// Values are icon names from web/src/lib/icons.ts (rendered via <Icon>/iconSvg).
 export const TOPIC_ICONS: Record<string, string> = {
-  theology: '🪔', philosophy: '💭', history: '📜', literature: '📖', language: '✍️',
-  spirituality: '🧘', music: '🎵', arts: '🎨', 'modern-skills': '🤖', reference: '📚',
-  ethics: '⚖️', rehat: '🪯', comparative: '🌍',
-  sociology: '👥', economics: '💰', politics: '🏛️', parenting: '👨‍👩‍👧',
-  apologetics: '🛡️', science: '🔬',
-  finance: '💵', gardening: '🌱', 'mental-health': '💚',
+  theology: 'diya', philosophy: 'thought', history: 'scroll', literature: 'book', language: 'pen',
+  spirituality: 'meditation', music: 'music', arts: 'palette', 'modern-skills': 'robot', reference: 'books',
+  ethics: 'scales', rehat: 'lotus', comparative: 'globe',
+  sociology: 'people', economics: 'coin', politics: 'pillar', parenting: 'child',
+  apologetics: 'shield', science: 'microscope',
+  finance: 'coin', gardening: 'sprout', 'mental-health': 'heart',
 };
 
 export function professorList() {

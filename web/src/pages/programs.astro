@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import programsData from '../../public/assets/data/programs.json';
 
 const typeOrder = ['certificate', 'associate', 'bachelor', 'master', 'giani'];
@@ -39,7 +40,7 @@ const grouped = typeOrder.map((t) => ({
           {programs.map((p) => (
             <a href={`/program/${p.id}`} class={`card flex flex-col gap-2 hover:border-saffron transition ${typeBg[type]}`}>
               <div class="flex items-center gap-3">
-                <span class="text-3xl">{p.icon}</span>
+                <Icon name={p.icon} class="h-8 w-8 shrink-0 text-saffron-deep" />
                 <div>
                   <div class="font-sans text-xs font-bold uppercase tracking-wider text-muted">{p.abbreviation}</div>
                   <h3 class="text-lg font-bold text-navy leading-tight">{p.title}</h3>
@@ -48,9 +49,9 @@ const grouped = typeOrder.map((t) => ({
               </div>
               <p class="font-sans text-sm text-muted flex-1">{p.description.slice(0, 140)}…</p>
               <div class="mt-auto flex flex-wrap gap-3 font-sans text-xs text-muted">
-                <span>📚 {p.courseIds.length} courses</span>
-                <span>⏱ {p.duration}</span>
-                <span>✅ {p.passMark}% to pass cumulative exam</span>
+                <span class="inline-flex items-center gap-1"><Icon name="books" class="h-3.5 w-3.5" />{p.courseIds.length} courses</span>
+                <span class="inline-flex items-center gap-1"><Icon name="clock" class="h-3.5 w-3.5" />{p.duration}</span>
+                <span class="inline-flex items-center gap-1"><Icon name="check-square" class="h-3.5 w-3.5" />{p.passMark}% to pass cumulative exam</span>
               </div>
             </a>
           ))}
