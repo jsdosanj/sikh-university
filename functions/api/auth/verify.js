@@ -9,7 +9,10 @@ export async function onRequestGet({ request, env }) {
   if (!token) return fail("Missing token.");
 
   const row = await env.DB.prepare("SELECT email, expires_at, used FROM magic_tokens WHERE token = ?").bind(token).first();
-  if (!row || row.used || row.expires_at < Date.now()) return fail("This sign-in link is invalid or expired.");
+  if (!row || row.used || row.expires_at < Date.now()) {
+    console.warn("auth_verify_failed", !row ? "unknown" : row.used ? "used" : "expired");
+    return fail("This sign-in link is invalid or expired.");
+  }
   await env.DB.prepare("UPDATE magic_tokens SET used = 1 WHERE token = ?").bind(token).run();
 
   const email = row.email;
