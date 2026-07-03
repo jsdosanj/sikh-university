@@ -51,3 +51,25 @@ MAIL_FROM = "Sikh University <login@dosanjhlabs.com>"
 [observability]
 enabled = true
 head_sampling_rate = 1
+
+# Rate limiting (Cloudflare native binding). Each limiter guards a class of endpoint,
+# keyed per client IP in worker.js. Limits are generous (the mission serves camps and
+# gurdwaras behind shared NATs) and currently COUNT-ONLY — worker.js logs would-be
+# rejections without blocking, so real thresholds can be tuned from logs before enforcing.
+[[unsafe.bindings]]
+name = "RL_AUTH"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 20, period = 60 }
+
+[[unsafe.bindings]]
+name = "RL_TRANSLATE"
+type = "ratelimit"
+namespace_id = "1002"
+simple = { limit = 60, period = 60 }
+
+[[unsafe.bindings]]
+name = "RL_WRITE"
+type = "ratelimit"
+namespace_id = "1003"
+simple = { limit = 15, period = 60 }
