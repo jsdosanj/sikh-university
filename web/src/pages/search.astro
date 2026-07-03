@@ -61,7 +61,7 @@ const extra = { professors, readings, pages, gWords };
       index = [];
       data.courses.forEach((c) => index.push({
         kind: 'Course', title: c.title, sub: 'Prof. ' + c.professor + ' · ' + tn(c.topic), url: '/course/' + c.id,
-        hay: [c.title, c.summary, c.professor, tn(c.topic), (c.terms || []).map((t) => t.t + ' ' + t.m).join(' '), (c.outcomes || []).join(' '), (c.lessons || []).map((l) => l.title).join(' ')].join(' | ').toLowerCase(),
+        hay: [c.title, c.summary, c.professor, tn(c.topic), (c.terms || []).map((t) => t.t + ' ' + t.m).join(' '), (c.outcomes || []).join(' '), (c.lessonTitles || []).join(' ')].join(' | ').toLowerCase(),
       }));
       extra.professors.forEach((p) => index.push({
         kind: 'Professor', title: p.title, sub: p.count + ' course' + (p.count === 1 ? '' : 's'), url: '/professor/' + p.slug,
@@ -105,7 +105,7 @@ const extra = { professors, readings, pages, gWords };
       });
       out.innerHTML = html;
     }
-    fetch('/assets/data/courses.json').then((r) => r.json()).then((d) => {
+    fetch('/data/search.json').then((r) => r.json()).then((d) => {
       data = d; buildIndex();
       const pre = new URLSearchParams(location.search).get('q'); if (pre) q.value = pre;
       render();
