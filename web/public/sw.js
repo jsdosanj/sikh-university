@@ -1,6 +1,6 @@
 /* Sikh University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v13';
+var CACHE = 'su-web-v14';
 var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest'];
 
 self.addEventListener('install', function (e) {
@@ -39,4 +39,25 @@ self.addEventListener('fetch', function (e) {
   e.respondWith(caches.match(req).then(function (hit) {
     return hit || fetch(req).then(function (res) { if (cacheable(res)) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); }); } return res; });
   }));
+});
+
+// Offline course packs (E1): the course page posts its own URL + same-origin images
+// here; we add them to the cache so the lesson reads offline. Third-party audio/YouTube
+// and the live BaniDB verse viewer are excluded — they need a connection and degrade
+// gracefully. Reports back so the button can show a "Saved" state.
+self.addEventListener('message', function (e) {
+  var d = e.data || {};
+  if (d.type === 'cache-pack' && Array.isArray(d.urls)) {
+    e.waitUntil(caches.open(CACHE).then(function (c) {
+      return Promise.all(d.urls.map(function (u) {
+        return fetch(u, { credentials: 'same-origin' }).then(function (res) {
+          if (res && res.ok && res.type === 'basic') return c.put(u, res.clone());
+        }).catch(function () {});
+      }));
+    }).then(function () {
+      if (e.source) e.source.postMessage({ type: 'pack-cached', id: d.id, ok: true });
+    }).catch(function () {
+      if (e.source) e.source.postMessage({ type: 'pack-cached', id: d.id, ok: false });
+    }));
+  }
 });
