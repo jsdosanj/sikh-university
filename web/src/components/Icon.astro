@@ -1,0 +1,10 @@
+---
+// Inline line-icon from the shared set (web/src/lib/icons.ts). One visual
+// language, currentColor stroke — inherits colour and size from CSS. Size via
+// the `class` prop (default w-6 h-6, e.g. `class="h-8 w-8 text-white"`).
+import { ICON_PATHS } from '../lib/icons';
+interface Props { name: string; class?: string; }
+const { name, class: cls = 'w-6 h-6' } = Astro.props;
+const body = ICON_PATHS[name] ?? ICON_PATHS.book;
+---
+<svg class={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={body}></svg>
