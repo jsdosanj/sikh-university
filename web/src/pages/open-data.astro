@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { readFileSync, existsSync } from 'node:fs';
+
+// Read the manifest that web/scripts/build-dataset.mjs writes before `astro build`
+// (build-time import, same pattern as web/src/lib/verification.ts). Absent in
+// `astro dev`, where the data-build scripts don't run — fall back to zeros rather
+// than crash the dev server.
+let dataset: any = null;
+try {
+  if (existsSync('./public/data/dataset.json')) {
+    dataset = JSON.parse(readFileSync('./public/data/dataset.json', 'utf-8'));
+  }
+} catch { /* absent in dev — page still renders */ }
+
+const SITE = 'https://sikh-university.dosanjhlabs.com';
+const stats = dataset?.stats || { courses: 0, publishedCourses: 0, quotesVerified: 0, coursesSealed: 0 };
+const distributions = dataset?.distributions || [];
+const CITATION = 'Sikh University. "Open dataset: course catalogue metadata and Gurbani verification report." ' +
+  `${SITE}/open-data. Licensed CC BY 4.0.`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Dataset',
+  name: dataset?.name || 'Sikh University open dataset',
+  description: dataset?.description ||
+    'Course catalogue metadata and the Gurbani-quote verification report from Sikh University, a free and open Sikhi + modern-skills LMS.',
+  url: `${SITE}/open-data`,
+  license: 'https://creativecommons.org/licenses/by/4.0/',
+  creator: { '@type': 'Organization', name: 'Sikh University', url: SITE },
+  distribution: distributions.map((d: any) => ({
+    '@type': 'DataDownload',
+    name: d.name,
+    encodingFormat: d.format,
+    contentUrl: `${SITE}${d.path}`,
+  })),
+};
+---
+<Base title="Open data — Sikh University" description="The Sikh University course catalogue metadata and Gurbani-verification report, published openly under CC BY 4.0 — the canonical scripture text itself is never rehosted, only referenced via BaniDB.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <section class="wrap max-w-3xl py-14">
+    <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron-deep">Open data</p>
+    <h1 class="mt-2 text-3xl font-bold text-navy">The catalogue and the verification report, openly licensed</h1>
+    <p class="mt-3 text-muted">Sikh University publishes the <em>structure</em> of its catalogue — course titles, topics, levels, professors, summaries, outcomes, lesson titles — and the Gurbani-quote verification report described on the <a class="underline" href="/integrity">content-integrity page</a>, as a machine-readable, openly-licensed dataset. Researchers, other Sikhi projects, and search tools are welcome to reuse it.</p>
+
+    <div id="stats" class="mt-8 grid gap-4 sm:grid-cols-4">
+      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.courses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses catalogued</div></div></div>
+      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.publishedCourses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Published courses</div></div></div>
+      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.quotesVerified.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Gurbani quotes verified</div></div></div>
+      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.coursesSealed.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses fully sealed</div></div></div>
+    </div>
+    <p class="mt-2 font-sans text-xs text-muted">Generated at build time from the same catalogue and verification run described on the <a class="underline" href="/integrity">content-integrity page</a>.</p>
+
+    <!-- What's included -->
+    <div class="mt-12">
+      <h2 class="font-serif text-xl font-bold text-navy">What's in the dataset</h2>
+      <ul class="mt-3 grid gap-2 text-muted">
+        <li><strong class="text-ink">Catalogue metadata.</strong> Titles, topics, levels, professors, summaries, learning outcomes, and lesson titles for every course — not the lesson prose or quiz content itself.</li>
+        <li><strong class="text-ink">The verification report.</strong> Per-course counts of quoted Gurbani checked against the canonical snapshot — verified, mismatched, or not yet covered — plus totals.</li>
+        <li><strong class="text-ink">Not included: scripture text.</strong> No Gurbani text is rehosted in this dataset. The canonical Sri Guru Granth Sahib Ji text lives at <a class="underline" href="https://www.banidb.com" target="_blank" rel="noopener">BaniDB</a>, and the dataset only ever points there — it never copies the text out.</li>
+      </ul>
+    </div>
+
+    <!-- Downloads -->
+    <div class="mt-12">
+      <h2 class="font-serif text-xl font-bold text-navy">Download</h2>
+      <div class="mt-3 grid gap-3 sm:grid-cols-2">
+        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/index.json" download>
+          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
+          <span><span class="block font-semibold text-navy">index.json</span><span class="text-sm text-muted">Topics + per-course metadata, all courses.</span></span>
+        </a>
+        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/search.json" download>
+          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
+          <span><span class="block font-semibold text-navy">search.json</span><span class="text-sm text-muted">Published courses with terms, outcomes, lesson titles.</span></span>
+        </a>
+        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/verification.json" download>
+          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
+          <span><span class="block font-semibold text-navy">verification.json</span><span class="text-sm text-muted">Per-course Gurbani-quote verification counts.</span></span>
+        </a>
+        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/dataset.json" download>
+          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
+          <span><span class="block font-semibold text-navy">dataset.json</span><span class="text-sm text-muted">The manifest — license, sources, and links to the files above.</span></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- License & citation -->
+    <div class="mt-12">
+      <h2 class="font-serif text-xl font-bold text-navy">License &amp; citation</h2>
+      <p class="mt-3 text-muted">The catalogue metadata and verification report are published under <a class="underline" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a> — reuse, adapt, and redistribute freely, with attribution.</p>
+      <p class="mt-3 font-sans text-sm font-semibold text-ink">Suggested citation</p>
+      <div class="mt-2 rounded-xl2 border border-line bg-surface p-4">
+        <code class="font-sans text-sm text-ink">{CITATION}</code>
+      </div>
+    </div>
+
+    <!-- Sources -->
+    <div class="mt-12 mb-4">
+      <h2 class="font-serif text-xl font-bold text-navy">Sources</h2>
+      <ul class="mt-3 grid gap-2 text-muted">
+        <li><strong class="text-ink">BaniDB</strong> — canonical Sri Guru Granth Sahib Ji text, referenced by ang, never redistributed. <a class="underline" href="https://www.banidb.com" target="_blank" rel="noopener">banidb.com</a></li>
+        <li><strong class="text-ink">SikhLibrary (HuggingFace)</strong> — source texts, commentaries and theses behind our author-as-professor courses; owned and gated. <a class="underline" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener">jsdosanj/SikhLibrary</a></li>
+        <li><strong class="text-ink">Sikh Archive</strong> — our primary library and media partner. <a class="underline" href="https://sikharchive.net" target="_blank" rel="noopener">sikharchive.net</a></li>
+      </ul>
+      <p class="mt-4 text-sm text-muted">Questions, corrections, or a use case we should know about? Use the <a class="underline" href="/feedback">feedback page</a>.</p>
+    </div>
+  </section>
+</Base>
