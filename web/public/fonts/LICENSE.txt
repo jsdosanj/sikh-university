@@ -1,0 +1,9 @@
+Self-hosted fonts, all under the SIL Open Font License 1.1 (OFL):
+
+  Noto Sans Gurmukhi, Noto Serif Gurmukhi — © The Noto Project Authors
+    https://github.com/notofonts/gurmukhi  (OFL-1.1)
+  Source Serif 4 — © Adobe
+    https://github.com/adobe-fonts/source-serif  (OFL-1.1)
+
+woff2 subsets were retrieved from Google Fonts (which serves these OFL families).
+The OFL permits bundling and redistribution; full license: https://openfontlicense.org

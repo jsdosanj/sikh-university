@@ -46,7 +46,15 @@
   @media (max-width: 640px) { input, select, textarea { font-size: 16px; } }
   h1, h2, h3, h4 { @apply font-serif text-navy; }
   a { @apply text-navy; }
-  .gur { @apply font-gur; font-size: 1.06em; }
+  /* Gurmukhi sits optically smaller than Latin at equal em and carries marks above
+     and below the line, so it needs a size bump and looser leading to read as equal. */
+  .gur { @apply font-gur; font-size: 1.12em; line-height: 1.9; }
+  /* Shabad / verse display — reverent serif Gurmukhi, generous leading. */
+  .shabad {
+    font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif;
+    font-size: clamp(1.35rem, 1.1rem + 1.2vw, 1.9rem);
+    line-height: 2.05; letter-spacing: .005em; text-wrap: balance;
+  }
 }
 
 @layer components {
@@ -76,7 +84,11 @@
   .lesson-prose tbody tr:nth-child(even){ @apply bg-paper; }
   .lesson-prose .toc { @apply rounded-xl border border-line bg-paper p-4 font-sans text-[0.92rem] mb-5; }
   .lesson-prose .toc strong { @apply block mb-1 text-navy; }
-  .lesson-prose blockquote.gurbani { @apply border-l-4 border-saffron bg-saffron-soft rounded-r-lg my-4 px-4 py-2; }
+  .lesson-prose blockquote.gurbani {
+    @apply border-l-4 border-saffron bg-saffron-soft rounded-r-lg my-4 px-4 py-2;
+    font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif;
+    font-size: 1.2em; line-height: 1.95;
+  }
   .lesson-prose .refs { @apply font-sans text-[0.85rem] text-muted border-t border-line mt-6 pt-3; }
   /* Apologetics Q&A blocks (built from the manuscript) */
   .lesson-prose .qa { @apply border-t border-line pt-4 mt-4; }
