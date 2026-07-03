@@ -8,9 +8,11 @@
     "dev:frontend": "cd web && npm run dev",
     "db:seed": "wrangler d1 execute sikh-university --local --file=./schema.sql",
     "db:seed:remote": "wrangler d1 execute sikh-university --remote --file=./schema.sql",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "test": "vitest run"
   },
   "devDependencies": {
+    "vitest": "^4.1.0",
     "wrangler": "^4.98.0"
   }
 }
