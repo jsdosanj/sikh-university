@@ -16,6 +16,9 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <!-- Self-hosted fonts (Gurmukhi is first-class, never left to device chance). -->
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <link rel="preload" href="/fonts/notoserifgur-gurmukhi-400.woff2" as="font" type="font/woff2" crossorigin />
   <script is:inline>
     // Set the colour theme before first paint to avoid a flash. Honours a
     // saved choice, else the OS preference.
