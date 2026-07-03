@@ -1,0 +1,43 @@
+name: Backup D1
+# Monthly archival export of the durable D1 tables to a PRIVATE R2 bucket
+# (sikh-university-backups — no Worker route, so it can never be read via /media/).
+# Live magic_tokens and sessions are intentionally excluded. D1 Time Travel remains
+# the primary point-in-time restore (7 days); this is the longer-horizon archive.
+# Needs CLOUDFLARE_API_TOKEN (D1:Read/Export + R2:Edit) and skips gracefully without it.
+on:
+  schedule:
+    - cron: '17 4 1 * *'   # 04:17 UTC on the 1st of each month
+  workflow_dispatch:
+concurrency:
+  group: d1-backup
+permissions:
+  contents: read
+jobs:
+  backup:
+    name: monthly D1 backup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Export durable D1 tables to the private backup bucket
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: '0d4412e40181808b16cce0225ddb5152'
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "CLOUDFLARE_API_TOKEN not set — skipping the archival D1 backup."
+            echo "D1 Time Travel still provides 7-day point-in-time restore (see docs/DEPLOY.md)."
+            exit 0
+          fi
+          STAMP=$(date -u +%Y%m%dT%H%M%SZ)
+          npx --yes wrangler@4 d1 export sikh-university --remote --output "d1-$STAMP.sql" \
+            --table users --table teacher_applications --table progress \
+            --table discussions --table ratings --table certificates \
+            --table course_teachers --table grade_overrides --table announcements \
+            --table enrollments --table events --table feedback
+          npx --yes wrangler@4 r2 object put "sikh-university-backups/d1-$STAMP.sql" \
+            --file "d1-$STAMP.sql" --remote
+          echo "Backed up durable D1 tables to sikh-university-backups/d1-$STAMP.sql"
