@@ -8,14 +8,18 @@ export async function onRequestGet({ request, env }) {
   const fail = (msg) => Response.redirect(`${base}/login.html?error=${encodeURIComponent(msg)}`, 302);
   if (!token) return fail("Missing token.");
 
-  const row = await env.DB.prepare("SELECT email, expires_at, used FROM magic_tokens WHERE token = ?").bind(token).first();
-  if (!row || row.used || row.expires_at < Date.now()) {
-    console.warn("auth_verify_failed", !row ? "unknown" : row.used ? "used" : "expired");
+  // Consume the token ATOMICALLY: a single conditional UPDATE...RETURNING both
+  // checks (unused + unexpired) and marks it used in one statement, so two
+  // concurrent clicks on the same link (e.g. a mail-client prefetcher) can't both
+  // mint a session. RETURNING gives us the email without a separate SELECT.
+  const consumed = await env.DB.prepare(
+    "UPDATE magic_tokens SET used = 1 WHERE token = ? AND used = 0 AND expires_at > ? RETURNING email"
+  ).bind(token, Date.now()).first();
+  if (!consumed) {
+    console.warn("auth_verify_failed", "invalid_used_or_expired");
     return fail("This sign-in link is invalid or expired.");
   }
-  await env.DB.prepare("UPDATE magic_tokens SET used = 1 WHERE token = ?").bind(token).run();
-
-  const email = row.email;
+  const email = consumed.email;
   let user = await env.DB.prepare("SELECT id, role FROM users WHERE email = ?").bind(email).first();
   const wantAdmin = isAdminEmail(env, email);
   if (!user) {
