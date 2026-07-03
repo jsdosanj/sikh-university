@@ -25,6 +25,7 @@ import { onRequestGet as enrollmentsGet, onRequestPost as enrollmentsPost } from
 import { onRequestGet as accountExportGet } from "./functions/api/account/export.js";
 import { onRequestPost as accountDeletePost } from "./functions/api/account/delete.js";
 import { onRequestPost as translatePost } from "./functions/api/translate.js";
+import { onRequestGet as cohortsGet, onRequestPost as cohortsPost } from "./functions/api/cohorts.js";
 
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
@@ -52,6 +53,7 @@ const routes = {
   "/api/account/export": { GET: accountExportGet },
   "/api/account/delete": { POST: accountDeletePost },
   "/api/translate": { POST: translatePost },
+  "/api/cohorts": { GET: cohortsGet, POST: cohortsPost },
 };
 
 // Which rate-limit binding guards which POST endpoint (keyed per IP in the dispatch).

@@ -106,6 +106,19 @@ CREATE TABLE IF NOT EXISTS events (
 -- The admin events viewer sorts/filters by recency over this append-only table.
 CREATE INDEX IF NOT EXISTS idx_events_ts ON events(ts);
 
+-- Cohort mode: a teacher/admin creates a cohort for a course and shares an invite
+-- code; learners join (which enrols them); the owner sees a roster with progress.
+-- Also auto-created by functions/api/cohorts.js on first write.
+CREATE TABLE IF NOT EXISTS cohorts (
+  id TEXT PRIMARY KEY, course_id TEXT NOT NULL, name TEXT NOT NULL,
+  invite_code TEXT NOT NULL UNIQUE, owner_id TEXT NOT NULL, created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_cohorts_owner ON cohorts(owner_id);
+CREATE TABLE IF NOT EXISTS cohort_members (
+  cohort_id TEXT NOT NULL, user_id TEXT NOT NULL, joined_at INTEGER NOT NULL,
+  PRIMARY KEY (cohort_id, user_id)
+);
+
 -- Feedback is also auto-created by functions/api/feedback.js on first write.
 CREATE TABLE IF NOT EXISTS feedback (
   id TEXT PRIMARY KEY,

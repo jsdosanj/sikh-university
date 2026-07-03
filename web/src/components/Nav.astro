@@ -54,6 +54,7 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
         >{l.label}</a>
       ))}
       <a href="/dashboard" aria-current={isActive('/dashboard') ? 'page' : undefined} data-i18n="nav.mylearning" class="font-sans text-sm whitespace-nowrap text-white/80 hover:text-white">My Learning</a>
+      <a href="/cohorts" aria-current={isActive('/cohorts') ? 'page' : undefined} class="font-sans text-sm whitespace-nowrap text-white/80 hover:text-white">Cohorts</a>
       <select data-lang-switch aria-label="Language" data-i18n-aria="lang.label" class="shrink-0 rounded-full bg-white/10 px-2 py-1.5 font-sans text-xs text-white outline-none ring-1 ring-white/20 hover:bg-white/20 [&>option]:text-black">
         {LANG_OPTS.map(([v, l]) => (<option value={v}>{l}</option>))}
       </select>
@@ -88,6 +89,7 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
         <a href={l.href} data-i18n={l.key} class={`font-sans text-sm py-1.5 px-2 rounded ${isActive(l.m) ? 'text-white font-semibold' : 'text-white/80'}`}>{l.label}</a>
       ))}
       <a href="/dashboard" data-i18n="nav.mylearning" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">My Learning</a>
+      <a href="/cohorts" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">Cohorts</a>
       <div class="mt-2 flex items-center gap-x-3 px-2">
         <button id="theme-toggle-mobile" type="button" aria-label="Toggle theme" class="inline-flex h-8 w-8 items-center justify-center rounded-full text-white/90 hover:bg-white/10 transition"><span data-theme-icon-mobile>◐</span></button>
         <select data-lang-switch aria-label="Language" data-i18n-aria="lang.label" class="rounded-full bg-white/10 px-2 py-1.5 font-sans text-xs text-white outline-none ring-1 ring-white/20 [&>option]:text-black">
