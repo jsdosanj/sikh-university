@@ -1,4 +1,4 @@
-import { json, getUser, logEvent } from "./_lib.js";
+import { json, getUser, logEvent, parseBody } from "./_lib.js";
 
 // course_teachers maps a teacher to the courses they teach (admin-assigned).
 // grade_overrides lets a teacher/admin set a final score that wins over the
@@ -87,7 +87,8 @@ export async function onRequestPost({ request, env }) {
   const user = await getUser(env, request);
   if (!user || (user.role !== "teacher" && user.role !== "admin")) return json({ error: "forbidden" }, 403);
   await ensure(env);
-  let b; try { b = await request.json(); } catch (e) { return json({ error: "bad request" }, 400); }
+  const { body: b, error } = await parseBody(request);
+  if (error) return error;
   if (!b.courseId || !b.userId) return json({ error: "courseId and userId required" }, 400);
   if (user.role !== "admin") {
     const ids = await assignedCourseIds(env, user.id);

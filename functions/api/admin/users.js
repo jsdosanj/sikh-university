@@ -1,4 +1,4 @@
-import { json, getUser, logEvent } from "../_lib.js";
+import { json, getUser, logEvent, parseBody } from "../_lib.js";
 
 // GET /api/admin/users -> list all users with roles (admin only)
 export async function onRequestGet({ request, env }) {
@@ -17,7 +17,8 @@ export async function onRequestGet({ request, env }) {
 export async function onRequestPost({ request, env }) {
   const user = await getUser(env, request);
   if (!user || user.role !== "admin") return json({ error: "forbidden" }, 403);
-  let body; try { body = await request.json(); } catch (e) { return json({ error: "bad request" }, 400); }
+  const { body, error } = await parseBody(request);
+  if (error) return error;
   const { id, role } = body;
   if (!id || (role !== "learner" && role !== "teacher")) return json({ error: "role must be learner or teacher" }, 400);
 
