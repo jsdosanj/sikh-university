@@ -130,3 +130,11 @@ CREATE TABLE IF NOT EXISTS feedback (
   status TEXT NOT NULL DEFAULT 'new',          -- new | read | resolved
   created_at INTEGER NOT NULL
 );
+
+-- Per-IP rate limiting (fixed window), written atomically by worker.js checkRateLimit.
+-- Also created lazily at runtime, so this block is documentation / fresh-setup convenience.
+CREATE TABLE IF NOT EXISTS rate_limits (
+  k TEXT PRIMARY KEY,
+  count INTEGER NOT NULL,
+  reset_at INTEGER NOT NULL
+);
