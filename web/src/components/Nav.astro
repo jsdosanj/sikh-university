@@ -144,7 +144,8 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
     const updateAuth = (authEl: HTMLElement | null, isMobile: boolean) => {
       if (!authEl || !d || !d.user) return;
       const u = d.user;
-      authEl.textContent = 'Sign out';
+      if (window.suRelabel) window.suRelabel(authEl, 'nav.signout', 'Sign out');
+      else authEl.textContent = 'Sign out';
       authEl.href = '#';
       authEl.className = isMobile
         ? 'rounded-full bg-white/20 px-4 py-1.5 font-sans text-sm font-semibold text-white'
