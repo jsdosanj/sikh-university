@@ -86,6 +86,10 @@
   .btn.btn-ghost { @apply border-white/50 bg-transparent text-white hover:bg-white/10; }
   .pill { @apply inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[0.68rem] font-bold uppercase tracking-wide; }
   .card { @apply block rounded-xl2 border border-line bg-surface p-5 shadow-card transition hover:-translate-y-1 hover:border-blue hover:shadow-lift; }
+  /* Press feedback for touch devices: hover states are hover-gated (never fire on a
+     touchscreen) and the native tap flash is suppressed globally, so cards need an
+     explicit :active state or a tap gives no visual feedback. */
+  .card:active { @apply border-blue shadow-lift; transform: scale(0.985); }
   .h-underline { @apply border-b-4 border-saffron pb-1; }
   .lesson-prose :where(p,ul,ol,table){ @apply my-3; }
   .lesson-prose h4 { @apply mt-6 mb-1 text-navy; }
