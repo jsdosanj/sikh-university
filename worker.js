@@ -58,17 +58,42 @@ const routes = {
   "/api/health": { GET: healthGet },
 };
 
-// Which rate-limit binding guards which POST endpoint (keyed per IP in the dispatch).
+// Per-IP rate limit for each POST endpoint: { limit, window (seconds) }. Enforced with an
+// atomic D1 counter (checkRateLimit below) — the Cloudflare experimental `ratelimit`
+// binding silently failed open in testing (65 rapid requests, 0 blocked), so we don't
+// rely on it.
 const RATE_LIMITS = {
-  "/api/auth/request": "RL_AUTH",       // magic-link sends (anti mail-bomb via rotating emails)
-  "/api/translate": "RL_TRANSLATE",     // paid Workers AI — cap per-IP cost
-  "/api/feedback": "RL_WRITE",
-  "/api/discussions": "RL_WRITE",
-  "/api/ratings": "RL_WRITE",
+  "/api/auth/request": { limit: 20, window: 60 },  // magic-link sends (anti mail-bomb)
+  "/api/translate": { limit: 60, window: 60 },     // paid Workers AI — cap per-IP cost
+  "/api/feedback": { limit: 15, window: 60 },
+  "/api/discussions": { limit: 15, window: 60 },
+  "/api/ratings": { limit: 15, window: 60 },
 };
-// Count-only for now: log would-be rejections without blocking, so real thresholds
-// can be tuned from logs before enforcing. Flip to true once logs look clean.
 const RL_ENFORCE = true;
+
+// Atomic fixed-window per-key limiter on D1. Strongly consistent, so a fast burst can't
+// slip through on stale reads the way a KV counter would. Fails OPEN on any error / no DB
+// so a limiter problem never locks out the mission's users. Creates its table lazily,
+// once per isolate.
+let rlReady = false;
+async function checkRateLimit(env, key, limit, windowSec) {
+  if (!env.DB) return true;
+  try {
+    if (!rlReady) {
+      await env.DB.prepare("CREATE TABLE IF NOT EXISTS rate_limits (k TEXT PRIMARY KEY, count INTEGER NOT NULL, reset_at INTEGER NOT NULL)").run();
+      rlReady = true;
+    }
+    const now = Math.floor(Date.now() / 1000);
+    const row = await env.DB.prepare(
+      "INSERT INTO rate_limits (k, count, reset_at) VALUES (?1, 1, ?2) " +
+      "ON CONFLICT(k) DO UPDATE SET " +
+      "count = CASE WHEN reset_at <= ?3 THEN 1 ELSE count + 1 END, " +
+      "reset_at = CASE WHEN reset_at <= ?3 THEN ?2 ELSE reset_at END " +
+      "RETURNING count"
+    ).bind(key, now + windowSec, now).first();
+    return !row || row.count <= limit;
+  } catch (e) { return true; }
+}
 
 export default {
   async fetch(request, env) {
@@ -89,20 +114,18 @@ export default {
       // Rate limiting, keyed per client IP. Count-only unless RL_ENFORCE: a
       // limiter outage or an over-limit burst must never lock out the mission's
       // shared-NAT users, so it fails open and (for now) only logs.
-      const limiterName = request.method === "POST" ? RATE_LIMITS[pathname] : null;
-      if (limiterName && env[limiterName]) {
+      const rl = request.method === "POST" ? RATE_LIMITS[pathname] : null;
+      if (rl) {
         const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-        try {
-          const { success } = await env[limiterName].limit({ key: `${pathname}:${ip}` });
-          if (!success) {
-            console.warn("rate_limit_exceeded", pathname, ip);
-            if (RL_ENFORCE) {
-              return new Response(JSON.stringify({ error: "rate_limited" }), {
-                status: 429, headers: { "content-type": "application/json", "retry-after": "60" },
-              });
-            }
+        const ok = await checkRateLimit(env, `${pathname}:${ip}`, rl.limit, rl.window);
+        if (!ok) {
+          console.warn("rate_limit_exceeded", pathname, ip);
+          if (RL_ENFORCE) {
+            return new Response(JSON.stringify({ error: "rate_limited" }), {
+              status: 429, headers: { "content-type": "application/json", "retry-after": "60" },
+            });
           }
-        } catch (e) { /* limiter unavailable — fail open */ }
+        }
       }
       // Single choke point: any handler exception returns a JSON 500 (never a raw
       // Cloudflare HTML error page) and is logged so failures are observable.
