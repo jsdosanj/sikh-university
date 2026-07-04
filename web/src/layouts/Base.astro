@@ -121,6 +121,17 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     (function () {
       const RTL = new Set(['ar']);
       const orig = new WeakMap();
+      let curDict = {};
+      // Let JS-driven labels (e.g. the nav auth button toggling Sign in <-> Sign out) opt
+      // into i18n: update the element's snapshot fallback + data-i18n key and re-apply the
+      // current language, so a later language switch translates the CURRENT state, not the
+      // stale original markup. Fixes the auth button reading "Sign in" while logged in.
+      window.suRelabel = function (el, key, fallback) {
+        if (!el) return;
+        const o = orig.get(el) || {}; o.t = fallback; orig.set(el, o);
+        el.setAttribute('data-i18n', key);
+        el.textContent = curDict[key] != null ? curDict[key] : fallback;
+      };
       const nodes = () => document.querySelectorAll('[data-i18n],[data-i18n-ph],[data-i18n-aria]');
       function snapshot() {
         nodes().forEach((el) => {
@@ -141,6 +152,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
         document.documentElement.setAttribute('lang', lang);
         document.documentElement.setAttribute('dir', RTL.has(lang) ? 'rtl' : 'ltr');
         const d = await dict(lang);
+        curDict = d;
         nodes().forEach((el) => {
           const o = orig.get(el) || {};
           const kt = el.getAttribute('data-i18n'); if (kt) el.textContent = d[kt] != null ? d[kt] : o.t;

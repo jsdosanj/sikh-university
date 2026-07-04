@@ -151,7 +151,7 @@ const breadcrumb = {
             <article id={`lesson-${i}`} class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
               <div class="flex items-start justify-between gap-3">
                 <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
-                <button data-listen={i} class="btn shrink-0 px-3 py-1.5 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl">Listen</span></button>
+                <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl">Listen</span></button>
               </div>
               <div class="lesson-prose mt-3 leading-relaxed" set:html={ls.html} />
               <div class="mt-4 border-t border-dashed border-line pt-3">
@@ -365,9 +365,9 @@ const breadcrumb = {
       const buttons = Array.from(document.querySelectorAll('[data-listen]'));
       if (!buttons.length) return;
       if (!('speechSynthesis' in window)) { buttons.forEach((b) => b.remove()); return; }
-      let playing = null;
-      const label = (b, t) => { const l = b.querySelector('.listen-lbl'); if (l) l.textContent = t; };
-      const stopAll = () => { speechSynthesis.cancel(); buttons.forEach((b) => label(b, 'Listen')); playing = null; };
+      let playing = null, gen = 0;
+      const label = (b, t) => { const l = b.querySelector('.listen-lbl'); if (l) l.textContent = t; b.setAttribute('aria-label', (t === 'Stop' ? 'Stop reading lesson ' : 'Listen to lesson ') + (Number(b.getAttribute('data-listen')) + 1)); };
+      const stopAll = () => { speechSynthesis.cancel(); gen++; buttons.forEach((b) => label(b, 'Listen')); playing = null; };
       const readable = (art) => {
         const p = art && art.querySelector('.lesson-prose'); if (!p) return '';
         const clone = p.cloneNode(true);
@@ -384,8 +384,9 @@ const breadcrumb = {
           const lang = document.documentElement.getAttribute('lang') === 'pa' ? 'pa-IN' : 'en-US';
           const chunks = text.match(/[^.?!।॥]+[.?!।॥]*/g) || [text];
           let k = 0;
+          const myGen = ++gen;
           const next = () => {
-            if (playing !== i || k >= chunks.length) { if (playing === i) stopAll(); return; }
+            if (myGen !== gen || k >= chunks.length) { if (myGen === gen) stopAll(); return; }
             const u = new SpeechSynthesisUtterance(chunks[k++].trim());
             u.lang = lang; u.onend = next; u.onerror = next;
             speechSynthesis.speak(u);
