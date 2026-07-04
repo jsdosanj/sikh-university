@@ -68,7 +68,7 @@ const RATE_LIMITS = {
 };
 // Count-only for now: log would-be rejections without blocking, so real thresholds
 // can be tuned from logs before enforcing. Flip to true once logs look clean.
-const RL_ENFORCE = false;
+const RL_ENFORCE = true;
 
 export default {
   async fetch(request, env) {

@@ -47,12 +47,12 @@ export async function onRequestPost({ request, env }) {
       return json({ ok: true, sent: true });
     } catch (e) { console.log("Resend threw", e && e.message); return json({ error: "Could not send email. Please try again later." }, 502); }
   }
-  // Dev fallback — only return the link in non-production environments.
-  // If deployed to production without RESEND_API_KEY, return an error instead
-  // of leaking an auth token in the response body.
-  if (env.CF_ENV === 'production' || env.ENVIRONMENT === 'production') {
-    console.log('Auth request with no RESEND_API_KEY in production for:', email);
-    return json({ error: 'Email delivery is not configured. Please contact the administrator.' }, 503);
+  // Dev fallback — return the sign-in link in the response ONLY when DEV_MODE is
+  // explicitly set. Fail safe: by default (no env flag) we never put an auth token in
+  // the body, so a misconfigured prod (RESEND_API_KEY missing) can't leak account access.
+  if (env.DEV_MODE === 'true') {
+    return json({ ok: true, sent: false, devLink: link });
   }
-  return json({ ok: true, sent: false, devLink: link });
+  console.log('Auth request with no RESEND_API_KEY configured for:', email);
+  return json({ error: 'Email delivery is not configured. Please contact the administrator.' }, 503);
 }
