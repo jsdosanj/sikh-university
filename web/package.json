@@ -9,7 +9,7 @@
     "build-index": "node scripts/build-index.mjs",
     "verify-gurbani": "node scripts/verify-gurbani.mjs",
     "build-dataset": "node scripts/build-dataset.mjs",
-    "build": "npm run sync-data && npm run build-index && npm run verify-gurbani && npm run build-dataset && astro build",
+    "build": "npm run sync-data && npm run build-index && npm run verify-gurbani && npm run build-dataset && astro build && node scripts/build-csp.mjs",
     "preview": "astro preview",
     "build-public-data": "python3 ../scripts/build_public_data.py",
     "deploy-data": "npm run build-public-data && wrangler r2 object put sikh-university-media/courses.json --file ../site/assets/data/courses.public.json --remote --config ../wrangler.toml"
