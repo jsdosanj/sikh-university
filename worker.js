@@ -186,14 +186,20 @@ export default {
       headers.set('access-control-allow-origin', '*');
       return new Response(obj.body, { status: 200, headers });
     }
-    // Everything else: the Astro static build — inject security + AI-policy headers.
+    // Everything else: the Astro static build. NOTE — without `run_worker_first`,
+    // Cloudflare serves any request that matches a file in the assets manifest
+    // (nearly every page) directly from the edge and never reaches this code; it
+    // only runs for paths with no matching static file (e.g. a 404). The site-wide
+    // security + AI-policy headers below are therefore a defense-in-depth backstop
+    // — the ones that actually apply to real pages live in web/public/_headers,
+    // which Cloudflare's asset layer honours on every static response.
     const assetResp = await env.ASSETS.fetch(request);
     const ct = assetResp.headers.get('content-type') || '';
     const h = new Headers(assetResp.headers);
-    // AI-crawler policy, applied site-wide: answer/search AI may crawl + cite us
-    // (drives traffic), but the content is reserved against AI/ML training.
-    // Full per-bot rules live in /robots.txt and /ai.txt; human-readable policy
-    // at /ai-policy.html. Search indexing is untouched (no noindex here).
+    // AI-crawler policy: answer/search AI may crawl + cite us (drives traffic),
+    // but the content is reserved against AI/ML training. Full per-bot rules live
+    // in /robots.txt and /ai.txt; human-readable policy at /ai-policy. Search
+    // indexing is untouched (no noindex here).
     h.set('X-Robots-Tag', 'noai, noimageai');
     h.set('Content-Usage', 'train-ai=n, search=y');
     h.set('TDM-Reservation', '1');
