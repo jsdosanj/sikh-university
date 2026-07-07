@@ -24,7 +24,8 @@
 # See /.well-known/tdmrep.json and the human-readable policy at /ai-policy.
 #
 # LICENSING — if you would like to license this content for AI/ML training,
-# contact dots-whisks.6r@icloud.com.
+# use the contact form at https://sikh-university.dosanjhlabs.com/feedback
+# (please use the form rather than email).
 #
 # Policy: https://sikh-university.dosanjhlabs.com/ai-policy
 # Sitemap: https://sikh-university.dosanjhlabs.com/sitemap.xml
