@@ -1,0 +1,30 @@
+# AI & content-usage policy — Sikh University (sikh-university.dosanjhlabs.com)
+#
+# Sikh University is a free, open online university teaching Sikhi and modern
+# skills. Our courses, lessons and reference content exist so people can learn
+# — including via AI answer engines that cite and link back to us.
+#
+# ALLOWED — crawling for search indexing and AI-answer/assistant citation.
+# We welcome AI search and answer engines (e.g. OAI-SearchBot, ChatGPT-User,
+# Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User, Applebot,
+# Amzn-SearchBot, Amzn-User, meta-webindexer, meta-externalfetcher,
+# MistralAI-Index, MistralAI-User, DuckAssistBot) crawling this site to surface
+# and cite our courses in search and chat answers.
+#
+# NOT PERMITTED WITHOUT A LICENSE — automated collection of this site's content
+# for AI/ML model training, fine-tuning, or building a RAG/dataset corpus.
+# This includes (but is not limited to) GPTBot, ClaudeBot, anthropic-ai,
+# Claude-Web, Google-Extended, Applebot-Extended, Meta-ExternalAgent,
+# FacebookBot, Amazonbot, CCBot, Bytespider, cohere-ai,
+# cohere-training-data-crawler, Diffbot, Omgilibot/Omgili, webzio-extended,
+# PetalBot, PanguBot, YouBot, ImagesiftBot, VelenPublicWebCrawler, Timpibot and
+# Scrapy. See /robots.txt for the machine-readable rules per bot.
+#
+# RESERVED — this content is reserved under the W3C TDM Reservation Protocol.
+# See /.well-known/tdmrep.json and the human-readable policy at /ai-policy.
+#
+# LICENSING — if you would like to license this content for AI/ML training,
+# contact dots-whisks.6r@icloud.com.
+#
+# Policy: https://sikh-university.dosanjhlabs.com/ai-policy
+# Sitemap: https://sikh-university.dosanjhlabs.com/sitemap.xml

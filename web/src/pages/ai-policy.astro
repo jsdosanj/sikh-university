@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+const SITE = 'https://sikh-university.dosanjhlabs.com';
+const updated = 'July 2026';
+---
+<Base
+  title="AI & Content-Usage Policy — Sikh University"
+  description="How AI crawlers may use Sikh University's content: search and AI-answer citation are welcome; AI/ML training on our content is reserved and requires a license."
+>
+  <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
+    <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-saffron/20 blur-3xl"></div>
+    <div class="wrap relative py-16">
+      <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Policy</p>
+      <h1 class="mt-2 max-w-2xl text-3xl font-bold text-white sm:text-4xl">AI &amp; Content-Usage Policy</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">Sikh University is free and open — we want people (and the AI tools they use to find answers) to discover it. This page explains exactly how automated crawlers, including AI systems, may use our content.</p>
+    </div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-paper"></div>
+  </header>
+
+  <section class="wrap py-12">
+    <article class="legal mx-auto max-w-3xl">
+      <p class="font-sans text-sm text-muted">Last updated: {updated}</p>
+
+      <h2>The short version</h2>
+      <ul>
+        <li><strong>Search &amp; AI-answer crawling: welcome.</strong> Search engines and AI answer/assistant tools (e.g. ChatGPT, Claude, Perplexity, and similar) may crawl this site so it can be found, indexed and cited — including quoting or summarizing our courses in an answer, with a link back to us.</li>
+        <li><strong>AI/ML training: reserved, not permitted without a license.</strong> Using this site's content — course text, lessons, translations, or scripture excerpts we've prepared — to train, fine-tune, or build a dataset or RAG corpus for an AI model is <em>not</em> permitted without our written permission.</li>
+      </ul>
+
+      <h2>Why the distinction</h2>
+      <p>We built Sikh University to spread real, careful teaching of Sikhi to anyone who's curious — including the growing number of people who ask an AI assistant instead of a search engine. We're glad to be cited there. But our lessons represent real work — drafting, scholarly review, and in many places direct permission from authors and publishers (see our <a href="/legal">Terms &amp; Privacy</a>) — so we reserve the right to control whether that work is copied wholesale into a training set.</p>
+
+      <h2>Machine-readable signals</h2>
+      <p>This policy is backed by machine-readable rules a compliant crawler can read automatically:</p>
+      <ul>
+        <li><a href="/robots.txt"><code>/robots.txt</code></a> — explicitly allows known search/AI-answer bots and disallows known AI-training/dataset bots, by name.</li>
+        <li><a href="/ai.txt"><code>/ai.txt</code></a> — a plain-language summary of this same policy for crawlers that support the convention.</li>
+        <li><a href="/.well-known/tdmrep.json"><code>/.well-known/tdmrep.json</code></a> — a formal reservation under the <a href="https://www.w3.org/2022/tdmrep/" target="_blank" rel="noopener">W3C TDM Reservation Protocol</a>.</li>
+        <li>HTTP response headers on every page: <code>Content-Usage: train-ai=n, search=y</code>, <code>X-Robots-Tag: noai, noimageai</code>, and a <code>TDM-Reservation</code> header pointing back to this page.</li>
+      </ul>
+      <p>None of this affects ordinary search-engine indexing — Sikh University wants to be found. It only opts our content out of automated AI/ML training collection.</p>
+
+      <h2>Licensing</h2>
+      <p>If you'd like to license Sikh University content for AI training or another use beyond what's described above, email <a href="mailto:dots-whisks.6r@icloud.com">dots-whisks.6r@icloud.com</a>.</p>
+
+      <h2>Questions</h2>
+      <p>For anything else, see our <a href="/legal">Terms &amp; Privacy</a>, or use the <a href="/feedback">feedback page</a> to reach us.</p>
+    </article>
+  </section>
+
+  <style is:global>
+    @reference "../styles/global.css";
+    .legal h2 { @apply mt-10 text-2xl font-bold text-navy; }
+    .legal p, .legal li { @apply my-2 leading-relaxed; }
+    .legal ul { @apply list-disc pl-6; }
+    .legal a { @apply text-navy underline; }
+    .legal code { @apply rounded bg-paper px-1.5 py-0.5 font-sans text-[0.85em]; }
+  </style>
+</Base>
