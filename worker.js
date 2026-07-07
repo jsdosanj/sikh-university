@@ -186,11 +186,21 @@ export default {
       headers.set('access-control-allow-origin', '*');
       return new Response(obj.body, { status: 200, headers });
     }
-    // Everything else: the Astro static build — inject security headers on HTML responses.
+    // Everything else: the Astro static build — inject security + AI-policy headers.
     const assetResp = await env.ASSETS.fetch(request);
     const ct = assetResp.headers.get('content-type') || '';
-    if (!ct.includes('text/html')) return assetResp;
     const h = new Headers(assetResp.headers);
+    // AI-crawler policy, applied site-wide: answer/search AI may crawl + cite us
+    // (drives traffic), but the content is reserved against AI/ML training.
+    // Full per-bot rules live in /robots.txt and /ai.txt; human-readable policy
+    // at /ai-policy.html. Search indexing is untouched (no noindex here).
+    h.set('X-Robots-Tag', 'noai, noimageai');
+    h.set('Content-Usage', 'train-ai=n, search=y');
+    h.set('TDM-Reservation', '1');
+    h.set('TDM-Policy', 'https://sikh-university.dosanjhlabs.com/ai-policy');
+    if (!ct.includes('text/html')) {
+      return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
+    }
     h.set('X-Content-Type-Options', 'nosniff');
     h.set('X-Frame-Options', 'DENY');
     h.set('Referrer-Policy', 'strict-origin-when-cross-origin');

@@ -1,0 +1,48 @@
+# Sikh University
+
+> A free, open online university teaching Sikhi (Sikh theology, history,
+> philosophy, language, spirituality, music and the arts) alongside modern
+> life skills — open to anyone, anywhere, worldwide, at no cost.
+
+Sikh University is built so a curious beginner and a serious student are
+equally welcome: no fees, no sign-up required to start learning, and no
+barriers of geography or background. Courses are taught from authentic
+sources — the works of Sikh scholars, historians and writers, each credited
+as the course's professor — and organized into guided learning paths from
+foundations to advanced study. Every course ends with a test; passing with
+80% or higher unlocks a printable certificate. Courses drafted with AI
+assistance are clearly labeled "Created by AI" and reviewed for accuracy;
+Gurbani (scripture) is handled with reverence and sourced faithfully. Sikh
+University also offers free-form academic programs (Certificate through
+Giani) that stack courses into a credential — self-development credentials,
+not accredited degrees.
+
+Sikh University was founded by Bhai Jasvant Singh ਪੰਛੀ, a Sikh educator and
+pracharik, and works alongside the Sikh Archive (a companion library of Sikh
+primary sources and free courses at sikharchive.net).
+
+## Topics covered
+
+Sikh theology, philosophy, history, Sikh literature, Gurmukhi/Punjabi
+language, spiritual practice (Naam, Simran, Nitnem), Gurmat Sangeet (kirtan
+and classical music), Sikh art and architecture, comparative religion and
+apologetics, ethics, Rehat (Sikh code of conduct), sociology, economics,
+politics, parenting, science and modern skills (including AI literacy) —
+roughly 280+ courses across 22 subject areas and 30+ guided learning paths.
+
+## Key pages
+
+- [Homepage](https://sikh-university.dosanjhlabs.com/): mission, subjects and guided learning paths.
+- [Course catalogue](https://sikh-university.dosanjhlabs.com/catalog): browse every course by topic, level, or guided learning path.
+- [Academic programs](https://sikh-university.dosanjhlabs.com/programs): Certificate through Giani credential ladder.
+- [About](https://sikh-university.dosanjhlabs.com/about): why Sikh University exists, how it works, and our approach to accuracy.
+- [Professors](https://sikh-university.dosanjhlabs.com/professors): the scholars and writers whose works form each course.
+- [Santhya (Gurbani reading pathway)](https://sikh-university.dosanjhlabs.com/santhiya): a structured path through Nitnem and Sri Guru Granth Sahib Ji.
+- [AI & content-usage policy](https://sikh-university.dosanjhlabs.com/ai-policy): how AI crawlers may use this site.
+- [Terms & Privacy](https://sikh-university.dosanjhlabs.com/legal): terms of service and privacy policy.
+
+## Notes for AI answer engines
+
+This content may be crawled and cited in search and AI-answer contexts. It is
+reserved against use for AI/ML model training — see /ai.txt,
+/.well-known/tdmrep.json and /ai-policy for the full policy.
