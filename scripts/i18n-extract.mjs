@@ -43,6 +43,34 @@ for (const file of walk(SRC)) {
   }
 }
 
+// --dump: print a key -> English-source map (best-effort text extraction) for
+// dictionary authors, then exit.
+if (process.argv.includes('--dump')) {
+  const en = {};
+  const TEXT_RES = [
+    /data-i18n=["']([\w.-]+)["'][^>]*>([^<{]+)</g,
+    /placeholder=["']([^"']+)["']\s+data-i18n-ph=["']([\w.-]+)["']/g,
+    /data-i18n-ph=["']([\w.-]+)["'][^>]*placeholder=["']([^"']+)["']/g,
+    /aria-label=["']([^"']+)["']\s+data-i18n-aria=["']([\w.-]+)["']/g,
+    /data-i18n-aria=["']([\w.-]+)["'][^>]*aria-label=["']([^"']+)["']/g,
+    /suRelabel\([^,)]+,\s*['"]([\w.-]+)['"]\s*,\s*['"]([^'"]+)['"]/g,
+  ];
+  for (const file of walk(SRC)) {
+    const text = readFileSync(file, 'utf8');
+    for (const [i, re] of TEXT_RES.entries()) {
+      for (const m of text.matchAll(re)) {
+        // Regexes 1 and 3 capture (value, key); the others capture (key, value).
+        const [key, val] = (i === 1 || i === 3) ? [m[2], m[1]] : [m[1], m[2]];
+        const clean = val.trim();
+        if (clean && !(key in en)) en[key] = clean;
+      }
+    }
+  }
+  for (const key of used.keys()) if (!(key in en)) en[key] = '';
+  console.log(JSON.stringify(en, null, 2));
+  process.exit(0);
+}
+
 const dicts = readdirSync(I18N_DIR).filter((f) => f.endsWith('.json')).sort();
 let missingTotal = 0;
 let orphanTotal = 0;

@@ -104,19 +104,30 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     initMotion();
   </script>
   <script>
+    import { speak, stop as ttsStop, supported as ttsSupported } from '../lib/tts';
     const P = 'su_v1_a11y';
     const get = () => { try { return JSON.parse(localStorage.getItem(P) || '{}'); } catch { return {}; } };
     const apply = () => { const p = get(); document.documentElement.style.fontSize = (p.scale || 100) + '%'; document.body.classList.toggle('hc', !!p.contrast); };
     apply();
     const fab = document.getElementById('a11y-fab'); const panel = document.getElementById('a11y-panel');
+    // Read the page via the shared TTS engine: whole page (no 9000-char cap),
+    // best available voice for the current UI language. Gurbani/Gurmukhi is
+    // never synthesized — sacred text is stripped, matching the course reader.
+    const readableText = () => {
+      const m = document.querySelector('main'); if (!m) return '';
+      const clone = m.cloneNode(true);
+      clone.querySelectorAll('.gur, .shabad, blockquote.gurbani, [lang="pa"], script, style, code, pre, [aria-hidden="true"]').forEach((el) => el.remove());
+      return clone.textContent || '';
+    };
+    if (!ttsSupported()) panel?.querySelectorAll('[data-a="read"],[data-a="stop"]').forEach((b) => b.remove());
     fab?.addEventListener('click', () => { const hidden = panel?.classList.toggle('hidden'); fab.setAttribute('aria-expanded', String(!hidden)); });
     panel?.addEventListener('click', (e) => {
       const t = e.target.closest('button'); if (!t) return; const p = get(); const a = t.dataset.a;
       if (a === 'smaller') p.scale = Math.max(80, (p.scale || 100) - 10);
       else if (a === 'bigger') p.scale = Math.min(170, (p.scale || 100) + 10);
       else if (a === 'contrast') p.contrast = !p.contrast;
-      else if (a === 'read') { if (window.speechSynthesis) { speechSynthesis.cancel(); const m = document.querySelector('main'); speechSynthesis.speak(new SpeechSynthesisUtterance((m?.innerText || '').slice(0, 9000))); } return; }
-      else if (a === 'stop') { window.speechSynthesis && speechSynthesis.cancel(); return; }
+      else if (a === 'read') { speak(readableText(), { lang: document.documentElement.lang || 'en' }); return; }
+      else if (a === 'stop') { ttsStop(); return; }
       else if (a === 'reset') { localStorage.removeItem(P); apply(); return; }
       localStorage.setItem(P, JSON.stringify(p)); apply();
     });
