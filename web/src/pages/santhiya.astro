@@ -1,6 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+// Descriptions may embed a Gurmukhi tuk mid-sentence; every Gurmukhi run must
+// render inside lang="pa" (reverence rule), so split on the Gurmukhi block.
+const paSegs = (s: string) =>
+  s.split(/([਀-੿][਀-੿\s]*)/).filter(Boolean).map((x) => ({ pa: /[਀-੿]/.test(x), x }));
 const texts = [
   { gur: 'ਬਾਲ ਉਪਦੇਸ਼', en: 'Baal Updesh', d: "The complete beginner's primer — the alphabet, the extra letters, the numerals, and the full Muharni (every consonant through the ten vowel signs). Where every reader begins.", href: '/baal-updesh', live: true },
   { gur: 'ਨਿਤਨੇਮ', en: 'Nitnem', d: 'The daily banis — the foundation of a Sikh reading practice.', href: '/collection/nitnem', live: true },
@@ -18,10 +22,9 @@ const texts = [
   { gur: 'ਰਹਿਤ ਅਤੇ ਨੈਤਿਕਤਾ', en: 'Rehat & Ethics', d: 'The Sikh codes of conduct — historical Rehatnamas, Sikh Rehat Maryada, Tankhahnama, and Prem Sumarag. The ethics of the Khalsa.', href: '/collection/rehat-ethics', live: true },
 ];
 ---
-<Base title="Santhya Pathway & Read-along — Sikhi University" description="Learn to read Gurbani with shudh uchaaran: from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio — read Ang by Ang here.">
-  <header id="su-hero" class="relative overflow-hidden bg-gradient-to-br from-brand via-navy-strong to-navy-deep text-white">
-    <div aria-hidden="true" class="pattern-lattice absolute inset-0"></div>
-    <div class="wrap relative py-16">
+<Base title="Santhya Pathway & Read-along — Sikhi University" description="Learn to read Gurbani with shudh uchaaran: from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio — read Ang by Ang here." ambient="sanctum">
+  <header id="su-hero" class="wrap pt-16 pb-6">
+    <div class="hero-panel glass rounded-xl2 px-6 py-12 text-white sm:px-10">
       <p class="eyebrow text-saffron" data-i18n="santhiya.eyebrow">Shudh Uchaaran · Read-along</p>
       <h1 class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
         <span class="gur text-display font-bold text-white" lang="pa">ਸੰਥਿਆ</span>
@@ -36,24 +39,29 @@ const texts = [
       </div>
       <a id="pp-continue" hidden href="#" class="mt-4 inline-flex items-center gap-2 rounded-full border border-saffron/50 bg-saffron/15 px-4 py-1.5 font-sans text-sm text-saffron hover:bg-saffron/25"><Icon name="compass" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.continue">Continue where you left off</span><span id="pp-continue-name" class="gur" lang="pa"></span></a>
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
 
   <section id="pathway" class="wrap py-12">
     <ol class="space-y-5">
       {texts.map((t, i) => (
         <li class="reveal flex gap-4" data-reveal-delay={Math.min(i, 6) * 55}>
-          <div class="flex flex-col items-center">
-            <div class="z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-sans text-lg font-bold text-saffron-deep ring-2 ring-saffron">{i + 1}</div>
-            {i < texts.length - 1 && <div aria-hidden="true" class="mt-1 w-px flex-1 bg-line"></div>}
+          <div class="relative flex flex-col items-center">
+            <div class="z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-sans text-lg font-bold text-saffron-deep ring-2 ring-saffron shadow-lift">{i + 1}</div>
+            {i < texts.length - 1 && (
+              <div aria-hidden="true" class="river-connector -mt-2 w-6 flex-1">
+                <svg class="h-full w-full" viewBox="0 0 24 120" preserveAspectRatio="none" fill="none">
+                  <path d="M12 4 C 3 34, 21 74, 12 116" stroke="#f4b21a" stroke-opacity="0.5" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+              </div>
+            )}
           </div>
-          <div class="card-lift mb-1 flex-1">
+          <div class="card-lift glass-lite mb-1 flex-1 p-5">
             <div class="flex flex-wrap items-baseline gap-x-3">
               <span class="gur text-xl font-bold text-navy" lang="pa">{t.gur}</span>
               <span class="font-sans text-sm text-muted">{t.en}</span>
               {t.live && <span class="pill bg-saffron text-[#2a1c06]" data-i18n="santhiya.available">Available</span>}
             </div>
-            <p class="mt-1 text-ink/90">{t.d}</p>
+            <p class="mt-1 text-ink/90">{paSegs(t.d).map((s) => (s.pa ? <span lang="pa" class="gur">{s.x}</span> : s.x))}</p>
             <div class="mt-3 flex flex-wrap items-center gap-3">
               {t.href
                 ? <a href={t.href} class="btn btn-primary" data-i18n="santhiya.open">Open →</a>
@@ -73,13 +81,13 @@ const texts = [
       <h1 id="title" class="text-2xl font-bold">Read-along</h1>
       <div class="flex items-center gap-2 font-sans text-sm">
         <select id="chapter" aria-label="Jump to chapter" data-i18n-aria="santhiya.aria.chapter" class="max-w-[60vw] rounded-lg border border-line bg-surface px-2 py-1.5 sm:max-w-xs"></select>
-        <button id="prev" aria-label="Previous Ang" data-i18n-aria="santhiya.aria.prevang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
+        <button id="prev" aria-label="Previous Ang" data-i18n-aria="santhiya.aria.prevang" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron">←</button>
         <label id="anglabel">Ang <input id="angin" type="number" min="1" value="1" class="w-20 rounded-lg border border-line px-2 py-1"></label>
-        <button id="next" aria-label="Next Ang" data-i18n-aria="santhiya.aria.nextang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
+        <button id="next" aria-label="Next Ang" data-i18n-aria="santhiya.aria.nextang" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron">→</button>
       </div>
     </div>
 
-    <div id="audbar" class="mt-4 flex flex-wrap items-center gap-3 rounded-xl2 border border-line bg-surface p-3">
+    <div id="audbar" class="glass-strong mt-4 flex flex-wrap items-center gap-3 rounded-xl2 p-3">
       <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
       <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted"><Icon name="volume-off" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.audioprep">Audio for this Ang is being prepared.</span></div>
       <div class="flex items-center gap-2 font-sans text-sm">
@@ -91,16 +99,18 @@ const texts = [
         <button data-fs="-" aria-label="Decrease text size" data-i18n-aria="santhiya.aria.smaller" class="rounded-lg border border-line px-2.5 py-1">A−</button>
         <button data-fs="+" aria-label="Increase text size" data-i18n-aria="santhiya.aria.bigger" class="rounded-lg border border-line px-2.5 py-1">A+</button>
         <button id="larivaar" aria-pressed="false" data-i18n="santhiya.larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
+        <button id="zen-btn" type="button" aria-label="Zen reading mode" class="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 hover:border-saffron"><Icon name="meditation" class="h-4 w-4 shrink-0" />Zen</button>
+        <button id="zen-exit" type="button" aria-label="Exit Zen reading mode" class="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 hover:border-saffron"><Icon name="stop" class="h-4 w-4 shrink-0" />Exit</button>
       </div>
     </div>
     <p id="audnote" class="mt-1 font-sans text-xs text-muted"></p>
 
-    <div id="page" aria-live="polite" aria-label="Gurbani text" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
+    <div id="page" aria-live="polite" aria-label="Gurbani text" lang="pa" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
 
     <div class="mt-8 flex items-center justify-between font-sans text-sm">
-      <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue" data-i18n="santhiya.prev">← Previous</button>
+      <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" data-i18n="santhiya.prev">← Previous</button>
       <a href="/santhiya" class="text-muted hover:text-navy" data-i18n="santhiya.alltexts">← All Santhya texts</a>
-      <button id="next2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue" data-i18n="santhiya.next">Next →</button>
+      <button id="next2" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" data-i18n="santhiya.next">Next →</button>
     </div>
   </section>
 
@@ -110,6 +120,26 @@ const texts = [
     #page .ln { margin: .35rem 0; }
     #page.lari .ln { word-spacing: -0.25em; }
     [data-theme="dark"] #page .w.on { background: #f4b21a; color: #0a0d14; box-shadow: 0 0 0 2px #f4b21a; }
+
+    /* Sanctum skin: hero + reader present dark so white/saffron text stays AA on
+       the deep-navy ambient. Guarded off body.hc so high-contrast stays solid. */
+    body:not(.hc) #su-hero .hero-panel { background: linear-gradient(135deg, rgb(11 30 58 / .62), rgb(10 13 20 / .70)); border-color: rgb(255 255 255 / .12); }
+    body:not(.hc) #reader { color: #eaf0f8; }
+    body:not(.hc) #reader input, body:not(.hc) #reader select { color: rgb(var(--c-ink)); background: rgb(var(--c-surface)); }
+    body:not(.hc) #page { color: #eef2f8; }
+    body:not(.hc) #audbar { background: rgb(11 30 58 / .60); border-color: rgb(255 255 255 / .12); }
+    body:not(.hc) #audnote { color: rgb(255 255 255 / .74); }
+    body:not(.hc) #pathway > p { color: rgb(255 255 255 / .78); }
+
+    /* Zen mode — a distraction-free full-viewport reader. */
+    #zen-exit { display: none; }
+    body.zen nav, body.zen footer, body.zen #a11y-fab, body.zen #pathway { display: none; }
+    body.zen #reader { position: fixed; inset: 0; overflow-y: auto; z-index: 60; padding: 6vh 5vw; background: linear-gradient(180deg, #0b1e3a, #0a0d14 80%); }
+    body.zen #page { max-width: 52rem; margin: 0 auto; }
+    body.zen #page .w.on { background: transparent; color: #ffc83d; text-shadow: 0 0 24px rgb(244 178 26 / .55); font-weight: 700; }
+    body.zen #zen-exit { display: inline-flex; }
+    body.zen #audbar { position: fixed; left: 50%; bottom: max(1.25rem, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 70; width: auto; max-width: 92vw; margin: 0; transition: opacity .4s ease; }
+    body.zen.zen-idle #audbar { opacity: .12; }
   </style>
 
   <script>
@@ -225,7 +255,7 @@ const texts = [
       while (i > 0 && cum[i - 1] >= target) i--;
       if (i === curIdx) return;
       if (curIdx >= 0 && words[curIdx]) words[curIdx].classList.remove('on');
-      curIdx = i; if (words[i]) { words[i].classList.add('on'); words[i].scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+      curIdx = i; if (words[i]) { words[i].classList.add('on'); words[i].scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
     }
     function render(data) {
       page.innerHTML = ''; words = [];
@@ -269,8 +299,10 @@ const texts = [
     document.getElementById('next').onclick = document.getElementById('next2').onclick = function () { go(ang + 1); };
     document.getElementById('prev').onclick = document.getElementById('prev2').onclick = function () { go(ang - 1); };
     angin.addEventListener('change', function () { go(parseInt(angin.value, 10) || 1); });
-    var fs = get('read_fs', 1.9); page.style.fontSize = fs + 'rem';
-    document.querySelectorAll('[data-fs]').forEach(function (b) { b.onclick = function () { fs = Math.max(1.1, Math.min(3.2, fs + (b.dataset.fs === '+' ? 0.2 : -0.2))); page.style.fontSize = fs + 'rem'; set('read_fs', fs); }; });
+    var fs = get('read_fs', 1.9);
+    function applyFs() { page.style.fontSize = (fs + (document.body.classList.contains('zen') ? 0.4 : 0)) + 'rem'; }
+    applyFs();
+    document.querySelectorAll('[data-fs]').forEach(function (b) { b.onclick = function () { fs = Math.max(1.1, Math.min(3.2, fs + (b.dataset.fs === '+' ? 0.2 : -0.2))); applyFs(); set('read_fs', fs); }; });
     document.getElementById('larivaar').onclick = function (e) { var on = page.classList.toggle('lari'); e.currentTarget.setAttribute('aria-pressed', String(on)); };
     // Player extras: ±10s skip and playback speed (persisted).
     var skipB = document.getElementById('skip-back'), skipF = document.getElementById('skip-fwd'), rateSel = document.getElementById('aud-rate');
@@ -292,7 +324,48 @@ const texts = [
       if (e.key === 'ArrowLeft') { go(ang - 1); e.preventDefault(); }
       else if (e.key === 'ArrowRight') { go(ang + 1); e.preventDefault(); }
       else if (e.key === ' ' && cfg.audio && aud.style.display !== 'none') { if (aud.paused) aud.play().catch(function () {}); else aud.pause(); e.preventDefault(); }
+      else if (e.key === 'z' || e.key === 'Z') { toggleZen(); e.preventDefault(); }
+      else if (e.key === 'Escape' && document.body.classList.contains('zen')) { zenOff(); e.preventDefault(); }
     });
+
+    // Zen mode: full-viewport, chrome-free reading. Idempotent on/off so the
+    // keydown-Escape path and the fullscreenchange path can't double-toggle.
+    var zenIdleT = null, wakeLock = null;
+    function wakeControls() {
+      document.body.classList.remove('zen-idle');
+      if (zenIdleT) clearTimeout(zenIdleT);
+      zenIdleT = setTimeout(function () { if (document.body.classList.contains('zen')) document.body.classList.add('zen-idle'); }, 3000);
+    }
+    function requestWake() {
+      if (!document.body.classList.contains('zen') || !cfg.audio || aud.paused) return;
+      if (!('wakeLock' in navigator)) return;
+      try { navigator.wakeLock.request('screen').then(function (w) { wakeLock = w; }).catch(function () {}); } catch (e) {}
+    }
+    function releaseWake() { if (wakeLock) { try { wakeLock.release(); } catch (e) {} wakeLock = null; } }
+    function zenOn() {
+      if (document.body.classList.contains('zen')) return;
+      document.body.classList.add('zen');
+      applyFs();
+      var nav = document.querySelector('nav'); if (nav) nav.inert = true;
+      try { var el = document.documentElement; if (el.requestFullscreen) { var p = el.requestFullscreen(); if (p && p.catch) p.catch(function () {}); } } catch (e) {}
+      requestWake();
+      wakeControls();
+    }
+    function zenOff() {
+      if (!document.body.classList.contains('zen')) return;
+      document.body.classList.remove('zen'); document.body.classList.remove('zen-idle');
+      if (zenIdleT) { clearTimeout(zenIdleT); zenIdleT = null; }
+      applyFs();
+      releaseWake();
+      var nav = document.querySelector('nav'); if (nav) nav.inert = false;
+      if (document.fullscreenElement) { try { var p = document.exitFullscreen(); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
+      var zb = document.getElementById('zen-btn'); if (zb) zb.focus();
+    }
+    function toggleZen() { if (document.body.classList.contains('zen')) zenOff(); else zenOn(); }
+    document.getElementById('zen-btn').onclick = document.getElementById('zen-exit').onclick = toggleZen;
+    document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement && document.body.classList.contains('zen')) zenOff(); });
+    ['pointermove', 'keydown', 'focus'].forEach(function (ev) { document.addEventListener(ev, function () { if (document.body.classList.contains('zen')) wakeControls(); }, true); });
+    if (cfg.audio) { aud.addEventListener('play', requestWake); aud.addEventListener('pause', releaseWake); aud.addEventListener('ended', releaseWake); }
     load(ang);
     if (cfg.audio) {
       note.textContent = 'Loading Santhya audio…';
