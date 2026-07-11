@@ -6,7 +6,7 @@ import { topics, courses, topicName, paths, TOPIC_ICONS } from '../lib/data';
 import programsData from '../../public/assets/data/programs.json';
 const sorted = [...courses].sort((a, b) => a.level - b.level);
 const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
-const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer';
+const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer transition hover:border-saffron hover:text-navy';
 import { SITE } from '../lib/site';
 const itemListLd = {
   '@context': 'https://schema.org', '@type': 'ItemList',
@@ -36,10 +36,23 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
 ---
 <Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills.">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
-  <section class="wrap py-12">
-    <h1 class="text-3xl font-bold">Courses</h1>
 
-    <div id="tabbar" role="tablist" aria-label="Browse courses" class="mt-5 inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
+  <!-- Compact hero header -->
+  <section class="relative overflow-hidden bg-brand text-white">
+    <div class="absolute inset-0 pattern-lattice" aria-hidden="true"></div>
+    <div class="wrap relative py-10 sm:py-12">
+      <p class="eyebrow text-saffron">Catalogue</p>
+      <h1 class="text-display-sm mt-2 font-bold text-white">Courses &amp; learning paths</h1>
+      <p class="mt-3 max-w-2xl font-sans text-white/80">Browse every course by topic and level — or follow a guided path from foundations to advanced study.</p>
+      <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 font-sans text-sm text-white/90">
+        <Icon name="books" class="h-4 w-4" />
+        <span><span id="cat-count">{sorted.length}</span> courses</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap py-10">
+    <div id="tabbar" role="tablist" aria-label="Browse courses" class="inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
       <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white">Learning paths</button>
       <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-4 py-1.5">Catalogue</button>
       <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-4 py-1.5">Programs</button>
@@ -48,16 +61,18 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     <!-- Catalogue view (hidden by default: guided paths lead so slow connections
          don't hit a wall of 558 cards before JS runs). -->
     <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6" hidden>
-      <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
-        class="w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-      <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
-        <button data-t="all" class={btn}>All</button>
-        {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
-      </div>
-      <div id="level-filters" class="mt-3 flex flex-wrap gap-2 font-sans text-sm">
-        <span class="self-center font-sans text-xs text-muted mr-1">Level:</span>
-        <button data-l="all" class={btn}>All levels</button>
-        {[100, 200, 300, 400, 500].map((l) => <button data-l={String(l)} class={btn}>{l}-level</button>)}
+      <div class="sticky top-[4.5rem] z-30 rounded-xl2 border border-line bg-surface p-4 shadow-card">
+        <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
+          class="w-full max-w-xl rounded-xl border border-line bg-paper px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+        <div id="cat-filters" class="mt-3 flex flex-wrap gap-2 font-sans text-sm">
+          <button data-t="all" class={btn}>All</button>
+          {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
+        </div>
+        <div id="level-filters" class="mt-3 flex flex-wrap items-center gap-2 font-sans text-sm">
+          <span class="self-center font-sans text-xs font-semibold uppercase tracking-wide text-muted mr-1">Level</span>
+          <button data-l="all" class={btn}>All levels</button>
+          {[100, 200, 300, 400, 500].map((l) => <button data-l={String(l)} class={btn}>{l}-level</button>)}
+        </div>
       </div>
       <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sorted.map((c) => (
@@ -66,7 +81,14 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
           </div>
         ))}
       </div>
-      <p id="cat-empty" class="mt-8 hidden text-muted" aria-live="polite">No courses match your search.</p>
+      <div id="cat-empty" class="mt-10 hidden text-center" aria-live="polite">
+        <div class="flex flex-col items-center gap-3">
+          <span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-muted"><Icon name="folder" class="h-7 w-7" /></span>
+          <p class="font-serif text-lg font-bold text-navy">No courses match</p>
+          <p class="max-w-sm font-sans text-sm text-muted">Try a different topic, level, or search term.</p>
+          <button id="cat-clear" type="button" class="btn mt-1">Clear filters</button>
+        </div>
+      </div>
     </div>
 
     <!-- Learning paths view -->
@@ -197,6 +219,8 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     const levelBtns = Array.from(document.querySelectorAll('#level-filters .filt'));
     const search = document.getElementById('cat-search');
     const empty = document.getElementById('cat-empty');
+    const countEl = document.getElementById('cat-count');
+    const clearBtn = document.getElementById('cat-clear');
     let topic = 'all', level = 'all', q = '';
     function setActive() {
       filters.forEach((b) => {
@@ -223,11 +247,13 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
         const vis = okT && okL && okQ; el.style.display = vis ? '' : 'none'; if (vis) shown++;
       });
       empty.classList.toggle('hidden', shown > 0);
+      if (countEl) countEl.textContent = String(shown);
       setActive();
     }
     filters.forEach((b) => b.addEventListener('click', () => { topic = b.dataset.t; renderCat(); }));
     levelBtns.forEach((b) => b.addEventListener('click', () => { level = b.dataset.l; renderCat(); }));
     search.addEventListener('input', () => { q = search.value.toLowerCase().trim(); renderCat(); });
+    if (clearBtn) clearBtn.addEventListener('click', () => { topic = 'all'; level = 'all'; q = ''; search.value = ''; renderCat(); });
 
     // --- Path progress (server grades are the source of truth) ---
     const pdata = JSON.parse(document.getElementById('paths-data').textContent);
@@ -257,4 +283,12 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     else setTab('paths', false);
     renderCat(); renderPaths();
   </script>
+
+  <style>
+    /* CSS-only fade when the catalogue grid first paints. Per-card reveal would
+       replay every time the filter toggles display:none/'' on items, so the
+       whole grid fades once instead. Frozen by the global reduced-motion guard. */
+    @keyframes su-cat-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    #cat-grid { animation: su-cat-fade .5s cubic-bezier(.2,.7,.3,1) both; }
+  </style>
 </Base>

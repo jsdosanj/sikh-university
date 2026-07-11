@@ -57,8 +57,11 @@ const breadcrumb = {
   <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
   <script type="application/ld+json" set:html={ldJson(breadcrumb)} slot="head" />
 
+  <div id="read-progress" aria-hidden="true" class="fixed left-0 z-30 h-[3px] bg-saffron" style="top:0;width:0"></div>
+
   <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
-    <div class="wrap py-12">
+    <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
+    <div class="wrap relative z-10 py-12">
       <div class="flex flex-wrap items-center gap-2 font-sans text-xs">
         <a href="/catalog" class="text-white/70 hover:text-white">← Catalogue</a>
         <span class="pill bg-white/15 text-white">{topicName(c.topic)}</span>
@@ -66,10 +69,11 @@ const breadcrumb = {
         {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]">Created by AI</span>}
         {quotesVerified && <a href="/integrity" class="pill bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji">Quotes verified</a>}
       </div>
-      <h1 class="mt-3 max-w-3xl text-3xl font-bold text-white sm:text-4xl">{c.title}</h1>
-      <p class="mt-2 font-sans text-sm text-white/75">Professor: <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> · Source: {c.source || 'Sikhi University'}</p>
+      <p class="eyebrow mt-5 text-saffron">{topicName(c.topic)}</p>
+      <h1 class="mt-2 max-w-3xl text-display-sm font-bold text-white">{c.title}</h1>
+      <p class="mt-3 font-sans text-sm text-white/75">Professor: <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> <span aria-hidden="true" class="px-1 text-white/40">·</span> Source: {c.source || 'Sikhi University'}</p>
       <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
-      <div class="mt-6 flex flex-wrap items-center gap-3">
+      <div class="mt-7 flex flex-wrap items-center gap-3">
         <a href="#lesson-0" class="btn btn-primary" data-i18n="course.begin">Begin course</a>
         <button id="enroll-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20">Enroll</button>
         <button id="offline-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"><Icon name="download" class="h-4 w-4" /><span id="offline-lbl">Save offline</span></button>
@@ -98,7 +102,7 @@ const breadcrumb = {
       )}
 
       {c.outcomes && c.outcomes.length > 0 && (
-        <section class="mb-8">
+        <section class="reveal mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">What you'll learn</h2>
           <ul class="mt-3 grid gap-2 sm:grid-cols-2">
             {c.outcomes.map((o) => <li class="relative pl-6"><Icon name="check" class="absolute left-0 top-1 h-4 w-4 text-ok" /><span set:html={o} /></li>)}
@@ -148,16 +152,16 @@ const breadcrumb = {
 
       <div id="course-ann" class="mb-8 empty:mb-0"></div>
 
-      <section class="mb-8">
+      <section class="reveal mb-8">
         <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Lessons</h2>
-        <div class="mt-4 space-y-4">
+        <div class="mt-4 space-y-6">
           {lessons.map((ls, i) => (
             <article id={`lesson-${i}`} class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
               <div class="flex items-start justify-between gap-3">
                 <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
                 <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl">Listen</span></button>
               </div>
-              <div class="lesson-prose mt-3 leading-relaxed" set:html={ls.html} />
+              <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed" set:html={ls.html} />
               <div class="mt-4 border-t border-dashed border-line pt-3">
                 <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" />Your notes — saved on this device</label>
                 <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…"></textarea>
@@ -175,7 +179,7 @@ const breadcrumb = {
       </section>
 
       {quiz.length > 0 && (
-        <section id="test" class="mb-8 rounded-xl2 border border-line bg-surface p-6 shadow-card">
+        <section id="test" class="reveal mb-8 rounded-xl2 border border-line bg-surface p-6 shadow-card">
           <h2 class="text-xl font-bold">Course test</h2>
           <p class="font-sans text-sm text-muted">Pass with 80% or higher to complete the course and unlock the next one.</p>
           <form id="quiz" class="mt-4 space-y-5">
@@ -227,7 +231,7 @@ const breadcrumb = {
         </section>
       )}
 
-      <section class="rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
+      <section class="reveal rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
         <h2 class="text-xl font-bold">Read the source texts</h2>
         <p class="mt-1">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
         <div class="mt-3 flex flex-wrap gap-3">
@@ -247,8 +251,8 @@ const breadcrumb = {
     </div>
 
     <aside class="lg:sticky lg:top-20 lg:self-start">
-      <div class="mb-4 rounded-xl2 border border-line bg-surface p-5 shadow-card">
-        <div class="font-sans text-xs uppercase tracking-wide text-muted">Your professor</div>
+      <div class="card-lift mb-4">
+        <div class="eyebrow text-muted">Your professor</div>
         <div class="mt-3 flex items-center gap-3">
           <a href={`/professor/${profSlug(c.professor)}`} class="shrink-0"><Avatar name={c.professor} size={56} /></a>
           <div class="min-w-0">
@@ -259,8 +263,8 @@ const breadcrumb = {
         {bioShort && <p class="mt-3 text-[0.9rem] leading-relaxed text-muted">{bioShort}</p>}
         <a href={`/professor/${profSlug(c.professor)}`} class="mt-3 inline-block font-sans text-sm font-semibold text-saffron-deep hover:underline">View profile →</a>
       </div>
-      <div class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
-        <div class="font-sans text-xs uppercase tracking-wide text-muted">Your progress</div>
+      <div class="card-lift">
+        <div class="eyebrow text-muted">Your progress</div>
         <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div id="prog-bar" class="h-full bg-saffron" style="width:0%"></div></div>
         <div id="prog-text" class="mt-1 font-sans text-xs text-muted">0% complete</div>
         <ol class="mt-4 space-y-1 font-sans text-sm">
@@ -270,22 +274,22 @@ const breadcrumb = {
     </aside>
   </div>
 
-  <section class="wrap pb-14">
+  <section class="reveal wrap pb-14">
     <div class="grid gap-10 lg:grid-cols-2">
-      <div>
+      <div class="card-lift">
         <h2 class="text-xl font-bold">Rate this course</h2>
         <div id="rate-summary" class="mt-1 font-sans text-sm text-muted">…</div>
         <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" class="mt-2 flex gap-1 text-3xl text-saffron">
           <button type="button" data-s="1" aria-label="1 star"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="2" aria-label="2 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="3" aria-label="3 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="4" aria-label="4 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="5" aria-label="5 stars"><Icon name="star" class="h-7 w-7" /></button>
         </div>
-        <textarea id="rate-review" rows="2" aria-label="Optional written review" placeholder="Optional review…" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
+        <textarea id="rate-review" rows="2" aria-label="Optional written review" placeholder="Optional review…" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
         <button id="rate-submit" class="btn btn-primary mt-2">Submit rating</button>
         <div id="rate-msg" class="mt-2 font-sans text-sm"></div>
       </div>
-      <div>
+      <div class="card-lift">
         <h2 class="text-xl font-bold">Discussion &amp; Q&amp;A</h2>
         <div id="disc-list" class="mt-3 space-y-2"></div>
-        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" placeholder="Ask a question or share a thought…" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
+        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" placeholder="Ask a question or share a thought…" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
         <button id="disc-submit" class="btn mt-2">Post</button>
         <div id="disc-note" class="mt-1 font-sans text-xs text-muted">Sign in to post.</div>
       </div>
@@ -607,5 +611,27 @@ const breadcrumb = {
         li.appendChild(a);
       });
     });
+  </script>
+
+  <script>
+    // Reading-progress indicator: a slim saffron bar under the nav that tracks
+    // scroll depth. rAF-throttled; no CSS transition, so it stays exact under
+    // prefers-reduced-motion (a progress indicator may update, per the brief).
+    (function () {
+      var bar = document.getElementById('read-progress');
+      if (!bar) return;
+      var nav = document.querySelector('nav');
+      var place = function () { bar.style.top = (nav ? nav.offsetHeight : 0) + 'px'; };
+      var ticking = false;
+      var update = function () {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+        bar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+        ticking = false;
+      };
+      window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      window.addEventListener('resize', function () { place(); update(); });
+      place(); update();
+    })();
   </script>
 </Base>
