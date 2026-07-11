@@ -4,15 +4,15 @@
 // Screen instruction. Hidden when already running standalone; dismissible and remembered
 // for 14 days so it never nags. Sits above the iOS home indicator via safe-area inset.
 ---
-<div id="pwa-install" class="fixed inset-x-0 bottom-0 z-[55] hidden px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] print:hidden" role="region" aria-label="Install Sikhi University" aria-live="polite">
+<div id="pwa-install" class="fixed inset-x-0 bottom-0 z-[55] hidden px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] print:hidden" role="region" aria-label="Install Sikhi University" data-i18n-aria="install.aria.region" aria-live="polite">
   <div class="mx-auto flex max-w-md items-center gap-3 rounded-xl2 border border-line bg-surface/95 p-3 shadow-lift backdrop-blur">
     <img src="/assets/icon-192.png" alt="" width="44" height="44" class="h-11 w-11 shrink-0 rounded-xl" />
     <div class="min-w-0 flex-1">
-      <p class="font-serif text-sm font-bold text-navy">Install Sikhi University</p>
-      <p id="pwa-install-msg" class="mt-0.5 font-sans text-xs leading-snug text-muted">Add it to your home screen — full-screen, offline-ready, a tap away.</p>
+      <p class="font-serif text-sm font-bold text-navy" data-i18n="install.title">Install Sikhi University</p>
+      <p id="pwa-install-msg" class="mt-0.5 font-sans text-xs leading-snug text-muted" data-i18n="install.msg">Add it to your home screen — full-screen, offline-ready, a tap away.</p>
     </div>
-    <button id="pwa-install-go" class="btn btn-primary shrink-0 min-h-[44px] px-4 text-sm">Install</button>
-    <button id="pwa-install-x" aria-label="Dismiss" class="grid h-11 w-11 shrink-0 place-items-center rounded-lg text-muted hover:bg-paper hover:text-navy">
+    <button id="pwa-install-go" class="btn btn-primary shrink-0 min-h-[44px] px-4 text-sm" data-i18n="install.button">Install</button>
+    <button id="pwa-install-x" aria-label="Dismiss" data-i18n-aria="install.aria.dismiss" class="grid h-11 w-11 shrink-0 place-items-center rounded-lg text-muted hover:bg-paper hover:text-navy">
       <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
     </button>
   </div>
@@ -55,6 +55,7 @@
     var iosSafari = isIOS && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
     if (iosSafari && !standalone) {
       go.classList.add('hidden');
+      msg.removeAttribute('data-i18n'); // content below replaces the dictionary-tagged default; keep it from being re-applied on language switch
       msg.innerHTML = 'Tap the Share button, then <strong>&ldquo;Add to Home Screen.&rdquo;</strong>';
       setTimeout(show, 3000);
     }

@@ -22,12 +22,12 @@ const texts = [
   <header id="su-hero" class="relative overflow-hidden bg-gradient-to-br from-brand via-navy-strong to-navy-deep text-white">
     <div aria-hidden="true" class="pattern-lattice absolute inset-0"></div>
     <div class="wrap relative py-16">
-      <p class="eyebrow text-saffron">Shudh Uchaaran · Read-along</p>
+      <p class="eyebrow text-saffron" data-i18n="santhiya.eyebrow">Shudh Uchaaran · Read-along</p>
       <h1 class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
         <span class="gur text-display font-bold text-white" lang="pa">ਸੰਥਿਆ</span>
-        <span class="text-display-sm font-bold text-white">The Santhya Pathway</span>
+        <span class="text-display-sm font-bold text-white" data-i18n="santhiya.h1">The Santhya Pathway</span>
       </h1>
-      <p class="mt-5 max-w-2xl text-lg text-white/85">Santhya is the careful, correct reading of Gurbani. Walk the traditional path — from your first letters to the complete Sri Guru Granth Sahib Ji — reading along with audio, one step at a time.</p>
+      <p class="mt-5 max-w-2xl text-lg text-white/85" data-i18n="santhiya.hero.sub">Santhya is the careful, correct reading of Gurbani. Walk the traditional path — from your first letters to the complete Sri Guru Granth Sahib Ji — reading along with audio, one step at a time.</p>
     </div>
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
@@ -44,19 +44,19 @@ const texts = [
             <div class="flex flex-wrap items-baseline gap-x-3">
               <span class="gur text-xl font-bold text-navy" lang="pa">{t.gur}</span>
               <span class="font-sans text-sm text-muted">{t.en}</span>
-              {t.live && <span class="pill bg-saffron text-[#2a1c06]">Available</span>}
+              {t.live && <span class="pill bg-saffron text-[#2a1c06]" data-i18n="santhiya.available">Available</span>}
             </div>
             <p class="mt-1 text-ink/90">{t.d}</p>
             <div class="mt-3">
               {t.href
-                ? <a href={t.href} class="btn btn-primary">Open →</a>
-                : <span class="font-sans text-sm text-muted">Reader coming soon</span>}
+                ? <a href={t.href} class="btn btn-primary" data-i18n="santhiya.open">Open →</a>
+                : <span class="font-sans text-sm text-muted" data-i18n="santhiya.comingsoon">Reader coming soon</span>}
             </div>
           </div>
         </li>
       ))}
     </ol>
-    <p class="mt-8 font-sans text-sm text-muted">Audio: <em>SGGS Santhya Shudh Uchaaran Sehaj Paath</em> — Bhindran Taksal (gurmatveechar.com). Gurbani text handled with reverence; report any correction via <a class="underline" href="/feedback">feedback</a>.</p>
+    <p class="mt-8 font-sans text-sm text-muted">Audio: <em>SGGS Santhya Shudh Uchaaran Sehaj Paath</em> — Bhindran Taksal (gurmatveechar.com). Gurbani text handled with reverence; report any correction via <a class="underline" href="/feedback" data-i18n="santhiya.feedbacklink">feedback</a>.</p>
   </section>
 
   <!-- Read-along reader (merged from the former /read page); shown when ?src=… is present. -->
@@ -64,20 +64,20 @@ const texts = [
     <div class="flex flex-wrap items-center justify-between gap-3">
       <h1 id="title" class="text-2xl font-bold">Read-along</h1>
       <div class="flex items-center gap-2 font-sans text-sm">
-        <select id="chapter" aria-label="Jump to chapter" class="max-w-[60vw] rounded-lg border border-line bg-surface px-2 py-1.5 sm:max-w-xs"></select>
-        <button id="prev" aria-label="Previous Ang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
+        <select id="chapter" aria-label="Jump to chapter" data-i18n-aria="santhiya.aria.chapter" class="max-w-[60vw] rounded-lg border border-line bg-surface px-2 py-1.5 sm:max-w-xs"></select>
+        <button id="prev" aria-label="Previous Ang" data-i18n-aria="santhiya.aria.prevang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">←</button>
         <label id="anglabel">Ang <input id="angin" type="number" min="1" value="1" class="w-20 rounded-lg border border-line px-2 py-1"></label>
-        <button id="next" aria-label="Next Ang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
+        <button id="next" aria-label="Next Ang" data-i18n-aria="santhiya.aria.nextang" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">→</button>
       </div>
     </div>
 
     <div id="audbar" class="mt-4 flex flex-wrap items-center gap-3 rounded-xl2 border border-line bg-surface p-3">
       <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
-      <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted"><Icon name="volume-off" class="h-4 w-4 shrink-0" />Audio for this Ang is being prepared.</div>
+      <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted"><Icon name="volume-off" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.audioprep">Audio for this Ang is being prepared.</span></div>
       <div class="flex items-center gap-2 font-sans text-sm">
-        <button data-fs="-" aria-label="Decrease text size" class="rounded-lg border border-line px-2.5 py-1">A−</button>
-        <button data-fs="+" aria-label="Increase text size" class="rounded-lg border border-line px-2.5 py-1">A+</button>
-        <button id="larivaar" aria-pressed="false" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
+        <button data-fs="-" aria-label="Decrease text size" data-i18n-aria="santhiya.aria.smaller" class="rounded-lg border border-line px-2.5 py-1">A−</button>
+        <button data-fs="+" aria-label="Increase text size" data-i18n-aria="santhiya.aria.bigger" class="rounded-lg border border-line px-2.5 py-1">A+</button>
+        <button id="larivaar" aria-pressed="false" data-i18n="santhiya.larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
       </div>
     </div>
     <p id="audnote" class="mt-1 font-sans text-xs text-muted"></p>
@@ -85,9 +85,9 @@ const texts = [
     <div id="page" aria-live="polite" aria-label="Gurbani text" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
 
     <div class="mt-8 flex items-center justify-between font-sans text-sm">
-      <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">← Previous</button>
-      <a href="/santhiya" class="text-muted hover:text-navy">← All Santhya texts</a>
-      <button id="next2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue">Next →</button>
+      <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue" data-i18n="santhiya.prev">← Previous</button>
+      <a href="/santhiya" class="text-muted hover:text-navy" data-i18n="santhiya.alltexts">← All Santhya texts</a>
+      <button id="next2" class="rounded-lg border border-line px-3 py-1.5 hover:border-blue" data-i18n="santhiya.next">Next →</button>
     </div>
   </section>
 

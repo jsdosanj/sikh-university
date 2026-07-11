@@ -26,10 +26,10 @@ const grouped = typeOrder.map((t) => ({
 ---
 <Base title="Degree Programs — Sikhi University" description="Certificate, Associate, Bachelor's, Master's and Giani degree programs in Sikh Studies — free, open, and comprehensive.">
   <section class="wrap py-12">
-    <h1 class="text-3xl font-bold">Academic Programs</h1>
-    <p class="mt-3 max-w-2xl text-lg text-muted">Sikhi University offers a full academic ladder — from introductory certificates through the prestigious Giani qualification. All programs are free and open to every learner worldwide.</p>
+    <h1 class="text-3xl font-bold" data-i18n="programs.h1">Academic Programs</h1>
+    <p class="mt-3 max-w-2xl text-lg text-muted" data-i18n="programs.sub">Sikhi University offers a full academic ladder — from introductory certificates through the prestigious Giani qualification. All programs are free and open to every learner worldwide.</p>
 
-    <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm">
+    <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm" data-i18n="programs.disclaimer">
       Sikhi University is not an accredited university and these courses are for self-development only.
     </div>
 
@@ -60,14 +60,14 @@ const grouped = typeOrder.map((t) => ({
     ))}
 
     <div class="mt-16 rounded-xl2 border border-line bg-surface p-6">
-      <h2 class="text-xl font-bold">How programs work</h2>
+      <h2 class="text-xl font-bold" data-i18n="programs.how.h2">How programs work</h2>
       <ol class="mt-4 space-y-3 font-sans text-sm text-muted list-decimal list-inside">
-        <li>Complete all courses in the program — each has lectures, reading, and a quiz.</li>
-        <li>Once every course is passed (70% quiz score), unlock the <strong>Cumulative Examination</strong>.</li>
-        <li>Pass the cumulative exam with <strong>80% or higher</strong> to earn the credential.</li>
-        <li>Download your certificate and share your academic credential.</li>
+        <li data-i18n="programs.how.step1">Complete all courses in the program — each has lectures, reading, and a quiz.</li>
+        <li><span data-i18n="programs.how.step2a">Once every course is passed (70% quiz score), unlock the</span> <strong data-i18n="programs.how.step2b">Cumulative Examination</strong>.</li>
+        <li><span data-i18n="programs.how.step3a">Pass the cumulative exam with</span> <strong data-i18n="programs.how.step3b">80% or higher</strong> <span data-i18n="programs.how.step3c">to earn the credential.</span></li>
+        <li data-i18n="programs.how.step4">Download your certificate and share your academic credential.</li>
       </ol>
-      <p class="mt-4 font-sans text-sm text-muted">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
+      <p class="mt-4 font-sans text-sm text-muted" data-i18n="programs.how.footer">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
     </div>
   </section>
 </Base>

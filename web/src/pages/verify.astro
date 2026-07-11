@@ -3,11 +3,11 @@ import Base from '../layouts/Base.astro';
 ---
 <Base title="Verify a certificate — Sikhi University" description="Verify the authenticity of a Sikhi University certificate of completion." autoTranslate={false}>
   <section class="wrap max-w-xl py-14">
-    <h1 class="text-3xl font-bold">Verify a certificate</h1>
-    <p class="mt-2 text-muted">Enter a certificate ID (e.g. <code>SU-XXXXXXXXXX</code>) to confirm it was issued by Sikhi University.</p>
+    <h1 class="text-3xl font-bold" data-i18n="verify.h1">Verify a certificate</h1>
+    <p class="mt-2 text-muted"><span data-i18n="verify.hint1">Enter a certificate ID (e.g.</span> <code>SU-XXXXXXXXXX</code><span data-i18n="verify.hint2">) to confirm it was issued by Sikhi University.</span></p>
     <form id="vf" class="mt-6 flex gap-2">
-      <input id="vid" type="text" aria-label="Certificate ID" placeholder="SU-…" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
-      <button class="btn btn-primary">Verify</button>
+      <input id="vid" type="text" aria-label="Certificate ID" data-i18n-aria="verify.aria.certid" placeholder="SU-…" data-i18n-ph="verify.ph.certid" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
+      <button class="btn btn-primary" data-i18n="verify.submit">Verify</button>
     </form>
     <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
@@ -20,23 +20,23 @@ import Base from '../layouts/Base.astro';
     const btn = document.querySelector('#vf button');
     function verify(id) {
       if (!id) return;
-      out.innerHTML = '<p class="text-muted">Checking…</p>';
+      out.innerHTML = '<p class="text-muted" data-i18n="verify.checking">Checking…</p>';
       if (btn) btn.disabled = true;
       fetch('/api/certificates?id=' + encodeURIComponent(id)).then(async (r) => {
         const d = await r.json().catch(() => ({}));
         // A non-OK response (e.g. 503 cannot_check during a DB outage) must not be
         // read as "not found" — a real certificate could be declared fake otherwise.
         if (!r.ok || (d && d.error)) {
-          out.innerHTML = '<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong>Couldn\'t check right now.</strong> This is a temporary problem on our side, not a verdict on the certificate. Please try again in a moment.</div>';
+          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong data-i18n="verify.error.title">Couldn't check right now.</strong> <span data-i18n="verify.error.detail">This is a temporary problem on our side, not a verdict on the certificate. Please try again in a moment.</span></div>`;
           return;
         }
         if (d && d.valid) {
           const dt = d.issuedAt ? new Date(d.issuedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
-          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-ok bg-surface p-5"><div class="flex items-center gap-1.5 font-sans text-sm font-bold text-ok">${iconSvg('check', 'h-4 w-4 shrink-0')} Valid certificate</div><div class="mt-2"><strong>${esc(d.name || '—')}</strong> completed <strong>${esc(titles[d.courseId] || d.courseId)}</strong></div><div class="font-sans text-sm text-muted">Score ${d.score}% · Issued ${dt}</div></div>`;
+          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-ok bg-surface p-5"><div class="flex items-center gap-1.5 font-sans text-sm font-bold text-ok">${iconSvg('check', 'h-4 w-4 shrink-0')} <span data-i18n="verify.valid">Valid certificate</span></div><div class="mt-2"><strong>${esc(d.name || '—')}</strong> <span data-i18n="verify.completed">completed</span> <strong>${esc(titles[d.courseId] || d.courseId)}</strong></div><div class="font-sans text-sm text-muted">Score ${d.score}% · Issued ${dt}</div></div>`;
         } else {
-          out.innerHTML = '<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong>Not found.</strong> No certificate matches that ID.</div>';
+          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong data-i18n="verify.notfound.title">Not found.</strong> <span data-i18n="verify.notfound.detail">No certificate matches that ID.</span></div>`;
         }
-      }).catch(() => { out.innerHTML = '<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong>Couldn\'t check right now.</strong> Please try again in a moment.</div>'; })
+      }).catch(() => { out.innerHTML = `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong data-i18n="verify.error.title">Couldn't check right now.</strong> <span data-i18n="verify.error.detail2">Please try again in a moment.</span></div>`; })
         .finally(() => { if (btn) btn.disabled = false; });
     }
     document.getElementById('vf').addEventListener('submit', (e) => { e.preventDefault(); verify(document.getElementById('vid').value.trim()); });
