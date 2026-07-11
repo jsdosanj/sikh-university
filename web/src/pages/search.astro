@@ -47,61 +47,133 @@ const extra = { professors, readings, pages, gWords };
       class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
     <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
+  <style>
+    /* Highlight for matched query terms. Saffron-soft ground + ink text keeps AA
+       contrast in both themes (see global.css tokens). Results are injected via
+       innerHTML, so :global reaches the dynamically-created <mark> under scoped #out. */
+    #out :global(mark) {
+      background: rgb(var(--c-saffron-soft));
+      color: rgb(var(--c-ink));
+      border-radius: 3px;
+      padding: 0 .15em;
+    }
+  </style>
   <script type="application/json" id="extra-index" set:html={JSON.stringify(extra)}></script>
   <script>
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const extra = JSON.parse(document.getElementById('extra-index').textContent);
     let data = { courses: [], topics: [], paths: [] };
     const tn = (id) => (data.topics.find((t) => t.id === id) || {}).name || id;
     const out = document.getElementById('out'); const q = document.getElementById('q');
 
-    // Build a flat, typed index. Each entry: { kind, title, sub, url, hay }.
+    // Build a flat, typed index. Each entry carries display fields (kind/title/sub/url)
+    // plus four lowercased search fields the scorer weights: t = title, p = professor,
+    // o = topic, b = body/summary. Non-course kinds leave p/o empty.
     let index = [];
     function buildIndex() {
       index = [];
-      data.courses.forEach((c) => index.push({
+      const push = (e) => index.push({ p: '', o: '', b: '', ...e });
+      data.courses.forEach((c) => push({
         kind: 'Course', title: c.title, sub: 'Prof. ' + c.professor + ' · ' + tn(c.topic), url: '/course/' + c.id,
-        hay: [c.title, c.summary, c.professor, tn(c.topic), (c.terms || []).map((t) => t.t + ' ' + t.m).join(' '), (c.outcomes || []).join(' '), (c.lessonTitles || []).join(' ')].join(' | ').toLowerCase(),
+        t: (c.title || '').toLowerCase(), p: (c.professor || '').toLowerCase(), o: tn(c.topic).toLowerCase(),
+        b: [c.summary, (c.terms || []).map((x) => x.t + ' ' + x.m).join(' '), (c.outcomes || []).join(' '), (c.lessonTitles || []).join(' ')].join(' ').toLowerCase(),
       }));
-      extra.professors.forEach((p) => index.push({
+      extra.professors.forEach((p) => push({
         kind: 'Professor', title: p.title, sub: p.count + ' course' + (p.count === 1 ? '' : 's'), url: '/professor/' + p.slug,
-        hay: (p.title + ' ' + (p.bio || '')).toLowerCase(),
+        t: (p.title || '').toLowerCase(), b: (p.bio || '').toLowerCase(),
       }));
-      (data.topics || []).forEach((t) => index.push({
-        kind: 'Topic', title: t.name, sub: t.blurb || '', url: '/catalog#' + t.id, hay: (t.name + ' ' + (t.blurb || '')).toLowerCase(),
+      (data.topics || []).forEach((t) => push({
+        kind: 'Topic', title: t.name, sub: t.blurb || '', url: '/catalog#' + t.id,
+        t: (t.name || '').toLowerCase(), b: (t.blurb || '').toLowerCase(),
       }));
-      (data.paths || []).forEach((p) => index.push({
+      (data.paths || []).forEach((p) => push({
         kind: 'Path', title: p.name, sub: (p.blurb || '') + ' · ' + (p.courseIds || []).length + ' courses', url: '/catalog#paths',
-        hay: (p.name + ' ' + (p.blurb || '')).toLowerCase(),
+        t: (p.name || '').toLowerCase(), b: (p.blurb || '').toLowerCase(),
       }));
-      extra.readings.forEach((r) => index.push({
-        kind: 'Reading', title: (r.gur ? r.gur + ' — ' : '') + r.title, sub: r.sub || '', url: r.url, hay: (r.title + ' ' + (r.gur || '') + ' ' + (r.sub || '')).toLowerCase(),
+      extra.readings.forEach((r) => push({
+        kind: 'Reading', title: (r.gur ? r.gur + ' — ' : '') + r.title, sub: r.sub || '', url: r.url,
+        t: ((r.gur || '') + ' ' + r.title).toLowerCase(), b: (r.sub || '').toLowerCase(),
       }));
-      extra.pages.forEach((p) => index.push({
-        kind: 'Page', title: p.title, sub: p.sub || '', url: p.url, hay: (p.title + ' ' + (p.sub || '')).toLowerCase(),
+      extra.pages.forEach((p) => push({
+        kind: 'Page', title: p.title, sub: p.sub || '', url: p.url,
+        t: (p.title || '').toLowerCase(), b: (p.sub || '').toLowerCase(),
       }));
-      (extra.gWords || []).forEach((w) => index.push({
-        kind: 'Word', title: w.title, sub: w.sub, url: w.url, hay: w.hay,
+      (extra.gWords || []).forEach((w) => push({
+        kind: 'Word', title: w.title, sub: w.sub, url: w.url,
+        t: (w.title || '').toLowerCase(), b: w.hay,
       }));
+    }
+
+    // Field-weighted scorer. A term at a word start scores double a mid-word substring.
+    // Weights: title 5×, professor 3×, topic 2×, body 1×.
+    function fieldScore(field, t) {
+      if (!field) return 0;
+      const i = field.indexOf(t);
+      if (i === -1) return 0;
+      const wordStart = i === 0 || !/[a-z0-9]/i.test(field[i - 1]);
+      return wordStart ? 2 : 1;
+    }
+    function scoreEntry(r, terms, phrase) {
+      let score = 0, present = 0;
+      for (const t of terms) {
+        const hit = fieldScore(r.t, t) * 5 + fieldScore(r.p, t) * 3 + fieldScore(r.o, t) * 2 + fieldScore(r.b, t);
+        if (hit) present++;
+        score += hit;
+      }
+      if (!score) return 0;
+      if (present === terms.length) score += 4;               // all-terms-present bonus
+      if (phrase && r.t.indexOf(phrase) !== -1) score += 20;   // exact phrase in title
+      return score;
+    }
+    function search(terms, phrase) {
+      const res = [];
+      for (const r of index) { const s = scoreEntry(r, terms, phrase); if (s) res.push({ r, s }); }
+      res.sort((a, b) => b.s - a.s);
+      return res;
+    }
+
+    // Escape text, then wrap matched terms in <mark>. Matches are located in the raw
+    // text and each segment escaped separately, so the query is never injected as HTML.
+    function hl(text, terms) {
+      text = String(text == null ? '' : text);
+      const pat = terms.filter(Boolean).map(reEsc).sort((a, b) => b.length - a.length).join('|');
+      if (!pat) return esc(text);
+      const re = new RegExp('(' + pat + ')', 'gi');
+      let html = '', last = 0, m;
+      while ((m = re.exec(text))) {
+        html += esc(text.slice(last, m.index)) + '<mark>' + esc(m[0]) + '</mark>';
+        last = m.index + m[0].length;
+        if (m.index === re.lastIndex) re.lastIndex++;
+      }
+      return html + esc(text.slice(last));
     }
 
     const ORDER = ['Course', 'Professor', 'Reading', 'Word', 'Path', 'Topic', 'Page'];
     const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Word: 'Gurbani Words', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
-    function row(r) {
-      return `<a href="${r.url}" class="block rounded-xl2 border border-line bg-surface p-4 transition hover:border-saffron"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${esc(r.title)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${esc(r.sub)}</div>` : ''}</a>`;
+    function row(r, terms) {
+      return `<a href="${r.url}" class="card-lift"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${hl(r.title, terms)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${hl(r.sub, terms)}</div>` : ''}</a>`;
     }
     function render() {
       const v = q.value.normalize('NFC').toLowerCase().trim();
       if (!v) { out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`; return; }
-      const ts = v.split(/\s+/);
-      const m = index.filter((r) => ts.every((t) => r.hay.indexOf(t) !== -1));
-      if (!m.length) { out.innerHTML = `<p class="text-muted">No results for "${esc(q.value)}".</p>`; return; }
+      let terms = v.split(/\s+/);
+      let scored = search(terms, v);
+      let note = '';
+      if (!scored.length && terms.length > 1) {          // did-you-mean: drop the last term once
+        const shorter = terms.slice(0, -1);
+        const retry = search(shorter, shorter.join(' '));
+        if (retry.length) { scored = retry; terms = shorter; note = shorter.join(' '); }
+      }
+      if (!scored.length) { out.innerHTML = `<p class="text-muted">No results for "${esc(q.value)}".</p>`; return; }
       const groups = {};
-      m.forEach((r) => (groups[r.kind] = groups[r.kind] || []).push(r));
-      let html = `<p class="mb-4 text-muted">${m.length} result${m.length === 1 ? '' : 's'}</p>`;
+      scored.forEach(({ r }) => (groups[r.kind] = groups[r.kind] || []).push(r));  // globally score-sorted, so each group stays in order
+      let html = '';
+      if (note) html += `<p class="mb-2 text-sm text-muted">Showing results for: ${esc(note)}</p>`;
+      html += `<p class="mb-4 text-muted">${scored.length} result${scored.length === 1 ? '' : 's'}</p>`;
       ORDER.forEach((k) => {
         const g = groups[k]; if (!g || !g.length) return;
-        html += `<h2 class="mb-3 mt-6 text-lg font-bold">${LABEL[k]} <span class="font-sans text-sm font-normal text-muted">(${g.length})</span></h2><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:grid-cols-4">${g.map(row).join('')}</div>`;
+        html += `<h2 class="mb-3 mt-6 text-lg font-bold">${LABEL[k]} <span class="font-sans text-sm font-normal text-muted">(${g.length})</span></h2><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">${g.map((r) => row(r, terms)).join('')}</div>`;
       });
       out.innerHTML = html;
     }
