@@ -1,7 +1,7 @@
 /* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v15';
-var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest'];
+var CACHE = 'su-web-v16';
+var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest', '/offline.html'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE).catch(function () {}); }).then(function () { return self.skipWaiting(); }));
@@ -43,7 +43,7 @@ self.addEventListener('fetch', function (e) {
     e.respondWith(fetch(req).then(function (res) {
       if (cacheable(res)) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); }); }
       return clean(res);
-    }).catch(function () { return caches.match(req).then(function (h) { return h || caches.match('/'); }); }));
+    }).catch(function () { return caches.match(req).then(function (h) { return h || caches.match('/'); }).then(function (h) { return h || caches.match('/offline.html'); }); }));
     return;
   }
 
