@@ -1,16 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Sign in / Sign up — Sikhi University" description="Join Sikhi University free with a magic link — as a student to learn, or apply to teach. No password needed.">
+<Base title="Sign in / Sign up — Sikhi University" description="Join Sikhi University free with a magic link — as a student to learn, or apply to teach. No password needed." ambient="hall">
   <section class="wrap py-14">
     <div class="mx-auto max-w-md text-center">
-      <p class="eyebrow text-saffron-deep">Sign in</p>
-      <h1 class="text-display-sm mt-2 font-bold text-navy" data-i18n="login.h1">Sign in or sign up</h1>
-      <p class="mt-2 font-sans text-muted" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
+      <p class="eyebrow text-saffron">Sign in</p>
+      <h1 class="text-display-sm mt-2 font-bold text-white" data-i18n="login.h1">Sign in or sign up</h1>
+      <p class="mt-2 font-sans text-white/85" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
     </div>
     <div id="err" class="mx-auto mt-4 max-w-md"></div>
 
-    <div class="card-lift mx-auto mt-6 max-w-md">
+    <div class="glass-strong mx-auto mt-6 max-w-md rounded-xl2 p-6">
       <fieldset>
         <legend class="font-sans text-sm font-semibold" data-i18n="login.role.legend">I am joining as a…</legend>
         <div class="mt-2 grid gap-3">

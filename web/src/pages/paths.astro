@@ -1,6 +1,7 @@
 ---
 // Learning paths were merged into the catalogue (a tab). Keep /paths as a
-// redirect so existing links keep working.
+// bare, Base-free redirect stub so it resolves instantly — do not route this
+// through Base.astro (nav/footer/i18n would only delay the replace()).
 ---
 <!doctype html>
 <html lang="en">
@@ -10,6 +11,10 @@
 <link rel="canonical" href="/catalog" />
 <title>Redirecting…</title>
 <script>location.replace('/catalog#paths');</script>
+<style>
+  body { display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 2rem; background: #16335c; color: #fff; font: 1.05rem/1.5 Georgia, 'Source Serif 4', serif; text-align: center; }
+  a { color: #f4b21a; }
+</style>
 </head>
 <body><p>Learning paths have moved into the catalogue. <a href="/catalog#paths">Continue →</a></p></body>
 </html>

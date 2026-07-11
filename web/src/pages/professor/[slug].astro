@@ -27,24 +27,27 @@ const personLd = {
   },
 };
 ---
-<Base title={`${name} — Sikhi University`} description={bio || `${name} teaches courses at Sikhi University.`} ogType="profile">
+<Base title={`${name} — Sikhi University`} description={bio || `${name} teaches courses at Sikhi University.`} ogType="profile" ambient="hall">
   <script type="application/ld+json" set:html={ldJson(personLd)} slot="head" />
   <section class="wrap py-12">
-    <div class="flex flex-wrap items-center gap-5 border-b border-line pb-6">
-      <Avatar name={name} size={110} />
-      <div>
-        <a href="/professors" class="font-sans text-sm text-muted hover:text-navy">← All professors</a>
-        <h1 class="mt-1 text-3xl font-bold">{name}</h1>
-        <div class="font-sans text-sm text-muted">{courses.length} course{courses.length === 1 ? '' : 's'}</div>
+    <div class="glass rounded-xl2 p-6 sm:p-8">
+      <a href="/professors" class="font-sans text-sm text-muted hover:text-navy">← All professors</a>
+      <div class="mt-4 flex flex-wrap items-center gap-5">
+        <Avatar name={name} size={110} />
+        <div>
+          <h1 class="text-3xl font-bold">{name}</h1>
+          <div class="font-sans text-sm text-muted">{courses.length} course{courses.length === 1 ? '' : 's'}</div>
+        </div>
       </div>
+      {bio && <p class="mt-5 max-w-3xl text-lg text-muted">{bio}</p>}
+      {photo && photo.img && (
+        <p class="mt-2 font-sans text-xs text-muted">Portrait via {photo.source ? <a class="underline" href={photo.source} target="_blank" rel="noopener">{photo.credit || 'Wikimedia Commons'}</a> : (photo.credit || 'Wikimedia Commons')}.</p>
+      )}
     </div>
-    {bio && <p class="mt-5 max-w-3xl text-lg text-muted">{bio}</p>}
-    {photo && photo.img && (
-      <p class="mt-2 font-sans text-xs text-muted">Portrait via {photo.source ? <a class="underline" href={photo.source} target="_blank" rel="noopener">{photo.credit || 'Wikimedia Commons'}</a> : (photo.credit || 'Wikimedia Commons')}.</p>
-    )}
-    <h2 class="mt-10 text-xl font-bold">Courses</h2>
-    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <h2 class="mt-10 text-xl font-bold text-white">Courses</h2>
+    <div class="prof-courses mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {sorted.map((c) => <CourseCard course={c} />)}
     </div>
   </section>
+
 </Base>

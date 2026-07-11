@@ -1,14 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Content integrity — Sikhi University" description="How we verify the Gurbani quoted across Sikhi University against the canonical text — the numbers, the method, and what's still in progress.">
+<Base title="Content integrity — Sikhi University" description="How we verify the Gurbani quoted across Sikhi University against the canonical text — the numbers, the method, and what's still in progress." ambient="study">
   <section class="wrap max-w-3xl py-14">
-    <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron-deep">Content integrity</p>
+    <p class="eyebrow text-saffron-deep">Content integrity</p>
     <h1 class="mt-2 text-3xl font-bold text-navy">Every quoted ਸ਼ਬਦ, checked against the canonical text</h1>
     <p class="mt-3 text-muted">Accuracy is a release gate here, not a nicety. Each shabad embedded in a course is matched, at build time, against the canonical text of Sri Guru Granth Sahib Ji. A quote that doesn't match — or cites the wrong ang — fails the build and cannot ship. These numbers are generated from that check, not written by hand.</p>
 
-    <div id="stats" class="mt-8 grid gap-4 sm:grid-cols-3">
-      <p class="text-muted">Loading the latest verification…</p>
+    <div id="stats" class="glass mt-8 grid gap-4 p-6 sm:grid-cols-3">
+      <p class="text-ink">Loading the latest verification…</p>
     </div>
 
     <div class="mt-10">
@@ -27,7 +27,7 @@ import Base from '../layouts/Base.astro';
     const esc = (s) => String(s == null ? '' : s);
     fetch('/data/verification.json').then((r) => r.json()).then((d) => {
       const t = d.totals || {};
-      const tile = (n, label, sub) => `<div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-3xl font-bold tabular-nums text-navy">${n}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">${label}</div>${sub ? `<div class="font-sans text-xs text-muted">${sub}</div>` : ''}</div></div>`;
+      const tile = (n, label, sub) => `<div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-3xl font-bold tabular-nums text-navy">${n}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">${label}</div>${sub ? `<div class="font-sans text-xs text-muted">${sub}</div>` : ''}</div></div>`;
       document.getElementById('stats').innerHTML =
         tile((t.verified || 0).toLocaleString(), 'Quotes verified', 'matched to canonical SGGS') +
         tile(esc(d.coursesFullyVerified) + ' / ' + esc(d.coursesWithQuotes), 'Courses fully verified', 'every quote checked, none failing') +
