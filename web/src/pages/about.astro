@@ -36,11 +36,11 @@ const faqLd = {
   mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
 ---
-<Base title="About — Sikhi University" description="Why Sikhi University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills.">
+<Base title="About — Sikhi University" description="Why Sikhi University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills." ambient="hall">
   <script type="application/ld+json" set:html={ldJson(faqLd)} slot="head" />
-  <!-- Hero -->
-  <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
-    <div aria-hidden="true" class="pattern-lattice absolute inset-0"></div>
+  <!-- Hero: sits over the ambient-hall backdrop, same language as index.astro -->
+  <header class="relative overflow-hidden text-white">
+    <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
     <div class="wrap relative py-20">
       <div class="inline-flex items-center gap-2 rounded-full border border-saffron/40 bg-saffron/10 px-4 py-1.5 font-sans text-sm text-saffron mb-6">
         <span class="gur text-base" lang="pa">ਸਿੱਖੀ ਯੂਨੀਵਰਸਿਟੀ</span>
@@ -66,12 +66,11 @@ const faqLd = {
         <a class="btn btn-ghost" href="https://sikharchive.net" target="_blank" rel="noopener" data-i18n="home.cta.archive">Visit Sikh Archive →</a>
       </div>
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
 
   <!-- Why we built it -->
   <section class="wrap py-14">
-    <div class="max-w-4xl xl:max-w-5xl">
+    <div class="glass-strong max-w-4xl xl:max-w-5xl rounded-xl2 p-8 sm:p-10">
       <p class="eyebrow text-saffron-deep" data-i18n="about.why.eyebrow">Our purpose</p>
       <h2 class="mt-2 text-2xl font-bold" data-i18n="about.why.h2">Why we built Sikhi University</h2>
       <p class="mt-1 font-sans text-sm text-saffron-deep uppercase tracking-widest"><span class="gur" lang="pa">ਸਿੱਖ</span> <span data-i18n="about.why.tagline">— the learner who never stops</span></p>
@@ -92,7 +91,7 @@ const faqLd = {
       <h2 class="mt-2 text-2xl font-bold" data-i18n="about.offers.h2">What the university offers</h2>
       <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {offers.map((o, i) => (
-          <div class="card-lift reveal bg-paper" data-reveal-delay={(i % 3) * 80}>
+          <div class="reveal glass-lite p-5" data-reveal-delay={(i % 3) * 80}>
             <Icon name={o[0]} class="h-8 w-8 text-saffron-deep" />
             <h3 class="mt-2 text-base font-bold">{o[1]}</h3>
             <p class="mt-1 text-sm text-muted leading-relaxed">{o[2]}</p>
@@ -104,11 +103,11 @@ const faqLd = {
 
   <!-- How it works -->
   <section class="wrap py-14">
-    <p class="eyebrow text-saffron-deep" data-i18n="about.how.eyebrow">Getting started</p>
-    <h2 class="mt-2 text-2xl font-bold" data-i18n="about.how.h2">How it works</h2>
+    <p class="eyebrow text-saffron" data-i18n="about.how.eyebrow">Getting started</p>
+    <h2 class="mt-2 text-2xl font-bold text-white" data-i18n="about.how.h2">How it works</h2>
     <ol class="mt-6 grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {steps.map((s, i) => (
-        <li class="card-lift reveal" data-reveal-delay={(i % 4) * 70}>
+        <li class="reveal glass-lite p-5" data-reveal-delay={(i % 4) * 70}>
           <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-sans text-sm font-bold text-saffron-deep ring-2 ring-saffron">{i + 1}</span>
           <h3 class="mt-3 font-semibold text-navy">{s[0]}</h3>
           <p class="mt-1 text-sm text-muted leading-relaxed">{s[1]}</p>
@@ -119,10 +118,10 @@ const faqLd = {
 
   <!-- FAQ -->
   <section class="wrap pb-14">
-    <h2 class="text-2xl font-bold" data-i18n="about.faq.h2">Frequently asked questions</h2>
-    <div class="mt-6 divide-y divide-line rounded-xl2 border border-line bg-surface">
+    <h2 class="text-2xl font-bold text-white" data-i18n="about.faq.h2">Frequently asked questions</h2>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2">
       {faqs.map(([q, a]) => (
-        <details class="group px-5 py-4">
+        <details class="group glass-lite p-5">
           <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-navy">
             {q}
             <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open:rotate-180">▾</span>
@@ -135,7 +134,7 @@ const faqLd = {
 
   <!-- Sikh Archive partnership -->
   <section class="wrap pb-14">
-    <div class="rounded-xl2 border border-line bg-gradient-to-br from-brand/5 to-surface p-8">
+    <div class="glass-strong rounded-xl2 p-8">
       <div class="flex items-start gap-4">
         <Icon name="folder" class="h-9 w-9 shrink-0 text-saffron-deep" />
         <div>
@@ -149,7 +148,7 @@ const faqLd = {
 
   <!-- Accuracy -->
   <section class="wrap pb-14">
-    <div class="max-w-4xl xl:max-w-5xl">
+    <div class="glass-strong max-w-4xl xl:max-w-5xl rounded-xl2 p-8 sm:p-10">
       <h2 class="text-2xl font-bold" data-i18n="about.accuracy.h2">A note on accuracy</h2>
       <p class="mt-3 text-lg leading-relaxed">Accuracy is sacred to us. Many courses are drafted with AI to make broad teaching possible quickly, and every one carries a clear <strong data-i18n="about.accuracy.label">"Created by AI"</strong> label. Every <span class="gur">ਸ਼ਬਦ</span> quoted in a course is machine-verified against the canonical text of <span class="gur">ਸ੍ਰੀ ਗੁਰੂ ਗਰੰਥ ਸਾਹਿਬ ਜੀ</span> at build time — a quote that doesn't match, or cites the wrong ang, cannot ship. See the numbers and the method on our <a class="underline" href="/integrity">content-integrity page</a>, or download the catalogue metadata and verification report as an openly-licensed dataset on our <a class="underline" href="/open-data">open data page</a>. AI-drafted prose is reviewed for accuracy, Gurbani is handled with reverence, and we welcome corrections — use the <a class="underline" href="/feedback">feedback page</a> to tell us anything we should fix.</p>
       <a class="btn btn-primary mt-6" href="/catalog" data-i18n="about.accuracy.cta">Start learning →</a>
@@ -158,7 +157,7 @@ const faqLd = {
 
   <!-- Sacred Content Disclaimer -->
   <section class="wrap pb-16">
-    <div class="max-w-4xl xl:max-w-5xl rounded-xl2 border border-line bg-surface p-6 shadow-card">
+    <div class="glass-strong max-w-4xl xl:max-w-5xl rounded-xl2 p-6">
       <h2 class="text-2xl font-bold" data-i18n="about.sacred.h2">Sacred content &amp; disclaimer</h2>
       <div class="mt-4 space-y-3 text-[0.97rem] leading-relaxed text-muted">
         <p data-i18n="about.sacred.p1">Sikhi University is an independent educational resource. It is not a religious authority, and it is not affiliated with, sponsored by, or endorsed by the Shiromani Gurdwara Parbandhak Committee (SGPC), the Akal Takht, any Takht, any Gurdwara, or any other Sikh institution.</p>

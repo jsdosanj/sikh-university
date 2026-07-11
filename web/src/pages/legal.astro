@@ -22,9 +22,9 @@ for (const c of candidates) {
 }
 if (!inner) inner = '<p>Terms &amp; Privacy are being prepared.</p>';
 ---
-<Base title="Terms & Privacy — Sikhi University" description="Sikhi University Terms of Service and Privacy Policy (GDPR/CCPA-aligned drafts).">
+<Base title="Terms & Privacy — Sikhi University" description="Sikhi University Terms of Service and Privacy Policy (GDPR/CCPA-aligned drafts)." ambient="study">
   <section class="wrap py-12">
-    <article class="legal mx-auto max-w-3xl" set:html={inner} />
+    <article class="legal glass mx-auto max-w-3xl p-6 sm:p-10" set:html={inner} />
   </section>
   <style is:global>
     @reference "../styles/global.css";

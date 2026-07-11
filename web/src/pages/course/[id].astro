@@ -53,7 +53,7 @@ const breadcrumb = {
   ],
 };
 ---
-<Base title={`${c.title} — Sikhi University`} description={c.summary} ogType="article" autoTranslate={false}>
+<Base title={`${c.title} — Sikhi University`} description={c.summary} ogType="article" autoTranslate={false} ambient="study">
   <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
   <script type="application/ld+json" set:html={ldJson(breadcrumb)} slot="head" />
 
@@ -104,48 +104,22 @@ const breadcrumb = {
       {c.outcomes && c.outcomes.length > 0 && (
         <section class="mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.outcomes.h">What you'll learn</h2>
-          <ul class="mt-3 grid gap-2 sm:grid-cols-2">
-            {c.outcomes.map((o) => <li class="relative pl-6"><Icon name="check" class="absolute left-0 top-1 h-4 w-4 text-ok" /><span set:html={o} /></li>)}
+          <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+            {c.outcomes.map((o) => <li class="glass-lite flex items-start gap-2.5 p-4"><Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-ok" /><span set:html={o} /></li>)}
           </ul>
         </section>
       )}
 
       {c.terms && c.terms.length > 0 && (
         <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.terms.h">Key terms —</span> ਸ਼ਬਦਾਵਲੀ</h2>
-          <div class="mt-3 overflow-x-auto">
-            <table class="w-full border-collapse text-[0.95rem]">
-              <thead><tr><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white" data-i18n="course.terms.col.term">Term</th><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white" data-i18n="course.terms.col.context">Academic context</th></tr></thead>
-              <tbody>{c.terms.map((t) => <tr class="even:bg-paper"><td class="border border-line p-2 align-top"><span class="font-semibold" set:html={t.t} /></td><td class="border border-line p-2 align-top break-words">{t.m}</td></tr>)}</tbody>
-            </table>
-          </div>
-        </section>
-      )}
-
-      {c.terms && c.terms.length > 0 && (
-        <section id="flashcards" class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.flashcards.h">Flashcards —</span> ਕਾਰਡ ਅਭਿਆਸ</h2>
-          <p class="mt-1 font-sans text-sm text-muted" data-i18n="course.flashcards.sub">Click a card to flip it and reveal the definition.</p>
-          <div class="mt-4 relative">
-            <!-- Card display -->
-            <div id="fc-card" class="cursor-pointer select-none rounded-xl2 border border-line bg-surface shadow-card min-h-[160px] flex flex-col items-center justify-center p-8 text-center transition-all hover:border-saffron" role="button" aria-label="Flip card" data-i18n-aria="course.flashcards.flipAria" tabindex="0">
-              <div id="fc-front" class="text-lg font-bold text-navy"></div>
-              <div id="fc-back" class="hidden mt-3 text-[0.95rem] text-muted leading-relaxed"></div>
-              <div id="fc-hint" class="mt-4 font-sans text-xs text-muted/60">Click to reveal</div>
-            </div>
-            <!-- Navigation -->
-            <div class="mt-4 flex items-center justify-between gap-3">
-              <button id="fc-prev" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.prev">← Prev</button>
-              <div class="flex items-center gap-3">
-                <span id="fc-counter" class="font-sans text-sm text-muted"></span>
-                <button id="fc-known" class="btn btn-primary font-sans text-sm px-4 py-1.5"><span data-i18n="course.flashcards.marklearned">Mark learned</span> <Icon name="check" class="h-4 w-4" /></button>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.terms.h">Key terms —</span> <span lang="pa">ਸ਼ਬਦਾਵਲੀ</span></h2>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            {c.terms.map((t) => (
+              <div class="glass-lite p-4">
+                <div class="gur font-semibold text-navy" lang="pa" set:html={t.t} />
+                <p class="mt-1 text-muted break-words">{t.m}</p>
               </div>
-              <button id="fc-next" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.next">Next →</button>
-            </div>
-            <div class="mt-3 flex items-center justify-between">
-              <div id="fc-progress" class="font-sans text-xs text-muted"></div>
-              <button id="fc-reset" class="font-sans text-xs text-muted hover:text-saffron-deep underline" data-i18n="course.flashcards.reset">Reset progress</button>
-            </div>
+            ))}
           </div>
         </section>
       )}
@@ -167,7 +141,7 @@ const breadcrumb = {
         </div>
         <div class="mt-4 space-y-6">
           {lessons.map((ls, i) => (
-            <article id={`lesson-${i}`} class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
+            <article id={`lesson-${i}`} class="glass-lite p-5">
               <div class="flex items-start justify-between gap-3">
                 <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
                 <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl" data-i18n="course.listen">Listen</span></button>
@@ -184,28 +158,10 @@ const breadcrumb = {
       </section>
 
       <section id="gurbani-refs" class="mb-8 hidden">
-        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.gurbani.h">Gurbani Verses —</span> <span class="gur text-saffron-deep">ਗੁਰਬਾਣੀ</span></h2>
+        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.gurbani.h">Gurbani Verses —</span> <span class="gur text-saffron-deep" lang="pa">ਗੁਰਬਾਣੀ</span></h2>
         <p class="mt-1 font-sans text-sm text-muted"><span data-i18n="course.gurbani.sub">Lines from Sri Guru Granth Sahib Ji referenced in this course.</span>{quotesVerified ? <> Every quoted shabad here is <a class="underline" href="/integrity">machine-verified</a> against the canonical text.</> : null}</p>
         <div id="gurbani-refs-list" class="mt-4 space-y-3"></div>
       </section>
-
-      {quiz.length > 0 && (
-        <section id="test" class="mb-8 rounded-xl2 border border-line bg-surface p-6 shadow-card">
-          <h2 class="text-xl font-bold" data-i18n="course.quiz.h">Course test</h2>
-          <p class="font-sans text-sm text-muted" data-i18n="course.quiz.sub">Pass with 80% or higher to complete the course and unlock the next one.</p>
-          <form id="quiz" class="mt-4 space-y-5">
-            {quiz.map((qq, i) => (
-              <fieldset><legend class="font-semibold">{i + 1}. {qq.q}</legend>
-                {qq.options.map((o, oi) => (
-                  <label class="mt-1 block cursor-pointer"><input type="radio" name={`q${i}`} value={oi} class="mr-2" />{o}</label>
-                ))}
-              </fieldset>
-            ))}
-          </form>
-          <button id="quiz-submit" class="btn btn-primary mt-4" data-i18n="course.quiz.submit">Submit test</button>
-          <div id="quiz-result" class="mt-4"></div>
-        </section>
-      )}
 
       {c.references && c.references.length > 0 && (
         <section class="mb-8">
@@ -242,23 +198,6 @@ const breadcrumb = {
         </section>
       )}
 
-      <section class="rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
-        <h2 class="text-xl font-bold" data-i18n="course.readsource.h">Read the source texts</h2>
-        <p class="mt-1" data-i18n="course.readsource.sub">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
-        <div class="mt-3 flex flex-wrap gap-3">
-          <a class="btn" href="/santhiya?src=sggs"><Icon name="book" class="h-4 w-4" /><span data-i18n="course.readsource.readgurbani">Read Gurbani (reader)</span></a>
-          {c.sourceText?.sikhArchiveUrl && (
-            <a class="btn" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener"><Icon name="books" class="h-4 w-4" /><span data-i18n="course.readsource.readarchive">Read this work on Sikh Archive ↗</span></a>
-          )}
-          {c.sourceText && c.sourceText.url && (
-            <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.readsource.thiswork">This work on SikhLibrary ↗</a>
-          )}
-          {(c.sourceText || (c.source && c.source.indexOf('SikhLibrary') !== -1)) && (
-            <a class="btn" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener" data-i18n="course.readsource.dataset">SikhLibrary dataset ↗</a>
-          )}
-          <a class="btn" href={archive.url} target="_blank" rel="noopener">{archive.label} →</a>
-        </div>
-      </section>
     </div>
 
     <aside class="lg:sticky lg:top-20 lg:self-start">
@@ -276,8 +215,14 @@ const breadcrumb = {
       </div>
       <div class="card-lift">
         <div class="eyebrow text-muted" data-i18n="course.progress.eyebrow">Your progress</div>
-        <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div id="prog-bar" class="h-full bg-saffron" style="width:0%"></div></div>
-        <div id="prog-text" class="mt-1 font-sans text-xs text-muted">0% complete</div>
+        <div class="mt-3 flex items-center gap-4">
+          <svg width="80" height="80" viewBox="0 0 80 80" class="shrink-0 -rotate-90" aria-hidden="true">
+            <circle class="ring-track" cx="40" cy="40" r="34" fill="none" stroke-width="8"></circle>
+            <circle id="prog-ring" class="ring-value" cx="40" cy="40" r="34" fill="none" stroke-width="8" style="stroke-dasharray:213.63;stroke-dashoffset:213.63"></circle>
+          </svg>
+          <div id="prog-text" class="font-sans text-sm font-semibold text-navy">0% complete</div>
+        </div>
+        <div id="prog-bar" class="sr-only" style="width:0%"></div>
         <ol class="mt-4 space-y-1 font-sans text-sm">
           {lessons.map((ls, i) => <li><a href={`#lesson-${i}`} class="text-navy hover:text-saffron-deep">{i + 1}. {ls.title}</a></li>)}
         </ol>
@@ -286,8 +231,72 @@ const breadcrumb = {
   </div>
 
   <section class="wrap pb-14">
-    <div class="grid gap-10 lg:grid-cols-2">
-      <div class="card-lift">
+    <div class="grid gap-6 lg:grid-cols-2">
+      {c.terms && c.terms.length > 0 && (
+        <section id="flashcards" class="glass-lite p-5">
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.flashcards.h">Flashcards —</span> <span lang="pa">ਕਾਰਡ ਅਭਿਆਸ</span></h2>
+          <p class="mt-1 font-sans text-sm text-muted" data-i18n="course.flashcards.sub">Click a card to flip it and reveal the definition.</p>
+          <div class="mt-4 relative">
+            <!-- Card display -->
+            <div id="fc-card" class="cursor-pointer select-none rounded-xl2 border border-line bg-surface shadow-card min-h-[160px] flex flex-col items-center justify-center p-8 text-center transition-all hover:border-saffron" role="button" aria-label="Flip card" data-i18n-aria="course.flashcards.flipAria" tabindex="0">
+              <div id="fc-front" class="text-lg font-bold text-navy"></div>
+              <div id="fc-back" class="hidden mt-3 text-[0.95rem] text-muted leading-relaxed"></div>
+              <div id="fc-hint" class="mt-4 font-sans text-xs text-muted/60">Click to reveal</div>
+            </div>
+            <!-- Navigation -->
+            <div class="mt-4 flex items-center justify-between gap-3">
+              <button id="fc-prev" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.prev">← Prev</button>
+              <div class="flex items-center gap-3">
+                <span id="fc-counter" class="font-sans text-sm text-muted"></span>
+                <button id="fc-known" class="btn btn-primary font-sans text-sm px-4 py-1.5"><span data-i18n="course.flashcards.marklearned">Mark learned</span> <Icon name="check" class="h-4 w-4" /></button>
+              </div>
+              <button id="fc-next" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.next">Next →</button>
+            </div>
+            <div class="mt-3 flex items-center justify-between">
+              <div id="fc-progress" class="font-sans text-xs text-muted"></div>
+              <button id="fc-reset" class="font-sans text-xs text-muted hover:text-saffron-deep underline" data-i18n="course.flashcards.reset">Reset progress</button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {quiz.length > 0 && (
+        <section id="test" class="glass-lite p-6">
+          <h2 class="text-xl font-bold" data-i18n="course.quiz.h">Course test</h2>
+          <p class="font-sans text-sm text-muted" data-i18n="course.quiz.sub">Pass with 80% or higher to complete the course and unlock the next one.</p>
+          <form id="quiz" class="mt-4 space-y-5">
+            {quiz.map((qq, i) => (
+              <fieldset><legend class="font-semibold">{i + 1}. {qq.q}</legend>
+                {qq.options.map((o, oi) => (
+                  <label class="mt-1 block cursor-pointer"><input type="radio" name={`q${i}`} value={oi} class="mr-2" />{o}</label>
+                ))}
+              </fieldset>
+            ))}
+          </form>
+          <button id="quiz-submit" class="btn btn-primary mt-4" data-i18n="course.quiz.submit">Submit test</button>
+          <div id="quiz-result" class="mt-4"></div>
+        </section>
+      )}
+
+      <section class="glass-lite p-6">
+        <h2 class="text-xl font-bold" data-i18n="course.readsource.h">Read the source texts</h2>
+        <p class="mt-1" data-i18n="course.readsource.sub">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
+        <div class="mt-3 flex flex-wrap gap-3">
+          <a class="btn" href="/santhiya?src=sggs"><Icon name="book" class="h-4 w-4" /><span data-i18n="course.readsource.readgurbani">Read Gurbani (reader)</span></a>
+          {c.sourceText?.sikhArchiveUrl && (
+            <a class="btn" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener"><Icon name="books" class="h-4 w-4" /><span data-i18n="course.readsource.readarchive">Read this work on Sikh Archive ↗</span></a>
+          )}
+          {c.sourceText && c.sourceText.url && (
+            <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.readsource.thiswork">This work on SikhLibrary ↗</a>
+          )}
+          {(c.sourceText || (c.source && c.source.indexOf('SikhLibrary') !== -1)) && (
+            <a class="btn" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener" data-i18n="course.readsource.dataset">SikhLibrary dataset ↗</a>
+          )}
+          <a class="btn" href={archive.url} target="_blank" rel="noopener">{archive.label} →</a>
+        </div>
+      </section>
+
+      <section class="glass-lite p-6">
         <h2 class="text-xl font-bold" data-i18n="course.rate.h">Rate this course</h2>
         <div id="rate-summary" class="mt-1 font-sans text-sm text-muted">…</div>
         <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" data-i18n-aria="course.rate.groupAria" class="mt-2 flex gap-1 text-3xl text-saffron">
@@ -296,16 +305,35 @@ const breadcrumb = {
         <textarea id="rate-review" rows="2" aria-label="Optional written review" data-i18n-aria="course.rate.reviewAria" placeholder="Optional review…" data-i18n-ph="course.rate.reviewPh" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
         <button id="rate-submit" class="btn btn-primary mt-2" data-i18n="course.rate.submit">Submit rating</button>
         <div id="rate-msg" class="mt-2 font-sans text-sm"></div>
-      </div>
-      <div class="card-lift">
-        <h2 class="text-xl font-bold" data-i18n="course.discussion.h">Discussion &amp; Q&amp;A</h2>
-        <div id="disc-list" class="mt-3 space-y-2"></div>
-        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" data-i18n-aria="course.discussion.msgAria" placeholder="Ask a question or share a thought…" data-i18n-ph="course.discussion.msgPh" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
-        <button id="disc-submit" class="btn mt-2" data-i18n="course.discussion.post">Post</button>
-        <div id="disc-note" class="mt-1 font-sans text-xs text-muted" data-i18n="course.discussion.signinnote">Sign in to post.</div>
-      </div>
+        <div class="mt-6 border-t border-line pt-6">
+          <h2 class="text-xl font-bold" data-i18n="course.discussion.h">Discussion &amp; Q&amp;A</h2>
+          <div id="disc-list" class="mt-3 space-y-2"></div>
+          <textarea id="disc-msg" rows="2" aria-label="Your question or comment" data-i18n-aria="course.discussion.msgAria" placeholder="Ask a question or share a thought…" data-i18n-ph="course.discussion.msgPh" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
+          <button id="disc-submit" class="btn mt-2" data-i18n="course.discussion.post">Post</button>
+          <div id="disc-note" class="mt-1 font-sans text-xs text-muted" data-i18n="course.discussion.signinnote">Sign in to post.</div>
+        </div>
+      </section>
     </div>
   </section>
+
+  <div id="pass-celebrate" class="fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="pass-celebrate-h">
+    <div class="pass-backdrop absolute inset-0 bg-navy-strong/70"></div>
+    <div id="pass-celebrate-panel" class="glass-strong relative z-10 w-full max-w-sm p-8 text-center">
+      <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="medal" class="h-9 w-9" /></div>
+      <h2 id="pass-celebrate-h" class="mt-4 text-xl font-bold text-navy">Course complete</h2>
+      <p id="pass-celebrate-score" class="mt-1 font-sans text-sm text-muted"></p>
+      <div class="mt-5 flex flex-col gap-2">
+        <a id="pass-celebrate-cert" class="btn btn-primary" href="/login">View certificate</a>
+        <button id="pass-celebrate-close" type="button" class="btn">Keep learning</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    #pass-celebrate-panel.pop { animation: pass-pop .5s var(--ease-spring) both; }
+    @keyframes pass-pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { #pass-celebrate-panel.pop { animation: none; } }
+  </style>
 
   <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, nQuiz: quiz.length, terms: (c.terms || []).map((t) => ({ t: t.t, m: t.m })) })}></script>
   <script>
@@ -444,6 +472,8 @@ const breadcrumb = {
       const pct = nLessons ? Math.round((n / nLessons) * 100) : 0;
       document.getElementById('prog-bar').style.width = pct + '%';
       document.getElementById('prog-text').textContent = pct + '% complete';
+      const ring = document.getElementById('prog-ring');
+      if (ring) { const circ = 2 * Math.PI * 34; ring.style.strokeDasharray = String(circ); ring.style.strokeDashoffset = String(circ * (1 - pct / 100)); }
       document.querySelectorAll('[data-done]').forEach((b) => { const i = b.dataset.done; b.innerHTML = done[i] ? iconSvg('check', 'inline-block h-4 w-4 align-[-0.15em]') + ' Completed' : 'Mark complete'; b.classList.toggle('border-saffron', !!done[i]); });
     }
     document.querySelectorAll('[data-note]').forEach((t) => { const k = 'note_' + id + '_' + t.dataset.note; t.value = get(k, ''); t.addEventListener('input', () => set(k, t.value)); });
@@ -460,15 +490,32 @@ const breadcrumb = {
       submit.disabled = false; submit.textContent = 'Submit test';
       if (!res || typeof res.score !== 'number') { r.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not submit your test — please try again.</div>'; return; }
       const score = res.score, correct = res.correct, total = res.total;
+      const wasPassed = get('passed_' + id, 0) >= 80;
       set(scoreKey, Math.max(score, get(scoreKey, 0)));
       if (res.passed) set('passed_' + id, score);
       recordActivity();
       if (res.passed) {
         const cert = res.signedIn ? ` <a class="underline" href="/cert?course=${id}">View your certificate →</a>` : ' <a class="underline" href="/login">Sign in</a> to save this and earn a certificate.';
         r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${total}).</strong> Course complete.${cert}</div>`;
+        if (!wasPassed) celebratePass(score, !!res.signedIn);
       } else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${total}).</strong> You need 80%. Review the lessons and try again.</div>`;
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
+    // Pass celebration overlay — only fires on a NEW pass (never on page load).
+    function celebratePass(score, signedIn) {
+      const ov = document.getElementById('pass-celebrate'); if (!ov) return;
+      const scoreEl = document.getElementById('pass-celebrate-score');
+      if (scoreEl) scoreEl.textContent = 'You passed with ' + score + '%.';
+      const cert = document.getElementById('pass-celebrate-cert');
+      if (cert) { cert.href = signedIn ? '/cert?course=' + id : '/login'; cert.textContent = signedIn ? 'View certificate' : 'Sign in for your certificate'; }
+      ov.classList.remove('hidden'); ov.classList.add('flex');
+      const panel = document.getElementById('pass-celebrate-panel');
+      if (panel) { panel.classList.remove('pop'); void panel.offsetWidth; panel.classList.add('pop'); }
+      const close = () => { ov.classList.add('hidden'); ov.classList.remove('flex'); };
+      const closeBtn = document.getElementById('pass-celebrate-close');
+      if (closeBtn) closeBtn.onclick = close;
+      ov.onclick = (e) => { if (e.target === ov || (e.target instanceof Element && e.target.classList.contains('pass-backdrop'))) close(); };
+    }
     refresh();
 
     // --- Flashcards ---

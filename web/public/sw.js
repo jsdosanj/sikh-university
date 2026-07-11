@@ -1,6 +1,6 @@
 /* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v18';
+var CACHE = 'su-web-v21';
 var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest', '/offline.html'];
 
 self.addEventListener('install', function (e) {
@@ -54,6 +54,29 @@ self.addEventListener('fetch', function (e) {
 
   e.respondWith(caches.match(req).then(function (hit) {
     return hit || fetch(req).then(function (res) { if (cacheable(res)) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); }); } return res; });
+  }));
+});
+
+// Coursework reminders (payload-less Web Push): the server sends an empty
+// VAPID-signed push; the notification text lives here. Clicking focuses an
+// open tab (or opens the dashboard) so learners land back in their course.
+self.addEventListener('push', function (e) {
+  e.waitUntil(self.registration.showNotification('Sikhi University', {
+    body: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! Your course is waiting — a few minutes of seva to yourself today.',
+    icon: '/assets/icon-192.png',
+    badge: '/assets/icon-192.png',
+    tag: 'su-reminder',
+    data: { url: '/dashboard' },
+  }));
+});
+self.addEventListener('notificationclick', function (e) {
+  e.notification.close();
+  var url = (e.notification.data && e.notification.data.url) || '/dashboard';
+  e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (list) {
+    for (var i = 0; i < list.length; i++) {
+      if ('focus' in list[i]) { list[i].navigate(url); return list[i].focus(); }
+    }
+    return clients.openWindow(url);
   }));
 });
 

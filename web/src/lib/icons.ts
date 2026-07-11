@@ -13,6 +13,7 @@ export const ICON_ATTRS =
 export const ICON_PATHS: Record<string, string> = {
   // — Topics & content —
   book: '<path d="M12 6c-1.7-1.3-4-2-8-2v13c4 0 6.3.7 8 2 1.7-1.3 4-2 8-2V4c-4 0-6.3.7-8 2Z"/><path d="M12 6v13"/>',
+  home: '<path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-5h4v5"/>',
   books: '<rect x="4" y="15" width="16" height="4.5" rx="1"/><rect x="5.5" y="10.5" width="13" height="4.5" rx="1"/><rect x="7" y="6" width="10" height="4.5" rx="1"/>',
   scroll: '<path d="M8 4h9a1 1 0 0 1 1 1v11a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3 1 1 0 0 1 1-1h3"/><path d="M8 4a1 1 0 0 0-1 1v11"/><path d="M11 8h4M11 11h4"/>',
   pen: '<path d="M4 20l1-4L16 5a2.1 2.1 0 0 1 3 3L8 19Z"/><path d="M14 7l3 3"/>',
@@ -34,6 +35,7 @@ export const ICON_PATHS: Record<string, string> = {
   diya: '<path d="M12 4c-1.2 1.2-2 2.3-2 3.5a2 2 0 0 0 4 0C14 6.3 13.2 5.2 12 4Z"/><path d="M12 10v3"/><path d="M4 13h16l-1.6 3.6A4 4 0 0 1 14.8 19H9.2a4 4 0 0 1-3.6-2.4Z"/>',
   lotus: '<path d="M12 20c-4 0-7-2.5-7-5 2 0 3.2.7 4.2 2 0-2.6 1.2-4.7 2.8-6.2 1.6 1.5 2.8 3.6 2.8 6.2 1-1.3 2.2-2 4.2-2 0 2.5-3 5-7 5Z"/><path d="M12 20c-2.6 0-4.6-2-4.6-4.6M12 20c2.6 0 4.6-2 4.6-4.6"/>',
   compass: '<circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2 5-5 2 2-5Z"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M15.8 15.8 20 20"/>',
   ruler: '<rect x="4" y="8" width="16" height="8" rx="1"/><path d="M8 8v3M12 8v4M16 8v3"/>',
   cap: '<path d="M12 5L2.5 9 12 13l9.5-4Z"/><path d="M6 11v4.2c0 1.3 2.7 2.3 6 2.3s6-1 6-2.3V11"/><path d="M21.5 9v4.5"/>',
   waves: '<path d="M3 8c2 0 2.5 1.5 4.5 1.5S9.5 8 11.5 8s2 1.5 4 1.5S17.5 8 19.5 8"/><path d="M3 13c2 0 2.5 1.5 4.5 1.5S9.5 13 11.5 13s2 1.5 4 1.5S17.5 13 19.5 13"/><path d="M3 18c2 0 2.5 1.5 4.5 1.5S9.5 18 11.5 18s2 1.5 4 1.5S17.5 18 19.5 18"/>',

@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Feedback — Sikhi University" description="Share feedback, report an error, or suggest a course at Sikhi University.">
+<Base title="Feedback — Sikhi University" description="Share feedback, report an error, or suggest a course at Sikhi University." ambient="study">
   <section class="wrap max-w-xl py-14">
-    <h1 class="text-3xl font-bold" data-i18n="feedback.h1">Share your feedback</h1>
+    <p class="eyebrow text-saffron-deep">Feedback</p>
+    <h1 class="mt-2 text-3xl font-bold text-navy" data-i18n="feedback.h1">Share your feedback</h1>
     <p class="mt-2 text-lg text-muted" data-i18n="feedback.sub">Found an error in a course, have a suggestion, or want to tell us what's working? We read every message.</p>
-    <form id="fb" class="mt-6 space-y-4">
+    <form id="fb" class="glass mt-6 space-y-4 p-6">
       <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.type.label">Type</span>
         <select id="cat" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans">
           <option value="general" data-i18n="feedback.type.general">General feedback</option>

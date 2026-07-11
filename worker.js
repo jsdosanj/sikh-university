@@ -27,6 +27,10 @@ import { onRequestPost as accountDeletePost } from "./functions/api/account/dele
 import { onRequestPost as translatePost } from "./functions/api/translate.js";
 import { onRequestGet as cohortsGet, onRequestPost as cohortsPost } from "./functions/api/cohorts.js";
 import { onRequestGet as healthGet } from "./functions/api/health.js";
+import { onRequestPost as pushSubscribePost } from "./functions/api/push/subscribe.js";
+import { onRequestPost as pushUnsubscribePost } from "./functions/api/push/unsubscribe.js";
+import { onRequestGet as pushKeyGet } from "./functions/api/push/key.js";
+import { sendDailyReminders } from "./functions/push-sender.js";
 
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
@@ -56,6 +60,9 @@ const routes = {
   "/api/translate": { POST: translatePost },
   "/api/cohorts": { GET: cohortsGet, POST: cohortsPost },
   "/api/health": { GET: healthGet },
+  "/api/push/subscribe": { POST: pushSubscribePost },
+  "/api/push/unsubscribe": { POST: pushUnsubscribePost },
+  "/api/push/key": { GET: pushKeyGet },
 };
 
 // Per-IP rate limit for each POST endpoint: { limit, window (seconds) }. Enforced with an
@@ -68,6 +75,8 @@ const RATE_LIMITS = {
   "/api/feedback": { limit: 15, window: 60 },
   "/api/discussions": { limit: 15, window: 60 },
   "/api/ratings": { limit: 15, window: 60 },
+  "/api/push/subscribe": { limit: 10, window: 60 },
+  "/api/push/unsubscribe": { limit: 10, window: 60 },
 };
 const RL_ENFORCE = true;
 
@@ -107,6 +116,13 @@ const LEGACY_HOSTS = new Set([
 ]);
 
 export default {
+  // Daily coursework reminder sweep (wrangler.toml [triggers]). Payload-less
+  // Web Push: the service worker supplies the notification text.
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(sendDailyReminders(env).then((r) => {
+      if (!r.skipped) console.log("push_reminders", JSON.stringify(r));
+    }).catch((e) => console.error("push_reminders_error", String(e))));
+  },
   async fetch(request, env) {
     const url = new URL(request.url);
     const { pathname } = url;

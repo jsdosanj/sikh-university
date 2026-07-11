@@ -1,0 +1,98 @@
+---
+// Mobile app-shell bottom tab bar (<768px only). Glass-strong, safe-area
+// aware, active tab marked with a saffron indicator. Slides away while the
+// on-screen keyboard is open (visualViewport heuristic) so it never crowds a
+// form. Pure navigation — content is never gated on it.
+import Icon from './Icon.astro';
+const tabs = [
+  { href: '/', icon: 'home', label: 'Home', key: 'nav.home', m: '/' },
+  { href: '/catalog', icon: 'books', label: 'Courses', key: 'nav.courses', m: '/catalog' },
+  { href: '/santhiya', icon: 'music', label: 'Santhya', key: 'nav.santhya', m: '/santhiya' },
+  { href: '/dashboard', icon: 'backpack', label: 'My Learning', key: 'nav.mylearning', m: '/dashboard' },
+];
+// The static build's pathname carries the file suffix (/catalog.html) — strip
+// it so tabs match the clean URLs they're served under.
+const raw = Astro.url.pathname.replace(/\.html$/, '');
+const path = raw === '/index' ? '/' : raw;
+const isActive = (m: string) =>
+  m === '/' ? path === '/' : path === m || path.startsWith(m + '/') || (m === '/catalog' && path.startsWith('/course/'));
+---
+<nav aria-label="Quick navigation" class="su-tabbar glass-strong">
+  {tabs.map((t) => (
+    <a
+      href={t.href}
+      aria-current={isActive(t.m) ? 'page' : undefined}
+      class={`su-tab font-sans ${isActive(t.m) ? 'is-active text-saffron-deep' : 'text-ink/65'}`}
+    >
+      <Icon name={t.icon} class="h-6 w-6" />
+      <span class="text-[0.65rem] leading-tight" data-i18n={t.key}>{t.label}</span>
+    </a>
+  ))}
+</nav>
+
+<style is:global>
+  /* The component owns its own display (a utility class like md:hidden would
+     lose the cascade against this block) — phones only, never in print. */
+  .su-tabbar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    display: none;
+    border-top: 1px solid var(--glass-hairline);
+    padding-bottom: env(safe-area-inset-bottom);
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+  @media (max-width: 767px) { .su-tabbar { display: flex; } }
+  @media print { .su-tabbar { display: none; } }
+  .su-tabbar[data-kb] { transform: translateY(110%); }
+  .su-tab {
+    position: relative;
+    flex: 1;
+    min-height: 52px; /* 44px+ touch target */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 6px 4px 5px;
+  }
+  .su-tab.is-active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 2.25rem;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: #f4b21a;
+  }
+  /* Keep page content — and the a11y FAB — clear of the fixed bar. */
+  @media (max-width: 767px) {
+    body { padding-bottom: calc(52px + env(safe-area-inset-bottom)); }
+    #a11y-fab { bottom: calc(52px + env(safe-area-inset-bottom) + 0.75rem); }
+    #a11y-panel { bottom: calc(52px + env(safe-area-inset-bottom) + 4.5rem); }
+  }
+  /* Zen reader and the a11y high-contrast certificate flows want a clean stage. */
+  body.zen .su-tabbar { display: none; }
+</style>
+
+<script>
+  // Hide the bar while the software keyboard is up: when the visual viewport
+  // shrinks well below the layout viewport, a keyboard is the only realistic
+  // cause on mobile. Falls back to focus tracking where visualViewport is absent.
+  (function () {
+    const bar = document.querySelector('.su-tabbar');
+    if (!bar) return;
+    const vv = window.visualViewport;
+    if (vv) {
+      const check = () => bar.toggleAttribute('data-kb', vv.height < window.innerHeight * 0.75);
+      vv.addEventListener('resize', check);
+      check();
+    } else {
+      const isField = (el: EventTarget | null) =>
+        el instanceof HTMLElement && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+      document.addEventListener('focusin', (e) => { if (isField(e.target)) bar.setAttribute('data-kb', ''); });
+      document.addEventListener('focusout', () => bar.removeAttribute('data-kb'));
+    }
+  })();
+</script>

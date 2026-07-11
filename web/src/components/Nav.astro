@@ -14,7 +14,19 @@ const LANG_OPTS = [
 const path = Astro.url.pathname;
 const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !== '/' && path.startsWith(m));
 ---
-<nav aria-label="Primary" class="bg-brand text-white sticky top-0 z-40 shadow-md" style="padding-top: env(safe-area-inset-top)">
+<nav aria-label="Primary" class="su-nav sticky top-0 z-40 text-white" style="padding-top: env(safe-area-inset-top)">
+  <script>
+    // Deepen the frosted tint once the page scrolls (glass reads over content,
+    // solid-ish at rest for LCP contrast). rAF-throttled, passive.
+    const nav = document.querySelector('.su-nav');
+    let raf = 0;
+    const onScroll = () => {
+      raf = 0;
+      nav?.toggleAttribute('data-scrolled', window.scrollY > 24);
+    };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(onScroll); }, { passive: true });
+    onScroll();
+  </script>
   <div class="wrap flex items-center gap-x-3 py-3">
     <!-- Logo -->
     <a href="/" aria-label="Sikhi University — home" class="flex shrink-0 items-center gap-2 font-serif text-xl font-bold tracking-tight">
@@ -36,8 +48,9 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
           placeholder="Search in English or ਪੰਜਾਬੀ…"
           data-i18n-ph="nav.searchph"
           autocomplete="off"
-          class="w-full rounded-full bg-white/10 pl-8 pr-3 py-1.5 font-sans text-sm text-white placeholder-white/50 outline-none ring-1 ring-white/20 focus:bg-white/20 focus:ring-saffron/60 transition"
+          class="w-full rounded-full bg-white/10 pl-8 pr-12 py-1.5 font-sans text-sm text-white placeholder-white/50 outline-none ring-1 ring-white/20 focus:bg-white/20 focus:ring-saffron/60 transition"
         />
+        <button type="button" data-cmdk-open aria-label="Open command palette" class="absolute right-1.5 top-1/2 -translate-y-1/2 rounded border border-white/25 px-1.5 py-0.5 font-sans text-[0.65rem] text-white/70 hover:border-saffron hover:text-white">⌘K</button>
       </div>
     </form>
 

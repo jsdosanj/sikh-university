@@ -5,6 +5,7 @@
   "footer.learn": "ਸਿੱਖੋ",
   "footer.catalogue": "ਕੋਰਸ ਸੂਚੀ",
   "footer.paths": "ਸਿੱਖਣ ਦੇ ਰਾਹ",
+  "nav.home": "ਮੁੱਖ ਪੰਨਾ",
   "nav.courses": "ਕੋਰਸ",
   "nav.professors": "ਪ੍ਰੋਫੈਸਰ",
   "footer.search": "ਖੋਜ",
@@ -424,5 +425,7 @@
   "verify.notfound.detail": "ਉਸ ID ਨਾਲ ਕੋਈ ਸਰਟੀਫਿਕੇਟ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ।",
   "verify.error.detail2": "ਕਿਰਪਾ ਕਰਕੇ ਥੋੜ੍ਹੀ ਦੇਰ ਬਾਅਦ ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "ਸਰਟੀਫਿਕੇਟ ID"
+  "verify.aria.certid": "ਸਰਟੀਫਿਕੇਟ ID",
+  "cmdk.placeholder": "ਕੋਰਸ, ਪੰਨੇ, ਕਾਰਵਾਈਆਂ ਖੋਜੋ…",
+  "cmdk.hint": "ਖੋਜਣ ਲਈ ਲਿਖੋ · ↑↓ ਨਾਲ ਚੁਣੋ · Enter ਨਾਲ ਖੋਲ੍ਹੋ"
 }

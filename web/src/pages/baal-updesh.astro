@@ -84,10 +84,9 @@ const numNames = [
 ];
 const wordCard = (w) => w;
 ---
-<Base title="Baal Updesh — Learn to Read Gurmukhi | Sikhi University" description="The complete beginner's primer for Gurmukhi and Punjabi: the alphabet, the Muharni, two/three/four-letter words, simple sentences, and numbers 0–100.">
-  <header class="relative overflow-hidden bg-gradient-to-br from-brand via-navy-strong to-navy-deep text-white">
-    <div aria-hidden="true" class="pattern-lattice absolute inset-0"></div>
-    <div class="wrap relative py-14">
+<Base title="Baal Updesh — Learn to Read Gurmukhi | Sikhi University" description="The complete beginner's primer for Gurmukhi and Punjabi: the alphabet, the Muharni, two/three/four-letter words, simple sentences, and numbers 0–100." ambient="sanctum">
+  <header id="bu-hero" class="wrap pt-16 pb-6">
+    <div class="hero-panel glass rounded-xl2 px-6 py-12 text-white sm:px-10">
       <div class="font-sans text-sm"><a href="/santhiya" class="text-white/70 hover:text-saffron" data-i18n="baal.hero.backlink">← Santhya pathway</a></div>
       <p class="eyebrow mt-4 text-saffron" data-i18n="baal.eyebrow">Learn to read Gurmukhi</p>
       <h1 class="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
@@ -96,11 +95,10 @@ const wordCard = (w) => w;
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-white/85" data-i18n="baal.hero.sub">A complete beginner's path. Work through it in order, saying everything aloud — the alphabet, the Muharni, then real words, sentences and numbers. This is where every reader of Gurbani begins.</p>
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
 
   <section class="wrap py-12">
-    <nav class="flex flex-wrap gap-2 font-sans text-sm">
+    <nav class="glass-lite flex flex-wrap gap-2 p-3 font-sans text-sm">
       <a href="#painti" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.painti">1. The Painti</a>
       <a href="#navin" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.navin">2. Extra letters</a>
       <a href="#muharni" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.muharni">3. The Muharni</a>
@@ -113,7 +111,7 @@ const wordCard = (w) => w;
       <a href="#kakaars" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.kakaars">10. Five Kakaars</a>
     </nav>
 
-    <details id="painti" class="group mt-6 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="painti" class="group mt-6 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="pen" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -125,7 +123,7 @@ const wordCard = (w) => w;
     <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.painti.p1a">Three are vowel-bearers (</span><span class="gur">ੳ ਅ ੲ</span><span data-i18n="baal.painti.p1b">); the rest are consonants. Say each letter aloud.</span></p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
       {akharSlugged.map(([ch, name, slug]) => (
-        <button type="button" data-akhar-audio={`letters/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+        <button type="button" data-akhar-audio={`letters/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="glass-lite p-4 text-center transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
           <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
           <div class="mt-2 inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{name}</div>
         </button>
@@ -135,7 +133,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="navin" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="navin" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="edit" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -147,7 +145,7 @@ const wordCard = (w) => w;
     <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.navin.p1a">Six later letters, written by adding a dot (</span><span class="gur">ਪੈਰ ਬਿੰਦੀ</span><span data-i18n="baal.navin.p1b">) beneath a base letter, for sounds used in borrowed words.</span></p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
       {navinSlugged.map(([ch, name, slug]) => (
-        <button type="button" data-akhar-audio={`navin/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+        <button type="button" data-akhar-audio={`navin/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="glass-lite p-4 text-center transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
           <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
           <div class="mt-2 inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{name}</div>
         </button>
@@ -156,7 +154,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="muharni" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="muharni" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="music" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -201,7 +199,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="words" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="words" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="book" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -216,7 +214,7 @@ const wordCard = (w) => w;
         <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">{label}</h3>
         <div class="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {list.map(([w, tr, mean]) => (
-            <div class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card">
+            <div class="glass-lite p-3 text-center">
               <div class="gur text-3xl font-bold text-navy">{w}</div>
               <div class="mt-1 font-sans text-xs text-navy">{tr}</div>
               <div class="font-sans text-xs text-muted">{mean}</div>
@@ -228,7 +226,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="sentences" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="sentences" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="scroll" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -243,7 +241,7 @@ const wordCard = (w) => w;
         <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">{label}</h3>
         <div class="mt-2 space-y-3">
           {list.map(([s, tr, mean]) => (
-            <div class="rounded-xl2 border border-line bg-surface p-4 shadow-card">
+            <div class="glass-lite p-4">
               <div class="gur text-2xl text-navy">{s}</div>
               <div class="mt-1 font-sans text-sm text-navy">{tr}</div>
               <div class="font-sans text-sm text-muted">{mean}</div>
@@ -256,7 +254,7 @@ const wordCard = (w) => w;
       <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep" data-i18n="baal.paragraphs.h3">Paragraphs</h3>
       <div class="mt-2 space-y-3">
         {paras.map(([p, mean]) => (
-          <div class="rounded-xl2 border border-line bg-surface p-4 shadow-card">
+          <div class="glass-lite p-4">
             <p class="gur text-xl leading-loose text-navy">{p}</p>
             <p class="mt-2 font-sans text-sm text-muted">{mean}</p>
           </div>
@@ -266,7 +264,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="numbers" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="numbers" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="ruler" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -278,7 +276,7 @@ const wordCard = (w) => w;
     <p class="mt-1 max-w-2xl text-muted" data-i18n="baal.numbers.p1">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
     <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
       {numNames.map(([g, n, nm, tr]) => (
-        <button type="button" data-akhar-audio={`numbers/n${n}`} aria-label={`Play the pronunciation of ${n}`} class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card transition hover:-translate-y-0.5 hover:border-saffron">
+        <button type="button" data-akhar-audio={`numbers/n${n}`} aria-label={`Play the pronunciation of ${n}`} class="glass-lite p-3 text-center transition hover:-translate-y-0.5 hover:border-saffron">
           <div class="gur text-2xl font-bold text-navy">{g}</div>
           <div class="inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{n}</div>
           <div class="gur mt-1 text-base text-navy">{nm}</div>
@@ -289,7 +287,7 @@ const wordCard = (w) => w;
     <h3 class="mt-6 font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep" data-i18n="baal.allnumerals.h3">All numerals, 0–100</h3>
     <div class="mt-2 grid grid-cols-5 gap-2 sm:grid-cols-10">
       {range0to100.map((n) => (
-        <div class="rounded-lg border border-line bg-paper py-2 text-center">
+        <div class="glass-lite py-2 text-center">
           <div class="gur text-lg font-bold text-navy">{gur(n)}</div>
           <div class="font-sans text-[0.7rem] text-muted">{n}</div>
         </div>
@@ -298,7 +296,7 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="common-words" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="common-words" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="books" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -310,7 +308,7 @@ const wordCard = (w) => w;
     <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.commonwords.p1a">Some of the most-used words in Sri Guru Granth Sahib Ji. Learn a few each day; tap a word for its full meaning. Shared with permission from the</span> <a class="underline" href="https://365gurbaniwords.blogspot.com" target="_blank" rel="noopener" data-i18n="baal.commonwords.link">365 Gurbani Words</a> <span data-i18n="baal.commonwords.p1b">project.</span></p>
     <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
       {gurbaniWords.map((w) => (
-        <a href={w.url} target="_blank" rel="noopener" class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card hover:border-saffron">
+        <a href={w.url} target="_blank" rel="noopener" class="glass-lite p-3 text-center hover:border-saffron">
           <div class="gur text-2xl font-bold text-navy">{w.gur}</div>
           <div class="mt-1 font-sans text-xs text-navy">{w.tr}</div>
         </a>
@@ -318,7 +316,7 @@ const wordCard = (w) => w;
     </div>
     </details>
 
-    <details id="flashcards" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="flashcards" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="cards" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -332,7 +330,7 @@ const wordCard = (w) => w;
     </details>
 
     <!-- ── 9. Guru Family Tree ──────────────────────────────────────────────── -->
-    <details id="family-tree" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="family-tree" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="people" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -348,7 +346,7 @@ const wordCard = (w) => w;
     </details>
 
     <!-- ── 10. Five Kakaars ─────────────────────────────────────────────────── -->
-    <details id="kakaars" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <details id="kakaars" class="group mt-4 glass-lite p-5 transition open:shadow-lift">
     <summary class="flex cursor-pointer list-none items-center gap-3">
       <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="shield" class="h-5 w-5" /></span>
       <span class="min-w-0 flex-1">
@@ -481,13 +479,13 @@ const wordCard = (w) => w;
     <!-- Shared info popup (used by both family tree and kakaars) -->
     <div id="info-popup" class="fixed inset-0 z-[80] hidden items-center justify-center p-4">
       <div id="popup-bg" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-      <div class="relative z-10 max-h-[80vh] w-full max-w-lg overflow-y-auto rounded-xl2 bg-paper shadow-xl">
+      <div class="glass-strong relative z-10 max-h-[80vh] w-full max-w-lg overflow-y-auto">
         <button id="popup-x" class="absolute right-4 top-3 text-2xl leading-none text-muted hover:text-navy">×</button>
         <div id="popup-body" class="p-6"></div>
       </div>
     </div>
 
-    <div class="mt-12 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
+    <div class="glass mt-12 p-6">
       <h2 class="text-xl font-bold" data-i18n="baal.nextsteps.h2">Next steps</h2>
       <ol class="mt-3 list-decimal space-y-1 pl-5">
         <li><span data-i18n="baal.nextsteps.li1a">Begin the daily banis —</span> <a class="underline" href="/collection/nitnem" data-i18n="baal.nextsteps.nitnem">Nitnem</a>.</li>
@@ -601,13 +599,13 @@ const wordCard = (w) => w;
         const dueCount = deck.filter((c) => (topic === 'all' || c.topic === topic) && due(c)).length;
         const reviewedToday = (get('fc_today', { d: '', n: 0 }).d === today()) ? get('fc_today', { n: 0 }).n : 0;
         const opts = ['<option value="all" data-i18n="baal.fc.alltopics">All topics</option>'].concat(topics.filter((tp) => deck.some((c) => c.topic === tp.id)).map((tp) => `<option value="${tp.id}"${tp.id === topic ? ' selected' : ''}>${esc(tp.name)}</option>`)).join('');
-        const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-3 text-center"><div class="text-2xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
+        const stat = (n, l) => `<div class="glass-lite border-t-4 border-t-saffron p-3 text-center"><div class="text-2xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
         let body;
         if (idx >= queue.length) {
-          body = `<div class="mt-6 rounded-xl2 border border-line bg-surface p-8 text-center"><div class="flex justify-center text-ok">${iconSvg('check-square', 'h-10 w-10')}</div><h3 class="mt-2 text-xl font-bold" data-i18n="baal.fc.sessioncomplete">Session complete</h3><p class="mt-1 text-muted">You reviewed ${queue.length} card${queue.length === 1 ? '' : 's'}. Come back tomorrow for the ones due next.</p><button id="again" class="btn btn-primary mt-4" data-i18n="baal.fc.studyagain">Study again</button></div>`;
+          body = `<div class="glass-lite mt-6 p-8 text-center"><div class="flex justify-center text-ok">${iconSvg('check-square', 'h-10 w-10')}</div><h3 class="mt-2 text-xl font-bold" data-i18n="baal.fc.sessioncomplete">Session complete</h3><p class="mt-1 text-muted">You reviewed ${queue.length} card${queue.length === 1 ? '' : 's'}. Come back tomorrow for the ones due next.</p><button id="again" class="btn btn-primary mt-4" data-i18n="baal.fc.studyagain">Study again</button></div>`;
         } else {
           const c = queue[idx];
-          body = `<div class="mt-6"><div id="cardbox" class="mx-auto flex min-h-[220px] max-w-xl cursor-pointer select-none flex-col items-center justify-center rounded-xl2 border border-line bg-surface p-8 text-center shadow-card">
+          body = `<div class="mt-6"><div id="cardbox" class="glass-lite mx-auto flex min-h-[220px] max-w-xl cursor-pointer select-none flex-col items-center justify-center p-8 text-center">
               <div class="${flipped ? 'text-lg' : 'gur text-4xl font-bold text-navy'}">${flipped ? c.back : c.front}</div>
               ${flipped ? `<div class="mt-3 font-sans text-xs text-muted">from ${esc(c.src)}</div>` : `<div class="mt-4 font-sans text-xs text-muted">tap to reveal · ${esc(tn(c.topic))}</div>`}
             </div>
@@ -963,4 +961,11 @@ const wordCard = (w) => w;
     ftSection.addEventListener('toggle', () => { if (ftSection.open && !treeInited) { treeInited = true; initFamilyTree(); } });
   }
   </script>
+
+  <style is:global>
+    /* Sanctum skin: the hero panel presents darker than plain .glass so the
+       white/saffron hero text keeps AA contrast over the deep-navy ambient in
+       light theme. Guarded off body.hc so high-contrast mode stays solid. */
+    body:not(.hc) #bu-hero .hero-panel { background: linear-gradient(135deg, rgb(11 30 58 / .62), rgb(10 13 20 / .70)); border-color: rgb(255 255 255 / .12); }
+  </style>
 </Base>

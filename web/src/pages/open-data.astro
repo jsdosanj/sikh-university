@@ -37,21 +37,21 @@ const jsonLd = {
   })),
 };
 ---
-<Base title="Open data — Sikhi University" description="The Sikhi University course catalogue metadata and Gurbani-verification report, published openly under CC BY 4.0 — the canonical scripture text itself is never rehosted, only referenced via BaniDB.">
+<Base title="Open data — Sikhi University" description="The Sikhi University course catalogue metadata and Gurbani-verification report, published openly under CC BY 4.0 — the canonical scripture text itself is never rehosted, only referenced via BaniDB." ambient="study">
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
 
   <section class="wrap max-w-3xl py-14">
-    <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron-deep">Open data</p>
+    <p class="eyebrow text-saffron-deep">Open data</p>
     <h1 class="mt-2 text-3xl font-bold text-navy">The catalogue and the verification report, openly licensed</h1>
     <p class="mt-3 text-muted">Sikhi University publishes the <em>structure</em> of its catalogue — course titles, topics, levels, professors, summaries, outcomes, lesson titles — and the Gurbani-quote verification report described on the <a class="underline" href="/integrity">content-integrity page</a>, as a machine-readable, openly-licensed dataset. Researchers, other Sikhi projects, and search tools are welcome to reuse it.</p>
 
-    <div id="stats" class="mt-8 grid gap-4 sm:grid-cols-4">
-      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.courses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses catalogued</div></div></div>
-      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.publishedCourses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Published courses</div></div></div>
-      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.quotesVerified.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Gurbani quotes verified</div></div></div>
-      <div class="rounded-xl2 border border-line bg-surface p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.coursesSealed.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses fully sealed</div></div></div>
+    <div id="stats" class="glass mt-8 grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.courses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses catalogued</div></div></div>
+      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.publishedCourses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Published courses</div></div></div>
+      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.quotesVerified.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Gurbani quotes verified</div></div></div>
+      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.coursesSealed.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses fully sealed</div></div></div>
     </div>
     <p class="mt-2 font-sans text-xs text-muted">Generated at build time from the same catalogue and verification run described on the <a class="underline" href="/integrity">content-integrity page</a>.</p>
 
@@ -69,19 +69,19 @@ const jsonLd = {
     <div class="mt-12">
       <h2 class="font-serif text-xl font-bold text-navy">Download</h2>
       <div class="mt-3 grid gap-3 sm:grid-cols-2">
-        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/index.json" download>
+        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/index.json" download>
           <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
           <span><span class="block font-semibold text-navy">index.json</span><span class="text-sm text-muted">Topics + per-course metadata, all courses.</span></span>
         </a>
-        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/search.json" download>
+        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/search.json" download>
           <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
           <span><span class="block font-semibold text-navy">search.json</span><span class="text-sm text-muted">Published courses with terms, outcomes, lesson titles.</span></span>
         </a>
-        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/verification.json" download>
+        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/verification.json" download>
           <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
           <span><span class="block font-semibold text-navy">verification.json</span><span class="text-sm text-muted">Per-course Gurbani-quote verification counts.</span></span>
         </a>
-        <a class="flex items-start gap-3 rounded-xl2 border border-line bg-surface p-4 transition-shadow hover:shadow-card" href="/data/dataset.json" download>
+        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/dataset.json" download>
           <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
           <span><span class="block font-semibold text-navy">dataset.json</span><span class="text-sm text-muted">The manifest — license, sources, and links to the files above.</span></span>
         </a>

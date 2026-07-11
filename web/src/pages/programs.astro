@@ -15,7 +15,7 @@ const typeBg = {
   certificate: 'bg-saffron-soft',
   associate: 'bg-blue-50 dark:bg-blue-950/20',
   bachelor: 'bg-paper',
-  master: 'bg-navy/5 dark:bg-navy/20',
+  master: 'bg-[#e8edf6] dark:bg-[#313b4d]',
   giani: 'bg-saffron-soft',
 };
 const grouped = typeOrder.map((t) => ({
@@ -24,21 +24,21 @@ const grouped = typeOrder.map((t) => ({
   programs: programsData.programs.filter((p) => p.type === t),
 }));
 ---
-<Base title="Degree Programs — Sikhi University" description="Certificate, Associate, Bachelor's, Master's and Giani degree programs in Sikh Studies — free, open, and comprehensive.">
+<Base title="Degree Programs — Sikhi University" description="Certificate, Associate, Bachelor's, Master's and Giani degree programs in Sikh Studies — free, open, and comprehensive." ambient="hall">
   <section class="wrap py-12">
-    <h1 class="text-3xl font-bold" data-i18n="programs.h1">Academic Programs</h1>
-    <p class="mt-3 max-w-2xl text-lg text-muted" data-i18n="programs.sub">Sikhi University offers a full academic ladder — from introductory certificates through the prestigious Giani qualification. All programs are free and open to every learner worldwide.</p>
+    <h1 class="text-3xl font-bold text-white" data-i18n="programs.h1">Academic Programs</h1>
+    <p class="mt-3 max-w-2xl text-lg text-white/80" data-i18n="programs.sub">Sikhi University offers a full academic ladder — from introductory certificates through the prestigious Giani qualification. All programs are free and open to every learner worldwide.</p>
 
-    <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm" data-i18n="programs.disclaimer">
+    <div class="mt-4 glass-strong border-l-4 border-saffron p-4 font-sans text-sm" data-i18n="programs.disclaimer">
       Sikhi University is not an accredited university and these courses are for self-development only.
     </div>
 
     {grouped.map(({ type, label, programs }) => programs.length > 0 && (
       <div class="mt-12">
-        <h2 class="text-2xl font-bold border-b border-line pb-2">{label}</h2>
+        <h2 class="text-2xl font-bold border-b border-white/15 pb-2 text-white">{label}</h2>
         <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {programs.map((p) => (
-            <a href={`/program/${p.id}`} class={`card flex flex-col gap-2 hover:border-saffron transition ${typeBg[type]}`}>
+            <a href={`/program/${p.id}`} class={`glass-lite relative flex flex-col gap-2 p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift hover:border-saffron active:scale-[.985] ${typeBg[type]}`}>
               <div class="flex items-center gap-3">
                 <Icon name={p.icon} class="h-8 w-8 shrink-0 text-saffron-deep" />
                 <div>
@@ -59,7 +59,7 @@ const grouped = typeOrder.map((t) => ({
       </div>
     ))}
 
-    <div class="mt-16 rounded-xl2 border border-line bg-surface p-6">
+    <div class="mt-16 glass-strong rounded-xl2 p-6">
       <h2 class="text-xl font-bold" data-i18n="programs.how.h2">How programs work</h2>
       <ol class="mt-4 space-y-3 font-sans text-sm text-muted list-decimal list-inside">
         <li data-i18n="programs.how.step1">Complete all courses in the program — each has lectures, reading, and a quiz.</li>

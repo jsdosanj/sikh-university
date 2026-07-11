@@ -13,6 +13,25 @@
   --c-saffron-soft: 253 238 200;
   --c-saffron-deep: 120 82 5; /* AA-contrast gold for pills/links on light bg */
   color-scheme: light;
+
+  /* Glass system (DESIGN.md 2.0). Blur budget: ≤6 live backdrop-filter
+     elements per viewport — groups share one glass panel or use .glass-lite. */
+  --glass-bg: rgb(var(--c-surface) / .78);
+  --glass-bg-strong: rgb(var(--c-surface) / .90);
+  --glass-border: rgb(255 255 255 / .55);
+  --glass-hairline: rgb(var(--c-line) / .6);
+  --glass-blur: 14px;
+  --glass-blur-strong: 20px;
+  --glass-shadow: 0 8px 32px rgb(11 30 58 / .10), inset 0 1px 0 rgb(255 255 255 / .45);
+
+  /* Motion vocabulary (DESIGN.md 2.0). */
+  --ease-out: cubic-bezier(.2, .7, .3, 1);
+  --ease-cinema: cubic-bezier(.65, 0, .35, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --dur-press: 150ms;
+  --dur-hover: 300ms;
+  --dur-reveal: 600ms;
+  --dur-grand: 1200ms;
 }
 [data-theme="dark"] {
   --c-paper: 13 16 22;
@@ -24,6 +43,11 @@
   --c-saffron-soft: 58 46 26;
   --c-saffron-deep: 255 200 61;
   color-scheme: dark;
+
+  --glass-bg: rgb(var(--c-surface) / .70);
+  --glass-bg-strong: rgb(var(--c-surface) / .86);
+  --glass-border: rgb(255 255 255 / .12);
+  --glass-shadow: 0 8px 32px rgb(0 0 0 / .45), inset 0 1px 0 rgb(255 255 255 / .06);
 }
 [data-theme="dark"] blockquote.gurbani { background: rgba(244, 178, 26, .12); color: rgb(var(--c-ink)); }
 
@@ -176,4 +200,120 @@
 
   /* Saffron radial glow for hero compositions. */
   .glow-saffron { background: radial-gradient(closest-side, rgba(244, 178, 26, .28), transparent 70%); }
+
+  /* ── Glass system (DESIGN.md 2.0) ────────────────────────────────────── */
+
+  /* Frosted primary nav: brand navy at 82% over a strong blur, deepening once
+     the page scrolls. Counts as 1 of the ≤6 viewport blur budget. */
+  .su-nav {
+    background: rgb(22 51 92 / .82);
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
+    border-bottom: 1px solid rgb(255 255 255 / .10);
+    transition: background var(--dur-hover) var(--ease-out);
+  }
+  .su-nav[data-scrolled] { background: rgb(17 40 73 / .92); }
+  @supports not (backdrop-filter: blur(1px)) { .su-nav { background: #16335c; } }
+  body.hc .su-nav { background: #000 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+
+  .glass {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    @apply rounded-xl2;
+  }
+  .glass-strong {
+    background: var(--glass-bg-strong);
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    @apply rounded-xl2;
+  }
+  /* No backdrop-filter: the per-card form for grids and the ≤640px demotion
+     target — alpha background + border + shadow reads as glass at card size
+     without paying the blur cost per element. */
+  .glass-lite {
+    background: rgb(var(--c-surface) / .92);
+    border: 1px solid var(--glass-hairline);
+    box-shadow: var(--glass-shadow);
+    @apply rounded-xl2;
+  }
+  .glass-card {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    @apply relative block rounded-xl2 p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift;
+  }
+  .glass-card:active { transform: scale(.985); }
+  /* Browsers without backdrop-filter get near-solid surfaces. */
+  @supports not (backdrop-filter: blur(1px)) {
+    .glass, .glass-strong, .glass-card { background: rgb(var(--c-surface) / .95); }
+  }
+  /* Mobile demotion: cards drop live blur below 640px (nav/modals keep it). */
+  @media (max-width: 640px) {
+    .glass-card {
+      background: rgb(var(--c-surface) / .92);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  /* ── Ambient background system: ONE fixed layer per page (Base `ambient`
+     prop). Transform/opacity keyframes only; frozen by reduced-motion. ───── */
+
+  .ambient {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+  }
+  .ambient::before, .ambient::after {
+    content: ''; position: absolute; border-radius: 9999px; will-change: transform;
+  }
+  /* hall — grand navy: index, about, programs, login, 404, cert */
+  .ambient-hall { background: linear-gradient(160deg, #0b1e3a, #16335c 55%, #0b2444); }
+  .ambient-hall::before {
+    width: 60vmax; height: 60vmax; left: -15vmax; top: -20vmax;
+    background: radial-gradient(closest-side, rgb(244 178 26 / .10), transparent 70%);
+    animation: su-drift-a 45s var(--ease-out) infinite alternate;
+  }
+  .ambient-hall::after {
+    width: 50vmax; height: 50vmax; right: -18vmax; bottom: -22vmax;
+    background: radial-gradient(closest-side, rgb(29 78 137 / .35), transparent 70%);
+    animation: su-drift-b 70s var(--ease-out) infinite alternate;
+  }
+  /* study — warm paper: catalog, course, dashboard, search, professors */
+  .ambient-study { background: rgb(var(--c-paper)); }
+  .ambient-study::before {
+    width: 70vmax; height: 46vmax; left: 50%; top: -28vmax; transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgb(244 178 26 / .12), transparent 70%);
+  }
+  [data-theme="dark"] .ambient-study::before { background: radial-gradient(closest-side, rgb(244 178 26 / .07), transparent 70%); }
+  /* sanctum — deep contemplative: santhiya, zen, baal-updesh, collections */
+  .ambient-sanctum { background: linear-gradient(180deg, #0b1e3a, #0a0d14 80%); }
+  .ambient-sanctum::before {
+    width: 64vmax; height: 64vmax; left: 50%; top: 30%; transform: translate(-50%, -50%);
+    background: radial-gradient(closest-side, rgb(244 178 26 / .12), transparent 72%);
+    animation: su-diya 90s ease-in-out infinite alternate;
+  }
+  .ambient-study .texture, .ambient-hall .lattice, .ambient-sanctum .lattice {
+    position: absolute; inset: 0;
+  }
+  @keyframes su-drift-a { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(8vmax, 6vmax, 0) scale(1.15); } }
+  @keyframes su-drift-b { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-7vmax, -5vmax, 0) scale(1.1); } }
+  @keyframes su-diya { from { opacity: .55; transform: translate(-50%, -50%) scale(1); } to { opacity: 1; transform: translate(-50%, -50%) scale(1.12); } }
+
+  /* ── Progress ring (SVG stroke sweep; value always rendered as text too) ── */
+  .ring-track { stroke: rgb(var(--c-line)); }
+  .ring-value { stroke: #f4b21a; stroke-linecap: round; transition: stroke-dashoffset .9s var(--ease-cinema); }
+
+  /* ── MPA View Transitions: 250ms cross-fade where supported; the
+     su-page-enter animation is disabled there so pages never double-animate. */
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 250ms; }
+  @supports (view-transition-name: root) {
+    main { animation: none; }
+  }
 }
