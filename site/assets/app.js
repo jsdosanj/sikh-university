@@ -290,7 +290,7 @@
     var nav = document.querySelector(".nav-inner");
     if (!nav) return;
     var here = (location.pathname.split("/").pop() || "index.html");
-    nav.innerHTML = '<a class="brand" href="index.html">Sikh<span>University</span></a>';
+    nav.innerHTML = '<a class="brand" href="index.html">Sikhi<span>University</span></a>';
     function add(href, text, onclick, cls) {
       var a = document.createElement("a"); a.href = href; a.textContent = text;
       if (cls) a.className = cls;
@@ -642,7 +642,7 @@
     var cert = el("div", "cert");
     cert.innerHTML =
       '<div class="cert-inner">'
-      + '<div class="cert-brand">Sikh<span>University</span></div>'
+      + '<div class="cert-brand">Sikhi<span>University</span></div>'
       + '<div class="cert-sub">Certificate of Completion</div>'
       + '<div class="cert-line">This certifies that</div>'
       + '<div class="cert-name">' + esc(name || "________________") + '</div>'

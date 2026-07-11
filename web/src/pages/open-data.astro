@@ -14,7 +14,7 @@ try {
   }
 } catch { /* absent in dev — page still renders */ }
 
-const SITE = 'https://sikhiuni.com';
+import { SITE } from '../lib/site';
 const stats = dataset?.stats || { courses: 0, publishedCourses: 0, quotesVerified: 0, coursesSealed: 0 };
 const distributions = dataset?.distributions || [];
 const CITATION = 'Sikhi University. "Open dataset: course catalogue metadata and Gurbani verification report." ' +

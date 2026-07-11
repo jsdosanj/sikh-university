@@ -30,12 +30,15 @@ describe("canonical-host redirect", () => {
     expect(res.headers.get("location")).toBe("https://sikhiuni.com/");
   });
 
-  it("redirects API paths on a legacy host too (clients live on the new origin)", async () => {
+  it("does NOT redirect /api/ on a legacy host (301 would turn POSTs into bodyless GETs for stale clients)", async () => {
     const res = await worker.fetch(
       new Request("https://sikh-university.dosanjhlabs.com/api/health"),
       { ASSETS: htmlAssets },
     );
-    expect(res.status).toBe(301);
+    // The handler runs in place (503 here — the mock env has no DB); the
+    // invariant is that it is NOT a redirect.
+    expect([301, 302, 307, 308]).not.toContain(res.status);
+    expect(res.headers.get("location")).toBeNull();
   });
 
   it("serves the canonical host without redirecting", async () => {

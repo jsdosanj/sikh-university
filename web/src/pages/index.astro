@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
 import Icon from '../components/Icon.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
-const SITE = 'https://sikhiuni.com';
+import { SITE, ldJson } from '../lib/site';
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
   '@id': SITE + '/#org', // merges with the Organization node Base.astro emits site-wide
@@ -13,7 +13,7 @@ const ld = {
 // WebSite (with the sitelinks SearchAction) is now emitted site-wide by Base.astro.
 ---
 <Base title="Sikhi University — free, open Sikhi & modern-skills courses">
-  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+  <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
 
   <!-- Hero -->
   <header class="relative overflow-hidden bg-gradient-to-br from-brand via-brand-strong to-navy-deep text-white">

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import { ldJson } from '../lib/site';
 const offers = [
   ['books', 'Real courses, by topic', 'Dozens of courses across theology, philosophy, history, language, spirituality, music, the arts — and modern skills like AI.'],
   ['cap', 'Taught from the sources', "Courses are drawn from the works of leading Sikh scholars and writers, each acting as the course's professor."],
@@ -36,7 +37,7 @@ const faqLd = {
 };
 ---
 <Base title="About — Sikhi University" description="Why Sikhi University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills.">
-  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} slot="head" />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} slot="head" />
   <!-- Hero -->
   <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
     <div class="wrap relative py-20">

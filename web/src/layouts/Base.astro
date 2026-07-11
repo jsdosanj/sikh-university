@@ -7,7 +7,7 @@ import InstallPrompt from '../components/InstallPrompt.astro';
 
 interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; }
 const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true } = Astro.props;
-const SITE = 'https://sikhiuni.com';
+import { SITE, ldJson } from '../lib/site';
 // Normalise to the extensionless URLs the site is actually served/linked at
 // (e.g. /catalog, not /catalog.html; / for the homepage).
 const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
@@ -48,7 +48,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Sikhi University" />
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script type="application/ld+json" set:html={ldJson({
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "Organization", "@id": SITE + "/#org", "name": "Sikhi University", "url": SITE,

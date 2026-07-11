@@ -20,7 +20,7 @@ try {
 const profCourseCount = courses.filter((x) => x.professor === c.professor && x.status === 'published').length;
 const bio = profBio(c.professor);
 const bioShort = bio ? (bio.split('. ').slice(0, 2).join('. ').replace(/\.?$/, '.')) : '';
-const SITE = 'https://sikhiuni.com';
+import { SITE, ldJson } from '../../lib/site';
 const archive = c.topic === 'modern-skills'
   ? { url: 'https://sikharchive.net/courses', label: 'Free AI courses on Sikh Archive' }
   : { url: 'https://sikharchive.net', label: 'Dig deeper in the Sikh Archive' };
@@ -54,8 +54,8 @@ const breadcrumb = {
 };
 ---
 <Base title={`${c.title} — Sikhi University`} description={c.summary} ogType="article" autoTranslate={false}>
-  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} slot="head" />
+  <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
+  <script type="application/ld+json" set:html={ldJson(breadcrumb)} slot="head" />
 
   <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
     <div class="wrap py-12">

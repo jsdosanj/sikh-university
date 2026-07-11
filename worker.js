@@ -110,7 +110,12 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const { pathname } = url;
-    if (LEGACY_HOSTS.has(url.hostname)) {
+    // Pages/assets on a legacy host 301 to the canonical origin. /api/ and
+    // /media/ are exempt and served in place: a 301 turns POST into a bodyless
+    // GET (per the Fetch spec), which would silently break auth/progress/quiz
+    // calls from stale clients — old cached bundles and installed PWAs on the
+    // legacy origin keep working until their caches drain.
+    if (LEGACY_HOSTS.has(url.hostname) && !pathname.startsWith("/api/") && !pathname.startsWith("/media/")) {
       return Response.redirect(CANONICAL_ORIGIN + pathname + url.search, 301);
     }
     if (pathname.startsWith("/api/")) {

@@ -24,7 +24,9 @@ response.
   - `Person` — professor pages (`web/src/pages/professor/[slug].astro`).
   - `FAQPage` / `ItemList` also appear on `about.astro` and `catalog.astro` where relevant.
   - Keep new page types consistent with this pattern: compute the `ld` object, inline it as
-    `<script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />`.
+    `<script type="application/ld+json" set:html={ldJson(ld)} slot="head" />` — `ldJson`
+    (from `web/src/lib/site.ts`) escapes `<` so free-text fields can't break out of the
+    script element.
 - **`robots.txt`** (`web/public/robots.txt`) splits AI crawlers into two classes: AI
   search/answer bots (OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User,
   PerplexityBot, Perplexity-User, Applebot, Amzn-SearchBot/-User, meta-webindexer,
@@ -45,12 +47,13 @@ response.
 
 Do this once, in order, after the `sikhiuni.com` rebrand ships:
 
-1. **Deploy** — merge to `master`. `wrangler.toml` binds both custom domains
-   (`sikhiuni.com` and the legacy `sikh-university.dosanjhlabs.com`); Cloudflare
-   auto-provisions the `sikhiuni.com` custom domain on deploy.
+1. **Deploy** — merge to `master`. Domain provisioning, DNS-conflict recovery and the
+   MAIL_FROM/Resend switch live in `docs/DEPLOY.md` → "Domain: sikhiuni.com cutover" (the
+   single source of truth for cutover operations).
 2. **Verify the cutover** — confirm `https://sikhiuni.com` loads, and that
    `https://sikh-university.dosanjhlabs.com/anything` 301-redirects to
-   `https://sikhiuni.com/anything` (path + query preserved).
+   `https://sikhiuni.com/anything` (path + query preserved; `/api/` and `/media/` are
+   deliberately served in place on the legacy host so stale clients keep working).
 3. **Google Search Console** — add `sikhiuni.com` as a **Domain property** and verify via
    the DNS TXT record (covers all subdomains/protocols in one property).
 4. **Submit the sitemap** — `https://sikhiuni.com/sitemap.xml` in the new property.
@@ -60,9 +63,8 @@ Do this once, in order, after the `sikhiuni.com` rebrand ships:
 6. **Bing Webmaster Tools** — use "Import from Google Search Console" to pull in the new
    domain in one step. Bing's index also powers DuckDuckGo, Yahoo, and Ecosia, so this
    covers four engines at once.
-7. **Keep the legacy route bound indefinitely.** Do not remove the
-   `sikh-university.dosanjhlabs.com` route or its 301s — they are what preserves link equity
-   and existing backlinks/bookmarks. Removing the route turns those into dead links.
+7. **Keep the legacy route bound indefinitely** — `docs/DEPLOY.md` explains why the
+   `sikh-university.dosanjhlabs.com` route and its 301s must never be removed.
 
 ## IndexNow
 

@@ -10,7 +10,7 @@ const { name, courses } = Astro.props;
 const bio = profBio(name);
 const photo = professorPhotos[name];
 const sorted = [...courses].sort((a, b) => a.level - b.level);
-const SITE = 'https://sikhiuni.com';
+import { SITE, ldJson } from '../../lib/site';
 // ProfilePage + Person structured data so professor pages are eligible for
 // rich results. Kept honest: no invented affiliations or job titles — many
 // professors are historical figures whose writings the courses are built from.
@@ -22,12 +22,13 @@ const personLd = {
     name,
     url: `${SITE}/professor/${profSlug(name)}`,
     ...(bio ? { description: bio } : {}),
-    ...(photo && photo.img ? { image: photo.img } : {}),
+    // JSON-LD consumers need an absolute URL (photo.img is a bare relative path).
+    ...(photo && photo.img ? { image: `${SITE}/${photo.img}` } : {}),
   },
 };
 ---
 <Base title={`${name} — Sikhi University`} description={bio || `${name} teaches courses at Sikhi University.`} ogType="profile">
-  <script type="application/ld+json" set:html={JSON.stringify(personLd)} slot="head" />
+  <script type="application/ld+json" set:html={ldJson(personLd)} slot="head" />
   <section class="wrap py-12">
     <div class="flex flex-wrap items-center gap-5 border-b border-line pb-6">
       <Avatar name={name} size={110} />

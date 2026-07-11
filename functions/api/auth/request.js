@@ -29,7 +29,7 @@ export async function onRequestPost({ request, env }) {
         method: "POST",
         headers: { "Authorization": `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
         body: JSON.stringify({
-          from: env.MAIL_FROM || "Sikhi University <login@sikhuniversity.pages.dev>",
+          from: env.MAIL_FROM || "Sikhi University <login@dosanjhlabs.com>",
           to: [email],
           reply_to: env.REPLY_TO || "contact@sikhism.io",
           subject: "Your Sikhi University sign-in link",

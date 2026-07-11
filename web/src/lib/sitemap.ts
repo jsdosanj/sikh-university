@@ -9,6 +9,18 @@ export function siteBase(site: URL | undefined): string {
   return (site?.toString() || 'https://sikhiuni.com').replace(/\/$/, '');
 }
 
+// One invalid character in a <loc> makes search engines reject the WHOLE child
+// sitemap, so every URL is entity-escaped (ids/slugs are catalogue data and
+// could someday contain & or quotes).
+function xmlEscape(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 export function urlsetXml(base: string, entries: UrlEntry[]): Response {
   const body =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
@@ -16,7 +28,7 @@ export function urlsetXml(base: string, entries: UrlEntry[]): Response {
     entries
       .map(
         (e) =>
-          `  <url><loc>${base}${e.path}</loc><lastmod>${e.lastmod || BUILD_DATE}</lastmod><priority>${e.priority}</priority></url>`,
+          `  <url><loc>${xmlEscape(base + e.path)}</loc><lastmod>${e.lastmod || BUILD_DATE}</lastmod><priority>${e.priority}</priority></url>`,
       )
       .join('\n') +
     `\n</urlset>\n`;
