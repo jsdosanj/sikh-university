@@ -2,36 +2,42 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Sign in / Sign up — Sikhi University" description="Join Sikhi University free with a magic link — as a student to learn, or apply to teach. No password needed.">
-  <section class="wrap max-w-xl py-14">
-    <h1 class="text-3xl font-bold" data-i18n="login.h1">Sign in or sign up</h1>
-    <p class="mt-2 text-lg text-muted" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
-    <div id="err" class="mt-4"></div>
+  <section class="wrap py-14">
+    <div class="mx-auto max-w-md text-center">
+      <p class="eyebrow text-saffron-deep">Sign in</p>
+      <h1 class="text-display-sm mt-2 font-bold text-navy" data-i18n="login.h1">Sign in or sign up</h1>
+      <p class="mt-2 font-sans text-muted" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
+    </div>
+    <div id="err" class="mx-auto mt-4 max-w-md"></div>
 
-    <fieldset class="mt-6">
-      <legend class="font-sans text-sm font-semibold" data-i18n="login.role.legend">I am joining as a…</legend>
-      <div class="mt-2 grid gap-3 sm:grid-cols-2">
-        <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
-          <input type="radio" name="role" value="student" class="mr-2" checked />
-          <span class="font-semibold text-navy" data-i18n="login.role.student">Student</span>
-          <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.studentdesc">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
-        </label>
-        <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
-          <input type="radio" name="role" value="teacher" class="mr-2" />
-          <span class="font-semibold text-navy" data-i18n="login.role.teacher">Teacher</span>
-          <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.teacherdesc">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
-        </label>
-      </div>
-    </fieldset>
+    <div class="card-lift mx-auto mt-6 max-w-md">
+      <fieldset>
+        <legend class="font-sans text-sm font-semibold" data-i18n="login.role.legend">I am joining as a…</legend>
+        <div class="mt-2 grid gap-3">
+          <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
+            <input type="radio" name="role" value="student" class="mr-2" checked />
+            <span class="font-semibold text-navy" data-i18n="login.role.student">Student</span>
+            <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.studentdesc">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
+          </label>
+          <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
+            <input type="radio" name="role" value="teacher" class="mr-2" />
+            <span class="font-semibold text-navy" data-i18n="login.role.teacher">Teacher</span>
+            <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.teacherdesc">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
+          </label>
+        </div>
+      </fieldset>
 
-    <form id="login-form" class="mt-6 space-y-4">
-      <label class="block font-sans text-sm font-semibold"><span data-i18n="login.email.label">Email</span>
-        <input id="email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-      </label>
-      <button id="send" type="submit" class="btn btn-primary" data-i18n="login.submit">Send magic link</button>
-    </form>
-    <div id="out" class="mt-4"></div>
+      <form id="login-form" class="mt-6 space-y-4">
+        <label class="block font-sans text-sm font-semibold"><span data-i18n="login.email.label">Email</span>
+          <input id="email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+        </label>
+        <button id="send" type="submit" class="btn btn-primary w-full justify-center" data-i18n="login.submit">Send magic link</button>
+      </form>
+    </div>
+    <div id="out" class="mx-auto mt-4 max-w-md"></div>
   </section>
   <script>
+    import { iconSvg } from '../lib/icons';
     function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
     const params = new URLSearchParams(location.search);
     const e = params.get('error');
@@ -53,7 +59,7 @@ import Base from '../layouts/Base.astro';
           btn.disabled = false; btn.textContent = 'Send magic link';
           if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not send the link.')}</strong></div>`; return; }
           const tail = role === 'teacher' ? " After signing in, you'll complete a short teacher application." : '';
-          if (d.sent) out.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Check your email.</strong> A sign-in link was sent to ${esc(email)} (expires in 15 minutes).${tail}</div>`;
+          if (d.sent) out.innerHTML = `<div class="flex items-start gap-3 rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><span class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">${iconSvg('check', 'h-3.5 w-3.5')}</span><span><strong>Check your email.</strong> A sign-in link was sent to ${esc(email)} (expires in 15 minutes).${tail}</span></div>`;
           else out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${esc(d.devLink)}">click here to sign in</a>.${tail}</div>`;
         })
         .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });

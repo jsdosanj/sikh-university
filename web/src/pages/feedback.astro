@@ -18,8 +18,9 @@ import Base from '../layouts/Base.astro';
         <input id="email" type="email" placeholder="you@example.com — so we can follow up" data-i18n-ph="feedback.email.ph" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
       </label>
       <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.msg.label">Your feedback</span>
-        <textarea id="msg" rows="7" required placeholder="Your feedback…" data-i18n-ph="feedback.msg.ph" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea>
+        <textarea id="msg" rows="7" required maxlength="5000" placeholder="Your feedback…" data-i18n-ph="feedback.msg.ph" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea>
       </label>
+      <p id="msg-count" class="-mt-2 text-right font-sans text-xs text-muted">0 / 5000</p>
       <button id="send" type="submit" class="btn btn-primary" data-i18n="feedback.submit">Send feedback</button>
     </form>
     <div id="out" class="mt-4"></div>
@@ -27,6 +28,9 @@ import Base from '../layouts/Base.astro';
   <script>
     const courseId = new URLSearchParams(location.search).get('course') || '';
     if (courseId) { document.getElementById('cat').value = 'course'; document.getElementById('msg').value = `Re: course "${courseId}" — `; }
+    const msgEl = document.getElementById('msg'); const countEl = document.getElementById('msg-count');
+    const updateCount = () => { countEl.textContent = msgEl.value.length + ' / 5000'; };
+    msgEl.addEventListener('input', updateCount); updateCount();
     const form = document.getElementById('fb'); const out = document.getElementById('out'); const btn = document.getElementById('send');
     form.addEventListener('submit', (ev) => {
       ev.preventDefault();
@@ -35,7 +39,7 @@ import Base from '../layouts/Base.astro';
       fetch('/api/feedback', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ message, category: document.getElementById('cat').value, courseId, email: document.getElementById('email').value }) })
         .then((r) => ({ ok: r.ok })).then(({ ok }) => {
-          if (ok) form.outerHTML = '<div class="rounded-xl border-l-4 border-ok bg-surface p-4 font-sans"><strong>Thank you.</strong> Your feedback was received — we read every message.</div>';
+          if (ok) { form.outerHTML = '<div class="rounded-xl border-l-4 border-ok bg-surface p-4 font-sans"><strong>Thank you.</strong> Your feedback was received — we read every message.</div>'; if (window.suToast) window.suToast('Thank you — your feedback was received.', 'ok'); }
           else { btn.disabled = false; btn.textContent = 'Send feedback'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not send. Please try again.</div>'; }
         }).catch(() => { btn.disabled = false; btn.textContent = 'Send feedback'; });
     });

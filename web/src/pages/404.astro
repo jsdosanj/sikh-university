@@ -1,21 +1,45 @@
 ---
 import Base from '../layouts/Base.astro';
-import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
 ---
 <Base title="Page not found — Sikhi University" description="This page could not be found." autoTranslate={false}>
-  <section class="wrap max-w-xl py-20 text-center">
-    <div class="mx-auto mb-6 w-14 opacity-80"><Logo /></div>
-    <p class="font-gur text-2xl text-saffron-deep">ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ</p>
-    <h1 class="mt-4 text-3xl font-bold text-navy" data-i18n="notfound.h1">This page wandered off the path.</h1>
-    <p class="mt-3 text-muted" data-i18n="notfound.sub">We couldn't find what you were looking for. Search the catalogue or start with the basics.</p>
-    <form id="s404" class="mt-6 flex gap-2" role="search">
-      <input id="q404" type="search" aria-label="Search courses" data-i18n-aria="catalog.search.aria" placeholder="Search 558 courses…" data-i18n-ph="notfound.search.ph" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
-      <button class="btn btn-primary" data-i18n="notfound.search.btn">Search</button>
+  <section class="relative overflow-hidden bg-brand text-white">
+    <div class="pattern-lattice absolute inset-0" aria-hidden="true"></div>
+    <div class="wrap relative py-16 text-center sm:py-20">
+      <p class="eyebrow text-saffron">404</p>
+      <h1 class="text-display-sm mt-3 font-bold text-white" data-i18n="notfound.h1">This page wandered off the path.</h1>
+      <p class="mx-auto mt-4 max-w-xl font-sans text-white/85" data-i18n="notfound.sub">We couldn't find what you were looking for. Search the catalogue or start with the basics.</p>
+    </div>
+  </section>
+
+  <section class="wrap max-w-2xl py-12 text-center">
+    <form id="s404" action="/search" method="get" role="search" class="mx-auto flex max-w-md gap-2">
+      <div class="relative flex-1">
+        <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input id="q404" name="q" type="search" aria-label="Search courses" data-i18n-aria="catalog.search.aria" placeholder="Search 558 courses…" data-i18n-ph="notfound.search.ph" autocomplete="off" class="w-full rounded-full border border-line bg-surface py-2.5 pl-9 pr-4 font-sans text-sm outline-none focus:border-saffron" />
+      </div>
+      <button class="btn btn-primary shrink-0" data-i18n="notfound.search.btn">Search</button>
     </form>
-    <div class="mt-6 flex flex-wrap justify-center gap-3">
-      <a class="btn" href="/" data-i18n="notfound.home">Home</a>
-      <a class="btn" href="/catalog" data-i18n="home.cta.browse">Browse courses</a>
-      <a class="btn" href="/paths" data-i18n="notfound.paths">Guided paths</a>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <a href="/catalog" class="card-lift text-center">
+        <Icon name="books" class="mx-auto h-7 w-7 text-saffron-deep" />
+        <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="catalog.eyebrow">Catalogue</span>
+      </a>
+      <a href="/santhiya" class="card-lift text-center">
+        <Icon name="compass" class="mx-auto h-7 w-7 text-saffron-deep" />
+        <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="nav.santhya">Santhya</span>
+      </a>
+      <a href="/about" class="card-lift text-center">
+        <Icon name="globe" class="mx-auto h-7 w-7 text-saffron-deep" />
+        <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="nav.about">About</span>
+      </a>
+      <a href="/professors" class="card-lift text-center">
+        <Icon name="cap" class="mx-auto h-7 w-7 text-saffron-deep" />
+        <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="nav.professors">Professors</span>
+      </a>
     </div>
   </section>
   <script>
