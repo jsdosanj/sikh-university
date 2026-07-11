@@ -424,5 +424,7 @@
   "verify.notfound.detail": "Aucun certificat ne correspond à cet ID.",
   "verify.error.detail2": "Veuillez réessayer dans un instant.",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "ID de certificat"
+  "verify.aria.certid": "ID de certificat",
+  "cmdk.placeholder": "Recherchez cours, pages, actions…",
+  "cmdk.hint": "Tapez pour chercher · ↑↓ pour naviguer · Entrée pour ouvrir"
 }

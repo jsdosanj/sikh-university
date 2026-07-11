@@ -424,5 +424,7 @@
   "verify.notfound.detail": "没有证书与该编号匹配。",
   "verify.error.detail2": "请稍后再试。",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "证书编号"
+  "verify.aria.certid": "证书编号",
+  "cmdk.placeholder": "搜索课程、页面、操作…",
+  "cmdk.hint": "输入以搜索 · ↑↓ 导航 · Enter 打开"
 }

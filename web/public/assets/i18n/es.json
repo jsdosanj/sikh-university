@@ -424,5 +424,7 @@
   "verify.notfound.detail": "Ningún certificado coincide con ese ID.",
   "verify.error.detail2": "Vuelve a intentarlo en un momento.",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "ID de certificado"
+  "verify.aria.certid": "ID de certificado",
+  "cmdk.placeholder": "Busca cursos, páginas, acciones…",
+  "cmdk.hint": "Escribe para buscar · ↑↓ para navegar · Enter para abrir"
 }

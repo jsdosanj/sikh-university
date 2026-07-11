@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
 import InstallPrompt from '../components/InstallPrompt.astro';
+import CommandPalette from '../components/CommandPalette.astro';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 // Inline the @font-face rules instead of linking /fonts/fonts.css: the extra
@@ -107,6 +108,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <Footer />
 
   <InstallPrompt />
+  <CommandPalette />
   <button id="a11y-fab" aria-label="Accessibility options" aria-expanded="false" aria-controls="a11y-panel" class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-lift hover:bg-brand-strong print:hidden"><Icon name="accessibility" class="h-6 w-6" /></button>
   <div id="a11y-panel" class="fixed right-4 bottom-20 z-50 hidden w-56 flex-col gap-1 rounded-xl2 border border-line bg-surface p-3 shadow-lift print:hidden">
     <strong class="font-sans text-xs uppercase tracking-wide text-muted" data-i18n="a11y.title">Accessibility</strong>

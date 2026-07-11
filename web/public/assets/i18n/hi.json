@@ -424,5 +424,7 @@
   "verify.notfound.detail": "उस ID से कोई सर्टिफ़िकेट मेल नहीं खाता।",
   "verify.error.detail2": "कृपया थोड़ी देर बाद फिर कोशिश करें।",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "सर्टिफ़िकेट ID"
+  "verify.aria.certid": "सर्टिफ़िकेट ID",
+  "cmdk.placeholder": "कोर्स, पेज, क्रियाएँ खोजें…",
+  "cmdk.hint": "खोजने के लिए लिखें · ↑↓ से चुनें · Enter से खोलें"
 }

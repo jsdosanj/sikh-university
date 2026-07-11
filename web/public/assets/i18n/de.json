@@ -424,5 +424,7 @@
   "verify.notfound.detail": "Kein Zertifikat entspricht dieser ID.",
   "verify.error.detail2": "Bitte versuchen Sie es gleich noch einmal.",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "Zertifikats-ID"
+  "verify.aria.certid": "Zertifikats-ID",
+  "cmdk.placeholder": "Kurse, Seiten, Aktionen suchen…",
+  "cmdk.hint": "Tippen zum Suchen · ↑↓ zum Navigieren · Enter zum Öffnen"
 }

@@ -424,5 +424,7 @@
   "verify.notfound.detail": "اس شناخت سے کوئی سرٹیفکیٹ میل نہیں کھاتا۔",
   "verify.error.detail2": "براہِ کرم ایک لمحے بعد دوبارہ کوشش کریں۔",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "سرٹیفکیٹ شناخت"
+  "verify.aria.certid": "سرٹیفکیٹ شناخت",
+  "cmdk.placeholder": "کورسز، صفحات، ایکشنز تلاش کریں…",
+  "cmdk.hint": "تلاش کے لیے لکھیں · ↑↓ سے منتخب کریں · Enter سے کھولیں"
 }

@@ -424,5 +424,7 @@
   "verify.notfound.detail": "لا شهادة تطابق ذلك المعرّف.",
   "verify.error.detail2": "يرجى المحاولة مجددًا بعد لحظة.",
   "verify.ph.certid": "SU-…",
-  "verify.aria.certid": "معرّف الشهادة"
+  "verify.aria.certid": "معرّف الشهادة",
+  "cmdk.placeholder": "ابحث عن الدورات والصفحات والإجراءات…",
+  "cmdk.hint": "اكتب للبحث · ↑↓ للتنقل · Enter للفتح"
 }
