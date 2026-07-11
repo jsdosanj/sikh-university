@@ -99,6 +99,41 @@ wrangler d1 execute sikh-university --remote --command "ALTER TABLE users ADD CO
 
 (The `enrollments` table auto-creates on first write, so it needs no migration.)
 
+## Web Push reminders (VAPID secrets — owner setup, one time)
+The daily coursework-reminder push (cron in `wrangler.toml`, sender in
+`functions/push-sender.js`) is a no-op until a VAPID keypair exists. The whole feature
+degrades to hidden without it: `GET /api/push/key` returns 404 and the dashboard opt-in
+never renders.
+
+1. Generate a keypair locally (any machine with npm):
+
+   ```bash
+   npx web-push generate-vapid-keys
+   ```
+
+2. Set the three secrets on the Worker (dashboard → Settings → Variables and Secrets,
+   or CLI):
+
+   ```bash
+   wrangler secret put VAPID_PUBLIC_KEY    # the generated public key (base64url, starts with B)
+   wrangler secret put VAPID_PRIVATE_KEY   # the generated private key
+   wrangler secret put VAPID_SUBJECT       # mailto:you@example.com or https://sikhiuni.com/feedback
+   ```
+
+3. Deploy (or just merge — the next deploy picks the secrets up). No code change needed.
+
+Notes:
+- Pushes are **payload-less**: the server sends an empty VAPID-signed push and the
+  service worker (`web/public/sw.js`) supplies the notification text. No payload
+  encryption, no message content stored server-side.
+- Subscriptions live in the D1 `push_subs` table (auto-created on first subscribe);
+  dead endpoints (404/410 from the push service) are pruned automatically each sweep.
+- The cron fires daily at 16:00 UTC. iOS requires 16.4+ **and** the site installed to
+  the home screen (Share → Add to Home Screen) before notification permission can be
+  requested; Android Chrome and desktop browsers work from the normal tab.
+- Rotating the keypair invalidates every stored subscription — users re-opt-in on
+  their next visit. Prefer never rotating unless the private key leaks.
+
 ## Local development
 Root scripts drive local dev:
 

@@ -57,6 +57,29 @@ self.addEventListener('fetch', function (e) {
   }));
 });
 
+// Coursework reminders (payload-less Web Push): the server sends an empty
+// VAPID-signed push; the notification text lives here. Clicking focuses an
+// open tab (or opens the dashboard) so learners land back in their course.
+self.addEventListener('push', function (e) {
+  e.waitUntil(self.registration.showNotification('Sikhi University', {
+    body: 'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! Your course is waiting — a few minutes of seva to yourself today.',
+    icon: '/assets/icon-192.png',
+    badge: '/assets/icon-192.png',
+    tag: 'su-reminder',
+    data: { url: '/dashboard' },
+  }));
+});
+self.addEventListener('notificationclick', function (e) {
+  e.notification.close();
+  var url = (e.notification.data && e.notification.data.url) || '/dashboard';
+  e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (list) {
+    for (var i = 0; i < list.length; i++) {
+      if ('focus' in list[i]) { list[i].navigate(url); return list[i].focus(); }
+    }
+    return clients.openWindow(url);
+  }));
+});
+
 // Offline course packs (E1): the course page posts its own URL + same-origin images
 // here; we add them to the cache so the lesson reads offline. Third-party audio/YouTube
 // and the live BaniDB verse viewer are excluded — they need a connection and degrade

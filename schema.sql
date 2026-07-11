@@ -138,3 +138,13 @@ CREATE TABLE IF NOT EXISTS rate_limits (
   count INTEGER NOT NULL,
   reset_at INTEGER NOT NULL
 );
+
+-- Web Push reminder subscriptions (coursework nudges). Also auto-created by
+-- functions/api/push/subscribe.js on first write.
+CREATE TABLE IF NOT EXISTS push_subs (
+  endpoint TEXT PRIMARY KEY,                   -- push service URL (unique per browser install)
+  p256dh TEXT NOT NULL,                        -- client public key (kept for future payload encryption)
+  auth TEXT NOT NULL,                          -- client auth secret (same)
+  user_id TEXT,                                -- NULL if subscribed while signed out
+  created_at INTEGER NOT NULL
+);

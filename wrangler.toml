@@ -51,6 +51,11 @@ MAIL_FROM = "Sikhi University <login@dosanjhlabs.com>"
 # under Settings > Variables and Secrets — kept out of source. env.ADMIN_EMAILS reads the
 # same whether it's a var or a secret, so no code change is needed.
 
+# Daily coursework-reminder push sweep (16:00 UTC). No-op until the VAPID
+# secrets exist (see docs/DEPLOY.md → "Web Push reminders").
+[triggers]
+crons = ["0 16 * * *"]
+
 # Workers Logs: persist console output (errors, magic-link/verify/translate failures)
 # so production problems are observable after the fact. Without this, console lines
 # only exist during a live `wrangler tail` and otherwise evaporate.
