@@ -1,13 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sikhi University">
-  <rect width="512" height="512" rx="96" fill="#16335c"/>
-  <g transform="translate(96 84) scale(5)" fill="none" stroke="#c8862a" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="32" cy="31" r="27.5" stroke-width="2.3" stroke-dasharray="0.1 5.4"/>
-    <circle cx="32" cy="58.5" r="2.9" fill="#c8862a" stroke="none"/>
-    <path d="M17.5 47 Q22 28 44 16.5" stroke-width="3.1"/>
-    <path d="M46.5 47 Q42 28 20 16.5" stroke-width="3.1"/>
-    <path d="M12.5 43.5 L22.5 47.5" stroke-width="2.4"/>
-    <path d="M51.5 43.5 L41.5 47.5" stroke-width="2.4"/>
-    <circle cx="17" cy="48.5" r="2.5" fill="#c8862a" stroke="none"/>
-    <circle cx="47" cy="48.5" r="2.5" fill="#c8862a" stroke="none"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a3c6b"/>
+      <stop offset="1" stop-color="#0b2444"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffc83d"/>
+      <stop offset="1" stop-color="#e09b12"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- Sikhi University crest: open granth on a lotus cradle beneath a domed
+       arch, in a mala-ring seal. Strokes thickened vs Logo.astro and the
+       engraved echo arch omitted so the mark stays crisp at favicon sizes. -->
+  <g transform="translate(64 64) scale(6)" fill="none" stroke="url(#gold)" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="32" r="29" stroke-width="2.4" stroke-dasharray="0.1 5.05"/>
+    <circle cx="32" cy="61" r="2.9" fill="url(#gold)" stroke="none"/>
+    <circle cx="32" cy="32" r="24" stroke-width="1.4"/>
+    <circle cx="32" cy="8" r="1.8" fill="url(#gold)" stroke="none"/>
+    <path d="M18.5 28 Q22.5 15.2 32 13.5 Q41.5 15.2 45.5 28" stroke-width="2.6"/>
+    <path d="M32 45 C28.5 41.8 24 41 19.5 42.2 C18.9 42.35 18.5 42 18.5 41.4 L18.5 33 C18.5 32.55 18.8 32.15 19.2 32 C23.8 30.7 28.6 31.6 32 34.4" stroke-width="2.6"/>
+    <path d="M32 45 C35.5 41.8 40 41 44.5 42.2 C45.1 42.35 45.5 42 45.5 41.4 L45.5 33 C45.5 32.55 45.2 32.15 44.8 32 C40.2 30.7 35.4 31.6 32 34.4" stroke-width="2.6"/>
+    <path d="M32 34.4 L32 45" stroke-width="1.8"/>
+    <path d="M24.5 48.6 Q32 52.2 39.5 48.6" stroke-width="2.3"/>
+    <path d="M28.5 51.4 Q32 53 35.5 51.4" stroke-width="1.6"/>
   </g>
 </svg>

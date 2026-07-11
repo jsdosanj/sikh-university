@@ -20,5 +20,16 @@ const STATIC_PATHS: [string, string][] = [
   ['/legal', '0.3'],
 ];
 
+// The homepage entry carries the brand images (Google image-sitemap extension)
+// so crawlers pick up the crest logo and social card alongside the JSON-LD
+// Organization.logo in Base.astro.
+const HOME_IMAGES = [
+  { loc: '/assets/logo.png', title: 'Sikhi University logo' },
+  { loc: '/assets/og-image.png', title: 'Sikhi University — free, open learning in Sikhi' },
+];
+
 export const GET: APIRoute = ({ site }) =>
-  urlsetXml(siteBase(site), STATIC_PATHS.map(([path, priority]) => ({ path, priority })));
+  urlsetXml(
+    siteBase(site),
+    STATIC_PATHS.map(([path, priority]) => ({ path, priority, images: path === '/' ? HOME_IMAGES : undefined })),
+  );
