@@ -17,7 +17,7 @@ const path = raw === '/index' ? '/' : raw;
 const isActive = (m: string) =>
   m === '/' ? path === '/' : path === m || path.startsWith(m + '/') || (m === '/catalog' && path.startsWith('/course/'));
 ---
-<nav aria-label="Quick navigation" class="su-tabbar glass-strong md:hidden print:hidden">
+<nav aria-label="Quick navigation" class="su-tabbar glass-strong">
   {tabs.map((t) => (
     <a
       href={t.href}
@@ -31,16 +31,20 @@ const isActive = (m: string) =>
 </nav>
 
 <style is:global>
+  /* The component owns its own display (a utility class like md:hidden would
+     lose the cascade against this block) — phones only, never in print. */
   .su-tabbar {
     position: fixed;
     inset-inline: 0;
     bottom: 0;
     z-index: 40;
-    display: flex;
+    display: none;
     border-top: 1px solid var(--glass-hairline);
     padding-bottom: env(safe-area-inset-bottom);
     transition: transform var(--dur-hover) var(--ease-out);
   }
+  @media (max-width: 767px) { .su-tabbar { display: flex; } }
+  @media print { .su-tabbar { display: none; } }
   .su-tabbar[data-kb] { transform: translateY(110%); }
   .su-tab {
     position: relative;
