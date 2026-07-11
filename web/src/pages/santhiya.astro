@@ -286,7 +286,9 @@ const texts = [
     // while typing in an input/select.
     document.addEventListener('keydown', function (e) {
       var tag = (e.target && e.target.tagName || '').toLowerCase();
-      if (tag === 'input' || tag === 'select' || tag === 'textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (tag === 'input' || tag === 'select' || tag === 'textarea' || (e.target && e.target.isContentEditable) || e.metaKey || e.ctrlKey || e.altKey) return;
+      // Space must never hijack a focused control's native activation.
+      if (e.key === ' ' && (tag === 'button' || tag === 'a' || tag === 'summary' || tag === 'audio')) return;
       if (e.key === 'ArrowLeft') { go(ang - 1); e.preventDefault(); }
       else if (e.key === 'ArrowRight') { go(ang + 1); e.preventDefault(); }
       else if (e.key === ' ' && cfg.audio && aud.style.display !== 'none') { if (aud.paused) aud.play().catch(function () {}); else aud.pause(); e.preventDefault(); }

@@ -149,6 +149,15 @@ export function sentences(text: string): string[] {
 
 let queue: string[] = [];
 let speaking = false;
+// Generation counter: every speak()/stop() invalidates in-flight utterance
+// callbacks. Chrome fires end/error events for CANCELLED utterances after
+// cancel(), and without this guard a stale onend would advance the NEW queue
+// (two chains eating one queue → garbled overlap).
+let gen = 0;
+// The active consumer's onend — invoked when playback finishes OR is
+// interrupted by another speak()/stop(), so UI (Listen buttons, FAB) never
+// sticks in a "playing" state it no longer owns.
+let activeEnd: (() => void) | null = null;
 let keepAlive: ReturnType<typeof setInterval> | null = null;
 
 function stopKeepAlive(): void {
@@ -156,10 +165,14 @@ function stopKeepAlive(): void {
 }
 
 export function stop(): void {
+  gen++;
   queue = [];
   speaking = false;
   stopKeepAlive();
   if (supported()) speechSynthesis.cancel();
+  const cb = activeEnd;
+  activeEnd = null;
+  if (cb) cb();
 }
 
 export function isSpeaking(): boolean {
@@ -169,12 +182,15 @@ export function isSpeaking(): boolean {
 export async function speak(text: string, opts: SpeakOptions = {}): Promise<void> {
   if (!supported() || !text.trim()) { opts.onend?.(); return; }
   stop();
+  const myGen = ++gen;
   const lang = opts.lang || document.documentElement.lang || 'en';
   const base = lang.split('-')[0];
   const preset = PRESETS[base] || PRESETS.en;
   const voice = await resolveVoice(lang);
+  if (myGen !== gen) return; // superseded while resolving voices
   queue = sentences(text);
   speaking = true;
+  activeEnd = opts.onend || null;
   opts.onstart?.();
 
   // Chrome bug: long utterances go silent after ~15s unless nudged.
@@ -187,12 +203,8 @@ export async function speak(text: string, opts: SpeakOptions = {}): Promise<void
   }, 10000);
 
   const next = () => {
-    if (!speaking || !queue.length) {
-      const wasSpeaking = speaking;
-      stop();
-      if (wasSpeaking) opts.onend?.();
-      return;
-    }
+    if (myGen !== gen) return; // a newer speak()/stop() owns the engine now
+    if (!queue.length) { stop(); return; } // finished — stop() fires activeEnd
     const u = new SpeechSynthesisUtterance(queue.shift());
     u.lang = voice?.lang || lang;
     if (voice) u.voice = voice;
@@ -200,8 +212,8 @@ export async function speak(text: string, opts: SpeakOptions = {}): Promise<void
     u.pitch = preset.pitch;
     // A breath between sentences reads as human; a hard onend-chain reads as a
     // teleprompter. 220ms ≈ a natural comma-length pause.
-    u.onend = () => { if (speaking) setTimeout(next, 220); };
-    u.onerror = () => { if (speaking) setTimeout(next, 60); };
+    u.onend = () => { if (myGen === gen) setTimeout(next, 220); };
+    u.onerror = () => { if (myGen === gen) setTimeout(next, 60); };
     speechSynthesis.speak(u);
   };
   next();

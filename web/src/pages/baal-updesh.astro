@@ -166,7 +166,10 @@ const wordCard = (w) => w;
       <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
     </summary>
     <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.muharni.p1a">Sound each consonant through the ten vowel signs (</span><span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span><span data-i18n="baal.muharni.p1b">). Read across each row aloud — this builds</span> <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> <span data-i18n="baal.muharni.p1c">(correct pronunciation).</span></p>
-    <div class="mt-5 overflow-x-auto rounded-xl2 border border-line">
+    {/* dir=ltr: Gurmukhi is an LTR script, so the table keeps LTR presentation
+        even under an RTL UI language (ur/ar) — this also keeps the sticky
+        first column (left-0) anchored to the correct physical edge. */}
+    <div class="mt-5 overflow-x-auto rounded-xl2 border border-line" dir="ltr">
       <table class="w-full border-collapse text-center">
         <thead>
           <tr class="bg-brand text-white">
@@ -506,8 +509,13 @@ const wordCard = (w) => w;
       const player = new Audio();
       player.preload = 'none';
       const clearRing = () => { if (current) { current.classList.remove('ring-2', 'ring-saffron'); current = null; } };
+      // Only 'ended'/'error' clear the ring here. A 'pause' listener would
+      // misfire when SWITCHING clips: assigning player.src queues a pause
+      // event that lands after the new button's ring is applied, stripping it
+      // and breaking the new clip's pause-toggle. Explicit pauses clear the
+      // ring at the call site instead.
       player.addEventListener('ended', clearRing);
-      player.addEventListener('pause', clearRing);
+      player.addEventListener('error', clearRing);
       async function getManifest() {
         if (manifest !== null) return manifest;
         try {
@@ -526,7 +534,7 @@ const wordCard = (w) => w;
         if (!btn) return;
         const key = btn.getAttribute('data-akhar-audio');
         const [cat, slug] = key.split('/');
-        if (current === btn && !player.paused) { player.pause(); return; }
+        if (current === btn && !player.paused) { player.pause(); clearRing(); return; }
         const m = await getManifest();
         const rel = m && m[cat] && m[cat][slug];
         if (!rel) { window.suToast && window.suToast('Audio for this one is coming soon.', ''); return; }
