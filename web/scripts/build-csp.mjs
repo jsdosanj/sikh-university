@@ -44,5 +44,18 @@ if (!/script-src[^;]*/.test(hdr)) { console.error('build-csp: no script-src dire
 
 const scriptSrc = "script-src 'self' " + [...hashes].sort().join(' ');
 hdr = hdr.replace(/script-src[^;]*/, scriptSrc);
+
+// Cloudflare's API rejects any _headers line over 2000 characters — and only at
+// DEPLOY time, after CI is already green. Fail the build here instead. If this
+// trips, too many scripts are being inlined into HTML: astro.config.mjs sets
+// vite build.assetsInlineLimit 0 to keep hoisted scripts external ('self');
+// only deliberate is:inline scripts should contribute hashes.
+const CF_LINE_LIMIT = 2000;
+const over = hdr.split('\n').filter((l) => l.length > CF_LINE_LIMIT);
+if (over.length) {
+  console.error(`build-csp: _headers line exceeds Cloudflare's ${CF_LINE_LIMIT}-char limit (${over[0].length} chars, ${hashes.size} hashes) — deploy would fail`);
+  process.exit(1);
+}
+
 writeFileSync(HEADERS, hdr);
 console.log(`build-csp: hardened script-src with ${hashes.size} inline-script hashes (unsafe-inline removed from scripts; kept for styles)`);
