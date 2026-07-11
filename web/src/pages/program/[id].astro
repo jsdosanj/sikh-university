@@ -27,38 +27,38 @@ const typeLabel = {
   giani: 'Giani — Highest Distinction',
 };
 ---
-<Base title={`${prog.title} — Sikhi University`} description={prog.description}>
+<Base title={`${prog.title} — Sikhi University`} description={prog.description} ambient="hall">
   <section class="wrap py-10">
-    <!-- Header -->
+    <!-- Header: sits over the ambient-hall backdrop -->
     <div class="flex flex-wrap items-start gap-4">
-      <Icon name={prog.icon} class="h-12 w-12 shrink-0 text-saffron-deep" />
+      <Icon name={prog.icon} class="h-12 w-12 shrink-0 text-saffron" />
       <div class="flex-1">
-        <div class="font-sans text-sm font-semibold uppercase tracking-wider text-muted">{typeLabel[prog.type]} · {prog.abbreviation}</div>
-        <h1 class="text-3xl font-bold text-navy">{prog.title}</h1>
-        <div class="mt-0.5 font-gurmukhi text-lg text-muted">{prog.titleGur}</div>
+        <div class="font-sans text-sm font-semibold uppercase tracking-wider text-white/70">{typeLabel[prog.type]} · {prog.abbreviation}</div>
+        <h1 class="text-3xl font-bold text-white">{prog.title}</h1>
+        <div class="mt-0.5 font-gurmukhi text-lg text-white/70">{prog.titleGur}</div>
       </div>
     </div>
-    <p class="mt-4 max-w-3xl text-lg text-muted">{prog.description}</p>
+    <p class="mt-4 max-w-3xl text-lg text-white/85">{prog.description}</p>
 
     <div class="mt-5">
       <button id="register-btn" class="btn btn-primary">Register for this program</button>
     </div>
 
     <!-- Stats bar -->
-    <div class="mt-6 flex flex-wrap gap-4 font-sans text-sm">
-      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+    <div class="mt-6 grid grid-cols-2 gap-4 font-sans text-sm sm:grid-cols-4">
+      <div class="glass-lite px-4 py-2 text-center">
         <div class="text-2xl font-bold text-navy">{prog.courseIds.length}</div>
         <div class="text-xs text-muted">Courses required</div>
       </div>
-      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+      <div class="glass-lite px-4 py-2 text-center">
         <div class="text-2xl font-bold text-navy">{prog.duration.split('(')[0].trim()}</div>
         <div class="text-xs text-muted">Estimated duration</div>
       </div>
-      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+      <div class="glass-lite px-4 py-2 text-center">
         <div class="text-2xl font-bold text-navy">{prog.testQuestions}</div>
         <div class="text-xs text-muted">Cumulative exam questions</div>
       </div>
-      <div class="rounded-xl2 border border-line bg-surface px-4 py-2 text-center">
+      <div class="glass-lite px-4 py-2 text-center">
         <div class="text-2xl font-bold text-navy">{prog.passMark}%</div>
         <div class="text-xs text-muted">Pass mark</div>
       </div>
@@ -71,7 +71,7 @@ const typeLabel = {
 
     <!-- Prerequisites -->
     {prog.prerequisites.length > 0 && (
-      <div class="mt-6 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/30 p-4 font-sans text-sm">
+      <div class="mt-6 glass-strong border-l-4 border-saffron p-4 font-sans text-sm">
         <strong>Prerequisites:</strong> Complete{' '}
         {prog.prerequisites.map((pid, i) => {
           const pre = programsData.programs.find((p) => p.id === pid);
@@ -84,15 +84,15 @@ const typeLabel = {
 
     <!-- Course list by topic -->
     <div class="mt-10">
-      <h2 class="text-xl font-bold">Required Courses</h2>
-      <p class="mt-1 font-sans text-sm text-muted">Complete all {prog.courseIds.length} courses below, then take the cumulative examination.</p>
+      <h2 class="text-xl font-bold text-white">Required Courses</h2>
+      <p class="mt-1 font-sans text-sm text-white/70">Complete all {prog.courseIds.length} courses below, then take the cumulative examination.</p>
 
       <div id="course-list-progress" class="mt-6 space-y-8">
         {topicSet.map((topic) => {
           const tCourses = progCourses.filter((c) => c.topic === topic);
           return (
             <div>
-              <h3 class="text-base font-bold capitalize border-b border-line pb-1 mb-3">{topic.replace(/-/g, ' ')}</h3>
+              <h3 class="text-base font-bold capitalize border-b border-white/15 pb-1 mb-3 text-white">{topic.replace(/-/g, ' ')}</h3>
               <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {tCourses.map((c) => (
                   <a href={`/course/${c.id}`} class="card flex items-start gap-3 hover:border-saffron transition" data-course-id={c.id}>
@@ -114,7 +114,7 @@ const typeLabel = {
 
   <!-- Cumulative Test Modal -->
   <div id="cum-test-modal" class="hidden fixed inset-0 z-50 flex items-start justify-center bg-black/60 overflow-y-auto py-10">
-    <div class="w-full max-w-2xl rounded-xl2 bg-surface p-8 shadow-xl mx-4">
+    <div class="w-full max-w-2xl glass-strong p-8 mx-4">
       <h2 class="text-2xl font-bold" id="cum-test-title">Cumulative Examination</h2>
       <p class="mt-1 font-sans text-sm text-muted" id="cum-test-subtitle"></p>
       <div id="cum-test-body" class="mt-6 space-y-6"></div>

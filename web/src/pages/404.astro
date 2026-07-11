@@ -2,9 +2,9 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 ---
-<Base title="Page not found — Sikhi University" description="This page could not be found." autoTranslate={false}>
-  <section class="relative overflow-hidden bg-brand text-white">
-    <div class="pattern-lattice absolute inset-0" aria-hidden="true"></div>
+<Base title="Page not found — Sikhi University" description="This page could not be found." autoTranslate={false} ambient="hall">
+  <section class="relative overflow-hidden text-white">
+    <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
     <div class="wrap relative py-16 text-center sm:py-20">
       <p class="eyebrow text-saffron">404</p>
       <h1 class="text-display-sm mt-3 font-bold text-white" data-i18n="notfound.h1">This page wandered off the path.</h1>
@@ -13,6 +13,7 @@ import Icon from '../components/Icon.astro';
   </section>
 
   <section class="wrap max-w-2xl py-12 text-center">
+    <div class="glass-strong rounded-xl2 p-6 sm:p-8">
     <form id="s404" action="/search" method="get" role="search" class="mx-auto flex max-w-md gap-2">
       <div class="relative flex-1">
         <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -23,23 +24,24 @@ import Icon from '../components/Icon.astro';
       <button class="btn btn-primary shrink-0" data-i18n="notfound.search.btn">Search</button>
     </form>
 
-    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <a href="/catalog" class="card-lift text-center">
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <a href="/catalog" class="card-lift text-center" data-tilt>
         <Icon name="books" class="mx-auto h-7 w-7 text-saffron-deep" />
         <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="catalog.eyebrow">Catalogue</span>
       </a>
-      <a href="/santhiya" class="card-lift text-center">
+      <a href="/santhiya" class="card-lift text-center" data-tilt>
         <Icon name="compass" class="mx-auto h-7 w-7 text-saffron-deep" />
         <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="nav.santhya">Santhya</span>
       </a>
-      <a href="/about" class="card-lift text-center">
+      <a href="/about" class="card-lift text-center" data-tilt>
         <Icon name="globe" class="mx-auto h-7 w-7 text-saffron-deep" />
         <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="nav.about">About</span>
       </a>
-      <a href="/professors" class="card-lift text-center">
+      <a href="/professors" class="card-lift text-center" data-tilt>
         <Icon name="cap" class="mx-auto h-7 w-7 text-saffron-deep" />
         <span class="mt-2 block font-sans text-sm font-semibold text-navy" data-i18n="nav.professors">Professors</span>
       </a>
+    </div>
     </div>
   </section>
   <script>

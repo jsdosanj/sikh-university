@@ -4,6 +4,8 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
 import InstallPrompt from '../components/InstallPrompt.astro';
+import CommandPalette from '../components/CommandPalette.astro';
+import TabBar from '../components/TabBar.astro';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 // Inline the @font-face rules instead of linking /fonts/fonts.css: the extra
@@ -14,8 +16,8 @@ import path from 'node:path';
 // an asset reference and the embedded CSS breaks the compiled module.)
 const fontFaceCss = readFileSync(path.resolve(process.cwd(), 'public/fonts/fonts.css'), 'utf-8');
 
-interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; }
-const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true } = Astro.props;
+interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; ambient?: 'hall' | 'study' | 'sanctum' | 'none' }
+const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true, ambient = 'none' } = Astro.props;
 import { SITE, ldJson } from '../lib/site';
 // Normalise to the extensionless URLs the site is actually served/linked at
 // (e.g. /catalog, not /catalog.html; / for the homepage).
@@ -69,7 +71,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     "@graph": [
       { "@type": "Organization", "@id": SITE + "/#org", "name": "Sikhi University", "url": SITE,
         "description": "A free, open online university for Sikhi — Gurbani, history, philosophy, Rehat, Kirtan, and Gurmukhi/Punjabi — open to all, worldwide.",
-        "logo": SITE + "/assets/icon-192.png" },
+        "logo": { "@type": "ImageObject", "url": SITE + "/assets/logo.png", "width": 1200, "height": 1200 } },
       { "@type": "WebSite", "@id": SITE + "/#website", "url": SITE, "name": "Sikhi University",
         "publisher": { "@id": SITE + "/#org" },
         "potentialAction": { "@type": "SearchAction", "target": SITE + "/search?q={search_term_string}", "query-input": "required name=search_term_string" } }
@@ -84,7 +86,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta property="og:url" content={canon} />
   <meta property="og:image" content={`${SITE}/assets/og-image.png`} />
   <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
@@ -93,6 +95,12 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <slot name="head" />
 </head>
 <body>
+  {ambient !== 'none' && (
+    <div aria-hidden="true" class={`ambient ambient-${ambient}`}>
+      {(ambient === 'hall' || ambient === 'sanctum') && <div class="lattice pattern-lattice absolute inset-0"></div>}
+      {ambient === 'study' && <div class="texture texture-manuscript absolute inset-0"></div>}
+    </div>
+  )}
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
   <Nav />
   <main id="main" data-autotranslate={autoTranslate ? '1' : '0'}>
@@ -101,6 +109,8 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <Footer />
 
   <InstallPrompt />
+  <CommandPalette />
+  <TabBar />
   <button id="a11y-fab" aria-label="Accessibility options" aria-expanded="false" aria-controls="a11y-panel" class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-lift hover:bg-brand-strong print:hidden"><Icon name="accessibility" class="h-6 w-6" /></button>
   <div id="a11y-panel" class="fixed right-4 bottom-20 z-50 hidden w-56 flex-col gap-1 rounded-xl2 border border-line bg-surface p-3 shadow-lift print:hidden">
     <strong class="font-sans text-xs uppercase tracking-wide text-muted" data-i18n="a11y.title">Accessibility</strong>
@@ -260,6 +270,9 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <style is:global>
     body.hc { background: #000; color: #fff; }
     body.hc .card, body.hc .card-lift, body.hc .bg-surface, body.hc .bg-paper, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
+    /* High contrast defeats glass entirely: solid black, no blur, white borders. */
+    body.hc .glass, body.hc .glass-strong, body.hc .glass-lite, body.hc .glass-card { background: #000 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-color: #fff !important; color: #fff !important; }
+    body.hc .ambient { display: none !important; }
     body.hc a, body.hc h1, body.hc h2, body.hc h3 { color: #ffd479 !important; }
   </style>
 
@@ -271,7 +284,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
       var box = document.getElementById('su-toasts'); if (!box) return;
       var el = document.createElement('div');
       var tone = kind === 'ok' ? 'border-ok text-ok' : kind === 'error' ? 'border-danger text-danger' : 'border-navy text-ink';
-      el.className = 'rounded-xl2 border-l-4 ' + tone + ' bg-surface px-4 py-2.5 shadow-lift font-sans text-sm max-w-sm';
+      el.className = 'glass-strong rounded-xl2 border-l-4 ' + tone + ' px-4 py-2.5 font-sans text-sm max-w-sm';
       el.setAttribute('role', 'status'); el.textContent = msg; box.appendChild(el);
       setTimeout(function () { el.style.transition = 'opacity .3s'; el.style.opacity = '0'; setTimeout(function () { el.remove(); }, 300); }, 3400);
     };
@@ -287,7 +300,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
             : '<input id="' + id + '" type="' + (f.type || 'text') + '" class="w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans" />';
           return '<label class="block"><span class="mb-1 block font-sans text-sm font-semibold text-navy">' + esc(f.label) + (f.optional ? ' <span class="font-normal text-muted">(optional)</span>' : '') + '</span>' + ctrl + '</label>';
         }).join('');
-        root.innerHTML = '<div id="su-modal-ov" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4 print:hidden"><div role="dialog" aria-modal="true" aria-label="' + esc(opts.title) + '" class="w-full max-w-md rounded-xl2 border border-line bg-surface p-6 shadow-lift"><h2 class="font-serif text-xl font-bold text-navy">' + esc(opts.title) + '</h2><form id="su-modal-form" class="mt-4 grid gap-3">' + inputs + '<div class="mt-2 flex justify-end gap-2"><button type="button" id="su-modal-cancel" class="btn">Cancel</button><button type="submit" class="btn btn-primary">' + esc(opts.submitLabel || 'Save') + '</button></div></form></div></div>';
+        root.innerHTML = '<div id="su-modal-ov" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 p-4 print:hidden"><div role="dialog" aria-modal="true" aria-label="' + esc(opts.title) + '" class="glass-strong w-full max-w-md rounded-xl2 p-6"><h2 class="font-serif text-xl font-bold text-navy">' + esc(opts.title) + '</h2><form id="su-modal-form" class="mt-4 grid gap-3">' + inputs + '<div class="mt-2 flex justify-end gap-2"><button type="button" id="su-modal-cancel" class="btn">Cancel</button><button type="submit" class="btn btn-primary">' + esc(opts.submitLabel || 'Save') + '</button></div></form></div></div>';
         var close = function (val) { root.innerHTML = ''; document.removeEventListener('keydown', onKey); resolve(val); };
         var onKey = function (e) { if (e.key === 'Escape') close(null); };
         document.addEventListener('keydown', onKey);

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import { professorList, profBio, profSlug } from '../lib/data';
 import { REF, COLLECTIONS } from '../lib/santhya';
 import gurbaniWords from '../data/gurbani-words.json';
@@ -40,11 +41,14 @@ const gWords = (gurbaniWords as { gur: string; tr: string; var?: string; url: st
 
 const extra = { professors, readings, pages, gWords };
 ---
-<Base title="Search — Sikhi University" description="Search everything at Sikhi University — courses, professors, topics, learning paths, banis and scripture.">
+<Base title="Search — Sikhi University" description="Search everything at Sikhi University — courses, professors, topics, learning paths, banis and scripture." ambient="study">
   <section class="wrap py-12">
     <h1 class="text-3xl font-bold" data-i18n="search.h1">Search Sikhi University</h1>
-    <input id="q" type="search" aria-label="Search Sikhi University" data-i18n-aria="search.h1" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" data-i18n-ph="search.ph" autofocus
-      class="mt-5 w-full max-w-xl rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
+    <div class="glass mt-5 flex max-w-xl items-center gap-2 px-4 py-1">
+      <Icon name="search" class="h-4 w-4 shrink-0 text-muted" />
+      <input id="q" type="search" aria-label="Search Sikhi University" data-i18n-aria="search.h1" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" data-i18n-ph="search.ph" autofocus
+        class="w-full bg-transparent py-2.5 font-sans outline-none" />
+    </div>
     <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
   <style>
@@ -152,7 +156,7 @@ const extra = { professors, readings, pages, gWords };
     const ORDER = ['Course', 'Professor', 'Reading', 'Word', 'Path', 'Topic', 'Page'];
     const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Word: 'Gurbani Words', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
     function row(r, terms) {
-      return `<a href="${r.url}" class="card-lift"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${hl(r.title, terms)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${hl(r.sub, terms)}</div>` : ''}</a>`;
+      return `<a href="${r.url}" class="glass-lite relative block p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${hl(r.title, terms)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${hl(r.sub, terms)}</div>` : ''}</a>`;
     }
     function render() {
       const v = q.value.normalize('NFC').toLowerCase().trim();

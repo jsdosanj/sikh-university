@@ -1,12 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Verify a certificate — Sikhi University" description="Verify the authenticity of a Sikhi University certificate of completion." autoTranslate={false}>
+<Base title="Verify a certificate — Sikhi University" description="Verify the authenticity of a Sikhi University certificate of completion." autoTranslate={false} ambient="study">
   <section class="wrap max-w-xl py-14">
     <h1 class="text-3xl font-bold" data-i18n="verify.h1">Verify a certificate</h1>
     <p class="mt-2 text-muted"><span data-i18n="verify.hint1">Enter a certificate ID (e.g.</span> <code>SU-XXXXXXXXXX</code><span data-i18n="verify.hint2">) to confirm it was issued by Sikhi University.</span></p>
-    <form id="vf" class="mt-6 flex gap-2">
-      <input id="vid" type="text" aria-label="Certificate ID" data-i18n-aria="verify.aria.certid" placeholder="SU-…" data-i18n-ph="verify.ph.certid" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
+    <form id="vf" class="glass mt-6 flex gap-2 p-2">
+      <input id="vid" type="text" aria-label="Certificate ID" data-i18n-aria="verify.aria.certid" placeholder="SU-…" data-i18n-ph="verify.ph.certid" class="flex-1 rounded-xl border-none bg-transparent px-4 py-2.5 font-sans outline-none" />
       <button class="btn btn-primary" data-i18n="verify.submit">Verify</button>
     </form>
     <div id="out" class="mt-6" aria-live="polite"></div>

@@ -15,7 +15,9 @@ const ROOT = 'web/src';
 const EXTS = new Set(['.astro', '.ts', '.tsx', '.js', '.mjs', '.jsx']);
 
 // Pictographic + emoji-presentation symbol ranges (see header for rationale).
-const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2300}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]/u;
+// U+2318 (⌘, the macOS command key) is carved out: it's keyboard typography in
+// shortcut hints (the ⌘K chip / palette), rendered as text, not a pictograph.
+const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2300}-\u{2317}\u{2319}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]/u;
 
 function walk(dir) {
   const out = [];

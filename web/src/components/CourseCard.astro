@@ -9,7 +9,7 @@ const verified = isVerified(c.id);
 // Level-tinted top hairline: 100 = ok green, 200/300 = saffron, 400/500 = navy.
 const levelStrip = c.level < 200 ? 'bg-ok' : c.level < 400 ? 'bg-saffron' : 'bg-navy';
 ---
-<a href={`/course/${c.id}`} class="card-lift group flex h-full flex-col overflow-hidden">
+<a href={`/course/${c.id}`} class="glass-lite group relative flex h-full flex-col overflow-hidden p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift active:scale-[.985]">
   <span aria-hidden="true" class={`absolute inset-x-0 top-0 h-[3px] ${levelStrip}`}></span>
   <div class="mb-1.5 flex flex-wrap items-center gap-2 font-sans text-xs text-muted">
     <span class="pill bg-paper text-navy">{topicName(c.topic)}</span>

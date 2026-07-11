@@ -1,0 +1,197 @@
+---
+// ⌘K command palette: keyboard-first navigation + search over the whole
+// university. Static page/action entries live here; courses are lazily
+// fetched from /data/search.json on first open (same index the search page
+// uses). Combobox + listbox ARIA — focus stays in the input, options are
+// referenced via aria-activedescendant.
+import Icon from './Icon.astro';
+---
+<div id="su-cmdk" hidden class="fixed inset-0 z-[80] print:hidden">
+  <div id="cmdk-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <div role="dialog" aria-modal="true" aria-label="Command palette" class="glass-strong absolute left-1/2 top-[18vh] w-[min(92vw,38rem)] -translate-x-1/2 overflow-hidden rounded-xl2">
+    <div class="flex items-center gap-2 border-b border-line/60 px-4">
+      <Icon name="search" class="h-4 w-4 shrink-0 text-muted" />
+      <input id="cmdk-input" type="text" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" autocomplete="off" spellcheck="false"
+        placeholder="Search courses, pages, actions…" data-i18n-ph="cmdk.placeholder"
+        class="w-full bg-transparent py-3.5 font-sans text-base text-ink outline-none placeholder:text-muted" />
+      <kbd class="hidden shrink-0 rounded border border-line px-1.5 py-0.5 font-sans text-[0.68rem] text-muted sm:block">esc</kbd>
+    </div>
+    <ul id="cmdk-list" role="listbox" aria-label="Results" class="max-h-[46vh] overflow-y-auto overscroll-contain p-2"></ul>
+    <div class="flex items-center justify-between border-t border-line/60 px-4 py-2 font-sans text-[0.7rem] text-muted">
+      <span data-i18n="cmdk.hint">Type to search · ↑↓ to navigate · Enter to open</span>
+      <span aria-hidden="true">ਸਿੱਖੀ</span>
+    </div>
+  </div>
+  <div id="cmdk-live" class="sr-only" aria-live="polite"></div>
+</div>
+
+<script>
+  import { iconSvg } from '../lib/icons';
+
+  const root = document.getElementById('su-cmdk')!;
+  const input = document.getElementById('cmdk-input') as HTMLInputElement;
+  const list = document.getElementById('cmdk-list')!;
+  const live = document.getElementById('cmdk-live')!;
+  const backdrop = document.getElementById('cmdk-backdrop')!;
+
+  type Entry = { title: string; hint: string; icon: string; href?: string; run?: () => void; kind: string; hay: string };
+
+  const go = (href: string) => { location.href = href; };
+  const STATIC: Entry[] = [
+    { title: 'Home', hint: '/', icon: 'compass', href: '/', kind: 'Page', hay: 'home start' },
+    { title: 'Course catalogue', hint: '/catalog', icon: 'books', href: '/catalog', kind: 'Page', hay: 'courses catalog catalogue browse' },
+    { title: 'Santhya pathway', hint: '/santhiya', icon: 'book', href: '/santhiya', kind: 'Page', hay: 'santhya santhiya gurbani read pathway' },
+    { title: 'Baal Updesh — learn Gurmukhi', hint: '/baal-updesh', icon: 'pen', href: '/baal-updesh', kind: 'Page', hay: 'baal updesh gurmukhi alphabet painti muharni letters' },
+    { title: 'My Learning', hint: '/dashboard', icon: 'cap', href: '/dashboard', kind: 'Page', hay: 'dashboard my learning progress streak' },
+    { title: 'Professors', hint: '/professors', icon: 'people', href: '/professors', kind: 'Page', hay: 'professors scholars faculty' },
+    { title: 'Programs', hint: '/programs', icon: 'scroll', href: '/programs', kind: 'Page', hay: 'programs degrees certificate giani' },
+    { title: 'About Sikhi University', hint: '/about', icon: 'globe', href: '/about', kind: 'Page', hay: 'about mission faq' },
+    { title: 'Cohorts', hint: '/cohorts', icon: 'people', href: '/cohorts', kind: 'Page', hay: 'cohorts groups camps class' },
+    { title: 'Read Sri Guru Granth Sahib Ji', hint: 'Ang-by-Ang read-along', icon: 'book', href: '/santhiya?src=sggs', kind: 'Read', hay: 'sggs guru granth sahib read gurbani ang' },
+    { title: 'Read Dasam Granth', hint: 'Ang-by-Ang', icon: 'book', href: '/santhiya?src=dasam', kind: 'Read', hay: 'dasam granth read' },
+    { title: 'Read Sri Sarbloh Granth', hint: 'Ang-by-Ang', icon: 'book', href: '/santhiya?src=sarbloh', kind: 'Read', hay: 'sarbloh granth read' },
+    { title: 'Toggle light / dark theme', hint: 'Appearance', icon: 'moon', run: toggleTheme, kind: 'Action', hay: 'theme dark light mode toggle appearance' },
+  ];
+
+  function toggleTheme() {
+    const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', cur);
+    try { localStorage.setItem('su_v1_theme', cur); } catch {}
+  }
+
+  let courses: Entry[] | null = null;
+  let coursesLoading = false;
+  async function loadCourses() {
+    if (courses || coursesLoading) return;
+    coursesLoading = true;
+    try {
+      const r = await fetch('/data/search.json');
+      const d = await r.json();
+      courses = (d.courses || []).map((c: any) => ({
+        title: c.title, hint: c.professor || 'Course', icon: 'book',
+        href: '/course/' + c.id, kind: 'Course',
+        hay: ((c.title || '') + ' ' + (c.professor || '') + ' ' + (c.topic || '')).toLowerCase(),
+      }));
+      render(input.value);
+    } catch { courses = []; }
+  }
+
+  // Slim field-weighted scorer (same spirit as the search page).
+  function score(e: Entry, terms: string[]): number {
+    let s = 0;
+    const title = e.title.toLowerCase();
+    for (const t of terms) {
+      if (!t) continue;
+      const inTitle = title.indexOf(t);
+      if (inTitle === 0 || (inTitle > 0 && !/[a-z0-9]/.test(title[inTitle - 1]))) s += 10;
+      else if (inTitle >= 0) s += 5;
+      else if (e.hay.indexOf(t) >= 0) s += 2;
+      else return 0; // every term must match somewhere
+    }
+    if (e.kind !== 'Course') s += 1; // pages/actions float when equally relevant
+    return s;
+  }
+
+  let items: Entry[] = [];
+  let active = 0;
+
+  function render(q: string) {
+    const query = q.trim().toLowerCase();
+    const pool = STATIC.concat(courses || []);
+    if (!query) {
+      items = STATIC.slice(0, 9);
+    } else {
+      const terms = query.split(/\s+/);
+      items = pool.map((e) => [score(e, terms), e] as [number, Entry])
+        .filter(([s]) => s > 0)
+        .sort((a, b) => b[0] - a[0])
+        .slice(0, 9)
+        .map(([, e]) => e);
+      // "Open reader at Ang N" — recognise an ang number anywhere in the query.
+      const ang = query.match(/(?:ang\s*)?(\d{1,4})/);
+      if (ang && /ang/.test(query)) {
+        const n = Math.min(1430, Math.max(1, parseInt(ang[1], 10)));
+        items.unshift({ title: `Open Sri Guru Granth Sahib Ji at Ang ${n}`, hint: 'Read-along', icon: 'book', href: `/santhiya?src=sggs&ang=${n}`, kind: 'Read', hay: '' });
+        items = items.slice(0, 9);
+      }
+      items.push({ title: `Search everything for “${q.trim()}”`, hint: '/search', icon: 'search', href: '/search?q=' + encodeURIComponent(q.trim()), kind: 'Search', hay: '' });
+    }
+    active = 0;
+    list.innerHTML = items.map((e, i) =>
+      `<li id="cmdk-o-${i}" role="option" aria-selected="${i === active}" class="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 font-sans text-sm ${i === active ? 'bg-saffron-soft text-navy' : 'text-ink'}">` +
+      `<span class="shrink-0 text-saffron-deep">${iconSvg(e.icon, 'h-4 w-4')}</span>` +
+      `<span class="min-w-0 flex-1 truncate">${esc(e.title)}</span>` +
+      `<span class="shrink-0 text-[0.68rem] uppercase tracking-wide text-muted">${esc(e.kind)}</span></li>`
+    ).join('');
+    input.setAttribute('aria-activedescendant', items.length ? 'cmdk-o-0' : '');
+    live.textContent = items.length + ' results';
+  }
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+
+  function setActive(i: number) {
+    if (!items.length) return;
+    active = (i + items.length) % items.length;
+    list.querySelectorAll('[role="option"]').forEach((el, j) => {
+      el.setAttribute('aria-selected', String(j === active));
+      el.classList.toggle('bg-saffron-soft', j === active);
+      el.classList.toggle('text-navy', j === active);
+    });
+    input.setAttribute('aria-activedescendant', 'cmdk-o-' + active);
+    document.getElementById('cmdk-o-' + active)?.scrollIntoView({ block: 'nearest' });
+  }
+
+  function activate(i: number) {
+    const e = items[i];
+    if (!e) return;
+    close();
+    if (e.run) e.run(); else if (e.href) go(e.href);
+  }
+
+  let lastFocus: Element | null = null;
+  function open() {
+    lastFocus = document.activeElement;
+    root.hidden = false;
+    document.body.style.overflow = 'hidden';
+    input.value = '';
+    render('');
+    input.focus();
+    loadCourses();
+  }
+  function close() {
+    root.hidden = true;
+    document.body.style.overflow = '';
+    (lastFocus as HTMLElement | null)?.focus?.();
+  }
+  function toggle() { root.hidden ? open() : close(); }
+
+  addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); toggle(); return; }
+    if (root.hidden) {
+      if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        const t = e.target as HTMLElement;
+        const tag = (t?.tagName || '').toLowerCase();
+        if (tag !== 'input' && tag !== 'textarea' && tag !== 'select' && !t?.isContentEditable) { e.preventDefault(); open(); }
+      }
+      return;
+    }
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); setActive(active + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active - 1); }
+    else if (e.key === 'Home' && !input.value) { e.preventDefault(); setActive(0); }
+    else if (e.key === 'End' && !input.value) { e.preventDefault(); setActive(items.length - 1); }
+    else if (e.key === 'Enter') { e.preventDefault(); activate(active); }
+  });
+  input.addEventListener('input', () => render(input.value));
+  list.addEventListener('click', (e) => {
+    const li = (e.target as HTMLElement).closest('[role="option"]');
+    if (li) activate(parseInt(li.id.slice('cmdk-o-'.length), 10));
+  });
+  list.addEventListener('mousemove', (e) => {
+    const li = (e.target as HTMLElement).closest('[role="option"]');
+    if (li) setActive(parseInt(li.id.slice('cmdk-o-'.length), 10));
+  });
+  backdrop.addEventListener('click', close);
+  // Any element can open the palette (nav button, hero chip).
+  document.querySelectorAll('[data-cmdk-open]').forEach((b) => b.addEventListener('click', open));
+</script>
