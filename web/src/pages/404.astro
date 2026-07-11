@@ -6,16 +6,16 @@ import Logo from '../components/Logo.astro';
   <section class="wrap max-w-xl py-20 text-center">
     <div class="mx-auto mb-6 w-14 opacity-80"><Logo /></div>
     <p class="font-gur text-2xl text-saffron-deep">ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ</p>
-    <h1 class="mt-4 text-3xl font-bold text-navy">This page wandered off the path.</h1>
-    <p class="mt-3 text-muted">We couldn't find what you were looking for. Search the catalogue or start with the basics.</p>
+    <h1 class="mt-4 text-3xl font-bold text-navy" data-i18n="notfound.h1">This page wandered off the path.</h1>
+    <p class="mt-3 text-muted" data-i18n="notfound.sub">We couldn't find what you were looking for. Search the catalogue or start with the basics.</p>
     <form id="s404" class="mt-6 flex gap-2" role="search">
-      <input id="q404" type="search" aria-label="Search courses" placeholder="Search 558 courses…" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
-      <button class="btn btn-primary">Search</button>
+      <input id="q404" type="search" aria-label="Search courses" data-i18n-aria="catalog.search.aria" placeholder="Search 558 courses…" data-i18n-ph="notfound.search.ph" class="flex-1 rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
+      <button class="btn btn-primary" data-i18n="notfound.search.btn">Search</button>
     </form>
     <div class="mt-6 flex flex-wrap justify-center gap-3">
-      <a class="btn" href="/">Home</a>
-      <a class="btn" href="/catalog">Browse courses</a>
-      <a class="btn" href="/paths">Guided paths</a>
+      <a class="btn" href="/" data-i18n="notfound.home">Home</a>
+      <a class="btn" href="/catalog" data-i18n="home.cta.browse">Browse courses</a>
+      <a class="btn" href="/paths" data-i18n="notfound.paths">Guided paths</a>
     </div>
   </section>
   <script>

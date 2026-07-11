@@ -63,15 +63,15 @@ const breadcrumb = {
     <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
     <div class="wrap relative z-10 py-12">
       <div class="flex flex-wrap items-center gap-2 font-sans text-xs">
-        <a href="/catalog" class="text-white/70 hover:text-white">← Catalogue</a>
+        <a href="/catalog" class="text-white/70 hover:text-white" data-i18n="course.breadcrumb">← Catalogue</a>
         <span class="pill bg-white/15 text-white">{topicName(c.topic)}</span>
         <span class="pill bg-white/15 text-white">{c.level} level</span>
-        {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]">Created by AI</span>}
-        {quotesVerified && <a href="/integrity" class="pill bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji">Quotes verified</a>}
+        {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]" data-i18n="course.aibadge">Created by AI</span>}
+        {quotesVerified && <a href="/integrity" class="pill bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji" data-i18n="course.verified">Quotes verified</a>}
       </div>
       <p class="eyebrow mt-5 text-saffron">{topicName(c.topic)}</p>
       <h1 class="mt-2 max-w-3xl text-display-sm font-bold text-white">{c.title}</h1>
-      <p class="mt-3 font-sans text-sm text-white/75">Professor: <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> <span aria-hidden="true" class="px-1 text-white/40">·</span> Source: {c.source || 'Sikhi University'}</p>
+      <p class="mt-3 font-sans text-sm text-white/75"><span data-i18n="course.professorlabel">Professor:</span> <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> <span aria-hidden="true" class="px-1 text-white/40">·</span> <span data-i18n="course.sourcelabel">Source:</span> {c.source || 'Sikhi University'}</p>
       <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
       <div class="mt-7 flex flex-wrap items-center gap-3">
         <a href="#lesson-0" class="btn btn-primary" data-i18n="course.begin">Begin course</a>
@@ -87,13 +87,13 @@ const breadcrumb = {
     <div>
       {c.aiCreated && (
         <div class="mb-6 rounded-xl2 border border-line bg-saffron-soft/50 p-4 font-sans text-sm">
-          <strong>Created by AI.</strong> Drafted with AI and reviewed for accuracy. Spotted an error? <a class="underline" href="/feedback">Tell us</a>.
+          <strong data-i18n="course.ai.badge">Created by AI.</strong> <span data-i18n="course.ai.desc">Drafted with AI and reviewed for accuracy. Spotted an error?</span> <a class="underline" href="/feedback" data-i18n="course.ai.link">Tell us</a>.
         </div>
       )}
 
       {c.level >= 200 && (
         <div class="mb-6 rounded-xl2 border border-line bg-surface p-4 font-sans text-sm text-muted">
-          <strong class="text-navy">Prerequisite recommended.</strong>{' '}
+          <strong class="text-navy" data-i18n="course.prereq.badge">Prerequisite recommended.</strong>{' '}
           {c.level === 200 && <>This is a 200-level course. To get the most out of it, we recommend completing the <a class="underline text-navy" href="/catalog">100-level courses</a> first.</>}
           {c.level === 300 && <>This is a 300-level course. We recommend completing <a class="underline text-navy" href="/catalog">200-level courses</a> before diving in — they build the foundation this course assumes.</>}
           {c.level === 400 && <>This is a 400-level course. You'll get the most from it after completing <a class="underline text-navy" href="/catalog">300-level courses</a>, which cover the concepts this course builds on.</>}
@@ -103,7 +103,7 @@ const breadcrumb = {
 
       {c.outcomes && c.outcomes.length > 0 && (
         <section class="reveal mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">What you'll learn</h2>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.outcomes.h">What you'll learn</h2>
           <ul class="mt-3 grid gap-2 sm:grid-cols-2">
             {c.outcomes.map((o) => <li class="relative pl-6"><Icon name="check" class="absolute left-0 top-1 h-4 w-4 text-ok" /><span set:html={o} /></li>)}
           </ul>
@@ -112,10 +112,10 @@ const breadcrumb = {
 
       {c.terms && c.terms.length > 0 && (
         <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Key terms — ਸ਼ਬਦਾਵਲੀ</h2>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.terms.h">Key terms —</span> ਸ਼ਬਦਾਵਲੀ</h2>
           <div class="mt-3 overflow-x-auto">
             <table class="w-full border-collapse text-[0.95rem]">
-              <thead><tr><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Term</th><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Academic context</th></tr></thead>
+              <thead><tr><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white" data-i18n="course.terms.col.term">Term</th><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white" data-i18n="course.terms.col.context">Academic context</th></tr></thead>
               <tbody>{c.terms.map((t) => <tr class="even:bg-paper"><td class="border border-line p-2 align-top"><span class="font-semibold" set:html={t.t} /></td><td class="border border-line p-2 align-top break-words">{t.m}</td></tr>)}</tbody>
             </table>
           </div>
@@ -124,27 +124,27 @@ const breadcrumb = {
 
       {c.terms && c.terms.length > 0 && (
         <section id="flashcards" class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Flashcards — ਕਾਰਡ ਅਭਿਆਸ</h2>
-          <p class="mt-1 font-sans text-sm text-muted">Click a card to flip it and reveal the definition.</p>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.flashcards.h">Flashcards —</span> ਕਾਰਡ ਅਭਿਆਸ</h2>
+          <p class="mt-1 font-sans text-sm text-muted" data-i18n="course.flashcards.sub">Click a card to flip it and reveal the definition.</p>
           <div class="mt-4 relative">
             <!-- Card display -->
-            <div id="fc-card" class="cursor-pointer select-none rounded-xl2 border border-line bg-surface shadow-card min-h-[160px] flex flex-col items-center justify-center p-8 text-center transition-all hover:border-saffron" role="button" aria-label="Flip card" tabindex="0">
+            <div id="fc-card" class="cursor-pointer select-none rounded-xl2 border border-line bg-surface shadow-card min-h-[160px] flex flex-col items-center justify-center p-8 text-center transition-all hover:border-saffron" role="button" aria-label="Flip card" data-i18n-aria="course.flashcards.flipAria" tabindex="0">
               <div id="fc-front" class="text-lg font-bold text-navy"></div>
               <div id="fc-back" class="hidden mt-3 text-[0.95rem] text-muted leading-relaxed"></div>
               <div id="fc-hint" class="mt-4 font-sans text-xs text-muted/60">Click to reveal</div>
             </div>
             <!-- Navigation -->
             <div class="mt-4 flex items-center justify-between gap-3">
-              <button id="fc-prev" class="btn font-sans text-sm px-4 py-1.5">← Prev</button>
+              <button id="fc-prev" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.prev">← Prev</button>
               <div class="flex items-center gap-3">
                 <span id="fc-counter" class="font-sans text-sm text-muted"></span>
-                <button id="fc-known" class="btn btn-primary font-sans text-sm px-4 py-1.5">Mark learned <Icon name="check" class="h-4 w-4" /></button>
+                <button id="fc-known" class="btn btn-primary font-sans text-sm px-4 py-1.5"><span data-i18n="course.flashcards.marklearned">Mark learned</span> <Icon name="check" class="h-4 w-4" /></button>
               </div>
-              <button id="fc-next" class="btn font-sans text-sm px-4 py-1.5">Next →</button>
+              <button id="fc-next" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.next">Next →</button>
             </div>
             <div class="mt-3 flex items-center justify-between">
               <div id="fc-progress" class="font-sans text-xs text-muted"></div>
-              <button id="fc-reset" class="font-sans text-xs text-muted hover:text-saffron-deep underline">Reset progress</button>
+              <button id="fc-reset" class="font-sans text-xs text-muted hover:text-saffron-deep underline" data-i18n="course.flashcards.reset">Reset progress</button>
             </div>
           </div>
         </section>
@@ -153,18 +153,18 @@ const breadcrumb = {
       <div id="course-ann" class="mb-8 empty:mb-0"></div>
 
       <section class="reveal mb-8">
-        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Lessons</h2>
+        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.lessons.h">Lessons</h2>
         <div class="mt-4 space-y-6">
           {lessons.map((ls, i) => (
             <article id={`lesson-${i}`} class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
               <div class="flex items-start justify-between gap-3">
                 <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
-                <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl">Listen</span></button>
+                <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl" data-i18n="course.listen">Listen</span></button>
               </div>
               <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed" set:html={ls.html} />
               <div class="mt-4 border-t border-dashed border-line pt-3">
-                <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" />Your notes — saved on this device</label>
-                <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…"></textarea>
+                <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" /><span data-i18n="course.notes.label">Your notes — saved on this device</span></label>
+                <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…" data-i18n-ph="course.notes.ph"></textarea>
                 <button data-done={i} class="mt-2 rounded-lg border border-line px-3 py-1.5 font-sans text-sm hover:border-saffron">Mark complete</button>
               </div>
             </article>
@@ -173,15 +173,15 @@ const breadcrumb = {
       </section>
 
       <section id="gurbani-refs" class="mb-8 hidden">
-        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Gurbani Verses — <span class="gur text-saffron-deep">ਗੁਰਬਾਣੀ</span></h2>
-        <p class="mt-1 font-sans text-sm text-muted">Lines from Sri Guru Granth Sahib Ji referenced in this course.{quotesVerified ? <> Every quoted shabad here is <a class="underline" href="/integrity">machine-verified</a> against the canonical text.</> : null}</p>
+        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.gurbani.h">Gurbani Verses —</span> <span class="gur text-saffron-deep">ਗੁਰਬਾਣੀ</span></h2>
+        <p class="mt-1 font-sans text-sm text-muted"><span data-i18n="course.gurbani.sub">Lines from Sri Guru Granth Sahib Ji referenced in this course.</span>{quotesVerified ? <> Every quoted shabad here is <a class="underline" href="/integrity">machine-verified</a> against the canonical text.</> : null}</p>
         <div id="gurbani-refs-list" class="mt-4 space-y-3"></div>
       </section>
 
       {quiz.length > 0 && (
         <section id="test" class="reveal mb-8 rounded-xl2 border border-line bg-surface p-6 shadow-card">
-          <h2 class="text-xl font-bold">Course test</h2>
-          <p class="font-sans text-sm text-muted">Pass with 80% or higher to complete the course and unlock the next one.</p>
+          <h2 class="text-xl font-bold" data-i18n="course.quiz.h">Course test</h2>
+          <p class="font-sans text-sm text-muted" data-i18n="course.quiz.sub">Pass with 80% or higher to complete the course and unlock the next one.</p>
           <form id="quiz" class="mt-4 space-y-5">
             {quiz.map((qq, i) => (
               <fieldset><legend class="font-semibold">{i + 1}. {qq.q}</legend>
@@ -191,21 +191,21 @@ const breadcrumb = {
               </fieldset>
             ))}
           </form>
-          <button id="quiz-submit" class="btn btn-primary mt-4">Submit test</button>
+          <button id="quiz-submit" class="btn btn-primary mt-4" data-i18n="course.quiz.submit">Submit test</button>
           <div id="quiz-result" class="mt-4"></div>
         </section>
       )}
 
       {c.references && c.references.length > 0 && (
         <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">References &amp; further reading</h2>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.refs.h">References &amp; further reading</h2>
           <ol class="mt-3 list-decimal space-y-2 pl-5 font-sans text-sm text-muted">{c.references.map((r) => <li>{r}</li>)}</ol>
         </section>
       )}
 
       {c.sourceText && (
         <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">From the source text</h2>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.sourcetext.h">From the source text</h2>
           <figure class="mt-3 rounded-xl2 border border-line bg-paper p-5">
             {c.sourceText.gurmukhi && (
               <blockquote lang="pa" class="border-l-4 border-saffron pl-4 text-lg leading-loose text-navy">{c.sourceText.gurmukhi}</blockquote>
@@ -221,10 +221,10 @@ const breadcrumb = {
                   ? " This is the author's original Gurmukhi text (OCR), shown as a study excerpt — OCR may contain errors."
                   : ' Shown as a short study excerpt — refer to the original for an authoritative reading.'}
               {c.sourceText.sikhArchiveUrl
-                ? <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener">Read the full work on Sikh Archive ↗</a>
-                : <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>}
+                ? <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener" data-i18n="course.sourcetext.readarchive">Read the full work on Sikh Archive ↗</a>
+                : <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.sourcetext.readsikhlibrary">Read the full work on SikhLibrary ↗</a>}
               {c.sourceText.sikhArchiveUrl && (
-                <a class="ml-1 text-muted underline" href={c.sourceText.url} target="_blank" rel="noopener">(or on SikhLibrary ↗)</a>
+                <a class="ml-1 text-muted underline" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.sourcetext.orsikhlibrary">(or on SikhLibrary ↗)</a>
               )}
             </figcaption>
           </figure>
@@ -232,18 +232,18 @@ const breadcrumb = {
       )}
 
       <section class="reveal rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
-        <h2 class="text-xl font-bold">Read the source texts</h2>
-        <p class="mt-1">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
+        <h2 class="text-xl font-bold" data-i18n="course.readsource.h">Read the source texts</h2>
+        <p class="mt-1" data-i18n="course.readsource.sub">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
         <div class="mt-3 flex flex-wrap gap-3">
-          <a class="btn" href="/santhiya?src=sggs"><Icon name="book" class="h-4 w-4" />Read Gurbani (reader)</a>
+          <a class="btn" href="/santhiya?src=sggs"><Icon name="book" class="h-4 w-4" /><span data-i18n="course.readsource.readgurbani">Read Gurbani (reader)</span></a>
           {c.sourceText?.sikhArchiveUrl && (
-            <a class="btn" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener"><Icon name="books" class="h-4 w-4" />Read this work on Sikh Archive ↗</a>
+            <a class="btn" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener"><Icon name="books" class="h-4 w-4" /><span data-i18n="course.readsource.readarchive">Read this work on Sikh Archive ↗</span></a>
           )}
           {c.sourceText && c.sourceText.url && (
-            <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener">This work on SikhLibrary ↗</a>
+            <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.readsource.thiswork">This work on SikhLibrary ↗</a>
           )}
           {(c.sourceText || (c.source && c.source.indexOf('SikhLibrary') !== -1)) && (
-            <a class="btn" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener">SikhLibrary dataset ↗</a>
+            <a class="btn" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener" data-i18n="course.readsource.dataset">SikhLibrary dataset ↗</a>
           )}
           <a class="btn" href={archive.url} target="_blank" rel="noopener">{archive.label} →</a>
         </div>
@@ -252,7 +252,7 @@ const breadcrumb = {
 
     <aside class="lg:sticky lg:top-20 lg:self-start">
       <div class="card-lift mb-4">
-        <div class="eyebrow text-muted">Your professor</div>
+        <div class="eyebrow text-muted" data-i18n="course.prof.eyebrow">Your professor</div>
         <div class="mt-3 flex items-center gap-3">
           <a href={`/professor/${profSlug(c.professor)}`} class="shrink-0"><Avatar name={c.professor} size={56} /></a>
           <div class="min-w-0">
@@ -261,10 +261,10 @@ const breadcrumb = {
           </div>
         </div>
         {bioShort && <p class="mt-3 text-[0.9rem] leading-relaxed text-muted">{bioShort}</p>}
-        <a href={`/professor/${profSlug(c.professor)}`} class="mt-3 inline-block font-sans text-sm font-semibold text-saffron-deep hover:underline">View profile →</a>
+        <a href={`/professor/${profSlug(c.professor)}`} class="mt-3 inline-block font-sans text-sm font-semibold text-saffron-deep hover:underline" data-i18n="course.prof.viewprofile">View profile →</a>
       </div>
       <div class="card-lift">
-        <div class="eyebrow text-muted">Your progress</div>
+        <div class="eyebrow text-muted" data-i18n="course.progress.eyebrow">Your progress</div>
         <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div id="prog-bar" class="h-full bg-saffron" style="width:0%"></div></div>
         <div id="prog-text" class="mt-1 font-sans text-xs text-muted">0% complete</div>
         <ol class="mt-4 space-y-1 font-sans text-sm">
@@ -277,21 +277,21 @@ const breadcrumb = {
   <section class="reveal wrap pb-14">
     <div class="grid gap-10 lg:grid-cols-2">
       <div class="card-lift">
-        <h2 class="text-xl font-bold">Rate this course</h2>
+        <h2 class="text-xl font-bold" data-i18n="course.rate.h">Rate this course</h2>
         <div id="rate-summary" class="mt-1 font-sans text-sm text-muted">…</div>
-        <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" class="mt-2 flex gap-1 text-3xl text-saffron">
-          <button type="button" data-s="1" aria-label="1 star"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="2" aria-label="2 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="3" aria-label="3 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="4" aria-label="4 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="5" aria-label="5 stars"><Icon name="star" class="h-7 w-7" /></button>
+        <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" data-i18n-aria="course.rate.groupAria" class="mt-2 flex gap-1 text-3xl text-saffron">
+          <button type="button" data-s="1" aria-label="1 star" data-i18n-aria="course.rate.star1"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="2" aria-label="2 stars" data-i18n-aria="course.rate.star2"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="3" aria-label="3 stars" data-i18n-aria="course.rate.star3"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="4" aria-label="4 stars" data-i18n-aria="course.rate.star4"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="5" aria-label="5 stars" data-i18n-aria="course.rate.star5"><Icon name="star" class="h-7 w-7" /></button>
         </div>
-        <textarea id="rate-review" rows="2" aria-label="Optional written review" placeholder="Optional review…" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
-        <button id="rate-submit" class="btn btn-primary mt-2">Submit rating</button>
+        <textarea id="rate-review" rows="2" aria-label="Optional written review" data-i18n-aria="course.rate.reviewAria" placeholder="Optional review…" data-i18n-ph="course.rate.reviewPh" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
+        <button id="rate-submit" class="btn btn-primary mt-2" data-i18n="course.rate.submit">Submit rating</button>
         <div id="rate-msg" class="mt-2 font-sans text-sm"></div>
       </div>
       <div class="card-lift">
-        <h2 class="text-xl font-bold">Discussion &amp; Q&amp;A</h2>
+        <h2 class="text-xl font-bold" data-i18n="course.discussion.h">Discussion &amp; Q&amp;A</h2>
         <div id="disc-list" class="mt-3 space-y-2"></div>
-        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" placeholder="Ask a question or share a thought…" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
-        <button id="disc-submit" class="btn mt-2">Post</button>
-        <div id="disc-note" class="mt-1 font-sans text-xs text-muted">Sign in to post.</div>
+        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" data-i18n-aria="course.discussion.msgAria" placeholder="Ask a question or share a thought…" data-i18n-ph="course.discussion.msgPh" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
+        <button id="disc-submit" class="btn mt-2" data-i18n="course.discussion.post">Post</button>
+        <div id="disc-note" class="mt-1 font-sans text-xs text-muted" data-i18n="course.discussion.signinnote">Sign in to post.</div>
       </div>
     </div>
   </section>

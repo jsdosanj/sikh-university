@@ -41,36 +41,36 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
   <section class="relative overflow-hidden bg-brand text-white">
     <div class="absolute inset-0 pattern-lattice" aria-hidden="true"></div>
     <div class="wrap relative py-10 sm:py-12">
-      <p class="eyebrow text-saffron">Catalogue</p>
-      <h1 class="text-display-sm mt-2 font-bold text-white">Courses &amp; learning paths</h1>
-      <p class="mt-3 max-w-2xl font-sans text-white/80">Browse every course by topic and level — or follow a guided path from foundations to advanced study.</p>
+      <p class="eyebrow text-saffron" data-i18n="catalog.eyebrow">Catalogue</p>
+      <h1 class="text-display-sm mt-2 font-bold text-white" data-i18n="catalog.h1">Courses &amp; learning paths</h1>
+      <p class="mt-3 max-w-2xl font-sans text-white/80" data-i18n="catalog.sub">Browse every course by topic and level — or follow a guided path from foundations to advanced study.</p>
       <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 font-sans text-sm text-white/90">
         <Icon name="books" class="h-4 w-4" />
-        <span><span id="cat-count">{sorted.length}</span> courses</span>
+        <span><span id="cat-count">{sorted.length}</span> <span data-i18n="catalog.courseslabel">courses</span></span>
       </p>
     </div>
   </section>
 
   <section class="wrap py-10">
-    <div id="tabbar" role="tablist" aria-label="Browse courses" class="inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
-      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white">Learning paths</button>
-      <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-4 py-1.5">Catalogue</button>
-      <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-4 py-1.5">Programs</button>
+    <div id="tabbar" role="tablist" aria-label="Browse courses" data-i18n-aria="catalog.tabbar.aria" class="inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
+      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white" data-i18n="catalog.tab.paths">Learning paths</button>
+      <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-4 py-1.5" data-i18n="catalog.eyebrow">Catalogue</button>
+      <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-4 py-1.5" data-i18n="catalog.tab.programs">Programs</button>
     </div>
 
     <!-- Catalogue view (hidden by default: guided paths lead so slow connections
          don't hit a wall of 558 cards before JS runs). -->
     <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6" hidden>
       <div class="sticky top-[4.5rem] z-30 rounded-xl2 border border-line bg-surface p-4 shadow-card">
-        <input id="cat-search" type="search" placeholder="Search courses…" aria-label="Search courses"
+        <input id="cat-search" type="search" placeholder="Search courses…" data-i18n-ph="catalog.search.ph" aria-label="Search courses" data-i18n-aria="catalog.search.aria"
           class="w-full max-w-xl rounded-xl border border-line bg-paper px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
         <div id="cat-filters" class="mt-3 flex flex-wrap gap-2 font-sans text-sm">
-          <button data-t="all" class={btn}>All</button>
+          <button data-t="all" class={btn} data-i18n="catalog.filter.all">All</button>
           {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
         </div>
         <div id="level-filters" class="mt-3 flex flex-wrap items-center gap-2 font-sans text-sm">
-          <span class="self-center font-sans text-xs font-semibold uppercase tracking-wide text-muted mr-1">Level</span>
-          <button data-l="all" class={btn}>All levels</button>
+          <span class="self-center font-sans text-xs font-semibold uppercase tracking-wide text-muted mr-1" data-i18n="catalog.filter.levellabel">Level</span>
+          <button data-l="all" class={btn} data-i18n="catalog.filter.alllevels">All levels</button>
           {[100, 200, 300, 400, 500].map((l) => <button data-l={String(l)} class={btn}>{l}-level</button>)}
         </div>
       </div>
@@ -84,21 +84,21 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
       <div id="cat-empty" class="mt-10 hidden text-center" aria-live="polite">
         <div class="flex flex-col items-center gap-3">
           <span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-muted"><Icon name="folder" class="h-7 w-7" /></span>
-          <p class="font-serif text-lg font-bold text-navy">No courses match</p>
-          <p class="max-w-sm font-sans text-sm text-muted">Try a different topic, level, or search term.</p>
-          <button id="cat-clear" type="button" class="btn mt-1">Clear filters</button>
+          <p class="font-serif text-lg font-bold text-navy" data-i18n="catalog.empty.title">No courses match</p>
+          <p class="max-w-sm font-sans text-sm text-muted" data-i18n="catalog.empty.sub">Try a different topic, level, or search term.</p>
+          <button id="cat-clear" type="button" class="btn mt-1" data-i18n="catalog.empty.clear">Clear filters</button>
         </div>
       </div>
     </div>
 
     <!-- Learning paths view -->
     <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6">
-      <p class="text-muted">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
+      <p class="text-muted" data-i18n="catalog.paths.intro">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
       <details id="guided-journeys-section" class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
         <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
           <div>
-            <h2 class="text-xl font-bold">Guided journeys</h2>
-            <p class="text-muted text-sm">Hand-curated routes that weave across subjects.</p>
+            <h2 class="text-xl font-bold" data-i18n="catalog.paths.guided.h">Guided journeys</h2>
+            <p class="text-muted text-sm" data-i18n="catalog.paths.guided.sub">Hand-curated routes that weave across subjects.</p>
           </div>
           <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
         </summary>
@@ -127,8 +127,8 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
       <details id="explore-by-subject-section" class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
         <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
           <div>
-            <h2 class="text-xl font-bold">Explore by subject</h2>
-            <p class="text-muted text-sm">Every subject, with all its courses in order.</p>
+            <h2 class="text-xl font-bold" data-i18n="catalog.paths.subject.h">Explore by subject</h2>
+            <p class="text-muted text-sm" data-i18n="catalog.paths.subject.sub">Every subject, with all its courses in order.</p>
           </div>
           <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
         </summary>
@@ -157,8 +157,8 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
 
     <!-- Programs view -->
     <div id="view-programs" role="tabpanel" aria-labelledby="tab-programs-btn" class="mt-6" hidden>
-      <p class="text-lg text-muted">Certificate to Giani — a full academic ladder, free and open to all.</p>
-      <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm">
+      <p class="text-lg text-muted" data-i18n="catalog.programs.intro">Certificate to Giani — a full academic ladder, free and open to all.</p>
+      <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm" data-i18n="catalog.programs.disclaimer">
         Sikhi University is not an accredited university and these courses are for self-development only.
       </div>
       {grouped.map(({ type, label, programs }) => programs.length > 0 && (
@@ -187,14 +187,14 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
         </div>
       ))}
       <div class="mt-12 rounded-xl2 border border-line bg-surface p-6">
-        <h2 class="text-xl font-bold">How programs work</h2>
+        <h2 class="text-xl font-bold" data-i18n="catalog.programs.how.h">How programs work</h2>
         <ol class="mt-4 list-decimal list-inside space-y-3 font-sans text-sm text-muted">
-          <li>Complete all courses in the program — each has lectures, reading, and a quiz.</li>
+          <li data-i18n="catalog.programs.how.li1">Complete all courses in the program — each has lectures, reading, and a quiz.</li>
           <li>Once every course is passed (70% quiz score), unlock the <strong>Cumulative Examination</strong>.</li>
           <li>Pass the cumulative exam with <strong>80% or higher</strong> to earn the credential.</li>
-          <li>Download your certificate and share your academic credential.</li>
+          <li data-i18n="catalog.programs.how.li4">Download your certificate and share your academic credential.</li>
         </ol>
-        <p class="mt-4 font-sans text-sm text-muted">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
+        <p class="mt-4 font-sans text-sm text-muted" data-i18n="catalog.programs.stackable">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
       </div>
     </div>
   </section>

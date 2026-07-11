@@ -3,31 +3,31 @@ import Base from '../layouts/Base.astro';
 ---
 <Base title="Sign in / Sign up — Sikhi University" description="Join Sikhi University free with a magic link — as a student to learn, or apply to teach. No password needed.">
   <section class="wrap max-w-xl py-14">
-    <h1 class="text-3xl font-bold">Sign in or sign up</h1>
-    <p class="mt-2 text-lg text-muted">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
+    <h1 class="text-3xl font-bold" data-i18n="login.h1">Sign in or sign up</h1>
+    <p class="mt-2 text-lg text-muted" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
     <div id="err" class="mt-4"></div>
 
     <fieldset class="mt-6">
-      <legend class="font-sans text-sm font-semibold">I am joining as a…</legend>
+      <legend class="font-sans text-sm font-semibold" data-i18n="login.role.legend">I am joining as a…</legend>
       <div class="mt-2 grid gap-3 sm:grid-cols-2">
         <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
           <input type="radio" name="role" value="student" class="mr-2" checked />
-          <span class="font-semibold text-navy">Student</span>
-          <p class="mt-1 font-sans text-sm text-muted">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
+          <span class="font-semibold text-navy" data-i18n="login.role.student">Student</span>
+          <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.studentdesc">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
         </label>
         <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
           <input type="radio" name="role" value="teacher" class="mr-2" />
-          <span class="font-semibold text-navy">Teacher</span>
-          <p class="mt-1 font-sans text-sm text-muted">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
+          <span class="font-semibold text-navy" data-i18n="login.role.teacher">Teacher</span>
+          <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.teacherdesc">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
         </label>
       </div>
     </fieldset>
 
     <form id="login-form" class="mt-6 space-y-4">
-      <label class="block font-sans text-sm font-semibold">Email
+      <label class="block font-sans text-sm font-semibold"><span data-i18n="login.email.label">Email</span>
         <input id="email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
       </label>
-      <button id="send" type="submit" class="btn btn-primary">Send magic link</button>
+      <button id="send" type="submit" class="btn btn-primary" data-i18n="login.submit">Send magic link</button>
     </form>
     <div id="out" class="mt-4"></div>
   </section>

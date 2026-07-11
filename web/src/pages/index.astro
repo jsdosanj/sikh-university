@@ -30,19 +30,19 @@ const ld = {
         <div class="mt-12 flex flex-wrap gap-x-12 gap-y-6">
           <div>
             <div class="text-3xl font-bold text-saffron" data-countup={published.length} data-countup-suffix="+">{published.length}+</div>
-            <div class="mt-1 font-sans text-sm text-white/70">courses</div>
+            <div class="mt-1 font-sans text-sm text-white/70" data-i18n="home.stat.courses">courses</div>
           </div>
           <div>
             <div class="text-3xl font-bold text-saffron" data-countup={topics.length}>{topics.length}</div>
-            <div class="mt-1 font-sans text-sm text-white/70">subjects</div>
+            <div class="mt-1 font-sans text-sm text-white/70" data-i18n="home.stat.subjects">subjects</div>
           </div>
           <div>
             <div class="text-3xl font-bold text-saffron" data-countup="100" data-countup-suffix="%">100%</div>
-            <div class="mt-1 font-sans text-sm text-white/70">free</div>
+            <div class="mt-1 font-sans text-sm text-white/70" data-i18n="home.stat.free">free</div>
           </div>
           <div>
-            <div class="text-3xl font-bold text-saffron">Open</div>
-            <div class="mt-1 font-sans text-sm text-white/70">to all, worldwide</div>
+            <div class="text-3xl font-bold text-saffron" data-i18n="home.stat.open">Open</div>
+            <div class="mt-1 font-sans text-sm text-white/70" data-i18n="home.stat.worldwide">to all, worldwide</div>
           </div>
         </div>
       </div>
@@ -59,10 +59,10 @@ const ld = {
   <div id="su-resume" hidden class="wrap pt-6">
     <a id="su-resume-link" href="#" class="flex items-center justify-between gap-4 rounded-xl2 border border-saffron bg-saffron-soft px-5 py-4 transition hover:-translate-y-0.5 hover:shadow-lift">
       <span>
-        <span class="block font-sans text-xs font-bold uppercase tracking-wider text-saffron-deep">Continue learning</span>
+        <span class="block font-sans text-xs font-bold uppercase tracking-wider text-saffron-deep" data-i18n="home.resume.label">Continue learning</span>
         <span id="su-resume-title" class="block font-serif text-lg font-bold text-navy"></span>
       </span>
-      <span class="shrink-0 font-sans text-sm font-semibold text-navy">Resume &rarr;</span>
+      <span class="shrink-0 font-sans text-sm font-semibold text-navy" data-i18n="home.resume.cta">Resume &rarr;</span>
     </a>
   </div>
   <script>
@@ -148,9 +148,9 @@ const ld = {
   <section class="texture-manuscript">
     <div class="wrap py-20">
       <div class="mx-auto max-w-4xl xl:max-w-5xl text-center">
-        <p class="eyebrow text-saffron-deep">First of its kind</p>
-        <h2 class="text-display-sm mt-4 font-bold">Nothing like this has ever existed for Sikhi.</h2>
-        <p class="mt-5 text-lg text-muted">For generations, serious study of Sikhi required access to rare books, a living scholar, or years of searching. Sikhi University changes that — permanently. Every course, every seminar, every lesson is here, free, for anyone on Earth.</p>
+        <p class="eyebrow text-saffron-deep" data-i18n="home.first.eyebrow">First of its kind</p>
+        <h2 class="text-display-sm mt-4 font-bold" data-i18n="home.first.heading">Nothing like this has ever existed for Sikhi.</h2>
+        <p class="mt-5 text-lg text-muted" data-i18n="home.first.sub">For generations, serious study of Sikhi required access to rare books, a living scholar, or years of searching. Sikhi University changes that — permanently. Every course, every seminar, every lesson is here, free, for anyone on Earth.</p>
       </div>
 
       <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -203,13 +203,13 @@ const ld = {
       <div class="mx-auto max-w-5xl xl:max-w-6xl">
         <div class="grid gap-10 lg:grid-cols-2 items-center">
           <div>
-            <p class="eyebrow text-saffron">For every generation</p>
-            <h2 class="text-display-sm mt-4 font-bold text-white">Built for Sikhs of today and tomorrow.</h2>
-            <p class="mt-5 text-lg text-white/85 leading-relaxed">The Sikh diaspora spans every continent. Our children grow up in Toronto, London, Nairobi, Sydney, and São Paulo. They have questions that deserve real answers — not surface-level summaries, but deep, honest, scholarly engagement with Sikhi.</p>
-            <p class="mt-4 text-white/80 leading-relaxed">Sikhi University was built so that the next generation never has to choose between their heritage and their intellectual rigour. They can have both. They deserve both.</p>
+            <p class="eyebrow text-saffron" data-i18n="home.future.eyebrow">For every generation</p>
+            <h2 class="text-display-sm mt-4 font-bold text-white" data-i18n="home.future.heading">Built for Sikhs of today and tomorrow.</h2>
+            <p class="mt-5 text-lg text-white/85 leading-relaxed" data-i18n="home.future.sub1">The Sikh diaspora spans every continent. Our children grow up in Toronto, London, Nairobi, Sydney, and São Paulo. They have questions that deserve real answers — not surface-level summaries, but deep, honest, scholarly engagement with Sikhi.</p>
+            <p class="mt-4 text-white/80 leading-relaxed" data-i18n="home.future.sub2">Sikhi University was built so that the next generation never has to choose between their heritage and their intellectual rigour. They can have both. They deserve both.</p>
             <div class="mt-8 flex flex-wrap gap-3">
-              <a class="btn btn-primary" href="/catalog">Start learning free</a>
-              <a class="btn btn-ghost" href="/about">Our story →</a>
+              <a class="btn btn-primary" href="/catalog" data-i18n="home.future.cta1">Start learning free</a>
+              <a class="btn btn-ghost" href="/about" data-i18n="home.future.cta2">Our story →</a>
             </div>
           </div>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -236,23 +236,23 @@ const ld = {
   <!-- Proof points / differentiators -->
   <section class="border-y border-line bg-surface">
     <div class="wrap py-16">
-      <p class="eyebrow text-center text-saffron-deep">By the numbers</p>
+      <p class="eyebrow text-center text-saffron-deep" data-i18n="home.stats2.eyebrow">By the numbers</p>
       <div class="mt-8 grid gap-6 text-center sm:grid-cols-2 lg:grid-cols-4">
         <div class="reveal rounded-xl2 border border-line bg-paper p-6" data-reveal-delay="0">
           <div class="text-4xl font-bold text-navy" data-countup={published.length} data-countup-suffix="+">{published.length}+</div>
-          <div class="mt-1 font-sans text-sm text-muted">Courses published</div>
+          <div class="mt-1 font-sans text-sm text-muted" data-i18n="home.stats2.courses">Courses published</div>
         </div>
         <div class="reveal rounded-xl2 border border-line bg-paper p-6" data-reveal-delay="90">
           <div class="text-4xl font-bold text-navy" data-countup="23">23</div>
-          <div class="mt-1 font-sans text-sm text-muted">Academic subjects</div>
+          <div class="mt-1 font-sans text-sm text-muted" data-i18n="home.stats2.subjects">Academic subjects</div>
         </div>
         <div class="reveal rounded-xl2 border border-line bg-paper p-6" data-reveal-delay="180">
           <div class="text-4xl font-bold text-navy">100–500</div>
-          <div class="mt-1 font-sans text-sm text-muted">Course levels</div>
+          <div class="mt-1 font-sans text-sm text-muted" data-i18n="home.stats2.levels">Course levels</div>
         </div>
         <div class="reveal rounded-xl2 border border-line bg-paper p-6" data-reveal-delay="270">
           <div class="text-4xl font-bold text-navy" data-countup="100" data-countup-suffix="%">100%</div>
-          <div class="mt-1 font-sans text-sm text-muted">Free, forever</div>
+          <div class="mt-1 font-sans text-sm text-muted" data-i18n="home.stats2.free">Free, forever</div>
         </div>
       </div>
     </div>
@@ -262,7 +262,7 @@ const ld = {
   <section class="relative overflow-hidden bg-gradient-to-br from-navy-strong via-brand to-navy-deep text-white">
     <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
     <div class="wrap relative py-24 text-center">
-      <p class="eyebrow text-saffron">Begin today</p>
+      <p class="eyebrow text-saffron" data-i18n="home.cta2.eyebrow">Begin today</p>
       <h2 class="text-display-sm mt-4 font-bold text-white" data-i18n="home.cta2.heading">Start your journey today.</h2>
       <p class="mx-auto mt-4 max-w-xl text-lg text-white/85" data-i18n="home.cta2.sub">It takes thirty seconds to begin. No sign-up required. Pick a course, start a lesson — and see how deep Sikhi really goes.</p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
