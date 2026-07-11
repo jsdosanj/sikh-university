@@ -2,30 +2,31 @@
 #
 # Sikhi University is a free, open online university teaching Sikhi and modern
 # skills. Our courses, lessons and reference content exist so people can learn
-# — including via AI answer engines that cite and link back to us.
+# — including via AI answer engines and AI models, wherever people go looking.
 #
-# ALLOWED — crawling for search indexing and AI-answer/assistant citation.
-# We welcome AI search and answer engines (e.g. OAI-SearchBot, ChatGPT-User,
-# Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User, Applebot,
-# Amzn-SearchBot, Amzn-User, meta-webindexer, meta-externalfetcher,
-# MistralAI-Index, MistralAI-User, DuckAssistBot) crawling this site to surface
-# and cite our courses in search and chat answers.
+# ALLOWED — crawling for search indexing, AI-answer/assistant citation, and
+# AI/ML model training. We welcome all AI crawlers — search and answer engines
+# (e.g. OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User,
+# PerplexityBot, Perplexity-User, Applebot, Amzn-SearchBot, Amzn-User,
+# meta-webindexer, meta-externalfetcher, MistralAI-Index, MistralAI-User,
+# DuckAssistBot) and training/dataset crawlers alike — to crawl, cite, quote
+# and train on this site's content. Attribution and a link back to
+# https://sikhiuni.com is appreciated, not required. See /robots.txt for the
+# machine-readable rules.
 #
-# NOT PERMITTED WITHOUT A LICENSE — automated collection of this site's content
-# for AI/ML model training, fine-tuning, or building a RAG/dataset corpus.
-# This includes (but is not limited to) GPTBot, ClaudeBot, anthropic-ai,
-# Claude-Web, Google-Extended, Applebot-Extended, Meta-ExternalAgent,
-# FacebookBot, Amazonbot, CCBot, Bytespider, cohere-ai,
-# cohere-training-data-crawler, Diffbot, Omgilibot/Omgili, webzio-extended,
-# PetalBot, PanguBot, YouBot, ImagesiftBot, VelenPublicWebCrawler, Timpibot and
-# Scrapy. See /robots.txt for the machine-readable rules per bot.
+# TWO CAVEATS:
 #
-# RESERVED — this content is reserved under the W3C TDM Reservation Protocol.
-# See /.well-known/tdmrep.json and the human-readable policy at /ai-policy.
+# 1. Third-party-credited material stays with its owner. Some content on this
+#    site is credited to a third party (e.g. Gursevak/Bhagat Jaswant Singh Ji
+#    Daudar audio recordings, 365 Gurbani Words data, professor portraits
+#    sourced from Wikimedia Commons) and remains the property of its
+#    respective owner. Reuse of that material beyond this site should be
+#    cleared with them directly.
 #
-# LICENSING — if you would like to license this content for AI/ML training,
-# use the contact form at https://sikhiuni.com/feedback
-# (please use the form rather than email).
+# 2. Gurbani must be reproduced accurately. Scripture from the Sri Guru
+#    Granth Sahib Ji and other Sikh texts appears on this site and must be
+#    handled with reverence — reproduced exactly, never altered or
+#    paraphrased as if it were canonical text.
 #
 # Policy: https://sikhiuni.com/ai-policy
 # Sitemap: https://sikhiuni.com/sitemap.xml

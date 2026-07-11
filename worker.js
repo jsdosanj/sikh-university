@@ -220,14 +220,10 @@ export default {
     const assetResp = await env.ASSETS.fetch(request);
     const ct = assetResp.headers.get('content-type') || '';
     const h = new Headers(assetResp.headers);
-    // AI-crawler policy: answer/search AI may crawl + cite us (drives traffic),
-    // but the content is reserved against AI/ML training. Full per-bot rules live
-    // in /robots.txt and /ai.txt; human-readable policy at /ai-policy. Search
-    // indexing is untouched (no noindex here).
-    h.set('X-Robots-Tag', 'noai, noimageai');
-    h.set('Content-Usage', 'train-ai=n, search=y');
-    h.set('TDM-Reservation', '1');
-    h.set('TDM-Policy', 'https://sikhiuni.com/ai-policy');
+    // AI-crawler policy: all AI crawling is welcome, including AI answer/search
+    // engines and AI/ML training. Per-bot rules live in /robots.txt and /ai.txt;
+    // human-readable policy at /ai-policy. Search indexing is untouched (no
+    // noindex here) and never was restricted.
     if (!ct.includes('text/html')) {
       return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
     }

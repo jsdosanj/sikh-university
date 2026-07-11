@@ -58,7 +58,7 @@ describe("canonical-host redirect", () => {
       ASSETS: htmlAssets,
     });
     expect(res.status).toBe(200);
-    expect(res.headers.get("TDM-Policy")).toBe("https://sikhiuni.com/ai-policy");
+    expect(res.headers.get("TDM-Reservation")).toBeNull();
   });
 
   it("leaves dev/preview hosts alone (localhost keeps working under wrangler dev)", async () => {

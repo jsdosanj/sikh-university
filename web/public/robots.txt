@@ -3,7 +3,7 @@ Allow: /
 
 Sitemap: https://sikhiuni.com/sitemap.xml
 
-# --- AI answer/search engines: welcome to crawl and cite us (drives traffic) ---
+# --- AI crawlers: welcome, including AI answer/search engines and AI/ML training ---
 User-agent: OAI-SearchBot
 Allow: /
 
@@ -45,77 +45,3 @@ Allow: /
 
 User-agent: DuckAssistBot
 Allow: /
-
-# --- AI training/dataset crawlers: content is reserved, not for training ---
-# (see /ai.txt and /ai-policy — this does not affect search or AI-answer crawling above)
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ClaudeBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: Applebot-Extended
-Disallow: /
-
-User-agent: Meta-ExternalAgent
-Disallow: /
-
-User-agent: FacebookBot
-Disallow: /
-
-User-agent: Amazonbot
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: Bytespider
-Disallow: /
-
-User-agent: cohere-ai
-Disallow: /
-
-User-agent: cohere-training-data-crawler
-Disallow: /
-
-User-agent: Diffbot
-Disallow: /
-
-User-agent: Omgilibot
-Disallow: /
-
-User-agent: Omgili
-Disallow: /
-
-User-agent: webzio-extended
-Disallow: /
-
-User-agent: PetalBot
-Disallow: /
-
-User-agent: PanguBot
-Disallow: /
-
-User-agent: YouBot
-Disallow: /
-
-User-agent: ImagesiftBot
-Disallow: /
-
-User-agent: VelenPublicWebCrawler
-Disallow: /
-
-User-agent: Timpibot
-Disallow: /
-
-User-agent: Scrapy
-Disallow: /
