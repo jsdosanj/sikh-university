@@ -110,12 +110,16 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const { pathname } = url;
-    // Pages/assets on a legacy host 301 to the canonical origin. /api/ and
-    // /media/ are exempt and served in place: a 301 turns POST into a bodyless
-    // GET (per the Fetch spec), which would silently break auth/progress/quiz
-    // calls from stale clients — old cached bundles and installed PWAs on the
-    // legacy origin keep working until their caches drain.
-    if (LEGACY_HOSTS.has(url.hostname) && !pathname.startsWith("/api/") && !pathname.startsWith("/media/")) {
+    // Pages/assets on a legacy host 301 to the canonical origin. /api/,
+    // /media/ and /assets/data/ are exempt and served in place: a 301 turns
+    // POST into a bodyless GET (per the Fetch spec), which would silently
+    // break auth/progress/quiz calls from stale clients, and the runtime
+    // catalogue fetch (/assets/data/courses.json, served from R2 by this
+    // Worker) must keep working for pages viewed on the legacy origin — a
+    // cross-origin redirect there breaks program/dashboard/cert course
+    // loading whenever the canonical domain is unreachable or interstitial-
+    // blocked (e.g. during a Safe Browsing review).
+    if (LEGACY_HOSTS.has(url.hostname) && !pathname.startsWith("/api/") && !pathname.startsWith("/media/") && !pathname.startsWith("/assets/data/")) {
       return Response.redirect(CANONICAL_ORIGIN + pathname + url.search, 301);
     }
     if (pathname.startsWith("/api/")) {
