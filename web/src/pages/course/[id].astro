@@ -153,7 +153,18 @@ const breadcrumb = {
       <div id="course-ann" class="mb-8 empty:mb-0"></div>
 
       <section class="reveal mb-8">
-        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.lessons.h">Lessons</h2>
+        <div class="flex flex-wrap items-end justify-between gap-3 border-b-2 border-saffron-soft pb-1">
+          <h2 class="text-xl font-bold" data-i18n="course.lessons.h">Lessons</h2>
+          <div class="relative" id="tts-settings-wrap" hidden>
+            <button id="tts-settings" class="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 font-sans text-xs text-muted hover:border-saffron hover:text-navy" aria-expanded="false" aria-controls="tts-panel"><Icon name="volume" class="h-3.5 w-3.5" /><span data-i18n="course.tts.settings">Voice &amp; speed</span></button>
+            <div id="tts-panel" class="absolute right-0 z-20 mt-2 hidden w-64 rounded-xl2 border border-line bg-surface p-3 shadow-lift">
+              <label class="block font-sans text-xs font-semibold text-muted" for="tts-voice"><span data-i18n="course.tts.voice">Reading voice</span></label>
+              <select id="tts-voice" class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm"></select>
+              <label class="mt-3 block font-sans text-xs font-semibold text-muted" for="tts-rate"><span data-i18n="course.tts.speed">Speed</span> · <span id="tts-rate-val">1×</span></label>
+              <input id="tts-rate" type="range" min="0.6" max="1.4" step="0.05" class="mt-1 w-full accent-[#f4b21a]" />
+            </div>
+          </div>
+        </div>
         <div class="mt-4 space-y-6">
           {lessons.map((ls, i) => (
             <article id={`lesson-${i}`} class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
@@ -365,23 +376,25 @@ const breadcrumb = {
         navigator.serviceWorker.controller.postMessage({ type: 'cache-pack', id: id, urls: Array.from(new Set(urls)) });
       });
     })();
-    // Lesson audio narration (E8): read a lesson's prose aloud via the browser's speech
-    // engine. Gurmukhi (.gur/.shabad/gurbani blockquotes) is stripped so an English voice
-    // never mispronounces Gurbani; the English translations that follow are read instead.
-    // Chunked by sentence so long lessons don't hit the browser's utterance cutoff.
-    (function () {
+    // Lesson audio narration (E8), via the shared TTS engine (lib/tts): smart
+    // voice picking + tuned rate/pitch + natural sentence pauses. Gurmukhi
+    // (.gur/.shabad/gurbani blockquotes) is stripped so a voice never
+    // mispronounces Gurbani; the English translations that follow are read.
+    (async function () {
+      const tts = await import('../../lib/tts');
       const buttons = Array.from(document.querySelectorAll('[data-listen]'));
       if (!buttons.length) return;
-      if (!('speechSynthesis' in window)) { buttons.forEach((b) => b.remove()); return; }
-      let playing = null, gen = 0;
+      if (!tts.supported()) { buttons.forEach((b) => b.remove()); return; }
+      let playing = null;
       const label = (b, t) => { const l = b.querySelector('.listen-lbl'); if (l) l.textContent = t; b.setAttribute('aria-label', (t === 'Stop' ? 'Stop reading lesson ' : 'Listen to lesson ') + (Number(b.getAttribute('data-listen')) + 1)); };
-      const stopAll = () => { speechSynthesis.cancel(); gen++; buttons.forEach((b) => label(b, 'Listen')); playing = null; };
+      const stopAll = () => { tts.stop(); buttons.forEach((b) => label(b, 'Listen')); playing = null; };
       const readable = (art) => {
         const p = art && art.querySelector('.lesson-prose'); if (!p) return '';
         const clone = p.cloneNode(true);
         clone.querySelectorAll('.gur, .shabad, blockquote.gurbani, [lang="pa"]').forEach((n) => n.remove());
         return (clone.innerText || '').replace(/\s+/g, ' ').trim();
       };
+      const uiLang = () => (document.documentElement.getAttribute('lang') === 'pa' ? 'pa-IN' : 'en-US');
       buttons.forEach((btn) => {
         const i = btn.getAttribute('data-listen');
         btn.addEventListener('click', () => {
@@ -389,20 +402,41 @@ const breadcrumb = {
           stopAll();
           const text = readable(document.getElementById('lesson-' + i));
           if (!text) { window.suToast && window.suToast('This lesson has nothing to read aloud.', 'error'); return; }
-          const lang = document.documentElement.getAttribute('lang') === 'pa' ? 'pa-IN' : 'en-US';
-          const chunks = text.match(/[^.?!।॥]+[.?!।॥]*/g) || [text];
-          let k = 0;
-          const myGen = ++gen;
-          const next = () => {
-            if (myGen !== gen || k >= chunks.length) { if (myGen === gen) stopAll(); return; }
-            const u = new SpeechSynthesisUtterance(chunks[k++].trim());
-            u.lang = lang; u.onend = next; u.onerror = next;
-            speechSynthesis.speak(u);
-          };
-          playing = i; label(btn, 'Stop'); next();
+          playing = i; label(btn, 'Stop');
+          tts.speak(text, { lang: uiLang(), onend: () => { if (playing === i) stopAll(); } });
         });
       });
-      window.addEventListener('pagehide', () => { try { speechSynthesis.cancel(); } catch (e) {} });
+
+      // Voice & speed popover (persisted via the shared engine's su_v1_tts prefs).
+      const wrap = document.getElementById('tts-settings-wrap');
+      const toggle = document.getElementById('tts-settings');
+      const panel = document.getElementById('tts-panel');
+      const voiceSel = document.getElementById('tts-voice');
+      const rate = document.getElementById('tts-rate');
+      const rateVal = document.getElementById('tts-rate-val');
+      if (wrap && toggle && panel && voiceSel && rate) {
+        wrap.hidden = false;
+        rate.value = String(tts.getRate());
+        rateVal.textContent = tts.getRate().toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + '×';
+        toggle.addEventListener('click', async () => {
+          const open = panel.classList.toggle('hidden');
+          toggle.setAttribute('aria-expanded', String(!open));
+          if (!open && !voiceSel.options.length) {
+            const voices = await tts.listVoices(uiLang());
+            if (!voices.length) { voiceSel.innerHTML = '<option value="">System default</option>'; return; }
+            voiceSel.innerHTML = '<option value="">Automatic (best available)</option>' +
+              voices.map((v) => `<option value="${v.voiceURI.replace(/"/g, '&quot;')}">${v.name} (${v.lang})</option>`).join('');
+          }
+        });
+        voiceSel.addEventListener('change', () => { if (voiceSel.value) tts.setPreferredVoice(uiLang(), voiceSel.value); });
+        rate.addEventListener('input', () => {
+          tts.setRate(parseFloat(rate.value));
+          rateVal.textContent = parseFloat(rate.value).toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + '×';
+        });
+        document.addEventListener('click', (e) => {
+          if (!wrap.contains(e.target) && !panel.classList.contains('hidden')) { panel.classList.add('hidden'); toggle.setAttribute('aria-expanded', 'false'); }
+        });
+      }
     })();
     function recordActivity() { set('last_course', id); const a = get('activity', []); const d = new Date(); const t = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); if (a[a.length - 1] !== t) { a.push(t); set('activity', a); } }
     function refresh() {

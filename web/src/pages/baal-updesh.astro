@@ -17,6 +17,28 @@ const navin = [['ਸ਼', 'Shasha'], ['ਖ਼', 'Khhakha'], ['ਗ਼', 'Ghhagha'
 const consonants = ['ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ', 'ਚ', 'ਛ', 'ਜ', 'ਝ', 'ਞ', 'ਟ', 'ਠ', 'ਡ', 'ਢ', 'ਣ', 'ਤ', 'ਥ', 'ਦ', 'ਧ', 'ਨ', 'ਪ', 'ਫ', 'ਬ', 'ਭ', 'ਮ', 'ਯ', 'ਰ', 'ਲ', 'ਵ', 'ੜ'];
 const matras = ['', 'ਾ', 'ਿ', 'ੀ', 'ੁ', 'ੂ', 'ੇ', 'ੈ', 'ੋ', 'ੌ'];
 const matraNames = ['ਮੁਕਤਾ', 'ਕੰਨਾ', 'ਸਿਹਾਰੀ', 'ਬਿਹਾਰੀ', 'ਔਂਕੜ', 'ਦੁਲੈਂਕੜ', 'ਲਾਂ', 'ਦੁਲਾਵਾਂ', 'ਹੋੜਾ', 'ਕਨੌੜਾ'];
+
+// Per-letter audio (recitations by Bhagat Jaswant Singh Ji Daudar / Gursevak,
+// used with permission). Slugs MUST match scripts/akhar-timestamps.csv, which
+// derives them from the letter names above with -2 suffixes for the two
+// duplicate names (Dadda ਡ/ਦ, Dhadha ਢ/ਧ). Clips live under
+// /assets/audio/akhar/<category>/<slug>.mp3; the page degrades to a
+// "coming soon" note for any clip not yet extracted.
+function slugged(pairs: [string, string][]): [string, string, string][] {
+  const seen: Record<string, number> = {};
+  return pairs.map(([ch, name]) => {
+    let s = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    seen[s] = (seen[s] || 0) + 1;
+    if (seen[s] > 1) s = `${s}-${seen[s]}`;
+    return [ch, name, s];
+  });
+}
+const akharSlugged = slugged(akhar as [string, string][]);
+const navinSlugged = slugged(navin as [string, string][]);
+const charSlug: Record<string, string> = {};
+for (const [ch, , s] of akharSlugged) charSlug[ch] = s;
+// Matra slugs follow the CSV's transliterations, in matraNames order.
+const matraSlugs = ['mukta', 'kanna', 'sihari', 'bihari', 'aunkar', 'dulainkar', 'lava', 'dulava', 'hora', 'kanaura'];
 // Reading practice: words of growing length [Gurmukhi, transliteration, meaning].
 const words2 = [['ਘਰ', 'ghar', 'house'], ['ਜਲ', 'jal', 'water'], ['ਮਨ', 'man', 'mind'], ['ਤਨ', 'tan', 'body'], ['ਪਲ', 'pal', 'moment'], ['ਡਰ', 'ḍar', 'fear'], ['ਰਸ', 'ras', 'essence'], ['ਸਚ', 'sach', 'truth']];
 const words3 = [['ਕਮਲ', 'kamal', 'lotus'], ['ਚਰਨ', 'charan', 'feet'], ['ਸਬਦ', 'shabad', 'word'], ['ਅਮਰ', 'amar', 'immortal'], ['ਸਹਜ', 'sahaj', 'calm/poise'], ['ਨਾਨਕ', 'Nanak', 'Guru Nanak'], ['ਪਾਣੀ', 'paaṇi', 'water'], ['ਧਰਮ', 'dharam', 'righteousness']];
@@ -102,13 +124,14 @@ const wordCard = (w) => w;
     </summary>
     <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.painti.p1a">Three are vowel-bearers (</span><span class="gur">ੳ ਅ ੲ</span><span data-i18n="baal.painti.p1b">); the rest are consonants. Say each letter aloud.</span></p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
-      {akhar.map(([ch, name]) => (
-        <div class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+      {akharSlugged.map(([ch, name, slug]) => (
+        <button type="button" data-akhar-audio={`letters/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
           <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
-          <div class="mt-2 font-sans text-xs text-muted">{name}</div>
-        </div>
+          <div class="mt-2 inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{name}</div>
+        </button>
       ))}
     </div>
+    <p id="akhar-attribution" hidden data-no-i18n class="mt-4 font-sans text-xs text-muted"></p>
 
     </details>
 
@@ -123,11 +146,11 @@ const wordCard = (w) => w;
     </summary>
     <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.navin.p1a">Six later letters, written by adding a dot (</span><span class="gur">ਪੈਰ ਬਿੰਦੀ</span><span data-i18n="baal.navin.p1b">) beneath a base letter, for sounds used in borrowed words.</span></p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
-      {navin.map(([ch, name]) => (
-        <div class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+      {navinSlugged.map(([ch, name, slug]) => (
+        <button type="button" data-akhar-audio={`navin/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
           <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
-          <div class="mt-2 font-sans text-xs text-muted">{name}</div>
-        </div>
+          <div class="mt-2 inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{name}</div>
+        </button>
       ))}
     </div>
 
@@ -148,13 +171,24 @@ const wordCard = (w) => w;
         <thead>
           <tr class="bg-brand text-white">
             <th class="sticky left-0 z-10 bg-brand p-2"><span class="gur text-sm font-normal" lang="pa">ਅੱਖਰ</span></th>
-            {matraNames.map((n) => <th class="p-2"><span class="gur text-sm font-normal" lang="pa">{n}</span></th>)}
+            {matraNames.map((n, i) => (
+              <th class="p-2">
+                <button type="button" data-akhar-audio={`matras/${matraSlugs[i]}`} aria-label={`Play the ${matraSlugs[i]} vowel sound`} class="inline-flex items-center gap-1 rounded px-1 hover:bg-white/10">
+                  <span class="gur text-sm font-normal" lang="pa">{n}</span>
+                </button>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {consonants.map((cn, r) => (
             <tr class={r % 2 ? 'bg-paper' : ''}>
-              <td class={`gur sticky left-0 z-10 border border-line p-2 text-2xl font-bold text-navy ${r % 2 ? 'bg-paper' : 'bg-surface'}`} lang="pa">{cn}</td>
+              <td class={`sticky left-0 z-10 border border-line p-2 ${r % 2 ? 'bg-paper' : 'bg-surface'}`}>
+                <button type="button" data-akhar-audio={`muharni/${charSlug[cn]}`} aria-label="Play this muharni row" class="inline-flex items-center gap-1.5 rounded px-1 hover:text-saffron-deep">
+                  <Icon name="volume" class="h-3.5 w-3.5 shrink-0 text-muted" />
+                  <span class="gur text-2xl font-bold text-navy" lang="pa">{cn}</span>
+                </button>
+              </td>
               {matras.map((m) => <td class="gur border border-line p-2 text-2xl" lang="pa">{cn + m}</td>)}
             </tr>
           ))}
@@ -241,12 +275,12 @@ const wordCard = (w) => w;
     <p class="mt-1 max-w-2xl text-muted" data-i18n="baal.numbers.p1">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
     <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
       {numNames.map(([g, n, nm, tr]) => (
-        <div class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card">
+        <button type="button" data-akhar-audio={`numbers/n${n}`} aria-label={`Play the pronunciation of ${n}`} class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card transition hover:-translate-y-0.5 hover:border-saffron">
           <div class="gur text-2xl font-bold text-navy">{g}</div>
-          <div class="font-sans text-xs text-muted">{n}</div>
+          <div class="inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{n}</div>
           <div class="gur mt-1 text-base text-navy">{nm}</div>
           <div class="font-sans text-[0.7rem] text-muted">{tr}</div>
-        </div>
+        </button>
       ))}
     </div>
     <h3 class="mt-6 font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep" data-i18n="baal.allnumerals.h3">All numerals, 0–100</h3>
@@ -459,6 +493,51 @@ const wordCard = (w) => w;
       </ol>
     </div>
   </section>
+  <script>
+    // Akhar audio: one shared <audio> element plays the clip named by the
+    // clicked [data-akhar-audio] button (letters, navin, matras, muharni rows,
+    // numbers). The manifest is fetched lazily on first tap; a missing clip
+    // (or absent manifest — clips are added incrementally by the extraction
+    // pipeline in scripts/extract-akhar-audio.md) degrades to a friendly note.
+    (function () {
+      const BASE = '/assets/audio/akhar/';
+      let manifest = null; // null = not fetched; false = unavailable
+      let current = null;
+      const player = new Audio();
+      player.preload = 'none';
+      const clearRing = () => { if (current) { current.classList.remove('ring-2', 'ring-saffron'); current = null; } };
+      player.addEventListener('ended', clearRing);
+      player.addEventListener('pause', clearRing);
+      async function getManifest() {
+        if (manifest !== null) return manifest;
+        try {
+          const r = await fetch(BASE + 'manifest.json');
+          manifest = r.ok ? await r.json() : false;
+        } catch (e) { manifest = false; }
+        if (manifest && manifest.attribution) {
+          const att = document.getElementById('akhar-attribution');
+          const clips = Object.keys(manifest).reduce((n, k) => n + (typeof manifest[k] === 'object' ? Object.keys(manifest[k]).length : 0), 0);
+          if (att && clips > 0) { att.textContent = manifest.attribution; att.hidden = false; }
+        }
+        return manifest;
+      }
+      document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('[data-akhar-audio]');
+        if (!btn) return;
+        const key = btn.getAttribute('data-akhar-audio');
+        const [cat, slug] = key.split('/');
+        if (current === btn && !player.paused) { player.pause(); return; }
+        const m = await getManifest();
+        const rel = m && m[cat] && m[cat][slug];
+        if (!rel) { window.suToast && window.suToast('Audio for this one is coming soon.', ''); return; }
+        clearRing();
+        current = btn;
+        btn.classList.add('ring-2', 'ring-saffron');
+        player.src = BASE + rel;
+        player.play().catch(() => { clearRing(); window.suToast && window.suToast('Could not play the audio.', 'error'); });
+      });
+    })();
+  </script>
   <script type="application/json" id="fc-words-data" set:html={JSON.stringify(gurbaniWords)}></script>
   <script>
     import { iconSvg } from '../lib/icons';
