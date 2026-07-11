@@ -28,6 +28,13 @@ const texts = [
         <span class="text-display-sm font-bold text-white" data-i18n="santhiya.h1">The Santhya Pathway</span>
       </h1>
       <p class="mt-5 max-w-2xl text-lg text-white/85" data-i18n="santhiya.hero.sub">Santhya is the careful, correct reading of Gurbani. Walk the traditional path — from your first letters to the complete Sri Guru Granth Sahib Ji — reading along with audio, one step at a time.</p>
+      <div id="pathway-progress" hidden class="mt-6 max-w-md">
+        <div class="flex items-baseline justify-between font-sans text-sm text-white/80">
+          <span><span id="pp-count">0</span> / {texts.length} <span data-i18n="santhiya.steps">steps completed</span></span>
+        </div>
+        <div class="mt-1.5 h-2 overflow-hidden rounded-full bg-white/15"><div id="pp-bar" class="h-full rounded-full bg-saffron transition-all" style="width:0%"></div></div>
+      </div>
+      <a id="pp-continue" hidden href="#" class="mt-4 inline-flex items-center gap-2 rounded-full border border-saffron/50 bg-saffron/15 px-4 py-1.5 font-sans text-sm text-saffron hover:bg-saffron/25"><Icon name="compass" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.continue">Continue where you left off</span><span id="pp-continue-name" class="gur" lang="pa"></span></a>
     </div>
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
@@ -47,10 +54,11 @@ const texts = [
               {t.live && <span class="pill bg-saffron text-[#2a1c06]" data-i18n="santhiya.available">Available</span>}
             </div>
             <p class="mt-1 text-ink/90">{t.d}</p>
-            <div class="mt-3">
+            <div class="mt-3 flex flex-wrap items-center gap-3">
               {t.href
                 ? <a href={t.href} class="btn btn-primary" data-i18n="santhiya.open">Open →</a>
                 : <span class="font-sans text-sm text-muted" data-i18n="santhiya.comingsoon">Reader coming soon</span>}
+              <button type="button" data-step-toggle={i} class="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-1.5 font-sans text-sm text-muted transition hover:border-saffron hover:text-navy"><Icon name="check" class="h-4 w-4 shrink-0" /><span class="step-lbl" data-i18n="santhiya.markdone">Mark complete</span></button>
             </div>
           </div>
         </li>
@@ -75,6 +83,11 @@ const texts = [
       <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
       <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted"><Icon name="volume-off" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.audioprep">Audio for this Ang is being prepared.</span></div>
       <div class="flex items-center gap-2 font-sans text-sm">
+        <button id="skip-back" aria-label="Back 10 seconds" class="rounded-lg border border-line px-2.5 py-1 hover:border-saffron">−10s</button>
+        <button id="skip-fwd" aria-label="Forward 10 seconds" class="rounded-lg border border-line px-2.5 py-1 hover:border-saffron">+10s</button>
+        <select id="aud-rate" aria-label="Playback speed" class="rounded-lg border border-line bg-surface px-1.5 py-1">
+          <option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option>
+        </select>
         <button data-fs="-" aria-label="Decrease text size" data-i18n-aria="santhiya.aria.smaller" class="rounded-lg border border-line px-2.5 py-1">A−</button>
         <button data-fs="+" aria-label="Increase text size" data-i18n-aria="santhiya.aria.bigger" class="rounded-lg border border-line px-2.5 py-1">A+</button>
         <button id="larivaar" aria-pressed="false" data-i18n="santhiya.larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
@@ -116,6 +129,63 @@ const texts = [
       var pw = document.getElementById('pathway'); if (pw) pw.style.display = 'none';
       var rd = document.getElementById('reader'); if (rd) rd.style.display = '';
       runReader();
+    } else {
+      runPathwayProgress();
+    }
+
+    // Pathway progress: per-step completion, persisted on this device
+    // (su_v1_santhya_steps), with a hero progress bar and a continue chip
+    // pointing at the first incomplete step.
+    function runPathwayProgress() {
+      var toggles = Array.prototype.slice.call(document.querySelectorAll('[data-step-toggle]'));
+      if (!toggles.length) return;
+      var done = get('santhya_steps', []);
+      var wrap = document.getElementById('pathway-progress');
+      var bar = document.getElementById('pp-bar'), count = document.getElementById('pp-count');
+      var cont = document.getElementById('pp-continue'), contName = document.getElementById('pp-continue-name');
+      var cards = toggles.map(function (b) { return b.closest('li'); });
+      function paint() {
+        toggles.forEach(function (b, i) {
+          var on = done.indexOf(i) !== -1;
+          var lbl = b.querySelector('.step-lbl');
+          if (window.suRelabel && lbl) {
+            if (on) window.suRelabel(lbl, 'santhiya.stepdone', 'Completed');
+            else window.suRelabel(lbl, 'santhiya.markdone', 'Mark complete');
+          } else if (lbl) lbl.textContent = on ? 'Completed' : 'Mark complete';
+          b.classList.toggle('border-ok', on); b.classList.toggle('text-ok', on);
+        });
+        // Number circles: completed steps go solid green-ok.
+        cards.forEach(function (li, i) {
+          var circle = li && li.querySelector('div > div.z-10');
+          if (circle) {
+            var on = done.indexOf(i) !== -1;
+            circle.classList.toggle('bg-ok', on); circle.classList.toggle('text-white', on); circle.classList.toggle('ring-ok', on);
+            circle.classList.toggle('bg-saffron-soft', !on); circle.classList.toggle('text-saffron-deep', !on); circle.classList.toggle('ring-saffron', !on);
+          }
+        });
+        if (wrap) {
+          wrap.hidden = done.length === 0;
+          if (count) count.textContent = String(done.length);
+          if (bar) bar.style.width = Math.round((done.length / toggles.length) * 100) + '%';
+        }
+        if (cont) {
+          var next = -1;
+          for (var i = 0; i < toggles.length; i++) { if (done.indexOf(i) === -1) { next = i; break; } }
+          if (done.length > 0 && next !== -1) {
+            var link = cards[next] && cards[next].querySelector('a.btn');
+            var gur = cards[next] && cards[next].querySelector('.gur');
+            if (link) { cont.href = link.getAttribute('href'); cont.hidden = false; if (contName && gur) contName.textContent = gur.textContent; }
+          } else cont.hidden = true;
+        }
+      }
+      toggles.forEach(function (b, i) {
+        b.addEventListener('click', function () {
+          var at = done.indexOf(i);
+          if (at === -1) done.push(i); else done.splice(at, 1);
+          set('santhya_steps', done); paint();
+        });
+      });
+      paint();
     }
     function runReader() {
     var cfg = SRC[src];
@@ -202,6 +272,25 @@ const texts = [
     var fs = get('read_fs', 1.9); page.style.fontSize = fs + 'rem';
     document.querySelectorAll('[data-fs]').forEach(function (b) { b.onclick = function () { fs = Math.max(1.1, Math.min(3.2, fs + (b.dataset.fs === '+' ? 0.2 : -0.2))); page.style.fontSize = fs + 'rem'; set('read_fs', fs); }; });
     document.getElementById('larivaar').onclick = function (e) { var on = page.classList.toggle('lari'); e.currentTarget.setAttribute('aria-pressed', String(on)); };
+    // Player extras: ±10s skip and playback speed (persisted).
+    var skipB = document.getElementById('skip-back'), skipF = document.getElementById('skip-fwd'), rateSel = document.getElementById('aud-rate');
+    if (skipB) skipB.onclick = function () { try { aud.currentTime = Math.max(0, aud.currentTime - 10); } catch (e) {} };
+    if (skipF) skipF.onclick = function () { try { aud.currentTime = aud.currentTime + 10; } catch (e) {} };
+    if (rateSel) {
+      var savedRate = get('read_rate', 1); aud.playbackRate = savedRate; rateSel.value = String(savedRate);
+      rateSel.addEventListener('change', function () { var r = parseFloat(rateSel.value) || 1; aud.playbackRate = r; set('read_rate', r); });
+      aud.addEventListener('loadedmetadata', function () { aud.playbackRate = parseFloat(rateSel.value) || 1; });
+    }
+    if (!cfg.audio) { if (skipB) skipB.style.display = 'none'; if (skipF) skipF.style.display = 'none'; if (rateSel) rateSel.style.display = 'none'; }
+    // Keyboard shortcuts: ←/→ change Ang, space toggles play/pause — never
+    // while typing in an input/select.
+    document.addEventListener('keydown', function (e) {
+      var tag = (e.target && e.target.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'select' || tag === 'textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === 'ArrowLeft') { go(ang - 1); e.preventDefault(); }
+      else if (e.key === 'ArrowRight') { go(ang + 1); e.preventDefault(); }
+      else if (e.key === ' ' && cfg.audio && aud.style.display !== 'none') { if (aud.paused) aud.play().catch(function () {}); else aud.pause(); e.preventDefault(); }
+    });
     load(ang);
     if (cfg.audio) {
       note.textContent = 'Loading Santhya audio…';
