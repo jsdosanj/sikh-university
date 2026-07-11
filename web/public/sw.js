@@ -1,12 +1,27 @@
-/* Sikh University (Astro) service worker — offline app shell + course data.
+/* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v14';
-var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest'];
+var CACHE = 'su-web-v17';
+var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest', '/offline.html'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE).catch(function () {}); }).then(function () { return self.skipWaiting(); }));
 });
+// Domain migration: the site's canonical home is sikhiuni.com. A copy of this
+// SW installed under a legacy origin would keep serving cached pages there and
+// trap returning PWA users on the old domain (its fetch handler follows the
+// Worker's 301 internally, so the address bar never moves). On a legacy host,
+// unregister and drop caches so the next navigation hits the network and the
+// 301 performs a real, visible move to sikhiuni.com.
+var LEGACY_HOSTS = ['sikh-university.dosanjhlabs.com', 'sikh-university.jasvant-dosanjh.workers.dev'];
+var IS_LEGACY = LEGACY_HOSTS.indexOf(self.location.hostname) !== -1;
+
 self.addEventListener('activate', function (e) {
+  if (IS_LEGACY) {
+    e.waitUntil(caches.keys().then(function (keys) { return Promise.all(keys.map(function (k) { return caches.delete(k); })); })
+      .then(function () { return self.registration.unregister(); })
+      .then(function () { return self.clients.claim(); }));
+    return;
+  }
   e.waitUntil(caches.keys().then(function (keys) { return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); }));
 });
 
@@ -18,6 +33,7 @@ function clean(res) {
 function cacheable(res) { return res && res.ok && !res.redirected && res.type === 'basic'; }
 
 self.addEventListener('fetch', function (e) {
+  if (IS_LEGACY) return; // let navigations hit the network → 301 → sikhiuni.com
   var req = e.request; if (req.method !== 'GET') return;
   var url = new URL(req.url); if (url.origin !== location.origin) return;
   if (url.pathname.indexOf('/api/') === 0) return; // never touch APIs
@@ -27,7 +43,7 @@ self.addEventListener('fetch', function (e) {
     e.respondWith(fetch(req).then(function (res) {
       if (cacheable(res)) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); }); }
       return clean(res);
-    }).catch(function () { return caches.match(req).then(function (h) { return h || caches.match('/'); }); }));
+    }).catch(function () { return caches.match(req).then(function (h) { return h || caches.match('/'); }).then(function (h) { return h || caches.match('/offline.html'); }); }));
     return;
   }
 

@@ -2,7 +2,7 @@
   "name": "sikh-university",
   "version": "1.0.0",
   "private": true,
-  "description": "Local dev entry point for the Sikh University Worker (API + D1/R2/KV bindings). See CONTRIBUTING.md.",
+  "description": "Local dev entry point for the Sikhi University Worker (API + D1/R2/KV bindings). See CONTRIBUTING.md.",
   "scripts": {
     "dev": "wrangler dev --local",
     "dev:frontend": "cd web && npm run dev",

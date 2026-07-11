@@ -1,5 +1,5 @@
 > **HISTORICAL / SUPERSEDED.** This roadmap describes the abandoned Open edX / Tutor /
-> Kubernetes plan, which was **never adopted**. Sikh University is live and Cloudflare-native
+> Kubernetes plan, which was **never adopted**. Sikhi University is live and Cloudflare-native
 > (a single Worker + Astro + D1/R2/KV/AI). For current reality see the [README](../README.md),
 > [docs/BACKEND-cloudflare.md](BACKEND-cloudflare.md), and [docs/DEPLOY.md](DEPLOY.md). Kept for context only.
 

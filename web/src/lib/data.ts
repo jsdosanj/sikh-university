@@ -41,7 +41,7 @@ export function professorList() {
   const map: Record<string, Course[]> = {};
   for (const c of courses) (map[c.professor] = map[c.professor] || []).push(c);
   return Object.keys(map)
-    .sort((a, b) => (a === 'Sikh University' ? 1 : b === 'Sikh University' ? -1 : map[b].length - map[a].length))
+    .sort((a, b) => (a === 'Sikhi University' ? 1 : b === 'Sikhi University' ? -1 : map[b].length - map[a].length))
     .map((name) => ({ name, courses: map[name] }));
 }
 
@@ -57,8 +57,8 @@ export function avatarColor(name: string): string {
 }
 
 export const PROF_BIOS: Record<string, string> = {
-  'Bhai Jasvant Singh ਪੰਛੀ': 'Bhai Jasvant Singh ਪੰਛੀ is a Sikh educator and pracharik who founded Sikh University. In 2023–2024, he led a global Amrit Sanchar lehar through which thousands reconnected with the path of the Guru. He has traveled the world doing parchar, guided by a simple vision: that every person, regardless of background, deserves to build their own personal, intimate relationship with Waheguru.',
-  'Sikh University': 'Sikh University is a free, open online university. These original courses are drafted with AI and reviewed for accuracy, offering a welcoming way for anyone, anywhere to begin learning about Sikhi and modern skills.',
+  'Bhai Jasvant Singh ਪੰਛੀ': 'Bhai Jasvant Singh ਪੰਛੀ is a Sikh educator and pracharik who founded Sikhi University. In 2023–2024, he led a global Amrit Sanchar lehar through which thousands reconnected with the path of the Guru. He has traveled the world doing parchar, guided by a simple vision: that every person, regardless of background, deserves to build their own personal, intimate relationship with Waheguru.',
+  'Sikhi University': 'Sikhi University is a free, open online university. These original courses are drafted with AI and reviewed for accuracy, offering a welcoming way for anyone, anywhere to begin learning about Sikhi and modern skills.',
   'Prof. Sahib Singh': 'Prof. Sahib Singh (1892-1977) was a towering Sikh scholar and grammarian, best known for his ten-volume exegesis Sri Guru Granth Sahib Darpan and his pioneering work on Gurbani grammar (Gurbani Viakaran).',
   'Bhai Vir Singh': 'Bhai Vir Singh (1872-1957) is regarded as the father of modern Punjabi literature and a leading figure of the Singh Sabha renaissance.',
   'Bhai Kahn Singh Nabha': 'Bhai Kahn Singh Nabha (1861-1938) was a great Sikh encyclopedist, author of the monumental Mahan Kosh and the tract Ham Hindu Nahin.',

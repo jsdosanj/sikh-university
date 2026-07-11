@@ -28,7 +28,7 @@ export async function onRequestGet({ request, env }) {
     status: 200,
     headers: {
       "content-type": "application/json",
-      "content-disposition": 'attachment; filename="sikh-university-my-data.json"',
+      "content-disposition": 'attachment; filename="sikhi-university-my-data.json"',
     },
   });
 }

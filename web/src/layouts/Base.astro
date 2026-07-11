@@ -7,7 +7,7 @@ import InstallPrompt from '../components/InstallPrompt.astro';
 
 interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; }
 const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true } = Astro.props;
-const SITE = 'https://sikh-university.dosanjhlabs.com';
+import { SITE, ldJson } from '../lib/site';
 // Normalise to the extensionless URLs the site is actually served/linked at
 // (e.g. /catalog, not /catalog.html; / for the homepage).
 const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
@@ -29,16 +29,20 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
         var t = localStorage.getItem('su_v1_theme');
         if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', t);
+        // ?lang= deep link (shareable translated URLs) wins over the saved choice.
+        var qlang = new URLSearchParams(location.search).get('lang');
+        var LANGS = ['en', 'pa', 'hi', 'ur', 'es', 'ar', 'fr', 'de', 'zh'];
+        if (qlang && LANGS.indexOf(qlang) !== -1) { try { localStorage.setItem('su_v1_lang', qlang); } catch (e) {} }
         var lang = localStorage.getItem('su_v1_lang') || 'en';
         document.documentElement.setAttribute('lang', lang);
-        document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('dir', (lang === 'ar' || lang === 'ur') ? 'rtl' : 'ltr');
       } catch (e) {}
     })();
   </script>
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
-  <meta name="application-name" content="Sikh University" />
+  <meta name="application-name" content="Sikhi University" />
   <meta name="theme-color" content="#16335c" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0d1016" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href={canon} />
@@ -47,14 +51,14 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Sikh University" />
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <meta name="apple-mobile-web-app-title" content="Sikhi University" />
+  <script type="application/ld+json" set:html={ldJson({
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Organization", "@id": SITE + "/#org", "name": "Sikh University", "url": SITE,
+      { "@type": "Organization", "@id": SITE + "/#org", "name": "Sikhi University", "url": SITE,
         "description": "A free, open online university for Sikhi — Gurbani, history, philosophy, Rehat, Kirtan, and Gurmukhi/Punjabi — open to all, worldwide.",
         "logo": SITE + "/assets/icon-192.png" },
-      { "@type": "WebSite", "@id": SITE + "/#website", "url": SITE, "name": "Sikh University",
+      { "@type": "WebSite", "@id": SITE + "/#website", "url": SITE, "name": "Sikhi University",
         "publisher": { "@id": SITE + "/#org" },
         "potentialAction": { "@type": "SearchAction", "target": SITE + "/search?q={search_term_string}", "query-input": "required name=search_term_string" } }
     ]
@@ -62,14 +66,14 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta property="og:type" content={ogType} />
-  <meta property="og:site_name" content="Sikh University" />
+  <meta property="og:site_name" content="Sikhi University" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canon} />
   <meta property="og:image" content={`${SITE}/assets/og-image.png`} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="1200" />
-  <meta property="og:image:alt" content="Sikh University — free, open learning in Sikhi" />
+  <meta property="og:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
@@ -87,28 +91,43 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <InstallPrompt />
   <button id="a11y-fab" aria-label="Accessibility options" aria-expanded="false" aria-controls="a11y-panel" class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-lift hover:bg-brand-strong print:hidden"><Icon name="accessibility" class="h-6 w-6" /></button>
   <div id="a11y-panel" class="fixed right-4 bottom-20 z-50 hidden w-56 flex-col gap-1 rounded-xl2 border border-line bg-surface p-3 shadow-lift print:hidden">
-    <strong class="font-sans text-xs uppercase tracking-wide text-muted">Accessibility</strong>
-    <button data-a="smaller" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A− Smaller text</button>
-    <button data-a="bigger" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A+ Larger text</button>
-    <button data-a="contrast" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">◐ High contrast</button>
-    <button data-a="read" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="volume" class="h-4 w-4 shrink-0" />Read this page</button>
-    <button data-a="stop" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="stop" class="h-4 w-4 shrink-0" />Stop reading</button>
-    <button data-a="reset" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">↺ Reset</button>
+    <strong class="font-sans text-xs uppercase tracking-wide text-muted" data-i18n="a11y.title">Accessibility</strong>
+    <button data-a="smaller" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A− <span data-i18n="a11y.smaller">Smaller text</span></button>
+    <button data-a="bigger" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A+ <span data-i18n="a11y.bigger">Larger text</span></button>
+    <button data-a="contrast" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">◐ <span data-i18n="a11y.contrast">High contrast</span></button>
+    <button data-a="read" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="volume" class="h-4 w-4 shrink-0" /><span data-i18n="a11y.read">Read this page</span></button>
+    <button data-a="stop" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="stop" class="h-4 w-4 shrink-0" /><span data-i18n="a11y.stop">Stop reading</span></button>
+    <button data-a="reset" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">↺ <span data-i18n="a11y.reset">Reset</span></button>
   </div>
   <script>
+    import { initMotion } from '../lib/motion';
+    initMotion();
+  </script>
+  <script>
+    import { speak, stop as ttsStop, supported as ttsSupported } from '../lib/tts';
     const P = 'su_v1_a11y';
     const get = () => { try { return JSON.parse(localStorage.getItem(P) || '{}'); } catch { return {}; } };
     const apply = () => { const p = get(); document.documentElement.style.fontSize = (p.scale || 100) + '%'; document.body.classList.toggle('hc', !!p.contrast); };
     apply();
     const fab = document.getElementById('a11y-fab'); const panel = document.getElementById('a11y-panel');
+    // Read the page via the shared TTS engine: whole page (no 9000-char cap),
+    // best available voice for the current UI language. Gurbani/Gurmukhi is
+    // never synthesized — sacred text is stripped, matching the course reader.
+    const readableText = () => {
+      const m = document.querySelector('main'); if (!m) return '';
+      const clone = m.cloneNode(true);
+      clone.querySelectorAll('.gur, .shabad, blockquote.gurbani, [lang="pa"], script, style, code, pre, [aria-hidden="true"]').forEach((el) => el.remove());
+      return clone.textContent || '';
+    };
+    if (!ttsSupported()) panel?.querySelectorAll('[data-a="read"],[data-a="stop"]').forEach((b) => b.remove());
     fab?.addEventListener('click', () => { const hidden = panel?.classList.toggle('hidden'); fab.setAttribute('aria-expanded', String(!hidden)); });
     panel?.addEventListener('click', (e) => {
       const t = e.target.closest('button'); if (!t) return; const p = get(); const a = t.dataset.a;
       if (a === 'smaller') p.scale = Math.max(80, (p.scale || 100) - 10);
       else if (a === 'bigger') p.scale = Math.min(170, (p.scale || 100) + 10);
       else if (a === 'contrast') p.contrast = !p.contrast;
-      else if (a === 'read') { if (window.speechSynthesis) { speechSynthesis.cancel(); const m = document.querySelector('main'); speechSynthesis.speak(new SpeechSynthesisUtterance((m?.innerText || '').slice(0, 9000))); } return; }
-      else if (a === 'stop') { window.speechSynthesis && speechSynthesis.cancel(); return; }
+      else if (a === 'read') { speak(readableText(), { lang: document.documentElement.lang || 'en' }); return; }
+      else if (a === 'stop') { ttsStop(); return; }
       else if (a === 'reset') { localStorage.removeItem(P); apply(); return; }
       localStorage.setItem(P, JSON.stringify(p)); apply();
     });
@@ -119,7 +138,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     // per-language dictionary in /assets/i18n/<lang>.json. English is the in-markup
     // source (no fetch). Gurbani/Gurmukhi content is never tagged, so it's preserved.
     (function () {
-      const RTL = new Set(['ar']);
+      const RTL = new Set(['ar', 'ur']);
       const orig = new WeakMap();
       let curDict = {};
       // Let JS-driven labels (e.g. the nav auth button toggling Sign in <-> Sign out) opt
@@ -228,7 +247,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   </script>
   <style is:global>
     body.hc { background: #000; color: #fff; }
-    body.hc .card, body.hc .bg-surface, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
+    body.hc .card, body.hc .card-lift, body.hc .bg-surface, body.hc .bg-paper, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
     body.hc a, body.hc h1, body.hc h2, body.hc h3 { color: #ffd479 !important; }
   </style>
 

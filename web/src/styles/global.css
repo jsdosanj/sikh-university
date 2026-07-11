@@ -119,4 +119,61 @@
   .lesson-prose .qa h4 { @apply text-navy; }
   .lesson-prose .keypoints { @apply rounded-lg bg-paper border border-line px-4 py-2 font-sans text-[0.9rem] my-2; }
   .lesson-prose blockquote.gurbani .cite { @apply font-sans text-[0.8rem] text-muted not-italic; }
+
+  /* ── Premium primitives (Phase-2 revamp) ─────────────────────────────── */
+
+  /* Fluid display type scale — the only sanctioned sizes above text-4xl.
+     (DESIGN.md: no raw text-[…rem] literals outside the scale.) */
+  .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; letter-spacing: -0.015em; text-wrap: balance; }
+  .text-display-sm { font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); line-height: 1.12; letter-spacing: -0.01em; text-wrap: balance; }
+  .eyebrow { @apply font-sans text-xs font-bold uppercase; letter-spacing: 0.18em; }
+
+  /* Elevated card: gold hairline reveals on hover, deeper lift. Saffron (not
+     product-blue) is the accent, per DESIGN.md. */
+  .card-lift { @apply relative block rounded-xl2 border border-line bg-surface p-5 shadow-card transition duration-200 hover:-translate-y-1.5 hover:shadow-lift; }
+  .card-lift::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    border: 1px solid transparent; transition: border-color .2s ease;
+  }
+  .card-lift:hover::after, .card-lift:focus-visible::after { border-color: rgba(244, 178, 26, .55); }
+  .card-lift:active { transform: scale(0.985); }
+
+  /* Scroll-reveal. Elements stay visible unless JS arms the system (html gets
+     data-reveal-ready from lib/motion.ts), so no-JS and crawlers see everything. */
+  html[data-reveal-ready] .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1); }
+  html[data-reveal-ready] .reveal.in { opacity: 1; transform: none; }
+
+  /* Whisper-quiet page entrance (CSS-only; killed by the reduced-motion guard). */
+  @keyframes su-page-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  main { animation: su-page-enter .45s cubic-bezier(.2,.7,.3,1) both; }
+
+  /* Manuscript-paper grain for warm sections — pure data-URI, CSP-clean. */
+  .texture-manuscript {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  /* Phulkari-inspired diamond lattice for navy hero bands — abstract geometry,
+     deliberately not sacred iconography. ~4% white, reads as woven texture. */
+  .pattern-lattice {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1'%3E%3Cpath d='M28 0 56 28 28 56 0 28Z'/%3E%3Cpath d='M28 14 42 28 28 42 14 28Z'/%3E%3Ccircle cx='28' cy='28' r='2.5' fill='%23f4b21a' fill-opacity='0.07' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Loading skeletons. */
+  @keyframes su-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  .skeleton {
+    @apply rounded-xl2;
+    background: linear-gradient(100deg, rgb(var(--c-line) / .55) 40%, rgb(var(--c-surface)) 50%, rgb(var(--c-line) / .55) 60%);
+    background-size: 200% 100%; animation: su-shimmer 1.6s linear infinite;
+  }
+
+  /* Subjects marquee — continuous drift, pauses on hover/focus; the global
+     reduced-motion kill-switch freezes it. */
+  @keyframes su-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee > * { display: inline-flex; gap: .6rem; white-space: nowrap; width: max-content; animation: su-marquee 48s linear infinite; }
+  .marquee:hover > *, .marquee:focus-within > * { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) { .marquee > * { animation: none; } }
+
+  /* Saffron radial glow for hero compositions. */
+  .glow-saffron { background: radial-gradient(closest-side, rgba(244, 178, 26, .28), transparent 70%); }
 }

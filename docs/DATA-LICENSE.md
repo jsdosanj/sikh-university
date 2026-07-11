@@ -1,6 +1,6 @@
 # Open data license (E3)
 
-Sikh University publishes two things as an openly-licensed, machine-readable dataset:
+Sikhi University publishes two things as an openly-licensed, machine-readable dataset:
 the **course catalogue metadata** and the **Gurbani-verification report**. This document
 is the license and terms for that dataset. It does not change the license of the site's
 lesson prose, quizzes, or any other content — see `docs/CONTENT-AND-LICENSING.md` for that.
@@ -43,8 +43,8 @@ Under the following term:
 
 Suggested citation:
 
-> Sikh University. "Open dataset: course catalogue metadata and Gurbani verification
-> report." https://sikh-university.dosanjhlabs.com/open-data. Licensed CC BY 4.0.
+> Sikhi University. "Open dataset: course catalogue metadata and Gurbani verification
+> report." https://sikhiuni.com/open-data. Licensed CC BY 4.0.
 
 ## Sources
 
@@ -56,4 +56,4 @@ Suggested citation:
 
 ## Corrections
 
-Anything look wrong? Use the [feedback page](https://sikh-university.dosanjhlabs.com/feedback).
+Anything look wrong? Use the [feedback page](https://sikhiuni.com/feedback).

@@ -66,7 +66,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ---
 
-## Project-specific (Sikh University / E13 University)
+## Project-specific (Sikhi University / E13 University)
 
 - **Accuracy is sacred.** This platform teaches Sikhi. Doctrinal/historical accuracy is a release
   gate, not a nicety. AI-drafted course content must be labeled **"Created by AI"** and routed to a
