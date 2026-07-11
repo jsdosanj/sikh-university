@@ -41,6 +41,18 @@ describe("canonical-host redirect", () => {
     expect(res.headers.get("location")).toBeNull();
   });
 
+  it("serves the R2 catalogue in place on a legacy host (no cross-origin redirect for runtime data)", async () => {
+    const res = await worker.fetch(
+      new Request("https://sikh-university.dosanjhlabs.com/assets/data/courses.json"),
+      {
+        ASSETS: htmlAssets,
+        MEDIA: { get: async () => ({ body: '{"courses":[]}', size: 14, writeHttpMetadata() {} }) },
+      },
+    );
+    expect(res.status).toBe(200);
+    expect(res.headers.get("location")).toBeNull();
+  });
+
   it("serves the canonical host without redirecting", async () => {
     const res = await worker.fetch(new Request("https://sikhiuni.com/"), {
       ASSETS: htmlAssets,

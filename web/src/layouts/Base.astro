@@ -4,6 +4,15 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
 import InstallPrompt from '../components/InstallPrompt.astro';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+// Inline the @font-face rules instead of linking /fonts/fonts.css: the extra
+// render-blocking stylesheet cost ~150ms + a request in the critical chain on
+// mobile (PageSpeed). The file stays in public/ for the service worker and any
+// external consumers; this just removes it from the critical path.
+// (path.resolve, not new URL(import.meta.url): vite rewrites the latter into
+// an asset reference and the embedded CSS breaks the compiled module.)
+const fontFaceCss = readFileSync(path.resolve(process.cwd(), 'public/fonts/fonts.css'), 'utf-8');
 
 interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; }
 const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true } = Astro.props;
@@ -18,8 +27,11 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <!-- Self-hosted fonts (Gurmukhi is first-class, never left to device chance). -->
-  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <!-- Self-hosted fonts (Gurmukhi is first-class, never left to device chance).
+       @font-face rules are inlined (see frontmatter) and the two above-the-fold
+       faces are preloaded so text paints without a stylesheet round-trip. -->
+  <Fragment set:html={`<style>${fontFaceCss}</style>`} />
+  <link rel="preload" href="/fonts/sourceserif4-latin-400.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/notoserifgur-gurmukhi-400.woff2" as="font" type="font/woff2" crossorigin />
   <script is:inline>
     // Set the colour theme before first paint to avoid a flash. Honours a
