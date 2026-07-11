@@ -26,12 +26,15 @@ function* walk(dir) {
   }
 }
 
-// Keys appear three ways: as markup attributes, via window.suRelabel(el, key,
-// fallback) for JS-driven labels, and via setAttribute('data-i18n', key).
+// Keys appear four ways: as markup attributes, via window.suRelabel(el, key,
+// fallback) for JS-driven labels, via setAttribute('data-i18n', key), and
+// bound through Astro expressions like data-i18n={l.key} where the key lives
+// in a frontmatter array as `key: 'nav.courses'` (Nav.astro's links).
 const KEY_RES = [
   /data-i18n(?:-ph|-aria)?=["']([\w.-]+)["']/g,
   /suRelabel\([^,)]+,\s*['"]([\w.-]+)['"]/g,
   /setAttribute\(\s*['"]data-i18n(?:-ph|-aria)?['"]\s*,\s*['"]([\w.-]+)['"]/g,
+  /\bkey:\s*['"]((?:nav|footer|home|catalog|course|santhiya|baal|profs|about|programs|paths|cert|verify|teach|cohorts|install|search|login|dash|notfound|feedback|a11y|lang|card)\.[\w.-]+)['"]/g,
 ];
 const used = new Map(); // key -> first file seen
 for (const file of walk(SRC)) {
