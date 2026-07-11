@@ -29,7 +29,11 @@ export function revealOnScroll(root: ParentNode = document): void {
         io.unobserve(el);
       }
     },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+    // threshold MUST be 0: the observer only notifies when the visible
+    // FRACTION crosses a listed threshold, and an element taller than several
+    // viewports can never reach even 8% visible — with a nonzero threshold it
+    // would never reveal at all (this hid whole course pages in production).
+    { rootMargin: '0px 0px -8% 0px', threshold: 0 },
   );
   els.forEach((el) => io.observe(el));
 }
