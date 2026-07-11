@@ -1,4 +1,4 @@
-/* Sikh University service worker — offline app shell + course data. */
+/* Sikhi University service worker — offline app shell + course data. */
 var CACHE = "su-v2";
 var SHELL = [
   "index.html", "catalog.html", "course.html", "dashboard.html", "cert.html",

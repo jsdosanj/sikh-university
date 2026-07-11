@@ -1,5 +1,5 @@
 > **HISTORICAL / SUPERSEDED.** This Open edX / Tutor / Kubernetes runbook was **never
-> adopted** — Sikh University runs as a single Cloudflare Worker, with no VM. The real deploy
+> adopted** — Sikhi University runs as a single Cloudflare Worker, with no VM. The real deploy
 > runbook is [docs/DEPLOY.md](../docs/DEPLOY.md). Kept for context only.
 
 # Deployment runbook — Open edX via Tutor
@@ -21,7 +21,7 @@ tutor config save                   # interactive: set LMS/CMS domains, platform
 ## 3. Branding & domains
 ```bash
 tutor config save \
-  --set "PLATFORM_NAME=Sikh University" \
+  --set "PLATFORM_NAME=Sikhi University" \
   --set "LMS_HOST=learn.<domain>" \
   --set "CMS_HOST=studio.<domain>"
 ```

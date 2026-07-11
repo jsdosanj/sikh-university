@@ -1,6 +1,6 @@
 # Contributing
 
-Sikh University is one Cloudflare Worker: `worker.js` dispatches `/api/*` to `functions/api/*`
+Sikhi University is one Cloudflare Worker: `worker.js` dispatches `/api/*` to `functions/api/*`
 (D1 + R2 + Workers AI + KV bindings), and serves the built Astro site (`web/dist`) for
 everything else. **Run it with `wrangler dev`, not just the Astro dev server** — `cd web &&
 npm run dev` only serves the frontend, so every `/api/*` call 404s and you can't actually

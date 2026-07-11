@@ -4,7 +4,7 @@
 
 ## Context
 Constraints from Jasvant: **no VM to manage**, **free Cloudflare web hosting**, public/open to all,
-interactive and robust, named **Sikh University** (no E13 — no permission yet).
+interactive and robust, named **Sikhi University** (no E13 — no permission yet).
 
 ## Problem with ADR-0001 (Open edX)
 Open edX is a Django + MySQL + MongoDB + Redis Docker stack. It **requires a compute host** (a VM

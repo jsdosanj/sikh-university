@@ -7,7 +7,7 @@ import InstallPrompt from '../components/InstallPrompt.astro';
 
 interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; }
 const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true } = Astro.props;
-const SITE = 'https://sikh-university.dosanjhlabs.com';
+const SITE = 'https://sikhiuni.com';
 // Normalise to the extensionless URLs the site is actually served/linked at
 // (e.g. /catalog, not /catalog.html; / for the homepage).
 const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '');
@@ -38,7 +38,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
-  <meta name="application-name" content="Sikh University" />
+  <meta name="application-name" content="Sikhi University" />
   <meta name="theme-color" content="#16335c" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0d1016" media="(prefers-color-scheme: dark)" />
   <link rel="canonical" href={canon} />
@@ -47,14 +47,14 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Sikh University" />
+  <meta name="apple-mobile-web-app-title" content="Sikhi University" />
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "Organization", "@id": SITE + "/#org", "name": "Sikh University", "url": SITE,
+      { "@type": "Organization", "@id": SITE + "/#org", "name": "Sikhi University", "url": SITE,
         "description": "A free, open online university for Sikhi — Gurbani, history, philosophy, Rehat, Kirtan, and Gurmukhi/Punjabi — open to all, worldwide.",
         "logo": SITE + "/assets/icon-192.png" },
-      { "@type": "WebSite", "@id": SITE + "/#website", "url": SITE, "name": "Sikh University",
+      { "@type": "WebSite", "@id": SITE + "/#website", "url": SITE, "name": "Sikhi University",
         "publisher": { "@id": SITE + "/#org" },
         "potentialAction": { "@type": "SearchAction", "target": SITE + "/search?q={search_term_string}", "query-input": "required name=search_term_string" } }
     ]
@@ -62,14 +62,14 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta property="og:type" content={ogType} />
-  <meta property="og:site_name" content="Sikh University" />
+  <meta property="og:site_name" content="Sikhi University" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canon} />
   <meta property="og:image" content={`${SITE}/assets/og-image.png`} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="1200" />
-  <meta property="og:image:alt" content="Sikh University — free, open learning in Sikhi" />
+  <meta property="og:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />

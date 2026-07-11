@@ -1,10 +1,10 @@
-# Sikh University
+# Sikhi University
 
 A free, open, global online university for Sikhi — Gurbani, history, philosophy, Rehat,
 Kirtan, Gurmukhi/Punjabi — plus modern skills, taught through self-paced courses and open
 to **anyone, anywhere**.
 
-**Live:** https://sikh-university.dosanjhlabs.com — 558 published courses, real accounts,
+**Live:** https://sikhiuni.com — 558 published courses, real accounts,
 quizzes, and certificates.
 
 > **Accuracy is sacred.** This platform teaches Sikhi, so doctrinal and historical accuracy
@@ -22,7 +22,7 @@ quizzes, and certificates.
   IndicTrans2); course content stays in its authored language.
 
 ## Architecture
-Sikh University is a **single Cloudflare Worker** ([`worker.js`](worker.js)), not a Pages
+Sikhi University is a **single Cloudflare Worker** ([`worker.js`](worker.js)), not a Pages
 site and not a VM. The Worker:
 
 - dispatches `/api/*` to handlers in [`functions/api/`](functions/api/) (auth, progress,

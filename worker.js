@@ -1,4 +1,4 @@
-// Sikh University Worker entrypoint.
+// Sikhi University Worker entrypoint.
 // Static files in site/ are served by the [assets] binding; /api/* is dispatched
 // to the existing handlers (unchanged) that live under functions/api/.
 import { onRequestGet as meGet, onRequestPost as mePost } from "./functions/api/me.js";
@@ -95,9 +95,24 @@ async function checkRateLimit(env, key, limit, windowSec) {
   } catch (e) { return true; }
 }
 
+// The site's canonical home. Requests reaching the Worker on a legacy hostname
+// (the old custom domain or the bare workers.dev alias) are permanently
+// redirected here, preserving path + query, so old links, bookmarks and search
+// results carry over. Dev/preview hosts (localhost, versioned workers.dev
+// previews) are deliberately NOT redirected.
+const CANONICAL_ORIGIN = "https://sikhiuni.com";
+const LEGACY_HOSTS = new Set([
+  "sikh-university.dosanjhlabs.com",
+  "sikh-university.jasvant-dosanjh.workers.dev",
+]);
+
 export default {
   async fetch(request, env) {
-    const { pathname } = new URL(request.url);
+    const url = new URL(request.url);
+    const { pathname } = url;
+    if (LEGACY_HOSTS.has(url.hostname)) {
+      return Response.redirect(CANONICAL_ORIGIN + pathname + url.search, 301);
+    }
     if (pathname.startsWith("/api/")) {
       const route = routes[pathname];
       if (!route) {
@@ -203,7 +218,7 @@ export default {
     h.set('X-Robots-Tag', 'noai, noimageai');
     h.set('Content-Usage', 'train-ai=n, search=y');
     h.set('TDM-Reservation', '1');
-    h.set('TDM-Policy', 'https://sikh-university.dosanjhlabs.com/ai-policy');
+    h.set('TDM-Policy', 'https://sikhiuni.com/ai-policy');
     if (!ct.includes('text/html')) {
       return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
     }

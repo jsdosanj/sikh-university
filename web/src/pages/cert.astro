@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Certificate — Sikh University" description="Your Sikh University certificate of completion." autoTranslate={false}>
+<Base title="Certificate — Sikhi University" description="Your Sikhi University certificate of completion." autoTranslate={false}>
   <section class="wrap py-10">
     <div id="cert-app"><p class="text-muted">Loading…</p></div>
   </section>
@@ -32,7 +32,7 @@ import Base from '../layouts/Base.astro';
         <div id="cert-card" class="mx-auto max-w-3xl bg-[#fffdf7] p-3 shadow-lift" style="border:1px solid #e0d9c6;">
           <div class="px-8 py-12 text-center sm:px-12" style="border:2px double #8a5a12;">
             <div class="flex justify-center text-saffron-deep">${iconSvg('diya', 'h-11 w-11')}</div>
-            <div class="mt-2 font-serif text-2xl font-bold text-navy">Sikh University</div>
+            <div class="mt-2 font-serif text-2xl font-bold text-navy">Sikhi University</div>
             <div class="mt-1 font-sans text-[0.7rem] uppercase tracking-[0.24em] text-saffron-deep">Certificate of Completion</div>
             <div class="mt-9 font-sans text-sm text-muted">This certifies that</div>
             <div class="mx-auto mt-3 font-serif text-4xl leading-tight text-navy">${esc(name || '________________')}</div>
@@ -50,7 +50,7 @@ import Base from '../layouts/Base.astro';
                 <div class="mt-0.5 font-sans text-[0.62rem] uppercase tracking-[0.18em]">Sealed</div>
               </div>
             </div>
-            <div class="mt-4 font-sans text-[0.68rem] italic leading-snug text-muted">Course content created by AI and reviewed for accuracy. Verify authenticity at sikh-university.dosanjhlabs.com/verify</div>
+            <div class="mt-4 font-sans text-[0.68rem] italic leading-snug text-muted">Course content created by AI and reviewed for accuracy. Verify authenticity at sikhiuni.com/verify</div>
           </div>
         </div>
         <div class="noprint mt-6 flex flex-wrap justify-center gap-3"><button id="dl-pdf" class="btn btn-primary">${iconSvg('download', 'h-4 w-4')} Download PDF</button><button id="print" class="btn">${iconSvg('printer', 'h-4 w-4')} Print</button></div>`;
@@ -73,7 +73,7 @@ import Base from '../layouts/Base.astro';
       fetch('/api/certificates', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: c.id, name }) })
         .then((r) => r.json().then((d) => ({ ok: r.ok, d }))).then(({ ok, d }) => {
           const v = document.getElementById('cert-vid'); if (!v) return;
-          if (ok && d.id) v.innerHTML = 'Verification ID: <strong>' + esc(d.id) + '</strong> · verify at <span>sikh-university.dosanjhlabs.com/verify?id=' + esc(d.id) + '</span>';
+          if (ok && d.id) v.innerHTML = 'Verification ID: <strong>' + esc(d.id) + '</strong> · verify at <span>sikhiuni.com/verify?id=' + esc(d.id) + '</span>';
           else v.innerHTML = '<span class="noprint">Sign in (and let your progress sync) to get a verifiable certificate ID.</span>';
         }).catch(() => {});
     }).catch(() => { app.innerHTML = '<p class="text-muted">Could not load.</p>'; });

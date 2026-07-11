@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sikh-university.dosanjhlabs.com/sitemap.xml
+Sitemap: https://sikhiuni.com/sitemap.xml
 
 # --- AI answer/search engines: welcome to crawl and cite us (drives traffic) ---
 User-agent: OAI-SearchBot

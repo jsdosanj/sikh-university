@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Probe health endpoint + homepage
         run: |
-          SITE=https://sikh-university.dosanjhlabs.com
+          SITE=https://sikhiuni.com
           echo "Probing $SITE/api/health"
           CODE=$(curl -s -o /tmp/health.json -w '%{http_code}' "$SITE/api/health" || echo 000)
           echo "HTTP $CODE"; cat /tmp/health.json || true; echo

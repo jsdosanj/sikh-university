@@ -25,7 +25,7 @@ imported OpenCourseWare-style courses, with **security and openness as core valu
 ## Decision
 Adopt **Open edX** as the foundation:
 - Deploy with **Tutor** (official Docker distribution) → reproducible, container-isolated.
-- **Brand and theme** it for the Sikh University via a custom micro-frontend (MFE) theme — this
+- **Brand and theme** it for the Sikhi University via a custom micro-frontend (MFE) theme — this
   is where the "21st-century" look/feel lives, without forking the core.
 - **Harden** per [SECURITY.md](SECURITY.md) (the "core mission").
 - **Extend** with light custom xBlocks/integrations (e.g., Sikh Archive embeds, Gurbani viewer)

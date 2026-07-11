@@ -7,10 +7,10 @@ import programsData from '../../public/assets/data/programs.json';
 const sorted = [...courses].sort((a, b) => a.level - b.level);
 const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
 const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer';
-const SITE = 'https://sikh-university.dosanjhlabs.com';
+const SITE = 'https://sikhiuni.com';
 const itemListLd = {
   '@context': 'https://schema.org', '@type': 'ItemList',
-  name: 'Sikh University course catalogue', numberOfItems: sorted.length,
+  name: 'Sikhi University course catalogue', numberOfItems: sorted.length,
   itemListElement: sorted.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/course/${c.id}`, name: c.title })),
 };
 
@@ -34,7 +34,7 @@ const progTypeLabel: Record<string, string> = { certificate: 'Certificates', ass
 const progTypeBg: Record<string, string> = { certificate: 'bg-saffron-soft', associate: 'bg-blue-50 dark:bg-blue-950/20', bachelor: 'bg-paper', master: 'bg-navy/5 dark:bg-navy/20', giani: 'bg-saffron-soft' };
 const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], programs: programsData.programs.filter((p) => p.type === t) }));
 ---
-<Base title="Courses & learning paths — Sikh University" description="Browse all Sikh University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills.">
+<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills.">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
   <section class="wrap py-12">
     <h1 class="text-3xl font-bold">Courses</h1>
@@ -137,7 +137,7 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     <div id="view-programs" role="tabpanel" aria-labelledby="tab-programs-btn" class="mt-6" hidden>
       <p class="text-lg text-muted">Certificate to Giani — a full academic ladder, free and open to all.</p>
       <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm">
-        Sikh University is not an accredited university and these courses are for self-development only.
+        Sikhi University is not an accredited university and these courses are for self-development only.
       </div>
       {grouped.map(({ type, label, programs }) => programs.length > 0 && (
         <div class="mt-10">

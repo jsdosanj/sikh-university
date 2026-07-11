@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="My Learning — Sikh University" description="Your progress, certificates, streak and badges at Sikh University.">
+<Base title="My Learning — Sikhi University" description="Your progress, certificates, streak and badges at Sikhi University.">
   <section class="wrap py-12">
     <div id="bar"></div>
     <div id="dash"><p class="text-muted">Loading your learning…</p></div>
@@ -248,10 +248,10 @@ import Base from '../layouts/Base.astro';
         const goP = document.getElementById('go-profile');
         if (goP) goP.addEventListener('click', (e) => { e.preventDefault(); view = 'profile'; location.hash = '#profile'; drawView(); });
         document.getElementById('exp').addEventListener('click', () => {
-          const lines = ['# My Sikh University notes', ''];
+          const lines = ['# My Sikhi University notes', ''];
           data.courses.forEach((c) => (c.lessons || []).forEach((ls, i) => { const n = get('note_' + c.id + '_' + i, ''); if (n && n.trim()) lines.push('## ' + c.title + ' — ' + ls.title, '', n.trim(), ''); }));
           if (lines.length <= 2) lines.push('_No notes yet._');
-          const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/markdown' })); a.download = 'sikh-university-notes.md'; a.click();
+          const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/markdown' })); a.download = 'sikhi-university-notes.md'; a.click();
         });
       }
 
