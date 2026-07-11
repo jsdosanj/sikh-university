@@ -222,6 +222,9 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     const countEl = document.getElementById('cat-count');
     const clearBtn = document.getElementById('cat-clear');
     let topic = 'all', level = 'all', q = '';
+    const CAT_STATE_KEY = 'su_v1_catalog';
+    function saveCatState() { try { localStorage.setItem(CAT_STATE_KEY, JSON.stringify({ topic, level })); } catch {} }
+    function loadCatState() { try { const v = JSON.parse(localStorage.getItem(CAT_STATE_KEY)); return v && typeof v === 'object' ? v : null; } catch { return null; } }
     function setActive() {
       filters.forEach((b) => {
         const on = b.dataset.t === topic;
@@ -250,10 +253,10 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
       if (countEl) countEl.textContent = String(shown);
       setActive();
     }
-    filters.forEach((b) => b.addEventListener('click', () => { topic = b.dataset.t; renderCat(); }));
-    levelBtns.forEach((b) => b.addEventListener('click', () => { level = b.dataset.l; renderCat(); }));
+    filters.forEach((b) => b.addEventListener('click', () => { topic = b.dataset.t; saveCatState(); renderCat(); }));
+    levelBtns.forEach((b) => b.addEventListener('click', () => { level = b.dataset.l; saveCatState(); renderCat(); }));
     search.addEventListener('input', () => { q = search.value.toLowerCase().trim(); renderCat(); });
-    if (clearBtn) clearBtn.addEventListener('click', () => { topic = 'all'; level = 'all'; q = ''; search.value = ''; renderCat(); });
+    if (clearBtn) clearBtn.addEventListener('click', () => { topic = 'all'; level = 'all'; q = ''; search.value = ''; saveCatState(); renderCat(); });
 
     // --- Path progress (server grades are the source of truth) ---
     const pdata = JSON.parse(document.getElementById('paths-data').textContent);
@@ -278,9 +281,17 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     const hash = (location.hash || '').replace('#', '');
     if (hash && filters.some((b) => b.dataset.t === hash)) { topic = hash; setTab('catalog', false); }
     else if (hash && levelBtns.some((b) => b.dataset.l === hash)) { level = hash; setTab('catalog', false); }
-    else if (hash === 'catalog') setTab('catalog', false);
-    else if (hash === 'programs') setTab('programs', false);
-    else setTab('paths', false);
+    else {
+      // no topic/level hash to honor — restore the last persisted catalogue filter state
+      const savedCat = loadCatState();
+      if (savedCat) {
+        if (savedCat.topic && filters.some((b) => b.dataset.t === savedCat.topic)) topic = savedCat.topic;
+        if (savedCat.level && levelBtns.some((b) => b.dataset.l === savedCat.level)) level = savedCat.level;
+      }
+      if (hash === 'catalog') setTab('catalog', false);
+      else if (hash === 'programs') setTab('programs', false);
+      else setTab('paths', false);
+    }
     renderCat(); renderPaths();
   </script>
 

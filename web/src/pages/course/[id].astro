@@ -524,14 +524,33 @@ const breadcrumb = {
       var id = JSON.parse(document.getElementById('course-data').textContent).id;
       var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
       var api = function (p, o) { return fetch(p, Object.assign({ credentials: 'same-origin', headers: { 'content-type': 'application/json' } }, o || {})).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }).catch(function () { return { ok: r.ok, d: {} }; }); }); };
+      // Relative-time helper for discussion post timestamps (falls back to the raw value on parse failure).
+      function timeAgo(ts) {
+        var d = new Date(ts);
+        if (isNaN(d.getTime())) return String(ts);
+        var s = Math.floor((Date.now() - d.getTime()) / 1000);
+        if (s < 60) return 'just now';
+        var m = Math.floor(s / 60); if (m < 60) return m + (m === 1 ? ' minute ago' : ' minutes ago');
+        var h = Math.floor(m / 60); if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago');
+        var days = Math.floor(h / 24); if (days < 30) return days + (days === 1 ? ' day ago' : ' days ago');
+        var mo = Math.floor(days / 30); if (mo < 12) return mo + (mo === 1 ? ' month ago' : ' months ago');
+        var y = Math.floor(mo / 12); return y + (y === 1 ? ' year ago' : ' years ago');
+      }
       // Ratings
       var stars = 0;
       function paint(n) { document.querySelectorAll('#rate-stars button').forEach(function (x, i) { x.innerHTML = iconSvg(i < n ? 'star-filled' : 'star', 'h-7 w-7'); }); }
-      document.querySelectorAll('#rate-stars button').forEach(function (b) { b.onclick = function () { stars = +b.dataset.s; paint(stars); }; });
+      document.querySelectorAll('#rate-stars button').forEach(function (b) {
+        b.onclick = function () { stars = +b.dataset.s; paint(stars); };
+        // Hover preview: fill stars up to the hovered one, then revert to the selected value.
+        b.addEventListener('mouseenter', function () { paint(+b.dataset.s); });
+      });
+      var starsGroup = document.getElementById('rate-stars');
+      if (starsGroup) starsGroup.addEventListener('mouseleave', function () { paint(stars); });
       function loadRating() { api('/api/ratings?courseId=' + encodeURIComponent(id)).then(function (r) { if (r.ok) document.getElementById('rate-summary').innerHTML = r.d.count ? (iconSvg('star-filled', 'inline-block h-4 w-4 align-[-0.15em] text-saffron') + ' ' + r.d.avg + ' · ' + r.d.count + ' rating' + (r.d.count == 1 ? '' : 's')) : 'No ratings yet — be the first.'; }); }
       loadRating();
       document.getElementById('rate-submit').onclick = function () {
         if (!stars) { document.getElementById('rate-msg').textContent = 'Pick a star rating.'; return; }
+        paint(stars); // optimistic: show the submitted rating filled immediately
         api('/api/ratings', { method: 'POST', body: JSON.stringify({ courseId: id, stars: stars, review: document.getElementById('rate-review').value }) }).then(function (r) {
           document.getElementById('rate-msg').innerHTML = r.ok ? '<span class="text-ok">Thank you for rating.</span>' : esc((r.d && r.d.error) || 'Please sign in to rate.');
           if (r.ok) loadRating();
@@ -541,7 +560,11 @@ const breadcrumb = {
       function loadDisc() {
         api('/api/discussions?courseId=' + encodeURIComponent(id)).then(function (r) {
           var m = (r.d && r.d.messages) || [];
-          document.getElementById('disc-list').innerHTML = m.length ? m.map(function (x) { return '<div class="rounded-lg border border-line bg-surface p-3"><div class="font-sans text-xs text-muted">' + esc(x.name || 'Learner') + '</div><div class="mt-0.5 text-sm">' + esc(x.message) + '</div></div>'; }).join('') : '<p class="text-sm text-muted">No messages yet — start the conversation.</p>';
+          document.getElementById('disc-list').innerHTML = m.length ? m.map(function (x) {
+            var name = x.name || 'Learner';
+            var initial = name.trim().charAt(0).toUpperCase() || 'L';
+            return '<div class="rounded-lg border border-line bg-surface p-3"><div class="flex items-center gap-2"><span class="h-7 w-7 shrink-0 rounded-full bg-navy text-white grid place-items-center font-sans text-xs" aria-hidden="true">' + esc(initial) + '</span><div class="font-sans text-xs text-muted">' + esc(name) + (x.created_at ? ' · ' + esc(timeAgo(x.created_at)) : '') + '</div></div><div class="mt-0.5 text-sm">' + esc(x.message) + '</div></div>';
+          }).join('') : '<p class="text-sm text-muted">No messages yet — start the conversation.</p>';
         });
       }
       loadDisc();
