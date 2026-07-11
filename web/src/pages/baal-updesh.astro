@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import gurbaniWords from '../data/gurbani-words.json';
 // The Painti — 35 letters of the Gurmukhi alphabet (3 vowel-bearers + 32 consonants).
 const akhar = [
@@ -62,12 +63,22 @@ const numNames = [
 const wordCard = (w) => w;
 ---
 <Base title="Baal Updesh — Learn to Read Gurmukhi | Sikhi University" description="The complete beginner's primer for Gurmukhi and Punjabi: the alphabet, the Muharni, two/three/four-letter words, simple sentences, and numbers 0–100.">
-  <section class="wrap py-12">
-    <div class="font-sans text-sm"><a href="/santhiya" class="text-muted hover:text-navy">← Santhya pathway</a></div>
-    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">ਬਾਲ ਉਪਦੇਸ਼</span><span class="text-lg text-muted">Baal Updesh — learn to read Gurmukhi</span></h1>
-    <p class="mt-2 max-w-2xl text-lg text-muted">A complete beginner's path. Work through it in order, saying everything aloud — the alphabet, the Muharni, then real words, sentences and numbers. This is where every reader of Gurbani begins.</p>
+  <header class="relative overflow-hidden bg-gradient-to-br from-brand via-navy-strong to-navy-deep text-white">
+    <div aria-hidden="true" class="pattern-lattice absolute inset-0"></div>
+    <div class="wrap relative py-14">
+      <div class="font-sans text-sm"><a href="/santhiya" class="text-white/70 hover:text-saffron">← Santhya pathway</a></div>
+      <p class="eyebrow mt-4 text-saffron">Learn to read Gurmukhi</p>
+      <h1 class="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <span class="gur text-display-sm font-bold text-white" lang="pa">ਬਾਲ ਉਪਦੇਸ਼</span>
+        <span class="text-lg text-white/80">Baal Updesh</span>
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">A complete beginner's path. Work through it in order, saying everything aloud — the alphabet, the Muharni, then real words, sentences and numbers. This is where every reader of Gurbani begins.</p>
+    </div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
+  </header>
 
-    <nav class="mt-5 flex flex-wrap gap-2 font-sans text-sm">
+  <section class="wrap py-12">
+    <nav class="flex flex-wrap gap-2 font-sans text-sm">
       <a href="#painti" class="rounded-full border border-line px-3 py-1 hover:border-saffron">1. The Painti</a>
       <a href="#navin" class="rounded-full border border-line px-3 py-1 hover:border-saffron">2. Extra letters</a>
       <a href="#muharni" class="rounded-full border border-line px-3 py-1 hover:border-saffron">3. The Muharni</a>
@@ -80,50 +91,71 @@ const wordCard = (w) => w;
       <a href="#kakaars" class="rounded-full border border-line px-3 py-1 hover:border-saffron">10. Five Kakaars</a>
     </nav>
 
-    <details id="painti" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">1. The Painti — <span class="gur">ਪੈਂਤੀ</span> (35 letters)</summary>
+    <details id="painti" class="group mt-6 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="pen" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">1. The Painti — <span class="gur" lang="pa">ਪੈਂਤੀ</span></span>
+        <span class="block font-sans text-sm text-muted">The 35 letters — say each aloud</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Three are vowel-bearers (<span class="gur">ੳ ਅ ੲ</span>); the rest are consonants. Say each letter aloud.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
       {akhar.map(([ch, name]) => (
-        <div class="rounded-xl2 border border-line bg-surface p-4 text-center shadow-card">
-          <div class="gur text-4xl font-bold text-navy">{ch}</div>
-          <div class="mt-1 font-sans text-xs text-muted">{name}</div>
+        <div class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+          <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
+          <div class="mt-2 font-sans text-xs text-muted">{name}</div>
         </div>
       ))}
     </div>
 
     </details>
 
-    <details id="navin" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">2. The extra letters — <span class="gur">ਨਵੀਨ ਟੋਲੀ</span></summary>
+    <details id="navin" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="edit" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">2. The extra letters — <span class="gur" lang="pa">ਨਵੀਨ ਟੋਲੀ</span></span>
+        <span class="block font-sans text-sm text-muted">Six later letters with a pair bindi</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Six later letters, written by adding a dot (<span class="gur">ਪੈਰ ਬਿੰਦੀ</span>) beneath a base letter, for sounds used in borrowed words.</p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
       {navin.map(([ch, name]) => (
-        <div class="rounded-xl2 border border-line bg-surface p-4 text-center shadow-card">
-          <div class="gur text-4xl font-bold text-navy">{ch}</div>
-          <div class="mt-1 font-sans text-xs text-muted">{name}</div>
+        <div class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+          <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
+          <div class="mt-2 font-sans text-xs text-muted">{name}</div>
         </div>
       ))}
     </div>
 
     </details>
 
-    <details id="muharni" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">3. The Muharni — <span class="gur">ਮੁਹਾਰਨੀ</span></summary>
+    <details id="muharni" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="music" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">3. The Muharni — <span class="gur" lang="pa">ਮੁਹਾਰਨੀ</span></span>
+        <span class="block font-sans text-sm text-muted">Each consonant through the ten vowel signs</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Sound each consonant through the ten vowel signs (<span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span>). Read across each row aloud — this builds <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> (correct pronunciation).</p>
     <div class="mt-5 overflow-x-auto rounded-xl2 border border-line">
       <table class="w-full border-collapse text-center">
         <thead>
           <tr class="bg-brand text-white">
-            <th class="p-2 font-sans text-xs">ਅੱਖਰ</th>
-            {matraNames.map((n) => <th class="p-2"><span class="gur text-sm font-normal">{n}</span></th>)}
+            <th class="sticky left-0 z-10 bg-brand p-2"><span class="gur text-sm font-normal" lang="pa">ਅੱਖਰ</span></th>
+            {matraNames.map((n) => <th class="p-2"><span class="gur text-sm font-normal" lang="pa">{n}</span></th>)}
           </tr>
         </thead>
         <tbody>
           {consonants.map((cn, r) => (
             <tr class={r % 2 ? 'bg-paper' : ''}>
-              <td class="gur border border-line p-2 text-2xl font-bold text-navy">{cn}</td>
-              {matras.map((m) => <td class="gur border border-line p-2 text-2xl">{cn + m}</td>)}
+              <td class={`gur sticky left-0 z-10 border border-line p-2 text-2xl font-bold text-navy ${r % 2 ? 'bg-paper' : 'bg-surface'}`} lang="pa">{cn}</td>
+              {matras.map((m) => <td class="gur border border-line p-2 text-2xl" lang="pa">{cn + m}</td>)}
             </tr>
           ))}
         </tbody>
@@ -132,8 +164,15 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="words" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">4. Reading words — <span class="gur">ਸ਼ਬਦ ਜੋੜ</span></summary>
+    <details id="words" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="book" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">4. Reading words — <span class="gur" lang="pa">ਸ਼ਬਦ ਜੋੜ</span></span>
+        <span class="block font-sans text-sm text-muted">Blend letters into two-, three- and four-letter words</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Now blend letters into words. Start with two letters, then three, then longer. Sound each one out, then read the whole word.</p>
     {[['Two-letter words', words2], ['Three-letter words', words3], ['Longer words', words4]].map(([label, list]) => (
       <div class="mt-5">
@@ -152,8 +191,15 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="sentences" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">5. Sentences & paragraphs — <span class="gur">ਵਾਕ ਤੇ ਪੈਰੇ</span></summary>
+    <details id="sentences" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="scroll" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">5. Sentences & paragraphs — <span class="gur" lang="pa">ਵਾਕ ਤੇ ਪੈਰੇ</span></span>
+        <span class="block font-sans text-sm text-muted">From greetings to full paragraphs</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Read these aloud, building from greetings to short, medium and long sentences, then full paragraphs. The <span class="gur">॥</span> (danda) and <span class="gur">।</span> mark line ends.</p>
     {[['Greetings & sacred lines', sentences], ['Short sentences', shortS], ['Medium sentences', medS], ['Long sentences', longS]].map(([label, list]) => (
       <div class="mt-5">
@@ -183,8 +229,15 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="numbers" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">6. Numbers — <span class="gur">ਅੰਕ</span> (0–100)</summary>
+    <details id="numbers" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="ruler" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">6. Numbers — <span class="gur" lang="pa">ਅੰਕ</span> (0–100)</span>
+        <span class="block font-sans text-sm text-muted">Gurmukhi digits, names and every numeral 0–100</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
     <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
       {numNames.map(([g, n, nm, tr]) => (
@@ -208,8 +261,15 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="common-words" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">7. Common words of Gurbani — <span class="gur">ਸ਼ਬਦ ਭੰਡਾਰ</span></summary>
+    <details id="common-words" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="books" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">7. Common words of Gurbani — <span class="gur" lang="pa">ਸ਼ਬਦ ਭੰਡਾਰ</span></span>
+        <span class="block font-sans text-sm text-muted">The most-used words of Sri Guru Granth Sahib Ji</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Some of the most-used words in Sri Guru Granth Sahib Ji. Learn a few each day; tap a word for its full meaning. Shared with permission from the <a class="underline" href="https://365gurbaniwords.blogspot.com" target="_blank" rel="noopener">365 Gurbani Words</a> project.</p>
     <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
       {gurbaniWords.map((w) => (
@@ -221,15 +281,29 @@ const wordCard = (w) => w;
     </div>
     </details>
 
-    <details id="flashcards" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">8. Flashcards — <span class="gur">ਯਾਦ ਪੱਤੇ</span> (spaced repetition)</summary>
+    <details id="flashcards" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="cards" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">8. Flashcards — <span class="gur" lang="pa">ਯਾਦ ਪੱਤੇ</span></span>
+        <span class="block font-sans text-sm text-muted">Spaced-repetition recall</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">Active recall with spaced repetition — the fastest way to remember. Cards you find hard come back sooner; cards you know come back later. Built from the common words above plus the key terms of every course.</p>
     <div id="fc"><p class="mt-4 text-muted">Loading deck…</p></div>
     </details>
 
     <!-- ── 9. Guru Family Tree ──────────────────────────────────────────────── -->
-    <details id="family-tree" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">9. Guru Family Tree — <span class="gur">ਗੁਰੂ ਪਰਿਵਾਰ</span></summary>
+    <details id="family-tree" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="people" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">9. Guru Family Tree — <span class="gur" lang="pa">ਗੁਰੂ ਪਰਿਵਾਰ</span></span>
+        <span class="block font-sans text-sm text-muted">Lineages of the ten Sikh Gurus</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">The family lineages of the ten Sikh Gurus — ancestors, spouses, and children. <strong>Click any name</strong> to learn more about that person. Gurus are highlighted in <span class="font-semibold text-saffron-deep">saffron</span>.</p>
     <div id="ft-wrap" class="mt-4 overflow-auto rounded-xl2 border border-line bg-paper" style="max-height:620px">
       <div id="ft-canvas" class="relative select-none" style="width:800px;height:1700px"></div>
@@ -237,8 +311,15 @@ const wordCard = (w) => w;
     </details>
 
     <!-- ── 10. Five Kakaars ─────────────────────────────────────────────────── -->
-    <details id="kakaars" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">10. The Five Kakaars — <span class="gur">ਪੰਜ ਕਕਾਰ</span></summary>
+    <details id="kakaars" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="shield" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy">10. The Five Kakaars — <span class="gur" lang="pa">ਪੰਜ ਕਕਾਰ</span></span>
+        <span class="block font-sans text-sm text-muted">The five articles of faith of the Khalsa</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
     <p class="mt-1 max-w-2xl text-muted">The five articles of faith worn by baptised (<span class="gur">ਅੰਮ੍ਰਿਤਧਾਰੀ</span>) Sikhs. Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699. <strong>Click each one</strong> to learn more.</p>
     <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
 

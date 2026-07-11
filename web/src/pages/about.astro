@@ -40,9 +40,10 @@ const faqLd = {
   <script type="application/ld+json" set:html={ldJson(faqLd)} slot="head" />
   <!-- Hero -->
   <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
+    <div aria-hidden="true" class="pattern-lattice absolute inset-0"></div>
     <div class="wrap relative py-20">
       <div class="inline-flex items-center gap-2 rounded-full border border-saffron/40 bg-saffron/10 px-4 py-1.5 font-sans text-sm text-saffron mb-6">
-        <span class="gur text-base">ਸਿੱਖੀ ਯੂਨੀਵਰਸਿਟੀ</span>
+        <span class="gur text-base" lang="pa">ਸਿੱਖੀ ਯੂਨੀਵਰਸਿਟੀ</span>
         <span class="text-white/50">·</span>
         <span>Free Open University</span>
       </div>
@@ -50,12 +51,15 @@ const faqLd = {
       <p class="mt-5 max-w-2xl text-lg text-white/85 leading-relaxed">Sikhi University is a free, open online university — built so that anyone, anywhere can study Sikhi seriously, from authentic sources, at their own pace.</p>
       <!-- Stats row -->
       <div class="mt-10 grid grid-cols-2 gap-4 sm:flex sm:gap-8">
-        {stats.map((s) => (
-          <div class="text-center sm:text-left">
-            <div class="text-3xl font-bold text-saffron">{s.n}</div>
-            <div class="font-sans text-sm text-white/60">{s.label}</div>
-          </div>
-        ))}
+        {stats.map((s) => {
+          const m = s.n.match(/^([\d.]+)(.*)$/);
+          return (
+            <div class="text-center sm:text-left">
+              <div class="text-3xl font-bold text-saffron" data-countup={m ? m[1] : undefined} data-countup-suffix={m ? m[2] : undefined}>{s.n}</div>
+              <div class="font-sans text-sm text-white/60">{s.label}</div>
+            </div>
+          );
+        })}
       </div>
       <div class="mt-8 flex flex-wrap gap-3">
         <a class="btn btn-primary" href="/catalog">Browse courses</a>
@@ -68,8 +72,9 @@ const faqLd = {
   <!-- Why we built it -->
   <section class="wrap py-14">
     <div class="max-w-4xl xl:max-w-5xl">
-      <h2 class="text-2xl font-bold">Why we built Sikhi University</h2>
-      <p class="mt-1 font-sans text-sm text-saffron-deep uppercase tracking-widest"><span class="gur">ਸਿੱਖ</span> — the learner who never stops</p>
+      <p class="eyebrow text-saffron-deep">Our purpose</p>
+      <h2 class="mt-2 text-2xl font-bold">Why we built Sikhi University</h2>
+      <p class="mt-1 font-sans text-sm text-saffron-deep uppercase tracking-widest"><span class="gur" lang="pa">ਸਿੱਖ</span> — the learner who never stops</p>
       <div class="mt-4 space-y-4 text-lg leading-relaxed">
         <p>The word <span class="gur">ਸਿੱਖ</span> literally means <em>learner</em> — one who sits at the feet of the Guru and never stops seeking. Gurbani's call to seek, to ask, to grow is not a suggestion; it is written into our very name. A Sikh is defined not by the knowledge they already have, but by their lifelong commitment to learning.</p>
         <p>Sikhi is deep. Its history spans five centuries, its scripture holds the voices of the Gurus, the Bhagats, the Bhatts and devoted Gursikhs, and its philosophy speaks to the biggest questions of life. Yet for most people there has never been one welcoming, structured place to learn it — to move from a first question to real understanding.</p>
@@ -81,15 +86,16 @@ const faqLd = {
   </section>
 
   <!-- Offers -->
-  <section class="bg-surface border-y border-line">
+  <section class="texture-manuscript bg-surface border-y border-line">
     <div class="wrap py-14">
-      <h2 class="text-2xl font-bold">What the university offers</h2>
+      <p class="eyebrow text-saffron-deep">What you get</p>
+      <h2 class="mt-2 text-2xl font-bold">What the university offers</h2>
       <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {offers.map((o) => (
-          <div class="rounded-xl2 border border-line bg-paper p-5 transition-shadow hover:shadow-card">
+        {offers.map((o, i) => (
+          <div class="card-lift reveal bg-paper" data-reveal-delay={(i % 3) * 80}>
             <Icon name={o[0]} class="h-8 w-8 text-saffron-deep" />
             <h3 class="mt-2 text-base font-bold">{o[1]}</h3>
-            <p class="mt-1 text-[0.92rem] text-muted leading-relaxed">{o[2]}</p>
+            <p class="mt-1 text-sm text-muted leading-relaxed">{o[2]}</p>
           </div>
         ))}
       </div>
@@ -98,15 +104,14 @@ const faqLd = {
 
   <!-- How it works -->
   <section class="wrap py-14">
-    <h2 class="text-2xl font-bold">How it works</h2>
-    <ol class="mt-6 space-y-4">
+    <p class="eyebrow text-saffron-deep">Getting started</p>
+    <h2 class="mt-2 text-2xl font-bold">How it works</h2>
+    <ol class="mt-6 grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {steps.map((s, i) => (
-        <li class="flex gap-4 items-start">
-          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white text-sm font-bold">{i + 1}</span>
-          <div class="pt-0.5">
-            <span class="font-semibold text-navy">{s[0]}</span>{' '}
-            <span class="text-muted">{s[1]}</span>
-          </div>
+        <li class="card-lift reveal" data-reveal-delay={(i % 4) * 70}>
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-sans text-sm font-bold text-saffron-deep ring-2 ring-saffron">{i + 1}</span>
+          <h3 class="mt-3 font-semibold text-navy">{s[0]}</h3>
+          <p class="mt-1 text-sm text-muted leading-relaxed">{s[1]}</p>
         </li>
       ))}
     </ol>
