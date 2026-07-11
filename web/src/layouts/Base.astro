@@ -96,6 +96,10 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     <button data-a="reset" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">↺ Reset</button>
   </div>
   <script>
+    import { initMotion } from '../lib/motion';
+    initMotion();
+  </script>
+  <script>
     const P = 'su_v1_a11y';
     const get = () => { try { return JSON.parse(localStorage.getItem(P) || '{}'); } catch { return {}; } };
     const apply = () => { const p = get(); document.documentElement.style.fontSize = (p.scale || 100) + '%'; document.body.classList.toggle('hc', !!p.contrast); };
