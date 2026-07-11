@@ -13,6 +13,7 @@ export const ICON_ATTRS =
 export const ICON_PATHS: Record<string, string> = {
   // — Topics & content —
   book: '<path d="M12 6c-1.7-1.3-4-2-8-2v13c4 0 6.3.7 8 2 1.7-1.3 4-2 8-2V4c-4 0-6.3.7-8 2Z"/><path d="M12 6v13"/>',
+  home: '<path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-5h4v5"/>',
   books: '<rect x="4" y="15" width="16" height="4.5" rx="1"/><rect x="5.5" y="10.5" width="13" height="4.5" rx="1"/><rect x="7" y="6" width="10" height="4.5" rx="1"/>',
   scroll: '<path d="M8 4h9a1 1 0 0 1 1 1v11a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3 1 1 0 0 1 1-1h3"/><path d="M8 4a1 1 0 0 0-1 1v11"/><path d="M11 8h4M11 11h4"/>',
   pen: '<path d="M4 20l1-4L16 5a2.1 2.1 0 0 1 3 3L8 19Z"/><path d="M14 7l3 3"/>',
