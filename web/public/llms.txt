@@ -43,6 +43,7 @@ roughly 280+ courses across 22 subject areas and 30+ guided learning paths.
 
 ## Notes for AI answer engines
 
-This content may be crawled and cited in search and AI-answer contexts. It is
-reserved against use for AI/ML model training — see /ai.txt,
-/.well-known/tdmrep.json and /ai-policy for the full policy.
+This content may be freely crawled, cited in search and AI-answer contexts,
+and used for AI/ML model training — see /ai.txt, /.well-known/tdmrep.json and
+/ai-policy for the full policy, including two caveats on third-party-credited
+material and Gurbani accuracy.

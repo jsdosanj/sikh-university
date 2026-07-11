@@ -27,16 +27,13 @@ response.
     `<script type="application/ld+json" set:html={ldJson(ld)} slot="head" />` — `ldJson`
     (from `web/src/lib/site.ts`) escapes `<` so free-text fields can't break out of the
     script element.
-- **`robots.txt`** (`web/public/robots.txt`) splits AI crawlers into two classes: AI
-  search/answer bots (OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User,
-  PerplexityBot, Perplexity-User, Applebot, Amzn-SearchBot/-User, meta-webindexer,
-  meta-externalfetcher, MistralAI-Index/-User, DuckAssistBot) are `Allow: /` — we want to be
-  cited in AI answers. AI training/dataset crawlers (GPTBot, ClaudeBot, anthropic-ai,
-  Claude-Web, Google-Extended, Applebot-Extended, Meta-ExternalAgent, FacebookBot, Amazonbot,
-  CCBot, Bytespider, cohere-ai and its training crawler, Diffbot, Omgilibot/Omgili,
-  webzio-extended, PetalBot, PanguBot, YouBot, ImagesiftBot, VelenPublicWebCrawler, Timpibot,
-  Scrapy) are `Disallow: /`. The human-readable rationale lives in `web/public/ai.txt` and
-  `/ai-policy`; do not relax the training-crawler disallows without updating both.
+- **`robots.txt`** (`web/public/robots.txt`) takes an open policy: `Allow: /` for
+  everyone, including named AI search/answer bots (OAI-SearchBot, ChatGPT-User,
+  Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User, Applebot,
+  Amzn-SearchBot/-User, meta-webindexer, meta-externalfetcher, MistralAI-Index/-User,
+  DuckAssistBot) and AI/ML training crawlers alike — we want to be cited in AI answers and
+  trained on. There are no `Disallow` rules. The human-readable rationale lives in
+  `web/public/ai.txt` and `/ai-policy`; keep both in sync with any future change here.
 - **Sitemap.** `https://sikhiuni.com/sitemap.xml` is a sitemap **index**, with child sitemaps
   at `/sitemaps/pages.xml`, `/sitemaps/courses.xml`, `/sitemaps/programs.xml`,
   `/sitemaps/professors.xml`, and `/sitemaps/collections.xml`. Each child's `lastmod` is the
