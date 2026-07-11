@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import gurbaniWords from '../data/gurbani-words.json';
 // The Painti — 35 letters of the Gurmukhi alphabet (3 vowel-bearers + 32 consonants).
 const akhar = [
@@ -16,6 +17,28 @@ const navin = [['ਸ਼', 'Shasha'], ['ਖ਼', 'Khhakha'], ['ਗ਼', 'Ghhagha'
 const consonants = ['ਸ', 'ਹ', 'ਕ', 'ਖ', 'ਗ', 'ਘ', 'ਙ', 'ਚ', 'ਛ', 'ਜ', 'ਝ', 'ਞ', 'ਟ', 'ਠ', 'ਡ', 'ਢ', 'ਣ', 'ਤ', 'ਥ', 'ਦ', 'ਧ', 'ਨ', 'ਪ', 'ਫ', 'ਬ', 'ਭ', 'ਮ', 'ਯ', 'ਰ', 'ਲ', 'ਵ', 'ੜ'];
 const matras = ['', 'ਾ', 'ਿ', 'ੀ', 'ੁ', 'ੂ', 'ੇ', 'ੈ', 'ੋ', 'ੌ'];
 const matraNames = ['ਮੁਕਤਾ', 'ਕੰਨਾ', 'ਸਿਹਾਰੀ', 'ਬਿਹਾਰੀ', 'ਔਂਕੜ', 'ਦੁਲੈਂਕੜ', 'ਲਾਂ', 'ਦੁਲਾਵਾਂ', 'ਹੋੜਾ', 'ਕਨੌੜਾ'];
+
+// Per-letter audio (recitations by Bhagat Jaswant Singh Ji Daudar / Gursevak,
+// used with permission). Slugs MUST match scripts/akhar-timestamps.csv, which
+// derives them from the letter names above with -2 suffixes for the two
+// duplicate names (Dadda ਡ/ਦ, Dhadha ਢ/ਧ). Clips live under
+// /assets/audio/akhar/<category>/<slug>.mp3; the page degrades to a
+// "coming soon" note for any clip not yet extracted.
+function slugged(pairs: [string, string][]): [string, string, string][] {
+  const seen: Record<string, number> = {};
+  return pairs.map(([ch, name]) => {
+    let s = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    seen[s] = (seen[s] || 0) + 1;
+    if (seen[s] > 1) s = `${s}-${seen[s]}`;
+    return [ch, name, s];
+  });
+}
+const akharSlugged = slugged(akhar as [string, string][]);
+const navinSlugged = slugged(navin as [string, string][]);
+const charSlug: Record<string, string> = {};
+for (const [ch, , s] of akharSlugged) charSlug[ch] = s;
+// Matra slugs follow the CSV's transliterations, in matraNames order.
+const matraSlugs = ['mukta', 'kanna', 'sihari', 'bihari', 'aunkar', 'dulainkar', 'lava', 'dulava', 'hora', 'kanaura'];
 // Reading practice: words of growing length [Gurmukhi, transliteration, meaning].
 const words2 = [['ਘਰ', 'ghar', 'house'], ['ਜਲ', 'jal', 'water'], ['ਮਨ', 'man', 'mind'], ['ਤਨ', 'tan', 'body'], ['ਪਲ', 'pal', 'moment'], ['ਡਰ', 'ḍar', 'fear'], ['ਰਸ', 'ras', 'essence'], ['ਸਚ', 'sach', 'truth']];
 const words3 = [['ਕਮਲ', 'kamal', 'lotus'], ['ਚਰਨ', 'charan', 'feet'], ['ਸਬਦ', 'shabad', 'word'], ['ਅਮਰ', 'amar', 'immortal'], ['ਸਹਜ', 'sahaj', 'calm/poise'], ['ਨਾਨਕ', 'Nanak', 'Guru Nanak'], ['ਪਾਣੀ', 'paaṇi', 'water'], ['ਧਰਮ', 'dharam', 'righteousness']];
@@ -61,69 +84,115 @@ const numNames = [
 ];
 const wordCard = (w) => w;
 ---
-<Base title="Baal Updesh — Learn to Read Gurmukhi | Sikh University" description="The complete beginner's primer for Gurmukhi and Punjabi: the alphabet, the Muharni, two/three/four-letter words, simple sentences, and numbers 0–100.">
-  <section class="wrap py-12">
-    <div class="font-sans text-sm"><a href="/santhiya" class="text-muted hover:text-navy">← Santhya pathway</a></div>
-    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">ਬਾਲ ਉਪਦੇਸ਼</span><span class="text-lg text-muted">Baal Updesh — learn to read Gurmukhi</span></h1>
-    <p class="mt-2 max-w-2xl text-lg text-muted">A complete beginner's path. Work through it in order, saying everything aloud — the alphabet, the Muharni, then real words, sentences and numbers. This is where every reader of Gurbani begins.</p>
+<Base title="Baal Updesh — Learn to Read Gurmukhi | Sikhi University" description="The complete beginner's primer for Gurmukhi and Punjabi: the alphabet, the Muharni, two/three/four-letter words, simple sentences, and numbers 0–100.">
+  <header class="relative overflow-hidden bg-gradient-to-br from-brand via-navy-strong to-navy-deep text-white">
+    <div aria-hidden="true" class="pattern-lattice absolute inset-0"></div>
+    <div class="wrap relative py-14">
+      <div class="font-sans text-sm"><a href="/santhiya" class="text-white/70 hover:text-saffron" data-i18n="baal.hero.backlink">← Santhya pathway</a></div>
+      <p class="eyebrow mt-4 text-saffron" data-i18n="baal.eyebrow">Learn to read Gurmukhi</p>
+      <h1 class="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <span class="gur text-display-sm font-bold text-white" lang="pa">ਬਾਲ ਉਪਦੇਸ਼</span>
+        <span class="text-lg text-white/80" data-i18n="baal.h1">Baal Updesh</span>
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85" data-i18n="baal.hero.sub">A complete beginner's path. Work through it in order, saying everything aloud — the alphabet, the Muharni, then real words, sentences and numbers. This is where every reader of Gurbani begins.</p>
+    </div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
+  </header>
 
-    <nav class="mt-5 flex flex-wrap gap-2 font-sans text-sm">
-      <a href="#painti" class="rounded-full border border-line px-3 py-1 hover:border-saffron">1. The Painti</a>
-      <a href="#navin" class="rounded-full border border-line px-3 py-1 hover:border-saffron">2. Extra letters</a>
-      <a href="#muharni" class="rounded-full border border-line px-3 py-1 hover:border-saffron">3. The Muharni</a>
-      <a href="#words" class="rounded-full border border-line px-3 py-1 hover:border-saffron">4. Words</a>
-      <a href="#sentences" class="rounded-full border border-line px-3 py-1 hover:border-saffron">5. Sentences</a>
-      <a href="#numbers" class="rounded-full border border-line px-3 py-1 hover:border-saffron">6. Numbers 0–100</a>
-      <a href="#common-words" class="rounded-full border border-line px-3 py-1 hover:border-saffron">7. Common words</a>
-      <a href="#flashcards" class="rounded-full border border-line px-3 py-1 hover:border-saffron">8. Flashcards</a>
-      <a href="#family-tree" class="rounded-full border border-line px-3 py-1 hover:border-saffron">9. Guru Family Tree</a>
-      <a href="#kakaars" class="rounded-full border border-line px-3 py-1 hover:border-saffron">10. Five Kakaars</a>
+  <section class="wrap py-12">
+    <nav class="flex flex-wrap gap-2 font-sans text-sm">
+      <a href="#painti" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.painti">1. The Painti</a>
+      <a href="#navin" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.navin">2. Extra letters</a>
+      <a href="#muharni" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.muharni">3. The Muharni</a>
+      <a href="#words" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.words">4. Words</a>
+      <a href="#sentences" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.sentences">5. Sentences</a>
+      <a href="#numbers" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.numbers">6. Numbers 0–100</a>
+      <a href="#common-words" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.commonwords">7. Common words</a>
+      <a href="#flashcards" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.flashcards">8. Flashcards</a>
+      <a href="#family-tree" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.familytree">9. Guru Family Tree</a>
+      <a href="#kakaars" class="rounded-full border border-line px-3 py-1 hover:border-saffron" data-i18n="baal.nav.kakaars">10. Five Kakaars</a>
     </nav>
 
-    <details id="painti" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">1. The Painti — <span class="gur">ਪੈਂਤੀ</span> (35 letters)</summary>
-    <p class="mt-1 max-w-2xl text-muted">Three are vowel-bearers (<span class="gur">ੳ ਅ ੲ</span>); the rest are consonants. Say each letter aloud.</p>
+    <details id="painti" class="group mt-6 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="pen" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.painti.title">1. The Painti —</span> <span class="gur" lang="pa">ਪੈਂਤੀ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.painti.hint">The 35 letters — say each aloud</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.painti.p1a">Three are vowel-bearers (</span><span class="gur">ੳ ਅ ੲ</span><span data-i18n="baal.painti.p1b">); the rest are consonants. Say each letter aloud.</span></p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
-      {akhar.map(([ch, name]) => (
-        <div class="rounded-xl2 border border-line bg-surface p-4 text-center shadow-card">
-          <div class="gur text-4xl font-bold text-navy">{ch}</div>
-          <div class="mt-1 font-sans text-xs text-muted">{name}</div>
-        </div>
+      {akharSlugged.map(([ch, name, slug]) => (
+        <button type="button" data-akhar-audio={`letters/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+          <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
+          <div class="mt-2 inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{name}</div>
+        </button>
       ))}
     </div>
+    <p id="akhar-attribution" hidden data-no-i18n class="mt-4 font-sans text-xs text-muted"></p>
 
     </details>
 
-    <details id="navin" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">2. The extra letters — <span class="gur">ਨਵੀਨ ਟੋਲੀ</span></summary>
-    <p class="mt-1 max-w-2xl text-muted">Six later letters, written by adding a dot (<span class="gur">ਪੈਰ ਬਿੰਦੀ</span>) beneath a base letter, for sounds used in borrowed words.</p>
+    <details id="navin" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="edit" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.navin.title">2. The extra letters —</span> <span class="gur" lang="pa">ਨਵੀਨ ਟੋਲੀ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.navin.hint">Six later letters with a pair bindi</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.navin.p1a">Six later letters, written by adding a dot (</span><span class="gur">ਪੈਰ ਬਿੰਦੀ</span><span data-i18n="baal.navin.p1b">) beneath a base letter, for sounds used in borrowed words.</span></p>
     <div class="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-6">
-      {navin.map(([ch, name]) => (
-        <div class="rounded-xl2 border border-line bg-surface p-4 text-center shadow-card">
-          <div class="gur text-4xl font-bold text-navy">{ch}</div>
-          <div class="mt-1 font-sans text-xs text-muted">{name}</div>
-        </div>
+      {navinSlugged.map(([ch, name, slug]) => (
+        <button type="button" data-akhar-audio={`navin/${slug}`} aria-label={`Play the pronunciation of ${name}`} class="rounded-xl2 border border-line bg-paper p-4 text-center shadow-card transition duration-200 hover:-translate-y-1 hover:border-saffron hover:shadow-lift">
+          <div class="gur text-5xl font-bold text-navy" lang="pa">{ch}</div>
+          <div class="mt-2 inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{name}</div>
+        </button>
       ))}
     </div>
 
     </details>
 
-    <details id="muharni" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">3. The Muharni — <span class="gur">ਮੁਹਾਰਨੀ</span></summary>
-    <p class="mt-1 max-w-2xl text-muted">Sound each consonant through the ten vowel signs (<span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span>). Read across each row aloud — this builds <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> (correct pronunciation).</p>
-    <div class="mt-5 overflow-x-auto rounded-xl2 border border-line">
+    <details id="muharni" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="music" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.muharni.title">3. The Muharni —</span> <span class="gur" lang="pa">ਮੁਹਾਰਨੀ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.muharni.hint">Each consonant through the ten vowel signs</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.muharni.p1a">Sound each consonant through the ten vowel signs (</span><span class="gur">ਲਗਾਂ-ਮਾਤਰਾਂ</span><span data-i18n="baal.muharni.p1b">). Read across each row aloud — this builds</span> <span class="gur">ਸ਼ੁੱਧ ਉਚਾਰਨ</span> <span data-i18n="baal.muharni.p1c">(correct pronunciation).</span></p>
+    {/* dir=ltr: Gurmukhi is an LTR script, so the table keeps LTR presentation
+        even under an RTL UI language (ur/ar) — this also keeps the sticky
+        first column (left-0) anchored to the correct physical edge. */}
+    <div class="mt-5 overflow-x-auto rounded-xl2 border border-line" dir="ltr">
       <table class="w-full border-collapse text-center">
         <thead>
           <tr class="bg-brand text-white">
-            <th class="p-2 font-sans text-xs">ਅੱਖਰ</th>
-            {matraNames.map((n) => <th class="p-2"><span class="gur text-sm font-normal">{n}</span></th>)}
+            <th class="sticky left-0 z-10 bg-brand p-2"><span class="gur text-sm font-normal" lang="pa">ਅੱਖਰ</span></th>
+            {matraNames.map((n, i) => (
+              <th class="p-2">
+                <button type="button" data-akhar-audio={`matras/${matraSlugs[i]}`} aria-label={`Play the ${matraSlugs[i]} vowel sound`} class="inline-flex items-center gap-1 rounded px-1 hover:bg-white/10">
+                  <span class="gur text-sm font-normal" lang="pa">{n}</span>
+                </button>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {consonants.map((cn, r) => (
             <tr class={r % 2 ? 'bg-paper' : ''}>
-              <td class="gur border border-line p-2 text-2xl font-bold text-navy">{cn}</td>
-              {matras.map((m) => <td class="gur border border-line p-2 text-2xl">{cn + m}</td>)}
+              <td class={`sticky left-0 z-10 border border-line p-2 ${r % 2 ? 'bg-paper' : 'bg-surface'}`}>
+                <button type="button" data-akhar-audio={`muharni/${charSlug[cn]}`} aria-label="Play this muharni row" class="inline-flex items-center gap-1.5 rounded px-1 hover:text-saffron-deep">
+                  <Icon name="volume" class="h-3.5 w-3.5 shrink-0 text-muted" />
+                  <span class="gur text-2xl font-bold text-navy" lang="pa">{cn}</span>
+                </button>
+              </td>
+              {matras.map((m) => <td class="gur border border-line p-2 text-2xl" lang="pa">{cn + m}</td>)}
             </tr>
           ))}
         </tbody>
@@ -132,9 +201,16 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="words" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">4. Reading words — <span class="gur">ਸ਼ਬਦ ਜੋੜ</span></summary>
-    <p class="mt-1 max-w-2xl text-muted">Now blend letters into words. Start with two letters, then three, then longer. Sound each one out, then read the whole word.</p>
+    <details id="words" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="book" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.words.title">4. Reading words —</span> <span class="gur" lang="pa">ਸ਼ਬਦ ਜੋੜ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.words.hint">Blend letters into two-, three- and four-letter words</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted" data-i18n="baal.words.p1">Now blend letters into words. Start with two letters, then three, then longer. Sound each one out, then read the whole word.</p>
     {[['Two-letter words', words2], ['Three-letter words', words3], ['Longer words', words4]].map(([label, list]) => (
       <div class="mt-5">
         <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">{label}</h3>
@@ -152,9 +228,16 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="sentences" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">5. Sentences & paragraphs — <span class="gur">ਵਾਕ ਤੇ ਪੈਰੇ</span></summary>
-    <p class="mt-1 max-w-2xl text-muted">Read these aloud, building from greetings to short, medium and long sentences, then full paragraphs. The <span class="gur">॥</span> (danda) and <span class="gur">।</span> mark line ends.</p>
+    <details id="sentences" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="scroll" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.sentences.title">5. Sentences & paragraphs —</span> <span class="gur" lang="pa">ਵਾਕ ਤੇ ਪੈਰੇ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.sentences.hint">From greetings to full paragraphs</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.sentences.p1a">Read these aloud, building from greetings to short, medium and long sentences, then full paragraphs. The</span> <span class="gur">॥</span> <span data-i18n="baal.sentences.p1b">(danda) and</span> <span class="gur">।</span> <span data-i18n="baal.sentences.p1c">mark line ends.</span></p>
     {[['Greetings & sacred lines', sentences], ['Short sentences', shortS], ['Medium sentences', medS], ['Long sentences', longS]].map(([label, list]) => (
       <div class="mt-5">
         <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">{label}</h3>
@@ -170,7 +253,7 @@ const wordCard = (w) => w;
       </div>
     ))}
     <div class="mt-6">
-      <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">Paragraphs</h3>
+      <h3 class="font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep" data-i18n="baal.paragraphs.h3">Paragraphs</h3>
       <div class="mt-2 space-y-3">
         {paras.map(([p, mean]) => (
           <div class="rounded-xl2 border border-line bg-surface p-4 shadow-card">
@@ -183,20 +266,27 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="numbers" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">6. Numbers — <span class="gur">ਅੰਕ</span> (0–100)</summary>
-    <p class="mt-1 max-w-2xl text-muted">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
+    <details id="numbers" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="ruler" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.numbers.title">6. Numbers —</span> <span class="gur" lang="pa">ਅੰਕ</span> <span data-i18n="baal.numbers.title2">(0–100)</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.numbers.hint">Gurmukhi digits, names and every numeral 0–100</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted" data-i18n="baal.numbers.p1">Gurmukhi has its own digits. Learn the names for 0–10 and the tens, then read every numeral from 0 to 100.</p>
     <div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
       {numNames.map(([g, n, nm, tr]) => (
-        <div class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card">
+        <button type="button" data-akhar-audio={`numbers/n${n}`} aria-label={`Play the pronunciation of ${n}`} class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card transition hover:-translate-y-0.5 hover:border-saffron">
           <div class="gur text-2xl font-bold text-navy">{g}</div>
-          <div class="font-sans text-xs text-muted">{n}</div>
+          <div class="inline-flex items-center gap-1 font-sans text-xs text-muted"><Icon name="volume" class="h-3 w-3 shrink-0" />{n}</div>
           <div class="gur mt-1 text-base text-navy">{nm}</div>
           <div class="font-sans text-[0.7rem] text-muted">{tr}</div>
-        </div>
+        </button>
       ))}
     </div>
-    <h3 class="mt-6 font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep">All numerals, 0–100</h3>
+    <h3 class="mt-6 font-sans text-sm font-bold uppercase tracking-wide text-saffron-deep" data-i18n="baal.allnumerals.h3">All numerals, 0–100</h3>
     <div class="mt-2 grid grid-cols-5 gap-2 sm:grid-cols-10">
       {range0to100.map((n) => (
         <div class="rounded-lg border border-line bg-paper py-2 text-center">
@@ -208,9 +298,16 @@ const wordCard = (w) => w;
 
     </details>
 
-    <details id="common-words" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">7. Common words of Gurbani — <span class="gur">ਸ਼ਬਦ ਭੰਡਾਰ</span></summary>
-    <p class="mt-1 max-w-2xl text-muted">Some of the most-used words in Sri Guru Granth Sahib Ji. Learn a few each day; tap a word for its full meaning. Shared with permission from the <a class="underline" href="https://365gurbaniwords.blogspot.com" target="_blank" rel="noopener">365 Gurbani Words</a> project.</p>
+    <details id="common-words" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="books" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.commonwords.title">7. Common words of Gurbani —</span> <span class="gur" lang="pa">ਸ਼ਬਦ ਭੰਡਾਰ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.commonwords.hint">The most-used words of Sri Guru Granth Sahib Ji</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.commonwords.p1a">Some of the most-used words in Sri Guru Granth Sahib Ji. Learn a few each day; tap a word for its full meaning. Shared with permission from the</span> <a class="underline" href="https://365gurbaniwords.blogspot.com" target="_blank" rel="noopener" data-i18n="baal.commonwords.link">365 Gurbani Words</a> <span data-i18n="baal.commonwords.p1b">project.</span></p>
     <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
       {gurbaniWords.map((w) => (
         <a href={w.url} target="_blank" rel="noopener" class="rounded-xl2 border border-line bg-surface p-3 text-center shadow-card hover:border-saffron">
@@ -221,25 +318,46 @@ const wordCard = (w) => w;
     </div>
     </details>
 
-    <details id="flashcards" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">8. Flashcards — <span class="gur">ਯਾਦ ਪੱਤੇ</span> (spaced repetition)</summary>
-    <p class="mt-1 max-w-2xl text-muted">Active recall with spaced repetition — the fastest way to remember. Cards you find hard come back sooner; cards you know come back later. Built from the common words above plus the key terms of every course.</p>
-    <div id="fc"><p class="mt-4 text-muted">Loading deck…</p></div>
+    <details id="flashcards" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="cards" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.flashcards.title">8. Flashcards —</span> <span class="gur" lang="pa">ਯਾਦ ਪੱਤੇ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.flashcards.hint">Spaced-repetition recall</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted" data-i18n="baal.flashcards.p1">Active recall with spaced repetition — the fastest way to remember. Cards you find hard come back sooner; cards you know come back later. Built from the common words above plus the key terms of every course.</p>
+    <div id="fc"><p class="mt-4 text-muted" data-i18n="baal.flashcards.loading">Loading deck…</p></div>
     </details>
 
     <!-- ── 9. Guru Family Tree ──────────────────────────────────────────────── -->
-    <details id="family-tree" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">9. Guru Family Tree — <span class="gur">ਗੁਰੂ ਪਰਿਵਾਰ</span></summary>
-    <p class="mt-1 max-w-2xl text-muted">The family lineages of the ten Sikh Gurus — ancestors, spouses, and children. <strong>Click any name</strong> to learn more about that person. Gurus are highlighted in <span class="font-semibold text-saffron-deep">saffron</span>.</p>
+    <details id="family-tree" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="people" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.familytree.title">9. Guru Family Tree —</span> <span class="gur" lang="pa">ਗੁਰੂ ਪਰਿਵਾਰ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.familytree.hint">Lineages of the ten Sikh Gurus</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.familytree.p1a">The family lineages of the ten Sikh Gurus — ancestors, spouses, and children.</span> <strong data-i18n="baal.familytree.clickname">Click any name</strong> <span data-i18n="baal.familytree.p1b">to learn more about that person. Gurus are highlighted in</span> <span class="font-semibold text-saffron-deep" data-i18n="baal.familytree.saffron">saffron</span>.</p>
     <div id="ft-wrap" class="mt-4 overflow-auto rounded-xl2 border border-line bg-paper" style="max-height:620px">
       <div id="ft-canvas" class="relative select-none" style="width:800px;height:1700px"></div>
     </div>
     </details>
 
     <!-- ── 10. Five Kakaars ─────────────────────────────────────────────────── -->
-    <details id="kakaars" class="mt-8 border-t border-line pt-3">
-    <summary class="cursor-pointer text-xl font-bold text-navy hover:text-saffron-deep">10. The Five Kakaars — <span class="gur">ਪੰਜ ਕਕਾਰ</span></summary>
-    <p class="mt-1 max-w-2xl text-muted">The five articles of faith worn by baptised (<span class="gur">ਅੰਮ੍ਰਿਤਧਾਰੀ</span>) Sikhs. Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699. <strong>Click each one</strong> to learn more.</p>
+    <details id="kakaars" class="group mt-4 rounded-xl2 border border-line bg-surface p-5 shadow-card transition open:shadow-lift">
+    <summary class="flex cursor-pointer list-none items-center gap-3">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="shield" class="h-5 w-5" /></span>
+      <span class="min-w-0 flex-1">
+        <span class="block text-xl font-bold text-navy"><span data-i18n="baal.kakaars.title">10. The Five Kakaars —</span> <span class="gur" lang="pa">ਪੰਜ ਕਕਾਰ</span></span>
+        <span class="block font-sans text-sm text-muted" data-i18n="baal.kakaars.hint">The five articles of faith of the Khalsa</span>
+      </span>
+      <span aria-hidden="true" class="h-2.5 w-2.5 shrink-0 rotate-45 border-b-2 border-r-2 border-muted transition-transform group-open:rotate-[225deg]"></span>
+    </summary>
+    <p class="mt-1 max-w-2xl text-muted"><span data-i18n="baal.kakaars.p1a">The five articles of faith worn by baptised (</span><span class="gur">ਅੰਮ੍ਰਿਤਧਾਰੀ</span><span data-i18n="baal.kakaars.p1b">) Sikhs. Instituted by Guru Gobind Singh Ji at the Vaisakhi of 1699.</span> <strong data-i18n="baal.kakaars.clickeach">Click each one</strong> <span data-i18n="baal.kakaars.p1c">to learn more.</span></p>
     <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
 
       <!-- 1. Kesh — uncut hair -->
@@ -262,7 +380,7 @@ const wordCard = (w) => w;
           </svg>
         </div>
         <div class="gur mt-2 text-xl font-bold text-navy">ਕੇਸ</div>
-        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kesh</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted" data-i18n="baal.kakaar.kesh">Kesh</div>
       </button>
 
       <!-- 2. Kangha — wooden comb -->
@@ -286,7 +404,7 @@ const wordCard = (w) => w;
           </svg>
         </div>
         <div class="gur mt-2 text-xl font-bold text-navy">ਕੰਘਾ</div>
-        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kangha</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted" data-i18n="baal.kakaar.kangha">Kangha</div>
       </button>
 
       <!-- 3. Kara — steel bracelet -->
@@ -302,7 +420,7 @@ const wordCard = (w) => w;
           </svg>
         </div>
         <div class="gur mt-2 text-xl font-bold text-navy">ਕੜਾ</div>
-        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kara</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted" data-i18n="baal.kakaar.kara">Kara</div>
       </button>
 
       <!-- 4. Kachera — cotton breeches -->
@@ -326,7 +444,7 @@ const wordCard = (w) => w;
           </svg>
         </div>
         <div class="gur mt-2 text-xl font-bold text-navy">ਕਛਹਿਰਾ</div>
-        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kachera</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted" data-i18n="baal.kakaar.kachera">Kachera</div>
       </button>
 
       <!-- 5. Kirpan — steel sword -->
@@ -354,7 +472,7 @@ const wordCard = (w) => w;
           </svg>
         </div>
         <div class="gur mt-2 text-xl font-bold text-navy">ਕਿਰਪਾਨ</div>
-        <div class="mt-0.5 font-sans text-sm font-semibold text-muted">Kirpan</div>
+        <div class="mt-0.5 font-sans text-sm font-semibold text-muted" data-i18n="baal.kakaar.kirpan">Kirpan</div>
       </button>
 
     </div>
@@ -370,14 +488,64 @@ const wordCard = (w) => w;
     </div>
 
     <div class="mt-12 rounded-xl2 border border-line bg-gradient-to-br from-blue/5 to-surface p-6">
-      <h2 class="text-xl font-bold">Next steps</h2>
+      <h2 class="text-xl font-bold" data-i18n="baal.nextsteps.h2">Next steps</h2>
       <ol class="mt-3 list-decimal space-y-1 pl-5">
-        <li>Begin the daily banis — <a class="underline" href="/collection/nitnem">Nitnem</a>.</li>
-        <li>Read along with Sri Guru Granth Sahib Ji — the <a class="underline" href="/santhiya?src=sggs&ang=1">read-along reader</a>.</li>
-        <li>Continue the full <a class="underline" href="/santhiya">Santhya pathway</a>.</li>
+        <li><span data-i18n="baal.nextsteps.li1a">Begin the daily banis —</span> <a class="underline" href="/collection/nitnem" data-i18n="baal.nextsteps.nitnem">Nitnem</a>.</li>
+        <li><span data-i18n="baal.nextsteps.li2a">Read along with Sri Guru Granth Sahib Ji — the</span> <a class="underline" href="/santhiya?src=sggs&ang=1" data-i18n="baal.nextsteps.readalong">read-along reader</a>.</li>
+        <li><span data-i18n="baal.nextsteps.li3a">Continue the full</span> <a class="underline" href="/santhiya" data-i18n="baal.nextsteps.santhyapathway">Santhya pathway</a>.</li>
       </ol>
     </div>
   </section>
+  <script>
+    // Akhar audio: one shared <audio> element plays the clip named by the
+    // clicked [data-akhar-audio] button (letters, navin, matras, muharni rows,
+    // numbers). The manifest is fetched lazily on first tap; a missing clip
+    // (or absent manifest — clips are added incrementally by the extraction
+    // pipeline in scripts/extract-akhar-audio.md) degrades to a friendly note.
+    (function () {
+      const BASE = '/assets/audio/akhar/';
+      let manifest = null; // null = not fetched; false = unavailable
+      let current = null;
+      const player = new Audio();
+      player.preload = 'none';
+      const clearRing = () => { if (current) { current.classList.remove('ring-2', 'ring-saffron'); current = null; } };
+      // Only 'ended'/'error' clear the ring here. A 'pause' listener would
+      // misfire when SWITCHING clips: assigning player.src queues a pause
+      // event that lands after the new button's ring is applied, stripping it
+      // and breaking the new clip's pause-toggle. Explicit pauses clear the
+      // ring at the call site instead.
+      player.addEventListener('ended', clearRing);
+      player.addEventListener('error', clearRing);
+      async function getManifest() {
+        if (manifest !== null) return manifest;
+        try {
+          const r = await fetch(BASE + 'manifest.json');
+          manifest = r.ok ? await r.json() : false;
+        } catch (e) { manifest = false; }
+        if (manifest && manifest.attribution) {
+          const att = document.getElementById('akhar-attribution');
+          const clips = Object.keys(manifest).reduce((n, k) => n + (typeof manifest[k] === 'object' ? Object.keys(manifest[k]).length : 0), 0);
+          if (att && clips > 0) { att.textContent = manifest.attribution; att.hidden = false; }
+        }
+        return manifest;
+      }
+      document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('[data-akhar-audio]');
+        if (!btn) return;
+        const key = btn.getAttribute('data-akhar-audio');
+        const [cat, slug] = key.split('/');
+        if (current === btn && !player.paused) { player.pause(); clearRing(); return; }
+        const m = await getManifest();
+        const rel = m && m[cat] && m[cat][slug];
+        if (!rel) { window.suToast && window.suToast('Audio for this one is coming soon.', ''); return; }
+        clearRing();
+        current = btn;
+        btn.classList.add('ring-2', 'ring-saffron');
+        player.src = BASE + rel;
+        player.play().catch(() => { clearRing(); window.suToast && window.suToast('Could not play the audio.', 'error'); });
+      });
+    })();
+  </script>
   <script type="application/json" id="fc-words-data" set:html={JSON.stringify(gurbaniWords)}></script>
   <script>
     import { iconSvg } from '../lib/icons';
@@ -432,11 +600,11 @@ const wordCard = (w) => w;
         const mastered = deck.filter((c) => (card(c).box || 0) >= 5).length;
         const dueCount = deck.filter((c) => (topic === 'all' || c.topic === topic) && due(c)).length;
         const reviewedToday = (get('fc_today', { d: '', n: 0 }).d === today()) ? get('fc_today', { n: 0 }).n : 0;
-        const opts = ['<option value="all">All topics</option>'].concat(topics.filter((tp) => deck.some((c) => c.topic === tp.id)).map((tp) => `<option value="${tp.id}"${tp.id === topic ? ' selected' : ''}>${esc(tp.name)}</option>`)).join('');
+        const opts = ['<option value="all" data-i18n="baal.fc.alltopics">All topics</option>'].concat(topics.filter((tp) => deck.some((c) => c.topic === tp.id)).map((tp) => `<option value="${tp.id}"${tp.id === topic ? ' selected' : ''}>${esc(tp.name)}</option>`)).join('');
         const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-3 text-center"><div class="text-2xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
         let body;
         if (idx >= queue.length) {
-          body = `<div class="mt-6 rounded-xl2 border border-line bg-surface p-8 text-center"><div class="flex justify-center text-ok">${iconSvg('check-square', 'h-10 w-10')}</div><h3 class="mt-2 text-xl font-bold">Session complete</h3><p class="mt-1 text-muted">You reviewed ${queue.length} card${queue.length === 1 ? '' : 's'}. Come back tomorrow for the ones due next.</p><button id="again" class="btn btn-primary mt-4">Study again</button></div>`;
+          body = `<div class="mt-6 rounded-xl2 border border-line bg-surface p-8 text-center"><div class="flex justify-center text-ok">${iconSvg('check-square', 'h-10 w-10')}</div><h3 class="mt-2 text-xl font-bold" data-i18n="baal.fc.sessioncomplete">Session complete</h3><p class="mt-1 text-muted">You reviewed ${queue.length} card${queue.length === 1 ? '' : 's'}. Come back tomorrow for the ones due next.</p><button id="again" class="btn btn-primary mt-4" data-i18n="baal.fc.studyagain">Study again</button></div>`;
         } else {
           const c = queue[idx];
           body = `<div class="mt-6"><div id="cardbox" class="mx-auto flex min-h-[220px] max-w-xl cursor-pointer select-none flex-col items-center justify-center rounded-xl2 border border-line bg-surface p-8 text-center shadow-card">
@@ -444,15 +612,15 @@ const wordCard = (w) => w;
               ${flipped ? `<div class="mt-3 font-sans text-xs text-muted">from ${esc(c.src)}</div>` : `<div class="mt-4 font-sans text-xs text-muted">tap to reveal · ${esc(tn(c.topic))}</div>`}
             </div>
             ${flipped
-              ? `<div class="mx-auto mt-4 flex max-w-xl gap-3"><button id="g0" class="btn flex-1">↺ Review soon</button><button id="g1" class="btn btn-primary flex-1">${iconSvg('check', 'h-4 w-4')} Got it</button></div>`
-              : `<div class="mx-auto mt-4 max-w-xl text-center"><button id="flip" class="btn">Reveal answer</button></div>`}
+              ? `<div class="mx-auto mt-4 flex max-w-xl gap-3"><button id="g0" class="btn flex-1" data-i18n="baal.fc.reviewsoon">↺ Review soon</button><button id="g1" class="btn btn-primary flex-1">${iconSvg('check', 'h-4 w-4')} <span data-i18n="baal.fc.gotit">Got it</span></button></div>`
+              : `<div class="mx-auto mt-4 max-w-xl text-center"><button id="flip" class="btn" data-i18n="baal.fc.revealanswer">Reveal answer</button></div>`}
             <p class="mt-3 text-center font-sans text-xs text-muted">Card ${idx + 1} of ${queue.length} · space = flip · 1 = review · 2 = got it</p></div>`;
         }
         root.innerHTML = `
           <div class="mt-5 flex flex-wrap items-center gap-3">
-            <label class="font-sans text-sm text-muted">Topic <select id="topic" class="ml-1 rounded-lg border border-line bg-surface px-2 py-1.5 font-sans text-sm">${opts}</select></label>
+            <label class="font-sans text-sm text-muted"><span data-i18n="baal.fc.topiclabel">Topic</span> <select id="topic" class="ml-1 rounded-lg border border-line bg-surface px-2 py-1.5 font-sans text-sm">${opts}</select></label>
           </div>
-          <div class="mt-4 grid grid-cols-3 gap-3">${stat(dueCount, 'Due now')}${stat(reviewedToday, 'Reviewed today')}${stat(mastered, 'Mastered')}</div>
+          <div class="mt-4 grid grid-cols-3 gap-3">${stat(dueCount, '<span data-i18n="baal.fc.duenow">Due now</span>')}${stat(reviewedToday, '<span data-i18n="baal.fc.reviewedtoday">Reviewed today</span>')}${stat(mastered, '<span data-i18n="baal.fc.mastered">Mastered</span>')}</div>
           ${body}`;
         document.getElementById('topic').addEventListener('change', (e) => { topic = e.target.value; build(); render(); });
         const cb = document.getElementById('cardbox'); if (cb) cb.addEventListener('click', () => { flipped = !flipped; render(); });
@@ -468,9 +636,9 @@ const wordCard = (w) => w;
         else if (flipped && e.key === '1') grade(false);
         else if (flipped && e.key === '2') grade(true);
       });
-      if (!deck.length) { root.innerHTML = '<p class="mt-4 text-muted">No cards yet.</p>'; return; }
+      if (!deck.length) { root.innerHTML = '<p class="mt-4 text-muted" data-i18n="baal.fc.nocards">No cards yet.</p>'; return; }
       build(); render();
-    }).catch(() => { document.getElementById('fc').innerHTML = '<p class="mt-4 text-muted">Could not load the deck.</p>'; });
+    }).catch(() => { document.getElementById('fc').innerHTML = '<p class="mt-4 text-muted" data-i18n="baal.fc.loaderror">Could not load the deck.</p>'; });
   </script>
 
   <!-- ── Family Tree + Kakaars interactive JS ──────────────────────────────── -->
@@ -754,12 +922,12 @@ const wordCard = (w) => w;
       </div>
       <p class="text-sm leading-relaxed text-navy">${p.bio}</p>
       <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
-        ${p.born ? `<dt class="text-muted font-semibold">Born</dt><dd class="text-navy">${p.born}</dd>` : ''}
-        ${p.died ? `<dt class="text-muted font-semibold">Passed</dt><dd class="text-navy">${p.died}</dd>` : ''}
-        ${p.parents && p.parents !== '—' ? `<dt class="text-muted font-semibold">Parents</dt><dd class="text-navy">${p.parents}</dd>` : ''}
-        ${p.spouse && p.spouse !== '—' ? `<dt class="text-muted font-semibold">Spouse</dt><dd class="text-navy">${p.spouse}</dd>` : ''}
-        ${p.siblings && p.siblings !== '—' ? `<dt class="text-muted font-semibold">Siblings</dt><dd class="text-navy">${p.siblings}</dd>` : ''}
-        ${p.children && p.children !== '—' ? `<dt class="text-muted font-semibold">Children</dt><dd class="text-navy">${p.children}</dd>` : ''}
+        ${p.born ? `<dt class="text-muted font-semibold" data-i18n="baal.family.born">Born</dt><dd class="text-navy">${p.born}</dd>` : ''}
+        ${p.died ? `<dt class="text-muted font-semibold" data-i18n="baal.family.passed">Passed</dt><dd class="text-navy">${p.died}</dd>` : ''}
+        ${p.parents && p.parents !== '—' ? `<dt class="text-muted font-semibold" data-i18n="baal.family.parents">Parents</dt><dd class="text-navy">${p.parents}</dd>` : ''}
+        ${p.spouse && p.spouse !== '—' ? `<dt class="text-muted font-semibold" data-i18n="baal.family.spouse">Spouse</dt><dd class="text-navy">${p.spouse}</dd>` : ''}
+        ${p.siblings && p.siblings !== '—' ? `<dt class="text-muted font-semibold" data-i18n="baal.family.siblings">Siblings</dt><dd class="text-navy">${p.siblings}</dd>` : ''}
+        ${p.children && p.children !== '—' ? `<dt class="text-muted font-semibold" data-i18n="baal.family.children">Children</dt><dd class="text-navy">${p.children}</dd>` : ''}
       </dl>
     `);
   }
@@ -777,9 +945,9 @@ const wordCard = (w) => w;
           </div>
         </div>
         <div class="space-y-3 text-sm leading-relaxed">
-          <div><span class="font-semibold text-navy">History: </span><span class="text-muted">${k.history}</span></div>
-          <div><span class="font-semibold text-navy">Meaning: </span><span class="text-muted">${k.meaning}</span></div>
-          <div><span class="font-semibold text-navy">Significance: </span><span class="text-muted">${k.significance}</span></div>
+          <div><span class="font-semibold text-navy" data-i18n="baal.kakaar.history">History: </span><span class="text-muted">${k.history}</span></div>
+          <div><span class="font-semibold text-navy" data-i18n="baal.kakaar.meaning">Meaning: </span><span class="text-muted">${k.meaning}</span></div>
+          <div><span class="font-semibold text-navy" data-i18n="baal.kakaar.significance">Significance: </span><span class="text-muted">${k.significance}</span></div>
           <div class="mt-3 rounded-lg border-l-4 border-saffron bg-saffron/5 px-3 py-2">
             <p class="text-xs italic text-navy">${k.gurbani}</p>
           </div>

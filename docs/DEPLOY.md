@@ -1,7 +1,7 @@
 # Deploy runbook
 
-Operational reference for the live Sikh University Worker
-(`sikh-university.dosanjhlabs.com`). Architecture is described in
+Operational reference for the live Sikhi University Worker
+(`sikhiuni.com`). Architecture is described in
 [BACKEND-cloudflare.md](BACKEND-cloudflare.md).
 
 ## The moving parts
@@ -59,6 +59,21 @@ var CACHE = 'su-web-v11';   // → 'su-web-v12', etc.
 
 Incrementing it invalidates the old app-shell cache so returning clients pick up the new
 build on next load. Redeploy the site after bumping.
+
+## Domain: sikhiuni.com cutover
+The canonical domain is `sikhiuni.com`. The legacy `sikh-university.dosanjhlabs.com`
+custom domain stays bound and 301-redirects every path (preserving path + query) to the new
+domain — see [SEO.md](SEO.md) for why it must stay bound indefinitely. **Do not remove that
+route.**
+
+`wrangler deploy` auto-provisions both custom domains from `wrangler.toml`. If a deploy fails
+on a DNS conflict for `sikhiuni.com`, it means a stale/conflicting DNS record already exists
+in the Cloudflare zone — delete the conflicting record and redeploy.
+
+`MAIL_FROM` still sends from `login@dosanjhlabs.com` (already verified as a sending domain in
+Resend). To switch outbound mail to `login@sikhiuni.com`: first verify `sikhiuni.com` as a
+sending domain in Resend (SPF/DKIM records), then update `MAIL_FROM` in `wrangler.toml` and
+redeploy.
 
 ## D1 schema & migrations
 The authoritative schema is `schema.sql`. Most tables are created with `IF NOT EXISTS`, and

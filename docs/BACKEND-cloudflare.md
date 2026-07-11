@@ -1,7 +1,7 @@
 # Backend architecture — Cloudflare Worker
 
-Sikh University runs as a **single Cloudflare Worker** (`worker.js`) on a custom domain
-(`sikh-university.dosanjhlabs.com`). There is no VM and no Cloudflare Pages project — the
+Sikhi University runs as a **single Cloudflare Worker** (`worker.js`) on a custom domain
+(`sikhiuni.com`). There is no VM and no Cloudflare Pages project — the
 Worker is the whole backend and also the front door for the static site. Operational
 procedures (deploy, catalogue push, migrations, restore) live in
 [DEPLOY.md](DEPLOY.md); this file describes the architecture.

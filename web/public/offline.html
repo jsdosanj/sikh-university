@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're offline — Sikhi University</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #FBF8F1;
+    color: #16335c;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: #16335c;
+    padding: 1.25rem 1.5rem;
+  }
+  .wordmark { font-size: 1.25rem; font-weight: 700; }
+  .wordmark .sikhi { color: #ffffff; }
+  .wordmark .university { color: #f4b21a; }
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+  h1 { margin: 0 0 0.5rem; font-size: 1.5rem; }
+  p { margin: 0 0 1.5rem; max-width: 32em; opacity: 0.85; }
+  button {
+    background: #16335c;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button:hover { opacity: 0.9; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #0d1016; color: #f2ede1; }
+    button { background: #f4b21a; color: #16335c; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <span class="wordmark"><span class="sikhi">Sikhi</span> <span class="university">University</span></span>
+</header>
+<main>
+  <h1>You're offline</h1>
+  <p>Any courses you've saved for offline reading still work — everything else needs a connection.</p>
+  <button onclick="location.reload()">Try again</button>
+</main>
+</body>
+</html>

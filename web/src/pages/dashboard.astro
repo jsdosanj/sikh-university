@@ -1,10 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="My Learning — Sikh University" description="Your progress, certificates, streak and badges at Sikh University.">
+<Base title="My Learning — Sikhi University" description="Your progress, certificates, streak and badges at Sikhi University.">
   <section class="wrap py-12">
     <div id="bar"></div>
-    <div id="dash"><p class="text-muted">Loading your learning…</p></div>
+    <div id="dash"><p class="text-muted" data-i18n="dash.loading">Loading your learning…</p></div>
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
@@ -248,10 +248,10 @@ import Base from '../layouts/Base.astro';
         const goP = document.getElementById('go-profile');
         if (goP) goP.addEventListener('click', (e) => { e.preventDefault(); view = 'profile'; location.hash = '#profile'; drawView(); });
         document.getElementById('exp').addEventListener('click', () => {
-          const lines = ['# My Sikh University notes', ''];
+          const lines = ['# My Sikhi University notes', ''];
           data.courses.forEach((c) => (c.lessons || []).forEach((ls, i) => { const n = get('note_' + c.id + '_' + i, ''); if (n && n.trim()) lines.push('## ' + c.title + ' — ' + ls.title, '', n.trim(), ''); }));
           if (lines.length <= 2) lines.push('_No notes yet._');
-          const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/markdown' })); a.download = 'sikh-university-notes.md'; a.click();
+          const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/markdown' })); a.download = 'sikhi-university-notes.md'; a.click();
         });
       }
 
@@ -364,16 +364,17 @@ import Base from '../layouts/Base.astro';
         const roster = names.map((nm, i) => ({ name: nm, email: nm.toLowerCase().replace(/[^a-z]+/g, '.') + '@example.com', active: ['today', '2d ago', '1w ago', 'today', '3d ago', '5d ago', '1d ago', '2w ago'][i] }));
         const cell = (v) => `<td class="border-t border-line px-2 py-1.5">${v}</td>`;
         const gradebook = `<div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="bg-brand text-left text-white"><th class="px-2 py-2">Student</th>${taught.map((c) => `<th class="px-2 py-2" title="${esc(c.title)}">${esc(c.title.split(/[:—]/)[0].slice(0, 14))}…</th>`).join('')}<th class="px-2 py-2">Avg</th></tr></thead><tbody>${roster.map((st, i) => { const scores = taught.map((c, j) => dscore(i, j)); const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length); return `<tr class="${i % 2 ? 'bg-paper' : ''}">${cell('<strong>' + esc(st.name) + '</strong>')}${scores.map((s) => `<td class="border-t border-line px-2 py-1.5">${s}% <span class="text-muted">(${grade(s)})</span></td>`).join('')}${cell('<strong>' + avg + '%</strong>')}</tr>`; }).join('')}</tbody></table></div>`;
-        const analytics = `<h3 class="mt-10 text-xl font-bold">Course analytics</h3><div class="mt-4 space-y-3">${taught.map((c, j) => { const comp = 35 + ((j * 17) % 55); const avg = 70 + ((j * 9) % 25); return `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex flex-wrap items-baseline justify-between gap-2"><span class="font-semibold text-navy">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${(j + 1) * 9} enrolled · avg score ${avg}%</span></div><div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${comp}%"></div></div><div class="mt-1 font-sans text-xs text-muted">${comp}% completion</div></div>`; }).join('')}</div>`;
+        const analytics = `<h3 class="mt-10 text-xl font-bold">Course analytics <span class="rounded-full bg-saffron-soft text-saffron-deep font-sans text-xs px-2.5 py-0.5">Demo preview</span></h3><div class="mt-4 space-y-3">${taught.map((c, j) => { const comp = 35 + ((j * 17) % 55); const avg = 70 + ((j * 9) % 25); return `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex flex-wrap items-baseline justify-between gap-2"><span class="font-semibold text-navy">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${(j + 1) * 9} enrolled · avg score ${avg}%</span></div><div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${comp}%"></div></div><div class="mt-1 font-sans text-xs text-muted">${comp}% completion</div></div>`; }).join('')}</div>`;
         root.innerHTML = `
           <h1 class="text-3xl font-bold">Teacher dashboard</h1>
           <p class="mt-1 font-sans text-sm text-muted">Sample view for testing — figures and students are illustrative.</p>
+          <p class="mt-1 font-sans text-sm text-muted">Illustrative preview — real teacher analytics arrive with cohort enrolment.</p>
           <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(taught.length, 'Courses you teach')}${stat(96, 'Students')}${stat(38, 'Completions')}${stat('4.8' + iconSvg('star-filled', 'inline-block h-5 w-5 align-[-0.1em] text-saffron'), 'Avg. rating')}</div>
-          <h3 class="mt-10 text-xl font-bold">Gradebook</h3>
+          <h3 class="mt-10 text-xl font-bold">Gradebook <span class="rounded-full bg-saffron-soft text-saffron-deep font-sans text-xs px-2.5 py-0.5">Demo preview</span></h3>
           <p class="font-sans text-sm text-muted">Each student's test score per course, with a letter grade and class average.</p>
           ${gradebook}
           ${analytics}
-          <h3 class="mt-10 text-xl font-bold">Class roster</h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Student</th><th>Email</th><th>Last active</th></tr></thead><tbody>${roster.map((st) => `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(st.name)}</td><td>${esc(st.email)}</td><td class="text-muted">${esc(st.active)}</td></tr>`).join('')}</tbody></table></div>
+          <h3 class="mt-10 text-xl font-bold">Class roster <span class="rounded-full bg-saffron-soft text-saffron-deep font-sans text-xs px-2.5 py-0.5">Demo preview</span></h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Student</th><th>Email</th><th>Last active</th></tr></thead><tbody>${roster.map((st) => `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(st.name)}</td><td>${esc(st.email)}</td><td class="text-muted">${esc(st.active)}</td></tr>`).join('')}</tbody></table></div>
           <div class="mt-8"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
       }
     }).catch(() => { document.getElementById('dash').innerHTML = '<p class="text-muted">Could not load.</p>'; });

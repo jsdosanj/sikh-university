@@ -1,4 +1,4 @@
--- Sikh University — D1 schema
+-- Sikhi University — D1 schema
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,

@@ -1,18 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
-const SITE = 'https://sikh-university.dosanjhlabs.com';
+import { SITE } from '../lib/site';
 const updated = 'July 2026';
 ---
 <Base
-  title="AI & Content-Usage Policy — Sikh University"
-  description="How AI crawlers may use Sikh University's content: search and AI-answer citation are welcome; AI/ML training on our content is reserved and requires a license."
+  title="AI & Content-Usage Policy — Sikhi University"
+  description="How AI crawlers may use Sikhi University's content: search and AI-answer citation are welcome; AI/ML training on our content is reserved and requires a license."
 >
   <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
     <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-saffron/20 blur-3xl"></div>
     <div class="wrap relative py-16">
       <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Policy</p>
       <h1 class="mt-2 max-w-2xl text-3xl font-bold text-white sm:text-4xl">AI &amp; Content-Usage Policy</h1>
-      <p class="mt-4 max-w-2xl text-lg text-white/85">Sikh University is free and open — we want people (and the AI tools they use to find answers) to discover it. This page explains exactly how automated crawlers, including AI systems, may use our content.</p>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">Sikhi University is free and open — we want people (and the AI tools they use to find answers) to discover it. This page explains exactly how automated crawlers, including AI systems, may use our content.</p>
     </div>
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-paper"></div>
   </header>
@@ -28,7 +28,7 @@ const updated = 'July 2026';
       </ul>
 
       <h2>Why the distinction</h2>
-      <p>We built Sikh University to spread real, careful teaching of Sikhi to anyone who's curious — including the growing number of people who ask an AI assistant instead of a search engine. We're glad to be cited there. But our lessons represent real work — drafting, scholarly review, and in many places direct permission from authors and publishers (see our <a href="/legal">Terms &amp; Privacy</a>) — so we reserve the right to control whether that work is copied wholesale into a training set.</p>
+      <p>We built Sikhi University to spread real, careful teaching of Sikhi to anyone who's curious — including the growing number of people who ask an AI assistant instead of a search engine. We're glad to be cited there. But our lessons represent real work — drafting, scholarly review, and in many places direct permission from authors and publishers (see our <a href="/legal">Terms &amp; Privacy</a>) — so we reserve the right to control whether that work is copied wholesale into a training set.</p>
 
       <h2>Machine-readable signals</h2>
       <p>This policy is backed by machine-readable rules a compliant crawler can read automatically:</p>
@@ -38,10 +38,10 @@ const updated = 'July 2026';
         <li><a href="/.well-known/tdmrep.json"><code>/.well-known/tdmrep.json</code></a> — a formal reservation under the <a href="https://www.w3.org/2022/tdmrep/" target="_blank" rel="noopener">W3C TDM Reservation Protocol</a>.</li>
         <li>HTTP response headers on every page: <code>Content-Usage: train-ai=n, search=y</code>, <code>X-Robots-Tag: noai, noimageai</code>, and a <code>TDM-Reservation</code> header pointing back to this page.</li>
       </ul>
-      <p>None of this affects ordinary search-engine indexing — Sikh University wants to be found. It only opts our content out of automated AI/ML training collection.</p>
+      <p>None of this affects ordinary search-engine indexing — Sikhi University wants to be found. It only opts our content out of automated AI/ML training collection.</p>
 
       <h2>Licensing</h2>
-      <p>If you'd like to license Sikh University content for AI training or another use beyond what's described above, use the <a href="/feedback">contact form</a> to get in touch (please use the form rather than email) — pick "General feedback" and describe what you'd like to license.</p>
+      <p>If you'd like to license Sikhi University content for AI training or another use beyond what's described above, use the <a href="/feedback">contact form</a> to get in touch (please use the form rather than email) — pick "General feedback" and describe what you'd like to license.</p>
 
       <h2>Questions</h2>
       <p>For anything else, see our <a href="/legal">Terms &amp; Privacy</a>, or use the <a href="/feedback">feedback page</a> to reach us.</p>

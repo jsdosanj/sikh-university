@@ -1,4 +1,4 @@
-# Sikh University — Design System
+# Sikhi University — Design System
 
 The contract for every visual change. It exists so that many editing passes (human or
 agent) stay coherent instead of drifting back to emoji, stock blues, and template layouts.

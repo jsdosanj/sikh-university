@@ -53,7 +53,7 @@ def cited_sggs_angs():
 
 def fetch_ang(ang):
     url = f"https://api.banidb.com/v2/angs/{ang}/1"  # source 1 = SGGS
-    req = urllib.request.Request(url, headers={"User-Agent": "sikh-university-verify/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "sikhi-university-verify/1.0"})
     with urllib.request.urlopen(req, timeout=20) as r:
         d = json.loads(r.read())
     verses = d.get("page") or d.get("verses") or []

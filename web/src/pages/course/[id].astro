@@ -20,7 +20,7 @@ try {
 const profCourseCount = courses.filter((x) => x.professor === c.professor && x.status === 'published').length;
 const bio = profBio(c.professor);
 const bioShort = bio ? (bio.split('. ').slice(0, 2).join('. ').replace(/\.?$/, '.')) : '';
-const SITE = 'https://sikh-university.dosanjhlabs.com';
+import { SITE, ldJson } from '../../lib/site';
 const archive = c.topic === 'modern-skills'
   ? { url: 'https://sikharchive.net/courses', label: 'Free AI courses on Sikh Archive' }
   : { url: 'https://sikharchive.net', label: 'Dig deeper in the Sikh Archive' };
@@ -30,7 +30,7 @@ const ld = {
   '@context': 'https://schema.org', '@type': 'Course', name: c.title, description: c.summary,
   url: `${SITE}/course/${c.id}`,
   inLanguage: 'en', isAccessibleForFree: true, educationalLevel: c.level,
-  provider: { '@type': 'EducationalOrganization', name: 'Sikh University', sameAs: SITE + '/' },
+  provider: { '@type': 'EducationalOrganization', name: 'Sikhi University', sameAs: SITE + '/' },
   author: { '@type': 'Person', name: c.professor },
   offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD', category: 'Free', availability: 'https://schema.org/InStock' },
   hasCourseInstance: {
@@ -38,34 +38,42 @@ const ld = {
     courseWorkload: `PT${Math.max(1, lessons.length) * 15}M`,
     instructor: { '@type': 'Person', name: c.professor },
   },
+  hasPart: lessons.map((l) => ({
+    '@type': 'LearningResource', name: l.title, learningResourceType: 'Lesson',
+    inLanguage: 'en', isAccessibleForFree: true,
+  })),
 };
 const breadcrumb = {
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Sikh University', item: SITE + '/' },
+    { '@type': 'ListItem', position: 1, name: 'Sikhi University', item: SITE + '/' },
     { '@type': 'ListItem', position: 2, name: 'Catalogue', item: SITE + '/catalog' },
     { '@type': 'ListItem', position: 3, name: topicName(c.topic), item: `${SITE}/catalog#${c.topic}` },
     { '@type': 'ListItem', position: 4, name: c.title, item: `${SITE}/course/${c.id}` },
   ],
 };
 ---
-<Base title={`${c.title} — Sikh University`} description={c.summary} ogType="article" autoTranslate={false}>
-  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} slot="head" />
+<Base title={`${c.title} — Sikhi University`} description={c.summary} ogType="article" autoTranslate={false}>
+  <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
+  <script type="application/ld+json" set:html={ldJson(breadcrumb)} slot="head" />
+
+  <div id="read-progress" aria-hidden="true" class="fixed left-0 z-30 h-[3px] bg-saffron" style="top:0;width:0"></div>
 
   <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
-    <div class="wrap py-12">
+    <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
+    <div class="wrap relative z-10 py-12">
       <div class="flex flex-wrap items-center gap-2 font-sans text-xs">
-        <a href="/catalog" class="text-white/70 hover:text-white">← Catalogue</a>
+        <a href="/catalog" class="text-white/70 hover:text-white" data-i18n="course.breadcrumb">← Catalogue</a>
         <span class="pill bg-white/15 text-white">{topicName(c.topic)}</span>
         <span class="pill bg-white/15 text-white">{c.level} level</span>
-        {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]">Created by AI</span>}
-        {quotesVerified && <a href="/integrity" class="pill bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji">Quotes verified</a>}
+        {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]" data-i18n="course.aibadge">Created by AI</span>}
+        {quotesVerified && <a href="/integrity" class="pill bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji" data-i18n="course.verified">Quotes verified</a>}
       </div>
-      <h1 class="mt-3 max-w-3xl text-3xl font-bold text-white sm:text-4xl">{c.title}</h1>
-      <p class="mt-2 font-sans text-sm text-white/75">Professor: <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> · Source: {c.source || 'Sikh University'}</p>
+      <p class="eyebrow mt-5 text-saffron">{topicName(c.topic)}</p>
+      <h1 class="mt-2 max-w-3xl text-display-sm font-bold text-white">{c.title}</h1>
+      <p class="mt-3 font-sans text-sm text-white/75"><span data-i18n="course.professorlabel">Professor:</span> <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> <span aria-hidden="true" class="px-1 text-white/40">·</span> <span data-i18n="course.sourcelabel">Source:</span> {c.source || 'Sikhi University'}</p>
       <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
-      <div class="mt-6 flex flex-wrap items-center gap-3">
+      <div class="mt-7 flex flex-wrap items-center gap-3">
         <a href="#lesson-0" class="btn btn-primary" data-i18n="course.begin">Begin course</a>
         <button id="enroll-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20">Enroll</button>
         <button id="offline-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"><Icon name="download" class="h-4 w-4" /><span id="offline-lbl">Save offline</span></button>
@@ -79,13 +87,13 @@ const breadcrumb = {
     <div>
       {c.aiCreated && (
         <div class="mb-6 rounded-xl2 border border-line bg-saffron-soft/50 p-4 font-sans text-sm">
-          <strong>Created by AI.</strong> Drafted with AI and reviewed for accuracy. Spotted an error? <a class="underline" href="/feedback">Tell us</a>.
+          <strong data-i18n="course.ai.badge">Created by AI.</strong> <span data-i18n="course.ai.desc">Drafted with AI and reviewed for accuracy. Spotted an error?</span> <a class="underline" href="/feedback" data-i18n="course.ai.link">Tell us</a>.
         </div>
       )}
 
       {c.level >= 200 && (
         <div class="mb-6 rounded-xl2 border border-line bg-surface p-4 font-sans text-sm text-muted">
-          <strong class="text-navy">Prerequisite recommended.</strong>{' '}
+          <strong class="text-navy" data-i18n="course.prereq.badge">Prerequisite recommended.</strong>{' '}
           {c.level === 200 && <>This is a 200-level course. To get the most out of it, we recommend completing the <a class="underline text-navy" href="/catalog">100-level courses</a> first.</>}
           {c.level === 300 && <>This is a 300-level course. We recommend completing <a class="underline text-navy" href="/catalog">200-level courses</a> before diving in — they build the foundation this course assumes.</>}
           {c.level === 400 && <>This is a 400-level course. You'll get the most from it after completing <a class="underline text-navy" href="/catalog">300-level courses</a>, which cover the concepts this course builds on.</>}
@@ -94,8 +102,8 @@ const breadcrumb = {
       )}
 
       {c.outcomes && c.outcomes.length > 0 && (
-        <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">What you'll learn</h2>
+        <section class="reveal mb-8">
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.outcomes.h">What you'll learn</h2>
           <ul class="mt-3 grid gap-2 sm:grid-cols-2">
             {c.outcomes.map((o) => <li class="relative pl-6"><Icon name="check" class="absolute left-0 top-1 h-4 w-4 text-ok" /><span set:html={o} /></li>)}
           </ul>
@@ -104,10 +112,10 @@ const breadcrumb = {
 
       {c.terms && c.terms.length > 0 && (
         <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Key terms — ਸ਼ਬਦਾਵਲੀ</h2>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.terms.h">Key terms —</span> ਸ਼ਬਦਾਵਲੀ</h2>
           <div class="mt-3 overflow-x-auto">
             <table class="w-full border-collapse text-[0.95rem]">
-              <thead><tr><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Term</th><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white">Academic context</th></tr></thead>
+              <thead><tr><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white" data-i18n="course.terms.col.term">Term</th><th class="border border-line bg-brand p-2 text-left font-sans text-xs text-white" data-i18n="course.terms.col.context">Academic context</th></tr></thead>
               <tbody>{c.terms.map((t) => <tr class="even:bg-paper"><td class="border border-line p-2 align-top"><span class="font-semibold" set:html={t.t} /></td><td class="border border-line p-2 align-top break-words">{t.m}</td></tr>)}</tbody>
             </table>
           </div>
@@ -116,27 +124,27 @@ const breadcrumb = {
 
       {c.terms && c.terms.length > 0 && (
         <section id="flashcards" class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Flashcards — ਕਾਰਡ ਅਭਿਆਸ</h2>
-          <p class="mt-1 font-sans text-sm text-muted">Click a card to flip it and reveal the definition.</p>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.flashcards.h">Flashcards —</span> ਕਾਰਡ ਅਭਿਆਸ</h2>
+          <p class="mt-1 font-sans text-sm text-muted" data-i18n="course.flashcards.sub">Click a card to flip it and reveal the definition.</p>
           <div class="mt-4 relative">
             <!-- Card display -->
-            <div id="fc-card" class="cursor-pointer select-none rounded-xl2 border border-line bg-surface shadow-card min-h-[160px] flex flex-col items-center justify-center p-8 text-center transition-all hover:border-saffron" role="button" aria-label="Flip card" tabindex="0">
+            <div id="fc-card" class="cursor-pointer select-none rounded-xl2 border border-line bg-surface shadow-card min-h-[160px] flex flex-col items-center justify-center p-8 text-center transition-all hover:border-saffron" role="button" aria-label="Flip card" data-i18n-aria="course.flashcards.flipAria" tabindex="0">
               <div id="fc-front" class="text-lg font-bold text-navy"></div>
               <div id="fc-back" class="hidden mt-3 text-[0.95rem] text-muted leading-relaxed"></div>
               <div id="fc-hint" class="mt-4 font-sans text-xs text-muted/60">Click to reveal</div>
             </div>
             <!-- Navigation -->
             <div class="mt-4 flex items-center justify-between gap-3">
-              <button id="fc-prev" class="btn font-sans text-sm px-4 py-1.5">← Prev</button>
+              <button id="fc-prev" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.prev">← Prev</button>
               <div class="flex items-center gap-3">
                 <span id="fc-counter" class="font-sans text-sm text-muted"></span>
-                <button id="fc-known" class="btn btn-primary font-sans text-sm px-4 py-1.5">Mark learned <Icon name="check" class="h-4 w-4" /></button>
+                <button id="fc-known" class="btn btn-primary font-sans text-sm px-4 py-1.5"><span data-i18n="course.flashcards.marklearned">Mark learned</span> <Icon name="check" class="h-4 w-4" /></button>
               </div>
-              <button id="fc-next" class="btn font-sans text-sm px-4 py-1.5">Next →</button>
+              <button id="fc-next" class="btn font-sans text-sm px-4 py-1.5" data-i18n="course.flashcards.next">Next →</button>
             </div>
             <div class="mt-3 flex items-center justify-between">
               <div id="fc-progress" class="font-sans text-xs text-muted"></div>
-              <button id="fc-reset" class="font-sans text-xs text-muted hover:text-saffron-deep underline">Reset progress</button>
+              <button id="fc-reset" class="font-sans text-xs text-muted hover:text-saffron-deep underline" data-i18n="course.flashcards.reset">Reset progress</button>
             </div>
           </div>
         </section>
@@ -144,19 +152,30 @@ const breadcrumb = {
 
       <div id="course-ann" class="mb-8 empty:mb-0"></div>
 
-      <section class="mb-8">
-        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Lessons</h2>
-        <div class="mt-4 space-y-4">
+      <section class="reveal mb-8">
+        <div class="flex flex-wrap items-end justify-between gap-3 border-b-2 border-saffron-soft pb-1">
+          <h2 class="text-xl font-bold" data-i18n="course.lessons.h">Lessons</h2>
+          <div class="relative" id="tts-settings-wrap" hidden>
+            <button id="tts-settings" class="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 font-sans text-xs text-muted hover:border-saffron hover:text-navy" aria-expanded="false" aria-controls="tts-panel"><Icon name="volume" class="h-3.5 w-3.5" /><span data-i18n="course.tts.settings">Voice &amp; speed</span></button>
+            <div id="tts-panel" class="absolute right-0 z-20 mt-2 hidden w-64 rounded-xl2 border border-line bg-surface p-3 shadow-lift">
+              <label class="block font-sans text-xs font-semibold text-muted" for="tts-voice"><span data-i18n="course.tts.voice">Reading voice</span></label>
+              <select id="tts-voice" class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm"></select>
+              <label class="mt-3 block font-sans text-xs font-semibold text-muted" for="tts-rate"><span data-i18n="course.tts.speed">Speed</span> · <span id="tts-rate-val">1×</span></label>
+              <input id="tts-rate" type="range" min="0.6" max="1.4" step="0.05" class="mt-1 w-full accent-[#f4b21a]" />
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 space-y-6">
           {lessons.map((ls, i) => (
             <article id={`lesson-${i}`} class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
               <div class="flex items-start justify-between gap-3">
                 <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
-                <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl">Listen</span></button>
+                <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl" data-i18n="course.listen">Listen</span></button>
               </div>
-              <div class="lesson-prose mt-3 leading-relaxed" set:html={ls.html} />
+              <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed" set:html={ls.html} />
               <div class="mt-4 border-t border-dashed border-line pt-3">
-                <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" />Your notes — saved on this device</label>
-                <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…"></textarea>
+                <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" /><span data-i18n="course.notes.label">Your notes — saved on this device</span></label>
+                <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…" data-i18n-ph="course.notes.ph"></textarea>
                 <button data-done={i} class="mt-2 rounded-lg border border-line px-3 py-1.5 font-sans text-sm hover:border-saffron">Mark complete</button>
               </div>
             </article>
@@ -165,15 +184,15 @@ const breadcrumb = {
       </section>
 
       <section id="gurbani-refs" class="mb-8 hidden">
-        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">Gurbani Verses — <span class="gur text-saffron-deep">ਗੁਰਬਾਣੀ</span></h2>
-        <p class="mt-1 font-sans text-sm text-muted">Lines from Sri Guru Granth Sahib Ji referenced in this course.{quotesVerified ? <> Every quoted shabad here is <a class="underline" href="/integrity">machine-verified</a> against the canonical text.</> : null}</p>
+        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.gurbani.h">Gurbani Verses —</span> <span class="gur text-saffron-deep">ਗੁਰਬਾਣੀ</span></h2>
+        <p class="mt-1 font-sans text-sm text-muted"><span data-i18n="course.gurbani.sub">Lines from Sri Guru Granth Sahib Ji referenced in this course.</span>{quotesVerified ? <> Every quoted shabad here is <a class="underline" href="/integrity">machine-verified</a> against the canonical text.</> : null}</p>
         <div id="gurbani-refs-list" class="mt-4 space-y-3"></div>
       </section>
 
       {quiz.length > 0 && (
-        <section id="test" class="mb-8 rounded-xl2 border border-line bg-surface p-6 shadow-card">
-          <h2 class="text-xl font-bold">Course test</h2>
-          <p class="font-sans text-sm text-muted">Pass with 80% or higher to complete the course and unlock the next one.</p>
+        <section id="test" class="reveal mb-8 rounded-xl2 border border-line bg-surface p-6 shadow-card">
+          <h2 class="text-xl font-bold" data-i18n="course.quiz.h">Course test</h2>
+          <p class="font-sans text-sm text-muted" data-i18n="course.quiz.sub">Pass with 80% or higher to complete the course and unlock the next one.</p>
           <form id="quiz" class="mt-4 space-y-5">
             {quiz.map((qq, i) => (
               <fieldset><legend class="font-semibold">{i + 1}. {qq.q}</legend>
@@ -183,21 +202,21 @@ const breadcrumb = {
               </fieldset>
             ))}
           </form>
-          <button id="quiz-submit" class="btn btn-primary mt-4">Submit test</button>
+          <button id="quiz-submit" class="btn btn-primary mt-4" data-i18n="course.quiz.submit">Submit test</button>
           <div id="quiz-result" class="mt-4"></div>
         </section>
       )}
 
       {c.references && c.references.length > 0 && (
         <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">References &amp; further reading</h2>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.refs.h">References &amp; further reading</h2>
           <ol class="mt-3 list-decimal space-y-2 pl-5 font-sans text-sm text-muted">{c.references.map((r) => <li>{r}</li>)}</ol>
         </section>
       )}
 
       {c.sourceText && (
         <section class="mb-8">
-          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold">From the source text</h2>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.sourcetext.h">From the source text</h2>
           <figure class="mt-3 rounded-xl2 border border-line bg-paper p-5">
             {c.sourceText.gurmukhi && (
               <blockquote lang="pa" class="border-l-4 border-saffron pl-4 text-lg leading-loose text-navy">{c.sourceText.gurmukhi}</blockquote>
@@ -213,29 +232,29 @@ const breadcrumb = {
                   ? " This is the author's original Gurmukhi text (OCR), shown as a study excerpt — OCR may contain errors."
                   : ' Shown as a short study excerpt — refer to the original for an authoritative reading.'}
               {c.sourceText.sikhArchiveUrl
-                ? <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener">Read the full work on Sikh Archive ↗</a>
-                : <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.url} target="_blank" rel="noopener">Read the full work on SikhLibrary ↗</a>}
+                ? <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener" data-i18n="course.sourcetext.readarchive">Read the full work on Sikh Archive ↗</a>
+                : <a class="ml-1 font-semibold text-navy underline" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.sourcetext.readsikhlibrary">Read the full work on SikhLibrary ↗</a>}
               {c.sourceText.sikhArchiveUrl && (
-                <a class="ml-1 text-muted underline" href={c.sourceText.url} target="_blank" rel="noopener">(or on SikhLibrary ↗)</a>
+                <a class="ml-1 text-muted underline" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.sourcetext.orsikhlibrary">(or on SikhLibrary ↗)</a>
               )}
             </figcaption>
           </figure>
         </section>
       )}
 
-      <section class="rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
-        <h2 class="text-xl font-bold">Read the source texts</h2>
-        <p class="mt-1">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
+      <section class="reveal rounded-xl2 border border-line bg-gradient-to-br from-saffron-soft to-surface p-6">
+        <h2 class="text-xl font-bold" data-i18n="course.readsource.h">Read the source texts</h2>
+        <p class="mt-1" data-i18n="course.readsource.sub">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
         <div class="mt-3 flex flex-wrap gap-3">
-          <a class="btn" href="/santhiya?src=sggs"><Icon name="book" class="h-4 w-4" />Read Gurbani (reader)</a>
+          <a class="btn" href="/santhiya?src=sggs"><Icon name="book" class="h-4 w-4" /><span data-i18n="course.readsource.readgurbani">Read Gurbani (reader)</span></a>
           {c.sourceText?.sikhArchiveUrl && (
-            <a class="btn" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener"><Icon name="books" class="h-4 w-4" />Read this work on Sikh Archive ↗</a>
+            <a class="btn" href={c.sourceText.sikhArchiveUrl} target="_blank" rel="noopener"><Icon name="books" class="h-4 w-4" /><span data-i18n="course.readsource.readarchive">Read this work on Sikh Archive ↗</span></a>
           )}
           {c.sourceText && c.sourceText.url && (
-            <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener">This work on SikhLibrary ↗</a>
+            <a class="btn" href={c.sourceText.url} target="_blank" rel="noopener" data-i18n="course.readsource.thiswork">This work on SikhLibrary ↗</a>
           )}
           {(c.sourceText || (c.source && c.source.indexOf('SikhLibrary') !== -1)) && (
-            <a class="btn" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener">SikhLibrary dataset ↗</a>
+            <a class="btn" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener" data-i18n="course.readsource.dataset">SikhLibrary dataset ↗</a>
           )}
           <a class="btn" href={archive.url} target="_blank" rel="noopener">{archive.label} →</a>
         </div>
@@ -243,20 +262,20 @@ const breadcrumb = {
     </div>
 
     <aside class="lg:sticky lg:top-20 lg:self-start">
-      <div class="mb-4 rounded-xl2 border border-line bg-surface p-5 shadow-card">
-        <div class="font-sans text-xs uppercase tracking-wide text-muted">Your professor</div>
+      <div class="card-lift mb-4">
+        <div class="eyebrow text-muted" data-i18n="course.prof.eyebrow">Your professor</div>
         <div class="mt-3 flex items-center gap-3">
           <a href={`/professor/${profSlug(c.professor)}`} class="shrink-0"><Avatar name={c.professor} size={56} /></a>
           <div class="min-w-0">
             <a href={`/professor/${profSlug(c.professor)}`} class="block font-bold text-navy hover:text-saffron-deep">{c.professor}</a>
-            <div class="font-sans text-xs text-muted">{profCourseCount} course{profCourseCount === 1 ? '' : 's'} at Sikh University</div>
+            <div class="font-sans text-xs text-muted">{profCourseCount} course{profCourseCount === 1 ? '' : 's'} at Sikhi University</div>
           </div>
         </div>
         {bioShort && <p class="mt-3 text-[0.9rem] leading-relaxed text-muted">{bioShort}</p>}
-        <a href={`/professor/${profSlug(c.professor)}`} class="mt-3 inline-block font-sans text-sm font-semibold text-saffron-deep hover:underline">View profile →</a>
+        <a href={`/professor/${profSlug(c.professor)}`} class="mt-3 inline-block font-sans text-sm font-semibold text-saffron-deep hover:underline" data-i18n="course.prof.viewprofile">View profile →</a>
       </div>
-      <div class="rounded-xl2 border border-line bg-surface p-5 shadow-card">
-        <div class="font-sans text-xs uppercase tracking-wide text-muted">Your progress</div>
+      <div class="card-lift">
+        <div class="eyebrow text-muted" data-i18n="course.progress.eyebrow">Your progress</div>
         <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div id="prog-bar" class="h-full bg-saffron" style="width:0%"></div></div>
         <div id="prog-text" class="mt-1 font-sans text-xs text-muted">0% complete</div>
         <ol class="mt-4 space-y-1 font-sans text-sm">
@@ -266,24 +285,24 @@ const breadcrumb = {
     </aside>
   </div>
 
-  <section class="wrap pb-14">
+  <section class="reveal wrap pb-14">
     <div class="grid gap-10 lg:grid-cols-2">
-      <div>
-        <h2 class="text-xl font-bold">Rate this course</h2>
+      <div class="card-lift">
+        <h2 class="text-xl font-bold" data-i18n="course.rate.h">Rate this course</h2>
         <div id="rate-summary" class="mt-1 font-sans text-sm text-muted">…</div>
-        <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" class="mt-2 flex gap-1 text-3xl text-saffron">
-          <button type="button" data-s="1" aria-label="1 star"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="2" aria-label="2 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="3" aria-label="3 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="4" aria-label="4 stars"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="5" aria-label="5 stars"><Icon name="star" class="h-7 w-7" /></button>
+        <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" data-i18n-aria="course.rate.groupAria" class="mt-2 flex gap-1 text-3xl text-saffron">
+          <button type="button" data-s="1" aria-label="1 star" data-i18n-aria="course.rate.star1"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="2" aria-label="2 stars" data-i18n-aria="course.rate.star2"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="3" aria-label="3 stars" data-i18n-aria="course.rate.star3"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="4" aria-label="4 stars" data-i18n-aria="course.rate.star4"><Icon name="star" class="h-7 w-7" /></button><button type="button" data-s="5" aria-label="5 stars" data-i18n-aria="course.rate.star5"><Icon name="star" class="h-7 w-7" /></button>
         </div>
-        <textarea id="rate-review" rows="2" aria-label="Optional written review" placeholder="Optional review…" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
-        <button id="rate-submit" class="btn btn-primary mt-2">Submit rating</button>
+        <textarea id="rate-review" rows="2" aria-label="Optional written review" data-i18n-aria="course.rate.reviewAria" placeholder="Optional review…" data-i18n-ph="course.rate.reviewPh" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
+        <button id="rate-submit" class="btn btn-primary mt-2" data-i18n="course.rate.submit">Submit rating</button>
         <div id="rate-msg" class="mt-2 font-sans text-sm"></div>
       </div>
-      <div>
-        <h2 class="text-xl font-bold">Discussion &amp; Q&amp;A</h2>
+      <div class="card-lift">
+        <h2 class="text-xl font-bold" data-i18n="course.discussion.h">Discussion &amp; Q&amp;A</h2>
         <div id="disc-list" class="mt-3 space-y-2"></div>
-        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" placeholder="Ask a question or share a thought…" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm"></textarea>
-        <button id="disc-submit" class="btn mt-2">Post</button>
-        <div id="disc-note" class="mt-1 font-sans text-xs text-muted">Sign in to post.</div>
+        <textarea id="disc-msg" rows="2" aria-label="Your question or comment" data-i18n-aria="course.discussion.msgAria" placeholder="Ask a question or share a thought…" data-i18n-ph="course.discussion.msgPh" class="mt-3 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
+        <button id="disc-submit" class="btn mt-2" data-i18n="course.discussion.post">Post</button>
+        <div id="disc-note" class="mt-1 font-sans text-xs text-muted" data-i18n="course.discussion.signinnote">Sign in to post.</div>
       </div>
     </div>
   </section>
@@ -357,23 +376,25 @@ const breadcrumb = {
         navigator.serviceWorker.controller.postMessage({ type: 'cache-pack', id: id, urls: Array.from(new Set(urls)) });
       });
     })();
-    // Lesson audio narration (E8): read a lesson's prose aloud via the browser's speech
-    // engine. Gurmukhi (.gur/.shabad/gurbani blockquotes) is stripped so an English voice
-    // never mispronounces Gurbani; the English translations that follow are read instead.
-    // Chunked by sentence so long lessons don't hit the browser's utterance cutoff.
-    (function () {
+    // Lesson audio narration (E8), via the shared TTS engine (lib/tts): smart
+    // voice picking + tuned rate/pitch + natural sentence pauses. Gurmukhi
+    // (.gur/.shabad/gurbani blockquotes) is stripped so a voice never
+    // mispronounces Gurbani; the English translations that follow are read.
+    (async function () {
+      const tts = await import('../../lib/tts');
       const buttons = Array.from(document.querySelectorAll('[data-listen]'));
       if (!buttons.length) return;
-      if (!('speechSynthesis' in window)) { buttons.forEach((b) => b.remove()); return; }
-      let playing = null, gen = 0;
+      if (!tts.supported()) { buttons.forEach((b) => b.remove()); return; }
+      let playing = null;
       const label = (b, t) => { const l = b.querySelector('.listen-lbl'); if (l) l.textContent = t; b.setAttribute('aria-label', (t === 'Stop' ? 'Stop reading lesson ' : 'Listen to lesson ') + (Number(b.getAttribute('data-listen')) + 1)); };
-      const stopAll = () => { speechSynthesis.cancel(); gen++; buttons.forEach((b) => label(b, 'Listen')); playing = null; };
+      const stopAll = () => { tts.stop(); buttons.forEach((b) => label(b, 'Listen')); playing = null; };
       const readable = (art) => {
         const p = art && art.querySelector('.lesson-prose'); if (!p) return '';
         const clone = p.cloneNode(true);
         clone.querySelectorAll('.gur, .shabad, blockquote.gurbani, [lang="pa"]').forEach((n) => n.remove());
         return (clone.innerText || '').replace(/\s+/g, ' ').trim();
       };
+      const uiLang = () => (document.documentElement.getAttribute('lang') === 'pa' ? 'pa-IN' : 'en-US');
       buttons.forEach((btn) => {
         const i = btn.getAttribute('data-listen');
         btn.addEventListener('click', () => {
@@ -381,20 +402,41 @@ const breadcrumb = {
           stopAll();
           const text = readable(document.getElementById('lesson-' + i));
           if (!text) { window.suToast && window.suToast('This lesson has nothing to read aloud.', 'error'); return; }
-          const lang = document.documentElement.getAttribute('lang') === 'pa' ? 'pa-IN' : 'en-US';
-          const chunks = text.match(/[^.?!।॥]+[.?!।॥]*/g) || [text];
-          let k = 0;
-          const myGen = ++gen;
-          const next = () => {
-            if (myGen !== gen || k >= chunks.length) { if (myGen === gen) stopAll(); return; }
-            const u = new SpeechSynthesisUtterance(chunks[k++].trim());
-            u.lang = lang; u.onend = next; u.onerror = next;
-            speechSynthesis.speak(u);
-          };
-          playing = i; label(btn, 'Stop'); next();
+          playing = i; label(btn, 'Stop');
+          tts.speak(text, { lang: uiLang(), onend: () => { if (playing === i) stopAll(); } });
         });
       });
-      window.addEventListener('pagehide', () => { try { speechSynthesis.cancel(); } catch (e) {} });
+
+      // Voice & speed popover (persisted via the shared engine's su_v1_tts prefs).
+      const wrap = document.getElementById('tts-settings-wrap');
+      const toggle = document.getElementById('tts-settings');
+      const panel = document.getElementById('tts-panel');
+      const voiceSel = document.getElementById('tts-voice');
+      const rate = document.getElementById('tts-rate');
+      const rateVal = document.getElementById('tts-rate-val');
+      if (wrap && toggle && panel && voiceSel && rate) {
+        wrap.hidden = false;
+        rate.value = String(tts.getRate());
+        rateVal.textContent = tts.getRate().toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + '×';
+        toggle.addEventListener('click', async () => {
+          const open = panel.classList.toggle('hidden');
+          toggle.setAttribute('aria-expanded', String(!open));
+          if (!open && !voiceSel.options.length) {
+            const voices = await tts.listVoices(uiLang());
+            if (!voices.length) { voiceSel.innerHTML = '<option value="">System default</option>'; return; }
+            voiceSel.innerHTML = '<option value="">Automatic (best available)</option>' +
+              voices.map((v) => `<option value="${v.voiceURI.replace(/"/g, '&quot;')}">${v.name} (${v.lang})</option>`).join('');
+          }
+        });
+        voiceSel.addEventListener('change', () => { if (voiceSel.value) tts.setPreferredVoice(uiLang(), voiceSel.value); });
+        rate.addEventListener('input', () => {
+          tts.setRate(parseFloat(rate.value));
+          rateVal.textContent = parseFloat(rate.value).toFixed(2).replace(/0+$/, '').replace(/\.$/, '') + '×';
+        });
+        document.addEventListener('click', (e) => {
+          if (!wrap.contains(e.target) && !panel.classList.contains('hidden')) { panel.classList.add('hidden'); toggle.setAttribute('aria-expanded', 'false'); }
+        });
+      }
     })();
     function recordActivity() { set('last_course', id); const a = get('activity', []); const d = new Date(); const t = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); if (a[a.length - 1] !== t) { a.push(t); set('activity', a); } }
     function refresh() {
@@ -482,14 +524,33 @@ const breadcrumb = {
       var id = JSON.parse(document.getElementById('course-data').textContent).id;
       var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
       var api = function (p, o) { return fetch(p, Object.assign({ credentials: 'same-origin', headers: { 'content-type': 'application/json' } }, o || {})).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }).catch(function () { return { ok: r.ok, d: {} }; }); }); };
+      // Relative-time helper for discussion post timestamps (falls back to the raw value on parse failure).
+      function timeAgo(ts) {
+        var d = new Date(ts);
+        if (isNaN(d.getTime())) return String(ts);
+        var s = Math.floor((Date.now() - d.getTime()) / 1000);
+        if (s < 60) return 'just now';
+        var m = Math.floor(s / 60); if (m < 60) return m + (m === 1 ? ' minute ago' : ' minutes ago');
+        var h = Math.floor(m / 60); if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago');
+        var days = Math.floor(h / 24); if (days < 30) return days + (days === 1 ? ' day ago' : ' days ago');
+        var mo = Math.floor(days / 30); if (mo < 12) return mo + (mo === 1 ? ' month ago' : ' months ago');
+        var y = Math.floor(mo / 12); return y + (y === 1 ? ' year ago' : ' years ago');
+      }
       // Ratings
       var stars = 0;
       function paint(n) { document.querySelectorAll('#rate-stars button').forEach(function (x, i) { x.innerHTML = iconSvg(i < n ? 'star-filled' : 'star', 'h-7 w-7'); }); }
-      document.querySelectorAll('#rate-stars button').forEach(function (b) { b.onclick = function () { stars = +b.dataset.s; paint(stars); }; });
+      document.querySelectorAll('#rate-stars button').forEach(function (b) {
+        b.onclick = function () { stars = +b.dataset.s; paint(stars); };
+        // Hover preview: fill stars up to the hovered one, then revert to the selected value.
+        b.addEventListener('mouseenter', function () { paint(+b.dataset.s); });
+      });
+      var starsGroup = document.getElementById('rate-stars');
+      if (starsGroup) starsGroup.addEventListener('mouseleave', function () { paint(stars); });
       function loadRating() { api('/api/ratings?courseId=' + encodeURIComponent(id)).then(function (r) { if (r.ok) document.getElementById('rate-summary').innerHTML = r.d.count ? (iconSvg('star-filled', 'inline-block h-4 w-4 align-[-0.15em] text-saffron') + ' ' + r.d.avg + ' · ' + r.d.count + ' rating' + (r.d.count == 1 ? '' : 's')) : 'No ratings yet — be the first.'; }); }
       loadRating();
       document.getElementById('rate-submit').onclick = function () {
         if (!stars) { document.getElementById('rate-msg').textContent = 'Pick a star rating.'; return; }
+        paint(stars); // optimistic: show the submitted rating filled immediately
         api('/api/ratings', { method: 'POST', body: JSON.stringify({ courseId: id, stars: stars, review: document.getElementById('rate-review').value }) }).then(function (r) {
           document.getElementById('rate-msg').innerHTML = r.ok ? '<span class="text-ok">Thank you for rating.</span>' : esc((r.d && r.d.error) || 'Please sign in to rate.');
           if (r.ok) loadRating();
@@ -499,7 +560,11 @@ const breadcrumb = {
       function loadDisc() {
         api('/api/discussions?courseId=' + encodeURIComponent(id)).then(function (r) {
           var m = (r.d && r.d.messages) || [];
-          document.getElementById('disc-list').innerHTML = m.length ? m.map(function (x) { return '<div class="rounded-lg border border-line bg-surface p-3"><div class="font-sans text-xs text-muted">' + esc(x.name || 'Learner') + '</div><div class="mt-0.5 text-sm">' + esc(x.message) + '</div></div>'; }).join('') : '<p class="text-sm text-muted">No messages yet — start the conversation.</p>';
+          document.getElementById('disc-list').innerHTML = m.length ? m.map(function (x) {
+            var name = x.name || 'Learner';
+            var initial = name.trim().charAt(0).toUpperCase() || 'L';
+            return '<div class="rounded-lg border border-line bg-surface p-3"><div class="flex items-center gap-2"><span class="h-7 w-7 shrink-0 rounded-full bg-navy text-white grid place-items-center font-sans text-xs" aria-hidden="true">' + esc(initial) + '</span><div class="font-sans text-xs text-muted">' + esc(name) + (x.created_at ? ' · ' + esc(timeAgo(x.created_at)) : '') + '</div></div><div class="mt-0.5 text-sm">' + esc(x.message) + '</div></div>';
+          }).join('') : '<p class="text-sm text-muted">No messages yet — start the conversation.</p>';
         });
       }
       loadDisc();
@@ -603,5 +668,31 @@ const breadcrumb = {
         li.appendChild(a);
       });
     });
+  </script>
+
+  <script>
+    // Reading-progress indicator: a slim saffron bar under the nav that tracks
+    // scroll depth. rAF-throttled; no CSS transition, so it stays exact under
+    // prefers-reduced-motion (a progress indicator may update, per the brief).
+    (function () {
+      var bar = document.getElementById('read-progress');
+      if (!bar) return;
+      // Re-home the bar on <body>: it renders inside <main>, whose entry
+      // animation transforms it into a containing block, which would briefly
+      // mis-anchor a fixed descendant.
+      document.body.appendChild(bar);
+      var nav = document.querySelector('nav');
+      var place = function () { bar.style.top = (nav ? nav.offsetHeight : 0) + 'px'; };
+      var ticking = false;
+      var update = function () {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+        bar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+        ticking = false;
+      };
+      window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      window.addEventListener('resize', function () { place(); update(); });
+      place(); update();
+    })();
   </script>
 </Base>

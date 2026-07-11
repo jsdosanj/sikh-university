@@ -6,17 +6,17 @@
 // verify-gurbani (so public/data/verification.json already exists).
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const SITE = 'https://sikh-university.dosanjhlabs.com';
+const SITE = 'https://sikhiuni.com';
 
 const src = JSON.parse(readFileSync('../site/assets/data/courses.json', 'utf-8'));
 const courses = src.courses || [];
 const verification = JSON.parse(readFileSync('public/data/verification.json', 'utf-8'));
 
 const dataset = {
-  name: 'Sikh University open dataset',
-  description: "Course catalogue metadata (titles, topics, levels, professors, summaries, outcomes, lesson titles) and the Gurbani-quote verification report from Sikh University, a free and open Sikhi + modern-skills LMS. Canonical Sri Guru Granth Sahib Ji text is NOT included — it is referenced via BaniDB, never redistributed.",
+  name: 'Sikhi University open dataset',
+  description: "Course catalogue metadata (titles, topics, levels, professors, summaries, outcomes, lesson titles) and the Gurbani-quote verification report from Sikhi University, a free and open Sikhi + modern-skills LMS. Canonical Sri Guru Granth Sahib Ji text is NOT included — it is referenced via BaniDB, never redistributed.",
   license: 'CC-BY-4.0',
-  attribution: ['Sikh University (sikh-university.dosanjhlabs.com), CC BY 4.0'],
+  attribution: ['Sikhi University (sikhiuni.com), CC BY 4.0'],
   homepage: `${SITE}/open-data`,
   // No Date.now() — the build must stay deterministic. Only stamped when a CI commit
   // SHA is available; omitted entirely on local builds.

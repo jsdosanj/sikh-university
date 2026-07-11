@@ -1,32 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Feedback — Sikh University" description="Share feedback, report an error, or suggest a course at Sikh University.">
+<Base title="Feedback — Sikhi University" description="Share feedback, report an error, or suggest a course at Sikhi University.">
   <section class="wrap max-w-xl py-14">
-    <h1 class="text-3xl font-bold">Share your feedback</h1>
-    <p class="mt-2 text-lg text-muted">Found an error in a course, have a suggestion, or want to tell us what's working? We read every message.</p>
+    <h1 class="text-3xl font-bold" data-i18n="feedback.h1">Share your feedback</h1>
+    <p class="mt-2 text-lg text-muted" data-i18n="feedback.sub">Found an error in a course, have a suggestion, or want to tell us what's working? We read every message.</p>
     <form id="fb" class="mt-6 space-y-4">
-      <label class="block font-sans text-sm font-semibold">Type
+      <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.type.label">Type</span>
         <select id="cat" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans">
-          <option value="general">General feedback</option>
-          <option value="course">About a course</option>
-          <option value="bug">Report a problem</option>
-          <option value="suggestion">Suggest a new course/feature</option>
+          <option value="general" data-i18n="feedback.type.general">General feedback</option>
+          <option value="course" data-i18n="feedback.type.course">About a course</option>
+          <option value="bug" data-i18n="feedback.type.bug">Report a problem</option>
+          <option value="suggestion" data-i18n="feedback.type.suggestion">Suggest a new course/feature</option>
         </select>
       </label>
-      <label class="block font-sans text-sm font-semibold">Email (optional)
-        <input id="email" type="email" placeholder="you@example.com — so we can follow up" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
+      <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.email.label">Email (optional)</span>
+        <input id="email" type="email" placeholder="you@example.com — so we can follow up" data-i18n-ph="feedback.email.ph" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
       </label>
-      <label class="block font-sans text-sm font-semibold">Your feedback
-        <textarea id="msg" rows="7" required placeholder="Your feedback…" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea>
+      <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.msg.label">Your feedback</span>
+        <textarea id="msg" rows="7" required maxlength="5000" placeholder="Your feedback…" data-i18n-ph="feedback.msg.ph" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea>
       </label>
-      <button id="send" type="submit" class="btn btn-primary">Send feedback</button>
+      <p id="msg-count" class="-mt-2 text-right font-sans text-xs text-muted">0 / 5000</p>
+      <button id="send" type="submit" class="btn btn-primary" data-i18n="feedback.submit">Send feedback</button>
     </form>
     <div id="out" class="mt-4"></div>
   </section>
   <script>
     const courseId = new URLSearchParams(location.search).get('course') || '';
     if (courseId) { document.getElementById('cat').value = 'course'; document.getElementById('msg').value = `Re: course "${courseId}" — `; }
+    const msgEl = document.getElementById('msg'); const countEl = document.getElementById('msg-count');
+    const updateCount = () => { countEl.textContent = msgEl.value.length + ' / 5000'; };
+    msgEl.addEventListener('input', updateCount); updateCount();
     const form = document.getElementById('fb'); const out = document.getElementById('out'); const btn = document.getElementById('send');
     form.addEventListener('submit', (ev) => {
       ev.preventDefault();
@@ -35,7 +39,7 @@ import Base from '../layouts/Base.astro';
       fetch('/api/feedback', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ message, category: document.getElementById('cat').value, courseId, email: document.getElementById('email').value }) })
         .then((r) => ({ ok: r.ok })).then(({ ok }) => {
-          if (ok) form.outerHTML = '<div class="rounded-xl border-l-4 border-ok bg-surface p-4 font-sans"><strong>Thank you.</strong> Your feedback was received — we read every message.</div>';
+          if (ok) { form.outerHTML = '<div class="rounded-xl border-l-4 border-ok bg-surface p-4 font-sans"><strong>Thank you.</strong> Your feedback was received — we read every message.</div>'; if (window.suToast) window.suToast('Thank you — your feedback was received.', 'ok'); }
           else { btn.disabled = false; btn.textContent = 'Send feedback'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not send. Please try again.</div>'; }
         }).catch(() => { btn.disabled = false; btn.textContent = 'Send feedback'; });
     });

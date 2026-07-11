@@ -1,6 +1,6 @@
 # Operations runbook
 
-How Sikh University is deployed, monitored, and recovered. Written for whoever is on
+How Sikhi University is deployed, monitored, and recovered. Written for whoever is on
 call — including an AI agent or a future sevadar, not just the person who built it.
 
 ## Deploy
@@ -17,7 +17,7 @@ Production is a single Cloudflare Worker (`worker.js`) serving the Astro build i
 - **Manual fallback.** The Cloudflare build can take 2+ minutes and occasionally does not
   self-complete. If a merge hasn't gone live within a few minutes, deploy from an
   authenticated machine: `wrangler deploy` (uses your `wrangler login` OAuth). Verify with
-  `curl -s https://sikh-university.dosanjhlabs.com/api/health`.
+  `curl -s https://sikhiuni.com/api/health`.
 - **Catalogue → R2.** The browser-served catalogue (`courses.json`, answer-stripped) is
   published to R2 by `.github/workflows/deploy.yml` on merge — but only if the repo secret
   `CLOUDFLARE_API_TOKEN` is set (R2 Storage:Edit). Without it, that step skips; publish
