@@ -96,8 +96,16 @@ const ld = {
     <div class="py-5">
       <div class="marquee" aria-label="Subjects taught at Sikhi University">
         <div>
-          {[...topics, ...topics].map((t) => (
+          {topics.map((t) => (
             <a href={`/catalog#${t.id}`} class="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-sm font-medium text-navy transition hover:-translate-y-0.5 hover:border-saffron hover:text-saffron-deep">
+              <Icon name={TOPIC_ICONS[t.id] ?? 'book'} class="h-4 w-4 shrink-0 text-saffron-deep" />
+              <span>{t.name}</span>
+            </a>
+          ))}
+          {/* Second copy exists only to make the -50% loop seamless — hidden
+              from the accessibility tree and tab order. */}
+          {topics.map((t) => (
+            <a href={`/catalog#${t.id}`} aria-hidden="true" tabindex="-1" class="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-sm font-medium text-navy transition hover:-translate-y-0.5 hover:border-saffron hover:text-saffron-deep">
               <Icon name={TOPIC_ICONS[t.id] ?? 'book'} class="h-4 w-4 shrink-0 text-saffron-deep" />
               <span>{t.name}</span>
             </a>

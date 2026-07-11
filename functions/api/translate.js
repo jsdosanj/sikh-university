@@ -3,7 +3,7 @@ import { json, parseBody } from "./_lib.js";
 // Default engine: Meta m2m100 (covers all our languages).
 const M2M_NAMES = {
   pa: "punjabi", hi: "hindi", es: "spanish", ar: "arabic",
-  fr: "french", de: "german", zh: "chinese",
+  fr: "french", de: "german", zh: "chinese", ur: "urdu",
 };
 // Punjabi & Hindi go through AI4Bharat IndicTrans2 (much stronger for Indic
 // languages). It uses FLORES-200 script codes. m2m100 is the fallback.

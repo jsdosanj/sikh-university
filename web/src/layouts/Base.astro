@@ -29,9 +29,13 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
         var t = localStorage.getItem('su_v1_theme');
         if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', t);
+        // ?lang= deep link (shareable translated URLs) wins over the saved choice.
+        var qlang = new URLSearchParams(location.search).get('lang');
+        var LANGS = ['en', 'pa', 'hi', 'ur', 'es', 'ar', 'fr', 'de', 'zh'];
+        if (qlang && LANGS.indexOf(qlang) !== -1) { try { localStorage.setItem('su_v1_lang', qlang); } catch (e) {} }
         var lang = localStorage.getItem('su_v1_lang') || 'en';
         document.documentElement.setAttribute('lang', lang);
-        document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('dir', (lang === 'ar' || lang === 'ur') ? 'rtl' : 'ltr');
       } catch (e) {}
     })();
   </script>
@@ -87,13 +91,13 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <InstallPrompt />
   <button id="a11y-fab" aria-label="Accessibility options" aria-expanded="false" aria-controls="a11y-panel" class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-lift hover:bg-brand-strong print:hidden"><Icon name="accessibility" class="h-6 w-6" /></button>
   <div id="a11y-panel" class="fixed right-4 bottom-20 z-50 hidden w-56 flex-col gap-1 rounded-xl2 border border-line bg-surface p-3 shadow-lift print:hidden">
-    <strong class="font-sans text-xs uppercase tracking-wide text-muted">Accessibility</strong>
-    <button data-a="smaller" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A− Smaller text</button>
-    <button data-a="bigger" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A+ Larger text</button>
-    <button data-a="contrast" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">◐ High contrast</button>
-    <button data-a="read" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="volume" class="h-4 w-4 shrink-0" />Read this page</button>
-    <button data-a="stop" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="stop" class="h-4 w-4 shrink-0" />Stop reading</button>
-    <button data-a="reset" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">↺ Reset</button>
+    <strong class="font-sans text-xs uppercase tracking-wide text-muted" data-i18n="a11y.title">Accessibility</strong>
+    <button data-a="smaller" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A− <span data-i18n="a11y.smaller">Smaller text</span></button>
+    <button data-a="bigger" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">A+ <span data-i18n="a11y.bigger">Larger text</span></button>
+    <button data-a="contrast" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">◐ <span data-i18n="a11y.contrast">High contrast</span></button>
+    <button data-a="read" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="volume" class="h-4 w-4 shrink-0" /><span data-i18n="a11y.read">Read this page</span></button>
+    <button data-a="stop" class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron"><Icon name="stop" class="h-4 w-4 shrink-0" /><span data-i18n="a11y.stop">Stop reading</span></button>
+    <button data-a="reset" class="rounded-lg border border-line px-3 py-2 text-left font-sans text-sm hover:border-saffron">↺ <span data-i18n="a11y.reset">Reset</span></button>
   </div>
   <script>
     import { initMotion } from '../lib/motion';
@@ -123,7 +127,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     // per-language dictionary in /assets/i18n/<lang>.json. English is the in-markup
     // source (no fetch). Gurbani/Gurmukhi content is never tagged, so it's preserved.
     (function () {
-      const RTL = new Set(['ar']);
+      const RTL = new Set(['ar', 'ur']);
       const orig = new WeakMap();
       let curDict = {};
       // Let JS-driven labels (e.g. the nav auth button toggling Sign in <-> Sign out) opt
@@ -232,7 +236,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   </script>
   <style is:global>
     body.hc { background: #000; color: #fff; }
-    body.hc .card, body.hc .bg-surface, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
+    body.hc .card, body.hc .card-lift, body.hc .bg-surface, body.hc .bg-paper, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
     body.hc a, body.hc h1, body.hc h2, body.hc h3 { color: #ffd479 !important; }
   </style>
 

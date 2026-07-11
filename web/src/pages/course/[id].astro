@@ -620,6 +620,10 @@ const breadcrumb = {
     (function () {
       var bar = document.getElementById('read-progress');
       if (!bar) return;
+      // Re-home the bar on <body>: it renders inside <main>, whose entry
+      // animation transforms it into a containing block, which would briefly
+      // mis-anchor a fixed descendant.
+      document.body.appendChild(bar);
       var nav = document.querySelector('nav');
       var place = function () { bar.style.top = (nav ? nav.offsetHeight : 0) + 'px'; };
       var ticking = false;
