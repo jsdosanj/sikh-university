@@ -66,6 +66,12 @@ themed `--glass-shadow`.
 - Never animate `filter`/`backdrop-filter`. Hover states move `transform`/`box-shadow` only.
 - Text on glass: `text-ink`, `text-navy`, `text-saffron-deep` (and white/near-white on the
   navy ambients). `text-muted` only at ≥0.95rem and never for essential copy.
+- **Sanctioned AA pairs (enforced by `test/contrast-glass.mjs` at build):** `text-ink`
+  passes on any glass over any ambient in both themes. `text-muted`/`text-saffron-deep`
+  pass on `.glass-strong` everywhere, and on regular `.glass` only over `study` (light
+  theme) or any ambient (dark theme). Over `hall`/`sanctum` in the light theme, regular
+  `.glass` sanctions **ink only** (muted lands ~3.6:1 there — use ink or upgrade the
+  surface to `.glass-strong`).
 - The certificate render surface stays **solid** (html2canvas cannot rasterize blur).
 
 ## Ambient backgrounds — one layer per page
