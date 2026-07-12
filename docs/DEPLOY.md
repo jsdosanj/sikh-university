@@ -134,6 +134,17 @@ Notes:
 - Rotating the keypair invalidates every stored subscription — users re-opt-in on
   their next visit. Prefer never rotating unless the private key leaks.
 
+## Santhya audio indexes + parallel texts (owner steps)
+- **Verify audio URLs** (one command, network required — the cloud sandbox can't reach
+  gurmatveechar.com): `node scripts/verify-audio-index.mjs`. Checks every SGGS + Dasam
+  segment URL and auto-rewrites the index with the correct gurmatveechar filename pattern
+  if any guess missed; commit the diff if it changes anything.
+- **Dasam index regeneration** (only if the track list changes):
+  `node scripts/build_dasam_audio_index.mjs` (offline; reads scripts/dasam-tracks.json).
+- **Panj Granthavali parallel texts**: `HF_TOKEN=hf_... python3 scripts/export_parallel_texts.py`
+  exports page-aligned Gurmukhi ⇄ English JSONs into web/public/assets/parallel/ for the
+  five study courses; commit them and the course pages' "Parallel text" panel lights up.
+
 ## Local development
 Root scripts drive local dev:
 
