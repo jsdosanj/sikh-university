@@ -163,6 +163,40 @@ const breadcrumb = {
         <div id="gurbani-refs-list" class="mt-4 space-y-3"></div>
       </section>
 
+      {c.granthRef && (
+        <section id="granth-panel" class="mb-8" data-granth-src={c.granthRef.src} data-granth-start={c.granthRef.start} data-granth-end={c.granthRef.end}>
+          <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span>From the Granth —</span> <span class="gur text-saffron-deep" lang="pa">{c.granthRef.label.split('·')[0].trim()}</span></h2>
+          <p class="mt-1 font-sans text-sm text-muted">
+            {c.granthRef.label} · Ang {c.granthRef.start}{c.granthRef.end > c.granthRef.start ? `–${c.granthRef.end}` : ''}, rendered verbatim from the reader corpus. Tap any line for its published translation and ਅਰਥ.
+            <a class="ml-1 font-semibold text-navy underline" href={`/santhiya?src=${c.granthRef.src}&ang=${c.granthRef.start}`}>Read with Santhya audio →</a>
+          </p>
+          <div class="glass mt-4 rounded-xl2 p-5">
+            <div class="flex items-center justify-between gap-3 font-sans text-sm">
+              <button id="gp-prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" aria-label="Previous Ang">←</button>
+              <span id="gp-ang" class="font-semibold text-navy"></span>
+              <button id="gp-next" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" aria-label="Next Ang">→</button>
+            </div>
+            <div id="gp-lines" lang="pa" class="gur mt-4 space-y-2 text-xl leading-loose"></div>
+          </div>
+        </section>
+      )}
+
+      <section id="parallel-panel" class="mb-8 hidden">
+        <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span>Parallel text —</span> <span class="gur text-saffron-deep" lang="pa">ਪਾਠ ਤੇ ਅਰਥ</span></h2>
+        <p class="mt-1 font-sans text-sm text-muted">The work page by page: the author's original Gurmukhi beside its published English translation (OCR — refer to the original for an authoritative reading).</p>
+        <div class="glass mt-4 rounded-xl2 p-5">
+          <div class="flex items-center justify-between gap-3 font-sans text-sm">
+            <button id="pp-prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" aria-label="Previous page">←</button>
+            <span id="pp-page" class="font-semibold text-navy"></span>
+            <button id="pp-next" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" aria-label="Next page">→</button>
+          </div>
+          <div class="mt-4 grid gap-5 md:grid-cols-2">
+            <div id="pp-gur" lang="pa" class="gur whitespace-pre-line text-lg leading-loose"></div>
+            <div id="pp-en" class="whitespace-pre-line font-sans text-sm leading-relaxed text-muted"></div>
+          </div>
+        </div>
+      </section>
+
       {c.references && c.references.length > 0 && (
         <section class="mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.refs.h">References &amp; further reading</h2>
@@ -200,7 +234,7 @@ const breadcrumb = {
 
     </div>
 
-    <aside class="lg:sticky lg:top-20 lg:self-start">
+    <aside class="lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:overscroll-contain lg:pr-1">
       <div class="card-lift mb-4">
         <div class="eyebrow text-muted" data-i18n="course.prof.eyebrow">Your professor</div>
         <div class="mt-3 flex items-center gap-3">
@@ -715,6 +749,76 @@ const breadcrumb = {
         li.appendChild(a);
       });
     });
+  </script>
+
+  <script>
+    // "From the Granth" panel: pages through the course's granthRef ang range,
+    // verbatim from the local corpus; each line opens the line-study drawer
+    // (published BaniDB translations + ਅਰਥ — see lib/line-study).
+    import { openLineStudy } from '../../lib/line-study';
+    (function () {
+      var panel = document.getElementById('granth-panel');
+      if (!panel) return;
+      var src = panel.dataset.granthSrc;
+      var start = parseInt(panel.dataset.granthStart, 10), end = parseInt(panel.dataset.granthEnd, 10);
+      var linesEl = document.getElementById('gp-lines'), angEl = document.getElementById('gp-ang');
+      var prev = document.getElementById('gp-prev'), next = document.getElementById('gp-next');
+      var ang = start;
+      function draw() {
+        angEl.textContent = 'Ang ' + ang;
+        prev.disabled = ang <= start; next.disabled = ang >= end;
+        prev.style.opacity = prev.disabled ? '.4' : ''; next.style.opacity = next.disabled ? '.4' : '';
+        linesEl.innerHTML = '<p class="font-sans text-sm text-muted">Loading…</p>';
+        fetch('/assets/gurbani/' + src + '/' + ang + '.json')
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            linesEl.innerHTML = '';
+            (d.lines || []).forEach(function (line) {
+              var b = document.createElement('button');
+              b.type = 'button';
+              b.className = 'block w-full rounded-lg px-2 py-1 text-left hover:bg-saffron-soft/40';
+              b.textContent = line;
+              b.addEventListener('click', function () { openLineStudy(src, ang, line); });
+              linesEl.appendChild(b);
+            });
+            if (!linesEl.children.length) linesEl.innerHTML = '<p class="font-sans text-sm text-muted">This Ang could not be loaded.</p>';
+          })
+          .catch(function () { linesEl.innerHTML = '<p class="font-sans text-sm text-muted">This Ang could not be loaded.</p>'; });
+      }
+      prev.addEventListener('click', function () { if (ang > start) { ang--; draw(); } });
+      next.addEventListener('click', function () { if (ang < end) { ang++; draw(); } });
+      draw();
+    })();
+
+    // Parallel-text panel (Panj Granthavali study courses): page-aligned
+    // Gurmukhi ⇄ English exported from the SikhLibrary dataset by
+    // scripts/export_parallel_texts.py. Hidden until the export is committed.
+    (function () {
+      var panel = document.getElementById('parallel-panel');
+      if (!panel) return;
+      var cd = document.getElementById('course-data');
+      var courseId; try { courseId = JSON.parse(cd.textContent).id; } catch (e) { return; }
+      fetch('/assets/parallel/' + courseId + '.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d || !d.pages || !d.pages.length) return;
+          panel.classList.remove('hidden');
+          var i = 0, gur = document.getElementById('pp-gur'), en = document.getElementById('pp-en');
+          var pageEl = document.getElementById('pp-page'), prev = document.getElementById('pp-prev'), next = document.getElementById('pp-next');
+          function draw() {
+            var p = d.pages[i];
+            pageEl.textContent = 'Page ' + p.n + ' · ' + (i + 1) + '/' + d.pages.length;
+            gur.textContent = p.gur || '';
+            en.textContent = p.en || '';
+            prev.disabled = i === 0; next.disabled = i === d.pages.length - 1;
+            prev.style.opacity = prev.disabled ? '.4' : ''; next.style.opacity = next.disabled ? '.4' : '';
+          }
+          prev.addEventListener('click', function () { if (i > 0) { i--; draw(); } });
+          next.addEventListener('click', function () { if (i < d.pages.length - 1) { i++; draw(); } });
+          draw();
+        })
+        .catch(function () {});
+    })();
   </script>
 
   <script>

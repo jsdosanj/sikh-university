@@ -41,6 +41,26 @@ const texts = [
     </div>
   </header>
 
+  <!-- Learning arcade: mini-games for the foundational santhiya skills.
+       Interactive-only by nature (games need JS); the sacred learning content
+       itself lives in the pathway/reader below, never gated. -->
+  <section id="arcade" class="wrap pt-10">
+    <div class="cosmos-panel glass relative overflow-hidden rounded-xl2 p-6 sm:p-8">
+      <div aria-hidden="true" class="cosmos absolute inset-0"></div>
+      <div class="relative">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="flex items-baseline gap-3 text-2xl font-bold text-white"><span class="gur text-saffron" lang="pa">ਖੇਡੋ ਤੇ ਸਿੱਖੋ</span><span>Learn by playing</span></h2>
+          <div class="flex items-center gap-3 font-sans text-sm text-white/85">
+            <span id="arcade-streak" class="inline-flex items-center gap-1.5"></span>
+            <button id="arcade-kid" type="button" role="switch" aria-checked="false" class="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 hover:border-saffron">Kids mode <span id="arcade-kid-dot" class="h-2.5 w-2.5 rounded-full bg-white/30"></span></button>
+          </div>
+        </div>
+        <p class="mt-1 max-w-2xl font-sans text-sm text-white/75">Little games that teach the letters, sounds and words of Gurmukhi — for kids and grown-ups. Stars and seals are saved on this device.</p>
+        <div id="arcade-games" class="mt-5 grid gap-4 sm:grid-cols-3"></div>
+      </div>
+    </div>
+  </section>
+
   <section id="pathway" class="wrap py-12">
     <ol class="space-y-5">
       {texts.map((t, i) => (
@@ -115,7 +135,28 @@ const texts = [
   </section>
 
   <style is:global>
-    #page .w { transition: color .08s, background-color .08s; padding: 0 .04em; border-radius: 4px; }
+    #page .w { transition: color .08s, background-color .08s; padding: 0 .04em; border-radius: 4px; cursor: pointer; }
+    /* Per-line ਅਰਥ affordance: quiet until the line is hovered/focused;
+       always faintly present on touch screens (no hover to reveal it). */
+    #page .arth-btn { display: inline-flex; vertical-align: middle; margin-inline-start: .5rem; padding: .3rem; border-radius: 9999px; color: rgb(var(--c-muted)); opacity: 0; transition: opacity .15s, background-color .15s; }
+    #page .ln:hover .arth-btn, #page .ln:focus-within .arth-btn, #page .arth-btn:focus-visible { opacity: 1; }
+    #page .arth-btn:hover { background: rgb(var(--c-saffron-soft)); color: rgb(var(--c-saffron-deep)); }
+    @media (hover: none) { #page .arth-btn { opacity: .45; } }
+    body.zen #page .arth-btn { display: none; }
+    /* ── Arcade cosmos: pure gradients (no backdrop-filter cost), slow
+       transform/opacity drift, frozen by reduced-motion, off in hc. ─── */
+    .cosmos-panel { background: linear-gradient(150deg, rgb(11 30 58 / .92), rgb(10 13 20 / .95)); border-color: rgb(255 255 255 / .14); }
+    .cosmos { pointer-events: none; }
+    .cosmos::before, .cosmos::after { content: ''; position: absolute; border-radius: 9999px; will-change: transform; }
+    .cosmos::before { width: 26rem; height: 26rem; left: -8rem; top: -10rem; background: radial-gradient(closest-side, rgb(244 178 26 / .18), transparent 70%); animation: su-drift-a 50s var(--ease-out) infinite alternate; }
+    .cosmos::after { width: 22rem; height: 22rem; right: -7rem; bottom: -9rem; background: radial-gradient(closest-side, rgb(106 166 255 / .16), transparent 70%); animation: su-drift-b 70s var(--ease-out) infinite alternate; }
+    .cosmos .stars { position: absolute; inset: 0; background-image: radial-gradient(circle 1.5px, rgb(255 200 61 / .8) 99%, transparent), radial-gradient(circle 1px, rgb(255 255 255 / .7) 99%, transparent), radial-gradient(circle 1.5px, rgb(255 200 61 / .6) 99%, transparent), radial-gradient(circle 1px, rgb(255 255 255 / .5) 99%, transparent); background-size: 340px 260px, 220px 180px, 420px 300px, 260px 240px; background-position: 20px 30px, 110px 90px, 200px 40px, 60px 160px; animation: su-twinkle 7s ease-in-out infinite alternate; }
+    @keyframes su-twinkle { from { opacity: .35; } to { opacity: .9; } }
+    @media (prefers-reduced-motion: reduce) { .cosmos::before, .cosmos::after, .cosmos .stars { animation: none; } }
+    body.hc .cosmos { display: none; }
+    body.hc .cosmos-panel { background: #000; }
+    .arcade-card { min-height: 44px; }
+    .arcade-card:hover .arcade-play { border-color: #f4b21a; color: #ffc83d; }
     #page .w.on { background: #ffe69a; color: #1a1205; font-weight: 700; box-shadow: 0 0 0 2px #ffe69a; }
     #page .ln { margin: .35rem 0; }
     #page.lari .ln { word-spacing: -0.25em; }
@@ -143,10 +184,17 @@ const texts = [
   </style>
 
   <script>
+    import { angWeight, segmentTimeline, angWindow, wordIndexAt, wordTime, wordWeight } from '../lib/santhya-sync';
+    import { openLineStudy } from '../lib/line-study';
+    import { iconSvg } from '../lib/icons';
     var SRC = {
       sggs: { name: 'Sri Guru Granth Sahib Ji', unit: 'Ang', max: 1430, audio: true },
-      dasam: { name: 'Dasam Granth', unit: 'Ang', max: 1428, audio: false },
+      dasam: { name: 'Dasam Granth', unit: 'Ang', max: 1428, audio: true },
       sarbloh: { name: 'Sri Sarbloh Granth Sahib', unit: 'Ang', max: 1040, audio: false },
+    };
+    var ATTR = {
+      sggs: 'Bhindrān Taksāl (gurmatveechar.com)',
+      dasam: 'Kabaal Singh, Hazoor Sahib wale (gurmatveechar.com)',
     };
     var P = 'su_v1_';
     var get = function (k, d) { try { var v = localStorage.getItem(P + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } };
@@ -157,10 +205,84 @@ const texts = [
       // A Granth was chosen — switch from the pathway list to the reader.
       var hero = document.getElementById('su-hero'); if (hero) hero.style.display = 'none';
       var pw = document.getElementById('pathway'); if (pw) pw.style.display = 'none';
+      var ar = document.getElementById('arcade'); if (ar) ar.style.display = 'none';
       var rd = document.getElementById('reader'); if (rd) rd.style.display = '';
       runReader();
     } else {
       runPathwayProgress();
+      runArcade();
+    }
+
+    // ── Learning arcade: the mini-game modules under lib/games. Overlay,
+    // stars/streak/seals and kid-mode come from the shared kit. ─────────────
+    function runArcade() {
+      var wrap = document.getElementById('arcade-games');
+      if (!wrap) return;
+      var host = document.querySelector('#arcade .cosmos');
+      if (host) { var st = document.createElement('div'); st.className = 'stars'; host.appendChild(st); }
+      Promise.all([
+        import('../lib/games/kit'),
+        import('../lib/games/jodi-match'),
+        import('../lib/games/shabad-builder'),
+        import('../lib/games/akhar-pop'),
+      ]).then(function (mods) {
+        var kit = mods[0];
+        var games = [mods[1].game, mods[2].game, mods[3].game];
+        // Hoist every module's keyframes once (style-src allows inline styles).
+        var css = [kit.KEYFRAMES, mods[1].GAME_KEYFRAMES || '', mods[2].GAME_KEYFRAMES || '', mods[3].GAME_KEYFRAMES || ''].join('\n');
+        var styleEl = document.createElement('style'); styleEl.textContent = css; document.head.appendChild(styleEl);
+
+        var kidBtn = document.getElementById('arcade-kid'), kidDot = document.getElementById('arcade-kid-dot');
+        function paintKid() {
+          var on = kit.kidMode();
+          kidBtn.setAttribute('aria-checked', String(on));
+          kidDot.className = 'h-2.5 w-2.5 rounded-full ' + (on ? 'bg-saffron' : 'bg-white/30');
+        }
+        kidBtn.addEventListener('click', function () { kit.setKidMode(!kit.kidMode()); paintKid(); });
+        paintKid();
+
+        function paintStreak() {
+          var el = document.getElementById('arcade-streak');
+          var days = kit.getStreak(), seals = kit.getSeals().length;
+          el.innerHTML = (days > 0 ? iconSvg('fire', 'h-4 w-4') + ' <strong>' + days + '</strong>-day streak' : '') +
+            (seals > 0 ? ' <span class="ml-2">' + iconSvg('medal', 'h-4 w-4') + ' <strong>' + seals + '</strong> seals</span>' : '');
+        }
+        paintStreak();
+
+        games.forEach(function (g) {
+          var card = document.createElement('div');
+          card.className = 'arcade-card glass-lite relative p-4';
+          var stars = kit.getStars(g.id);
+          card.innerHTML =
+            '<div class="flex items-baseline gap-2"><span class="gur text-2xl font-bold text-navy" lang="pa">' + g.gur + '</span><span class="font-sans text-sm font-semibold text-navy">' + g.title + '</span></div>' +
+            '<p class="mt-1 font-sans text-xs text-muted">' + g.blurb + '</p>' +
+            '<div class="mt-3 flex items-center justify-between">' +
+            '<span class="star-count inline-flex items-center gap-1 font-sans text-xs text-saffron-deep">' + (stars > 0 ? iconSvg('star', 'h-3.5 w-3.5') + ' ' + stars : '') + '</span>' +
+            '<button type="button" class="arcade-play min-h-[44px] rounded-full border border-line px-5 py-1.5 font-sans text-sm font-semibold text-navy transition">Play</button></div>';
+          card.querySelector('.arcade-play').addEventListener('click', function () {
+            var ov = kit.overlay({ title: g.title, gur: g.gur });
+            var cleanup = g.mount(ov.body, {
+              kid: kit.kidMode(),
+              onScore: function (n) { kit.addStars(g.id, n); },
+              done: function () {
+                kit.recordPlay();
+                var sealId = 'first-' + g.id;
+                var isNew = kit.awardSeal(sealId);
+                if (kit.getStreak() >= 7) kit.awardSeal('streak-7');
+                kit.celebrate(ov.body, isNew ? sealId : undefined);
+                var sc = card.querySelector('.star-count');
+                var s2 = kit.getStars(g.id);
+                if (sc && s2 > 0) sc.innerHTML = iconSvg('star', 'h-3.5 w-3.5') + ' ' + s2;
+                paintStreak();
+              },
+            });
+            ov.onClose(function () { try { cleanup(); } catch (e) {} });
+          });
+          wrap.appendChild(card);
+        });
+      }).catch(function () {
+        wrap.innerHTML = '<p class="font-sans text-sm text-white/75">The games could not be loaded just now.</p>';
+      });
     }
 
     // Pathway progress: per-step completion, persisted on this device
@@ -237,43 +359,141 @@ const texts = [
       }
       return best || santhya[0];
     }
+    // ── Audio ⇄ ang alignment (lib/santhya-sync). A Santhya track spans many
+    // angs; the segment timeline (built from each covered ang's text weight)
+    // gives every ang an estimated window inside the track. Opening an ang
+    // seeks to its window; the word highlight runs inside it; `drift` is the
+    // user's tap-to-anchor correction for this segment. ────────────────────
+    var segTrack = null, segTl = null, drift = 0, seekAng = null;
+    var angWCache = {};
+    function fetchAngWeight(n) {
+      if (angWCache[n] != null) return angWCache[n];
+      angWCache[n] = fetch('/assets/gurbani/' + src + '/' + n + '.json')
+        .then(function (r) { return r.json(); })
+        .then(function (d) { return angWeight(d.lines || []); })
+        .catch(function () { return 0; });
+      return angWCache[n];
+    }
+    function buildSegTl(t) {
+      var angs = []; for (var a = t.start; a <= t.end; a++) angs.push(a);
+      Promise.all(angs.map(fetchAngWeight)).then(function (ws) {
+        if (segTrack !== t) return; // a newer segment took over
+        segTl = segmentTimeline(t.start, ws);
+        maybeSeek(); updateNote();
+      });
+    }
+    function updateNote() {
+      if (!cfg.audio || !segTrack) return;
+      var sync = segTrack.end > segTrack.start
+        ? (segTl ? ' · ≈ synced to ' + cfg.unit + ' ' + ang + ' (tap a word to fine-tune)' : ' · syncing…')
+        : '';
+      note.textContent = 'Santhya · ' + segTrack.title + sync + ' — ' + (ATTR[src] || 'gurmatveechar.com');
+    }
+    function curWin() {
+      if (!segTl || !aud.duration || !segTrack) return null;
+      var w = angWindow(segTl, aud.duration, ang);
+      return { start: w.start + drift, end: w.end + drift };
+    }
+    function maybeSeek() {
+      if (seekAng == null || !segTl || !aud.duration || !segTrack) return;
+      if (seekAng >= segTrack.start && seekAng <= segTrack.end) {
+        var w = angWindow(segTl, aud.duration, seekAng);
+        try { aud.currentTime = Math.max(0, Math.min(aud.duration - 0.5, w.start + drift)); } catch (e) {}
+      }
+      seekAng = null;
+    }
     function setAudio(n) {
       if (!cfg.audio) { aud.style.display = 'none'; audph.style.display = 'none'; note.textContent = 'Text read-along (no audio for this Granth yet).'; return; }
       var t = trackFor(n);
       if (!t) return;
       aud.style.display = ''; audph.style.display = 'none';
-      if (t.url !== curUrl) { curUrl = t.url; aud.src = t.url; aud.load(); }
-      note.textContent = 'Santhya · ' + t.title + ' — Bhindrān Taksāl (gurmatveechar.com)';
+      if (t.url !== curUrl) {
+        curUrl = t.url; segTrack = t; segTl = null; drift = 0;
+        aud.src = t.url; aud.load();
+        buildSegTl(t);
+      }
+      updateNote();
     }
 
-    function vishramWeight(w) { if (w.indexOf('॥') !== -1) return 3.2; if (w.indexOf(';') !== -1) return 1.6; if (w.indexOf('.') !== -1) return 0.9; return 0; }
-    function buildTiming() { cum = []; total = 0; for (var i = 0; i < words.length; i++) { var w = words[i].textContent || ''; total += 0.6 + 0.22 * w.replace(/[॥;.]/g, '').length + vishramWeight(w); cum.push(total); } }
-    function highlight(t) {
-      if (!aud.duration || !total) return;
-      var target = (t / aud.duration) * total, i = curIdx < 0 ? 0 : curIdx;
-      while (i < cum.length && cum[i] < target) i++;
-      while (i > 0 && cum[i - 1] >= target) i--;
-      if (i === curIdx) return;
+    function buildTiming() { cum = []; total = 0; for (var i = 0; i < words.length; i++) { total += wordWeight(words[i].textContent || ''); cum.push(total); } }
+    function applyWord(i) {
+      if (i === curIdx || i < 0) return;
       if (curIdx >= 0 && words[curIdx]) words[curIdx].classList.remove('on');
-      curIdx = i; if (words[i]) { words[i].classList.add('on'); words[i].scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+      curIdx = i;
+      if (words[i]) { words[i].classList.add('on'); words[i].scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
     }
     function render(data) {
       page.innerHTML = ''; words = [];
       data.lines.forEach(function (line) {
         var ln = document.createElement('div'); ln.className = 'ln';
+        var lineStart = words.length;
         line.split(/\s+/).forEach(function (tok) { if (!tok) return; var s = document.createElement('span'); s.className = 'w'; s.textContent = tok; ln.appendChild(s); ln.appendChild(document.createTextNode(' ')); words.push(s); });
+        // ਅਰਥ — published translations for this line (BaniDB), plus
+        // play-from-line when audio + timeline are ready.
+        var ab = document.createElement('button');
+        ab.className = 'arth-btn'; ab.type = 'button';
+        ab.setAttribute('aria-label', 'Meaning of this line');
+        ab.innerHTML = iconSvg('book', 'h-4 w-4');
+        (function (lineText, startIdx, angNow) {
+          ab.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var onPlay = null;
+            if (cfg.audio && segTl && aud.duration && segTrack) {
+              onPlay = function () {
+                var w0 = angWindow(segTl, aud.duration, angNow);
+                try { aud.currentTime = Math.max(0, wordTime(startIdx, w0, cum, total) + drift); } catch (err) {}
+                aud.play().catch(function () {});
+              };
+            }
+            openLineStudy(src, angNow, lineText, onPlay || undefined);
+          });
+        })(line, lineStart, ang);
+        ln.appendChild(ab);
         page.appendChild(ln);
       });
       curIdx = -1; buildTiming();
     }
-    function load(n) {
+    function load(n, opts) {
       n = Math.max(1, Math.min(cfg.max, n)); ang = n; angin.value = n; set(src + '_ang', n);
       history.replaceState(null, '', '/santhiya?src=' + src + '&ang=' + n);
       note.textContent = '';
       fetch('/assets/gurbani/' + src + '/' + n + '.json').then(function (r) { return r.json(); }).then(render).catch(function () { page.innerHTML = '<p class="text-muted" style="font-size:1rem">Could not load this ' + cfg.unit + '.</p>'; });
+      // User navigation seeks the audio to this ang's estimated window; a
+      // page-turn driven by the playback itself (opts.noSeek) never does.
+      if (!(opts && opts.noSeek)) seekAng = n;
       setAudio(n);
+      maybeSeek();
     }
-    aud.addEventListener('timeupdate', function () { if (curUrl && curUrl.indexOf('gurmatveechar') === -1) highlight(aud.currentTime); });
+    aud.addEventListener('loadedmetadata', maybeSeek);
+    aud.addEventListener('timeupdate', function () {
+      if (!cfg.audio) return;
+      var w = curWin(); if (!w) return;
+      applyWord(wordIndexAt(aud.currentTime, w, cum, total));
+      // Sehaj flow: the recitation crossed this ang's window — turn the page
+      // with it (and turn back if the listener scrubbed backwards).
+      if (!aud.paused && segTrack) {
+        if (ang < segTrack.end && aud.currentTime > w.end + 1.5) { load(ang + 1, { noSeek: true }); syncChapter(ang); }
+        else if (ang > segTrack.start && aud.currentTime < w.start - 1.5) { load(ang - 1, { noSeek: true }); syncChapter(ang); }
+      }
+    });
+    // Tap the word you are hearing: paused → play from that word's estimated
+    // position; playing → anchor the sync estimate to it (drift correction
+    // for the rest of this segment).
+    page.addEventListener('click', function (e) {
+      var el = e.target && e.target.closest ? e.target.closest('.w') : null;
+      if (!el || !cfg.audio || !segTl || !aud.duration || !segTrack) return;
+      var i = words.indexOf(el); if (i === -1) return;
+      var w0 = angWindow(segTl, aud.duration, ang);
+      var t = wordTime(i, w0, cum, total);
+      if (aud.paused) {
+        try { aud.currentTime = Math.max(0, t + drift); } catch (err) {}
+        aud.play().catch(function () {});
+      } else {
+        drift = aud.currentTime - t;
+        applyWord(i);
+        if (window.suToast) window.suToast('Audio sync anchored to this word.');
+      }
+    });
     aud.addEventListener('error', function () { if (cfg.audio && curUrl) { aud.style.display = 'none'; audph.style.display = 'flex'; note.textContent = 'This Santhya recording could not be reached just now — text read-along still works.'; } });
     aud.addEventListener('ended', function () {
       if (!santhya) return;
@@ -369,7 +589,7 @@ const texts = [
     load(ang);
     if (cfg.audio) {
       note.textContent = 'Loading Santhya audio…';
-      fetch('/assets/gurbani/santhya-sggs-index.json').then(function (r) { return r.json(); }).then(function (d) { santhya = d; setAudio(ang); }).catch(function () { note.textContent = 'Santhya audio is unavailable right now — text read-along still works.'; });
+      fetch('/assets/gurbani/santhya-' + src + '-index.json').then(function (r) { return r.json(); }).then(function (d) { santhya = d; seekAng = ang; setAudio(ang); }).catch(function () { aud.style.display = 'none'; note.textContent = 'Santhya audio is unavailable right now — text read-along still works.'; });
     }
     } // end runReader
   </script>
