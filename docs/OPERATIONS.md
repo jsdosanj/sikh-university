@@ -58,6 +58,31 @@ the new snapshot; a mismatch means BaniDB changed a tuk a course quotes — revi
 cited ang, or cites the wrong ang. The build log names the course + ang. Fix the quote (or
 the `data-ang`) — do not weaken the gate.
 
+**Sole admin locked out of MFA.** The single admin account (from `ADMIN_EMAILS`) lost their
+authenticator and can't clear `/mfa`. Recovery ladder: their own backup codes first; if
+those are gone too, delete the enrollment directly against production D1 — this is safe
+because admin identity is already anchored to `ADMIN_EMAILS` + mailbox control, not to MFA
+itself:
+```bash
+wrangler d1 execute sikh-university --remote --command \
+  "DELETE FROM user_mfa WHERE user_id IN (SELECT id FROM users WHERE email='<admin email>')"
+```
+They can then sign in via magic link and re-enroll from `/mfa`. The same `mfa_reset` action
+is available for a locked-out teacher from the admin Teachers tab (`POST /api/admin/users
+{id, action:'mfa_reset'}`) — no direct D1 access needed for that case.
+
+**Importing approved course drafts.** Scholar review happens in D1 (`/review`); publishing a
+course is still a git PR, never a runtime mutation. Once one or more drafts are
+`status='approved'`:
+1. Confirm the `EXPORT_TOKEN` repo secret is set (Settings → Secrets and variables → Actions)
+   — it must match the `EXPORT_TOKEN` Worker secret.
+2. Run the import: `gh workflow run import-drafts.yml` (or trigger it from the Actions tab).
+   Zero approved drafts → the job exits cleanly, no PR.
+3. Review the opened `import/drafts-YYYY-MM-DD` PR like any other catalogue change — it runs
+   the full existing gate suite (`validate.py`, quiz-key parity, answer-strip, emoji, CSP).
+4. Once it merges and deploys, click **Mark published** next to each course in the admin
+   Review tab (or `POST /api/admin/drafts-mark-published {draftId}`) to close the loop in D1.
+
 ## Content
 
 - **Add/edit a course:** edit `site/assets/data/courses.json`, then run
@@ -74,3 +99,7 @@ the `data-ang`) — do not weaken the gate.
   it from the Cloudflare dashboard. Code reads it identically either way.
 - Add the `CLOUDFLARE_API_TOKEN` repo secret (R2 Storage:Edit) to enable the automatic R2
   catalogue sync and archival backup workflows.
+- Set the two Worker secrets the teacher platform needs before it can run in production:
+  `wrangler secret put MFA_ENC_KEY` (base64 256-bit key, e.g.
+  `openssl rand -base64 32`) and `wrangler secret put EXPORT_TOKEN` (any long random
+  string — mirror it as a GitHub repo secret of the same name for `import-drafts.yml`).
