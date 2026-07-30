@@ -30,6 +30,12 @@ import Base from '../layouts/Base.astro';
     }
 
     async function renderList() {
+      const me = await api('/api/me');
+      const u = me.ok && me.d.user;
+      if (u && u.mfa && u.mfa.enrolled && u.mfa_ok !== 1) {
+        app.innerHTML = '<p class="text-white/70">This session hasn\'t verified your two-factor code yet. <a class="underline" href="/mfa">Verify now →</a></p>';
+        return;
+      }
       const { ok, d } = await api('/api/studio/drafts');
       if (!ok) { app.innerHTML = '<p class="text-white/70">Sign in as a teacher to use the studio.</p>'; return; }
       const drafts = d.drafts || [];
