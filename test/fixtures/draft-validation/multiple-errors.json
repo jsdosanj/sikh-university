@@ -1,0 +1,29 @@
+{
+  "description": "several unrelated rules broken at once — checks that both implementations accumulate (not short-circuit) in the same order",
+  "topicIds": ["modern-skills"],
+  "draft": {
+    "course_id": "",
+    "title": "",
+    "topic": "modern-skills",
+    "level": 150,
+    "meta": "{\"summary\":\"short\"}"
+  },
+  "lessons": [
+    { "title": "Lesson One", "html": "<p>content one</p>" },
+    { "title": "Lesson Two", "html": "<p>content two</p>" }
+  ],
+  "quiz": [
+    { "q": "", "options": "[\"a\"]", "answer": 9 }
+  ],
+  "expectValid": false,
+  "expectErrors": [
+    "missing course id",
+    "missing title",
+    "level must be a hundred-level integer (100, 200, 300, ...)",
+    "summary is too short (studio minimum: 40 characters)",
+    "a course needs at least 3 lessons (studio minimum)",
+    "quiz 1: needs at least 2 options",
+    "quiz 1: answer index out of range",
+    "quiz 1: missing question text"
+  ]
+}

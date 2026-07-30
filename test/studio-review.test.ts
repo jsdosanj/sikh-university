@@ -142,6 +142,14 @@ function fakeDB() {
     }
     if (sql.includes("FROM draft_lessons WHERE draft_id=?")) return { results: lessons.get(b[0]) || [] };
     if (sql.includes("FROM draft_quiz WHERE draft_id=?")) return { results: quizzes.get(b[0]) || [] };
+    if (sql.includes("WHERE cd.reviewed_by IS NOT NULL")) {
+      const list = [...drafts.values()].filter((d) => d.reviewed_by).map((d) => ({
+        ...d,
+        author_email: users.get(d.author_id)?.email, author_name: users.get(d.author_id)?.name,
+        reviewer_email: users.get(d.reviewed_by)?.email, reviewer_name: users.get(d.reviewed_by)?.name,
+      }));
+      return { results: list };
+    }
     if (sql.includes("FROM course_drafts cd JOIN users u")) {
       const list = [...drafts.values()].filter((d) => d.status === "submitted" || d.status === "in_review").map((d) => ({ ...d, author_email: users.get(d.author_id)?.email, author_name: users.get(d.author_id)?.name }));
       return { results: list };
@@ -327,6 +335,18 @@ describe("review board", () => {
     expect(env.DB.drafts.get(modernDraftId).status).toBe("changes_requested");
     const res = await lessonPost({ request: asReq("t1", { draftId: modernDraftId, idx: 0, title: "fixed", html: "<p>x</p>" }, "http://localhost/api/studio/lesson"), env });
     expect(res.status).toBe(200);
+  });
+
+  it("queue?history=1 lists decided drafts with reviewer identity and notes, but not still-pending ones", async () => {
+    await decisionPost({ request: asReq("reviewer1", { id: modernDraftId, decision: "changes_requested", notes: "fix lesson 2" }, "http://localhost/api/review/decision"), env });
+    const res = await reviewQueueGet({ request: asReq("reviewer1", undefined, "http://localhost/api/review/queue?history=1"), env });
+    expect(res.status).toBe(200);
+    const { drafts } = await res.json();
+    expect(drafts).toHaveLength(1);
+    expect(drafts[0].id).toBe(modernDraftId);
+    expect(drafts[0].status).toBe("changes_requested");
+    expect(drafts[0].review_notes).toBe("fix lesson 2");
+    expect(drafts[0].reviewer_email).toBe(env.DB.users.get("reviewer1").email);
   });
 });
 

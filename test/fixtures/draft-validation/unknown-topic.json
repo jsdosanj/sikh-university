@@ -1,0 +1,21 @@
+{
+  "description": "topic not present in the site's topic list",
+  "topicIds": ["modern-skills", "gurmat"],
+  "draft": {
+    "course_id": "c1",
+    "title": "Test Course",
+    "topic": "made-up-topic",
+    "level": 100,
+    "meta": "{\"summary\":\"This is a long enough summary for validation purposes here.\"}"
+  },
+  "lessons": [
+    { "title": "Lesson One", "html": "<p>content one</p>" },
+    { "title": "Lesson Two", "html": "<p>content two</p>" },
+    { "title": "Lesson Three", "html": "<p>content three</p>" }
+  ],
+  "quiz": [
+    { "q": "What is this?", "options": "[\"a\",\"b\"]", "answer": 0 }
+  ],
+  "expectValid": false,
+  "expectErrors": ["unknown topic 'made-up-topic'"]
+}
