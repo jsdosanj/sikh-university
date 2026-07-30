@@ -35,17 +35,21 @@ import Base from '../layouts/Base.astro';
       const enrolledCourses = new Set(enr.filter((e) => e.kind === 'course').map((e) => e.target_id));
       const registeredPrograms = new Set(enr.filter((e) => e.kind === 'program').map((e) => e.target_id));
       const isAdmin = !!(user && user.role === 'admin');
-      const demo = new URLSearchParams(location.search).get('demo');
-      const viewAs = (isAdmin && (demo === 'student' || demo === 'teacher')) ? demo : (user ? user.role : 'student');
+      const qs = new URLSearchParams(location.search);
+      const demo = qs.get('demo'); // ?demo=student|teacher — a sample dashboard with illustrative data
+      const viewParam = qs.get('view'); // ?view=student|teacher — the admin's OWN real data, rendered as that role
+      const viewAs = (isAdmin && (demo === 'student' || demo === 'teacher')) ? demo
+        : (isAdmin && (viewParam === 'student' || viewParam === 'teacher')) ? viewParam
+        : (user ? user.role : 'student');
       const root = document.getElementById('dash');
       const bar = document.getElementById('bar');
 
       if (isAdmin) {
-        const link = (label, d, on) => `<a href="/dashboard${d ? '?demo=' + d : ''}" class="rounded-lg px-3 py-1.5 font-sans text-sm ${on ? 'bg-brand text-white' : 'border border-line hover:border-saffron'}">${label}</a>`;
+        const link = (label, v, on) => `<a href="/dashboard${v ? '?view=' + v : ''}" class="rounded-lg px-3 py-1.5 font-sans text-sm ${on ? 'bg-brand text-white' : 'border border-line hover:border-saffron'}">${label}</a>`;
         bar.innerHTML = `<div class="mb-6 flex flex-wrap items-center gap-2 rounded-xl2 border border-line bg-surface p-3">
-          <span class="font-sans text-sm font-semibold text-navy">Admin preview:</span>
-          ${link('Student view', 'student', viewAs === 'student')}
-          ${link('Teacher view', 'teacher', viewAs === 'teacher')}
+          <span class="font-sans text-sm font-semibold text-navy">View as:</span>
+          ${link('Student', 'student', !demo && viewAs === 'student')}
+          ${link('Teacher', 'teacher', !demo && viewAs === 'teacher')}
           <a href="/admin" class="ml-auto rounded-lg px-3 py-1.5 font-sans text-sm border border-line hover:border-saffron">← Admin dashboard</a>
         </div>` + (demo ? `<div class="mb-6 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-3 font-sans text-sm">Demo mode — a sample <strong>${esc(demo)}</strong> dashboard for testing. The figures shown are illustrative.</div>` : '');
       }

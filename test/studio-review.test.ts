@@ -26,6 +26,7 @@ function fakeDB() {
   const lessons = new Map<string, any[]>(); // draft_id -> [{idx,title,summary,html,media}]
   const quizzes = new Map<string, any[]>();
   const media = new Map<string, any>();
+  const courseTeachers = new Set<string>(); // `${courseId}|${userId}`
 
   function handleFirst(sql: string, b: any[]) {
     if (sql.includes("FROM sessions s JOIN users u")) {
@@ -50,6 +51,10 @@ function fakeDB() {
       return u ? { name: u.name, email: u.email } : null;
     }
     if (sql.includes("SELECT * FROM course_drafts WHERE id=?")) return drafts.get(b[0]) || null;
+    if (sql.includes("SELECT status, course_id, author_id FROM course_drafts")) {
+      const d = drafts.get(b[0]);
+      return d ? { status: d.status, course_id: d.course_id, author_id: d.author_id } : null;
+    }
     if (sql.includes("SELECT status, course_id FROM course_drafts")) {
       const d = drafts.get(b[0]);
       return d ? { status: d.status, course_id: d.course_id } : null;
@@ -118,6 +123,17 @@ function fakeDB() {
       Object.assign(drafts.get(id), { status: "published", updated_at });
       return { success: true };
     }
+    if (sql.includes("INSERT OR IGNORE INTO course_teachers")) {
+      const [courseId, userId] = b;
+      courseTeachers.add(`${courseId}|${userId}`);
+      return { success: true };
+    }
+    if (sql.includes("UPDATE media_objects SET context=? WHERE key=? AND context=?")) {
+      const [newContext, key, oldContext] = b;
+      const m = media.get(key);
+      if (m && m.context === oldContext) m.context = newContext;
+      return { success: true };
+    }
     return { success: true };
   }
   function handleAll(sql: string, b: any[]) {
@@ -150,7 +166,7 @@ function fakeDB() {
     };
     return self;
   }
-  return { prepare, users, sessions, userMfa, userFlags, teacherProfiles, drafts, lessons, quizzes, media };
+  return { prepare, users, sessions, userMfa, userFlags, teacherProfiles, drafts, lessons, quizzes, media, courseTeachers };
 }
 
 function fakeAssets(topics: string[]) {
@@ -358,5 +374,21 @@ describe("admin drafts-export / mark-published", () => {
     const res = await markPublishedPost({ request: asReq("admin1", { draftId: id }, "http://localhost/api/admin/drafts-mark-published"), env });
     expect(res.status).toBe(200);
     expect(env.DB.drafts.get(id).status).toBe("published");
+  });
+
+  it("mark-published re-tags draft media to course: context and registers the author as course_teachers", async () => {
+    const id = await makeGoodDraft(env, "t1");
+    env.DB.media.set("uploads/t1/draft/lecture.pdf", { status: "approved", rights: "own", context: `draft:${id}` });
+    const lessonList = env.DB.lessons.get(id);
+    lessonList[0].media = JSON.stringify([{ key: "uploads/t1/draft/lecture.pdf" }]);
+
+    await submitPost({ request: asReq("t1", { id }, "http://localhost/api/studio/submit"), env });
+    await decisionPost({ request: asReq("admin1", { id, decision: "approve" }, "http://localhost/api/review/decision"), env });
+    const res = await markPublishedPost({ request: asReq("admin1", { draftId: id }, "http://localhost/api/admin/drafts-mark-published"), env });
+    expect(res.status).toBe(200);
+
+    const draft = env.DB.drafts.get(id);
+    expect(env.DB.media.get("uploads/t1/draft/lecture.pdf").context).toBe(`course:${draft.course_id}`);
+    expect(env.DB.courseTeachers.has(`${draft.course_id}|t1`)).toBe(true);
   });
 });
