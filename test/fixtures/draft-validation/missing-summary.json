@@ -1,0 +1,21 @@
+{
+  "description": "meta has no summary key",
+  "topicIds": ["modern-skills"],
+  "draft": {
+    "course_id": "c1",
+    "title": "Test Course",
+    "topic": "modern-skills",
+    "level": 100,
+    "meta": "{}"
+  },
+  "lessons": [
+    { "title": "Lesson One", "html": "<p>content one</p>" },
+    { "title": "Lesson Two", "html": "<p>content two</p>" },
+    { "title": "Lesson Three", "html": "<p>content three</p>" }
+  ],
+  "quiz": [
+    { "q": "What is this?", "options": "[\"a\",\"b\"]", "answer": 0 }
+  ],
+  "expectValid": false,
+  "expectErrors": ["missing summary"]
+}

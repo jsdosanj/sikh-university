@@ -1,0 +1,21 @@
+{
+  "description": "first lesson content still contains a <script> tag — should be impossible post-sanitization, but the validator must still catch it",
+  "topicIds": ["modern-skills"],
+  "draft": {
+    "course_id": "c1",
+    "title": "Test Course",
+    "topic": "modern-skills",
+    "level": 100,
+    "meta": "{\"summary\":\"This is a long enough summary for validation purposes here.\"}"
+  },
+  "lessons": [
+    { "title": "Lesson One", "html": "<p>content</p><script>alert(1)</script>" },
+    { "title": "Lesson Two", "html": "<p>content two</p>" },
+    { "title": "Lesson Three", "html": "<p>content three</p>" }
+  ],
+  "quiz": [
+    { "q": "What is this?", "options": "[\"a\",\"b\"]", "answer": 0 }
+  ],
+  "expectValid": false,
+  "expectErrors": ["lesson 1: content still contains a <script> tag — this should be impossible after sanitization"]
+}

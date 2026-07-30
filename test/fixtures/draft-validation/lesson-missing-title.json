@@ -1,0 +1,21 @@
+{
+  "description": "second lesson has a blank title",
+  "topicIds": ["modern-skills"],
+  "draft": {
+    "course_id": "c1",
+    "title": "Test Course",
+    "topic": "modern-skills",
+    "level": 100,
+    "meta": "{\"summary\":\"This is a long enough summary for validation purposes here.\"}"
+  },
+  "lessons": [
+    { "title": "Lesson One", "html": "<p>content one</p>" },
+    { "title": "  ", "html": "<p>content two</p>" },
+    { "title": "Lesson Three", "html": "<p>content three</p>" }
+  ],
+  "quiz": [
+    { "q": "What is this?", "options": "[\"a\",\"b\"]", "answer": 0 }
+  ],
+  "expectValid": false,
+  "expectErrors": ["lesson 2: missing title"]
+}
