@@ -6,7 +6,20 @@ protect its learners.
 
 ## Identity & access
 - SSO/OAuth2 + OIDC; strong password policy; **MFA available to all, required for staff/scholars/admins**.
+  - **Implemented**: RFC 6238 TOTP, zero dependencies (Web Crypto only — `functions/api/_totp.js`).
+    Hard-required for every admin (`requireMfa` in `_lib.js`; an un-enrolled admin gets
+    `403 mfa_enrollment_required` from any `/api/admin/*` route). Teachers get a grace
+    period today — enrollment becomes a precondition for high-trust studio actions (draft
+    submission, profile publish) rather than a login-time block, and flips to hard-required
+    once the studio ships. 10 backup codes per enrollment (SHA-256 hashed, single-use); 5
+    failed verify attempts on one session forces a fresh magic-link sign-in. Break-glass
+    (sole-admin lockout) and the admin `mfa_reset` action are documented in OPERATIONS.md.
 - **Least-privilege RBAC**: learner / scholar-author / reviewer / admin — scoped capabilities, no shared admin accounts.
+  - **Implemented**: `reviewer` is a `user_flags` row, not a `role` value — deliberately, so a
+    scholar-verified teacher can hold `teacher` + `reviewer` simultaneously (a single-valued
+    role column can't express that), and so it never interacts with the ADMIN_EMAILS-driven
+    admin demotion logic in `verify.js`. Sikhi-topic course drafts additionally require the
+    deciding reviewer to be scholar-verified (or admin) — see `functions/api/review/decision.js`.
 - Session hardening: short-lived tokens, secure+httpOnly+SameSite cookies, idle/absolute timeouts.
 
 ## Data protection & privacy

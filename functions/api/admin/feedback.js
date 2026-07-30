@@ -1,9 +1,9 @@
-import { json, getUser } from "../_lib.js";
+import { json, requireMfa } from "../_lib.js";
 
 // GET /api/admin/feedback -> list all feedback (admin only)
 export async function onRequestGet({ request, env }) {
-  const user = await getUser(env, request);
-  if (!user || user.role !== "admin") return json({ error: "forbidden" }, 403);
+  const { error } = await requireMfa(env, request, ["admin"]);
+  if (error) return error;
   // Table may not exist yet if no feedback has ever been submitted.
   try {
     const { results } = await env.DB.prepare(

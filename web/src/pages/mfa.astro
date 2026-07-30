@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Two-factor authentication — Sikhi University" description="Set up or verify two-factor authentication for your Sikhi University account." ambient="hall" noindex={true}>
+  <section class="wrap py-14">
+    <div class="mx-auto max-w-md text-center">
+      <p class="eyebrow text-saffron">Account security</p>
+      <h1 class="text-display-sm mt-2 font-bold text-white">Two-factor authentication</h1>
+      <p class="mt-2 font-sans text-white/85" id="mfa-sub">Checking your account…</p>
+    </div>
+    <div id="mfa-body" class="glass-strong mx-auto mt-6 max-w-md rounded-xl2 p-6"></div>
+  </section>
+  <script>
+    import { encodeQR, qrToSvg } from '../lib/qr';
+
+    const esc = (s: unknown) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+    const sub = document.getElementById('mfa-sub')!;
+    const body = document.getElementById('mfa-body')!;
+    const api = (p: string, o?: RequestInit) => fetch(p, { credentials: 'same-origin', headers: { 'content-type': 'application/json' }, ...(o || {}) })
+      .then((r) => r.json().then((d) => ({ ok: r.ok, d })));
+
+    function errorBox(msg: string) {
+      return `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc(msg)}</strong></div>`;
+    }
+
+    function renderVerifyForm() {
+      sub.textContent = 'Enter the 6-digit code from your authenticator app.';
+      body.innerHTML = `
+        <form id="verify-form" class="space-y-4">
+          <label class="block font-sans text-sm font-semibold">Code
+            <input id="verify-code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456 or a backup code"
+              class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans tracking-widest focus:border-saffron focus:outline-none" />
+          </label>
+          <button id="verify-submit" type="submit" class="btn btn-primary w-full justify-center">Verify</button>
+        </form>
+        <div id="verify-out" class="mt-4"></div>
+        <p class="mt-4 font-sans text-xs text-muted">Lost your device? Enter one of your saved backup codes instead.</p>`;
+      const form = document.getElementById('verify-form') as HTMLFormElement;
+      const out = document.getElementById('verify-out')!;
+      const btn = document.getElementById('verify-submit') as HTMLButtonElement;
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        const code = (document.getElementById('verify-code') as HTMLInputElement).value.trim();
+        if (!code) return;
+        btn.disabled = true; btn.textContent = 'Verifying…';
+        api('/api/auth/mfa/verify', { method: 'POST', body: JSON.stringify({ code }) }).then(({ ok, d }) => {
+          btn.disabled = false; btn.textContent = 'Verify';
+          if (!ok) { out.innerHTML = errorBox(d.error === 'too many failed attempts, please sign in again' ? d.error : 'Incorrect code. Please try again.'); if (d.error && d.error.includes('sign in again')) setTimeout(() => location.href = '/login.html', 1500); return; }
+          location.href = '/dashboard.html';
+        }).catch(() => { btn.disabled = false; btn.textContent = 'Verify'; out.innerHTML = errorBox('Network error. Please try again.'); });
+      });
+    }
+
+    function renderBackupCodes(codes: string[]) {
+      body.innerHTML = `
+        <p class="font-sans text-sm font-semibold">Save these backup codes</p>
+        <p class="mt-1 font-sans text-sm text-muted">Each works once if you lose access to your authenticator app. They will not be shown again.</p>
+        <div class="mt-3 grid grid-cols-2 gap-2 rounded-xl border border-line bg-surface p-4 font-mono text-sm">
+          ${codes.map((c) => `<div>${esc(c)}</div>`).join('')}
+        </div>
+        <button id="mfa-done" class="btn btn-primary mt-4 w-full justify-center">I've saved these — continue</button>`;
+      document.getElementById('mfa-done')!.addEventListener('click', () => { location.href = '/dashboard.html'; });
+    }
+
+    function renderEnroll() {
+      sub.textContent = 'Set up two-factor authentication with any authenticator app (Google Authenticator, Authy, 1Password…).';
+      body.innerHTML = `<button id="mfa-start" class="btn btn-primary w-full justify-center">Start setup</button>`;
+      document.getElementById('mfa-start')!.addEventListener('click', () => {
+        body.innerHTML = '<p class="font-sans text-sm text-muted">Generating your secret…</p>';
+        api('/api/auth/mfa/enroll', { method: 'POST', body: '{}' }).then(({ ok, d }) => {
+          if (!ok) { body.innerHTML = errorBox(d.error || 'Could not start enrollment.'); return; }
+          const svg = qrToSvg(encodeQR(d.otpauth, 'M'), { moduleSize: 6, margin: 3 });
+          body.innerHTML = `
+            <p class="font-sans text-sm">Scan this QR code with your authenticator app:</p>
+            <div class="mx-auto mt-3 max-w-[240px] rounded-xl border border-line bg-white p-3">${svg}</div>
+            <p class="mt-3 font-sans text-xs text-muted">Can't scan? Enter this key manually:</p>
+            <div class="mt-1 select-all break-all rounded-lg border border-line bg-surface p-2 font-mono text-xs">${esc(d.secret)}</div>
+            <form id="confirm-form" class="mt-5 space-y-4">
+              <label class="block font-sans text-sm font-semibold">Enter the 6-digit code to confirm
+                <input id="confirm-code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456"
+                  class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans tracking-widest focus:border-saffron focus:outline-none" />
+              </label>
+              <button id="confirm-submit" type="submit" class="btn btn-primary w-full justify-center">Confirm</button>
+            </form>
+            <div id="confirm-out" class="mt-4"></div>`;
+          const form = document.getElementById('confirm-form') as HTMLFormElement;
+          const out = document.getElementById('confirm-out')!;
+          const btn = document.getElementById('confirm-submit') as HTMLButtonElement;
+          form.addEventListener('submit', (ev) => {
+            ev.preventDefault();
+            const code = (document.getElementById('confirm-code') as HTMLInputElement).value.trim();
+            if (!code) return;
+            btn.disabled = true; btn.textContent = 'Confirming…';
+            api('/api/auth/mfa/confirm', { method: 'POST', body: JSON.stringify({ code }) }).then(({ ok, d }) => {
+              btn.disabled = false; btn.textContent = 'Confirm';
+              if (!ok) { out.innerHTML = errorBox('Incorrect code. Please try again.'); return; }
+              renderBackupCodes(d.backupCodes);
+            }).catch(() => { btn.disabled = false; btn.textContent = 'Confirm'; out.innerHTML = errorBox('Network error. Please try again.'); });
+          });
+        }).catch(() => { body.innerHTML = errorBox('Network error. Please try again.'); });
+      });
+    }
+
+    api('/api/me').then(({ d }) => {
+      if (!d.user) { location.href = '/login.html'; return; }
+      if (d.user.mfa && d.user.mfa.enrolled) renderVerifyForm();
+      else renderEnroll();
+    }).catch(() => { sub.textContent = ''; body.innerHTML = errorBox('Could not load your account. Please refresh.'); });
+  </script>
+</Base>

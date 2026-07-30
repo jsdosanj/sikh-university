@@ -1,10 +1,15 @@
 import { json, getUser, logEvent } from "./_lib.js";
 import { cleanName, cleanCountry, cleanLanguages } from "./_profile-options.js";
 
-// GET /api/me -> current user { id, email, name, country, languages, role } or { user: null }
+// GET /api/me -> current user { id, email, name, country, languages, role, mfa } or { user: null }.
+// mfa.required reflects current enforcement policy: hard-required for admins, a
+// grace period for everyone else until Workstream C (studio) flips it on for teachers.
 export async function onRequestGet({ request, env }) {
   const user = await getUser(env, request);
-  return json({ user: user || null });
+  if (!user) return json({ user: null });
+  const mfaRow = await env.DB.prepare("SELECT enabled_at FROM user_mfa WHERE user_id=?").bind(user.id).first();
+  const mfa = { enrolled: !!(mfaRow && mfaRow.enabled_at), required: user.role === "admin" };
+  return json({ user: { ...user, mfa } });
 }
 
 // POST /api/me -> update the signed-in user's own profile (name, country, languages).

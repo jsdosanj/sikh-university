@@ -1,0 +1,69 @@
+name: Import approved course drafts
+
+# Admin-triggered (Open Decision 4: manual workflow_dispatch, not a cron auto-PR).
+# Pulls admin-approved studio drafts via /api/admin/drafts-export (Bearer
+# EXPORT_TOKEN), merges them into site/assets/data/courses.json, regenerates the
+# derived server/public artifacts, and opens a PR. Publishing is a git PR, never
+# a runtime mutation — merging the PR (through the normal CI + auto-merge rail)
+# is what actually makes a course live, exactly like a hand-authored catalogue
+# change. Needs the EXPORT_TOKEN repo secret (mirrors the Worker secret of the
+# same name) and skips gracefully without it.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  import:
+    name: import approved drafts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Import approved drafts into the catalogue
+        id: import
+        env:
+          EXPORT_TOKEN: ${{ secrets.EXPORT_TOKEN }}
+        run: |
+          if [ -z "$EXPORT_TOKEN" ]; then
+            echo "EXPORT_TOKEN is not set — skipping the draft import."
+            echo "Add it under repo Settings > Secrets and variables > Actions (it must"
+            echo "match the MFA_ENC_KEY-style Worker secret of the same name) to enable this."
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python3 scripts/import_drafts.py
+          if git diff --quiet site/assets/data/courses.json; then
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skipped=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Regenerate derived catalogue artifacts
+        if: steps.import.outputs.skipped != 'true'
+        run: |
+          python3 scripts/validate.py
+          python3 scripts/build_quiz_keys.py
+          python3 scripts/build_public_data.py
+
+      - name: Open the import PR
+        if: steps.import.outputs.skipped != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="import/drafts-$(date -u +%Y-%m-%d)"
+          git config user.name "sikhiuni-import-bot"
+          git config user.email "actions@github.com"
+          git checkout -b "$BRANCH"
+          git add site/assets/data/courses.json functions/api/_quiz-keys.js site/assets/data/courses.public.json
+          git commit -m "Import approved studio drafts ($(date -u +%Y-%m-%d))"
+          git push origin "$BRANCH"
+          SUMMARY_FILE="${GITHUB_STEP_SUMMARY:-/dev/null}"
+          gh pr create --base master --head "$BRANCH" \
+            --title "Import approved studio drafts ($(date -u +%Y-%m-%d))" \
+            --body-file "$SUMMARY_FILE"

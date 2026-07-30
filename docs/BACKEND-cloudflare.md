@@ -39,6 +39,12 @@ Non-secret vars live in `[vars]`: `ADMIN_EMAILS` (admin allowlist) and `MAIL_FRO
 `RESEND_API_KEY` is a **secret** (set in the dashboard, not in the repo). `SITE_URL` is
 intentionally omitted so magic-link URLs derive from the request origin.
 
+Two more Worker secrets support the teacher platform: `MFA_ENC_KEY` (a base64 256-bit
+AES-GCM key encrypting TOTP secrets at rest in `user_mfa.secret_enc`) and `EXPORT_TOKEN`
+(the bearer token `import-drafts.yml` uses to call `/api/admin/drafts-export` from CI —
+mirror it as a GitHub repo secret of the same name). Neither is set yet; see
+docs/OPERATIONS.md.
+
 ## Content model
 All courses are authored into one monolith, `site/assets/data/courses.json` (with
 `professors.json`). `web/src/lib/data.ts` imports it at build time; course pages are
@@ -62,16 +68,58 @@ Accounts are live and passwordless:
 The authoritative schema is `schema.sql`. Core tables:
 
 - `users` (id, email, name, country, languages, role, created_at)
-- `magic_tokens`, `sessions` — auth
+- `magic_tokens`, `sessions` — auth (`sessions` also carries `mfa_ok`/`mfa_fail_count`)
 - `progress` (per user × course: completed lessons + `passed_score`)
-- `enrollments`, `discussions`, `ratings`, `certificates`
+- `enrollments`, `discussions` (+ `parent_id`/`pinned`/`locked`/`hidden` for threading/moderation,
+  `discussion_reports`), `ratings`, `certificates`
 - `course_teachers`, `grade_overrides`, `announcements` — teaching/gradebook
 - `teacher_applications`, `feedback`, `events` (append-only audit log)
+- `user_mfa`, `mfa_backup_codes`, `user_flags` — TOTP MFA + independent role-orthogonal
+  flags (e.g. `reviewer`); see [SECURITY.md](SECURITY.md)
+- `teacher_profiles`, `professor_claims` — public teacher pages (`/teacher/:slug`) and the
+  professor-string claim workflow
+- `media_objects` — R2 upload registry (photos/PDFs/video); the only read path for anything
+  under the `uploads/` R2 prefix is `/api/asset`, gated per-object (see below)
+- `assignments`, `submissions` — classroom workflow
+- `course_drafts`, `draft_lessons`, `draft_quiz` — the course authoring studio; **drafts never
+  write to the live catalogue directly** (see "Publishing a draft" below)
 
 Several tables (discussions, ratings, certificates, gradebook, announcements, enrollments,
-feedback, events) are also **auto-created by their handlers on first write**, so a fresh
-handler needs no manual migration. Column additions to existing tables still require a
-one-off migration — see [DEPLOY.md](DEPLOY.md).
+feedback, events, user_mfa, teacher_profiles, media_objects, assignments, submissions,
+course_drafts) are also **auto-created by their handlers on first write**, so a fresh
+handler needs no manual migration. Column additions to existing tables (e.g.
+`sessions.mfa_ok`, the discussions threading columns) still require a one-off migration —
+see `migrations/` and CONTRIBUTING.md's "Schema changes and migrations" section.
+
+## Teacher public pages (`/teacher/:slug`)
+Unlike every other page, `/teacher/:slug` is **not** a static Astro page — profile data is
+dynamic (D1-backed) and must update without a redeploy. `worker.js` intercepts the path
+(nothing in the Astro asset manifest matches it, so requests reach the Worker), looks up
+the public `teacher_profiles` row, fetches the pre-built `teacher-shell` page from the
+`ASSETS` binding, and rewrites it with `HTMLRewriter`: real `<title>`/meta/canonical/OG tags,
+an injected Person JSON-LD block, and a JSON data island the client script hydrates from
+(no second fetch). The response gets its own hardened CSP (`script-src 'self'`, no
+`unsafe-inline` — the two injected blocks are non-executable JSON types). `/sitemaps/teachers.xml`
+is served the same way, straight from D1, unlike the other (build-time) sitemaps.
+
+## Media / uploads
+Everything under the R2 `uploads/` prefix is private by construction: the `/media/`
+allowlist regex never includes it, so `/api/asset?key=...` is the only way to read an
+uploaded object, and it re-derives access per request (owner, course teacher, admin,
+reviewer, or — once wired up per-course by Workstream C — an enrolled student). Small
+files (`/api/upload`) are buffered and magic-byte-sniffed; video goes through R2's native
+multipart upload (`/api/upload/create` → `/api/upload/part` → `/api/upload/complete`),
+25 MB parts to stay under the Worker's 100 MB request-body cap.
+
+## Publishing a draft (course authoring studio)
+`course_drafts` holds workflow state only — `site/assets/data/courses.json` stays the one
+source of truth for what's actually served. An admin-approved draft is exported as canonical
+Course JSON via `GET /api/admin/drafts-export` (session or `Authorization: Bearer
+$EXPORT_TOKEN`), merged into the catalogue by `scripts/import_drafts.py`
+(`.github/workflows/import-drafts.yml`, `workflow_dispatch`), and opened as a normal PR — it
+goes through every existing catalogue gate (`validate.py`, quiz-key parity, answer-strip)
+exactly like a hand-authored change. Merging that PR is what actually publishes the course;
+an admin then clicks "Mark published" to close the loop in D1.
 
 ## R2 layout
 ```

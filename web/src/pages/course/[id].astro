@@ -339,6 +339,10 @@ const breadcrumb = {
         <textarea id="rate-review" rows="2" aria-label="Optional written review" data-i18n-aria="course.rate.reviewAria" placeholder="Optional review…" data-i18n-ph="course.rate.reviewPh" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm transition-colors focus:border-saffron"></textarea>
         <button id="rate-submit" class="btn btn-primary mt-2" data-i18n="course.rate.submit">Submit rating</button>
         <div id="rate-msg" class="mt-2 font-sans text-sm"></div>
+        <div id="assignments" class="mt-6 hidden border-t border-line pt-6">
+          <h2 class="text-xl font-bold">Assignments</h2>
+          <div id="assign-list" class="mt-3 space-y-3"></div>
+        </div>
         <div class="mt-6 border-t border-line pt-6">
           <h2 class="text-xl font-bold" data-i18n="course.discussion.h">Discussion &amp; Q&amp;A</h2>
           <div id="disc-list" class="mt-3 space-y-2"></div>
@@ -637,15 +641,114 @@ const breadcrumb = {
           if (r.ok) loadRating();
         });
       };
-      // Discussion
+      // Assignments — only shown once /api/assignments confirms the signed-in
+      // user is enrolled (server-gated; a 403 just means "hide this section").
+      function loadAssignments() {
+        api('/api/assignments?courseId=' + encodeURIComponent(id)).then(function (r) {
+          if (!r.ok || r.d.scope !== 'student') return;
+          var section = document.getElementById('assignments');
+          var list = r.d.assignments || [];
+          if (!list.length) return;
+          section.classList.remove('hidden');
+          document.getElementById('assign-list').innerHTML = list.map(function (a) {
+            var statusLine = a.my_status === 'graded' ? '<span class="pill bg-saffron-soft text-saffron-deep">Graded: ' + esc(a.my_grade) + '/' + esc(a.points) + '</span>'
+              : a.my_status === 'submitted' ? '<span class="pill bg-paper text-muted">Submitted' + (a.my_late ? ' (late)' : '') + '</span>'
+              : a.status === 'closed' ? '<span class="pill bg-paper text-muted">Closed — no submission</span>'
+              : '';
+          return '<div class="rounded-lg border border-line bg-surface p-3" data-assignment="' + esc(a.id) + '" data-allow-file="' + (a.allow_file ? '1' : '0') + '" data-closed="' + (a.status === 'closed' ? '1' : '0') + '">' +
+              '<div class="flex flex-wrap items-center gap-2"><span class="font-bold text-navy">' + esc(a.title) + '</span>' + (a.due_at ? '<span class="font-sans text-xs text-muted">due ' + esc(new Date(a.due_at).toLocaleDateString()) + '</span>' : '') + statusLine + '</div>' +
+              '<p class="mt-1 text-sm text-muted">' + esc(a.instructions) + '</p>' +
+              (a.my_status !== 'graded' && a.status !== 'closed' ? (
+                '<textarea rows="2" class="mt-2 w-full rounded-lg border border-line p-2 font-sans text-sm focus:border-saffron" placeholder="Your answer…" data-assign-text></textarea>' +
+                (a.allow_file ? '<input type="file" class="mt-2 block font-sans text-xs" data-assign-file />' : '') +
+                '<button type="button" class="btn mt-2" data-assign-submit>' + (a.my_status === 'submitted' ? 'Resubmit' : 'Submit') + '</button>' +
+                '<div class="mt-1 font-sans text-xs text-muted" data-assign-note></div>'
+              ) : (a.my_feedback ? '<p class="mt-2 text-sm"><strong>Feedback:</strong> ' + esc(a.my_feedback) + '</p>' : '')) +
+              '</div>';
+          }).join('');
+          document.querySelectorAll('[data-assign-submit]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var card = btn.closest('[data-assignment]');
+              var assignmentId = card.dataset.assignment;
+              var text = card.querySelector('[data-assign-text]').value.trim();
+              var fileInput = card.querySelector('[data-assign-file]');
+              var note = card.querySelector('[data-assign-note]');
+              var file = fileInput && fileInput.files[0];
+              btn.disabled = true;
+              var uploadThen = function (fileKey) {
+                api('/api/submissions', { method: 'POST', body: JSON.stringify({ assignmentId: assignmentId, text: text, fileKey: fileKey }) }).then(function (r2) {
+                  btn.disabled = false;
+                  note.textContent = r2.ok ? 'Submitted.' : ((r2.d && r2.d.error) || 'Could not submit.');
+                  if (r2.ok) loadAssignments();
+                });
+              };
+              if (file) {
+                fetch('/api/upload', { method: 'POST', credentials: 'same-origin', headers: { 'x-upload-kind': 'submission', 'x-upload-context': 'assignment:' + assignmentId, 'content-type': file.type }, body: file })
+                  .then(function (r3) { return r3.json().then(function (d3) { return { ok: r3.ok, d: d3 }; }); })
+                  .then(function (r3) { if (!r3.ok) { btn.disabled = false; note.textContent = (r3.d && r3.d.error) || 'File upload failed.'; return; } uploadThen(r3.d.key); });
+              } else uploadThen(undefined);
+            });
+          });
+        });
+      }
+      loadAssignments();
+
+      // Discussion — depth-1 threading: each root can carry replies[]. Instructor
+      // and scholar/verified badges come pre-computed from the server (author_role,
+      // verified); pinned roots sort first (server-side), locked roots hide the
+      // reply affordance.
+      function badges(x) {
+        var out = '';
+        if (x.author_role === 'instructor') out += '<span class="rounded-full bg-navy px-2 py-0.5 font-sans text-[0.65rem] font-semibold text-white">Instructor</span>';
+        if (x.verified === 'scholar') out += '<span class="ml-1 inline-flex items-center gap-1 rounded-full bg-saffron-soft px-2 py-0.5 font-sans text-[0.65rem] font-semibold text-saffron">' + iconSvg('shield', 'h-3 w-3') + ' Scholar</span>';
+        else if (x.verified === 'identity') out += '<span class="ml-1 inline-flex items-center gap-1 rounded-full bg-surface px-2 py-0.5 font-sans text-[0.65rem] font-semibold text-muted">' + iconSvg('check', 'h-3 w-3') + ' Verified</span>';
+        return out;
+      }
+      function messageHtml(x, isReply) {
+        var name = x.name || 'Learner';
+        var initial = name.trim().charAt(0).toUpperCase() || 'L';
+        return '<div class="' + (isReply ? 'ml-8 mt-2 ' : '') + 'rounded-lg border border-line bg-surface p-3" data-msg-id="' + esc(x.id) + '">' +
+          '<div class="flex flex-wrap items-center gap-2"><span class="h-7 w-7 shrink-0 rounded-full bg-navy text-white grid place-items-center font-sans text-xs" aria-hidden="true">' + esc(initial) + '</span>' +
+          '<div class="font-sans text-xs text-muted">' + esc(name) + (x.created_at ? ' · ' + esc(timeAgo(x.created_at)) : '') + '</div>' +
+          (x.pinned ? '<span class="rounded-full bg-saffron-soft px-2 py-0.5 font-sans text-[0.65rem] font-semibold text-saffron">Pinned</span>' : '') +
+          badges(x) + '</div>' +
+          '<div class="mt-0.5 text-sm">' + esc(x.message) + '</div>' +
+          '<div class="mt-1 flex gap-3 font-sans text-xs text-muted">' +
+          (!isReply && !x.locked ? '<button type="button" data-reply="' + esc(x.id) + '" class="hover:text-navy hover:underline">Reply</button>' : '') +
+          (!isReply && x.locked ? '<span>Locked</span>' : '') +
+          '<button type="button" data-report="' + esc(x.id) + '" class="hover:text-navy hover:underline">Report</button>' +
+          '</div>' +
+          '<div data-reply-box="' + esc(x.id) + '" class="mt-2 hidden"><textarea rows="2" class="w-full rounded-lg border border-line p-2 font-sans text-sm focus:border-saffron" placeholder="Write a reply…"></textarea><button type="button" class="btn mt-1" data-reply-submit="' + esc(x.id) + '">Post reply</button></div>' +
+          '</div>';
+      }
+      function wireRowActions() {
+        document.querySelectorAll('[data-reply]').forEach(function (b) {
+          b.onclick = function () { var box = document.querySelector('[data-reply-box="' + b.dataset.reply + '"]'); if (box) box.classList.toggle('hidden'); };
+        });
+        document.querySelectorAll('[data-reply-submit]').forEach(function (b) {
+          b.onclick = function () {
+            var box = document.querySelector('[data-reply-box="' + b.dataset.replySubmit + '"]');
+            var ta = box && box.querySelector('textarea');
+            var msg = ta && ta.value.trim(); if (!msg) return;
+            api('/api/discussions', { method: 'POST', body: JSON.stringify({ courseId: id, message: msg, parentId: b.dataset.replySubmit }) }).then(function (r) {
+              if (r.ok) loadDisc(); else document.getElementById('disc-note').textContent = (r.d && r.d.error) || 'Could not post that reply.';
+            });
+          };
+        });
+        document.querySelectorAll('[data-report]').forEach(function (b) {
+          b.onclick = function () {
+            b.disabled = true; b.textContent = 'Reported';
+            api('/api/discussions/report', { method: 'POST', body: JSON.stringify({ id: b.dataset.report }) });
+          };
+        });
+      }
       function loadDisc() {
         api('/api/discussions?courseId=' + encodeURIComponent(id)).then(function (r) {
           var m = (r.d && r.d.messages) || [];
           document.getElementById('disc-list').innerHTML = m.length ? m.map(function (x) {
-            var name = x.name || 'Learner';
-            var initial = name.trim().charAt(0).toUpperCase() || 'L';
-            return '<div class="rounded-lg border border-line bg-surface p-3"><div class="flex items-center gap-2"><span class="h-7 w-7 shrink-0 rounded-full bg-navy text-white grid place-items-center font-sans text-xs" aria-hidden="true">' + esc(initial) + '</span><div class="font-sans text-xs text-muted">' + esc(name) + (x.created_at ? ' · ' + esc(timeAgo(x.created_at)) : '') + '</div></div><div class="mt-0.5 text-sm">' + esc(x.message) + '</div></div>';
+            return messageHtml(x, false) + (x.replies || []).map(function (rep) { return messageHtml(rep, true); }).join('');
           }).join('') : '<p class="text-sm text-muted">No messages yet — start the conversation.</p>';
+          wireRowActions();
         });
       }
       loadDisc();

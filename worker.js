@@ -6,6 +6,24 @@ import { onRequestGet as progressGet, onRequestPost as progressPost } from "./fu
 import { onRequestPost as authRequestPost } from "./functions/api/auth/request.js";
 import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
 import { onRequestPost as authLogoutPost } from "./functions/api/auth/logout.js";
+import { onRequestPost as mfaEnrollPost } from "./functions/api/auth/mfa/enroll.js";
+import { onRequestPost as mfaConfirmPost } from "./functions/api/auth/mfa/confirm.js";
+import { onRequestPost as mfaVerifyPost } from "./functions/api/auth/mfa/verify.js";
+import { onRequestPost as mfaDisablePost } from "./functions/api/auth/mfa/disable.js";
+import { onRequestGet as teacherProfileGet, onRequestPost as teacherProfilePost } from "./functions/api/teacher/profile.js";
+import { onRequestGet as teachersGet } from "./functions/api/teachers.js";
+import { onRequestGet as teacherClaimGet, onRequestPost as teacherClaimPost } from "./functions/api/teacher/claim.js";
+import { onRequestGet as adminTeacherProfilesGet, onRequestPost as adminTeacherProfilesPost } from "./functions/api/admin/teacher-profiles.js";
+import { onRequestGet as adminClaimsGet, onRequestPost as adminClaimsPost } from "./functions/api/admin/claims.js";
+import { TEACHER_PUBLIC_COLS, presentTeacherProfile } from "./functions/api/_teacher-page.js";
+import { serveR2Object } from "./functions/api/_r2-serve.js";
+import { onRequestPost as uploadPost } from "./functions/api/upload.js";
+import { onRequestPost as uploadCreatePost } from "./functions/api/upload/create.js";
+import { onRequestPut as uploadPartPut } from "./functions/api/upload/part.js";
+import { onRequestPost as uploadCompletePost } from "./functions/api/upload/complete.js";
+import { onRequestPost as uploadAbortPost } from "./functions/api/upload/abort.js";
+import { onRequestGet as assetGet } from "./functions/api/asset.js";
+import { onRequestGet as adminUploadsGet, onRequestPost as adminUploadsPost } from "./functions/api/admin/uploads.js";
 import { onRequestPost as teacherApplyPost } from "./functions/api/teacher/apply.js";
 import { onRequestGet as adminAppsGet, onRequestPost as adminAppsPost } from "./functions/api/admin/applications.js";
 import { onRequestPost as feedbackPost } from "./functions/api/feedback.js";
@@ -19,6 +37,22 @@ import { onRequestPost as quizPost } from "./functions/api/quiz.js";
 import { onRequestPost as programExamPost } from "./functions/api/program-exam.js";
 import { onRequestGet as announcementsGet, onRequestPost as announcementsPost } from "./functions/api/announcements.js";
 import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
+import { onRequestGet as discussionsModerateGet, onRequestPost as discussionsModeratePost } from "./functions/api/discussions/moderate.js";
+import { onRequestPost as discussionsReportPost } from "./functions/api/discussions/report.js";
+import { onRequestGet as assignmentsGet, onRequestPost as assignmentsPost } from "./functions/api/assignments.js";
+import { onRequestGet as submissionsGet, onRequestPost as submissionsPost } from "./functions/api/submissions.js";
+import { onRequestPost as submissionsGradePost } from "./functions/api/submissions/grade.js";
+import { onRequestGet as studioDraftsGet, onRequestPost as studioDraftsPost } from "./functions/api/studio/drafts.js";
+import { onRequestGet as studioDraftGet, onRequestPost as studioDraftPost } from "./functions/api/studio/draft.js";
+import { onRequestPost as studioLessonPost } from "./functions/api/studio/lesson.js";
+import { onRequestPost as studioQuizPost } from "./functions/api/studio/quiz.js";
+import { onRequestGet as studioValidateGet } from "./functions/api/studio/validate.js";
+import { onRequestPost as studioSubmitPost } from "./functions/api/studio/submit.js";
+import { onRequestGet as reviewQueueGet } from "./functions/api/review/queue.js";
+import { onRequestGet as reviewDraftGet } from "./functions/api/review/draft.js";
+import { onRequestPost as reviewDecisionPost } from "./functions/api/review/decision.js";
+import { onRequestGet as adminDraftsExportGet } from "./functions/api/admin/drafts-export.js";
+import { onRequestPost as adminDraftsMarkPublishedPost } from "./functions/api/admin/drafts-mark-published.js";
 import { onRequestGet as ratingsGet, onRequestPost as ratingsPost } from "./functions/api/ratings.js";
 import { onRequestGet as certGet, onRequestPost as certPost } from "./functions/api/certificates.js";
 import { onRequestGet as enrollmentsGet, onRequestPost as enrollmentsPost } from "./functions/api/enrollments.js";
@@ -39,6 +73,22 @@ const routes = {
   "/api/auth/request": { POST: authRequestPost },
   "/api/auth/verify": { GET: authVerifyGet },
   "/api/auth/logout": { POST: authLogoutPost },
+  "/api/auth/mfa/enroll": { POST: mfaEnrollPost },
+  "/api/auth/mfa/confirm": { POST: mfaConfirmPost },
+  "/api/auth/mfa/verify": { POST: mfaVerifyPost },
+  "/api/auth/mfa/disable": { POST: mfaDisablePost },
+  "/api/teacher/profile": { GET: teacherProfileGet, POST: teacherProfilePost },
+  "/api/teachers": { GET: teachersGet },
+  "/api/teacher/claim": { GET: teacherClaimGet, POST: teacherClaimPost },
+  "/api/admin/teacher-profiles": { GET: adminTeacherProfilesGet, POST: adminTeacherProfilesPost },
+  "/api/admin/claims": { GET: adminClaimsGet, POST: adminClaimsPost },
+  "/api/upload": { POST: uploadPost },
+  "/api/upload/create": { POST: uploadCreatePost },
+  "/api/upload/part": { PUT: uploadPartPut },
+  "/api/upload/complete": { POST: uploadCompletePost },
+  "/api/upload/abort": { POST: uploadAbortPost },
+  "/api/asset": { GET: assetGet },
+  "/api/admin/uploads": { GET: adminUploadsGet, POST: adminUploadsPost },
   "/api/teacher/apply": { POST: teacherApplyPost },
   "/api/admin/applications": { GET: adminAppsGet, POST: adminAppsPost },
   "/api/feedback": { POST: feedbackPost },
@@ -52,6 +102,22 @@ const routes = {
   "/api/program-exam": { POST: programExamPost },
   "/api/announcements": { GET: announcementsGet, POST: announcementsPost },
   "/api/discussions": { GET: discussionsGet, POST: discussionsPost },
+  "/api/discussions/moderate": { GET: discussionsModerateGet, POST: discussionsModeratePost },
+  "/api/discussions/report": { POST: discussionsReportPost },
+  "/api/assignments": { GET: assignmentsGet, POST: assignmentsPost },
+  "/api/submissions": { GET: submissionsGet, POST: submissionsPost },
+  "/api/submissions/grade": { POST: submissionsGradePost },
+  "/api/studio/drafts": { GET: studioDraftsGet, POST: studioDraftsPost },
+  "/api/studio/draft": { GET: studioDraftGet, POST: studioDraftPost },
+  "/api/studio/lesson": { POST: studioLessonPost },
+  "/api/studio/quiz": { POST: studioQuizPost },
+  "/api/studio/validate": { GET: studioValidateGet },
+  "/api/studio/submit": { POST: studioSubmitPost },
+  "/api/review/queue": { GET: reviewQueueGet },
+  "/api/review/draft": { GET: reviewDraftGet },
+  "/api/review/decision": { POST: reviewDecisionPost },
+  "/api/admin/drafts-export": { GET: adminDraftsExportGet },
+  "/api/admin/drafts-mark-published": { POST: adminDraftsMarkPublishedPost },
   "/api/ratings": { GET: ratingsGet, POST: ratingsPost },
   "/api/certificates": { GET: certGet, POST: certPost },
   "/api/enrollments": { GET: enrollmentsGet, POST: enrollmentsPost },
@@ -77,6 +143,11 @@ const RATE_LIMITS = {
   "/api/ratings": { limit: 15, window: 60 },
   "/api/push/subscribe": { limit: 10, window: 60 },
   "/api/push/unsubscribe": { limit: 10, window: 60 },
+  "/api/auth/mfa/verify": { limit: 10, window: 60 },  // 6-digit code brute-force guard
+  "/api/teacher/profile": { limit: 10, window: 60 },
+  "/api/teacher/claim": { limit: 5, window: 60 },
+  "/api/discussions/report": { limit: 5, window: 60 },
+  "/api/submissions": { limit: 10, window: 60 },
 };
 const RL_ENFORCE = true;
 
@@ -114,6 +185,62 @@ const LEGACY_HOSTS = new Set([
   "sikh-university.dosanjhlabs.com",
   "sikh-university.jasvant-dosanjh.workers.dev",
 ]);
+
+// Worker-rendered /teacher/:slug — fetches the Astro-built shell (real CSS bundle,
+// real i18n attributes: zero design drift) and rewrites title/meta/JSON-LD/canonical
+// server-side with HTMLRewriter, so crawlers get real SEO data with JS disabled,
+// then injects a JSON data island so the client hydration script needs no second fetch.
+function renderTeacherPage(profile, assignedCourseIds, shellResp) {
+  const pub = presentTeacherProfile(profile);
+  const title = `${pub.displayName} — Sikhi University`;
+  const description = (pub.bio ? pub.bio.slice(0, 300) : `${pub.displayName} teaches at Sikhi University.`);
+  const canonical = `${CANONICAL_ORIGIN}/teacher/${pub.slug}`;
+  const photoUrl = pub.photoUrl ? `${CANONICAL_ORIGIN}${pub.photoUrl}` : undefined;
+  const personLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: pub.displayName,
+      url: canonical,
+      ...(pub.bio ? { description: pub.bio } : {}),
+      ...(photoUrl ? { image: photoUrl } : {}),
+    },
+  };
+  const ldJson = JSON.stringify(personLd).replace(/</g, "\\u003c");
+  const dataIsland = JSON.stringify({ ...pub, assignedCourseIds }).replace(/</g, "\\u003c");
+
+  const rewriter = new HTMLRewriter()
+    .on("title", { element(e) { e.setInnerContent(title); } })
+    .on('meta[name="description"]', { element(e) { e.setAttribute("content", description); } })
+    .on('link[rel="canonical"]', { element(e) { e.setAttribute("href", canonical); } })
+    .on('meta[property="og:title"]', { element(e) { e.setAttribute("content", title); } })
+    .on('meta[property="og:description"]', { element(e) { e.setAttribute("content", description); } })
+    .on('meta[property="og:url"]', { element(e) { e.setAttribute("content", canonical); } })
+    .on('meta[name="twitter:title"]', { element(e) { e.setAttribute("content", title); } })
+    .on('meta[name="twitter:description"]', { element(e) { e.setAttribute("content", description); } })
+    .on("head", {
+      element(e) {
+        e.append(`<script type="application/ld+json">${ldJson}</script>`, { html: true });
+        e.append(`<script type="application/json" id="profile-data">${dataIsland}</script>`, { html: true });
+      },
+    });
+
+  const transformed = rewriter.transform(shellResp);
+  const headers = new Headers(transformed.headers);
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("X-Frame-Options", "DENY");
+  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  headers.set("Permissions-Policy", "geolocation=(), camera=(), microphone=()");
+  // No unsafe-inline needed: this response has no deliberate inline scripts (the
+  // hydration script is Astro-bundled to an external file; the two injected
+  // blocks are non-executable JSON types that need no CSP allowance at all).
+  headers.set("Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; " +
+    "connect-src 'self'; frame-src 'none'; form-action 'self'; base-uri 'self'; frame-ancestors 'none'");
+  return new Response(transformed.body, { status: 200, headers });
+}
 
 export default {
   // Daily coursework reminder sweep (wrangler.toml [triggers]). Payload-less
@@ -154,7 +281,8 @@ export default {
       // Rate limiting, keyed per client IP. Count-only unless RL_ENFORCE: a
       // limiter outage or an over-limit burst must never lock out the mission's
       // shared-NAT users, so it fails open and (for now) only logs.
-      const rl = request.method === "POST" ? RATE_LIMITS[pathname] : null;
+      // POST and PUT both carry a body worth rate-limiting (PUT: /api/upload/part).
+      const rl = (request.method === "POST" || request.method === "PUT") ? RATE_LIMITS[pathname] : null;
       if (rl) {
         const ip = request.headers.get("CF-Connecting-IP") || "unknown";
         const ok = await checkRateLimit(env, `${pathname}:${ip}`, rl.limit, rl.window);
@@ -183,37 +311,13 @@ export default {
       const key = decodeURIComponent(pathname.slice("/media/".length));
       // Only serve known public prefixes so the rest of the bucket can never be
       // read via /media/ (defence-in-depth against a latent full-bucket disclosure).
+      // uploads/ is deliberately NEVER added here — private-by-construction; see
+      // functions/api/asset.js for the access-controlled read path for uploads.
       if (!key || key.includes("..") || !/^(santhya|audio|gurbani|media)\//.test(key)) {
         return new Response("Not found", { status: 404 });
       }
-      const rangeHeader = request.headers.get("range");
-      let opts;
-      if (rangeHeader) {
-        const m = /bytes=(\d*)-(\d*)/.exec(rangeHeader);
-        if (m) {
-          const start = m[1] ? parseInt(m[1], 10) : 0;
-          const end = m[2] ? parseInt(m[2], 10) : undefined;
-          // Ignore malformed ranges (negative or end<start) rather than computing a bad length.
-          if (start >= 0 && (end === undefined || end >= start)) {
-            opts = { range: end !== undefined ? { offset: start, length: end - start + 1 } : { offset: start } };
-          }
-        }
-      }
-      const obj = await env.MEDIA.get(key, opts);
-      if (!obj) return new Response("Not found", { status: 404 });
-      const headers = new Headers();
-      obj.writeHttpMetadata(headers);
-      headers.set("accept-ranges", "bytes");
-      headers.set("cache-control", "public, max-age=31536000, immutable");
-      if (obj.range) {
-        const s = obj.range.offset || 0;
-        const len = obj.range.length != null ? obj.range.length : obj.size - s;
-        headers.set("content-range", `bytes ${s}-${s + len - 1}/${obj.size}`);
-        headers.set("content-length", String(len));
-        return new Response(obj.body, { status: 206, headers });
-      }
-      headers.set("content-length", String(obj.size));
-      return new Response(obj.body, { status: 200, headers });
+      const resp = await serveR2Object(env, request, key);
+      return resp || new Response("Not found", { status: 404 });
     }
     // courses.json is too large for Cloudflare's 25 MiB asset limit; serve from R2 instead.
     if (pathname === '/assets/data/courses.json') {
@@ -225,6 +329,38 @@ export default {
       headers.set('cache-control', 'public, max-age=3600');
       headers.set('access-control-allow-origin', '*');
       return new Response(obj.body, { status: 200, headers });
+    }
+    // Worker-rendered teacher public profile. Falls through to the Astro 404 (the
+    // final branch below) on an invalid/unknown/private slug — this branch only
+    // ever returns early on a HIT, so "not found" needs no special-casing here.
+    if (pathname.startsWith("/teacher/") && pathname !== "/teacher/") {
+      const slug = decodeURIComponent(pathname.slice("/teacher/".length)).replace(/\/$/, "");
+      if (/^[a-z0-9-]+$/.test(slug)) {
+        const profile = await env.DB.prepare(
+          `SELECT ${TEACHER_PUBLIC_COLS} FROM teacher_profiles WHERE slug=? AND is_public=1`
+        ).bind(slug).first().catch(() => null);
+        if (profile) {
+          const { results } = await env.DB.prepare("SELECT course_id FROM course_teachers WHERE user_id=?")
+            .bind(profile.user_id).all().catch(() => ({ results: [] }));
+          const shellResp = await env.ASSETS.fetch(new Request(new URL("/teacher-shell", request.url), request));
+          if (shellResp.ok) return renderTeacherPage(profile, (results || []).map((r) => r.course_id), shellResp);
+        }
+      }
+    }
+    // Worker-served sitemap for teacher profiles (D1-backed, so it reflects new
+    // profiles without a redeploy — unlike the build-time Astro sitemaps).
+    if (pathname === "/sitemaps/teachers.xml") {
+      const { results } = await env.DB.prepare(
+        "SELECT slug, updated_at FROM teacher_profiles WHERE is_public=1 ORDER BY slug"
+      ).all().catch(() => ({ results: [] }));
+      const body =
+        `<?xml version="1.0" encoding="UTF-8"?>\n` +
+        `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+        (results || []).map((r) =>
+          `  <url><loc>${CANONICAL_ORIGIN}/teacher/${r.slug}</loc><lastmod>${new Date(r.updated_at).toISOString().slice(0, 10)}</lastmod><priority>0.5</priority></url>`
+        ).join("\n") +
+        `\n</urlset>\n`;
+      return new Response(body, { headers: { "content-type": "application/xml; charset=utf-8" } });
     }
     // Everything else: the Astro static build. NOTE — without `run_worker_first`,
     // Cloudflare serves any request that matches a file in the assets manifest

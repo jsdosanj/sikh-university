@@ -19,14 +19,18 @@ import Base from '../layouts/Base.astro';
     api('/api/me').then(({ ok, d }) => {
       const u = ok && d.user;
       if (!u || u.role !== 'admin') { root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">Admins only. <a class="underline" href="/login">Sign in</a> with an admin account.</div>'; return; }
+      if (u.mfa && u.mfa.required && !u.mfa.enrolled) {
+        root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">Two-factor authentication is required for admin accounts. <a class="underline font-semibold" href="/mfa">Set it up now →</a></div>';
+        return;
+      }
       root.innerHTML = `<h1 class="text-3xl font-bold">Admin dashboard</h1><p class="font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
         <div id="tabs" class="mt-4 flex flex-wrap gap-1 border-b border-line"></div><div id="panel" class="mt-6"></div>`;
-      const tabs = [['overview', 'Overview'], ['users', 'Users'], ['gradebook', 'Gradebook'], ['teachers', 'Teachers'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback'], ['audit', 'Audit log']];
+      const tabs = [['overview', 'Overview'], ['users', 'Users'], ['gradebook', 'Gradebook'], ['teachers', 'Teachers'], ['profiles', 'Profiles'], ['review', 'Review'], ['uploads', 'Uploads'], ['moderation', 'Moderation'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback'], ['audit', 'Audit log']];
       let cur = 'overview';
       const tabsEl = document.getElementById('tabs'); const panel = document.getElementById('panel');
       tabs.forEach(([k, label]) => { const b = document.createElement('button'); b.textContent = label; b.dataset.k = k; b.className = 'px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted'; b.onclick = () => { cur = k; draw(); }; tabsEl.appendChild(b); });
       function setActive() { Array.from(tabsEl.children).forEach((b) => { const on = b.dataset.k === cur; b.classList.toggle('border-saffron', on); b.classList.toggle('text-navy', on); b.classList.toggle('font-semibold', on); }); }
-      function draw() { setActive(); panel.innerHTML = '<p class="text-muted">Loading…</p>'; ({ overview, users, gradebook, teachers, courses: coursesTab, applications, feedback, audit })[cur](); }
+      function draw() { setActive(); panel.innerHTML = '<p class="text-muted">Loading…</p>'; ({ overview, users, gradebook, teachers, profiles, review, uploads, moderation, courses: coursesTab, applications, feedback, audit })[cur](); }
 
       // ── Gradebook ──────────────────────────────────────────────────────────
       function gradebook() {
@@ -110,10 +114,11 @@ import Base from '../layouts/Base.astro';
 
       // ── Teachers ───────────────────────────────────────────────────────────
       function teachers() {
-        Promise.all([api('/api/admin/course-teachers'), api('/api/admin/users')]).then(([a, u]) => {
+        Promise.all([api('/api/admin/course-teachers'), api('/api/admin/users'), api('/api/admin/teacher-profiles')]).then(([a, u, tp]) => {
           const assigns = (a.ok && a.d.assignments) || [], usersList = (u.ok && u.d.users) || [];
+          const profilesByUser = {}; ((tp.ok && tp.d.all) || []).forEach((p) => { profilesByUser[p.user_id] = p; });
           const courseOpts = courses.filter((c) => c.status === 'published').slice().sort((x, y) => x.title.localeCompare(y.title)).map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('');
-          const userOpts = usersList.filter((x) => x.role !== 'admin').map((x) => `<option value="${esc(x.id)}">${esc(x.email)} (${esc(x.role)})</option>`).join('');
+          const userOpts = usersList.map((x) => `<option value="${esc(x.id)}">${esc(x.email)} (${esc(x.role)})</option>`).join('');
           let html = `<p class="font-sans text-sm text-muted">Assign a teacher to a course.</p>
             <div class="mt-4 flex flex-wrap items-end gap-3 rounded-xl2 border border-line bg-surface p-4">
               <label class="font-sans text-sm">Teacher<br><select id="t-user" class="mt-1 rounded-lg border border-line bg-paper px-2 py-1.5">${userOpts || '<option value="">No eligible users</option>'}</select></label>
@@ -127,10 +132,126 @@ import Base from '../layouts/Base.astro';
             assigns.forEach((x) => { if (!byTeacher[x.email]) byTeacher[x.email] = []; byTeacher[x.email].push(x); });
             html += `<div class="mt-3 grid gap-4 sm:grid-cols-2">${Object.entries(byTeacher).map(([email, ass]) => `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="font-semibold text-navy">${esc(email)}</div><div class="font-sans text-xs text-muted mt-0.5">${ass.length} course${ass.length !== 1 ? 's' : ''} assigned</div><ul class="mt-2 divide-y divide-line">${ass.map((x) => `<li class="py-1 flex items-center justify-between"><span class="text-sm">${esc(ctitle(x.course_id, courses))}</span><button class="rounded border border-line px-2 py-0.5 font-sans text-xs hover:border-saffron" data-unassign data-c="${esc(x.course_id)}" data-u="${esc(x.user_id)}">Unassign</button></li>`).join('')}</ul></div>`).join('')}</div>`;
           }
+
+          const nonLearners = usersList.filter((x) => x.role !== 'learner');
+          html += `<h3 class="mt-10 text-lg font-bold">Teacher &amp; admin controls</h3>
+            <p class="font-sans text-sm text-muted">Verification level, MFA reset, and reviewer-flag grants.</p>
+            <div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">User</th><th>Verification</th><th>Reviewer</th><th>MFA</th></tr></thead><tbody>
+            ${nonLearners.map((x) => {
+              const p = profilesByUser[x.id];
+              const level = (p && p.verification_level) || 'none';
+              return `<tr class="border-t border-line align-middle" data-user="${esc(x.id)}">
+                <td class="py-2">${esc(x.name || x.email)}<div class="font-sans text-xs text-muted">${esc(x.email)}</div></td>
+                <td><select class="rounded-lg border border-line bg-paper px-2 py-1 font-sans text-xs" data-verify>
+                  <option value="none" ${level === 'none' ? 'selected' : ''}>None</option>
+                  <option value="identity" ${level === 'identity' ? 'selected' : ''}>Identity-verified</option>
+                  <option value="scholar" ${level === 'scholar' ? 'selected' : ''}>Scholar-verified</option>
+                </select> ${p ? '' : '<div class="font-sans text-xs text-muted">(no profile yet)</div>'}</td>
+                <td><button class="rounded border border-line px-2 py-0.5 font-sans text-xs hover:border-saffron" data-reviewer-toggle>Grant/Revoke</button></td>
+                <td><button class="rounded border border-line px-2 py-0.5 font-sans text-xs hover:border-saffron" data-mfa-reset>Reset MFA</button></td>
+              </tr>`;
+            }).join('')}
+            </tbody></table></div>`;
+
           panel.innerHTML = html;
           const ab = document.getElementById('t-assign');
           if (ab) ab.addEventListener('click', () => { const userId = document.getElementById('t-user').value; const courseId = document.getElementById('t-course').value; if (!userId || !courseId) return; api('/api/admin/course-teachers', { method: 'POST', body: JSON.stringify({ userId, courseId, action: 'assign' }) }).then(({ ok }) => { if (ok) draw(); }); });
           panel.querySelectorAll('[data-unassign]').forEach((b) => b.addEventListener('click', () => { api('/api/admin/course-teachers', { method: 'POST', body: JSON.stringify({ courseId: b.dataset.c, userId: b.dataset.u, action: 'unassign' }) }).then(({ ok }) => { if (ok) draw(); }); }));
+          panel.querySelectorAll('[data-verify]').forEach((sel) => sel.addEventListener('change', () => {
+            const userId = sel.closest('[data-user]').dataset.user;
+            api('/api/admin/teacher-profiles', { method: 'POST', body: JSON.stringify({ userId, action: 'set_verification', level: sel.value }) })
+              .then(({ ok }) => window.suToast(ok ? 'Verification updated.' : 'Could not update — does this user have a profile yet?', ok ? 'ok' : 'error'));
+          }));
+          panel.querySelectorAll('[data-reviewer-toggle]').forEach((b) => b.addEventListener('click', async () => {
+            const userId = b.closest('[data-user]').dataset.user;
+            const action = confirm('OK = grant reviewer, Cancel = revoke reviewer') ? 'grant' : 'revoke';
+            const r = await api('/api/admin/users', { method: 'POST', body: JSON.stringify({ id: userId, flag: 'reviewer', action }) });
+            window.suToast(!r.ok ? 'Could not update reviewer flag.' : `Reviewer flag ${action}ed.`, !r.ok ? 'error' : 'ok');
+          }));
+          panel.querySelectorAll('[data-mfa-reset]').forEach((b) => b.addEventListener('click', () => {
+            const userId = b.closest('[data-user]').dataset.user;
+            if (!confirm('Reset MFA for this user? They will need to re-enroll.')) return;
+            api('/api/admin/users', { method: 'POST', body: JSON.stringify({ id: userId, action: 'mfa_reset' }) })
+              .then(({ ok }) => window.suToast(ok ? 'MFA reset.' : 'Could not reset MFA.', ok ? 'ok' : 'error'));
+          }));
+        });
+      }
+
+      // ── Profiles ───────────────────────────────────────────────────────────
+      function profiles() {
+        Promise.all([api('/api/admin/teacher-profiles'), api('/api/admin/claims')]).then(([tp, cl]) => {
+          const pending = (tp.ok && tp.d.pending) || [];
+          const claims = (cl.ok && cl.d.claims) || [];
+          panel.innerHTML = `
+            <h3 class="text-lg font-bold">Publish-approval queue (${pending.length})</h3>
+            ${pending.length ? pending.map((p) => `<div class="mt-3 rounded-xl2 border border-line bg-surface p-4" data-profile="${esc(p.user_id)}"><div class="font-semibold text-navy">${esc(p.display_name)}</div><div class="font-sans text-xs text-muted">${esc(p.email)} · slug: ${esc(p.slug)}</div><p class="mt-1 text-sm">${esc(p.bio || '')}</p><button class="btn btn-primary mt-2 font-sans text-xs" data-approve-profile>Approve &amp; publish</button></div>`).join('') : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No pending profile-publish requests.</div>'}
+            <h3 class="mt-8 text-lg font-bold">Pending professor claims (${claims.length})</h3>
+            ${claims.length ? claims.map((c) => `<div class="mt-3 rounded-xl2 border border-line bg-surface p-4" data-claim="${esc(c.id)}"><div class="font-semibold text-navy">${esc(c.professor_name)}</div><div class="font-sans text-xs text-muted">claimed by ${esc(c.name || c.email)}</div><p class="mt-1 text-sm">${esc(c.statement || '')}</p><div class="mt-2 flex gap-2"><button class="btn btn-primary font-sans text-xs" data-claim-decide="approve">Approve</button><button class="btn font-sans text-xs" data-claim-decide="deny">Deny</button></div></div>`).join('') : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No pending claims.</div>'}`;
+
+          panel.querySelectorAll('[data-approve-profile]').forEach((b) => b.addEventListener('click', () => {
+            const userId = b.closest('[data-profile]').dataset.profile;
+            api('/api/admin/teacher-profiles', { method: 'POST', body: JSON.stringify({ userId, action: 'approve_publish' }) }).then(({ ok }) => { if (ok) draw(); else window.suToast('Could not publish.', 'error'); });
+          }));
+          panel.querySelectorAll('[data-claim-decide]').forEach((b) => b.addEventListener('click', () => {
+            const id = b.closest('[data-claim]').dataset.claim;
+            api('/api/admin/claims', { method: 'POST', body: JSON.stringify({ id, decision: b.dataset.claimDecide }) }).then(({ ok, d }) => { if (ok) draw(); else window.suToast(d.error || 'Could not decide claim.', 'error'); });
+          }));
+        });
+      }
+
+      // ── Review ─────────────────────────────────────────────────────────────
+      function review() {
+        Promise.all([api('/api/review/queue'), api('/api/admin/drafts-export?status=approved&limit=200')]).then(([q, ap]) => {
+          const queue = (q.ok && q.d.drafts) || [];
+          const approved = (ap.ok && ap.d.courses) || [];
+          panel.innerHTML = `
+            <h3 class="text-lg font-bold">Submitted for review (${queue.length})</h3>
+            ${queue.length ? `<div class="mt-3 grid gap-3">${queue.map((dr) => `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex items-center gap-2"><span class="font-semibold text-navy">${esc(dr.title)}</span><span class="pill bg-paper text-navy">${esc(dr.status)}</span></div><div class="font-sans text-xs text-muted">by ${esc(dr.author_name || dr.author_email)} · ${esc(dr.topic)}</div><a class="btn mt-2 font-sans text-xs" href="/review#${esc(dr.id)}" target="_blank">Open in Review workspace →</a></div>`).join('')}</div>` : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">Nothing waiting for review.</div>'}
+            <h3 class="mt-8 text-lg font-bold">Approved — ready to import (${approved.length})</h3>
+            ${approved.length ? `<div class="mt-3 grid gap-2">${approved.map((c) => `<div class="flex items-center gap-2 rounded-xl border border-line bg-surface p-3" data-draft="${esc(c._draftId)}"><span class="font-semibold">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${esc(c.professor)}</span><button class="btn ml-auto font-sans text-xs" data-mark-published>Mark published</button></div>`).join('')}</div>
+               <div class="mt-3 rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Run the import: <code>gh workflow run import-drafts.yml</code> (needs the EXPORT_TOKEN repo secret). Once its PR merges to master and deploys, come back and click "Mark published" on each course above.</div>`
+              : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">Nothing approved yet.</div>'}`;
+          panel.querySelectorAll('[data-mark-published]').forEach((b) => b.addEventListener('click', () => {
+            const draftId = b.closest('[data-draft]').dataset.draft;
+            api('/api/admin/drafts-mark-published', { method: 'POST', body: JSON.stringify({ draftId }) }).then(({ ok }) => { if (ok) draw(); else window.suToast('Could not mark published.', 'error'); });
+          }));
+        });
+      }
+
+      // ── Uploads ────────────────────────────────────────────────────────────
+      function uploads() {
+        api('/api/admin/uploads').then(({ ok, d }) => {
+          if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load.</div>'; return; }
+          const pending = d.pending || [];
+          panel.innerHTML = pending.length ? `<div class="grid gap-3">${pending.map((m) => `
+            <div class="rounded-xl2 border border-line bg-surface p-4" data-key="${esc(m.key)}">
+              <div class="flex flex-wrap items-center gap-2"><span class="font-semibold">${esc(m.kind)}</span><span class="font-sans text-xs text-muted">${esc(m.email)} · ${(m.size / 1024).toFixed(0)} KB · ${esc(m.content_type)}</span>${m.rights ? `<span class="pill bg-paper text-navy">rights: ${esc(m.rights)}</span>` : ''}</div>
+              ${m.rights_note ? `<p class="mt-1 text-sm text-muted">${esc(m.rights_note)}</p>` : ''}
+              ${m.content_type && m.content_type.startsWith('image/') ? `<img src="/api/asset?key=${encodeURIComponent(m.key)}" class="mt-2 max-h-40 rounded-lg border border-line" />` : `<a class="mt-2 inline-block underline text-sm" href="/api/asset?key=${encodeURIComponent(m.key)}" target="_blank" rel="noopener">Preview →</a>`}
+              <div class="mt-2 flex gap-2"><button class="btn btn-primary font-sans text-xs" data-decide="approve">Approve</button><button class="btn font-sans text-xs" data-decide="reject">Reject</button></div>
+            </div>`).join('')}</div>` : '<div class="rounded-xl bg-surface p-4 text-muted">Nothing waiting for moderation.</div>';
+          panel.querySelectorAll('[data-decide]').forEach((b) => b.addEventListener('click', () => {
+            const key = b.closest('[data-key]').dataset.key;
+            api('/api/admin/uploads', { method: 'POST', body: JSON.stringify({ key, action: b.dataset.decide }) }).then(({ ok }) => { if (ok) draw(); else window.suToast('Could not decide.', 'error'); });
+          }));
+        });
+      }
+
+      // ── Moderation ─────────────────────────────────────────────────────────
+      function moderation() {
+        api('/api/discussions/moderate').then(({ ok, d }) => {
+          if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load reports.</div>'; return; }
+          const reports = d.reports || [];
+          panel.innerHTML = reports.length ? `<div class="grid gap-3">${reports.map((r) => `
+            <div class="rounded-xl2 border border-line bg-surface p-4" data-msg="${esc(r.message_id)}">
+              <div class="font-sans text-xs text-muted">${esc(ctitle(r.course_id, courses))} · reported: ${esc(r.reason || 'no reason given')}</div>
+              <p class="mt-1 text-sm">${esc(r.message)}</p>
+              <div class="mt-2 flex gap-2"><button class="btn font-sans text-xs" data-report-action="hide">Hide message</button><button class="btn font-sans text-xs" data-report-action="resolve_report">Resolve (keep visible)</button></div>
+            </div>`).join('')}</div>` : '<div class="rounded-xl bg-surface p-4 text-muted">No open reports.</div>';
+          panel.querySelectorAll('[data-report-action]').forEach((b) => b.addEventListener('click', () => {
+            const id = b.closest('[data-msg]').dataset.msg;
+            api('/api/discussions/moderate', { method: 'POST', body: JSON.stringify({ id, action: b.dataset.reportAction }) }).then(({ ok }) => { if (ok) draw(); else window.suToast('Could not update.', 'error'); });
+          }));
         });
       }
 

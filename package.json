@@ -8,6 +8,8 @@
     "dev:frontend": "cd web && npm run dev",
     "db:seed": "wrangler d1 execute sikh-university --local --file=./schema.sql",
     "db:seed:remote": "wrangler d1 execute sikh-university --remote --file=./schema.sql",
+    "db:migrate": "wrangler d1 execute sikh-university --local --file=./migrations/0001_mfa_flags.sql",
+    "db:migrate:remote": "wrangler d1 execute sikh-university --remote --file=./migrations/0001_mfa_flags.sql",
     "deploy": "wrangler deploy",
     "test": "vitest run"
   },

@@ -22,6 +22,32 @@ export async function onRequestGet({ request, env }) {
     discussions: await all("SELECT course_id, message, created_at FROM discussions WHERE user_id=?", user.id),
     feedback: await all("SELECT course_id, category, message, status, created_at FROM feedback WHERE user_id=?", user.id),
     teacher_applications: await all("SELECT background, courses, status, created_at FROM teacher_applications WHERE user_id=?", user.id),
+    // The encrypted TOTP secret and backup-code hashes are not exported (they're not
+    // "your data" in a portable sense, and exporting the secret would defeat MFA).
+    mfa: await all("SELECT enabled_at, created_at FROM user_mfa WHERE user_id=?", user.id),
+    flags: await all("SELECT flag, granted_at FROM user_flags WHERE user_id=?", user.id),
+    teacher_profile: await all(
+      "SELECT slug, display_name, bio, credentials, areas, languages_taught, links, claimed_professor, " +
+      "verification_level, is_public, created_at, updated_at FROM teacher_profiles WHERE user_id=?", user.id
+    ),
+    professor_claims: await all(
+      "SELECT professor_name, statement, status, created_at, decided_at FROM professor_claims WHERE user_id=?", user.id
+    ),
+    media_objects: await all(
+      "SELECT key, kind, context, size, content_type, status, created_at FROM media_objects WHERE owner_id=?", user.id
+    ),
+    discussion_reports: await all(
+      "SELECT message_id, reason, status, created_at FROM discussion_reports WHERE user_id=?", user.id
+    ),
+    submissions: await all(
+      "SELECT assignment_id, text_content, file_key, submitted_at, late, grade, feedback, status FROM submissions WHERE user_id=?", user.id
+    ),
+    assignments_created: await all(
+      "SELECT id, course_id, title, status, created_at FROM assignments WHERE teacher_id=?", user.id
+    ),
+    course_drafts: await all(
+      "SELECT id, course_id, title, topic, level, status, submitted_at, created_at FROM course_drafts WHERE author_id=?", user.id
+    ),
   };
 
   return new Response(JSON.stringify(data, null, 2), {
