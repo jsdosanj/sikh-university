@@ -1,0 +1,20 @@
+{
+  "description": "only 2 lessons — studio requires at least 3",
+  "topicIds": ["modern-skills"],
+  "draft": {
+    "course_id": "c1",
+    "title": "Test Course",
+    "topic": "modern-skills",
+    "level": 100,
+    "meta": "{\"summary\":\"This is a long enough summary for validation purposes here.\"}"
+  },
+  "lessons": [
+    { "title": "Lesson One", "html": "<p>content one</p>" },
+    { "title": "Lesson Two", "html": "<p>content two</p>" }
+  ],
+  "quiz": [
+    { "q": "What is this?", "options": "[\"a\",\"b\"]", "answer": 0 }
+  ],
+  "expectValid": false,
+  "expectErrors": ["a course needs at least 3 lessons (studio minimum)"]
+}

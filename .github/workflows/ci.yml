@@ -30,6 +30,14 @@ jobs:
       - name: Validate course catalogue (structure + no-shrink guard)
         run: python3 scripts/validate.py
 
+      - name: Draft validator JS/Python parity (studio fast-feedback rules)
+        # functions/api/_draft-validate.js gives studio authors fast feedback before
+        # the real gate (scripts/validate.py against the merged catalogue). Both the
+        # JS test above (npm test, via test/draft-validator-fixtures.test.ts) and this
+        # Python mirror run the same fixtures in test/fixtures/draft-validation/ —
+        # this step fails if the Python side's verdicts ever drift from the JS side's.
+        run: python3 scripts/check_draft_validator_parity.py
+
       - name: Assert public catalogue ships no quiz answers
         # The browser-served catalogue must never contain quiz[].answer, or a learner
         # can read the key and mint a real certificate without knowing the material.
