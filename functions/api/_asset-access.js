@@ -1,20 +1,16 @@
 import { hasFlag } from "./_lib.js";
 
 // The /api/asset access matrix. A media_objects row only carries a `context`
-// string ('profile' | 'assignment:<id>' | 'draft:<id>' | ...), so resolving
-// "who else may read this" means looking up the table that owns that context
-// kind. Those tables (assignments, course_drafts) don't exist until
-// Workstreams D/C ship — the lookups below fail closed (deny) if the table
-// isn't there yet, which is the correct default: until a phase gives a piece
-// of media a course association, only its owner/admin/reviewer can read it.
-//
-// IMPORTANT for Workstream C: published lecture video/PDF needs its OWN
-// context marker (e.g. 'course:<published-course-id>') with an
-// allowEnrolled:true branch below — 'assignment:' and 'draft:' deliberately
-// do NOT grant enrolled-student access, because both are private-by-nature
-// (a submission is one student's private work; a draft isn't published yet).
-// Wiring "enrolled student streams the lecture" into the SAME branch as
-// "classmate reads a submission" would leak private homework to the class.
+// string ('profile' | 'assignment:<id>' | 'draft:<id>' | 'course:<id>'), so
+// resolving "who else may read this" means looking up the table that owns
+// that context kind. 'assignment:' and 'draft:' deliberately do NOT grant
+// enrolled-student access, because both are private-by-nature (a submission
+// is one student's private work; a draft isn't published yet) — that would
+// leak private homework to the whole class. 'course:' is the one branch where
+// enrollment alone grants access: functions/api/admin/drafts-mark-published.js
+// re-tags a draft's media from 'draft:<id>' to 'course:<courseId>' at the
+// moment it confirms the import PR has actually merged, so nothing gets
+// enrolled-student access before the course is truly live.
 export async function canAccessAsset(env, user, media) {
   if (!user) return false;
   if (user.id === media.owner_id) return true;
