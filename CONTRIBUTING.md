@@ -58,6 +58,24 @@ verify anything that touches auth, enrollment, progress, or any other API-backed
 - Production deploy follows from `master` (see `docs/DEPLOY.md`); you don't deploy manually
   for normal changes.
 
+## Schema changes and migrations
+
+Most tables are auto-created by their handler's `ensure()` on first write, and `schema.sql` is
+the canonical full DDL for a fresh D1 seed (`npm run db:seed` / `db:seed:remote`). For a schema
+change that can't just rely on `ensure()` alone (e.g. an `ALTER TABLE ADD COLUMN` on an existing
+table, which isn't safely re-runnable in SQLite/D1), add a new numbered file under `migrations/`
+instead — see `migrations/0001_mfa_flags.sql` for the pattern. Apply it with:
+
+```bash
+wrangler d1 execute sikh-university --local --file=migrations/NNNN_*.sql   # or npm run db:migrate
+wrangler d1 execute sikh-university --remote --file=migrations/NNNN_*.sql  # or npm run db:migrate:remote
+```
+
+Also append the same DDL to the end of `schema.sql` (adapting comments to match its existing
+style) so a fresh D1 seed ends up with the same tables/columns as a production DB that has run
+the migration. Handlers should still keep their `CREATE TABLE IF NOT EXISTS ensure()` calls as
+belt-and-braces — migrations are for the things `ensure()` can't safely do on its own.
+
 ## Adding/editing a course (brief)
 
 The source of truth is `site/assets/data/courses.json`. Edit the course/lesson/quiz entries

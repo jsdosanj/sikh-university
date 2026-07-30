@@ -1,4 +1,4 @@
-import { json, getUser } from "../_lib.js";
+import { json, requireMfa } from "../_lib.js";
 
 async function one(env, sql) {
   try { const r = await env.DB.prepare(sql).first(); return r ? Object.values(r)[0] : 0; }
@@ -11,8 +11,8 @@ async function rows(env, sql) {
 
 // GET /api/admin/stats -> platform statistics (admin only)
 export async function onRequestGet({ request, env }) {
-  const user = await getUser(env, request);
-  if (!user || user.role !== "admin") return json({ error: "forbidden" }, 403);
+  const { error } = await requireMfa(env, request, ["admin"]);
+  if (error) return error;
 
   const totals = {
     users: await one(env, "SELECT COUNT(*) FROM users"),

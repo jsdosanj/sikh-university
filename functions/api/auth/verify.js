@@ -1,5 +1,14 @@
 import { newId, sessionCookie, isAdminEmail, logEvent } from "../_lib.js";
 
+// Belt-and-braces: user_mfa is also created by migrations/0001_mfa_flags.sql (which
+// additionally ALTERs sessions.mfa_ok/mfa_fail_count — those columns are NOT
+// creatable at runtime, so the migration must have run before this code is live).
+async function ensureMfaTable(env) {
+  await env.DB.prepare(
+    "CREATE TABLE IF NOT EXISTS user_mfa (user_id TEXT PRIMARY KEY, secret_enc TEXT NOT NULL, enabled_at INTEGER, created_at INTEGER NOT NULL)"
+  ).run();
+}
+
 // GET /api/auth/verify?token=...  -> consumes token, creates session, redirects to dashboard
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
@@ -38,11 +47,20 @@ export async function onRequestGet({ request, env }) {
 
   const sid = newId() + newId();
   const expires = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
-  await env.DB.prepare("INSERT INTO sessions (id, user_id, expires_at) VALUES (?,?,?)").bind(sid, user.id, expires).run();
+  // If MFA is enrolled (enabled_at set), the session starts unverified (mfa_ok=0)
+  // and the user is routed through /mfa before reaching the dashboard. Everyone
+  // else gets mfa_ok=1 immediately — this branch is byte-identical to the old
+  // behavior for every account that hasn't enrolled in MFA.
+  await ensureMfaTable(env);
+  const mfaRow = await env.DB.prepare("SELECT enabled_at FROM user_mfa WHERE user_id=?").bind(user.id).first();
+  const mfaEnrolled = !!(mfaRow && mfaRow.enabled_at);
+  await env.DB.prepare("INSERT INTO sessions (id, user_id, expires_at, mfa_ok) VALUES (?,?,?,?)")
+    .bind(sid, user.id, expires, mfaEnrolled ? 0 : 1).run();
   await logEvent(env, user, "login", email, null);
 
+  const dest = mfaEnrolled ? `${base}/mfa.html` : `${base}/dashboard.html`;
   return new Response(null, {
     status: 302,
-    headers: { "Location": `${base}/dashboard.html`, "Set-Cookie": sessionCookie(sid, 30 * 24 * 60 * 60) },
+    headers: { "Location": dest, "Set-Cookie": sessionCookie(sid, 30 * 24 * 60 * 60) },
   });
 }

@@ -26,6 +26,8 @@ type Ctx = {
   ownsCourse: boolean;
   cohortByCode: any;
   cohortById: any;
+  mfaEnrolled: boolean;
+  userFlags: string[] | null;
   DB: any;
 };
 
@@ -62,6 +64,10 @@ function resolveFirst(sql: string, bound: any[], ctx: Ctx) {
   if (sql.includes("FROM cohorts WHERE invite_code")) return ctx.cohortByCode;
   // cohorts.js roster: SELECT * FROM cohorts WHERE id=?
   if (sql.includes("FROM cohorts WHERE id=")) return ctx.cohortById;
+  // _lib.js requireMfa() / verify.js: SELECT enabled_at FROM user_mfa WHERE user_id=?
+  if (sql.includes("FROM user_mfa WHERE user_id")) return ctx.mfaEnrolled ? { enabled_at: 1 } : null;
+  // _lib.js hasFlag(): SELECT 1 FROM user_flags WHERE user_id=? AND flag=?
+  if (sql.includes("FROM user_flags WHERE user_id")) return (ctx.userFlags || []).includes(bound[1]) ? { x: 1 } : null;
   return null;
 }
 
@@ -134,6 +140,10 @@ export type MockEnvOpts = {
   // cohorts.js: cohort row returned for a join-by-invite-code / roster-by-id lookup.
   cohortByCode?: any;
   cohortById?: any;
+  // requireMfa(): does user_mfa have an enabled_at row for this user?
+  mfaEnrolled?: boolean;
+  // hasFlag()/requireReviewer(): which flags does this user hold (e.g. ['reviewer'])?
+  userFlags?: string[];
 };
 
 export function mockEnv(opts: MockEnvOpts = {}) {
@@ -147,9 +157,11 @@ export function mockEnv(opts: MockEnvOpts = {}) {
     ownsCourse = false,
     cohortByCode = null,
     cohortById = null,
+    mfaEnrolled = false,
+    userFlags = null,
   } = opts;
   const DB: any = { _certStore: [] as CertRow[] };
-  const ctx: Ctx = { user, progress, certById, dbThrows, rows, ownsCourse, cohortByCode, cohortById, DB };
+  const ctx: Ctx = { user, progress, certById, dbThrows, rows, ownsCourse, cohortByCode, cohortById, mfaEnrolled, userFlags, DB };
   DB.prepare = (sql: string) => makeStmt(sql, ctx);
   return { DB, ADMIN_EMAILS: adminEmails, AI: {}, MEDIA: {} };
 }

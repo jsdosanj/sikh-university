@@ -25,7 +25,7 @@ export async function getUser(env, request) {
   const sid = readCookie(request, "su_session");
   if (!sid) return null;
   const row = await env.DB.prepare(
-    "SELECT u.id, u.email, u.name, u.country, u.languages, u.role FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.id = ? AND s.expires_at > ?"
+    "SELECT u.id, u.email, u.name, u.country, u.languages, u.role, s.mfa_ok FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.id = ? AND s.expires_at > ?"
   ).bind(sid, Date.now()).first();
   return row || null;
 }
@@ -69,4 +69,40 @@ export async function requireUser(env, request) {
 export async function parseBody(request) {
   try { return { body: await request.json() }; }
   catch (e) { return { error: json({ error: "bad request" }, 400) }; }
+}
+
+// Same as requireRole, plus an MFA gate once a user has enrolled. Policy:
+// - Not enrolled: admins are hard-blocked (must enroll before touching /api/admin/*);
+//   everyone else passes (grace period — enrollment becomes a precondition for
+//   specific high-trust actions like studio submission/uploads/profile publish,
+//   enforced by those handlers, not here).
+// - Enrolled: the current session must have completed the /mfa step (mfa_ok=1),
+//   regardless of role.
+export async function requireMfa(env, request, roles) {
+  const { user, error } = await requireRole(env, request, roles);
+  if (error) return { error };
+  const row = await env.DB.prepare("SELECT enabled_at FROM user_mfa WHERE user_id=?").bind(user.id).first();
+  const enrolled = !!(row && row.enabled_at);
+  if (enrolled) {
+    if (user.mfa_ok !== 1) return { error: json({ error: "mfa_required" }, 403) };
+    return { user };
+  }
+  if (user.role === "admin") return { error: json({ error: "mfa_enrollment_required" }, 403) };
+  return { user };
+}
+
+// Does this user hold the given flag (e.g. 'reviewer')? Flags are independent of
+// `users.role` — see verify.js's admin-demotion logic, which only ever touches role.
+export async function hasFlag(env, userId, flag) {
+  const row = await env.DB.prepare("SELECT 1 FROM user_flags WHERE user_id=? AND flag=?").bind(userId, flag).first();
+  return !!row;
+}
+
+// A reviewer is anyone flagged 'reviewer', or an admin (admins are always reviewers).
+export async function requireReviewer(env, request) {
+  const { user, error } = await requireRole(env, request, null);
+  if (error) return { error };
+  if (user.role === "admin") return { user };
+  if (!(await hasFlag(env, user.id, "reviewer"))) return { error: json({ error: "forbidden" }, 403) };
+  return { user };
 }
