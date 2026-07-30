@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Avatar from '../../components/Avatar.astro';
 import Icon from '../../components/Icon.astro';
 import { published, courses, topicName, profSlug, profBio } from '../../lib/data';
+import { expandYoutubeEmbeds } from '../../lib/lesson-embeds';
 export function getStaticPaths() { return published.map((c) => ({ params: { id: c.id }, props: { c } })); }
 const { c } = Astro.props;
 // Build-time verification status (from web/scripts/verify-gurbani.mjs, which runs
@@ -146,7 +147,7 @@ const breadcrumb = {
                 <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
                 <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl" data-i18n="course.listen">Listen</span></button>
               </div>
-              <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed" set:html={ls.html} />
+              <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed" set:html={expandYoutubeEmbeds(ls.html)} />
               <div class="mt-4 border-t border-dashed border-line pt-3">
                 <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" /><span data-i18n="course.notes.label">Your notes — saved on this device</span></label>
                 <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…" data-i18n-ph="course.notes.ph"></textarea>
