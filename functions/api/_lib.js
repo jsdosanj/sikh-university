@@ -106,3 +106,16 @@ export async function requireReviewer(env, request) {
   if (!(await hasFlag(env, user.id, "reviewer"))) return { error: json({ error: "forbidden" }, 403) };
   return { user };
 }
+
+// Does this user teach `courseId` (course_teachers is independent of `users.role` —
+// an admin or even a learner can be assigned as a course's teacher of record)?
+// Omit courseId to ask "does this user teach anything at all" (used to decide
+// whether to show teacher-only UI/nav for a non-admin, non-'teacher'-role user).
+export async function isCourseTeacher(env, userId, courseId) {
+  if (courseId) {
+    const r = await env.DB.prepare("SELECT 1 FROM course_teachers WHERE user_id=? AND course_id=?").bind(userId, courseId).first();
+    return !!r;
+  }
+  const r = await env.DB.prepare("SELECT 1 FROM course_teachers WHERE user_id=? LIMIT 1").bind(userId).first();
+  return !!r;
+}

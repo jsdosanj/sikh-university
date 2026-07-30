@@ -1,15 +1,19 @@
-import { json, getUser, logEvent } from "./_lib.js";
+import { json, getUser, logEvent, isCourseTeacher } from "./_lib.js";
 import { cleanName, cleanCountry, cleanLanguages } from "./_profile-options.js";
 
-// GET /api/me -> current user { id, email, name, country, languages, role, mfa } or { user: null }.
+// GET /api/me -> current user { id, email, name, country, languages, role, mfa, isTeacher } or { user: null }.
 // mfa.required reflects current enforcement policy: hard-required for admins, a
 // grace period for everyone else until Workstream C (studio) flips it on for teachers.
+// isTeacher covers both role==='teacher' AND a course_teachers assignment held by a
+// user of any other role (e.g. an admin, or a learner given co-teacher access) — the
+// nav/dashboard portal switcher uses this to decide whether to show the teacher view.
 export async function onRequestGet({ request, env }) {
   const user = await getUser(env, request);
   if (!user) return json({ user: null });
   const mfaRow = await env.DB.prepare("SELECT enabled_at FROM user_mfa WHERE user_id=?").bind(user.id).first();
   const mfa = { enrolled: !!(mfaRow && mfaRow.enabled_at), required: user.role === "admin" };
-  return json({ user: { ...user, mfa } });
+  const isTeacher = user.role === "teacher" || (await isCourseTeacher(env, user.id));
+  return json({ user: { ...user, mfa, isTeacher } });
 }
 
 // POST /api/me -> update the signed-in user's own profile (name, country, languages).

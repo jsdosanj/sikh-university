@@ -1,4 +1,4 @@
-import { json, getUser, newId, logEvent } from "./_lib.js";
+import { json, getUser, newId, logEvent, isCourseTeacher } from "./_lib.js";
 
 // Cohort mode: a teacher (or admin) creates a cohort for a course and shares an
 // invite code; learners join with the code (which also enrols them); the owner
@@ -15,16 +15,21 @@ async function ensure(env) {
 
 async function ownsCourse(env, user, courseId) {
   if (user.role === "admin") return true;
-  if (user.role !== "teacher") return false;
-  const r = await env.DB.prepare("SELECT 1 FROM course_teachers WHERE user_id=? AND course_id=?").bind(user.id, courseId).first();
-  return !!r;
+  return await isCourseTeacher(env, user.id, courseId);
+}
+
+// A user counts as "teacher-like" for cohort access if they hold the teacher role,
+// are an admin, or have been assigned as a course's teacher of record regardless of
+// their `users.role` (course_teachers assignment is independent of role — see _lib.js).
+async function isTeacherLike(env, user) {
+  return user.role === "admin" || user.role === "teacher" || (await isCourseTeacher(env, user.id));
 }
 
 // GET /api/cohorts            -> cohorts owned by this teacher (admin: all), with member counts
 // GET /api/cohorts?id=COHORT  -> roster for one cohort (owner/admin only)
 export async function onRequestGet({ request, env }) {
   const user = await getUser(env, request);
-  if (!user || (user.role !== "teacher" && user.role !== "admin")) return json({ error: "forbidden" }, 403);
+  if (!user || !(await isTeacherLike(env, user))) return json({ error: "forbidden" }, 403);
   await ensure(env);
   const id = new URL(request.url).searchParams.get("id");
 
@@ -69,7 +74,7 @@ export async function onRequestPost({ request, env }) {
   const action = (b.action || "").toString();
 
   if (action === "create") {
-    if (user.role !== "teacher" && user.role !== "admin") return json({ error: "forbidden" }, 403);
+    if (!(await isTeacherLike(env, user))) return json({ error: "forbidden" }, 403);
     const courseId = (b.courseId || "").toString().slice(0, 120);
     const name = (b.name || "").toString().trim().slice(0, 120);
     if (!courseId || !name) return json({ error: "courseId and name required" }, 400);
