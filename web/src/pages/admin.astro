@@ -23,6 +23,10 @@ import Base from '../layouts/Base.astro';
         root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">Two-factor authentication is required for admin accounts. <a class="underline font-semibold" href="/mfa">Set it up now →</a></div>';
         return;
       }
+      if (u.mfa && u.mfa.enrolled && u.mfa_ok !== 1) {
+        root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">This session hasn\'t verified your two-factor code yet. <a class="underline font-semibold" href="/mfa">Verify now →</a></div>';
+        return;
+      }
       root.innerHTML = `<h1 class="text-3xl font-bold">Admin dashboard</h1><p class="font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
         <div id="tabs" class="mt-4 flex flex-wrap gap-1 border-b border-line"></div><div id="panel" class="mt-6"></div>`;
       const tabs = [['overview', 'Overview'], ['users', 'Users'], ['gradebook', 'Gradebook'], ['teachers', 'Teachers'], ['profiles', 'Profiles'], ['review', 'Review'], ['uploads', 'Uploads'], ['moderation', 'Moderation'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback'], ['audit', 'Audit log']];
