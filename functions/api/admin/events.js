@@ -1,4 +1,4 @@
-import { json, getUser } from "../_lib.js";
+import { json, requireMfa } from "../_lib.js";
 
 // GET /api/admin/events -> filtered/sorted/paginated audit-log events (admin only).
 // Query params (all optional):
@@ -12,8 +12,8 @@ import { json, getUser } from "../_lib.js";
 // Returns { events, actions, total } where `actions` is the distinct action list
 // (for the filter dropdown) and `total` is the row count for the current filters.
 export async function onRequestGet({ request, env }) {
-  const user = await getUser(env, request);
-  if (!user || user.role !== "admin") return json({ error: "forbidden" }, 403);
+  const { error } = await requireMfa(env, request, ["admin"]);
+  if (error) return error;
 
   const p = new URL(request.url).searchParams;
   const where = [];

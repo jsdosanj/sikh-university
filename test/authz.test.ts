@@ -19,12 +19,16 @@ const ADMIN_ENDPOINTS: Array<[string, (a: any) => Promise<Response>]> = [
 ];
 
 describe.each(ADMIN_ENDPOINTS)("%s — authz", (_name, handler) => {
-  it("anonymous (no session) → 403", async () => {
+  // These handlers were switched from an inline getUser()+role check (which
+  // conflated "not signed in" and "signed in but not admin" into one 403) to the
+  // shared requireMfa()/requireRole() helper, which distinguishes them: 401 for no
+  // session, 403 for a session that's the wrong role or hasn't cleared MFA yet.
+  it("anonymous (no session) → 401", async () => {
     const res = await handler({
       request: req({ url: "http://localhost/api/admin" }),
       env: mockEnv({ adminEmails: "admin@example.com" }),
     });
-    expect(res.status).toBe(403);
+    expect(res.status).toBe(401);
   });
 
   it("non-admin learner → 403", async () => {
@@ -35,10 +39,30 @@ describe.each(ADMIN_ENDPOINTS)("%s — authz", (_name, handler) => {
     expect(res.status).toBe(403);
   });
 
-  it("admin user → not 403 (200)", async () => {
+  it("admin user, not MFA-enrolled → 403 (enrollment required)", async () => {
     const res = await handler({
       request: req({ url: "http://localhost/api/admin", cookie: "sess-admin" }),
-      env: mockEnv({ user: ADMIN, adminEmails: "admin@example.com", rows: [] }),
+      env: mockEnv({ user: { ...ADMIN, mfa_ok: 1 }, adminEmails: "admin@example.com", rows: [] }),
+    });
+    expect(res.status).toBe(403);
+    const body = await res.json();
+    expect(body.error).toBe("mfa_enrollment_required");
+  });
+
+  it("admin user, MFA-enrolled but session not verified this login → 403", async () => {
+    const res = await handler({
+      request: req({ url: "http://localhost/api/admin", cookie: "sess-admin" }),
+      env: mockEnv({ user: { ...ADMIN, mfa_ok: 0 }, adminEmails: "admin@example.com", rows: [], mfaEnrolled: true }),
+    });
+    expect(res.status).toBe(403);
+    const body = await res.json();
+    expect(body.error).toBe("mfa_required");
+  });
+
+  it("admin user, MFA-enrolled and session verified → not 403 (200)", async () => {
+    const res = await handler({
+      request: req({ url: "http://localhost/api/admin", cookie: "sess-admin" }),
+      env: mockEnv({ user: { ...ADMIN, mfa_ok: 1 }, adminEmails: "admin@example.com", rows: [], mfaEnrolled: true }),
     });
     expect(res.status).not.toBe(403);
     expect(res.status).toBe(200);

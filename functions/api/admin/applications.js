@@ -1,9 +1,9 @@
-import { json, getUser, logEvent, parseBody } from "../_lib.js";
+import { json, requireMfa, logEvent, parseBody } from "../_lib.js";
 
 // GET /api/admin/applications -> list pending teacher applications (admin only)
 export async function onRequestGet({ request, env }) {
-  const user = await getUser(env, request);
-  if (!user || user.role !== "admin") return json({ error: "forbidden" }, 403);
+  const { user, error } = await requireMfa(env, request, ["admin"]);
+  if (error) return error;
   const { results } = await env.DB.prepare(
     "SELECT id, user_id, email, name, background, courses, created_at FROM teacher_applications WHERE status='pending' ORDER BY created_at ASC"
   ).all();
@@ -12,8 +12,8 @@ export async function onRequestGet({ request, env }) {
 
 // POST /api/admin/applications { id, decision: 'approve'|'deny' } (admin only)
 export async function onRequestPost({ request, env }) {
-  const user = await getUser(env, request);
-  if (!user || user.role !== "admin") return json({ error: "forbidden" }, 403);
+  const { user, error: authError } = await requireMfa(env, request, ["admin"]);
+  if (authError) return authError;
   const { body, error } = await parseBody(request);
   if (error) return error;
   const { id, decision } = body;

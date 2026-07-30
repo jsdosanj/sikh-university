@@ -5,7 +5,9 @@ import { BUILD_DATE, siteBase } from '../lib/sitemap';
 // (robots.txt points here). The actual URLs live in segmented child
 // sitemaps under /sitemaps/, generated from the catalogue at build time so
 // new courses, programs, collections and professors are always discoverable.
-const CHILDREN = ['pages', 'courses', 'programs', 'professors', 'collections'];
+// 'teachers' is served dynamically by worker.js (D1-backed, no redeploy needed
+// per new profile) — it isn't one of the build-time Astro sitemaps below.
+const CHILDREN = ['pages', 'courses', 'programs', 'professors', 'collections', 'teachers'];
 
 export const GET: APIRoute = ({ site }) => {
   const base = siteBase(site);
