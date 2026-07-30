@@ -19,6 +19,14 @@ describe("GET /api/cohorts authz", () => {
     expect(res.status).toBe(200);
     expect((await res.json()).cohorts).toEqual([]);
   });
+  it("a learner-role user with a course_teachers assignment can also list cohorts -> 200", async () => {
+    // course_teachers assignment is independent of users.role (an admin or even a
+    // learner can be assigned as a course's teacher of record) — this must work
+    // for cohort access exactly like it does for the teacher-role case above.
+    const env = mockEnv({ user: LEARNER, ownsCourse: true, rows: [] });
+    const res = await call(onRequestGet, env, req({ url: "http://x/api/cohorts", cookie: "s" }));
+    expect(res.status).toBe(200);
+  });
   it("teacher cannot view a roster they don't own -> 403", async () => {
     const env = mockEnv({ user: TEACHER, cohortById: { id: "c1", owner_id: "someone-else", course_id: "x" } });
     const res = await call(onRequestGet, env, req({ url: "http://x/api/cohorts?id=c1", cookie: "s" }));
@@ -56,6 +64,11 @@ describe("POST /api/cohorts create", () => {
   it("admin can create for any course", async () => {
     const env = mockEnv({ user: ADMIN, ownsCourse: false });
     const res = await call(onRequestPost, env, req({ cookie: "s", body: { action: "create", courseId: "c", name: "Camp" } }));
+    expect(res.status).toBe(200);
+  });
+  it("a learner-role user assigned as that course's teacher can create a cohort for it", async () => {
+    const env = mockEnv({ user: LEARNER, ownsCourse: true });
+    const res = await call(onRequestPost, env, req({ cookie: "s", body: { action: "create", courseId: "c", name: "Camp A" } }));
     expect(res.status).toBe(200);
   });
 });
