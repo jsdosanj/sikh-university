@@ -7,7 +7,7 @@ import Base from '../layouts/Base.astro';
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
-    import { PROF_BIOS } from '../lib/data';
+    import { PROF_BIOS } from '../lib/prof-bios';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const slugToTitle = (id) => String(id || '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
     const ctitle = (id, courses) => { const c = (courses || []).find((x) => x.id === id); return c ? c.title : slugToTitle(id); };
