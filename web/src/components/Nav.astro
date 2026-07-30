@@ -167,7 +167,37 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
         e.preventDefault();
         fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }).then(() => (location.href = '/'));
       });
-      if (u.role === 'admin') {
+      // A user who holds more than one "hat" (e.g. admin AND teacher, on top of
+      // always being able to view their own learning) gets a small portal switcher
+      // instead of a single link, so it's always clear which portal they're in and
+      // one click away from the others. Someone with only one hat beyond plain
+      // student sees exactly what they saw before (a lone "Admin" link, or nothing
+      // extra for a plain teacher) — unchanged.
+      const extraHats = [];
+      if (u.isTeacher) extraHats.push('teacher');
+      if (u.role === 'admin') extraHats.push('admin');
+
+      if (extraHats.length > 1) {
+        const hats = [
+          { key: 'student', label: 'Student', href: '/dashboard' },
+          { key: 'teacher', label: 'Teacher', href: '/dashboard?view=teacher' },
+          { key: 'admin', label: 'Admin', href: '/admin' },
+        ];
+        const path = location.pathname;
+        const view = new URLSearchParams(location.search).get('view');
+        const current = path.startsWith('/admin') ? 'admin' : (path === '/dashboard' && view === 'teacher') ? 'teacher' : (path === '/dashboard') ? 'student' : null;
+        hats.forEach((h) => {
+          const a = document.createElement('a');
+          a.href = h.href;
+          a.textContent = h.label;
+          const isCurrent = h.key === current;
+          if (isCurrent) a.setAttribute('aria-current', 'page');
+          a.className = isMobile
+            ? `font-sans text-sm py-1.5 px-2 ${isCurrent ? 'text-white font-semibold' : 'text-white/80'}`
+            : `font-sans text-sm whitespace-nowrap ${isCurrent ? 'text-white font-semibold' : 'text-white/80 hover:text-white'}`;
+          authEl.parentNode!.insertBefore(a, authEl);
+        });
+      } else if (u.role === 'admin') {
         const ad = document.createElement('a');
         ad.href = '/admin';
         ad.textContent = 'Admin';
