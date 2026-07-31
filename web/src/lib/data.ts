@@ -39,7 +39,7 @@ export const TOPIC_ICONS: Record<string, string> = {
 
 export function professorList() {
   const map: Record<string, Course[]> = {};
-  for (const c of courses) (map[c.professor] = map[c.professor] || []).push(c);
+  for (const c of published) (map[c.professor] = map[c.professor] || []).push(c);
   return Object.keys(map)
     .sort((a, b) => (a === 'Sikhi University' ? 1 : b === 'Sikhi University' ? -1 : map[b].length - map[a].length))
     .map((name) => ({ name, courses: map[name] }));
