@@ -207,5 +207,17 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
     };
     updateAuth(document.getElementById('nav-auth'), false);
     updateAuth(document.getElementById('nav-auth-mobile'), true);
+
+    // Teachers get a direct "Studio" link next to Cohorts (desktop + mobile), so it's
+    // reachable from anywhere on the site, not just from inside the dashboard's card.
+    if (d && d.user && d.user.isTeacher) {
+      document.querySelectorAll('a[href="/cohorts"]').forEach((cohortsLink) => {
+        const studio = document.createElement('a');
+        studio.href = '/studio';
+        studio.textContent = 'Studio';
+        studio.className = (cohortsLink as HTMLElement).className;
+        cohortsLink.insertAdjacentElement('afterend', studio);
+      });
+    }
   }).catch(() => {});
 </script>
