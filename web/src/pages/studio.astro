@@ -51,6 +51,7 @@ import Base from '../layouts/Base.astro';
           <div class="flex items-center gap-2 pr-7"><span class="font-bold text-navy">${esc(d.title)}</span>${statusPill(d.status)}</div>
           <div class="mt-1 font-sans text-xs text-muted">${esc(d.course_id)} · ${esc(d.topic)} · level ${esc(d.level)}</div>
         </a>
+        ${d.status === 'published' ? `<a class="mt-2 inline-block font-sans text-xs underline" href="/cohorts?course=${esc(d.course_id)}" onclick="event.stopPropagation()">Course is live — create a cohort for it →</a>` : ''}
         <button type="button" data-delete-draft="${esc(d.id)}" data-draft-title="${esc(d.title)}" aria-label="Delete draft" title="Delete draft" class="absolute right-3 top-3 rounded-lg p-1 text-muted hover:bg-danger/10 hover:text-danger">${iconSvg('close', 'h-4 w-4')}</button>
       </div>`;
     }

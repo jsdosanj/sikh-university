@@ -238,7 +238,7 @@
   "cohorts.signinlink": "سجّل الدخول",
   "cohorts.signin.suffix": "للانضمام إلى مجموعة أو إنشائها.",
   "cohorts.ph.invitecode": "مثال: 4F9A2C",
-  "cohorts.ph.course": "معرّف الدورة أو عنوانها",
+  "cohorts.nocourses": "لا توجد أي دورة متاحة لإنشاء مجموعة بعد.",
   "cohorts.ph.cohortname": "مثال: مخيّم صيف 2026",
   "cohorts.aria.invitecode": "رمز الدعوة",
   "cohorts.aria.course": "الدورة",

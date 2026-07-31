@@ -238,7 +238,7 @@
   "cohorts.signinlink": "inicia sesión",
   "cohorts.signin.suffix": "para unirte o crear una cohorte.",
   "cohorts.ph.invitecode": "p. ej., 4F9A2C",
-  "cohorts.ph.course": "ID o título del curso",
+  "cohorts.nocourses": "Aún no hay ningún curso disponible para crear una cohorte.",
   "cohorts.ph.cohortname": "p. ej., Campamento de verano 2026",
   "cohorts.aria.invitecode": "Código de invitación",
   "cohorts.aria.course": "Curso",

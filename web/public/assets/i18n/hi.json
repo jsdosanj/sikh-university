@@ -238,7 +238,7 @@
   "cohorts.signinlink": "साइन इन करें",
   "cohorts.signin.suffix": "समूह में शामिल होने या बनाने के लिए।",
   "cohorts.ph.invitecode": "जैसे 4F9A2C",
-  "cohorts.ph.course": "कोर्स id या शीर्षक",
+  "cohorts.nocourses": "अभी समूह बनाने के लिए कोई कोर्स उपलब्ध नहीं है।",
   "cohorts.ph.cohortname": "जैसे समर कैंप 2026",
   "cohorts.aria.invitecode": "आमंत्रण-कोड",
   "cohorts.aria.course": "कोर्स",

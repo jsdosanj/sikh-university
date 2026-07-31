@@ -238,7 +238,7 @@
   "cohorts.signinlink": "سائن اِن کریں",
   "cohorts.signin.suffix": "کسی گروہ میں شامل ہونے یا بنانے کے لیے۔",
   "cohorts.ph.invitecode": "مثلاً 4F9A2C",
-  "cohorts.ph.course": "کورس شناخت یا عنوان",
+  "cohorts.nocourses": "ابھی گروہ بنانے کے لیے کوئی کورس دستیاب نہیں ہے۔",
   "cohorts.ph.cohortname": "مثلاً سمر کیمپ 2026",
   "cohorts.aria.invitecode": "دعوتی کوڈ",
   "cohorts.aria.course": "کورس",
