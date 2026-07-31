@@ -75,10 +75,10 @@ const breadcrumb = {
       <p class="mt-3 font-sans text-sm text-white/75"><span data-i18n="course.professorlabel">Professor:</span> <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> <span aria-hidden="true" class="px-1 text-white/40">·</span> <span data-i18n="course.sourcelabel">Source:</span> {c.source || 'Sikhi University'}</p>
       <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
       <div class="mt-7 flex flex-wrap items-center gap-3">
-        <a href="#lesson-0" class="btn btn-primary" data-i18n="course.begin">Begin course</a>
+        <a href={c.gated ? '#gated-access' : '#lesson-0'} class="btn btn-primary" data-i18n="course.begin">Begin course</a>
         <button id="enroll-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20">Enroll</button>
-        <button id="offline-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"><Icon name="download" class="h-4 w-4" /><span id="offline-lbl">Save offline</span></button>
-        <span class="font-sans text-sm text-white/70">{lessons.length} lessons · {quiz.length}-question test · 80% to pass</span>
+        {!c.gated && <button id="offline-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"><Icon name="download" class="h-4 w-4" /><span id="offline-lbl">Save offline</span></button>}
+        <span class="font-sans text-sm text-white/70">{c.gated ? 'Institutional course · full content requires cohort access' : `${lessons.length} lessons · ${quiz.length}-question test · 80% to pass`}</span>
       </div>
     </div>
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
@@ -141,7 +141,15 @@ const breadcrumb = {
           </div>
         </div>
         <div class="mt-4 space-y-6">
-          {lessons.map((ls, i) => (
+          {c.gated ? (
+            <div id="gated-access">
+              <div id="gated-teaser" class="glass-lite p-5 text-center">
+                <p class="font-semibold text-navy">This course is offered through a partner institution.</p>
+                <p class="mt-1 text-sm text-muted">Full lessons are available to enrolled cohort members. Have an invite code? <a class="underline text-navy" href="/cohorts">Join at /cohorts →</a></p>
+              </div>
+              <div id="gated-lessons" class="space-y-6"></div>
+            </div>
+          ) : lessons.map((ls, i) => (
             <article id={`lesson-${i}`} class="glass-lite p-5">
               <div class="flex items-start justify-between gap-3">
                 <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
@@ -295,12 +303,12 @@ const breadcrumb = {
         </section>
       )}
 
-      {quiz.length > 0 && (
+      {(quiz.length > 0 || c.gated) && (
         <section id="test" class="glass-lite p-6">
           <h2 class="text-xl font-bold" data-i18n="course.quiz.h">Course test</h2>
           <p class="font-sans text-sm text-muted" data-i18n="course.quiz.sub">Pass with 80% or higher to complete the course and unlock the next one.</p>
           <form id="quiz" class="mt-4 space-y-5">
-            {quiz.map((qq, i) => (
+            {!c.gated && quiz.map((qq, i) => (
               <fieldset><legend class="font-semibold">{i + 1}. {qq.q}</legend>
                 {qq.options.map((o, oi) => (
                   <label class="mt-1 block cursor-pointer"><input type="radio" name={`q${i}`} value={oi} class="mr-2" />{o}</label>
@@ -374,7 +382,7 @@ const breadcrumb = {
     @media (prefers-reduced-motion: reduce) { #pass-celebrate-panel.pop { animation: none; } }
   </style>
 
-  <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, nQuiz: quiz.length, terms: (c.terms || []).map((t) => ({ t: t.t, m: t.m })) })}></script>
+  <script type="application/json" id="course-data" set:html={JSON.stringify({ id: c.id, nLessons: lessons.length, nQuiz: quiz.length, gated: !!c.gated, terms: (c.terms || []).map((t) => ({ t: t.t, m: t.m })) })}></script>
   <script>
     import { iconSvg } from '../../lib/icons';
     const __d = JSON.parse(document.getElementById('course-data').textContent);
@@ -518,7 +526,9 @@ const breadcrumb = {
     document.querySelectorAll('[data-note]').forEach((t) => { const k = 'note_' + id + '_' + t.dataset.note; t.value = get(k, ''); t.addEventListener('input', () => set(k, t.value)); });
     document.querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => { const i = b.dataset.done; done[i] = !done[i]; if (!done[i]) delete done[i]; else recordActivity(); set(doneKey, done); refresh(); push(); }));
     const submit = document.getElementById('quiz-submit');
-    if (submit) submit.addEventListener('click', async () => {
+    // Gated courses own their own quiz-submit wiring (see the gated-content
+    // script below) — the real question count isn't known until it loads.
+    if (submit && !__d.gated) submit.addEventListener('click', async () => {
       // Collect the chosen option index per question; the SERVER grades it.
       const answers = [];
       for (let i = 0; i < nQuiz; i++) { const s = document.querySelector(`input[name="q${i}"]:checked`); answers.push(s ? +s.value : -1); }
@@ -603,6 +613,69 @@ const breadcrumb = {
       renderCard();
     })();
   </script>
+
+  {c.gated && (
+    <script>
+      import { expandYoutubeEmbeds } from '../../lib/lesson-embeds';
+      (async function () {
+        const esc = (s: unknown) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
+        const { id } = JSON.parse(document.getElementById('course-data')!.textContent!);
+        const teaser = document.getElementById('gated-teaser');
+        const lessonsBox = document.getElementById('gated-lessons');
+        const testSection = document.getElementById('test');
+        if (!teaser || !lessonsBox) return;
+
+        const me = await fetch('/api/me', { credentials: 'same-origin' }).then((r) => r.json()).catch(() => ({ user: null }));
+        if (!me.user) {
+          teaser.innerHTML = '<p class="font-semibold text-navy">This course is offered through a partner institution.</p><p class="mt-1 text-sm text-muted">Full lessons are available to enrolled cohort members. <a class="underline text-navy" href="/login">Sign in</a>, then join with your institution\'s invite code at <a class="underline text-navy" href="/cohorts">/cohorts</a>.</p>';
+          if (testSection) testSection.remove();
+          return;
+        }
+
+        const res = await fetch('/api/course-content?courseId=' + encodeURIComponent(id), { credentials: 'same-origin' });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          teaser.innerHTML = `<p class="font-semibold text-navy">This course is offered through a partner institution.</p><p class="mt-1 text-sm text-muted">${esc(data.error || 'Full lessons are available to enrolled cohort members.')} <a class="underline text-navy" href="/cohorts">Join at /cohorts →</a></p>`;
+          if (testSection) testSection.remove();
+          return;
+        }
+
+        teaser.remove();
+        const lessons = data.lessons || [];
+        lessonsBox.innerHTML = lessons.map((ls: any, i: number) => `
+          <article id="lesson-${i}" class="glass-lite p-5">
+            <h3 class="text-lg font-bold text-navy">${i + 1}. ${esc(ls.title)}</h3>
+            <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed">${expandYoutubeEmbeds(ls.html)}</div>
+          </article>`).join('');
+
+        const quiz = data.quiz || [];
+        const form = document.getElementById('quiz') as HTMLFormElement | null;
+        const submitBtn = document.getElementById('quiz-submit') as HTMLButtonElement | null;
+        const result = document.getElementById('quiz-result');
+        if (!quiz.length) { if (testSection) testSection.remove(); return; }
+        if (form) {
+          form.innerHTML = quiz.map((q: any, i: number) => `
+            <fieldset><legend class="font-semibold">${i + 1}. ${esc(q.q)}</legend>
+              ${q.options.map((o: string, oi: number) => `<label class="mt-1 block cursor-pointer"><input type="radio" name="q${i}" value="${oi}" class="mr-2" />${esc(o)}</label>`).join('')}
+            </fieldset>`).join('');
+        }
+        if (submitBtn && result) {
+          submitBtn.addEventListener('click', async () => {
+            const answers: number[] = [];
+            for (let i = 0; i < quiz.length; i++) { const s = document.querySelector(`input[name="q${i}"]:checked`) as HTMLInputElement | null; answers.push(s ? +s.value : -1); }
+            submitBtn.disabled = true; submitBtn.textContent = 'Submitting…';
+            let r; try { r = await fetch('/api/quiz', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: id, answers }) }).then((x) => x.json()); } catch (e) { r = null; }
+            submitBtn.disabled = false; submitBtn.textContent = 'Submit test';
+            if (!r || typeof r.score !== 'number') { result.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not submit your test — please try again.</div>'; return; }
+            result.innerHTML = r.passed
+              ? `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${r.score}% (${r.correct}/${r.total}).</strong> Course complete.</div>`
+              : `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${r.score}% (${r.correct}/${r.total}).</strong> You need 80%. Review the lessons and try again.</div>`;
+            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          });
+        }
+      })();
+    </script>
+  )}
 
   <script>
     import { iconSvg } from '../../lib/icons';

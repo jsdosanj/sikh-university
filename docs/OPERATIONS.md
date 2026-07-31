@@ -100,6 +100,18 @@ section:
 4. Once the PR merges and deploys, click **Mark archived** in the Review tab (or
    `POST /api/admin/archive-requests {id, decision:'mark_archived'}`) to close the loop in D1.
 
+**Institutional (gated) courses.** A teacher marks a draft "Institutional" (Studio's Overview
+tab, `visibility` field) instead of "Public." At publish time
+(`functions/api/admin/drafts-export.js`) the exported catalogue entry carries `gated: true`
+but `lessons: []` / `quiz: []` — the real content stays in D1's `draft_lessons`/`draft_quiz`
+permanently and is never written to git. The course still appears in `/catalog` and search
+with its title and summary; `course/[id].astro` renders a teaser instead of lesson content for
+everyone else. Full content and grading are served to the course's teacher/admin, or to a
+member of a `cohorts` cohort tied to that course (`functions/api/course-content.js`,
+`functions/api/quiz.js`) — sikhiuni.com never processes payment itself; a licensing
+institution collects payment on its own site and simply hands buyers the cohort's existing
+invite code (`/cohorts`).
+
 ## Content
 
 - **Add/edit a course:** edit `site/assets/data/courses.json`, then run

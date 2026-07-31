@@ -10,6 +10,10 @@ export type Course = {
   source?: string; aiCreated?: boolean; status: string; summary: string;
   outcomes?: string[]; terms?: Term[]; references?: string[];
   lessons?: Lesson[]; quiz?: Quiz[];
+  // Institutional/paid-cohort course: full lesson/quiz content is intentionally
+  // absent here (served only to entitled users via /api/course-content) — see
+  // functions/api/admin/drafts-export.js.
+  gated?: boolean;
   sourceText?: { work: string; url: string; gurmukhi?: string; english?: string; sikhArchiveUrl?: string };
 };
 export type Topic = { id: string; name: string; blurb: string };

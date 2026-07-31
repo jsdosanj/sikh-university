@@ -4,7 +4,8 @@ export async function ensure(env) {
   await env.DB.prepare(
     "CREATE TABLE IF NOT EXISTS course_drafts (id TEXT PRIMARY KEY, author_id TEXT NOT NULL, base_course_id TEXT, " +
     "course_id TEXT NOT NULL, title TEXT NOT NULL, topic TEXT NOT NULL, level INTEGER NOT NULL, meta TEXT NOT NULL, " +
-    "status TEXT NOT NULL DEFAULT 'draft', review_notes TEXT, reviewed_by TEXT, reviewed_at INTEGER, " +
+    "status TEXT NOT NULL DEFAULT 'draft', visibility TEXT NOT NULL DEFAULT 'public', " +
+    "review_notes TEXT, reviewed_by TEXT, reviewed_at INTEGER, " +
     "submitted_at INTEGER, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL)"
   ).run();
   await env.DB.prepare(

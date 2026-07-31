@@ -33,16 +33,21 @@ export async function onRequestGet({ request, env }) {
 
     let meta = {};
     try { meta = JSON.parse(draft.meta); } catch (e) {}
+    const gated = draft.visibility === "gated";
 
     courses.push({
       id: draft.course_id, title: draft.title, topic: draft.topic, level: draft.level,
       professor, status: "published", aiCreated: !!meta.aiAssisted,
       summary: meta.summary || "",
+      ...(gated ? { gated: true } : {}),
       ...(meta.outcomes && meta.outcomes.length ? { outcomes: meta.outcomes } : {}),
       ...(meta.terms && meta.terms.length ? { terms: meta.terms } : {}),
       ...(meta.references && meta.references.length ? { references: meta.references } : {}),
-      lessons: (lessons || []).map((l) => ({ title: l.title, ...(l.summary ? { summary: l.summary } : {}), html: l.html })),
-      quiz: (quiz || []).map((q) => ({ q: q.q, options: JSON.parse(q.options), answer: q.answer })),
+      // Gated (institutional) courses never ship lesson/quiz content into the public,
+      // git-tracked catalogue — draft_lessons/draft_quiz remain the permanent source of
+      // truth, served only to entitled users via functions/api/course-content.js.
+      lessons: gated ? [] : (lessons || []).map((l) => ({ title: l.title, ...(l.summary ? { summary: l.summary } : {}), html: l.html })),
+      quiz: gated ? [] : (quiz || []).map((q) => ({ q: q.q, options: JSON.parse(q.options), answer: q.answer })),
       _draftId: draft.id,
       _baseCourseId: draft.base_course_id,
       _authorId: draft.author_id,

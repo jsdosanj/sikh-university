@@ -119,3 +119,14 @@ export async function isCourseTeacher(env, userId, courseId) {
   const r = await env.DB.prepare("SELECT 1 FROM course_teachers WHERE user_id=? LIMIT 1").bind(userId).first();
   return !!r;
 }
+
+// Is this user a member of ANY cohort tied to `courseId`? Used to gate full
+// content/grading for institutional ("gated") courses — see functions/api/cohorts.js
+// for how a cohort's invite code is what actually grants membership (payment,
+// if any, is handled entirely by the licensing institution on their own site).
+export async function hasCohortAccess(env, userId, courseId) {
+  const r = await env.DB.prepare(
+    "SELECT 1 FROM cohort_members cm JOIN cohorts c ON c.id=cm.cohort_id WHERE cm.user_id=? AND c.course_id=?"
+  ).bind(userId, courseId).first();
+  return !!r;
+}
