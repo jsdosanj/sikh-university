@@ -228,10 +228,14 @@ import Base from '../layouts/Base.astro';
           api('/api/review/queue'),
           api('/api/admin/drafts-export?status=approved&limit=200'),
           api('/api/review/queue?history=1'),
-        ]).then(([q, ap, hist]) => {
+          api('/api/admin/archive-requests'),
+          api('/api/admin/archive-requests?status=approved'),
+        ]).then(([q, ap, hist, arPending, arApproved]) => {
           const queue = (q.ok && q.d.drafts) || [];
           const approved = (ap.ok && ap.d.courses) || [];
           const history = (hist.ok && hist.d.drafts) || [];
+          const archivePending = (arPending.ok && arPending.d.requests) || [];
+          const archiveApproved = (arApproved.ok && arApproved.d.requests) || [];
           const statusPill = (s) => `<span class="pill ${s === 'approved' || s === 'published' ? 'bg-ok/20 text-ok' : 'bg-paper text-navy'}">${esc(s)}</span>`;
           panel.innerHTML = `
             <h3 class="text-lg font-bold">Submitted for review (${queue.length})</h3>
@@ -240,11 +244,24 @@ import Base from '../layouts/Base.astro';
             ${approved.length ? `<div class="mt-3 grid gap-2">${approved.map((c) => `<div class="flex items-center gap-2 rounded-xl border border-line bg-surface p-3" data-draft="${esc(c._draftId)}"><span class="font-semibold">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${esc(c.professor)}</span><button class="btn ml-auto font-sans text-xs" data-mark-published>Mark published</button></div>`).join('')}</div>
                <div class="mt-3 rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Run the import: <code>gh workflow run import-drafts.yml</code> (needs the EXPORT_TOKEN repo secret). Once its PR merges to master and deploys, come back and click "Mark published" on each course above.</div>`
               : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">Nothing approved yet.</div>'}
+            <h3 class="mt-8 text-lg font-bold">Course archive requests (${archivePending.length})</h3>
+            ${archivePending.length ? `<div class="mt-3 grid gap-2">${archivePending.map((r) => `<div class="rounded-xl border border-line bg-surface p-3" data-archive-req="${esc(r.id)}"><div class="flex flex-wrap items-center gap-2"><span class="font-semibold">${esc(ctitle(r.course_id, courses))}</span><span class="font-sans text-xs text-muted">requested by ${esc(r.name || r.email)} · ${fmt(r.requested_at)}</span></div>${r.reason ? `<p class="mt-1 text-sm">${esc(r.reason)}</p>` : ''}<div class="mt-2 flex gap-2"><button class="btn btn-primary font-sans text-xs" data-archive-decide="approve">Approve</button><button class="btn font-sans text-xs" data-archive-decide="deny">Deny</button></div></div>`).join('')}</div>` : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No pending archive requests.</div>'}
+            ${archiveApproved.length ? `<h3 class="mt-8 text-lg font-bold">Approved — ready to archive (${archiveApproved.length})</h3>
+              <div class="mt-3 grid gap-2">${archiveApproved.map((r) => `<div class="flex items-center gap-2 rounded-xl border border-line bg-surface p-3" data-archive-id="${esc(r.id)}"><span class="font-semibold">${esc(ctitle(r.course_id, courses))}</span><button class="btn ml-auto font-sans text-xs" data-mark-archived>Mark archived</button></div>`).join('')}</div>
+              <div class="mt-3 rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Run the import: <code>gh workflow run import-drafts.yml</code> — the same run also archives these courses. Once its PR merges and deploys, come back and click "Mark archived" on each course above.</div>` : ''}
             <h3 class="mt-8 text-lg font-bold">Decision history (${history.length})</h3>
             ${history.length ? `<div class="mt-3 grid gap-2">${history.map((dr) => `<div class="rounded-xl border border-line bg-surface p-3"><div class="flex flex-wrap items-center gap-2"><span class="font-semibold">${esc(dr.title)}</span>${statusPill(dr.status)}<span class="font-sans text-xs text-muted">${fmt(dr.reviewed_at)} · by ${esc(dr.reviewer_name || dr.reviewer_email || '—')}</span></div><div class="font-sans text-xs text-muted mt-0.5">author: ${esc(dr.author_name || dr.author_email)} · ${esc(dr.topic)}</div>${dr.review_notes ? `<p class="mt-1 text-sm">${esc(dr.review_notes)}</p>` : ''}</div>`).join('')}</div>` : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No decisions recorded yet.</div>'}`;
           panel.querySelectorAll('[data-mark-published]').forEach((b) => b.addEventListener('click', () => {
             const draftId = b.closest('[data-draft]').dataset.draft;
             api('/api/admin/drafts-mark-published', { method: 'POST', body: JSON.stringify({ draftId }) }).then(({ ok }) => { if (ok) draw(); else window.suToast('Could not mark published.', 'error'); });
+          }));
+          panel.querySelectorAll('[data-archive-decide]').forEach((b) => b.addEventListener('click', () => {
+            const id = b.closest('[data-archive-req]').dataset.archiveReq;
+            api('/api/admin/archive-requests', { method: 'POST', body: JSON.stringify({ id, decision: b.dataset.archiveDecide }) }).then(({ ok, d }) => { if (ok) draw(); else window.suToast(d.error || 'Could not decide request.', 'error'); });
+          }));
+          panel.querySelectorAll('[data-mark-archived]').forEach((b) => b.addEventListener('click', () => {
+            const id = b.closest('[data-archive-id]').dataset.archiveId;
+            api('/api/admin/archive-requests', { method: 'POST', body: JSON.stringify({ id, decision: 'mark_archived' }) }).then(({ ok, d }) => { if (ok) draw(); else window.suToast(d.error || 'Could not mark archived.', 'error'); });
           }));
         });
       }

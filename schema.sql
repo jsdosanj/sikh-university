@@ -114,6 +114,15 @@ CREATE TABLE IF NOT EXISTS draft_quiz (
   answer INTEGER NOT NULL,
   PRIMARY KEY (draft_id, idx)
 );
+
+-- Teacher-initiated requests to archive a published course (migrations/0007_archive_requests.sql).
+CREATE TABLE IF NOT EXISTS course_archive_requests (
+  id TEXT PRIMARY KEY, course_id TEXT NOT NULL, teacher_id TEXT NOT NULL,
+  reason TEXT,
+  status TEXT NOT NULL DEFAULT 'pending',
+  requested_at INTEGER NOT NULL, decided_by TEXT, decided_at INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_archive_requests_status ON course_archive_requests(status, requested_at);
 CREATE TABLE IF NOT EXISTS ratings (
   course_id TEXT NOT NULL, user_id TEXT NOT NULL, stars INTEGER NOT NULL,
   review TEXT, updated_at INTEGER NOT NULL, PRIMARY KEY (course_id, user_id)

@@ -2,10 +2,10 @@
 import Base from '../layouts/Base.astro';
 import CourseCard from '../components/CourseCard.astro';
 import Icon from '../components/Icon.astro';
-import { topics, courses, topicName, paths, TOPIC_ICONS } from '../lib/data';
+import { topics, published, topicName, paths, TOPIC_ICONS } from '../lib/data';
 import programsData from '../../public/assets/data/programs.json';
-const sorted = [...courses].sort((a, b) => a.level - b.level);
-const byId = Object.fromEntries(courses.map((c) => [c.id, c]));
+const sorted = [...published].sort((a, b) => a.level - b.level);
+const byId = Object.fromEntries(published.map((c) => [c.id, c]));
 const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer transition hover:border-saffron hover:text-navy';
 import { SITE } from '../lib/site';
 const itemListLd = {

@@ -83,6 +83,23 @@ course is still a git PR, never a runtime mutation. Once one or more drafts are
 4. Once it merges and deploys, click **Mark published** next to each course in the admin
    Review tab (or `POST /api/admin/drafts-mark-published {draftId}`) to close the loop in D1.
 
+**Retiring a published course.** A teacher can't delete a live, git-managed catalogue entry
+directly — no staging environment, and courses.json has a no-shrink CI guard. Instead a
+teacher files a request from their dashboard (`POST /api/teacher/archive-request
+{courseId, reason}`), which an admin reviews in the Review tab's "Course archive requests"
+section:
+1. Approve or deny the pending request. Approving queues it for the next import run.
+2. Run `gh workflow run import-drafts.yml` — the same run that imports approved drafts also
+   fetches approved archive requests and flips the matching course's `status` to `"archived"`
+   in the same PR. Archived courses drop out of `/catalog`, search, sitemaps, and quiz grading,
+   but existing enrollments/certificates/progress records are untouched.
+3. If this drops the published count below `scripts/catalogue-baseline.json`'s
+   `published_min`, `validate.py` will (correctly) fail the PR until you re-run with
+   `ALLOW_CATALOGUE_SHRINK=1` and lower `published_min` in the same change — this is the
+   guard doing its job (a deliberate archive, not a corrupt file), not a bug.
+4. Once the PR merges and deploys, click **Mark archived** in the Review tab (or
+   `POST /api/admin/archive-requests {id, decision:'mark_archived'}`) to close the loop in D1.
+
 ## Content
 
 - **Add/edit a course:** edit `site/assets/data/courses.json`, then run
