@@ -74,16 +74,16 @@ function fakeDB() {
     if (sql.startsWith("CREATE TABLE")) return { success: true };
     if (sql.includes("INSERT INTO course_drafts")) {
       const [id, author_id, base_course_id, course_id, title, topic, level, meta, created_at, updated_at] = b;
-      drafts.set(id, { id, author_id, base_course_id, course_id, title, topic, level, meta, status: "draft", review_notes: null, reviewed_by: null, reviewed_at: null, submitted_at: null, created_at, updated_at });
+      drafts.set(id, { id, author_id, base_course_id, course_id, title, topic, level, meta, status: "draft", visibility: "public", review_notes: null, reviewed_by: null, reviewed_at: null, submitted_at: null, created_at, updated_at });
       lessons.set(id, []); quizzes.set(id, []);
       return { success: true };
     }
     if (sql.includes("DELETE FROM draft_lessons")) { lessons.set(b[0], []); return { success: true }; }
     if (sql.includes("DELETE FROM draft_quiz")) { quizzes.set(b[0], []); return { success: true }; }
     if (sql.includes("DELETE FROM course_drafts")) { drafts.delete(b[0]); return { success: true }; }
-    if (sql.includes("UPDATE course_drafts SET title=?, topic=?, level=?, meta=?")) {
-      const [title, topic, level, meta, updated_at, id] = b;
-      Object.assign(drafts.get(id), { title, topic, level, meta, updated_at });
+    if (sql.includes("UPDATE course_drafts SET title=?, topic=?, level=?, visibility=?, meta=?")) {
+      const [title, topic, level, visibility, meta, updated_at, id] = b;
+      Object.assign(drafts.get(id), { title, topic, level, visibility, meta, updated_at });
       return { success: true };
     }
     if (sql.includes("UPDATE course_drafts SET updated_at=?")) { drafts.get(b[1]).updated_at = b[0]; return { success: true }; }
@@ -379,6 +379,26 @@ describe("admin drafts-export / mark-published", () => {
     expect(courses[0].professor).toBe("Teacher One");
     expect(courses[0].lessons).toHaveLength(3);
     expect(courses[0]._draftId).toBe(id);
+  });
+
+  it("a gated draft exports with lessons/quiz stripped and gated:true, real content untouched in D1", async () => {
+    const id = await makeGoodDraft(env, "t1");
+    await draftPost({ request: asReq("t1", { id, action: "update_meta", visibility: "gated" }, "http://localhost/api/studio/draft"), env });
+    await submitPost({ request: asReq("t1", { id }, "http://localhost/api/studio/submit"), env });
+    await decisionPost({ request: asReq("admin1", { id, decision: "approve" }, "http://localhost/api/review/decision"), env });
+
+    const envWithToken = { ...env, EXPORT_TOKEN: "secret123" };
+    const tokenReq = new Request("http://localhost/api/admin/drafts-export?status=approved", { headers: { authorization: "Bearer secret123" } });
+    const res = await exportGet({ request: tokenReq, env: envWithToken });
+    expect(res.status).toBe(200);
+    const { courses } = await res.json();
+    expect(courses).toHaveLength(1);
+    expect(courses[0].gated).toBe(true);
+    expect(courses[0].lessons).toEqual([]);
+    expect(courses[0].quiz).toEqual([]);
+    // The real content is still in D1 — never deleted, just not shipped publicly.
+    expect(env.DB.lessons.get(id)).toHaveLength(3);
+    expect(env.DB.quizzes.get(id)).toHaveLength(1);
   });
 
   it("mark-published requires status='approved'", async () => {

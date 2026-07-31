@@ -34,6 +34,7 @@ import { onRequestGet as adminCourseTeachersGet, onRequestPost as adminCourseTea
 import { onRequestGet as adminEventsGet } from "./functions/api/admin/events.js";
 import { onRequestGet as gradebookGet, onRequestPost as gradebookPost } from "./functions/api/gradebook.js";
 import { onRequestPost as quizPost } from "./functions/api/quiz.js";
+import { onRequestGet as courseContentGet } from "./functions/api/course-content.js";
 import { onRequestPost as programExamPost } from "./functions/api/program-exam.js";
 import { onRequestGet as announcementsGet, onRequestPost as announcementsPost } from "./functions/api/announcements.js";
 import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
@@ -102,6 +103,7 @@ const routes = {
   "/api/admin/events": { GET: adminEventsGet },
   "/api/gradebook": { GET: gradebookGet, POST: gradebookPost },
   "/api/quiz": { POST: quizPost },
+  "/api/course-content": { GET: courseContentGet },
   "/api/program-exam": { POST: programExamPost },
   "/api/announcements": { GET: announcementsGet, POST: announcementsPost },
   "/api/discussions": { GET: discussionsGet, POST: discussionsPost },

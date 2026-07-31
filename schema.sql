@@ -96,6 +96,7 @@ CREATE TABLE IF NOT EXISTS course_drafts (
   title TEXT NOT NULL, topic TEXT NOT NULL, level INTEGER NOT NULL,
   meta TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'draft',
+  visibility TEXT NOT NULL DEFAULT 'public', -- public|gated (migrations/0008_course_visibility.sql)
   review_notes TEXT, reviewed_by TEXT, reviewed_at INTEGER,
   submitted_at INTEGER, created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL
 );
