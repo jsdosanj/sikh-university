@@ -53,6 +53,9 @@ import { onRequestGet as reviewDraftGet } from "./functions/api/review/draft.js"
 import { onRequestPost as reviewDecisionPost } from "./functions/api/review/decision.js";
 import { onRequestGet as adminDraftsExportGet } from "./functions/api/admin/drafts-export.js";
 import { onRequestPost as adminDraftsMarkPublishedPost } from "./functions/api/admin/drafts-mark-published.js";
+import { onRequestGet as teacherArchiveRequestGet, onRequestPost as teacherArchiveRequestPost } from "./functions/api/teacher/archive-request.js";
+import { onRequestGet as adminArchiveRequestsGet, onRequestPost as adminArchiveRequestsPost } from "./functions/api/admin/archive-requests.js";
+import { onRequestGet as adminArchiveRequestsExportGet } from "./functions/api/admin/archive-requests-export.js";
 import { onRequestGet as ratingsGet, onRequestPost as ratingsPost } from "./functions/api/ratings.js";
 import { onRequestGet as certGet, onRequestPost as certPost } from "./functions/api/certificates.js";
 import { onRequestGet as enrollmentsGet, onRequestPost as enrollmentsPost } from "./functions/api/enrollments.js";
@@ -118,6 +121,9 @@ const routes = {
   "/api/review/decision": { POST: reviewDecisionPost },
   "/api/admin/drafts-export": { GET: adminDraftsExportGet },
   "/api/admin/drafts-mark-published": { POST: adminDraftsMarkPublishedPost },
+  "/api/teacher/archive-request": { GET: teacherArchiveRequestGet, POST: teacherArchiveRequestPost },
+  "/api/admin/archive-requests": { GET: adminArchiveRequestsGet, POST: adminArchiveRequestsPost },
+  "/api/admin/archive-requests-export": { GET: adminArchiveRequestsExportGet },
   "/api/ratings": { GET: ratingsGet, POST: ratingsPost },
   "/api/certificates": { GET: certGet, POST: certPost },
   "/api/enrollments": { GET: enrollmentsGet, POST: enrollmentsPost },
@@ -146,6 +152,7 @@ const RATE_LIMITS = {
   "/api/auth/mfa/verify": { limit: 10, window: 60 },  // 6-digit code brute-force guard
   "/api/teacher/profile": { limit: 10, window: 60 },
   "/api/teacher/claim": { limit: 5, window: 60 },
+  "/api/teacher/archive-request": { limit: 5, window: 60 },
   "/api/discussions/report": { limit: 5, window: 60 },
   "/api/submissions": { limit: 10, window: 60 },
 };
