@@ -69,6 +69,7 @@ export async function onRequestPost({ request, env }) {
   const title = b.title != null ? String(b.title).trim().slice(0, 200) : draft.title;
   const topic = b.topic != null ? String(b.topic).trim().slice(0, 60) : draft.topic;
   const level = b.level != null ? parseInt(b.level, 10) : draft.level;
+  const visibility = b.visibility === "gated" || b.visibility === "public" ? b.visibility : draft.visibility;
   let meta = {};
   try { meta = JSON.parse(draft.meta); } catch (e) {}
   if (b.summary != null) meta.summary = String(b.summary).trim().slice(0, 1000);
@@ -78,7 +79,7 @@ export async function onRequestPost({ request, env }) {
   if (b.aiAssisted != null) meta.aiAssisted = !!b.aiAssisted;
 
   await env.DB.prepare(
-    "UPDATE course_drafts SET title=?, topic=?, level=?, meta=?, updated_at=? WHERE id=?"
-  ).bind(title, topic, level, JSON.stringify(meta), now, b.id).run();
+    "UPDATE course_drafts SET title=?, topic=?, level=?, visibility=?, meta=?, updated_at=? WHERE id=?"
+  ).bind(title, topic, level, visibility, JSON.stringify(meta), now, b.id).run();
   return json({ ok: true });
 }

@@ -175,6 +175,12 @@ import Base from '../layouts/Base.astro';
                 <option value="false" ${meta.aiAssisted === false ? 'selected' : ''}>No</option>
               </select>
             </label>
+            <label class="block font-sans text-sm font-semibold">Visibility
+              <select id="f-visibility" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans" ${editable ? '' : 'disabled'}>
+                <option value="public" ${draft.visibility !== 'gated' ? 'selected' : ''}>Public — free, fully listed</option>
+                <option value="gated" ${draft.visibility === 'gated' ? 'selected' : ''}>Institutional — title &amp; summary public, full content requires cohort access</option>
+              </select>
+            </label>
             ${editable ? '<button id="save-meta" class="btn justify-self-start">Save summary/declaration</button>' : ''}
           </div>
           ${editable ? `
@@ -187,7 +193,8 @@ import Base from '../layouts/Base.astro';
           document.getElementById('save-meta')!.addEventListener('click', async () => {
             const summary = (document.getElementById('f-summary') as HTMLTextAreaElement).value;
             const aiAssisted = (document.getElementById('f-ai') as HTMLSelectElement).value === 'true';
-            const r = await api('/api/studio/draft', { method: 'POST', body: JSON.stringify({ id, action: 'update_meta', summary, aiAssisted }) });
+            const visibility = (document.getElementById('f-visibility') as HTMLSelectElement).value;
+            const r = await api('/api/studio/draft', { method: 'POST', body: JSON.stringify({ id, action: 'update_meta', summary, aiAssisted, visibility }) });
             (window as any).suToast(r.ok ? 'Saved.' : (r.d.error || 'Could not save.'), r.ok ? 'ok' : 'error');
           });
           document.getElementById('delete-draft-btn')!.addEventListener('click', () => deleteDraft(id, draft.title, () => goToList(false)));

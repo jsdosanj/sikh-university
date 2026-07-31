@@ -7,7 +7,7 @@ export async function onRequestGet({ request, env }) {
   if (error) return error;
   await ensure(env);
   const { results } = await env.DB.prepare(
-    "SELECT id, base_course_id, course_id, title, topic, level, status, submitted_at, created_at, updated_at " +
+    "SELECT id, base_course_id, course_id, title, topic, level, status, visibility, submitted_at, created_at, updated_at " +
     "FROM course_drafts WHERE author_id=? ORDER BY updated_at DESC"
   ).bind(user.id).all();
   return json({ drafts: results || [] });

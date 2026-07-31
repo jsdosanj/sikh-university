@@ -17,6 +17,7 @@ const index = {
     id: c.id, title: c.title, topic: c.topic, level: c.level,
     professor: c.professor, status: c.status, summary: c.summary,
     nLessons: (c.lessons || []).length, nQuiz: (c.quiz || []).length,
+    ...(c.gated ? { gated: true } : {}),
   })),
 };
 const indexOut = JSON.stringify(index);

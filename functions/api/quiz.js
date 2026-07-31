@@ -1,14 +1,37 @@
-import { json, getUser, logEvent } from "./_lib.js";
+import { json, getUser, logEvent, isCourseTeacher, hasCohortAccess } from "./_lib.js";
 import { QUIZ_KEYS } from "./_quiz-keys.js";
 
 // POST /api/quiz { courseId, answers:[selectedOptionIndex, ...] }
 // Grades the quiz ON THE SERVER against the secret answer key. Answers are never
 // sent to the browser, so a client cannot forge a score (and thus a certificate).
 // If the user is signed in, the (best) score is stored authoritatively in progress.
+//
+// Gated (institutional) courses have no QUIZ_KEYS entry — build_quiz_keys.py
+// skips them since their public courses.json entry ships quiz:[] on purpose
+// (see functions/api/admin/drafts-export.js). For those, grade from the real
+// answers in draft_quiz instead, but only for an entitled requester (course
+// teacher/admin, or a member of a cohort tied to this course) — unlike a free
+// course, a gated course's quiz isn't meant to be gradable by just anyone.
 export async function onRequestPost({ request, env }) {
   let b; try { b = await request.json(); } catch (e) { return json({ error: "bad request" }, 400); }
-  const key = b && b.courseId ? QUIZ_KEYS[b.courseId] : null;
-  if (!key) return json({ error: "unknown course or no quiz" }, 404);
+  if (!b || !b.courseId) return json({ error: "unknown course or no quiz" }, 404);
+
+  const user = await getUser(env, request);
+  let key = QUIZ_KEYS[b.courseId];
+  if (!key) {
+    const draft = await env.DB.prepare(
+      "SELECT id FROM course_drafts WHERE course_id=? AND status='published' AND visibility='gated' ORDER BY updated_at DESC LIMIT 1"
+    ).bind(b.courseId).first();
+    if (!draft) return json({ error: "unknown course or no quiz" }, 404);
+    if (!user) return json({ error: "Please sign in." }, 401);
+    const entitled = user.role === "admin"
+      || (await isCourseTeacher(env, user.id, b.courseId))
+      || (await hasCohortAccess(env, user.id, b.courseId));
+    if (!entitled) return json({ error: "This course requires cohort access." }, 403);
+    const { results: quizRows } = await env.DB.prepare("SELECT idx, answer FROM draft_quiz WHERE draft_id=? ORDER BY idx").bind(draft.id).all();
+    if (!quizRows || !quizRows.length) return json({ error: "unknown course or no quiz" }, 404);
+    key = quizRows.map((q) => q.answer);
+  }
   const answers = Array.isArray(b.answers) ? b.answers : [];
 
   let correct = 0;
@@ -18,7 +41,6 @@ export async function onRequestPost({ request, env }) {
   const passed = score >= 80;
 
   // Persist the grade only for signed-in users (server is the source of truth).
-  const user = await getUser(env, request);
   if (user) {
     const prior = await env.DB.prepare("SELECT passed_score FROM progress WHERE user_id=? AND course_id=?").bind(user.id, b.courseId).first();
     const wasPassed = !!(prior && prior.passed_score >= 80);
