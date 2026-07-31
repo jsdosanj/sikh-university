@@ -238,7 +238,7 @@
   "cohorts.signinlink": "登录",
   "cohorts.signin.suffix": "以加入或创建学习小组。",
   "cohorts.ph.invitecode": "例如 4F9A2C",
-  "cohorts.ph.course": "课程编号或标题",
+  "cohorts.nocourses": "暂时没有可用于创建学习小组的课程。",
   "cohorts.ph.cohortname": "例如 2026 夏令营",
   "cohorts.aria.invitecode": "邀请码",
   "cohorts.aria.course": "课程",

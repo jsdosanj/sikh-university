@@ -238,7 +238,7 @@
   "cohorts.signinlink": "ਸਾਈਨ ਇਨ ਕਰੋ",
   "cohorts.signin.suffix": "ਜਥੇ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਜਾਂ ਬਣਾਉਣ ਲਈ।",
   "cohorts.ph.invitecode": "ਜਿਵੇਂ 4F9A2C",
-  "cohorts.ph.course": "ਕੋਰਸ id ਜਾਂ ਸਿਰਲੇਖ",
+  "cohorts.nocourses": "ਹਾਲੇ ਜਥਾ ਬਣਾਉਣ ਲਈ ਕੋਈ ਕੋਰਸ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।",
   "cohorts.ph.cohortname": "ਜਿਵੇਂ ਸਮਰ ਕੈਂਪ 2026",
   "cohorts.aria.invitecode": "ਸੱਦਾ-ਕੋਡ",
   "cohorts.aria.course": "ਕੋਰਸ",
