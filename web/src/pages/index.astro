@@ -15,15 +15,19 @@ const ld = {
 <Base title="Sikhi University — free, open Sikhi & modern-skills courses" ambient="hall">
   <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
 
-  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow behind the Logo -->
+  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow behind the Logo.
+       data-arrival children play a one-time entrance (lib/motion.ts initArrival); #daily-shabad
+       below is sacred content and deliberately carries no arrival/parallax/tilt. -->
   <header class="relative overflow-hidden text-white">
+    <div class="su-arrival-curtain"></div>
     <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
+    <div aria-hidden="true" data-parallax="0.08" class="glow-saffron pointer-events-none absolute -left-24 top-1/3 h-[36rem] w-[36rem]"></div>
     <div class="wrap relative grid items-center gap-12 py-24 lg:grid-cols-[minmax(0,1fr)_auto]">
       <div>
-        <p class="eyebrow text-saffron" data-i18n="home.eyebrow">Free · Open · Worldwide</p>
-        <h1 class="text-display mt-4 max-w-3xl font-bold text-white">Dive into the depths of <span class="text-saffron">Sikhi</span>.</h1>
-        <p class="mt-5 max-w-2xl text-lg text-white/85" data-i18n="home.herosub">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
-        <div class="mt-8 flex flex-wrap gap-3">
+        <p data-arrival class="eyebrow text-saffron" data-i18n="home.eyebrow">Free · Open · Worldwide</p>
+        <h1 data-arrival class="text-display-xl mt-4 max-w-3xl font-bold text-white">Dive into the depths of <span class="text-saffron">Sikhi</span>.</h1>
+        <p data-arrival class="versal mt-5 max-w-2xl text-lg text-white/85" data-i18n="home.herosub">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
+        <div data-arrival class="mt-8 flex flex-wrap gap-3">
           <a class="btn btn-primary" href="/catalog" data-i18n="home.cta.browse">Browse courses</a>
           <a class="btn btn-ghost" href="https://sikharchive.net" target="_blank" rel="noopener noreferrer" data-i18n="home.cta.archive">Visit Sikh Archive →</a>
         </div>

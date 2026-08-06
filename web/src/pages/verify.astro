@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 ---
 <Base title="Verify a certificate — Sikhi University" description="Verify the authenticity of a Sikhi University certificate of completion." autoTranslate={false} ambient="study">
   <section class="wrap max-w-xl py-14">
-    <h1 class="text-3xl font-bold" data-i18n="verify.h1">Verify a certificate</h1>
+    <h1 class="text-display-sm font-bold" data-i18n="verify.h1">Verify a certificate</h1>
     <p class="mt-2 text-muted"><span data-i18n="verify.hint1">Enter a certificate ID (e.g.</span> <code>SU-XXXXXXXXXX</code><span data-i18n="verify.hint2">) to confirm it was issued by Sikhi University.</span></p>
     <form id="vf" class="glass mt-6 flex gap-2 p-2">
       <input id="vid" type="text" aria-label="Certificate ID" data-i18n-aria="verify.aria.certid" placeholder="SU-…" data-i18n-ph="verify.ph.certid" class="flex-1 rounded-xl border-none bg-transparent px-4 py-2.5 font-sans outline-none" />
@@ -13,6 +13,7 @@ import Base from '../layouts/Base.astro';
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
+    import { sealReveal } from '../lib/motion';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const out = document.getElementById('out');
     let titles = {};
@@ -32,7 +33,11 @@ import Base from '../layouts/Base.astro';
         }
         if (d && d.valid) {
           const dt = d.issuedAt ? new Date(d.issuedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '';
-          out.innerHTML = `<div class="rounded-xl2 border-l-4 border-ok bg-surface p-5"><div class="flex items-center gap-1.5 font-sans text-sm font-bold text-ok">${iconSvg('check', 'h-4 w-4 shrink-0')} <span data-i18n="verify.valid">Valid certificate</span></div><div class="mt-2"><strong>${esc(d.name || '—')}</strong> <span data-i18n="verify.completed">completed</span> <strong>${esc(titles[d.courseId] || d.courseId)}</strong></div><div class="font-sans text-sm text-muted">Score ${d.score}% · Issued ${dt}</div></div>`;
+          out.innerHTML = `<div id="verify-ok" class="rounded-xl2 border-l-4 border-ok bg-surface p-5"><div class="flex items-center gap-1.5 font-sans text-sm font-bold text-ok">${iconSvg('check', 'h-4 w-4 shrink-0')} <span data-i18n="verify.valid">Valid certificate</span></div><div class="mt-2"><strong>${esc(d.name || '—')}</strong> <span data-i18n="verify.completed">completed</span> <strong>${esc(titles[d.courseId] || d.courseId)}</strong></div><div class="font-sans text-sm text-muted">Score ${d.score}% · Issued ${dt}</div></div>`;
+          // Decorative only, fired after the verdict text above is already rendered —
+          // trust is never gated on the animation.
+          const okCard = document.getElementById('verify-ok');
+          if (okCard) sealReveal(okCard);
         } else {
           out.innerHTML = `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-5 font-sans text-sm"><strong data-i18n="verify.notfound.title">Not found.</strong> <span data-i18n="verify.notfound.detail">No certificate matches that ID.</span></div>`;
         }

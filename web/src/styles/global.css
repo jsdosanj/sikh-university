@@ -150,7 +150,26 @@
      (DESIGN.md: no raw text-[…rem] literals outside the scale.) */
   .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; letter-spacing: -0.015em; text-wrap: balance; }
   .text-display-sm { font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); line-height: 1.12; letter-spacing: -0.01em; text-wrap: balance; }
+  /* Index hero h1 only (DESIGN.md) — one size above .text-display for the arrival moment. */
+  .text-display-xl { font-size: clamp(3.2rem, 2rem + 6vw, 6rem); line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance; }
   .eyebrow { @apply font-sans text-xs font-bold uppercase; letter-spacing: 0.18em; }
+  .eyebrow-rule { @apply font-sans text-xs font-bold uppercase inline-flex items-center gap-2; letter-spacing: 0.18em; }
+  .eyebrow-rule::before { content: ''; display: inline-block; width: 1.5rem; height: 1px; background: currentColor; opacity: .5; }
+
+  /* Illuminated-manuscript drop cap, via ::first-letter — survives the i18n
+     script's textContent swaps (a wrapping span would not) and needs no
+     markup change on the paragraph itself. Latin only — never on Gurmukhi
+     (DESIGN.md: a drop cap would orphan matras above/below the line). */
+  .versal::first-letter {
+    float: left; font-family: "Source Serif 4", Georgia, serif; font-weight: 600;
+    font-size: 3.4em; line-height: .82; padding: .04em .09em 0 0; color: #f4b21a;
+  }
+
+  /* Bilingual display pairing: a Gurmukhi label at/above its paired Latin line's
+     optical size (never-smaller-than-Latin rule), stacked over a Latin display
+     line. Labels only — never Gurbani verse text. */
+  .bilingual-display .gur { display: block; font-size: 1.3em; }
+  .bilingual-display .latin { display: block; }
 
   /* Elevated card: gold hairline reveals on hover, deeper lift. Saffron (not
      product-blue) is the accent, per DESIGN.md. */
@@ -166,6 +185,23 @@
      data-reveal-ready from lib/motion.ts), so no-JS and crawlers see everything. */
   html[data-reveal-ready] .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1); }
   html[data-reveal-ready] .reveal.in { opacity: 1; transform: none; }
+
+  /* Hall arrival: same content-safety contract as .reveal above — elements stay
+     visible unless JS arms it (html[data-arrival-ready], stamped by
+     lib/motion.ts's initArrival()), so no-JS/crawlers/reduced-motion always see
+     final state. Hero-only (DESIGN.md: never outside a hall <header>). */
+  html[data-arrival-ready] [data-arrival] { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-cinema); }
+  html[data-arrival-ready] [data-arrival].in { opacity: 1; transform: none; }
+  .su-arrival-curtain { position: absolute; left: 0; top: 0; height: 2px; width: 100%; background: linear-gradient(90deg, transparent, #f4b21a 20%, #f4b21a 80%, transparent); transform: scaleX(0); transform-origin: left; }
+  .su-arrival-curtain.go { animation: su-arrival-sweep .7s var(--ease-cinema) both; }
+  @keyframes su-arrival-sweep { to { transform: scaleX(1); } }
+
+  /* Seal reveal (lib/motion.ts sealReveal()) — same drawn-seal + one glow pulse
+     language as the games kit's celebrate(), independently defined here since
+     this is a shared (non-games) primitive. No confetti/emoji/sound. */
+  @keyframes su-seal-draw { to { stroke-dashoffset: 0; } }
+  @keyframes su-seal-pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes su-seal-glow { 0% { opacity: 0; transform: scale(.7); } 45% { opacity: .9; } 100% { opacity: 0; transform: scale(1.25); } }
 
   /* Whisper-quiet page entrance (CSS-only; killed by the reduced-motion guard). */
   @keyframes su-page-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
@@ -263,6 +299,32 @@
     }
   }
 
+  /* Hall exception (DESIGN.md): up to 8 live backdrop-filter elements on
+     ambient="hall" pages, opt-in only via this class — never a scoped bump of
+     .glass-lite, which would blur a whole card grid at once. Byte-identical
+     surface to .glass so test/contrast-glass.mjs's existing sanctioned pairs
+     already cover it. Demotes at ≤1024px (wider than .glass-card's ≤640px —
+     this is desktop-first grandeur, not a mobile affordance). Inert outside
+     hall scope: the selector requires body[data-ambient="hall"]. */
+  body[data-ambient="hall"] .glass-hall {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    @apply rounded-xl2;
+  }
+  @media (max-width: 1024px) {
+    body[data-ambient="hall"] .glass-hall {
+      background: rgb(var(--c-surface) / .92);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    body[data-ambient="hall"] .glass-hall { background: rgb(var(--c-surface) / .95); }
+  }
+
   /* ── Ambient background system: ONE fixed layer per page (Base `ambient`
      prop). Transform/opacity keyframes only; frozen by reduced-motion. ───── */
 
@@ -272,7 +334,7 @@
   .ambient::before, .ambient::after {
     content: ''; position: absolute; border-radius: 9999px; will-change: transform;
   }
-  /* hall — grand navy: index, about, programs, login, 404, cert */
+  /* hall — grand navy: index, about, programs, login, 404 */
   .ambient-hall { background: linear-gradient(160deg, #0b1e3a, #16335c 55%, #0b2444); }
   .ambient-hall::before {
     width: 60vmax; height: 60vmax; left: -15vmax; top: -20vmax;

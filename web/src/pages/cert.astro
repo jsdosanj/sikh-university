@@ -13,6 +13,7 @@ import Base from '../layouts/Base.astro';
     // they're the single largest JS bundle on the site, and only the minority of
     // visitors who click "Download PDF" (vs. Print) need them at all.
     import { iconSvg } from '../lib/icons';
+    import { sealReveal } from '../lib/motion';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const get = (k, d) => { try { const v = localStorage.getItem('su_v1_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
     const app = document.getElementById('cert-app');
@@ -55,6 +56,11 @@ import Base from '../layouts/Base.astro';
           </div>
         </div>
         <div class="noprint mt-6 flex flex-wrap justify-center gap-3"><button id="dl-pdf" class="btn btn-primary">${iconSvg('download', 'h-4 w-4')} <span data-i18n="cert.btn.downloadpdf">Download PDF</span></button><button id="print" class="btn">${iconSvg('printer', 'h-4 w-4')} <span data-i18n="cert.btn.print">Print</span></button></div>`;
+      // Decorative only, fired after the real certificate is already fully rendered —
+      // the overlay self-removes long before a PDF/print capture could happen, and the
+      // render surface itself stays solid (html2canvas cannot rasterize blur).
+      const certCard = document.getElementById('cert-card');
+      if (certCard) sealReveal(certCard);
       document.getElementById('print')?.addEventListener('click', () => window.print());
       document.getElementById('dl-pdf')?.addEventListener('click', async () => {
         const card = document.getElementById('cert-card'); const btn = document.getElementById('dl-pdf');
