@@ -251,13 +251,40 @@ function renderTeacherPage(profile, assignedCourseIds, shellResp) {
   return new Response(transformed.body, { status: 200, headers });
 }
 
+// Best-effort daily prune of tables that only ever grow (rate_limits is
+// insert/update-only in checkRateLimit above; sessions/magic_tokens are never
+// deleted on expiry, only filtered by expires_at at read time). Each table is
+// independent so one failing DELETE can't block the others.
+async function pruneExpired(env) {
+  if (!env.DB) return { skipped: true };
+  const nowMs = Date.now();
+  const nowSec = Math.floor(nowMs / 1000);
+  const jobs = [
+    ["rate_limits", "DELETE FROM rate_limits WHERE reset_at < ?1", nowSec],
+    ["sessions", "DELETE FROM sessions WHERE expires_at < ?1", nowMs],
+    ["magic_tokens", "DELETE FROM magic_tokens WHERE expires_at < ?1", nowMs],
+  ];
+  const result = {};
+  for (const [table, sql, param] of jobs) {
+    try {
+      const { meta } = await env.DB.prepare(sql).bind(param).run();
+      result[table] = meta.changes;
+    } catch (e) { result[table] = `error: ${String(e)}`; }
+  }
+  return result;
+}
+
 export default {
-  // Daily coursework reminder sweep (wrangler.toml [triggers]). Payload-less
-  // Web Push: the service worker supplies the notification text.
+  // Daily coursework reminder sweep + best-effort table prune (wrangler.toml
+  // [triggers]). Payload-less Web Push: the service worker supplies the
+  // notification text.
   async scheduled(event, env, ctx) {
     ctx.waitUntil(sendDailyReminders(env).then((r) => {
       if (!r.skipped) console.log("push_reminders", JSON.stringify(r));
     }).catch((e) => console.error("push_reminders_error", String(e))));
+    ctx.waitUntil(pruneExpired(env).then((r) => {
+      if (!r.skipped) console.log("prune_expired", JSON.stringify(r));
+    }).catch((e) => console.error("prune_expired_error", String(e))));
   },
   async fetch(request, env) {
     const url = new URL(request.url);

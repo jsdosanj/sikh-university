@@ -9,8 +9,9 @@ import Base from '../layouts/Base.astro';
     @media print { nav, footer, .noprint { display: none !important; } body { background: #fff; } }
   </style>
   <script>
-    import { jsPDF } from 'jspdf';
-    import html2canvas from 'html2canvas';
+    // jsPDF + html2canvas are loaded lazily on click, not imported here — together
+    // they're the single largest JS bundle on the site, and only the minority of
+    // visitors who click "Download PDF" (vs. Print) need them at all.
     import { iconSvg } from '../lib/icons';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const get = (k, d) => { try { const v = localStorage.getItem('su_v1_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } };
@@ -59,6 +60,7 @@ import Base from '../layouts/Base.astro';
         const card = document.getElementById('cert-card'); const btn = document.getElementById('dl-pdf');
         if (!card) return; const old = btn.innerHTML; btn.disabled = true; btn.textContent = 'Preparing…';
         try {
+          const [{ default: html2canvas }, { jsPDF }] = await Promise.all([import('html2canvas'), import('jspdf')]);
           const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#fffdf8', useCORS: true });
           const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
           const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();

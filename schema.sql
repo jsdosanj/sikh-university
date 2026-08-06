@@ -102,6 +102,9 @@ CREATE TABLE IF NOT EXISTS course_drafts (
 );
 CREATE INDEX IF NOT EXISTS idx_drafts_author ON course_drafts(author_id, updated_at);
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON course_drafts(status, submitted_at);
+-- Looks up a course's most-recently-published draft (course-content.js, quiz.js) — hot path
+-- for every gated-course read (migrations/0009_perf_indexes.sql).
+CREATE INDEX IF NOT EXISTS idx_drafts_course ON course_drafts(course_id, status, updated_at);
 
 CREATE TABLE IF NOT EXISTS draft_lessons (
   draft_id TEXT NOT NULL, idx INTEGER NOT NULL,
@@ -142,6 +145,9 @@ CREATE TABLE IF NOT EXISTS course_teachers (
   course_id TEXT NOT NULL, user_id TEXT NOT NULL, assigned_at INTEGER NOT NULL,
   PRIMARY KEY (course_id, user_id)
 );
+-- isCourseTeacher() looks this up by user_id alone (PK is course_id-first) — hot path for
+-- every gated-course entitlement check (migrations/0009_perf_indexes.sql).
+CREATE INDEX IF NOT EXISTS idx_course_teachers_user ON course_teachers(user_id);
 
 -- A teacher/admin grade override that wins over the computed quiz score.
 CREATE TABLE IF NOT EXISTS grade_overrides (
@@ -183,10 +189,15 @@ CREATE TABLE IF NOT EXISTS cohorts (
   invite_code TEXT NOT NULL UNIQUE, owner_id TEXT NOT NULL, created_at INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_cohorts_owner ON cohorts(owner_id);
+-- hasCohortAccess() joins cohorts to cohort_members by course_id (migrations/0009_perf_indexes.sql).
+CREATE INDEX IF NOT EXISTS idx_cohorts_course ON cohorts(course_id);
 CREATE TABLE IF NOT EXISTS cohort_members (
   cohort_id TEXT NOT NULL, user_id TEXT NOT NULL, joined_at INTEGER NOT NULL,
   PRIMARY KEY (cohort_id, user_id)
 );
+-- hasCohortAccess() looks this up by user_id alone (PK is cohort_id-first) — hot path for
+-- every gated-course entitlement check (migrations/0009_perf_indexes.sql).
+CREATE INDEX IF NOT EXISTS idx_cohort_members_user ON cohort_members(user_id);
 
 -- Feedback is also auto-created by functions/api/feedback.js on first write.
 CREATE TABLE IF NOT EXISTS feedback (
