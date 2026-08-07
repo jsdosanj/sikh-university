@@ -203,7 +203,7 @@ const typeLabel = {
         return;
       }
       renderTest(shuffled);
-    });
+    }).catch(() => { window.suToast('Could not load the exam — please try again in a moment.', 'error'); });
   }
 
   function renderTest(questions) {

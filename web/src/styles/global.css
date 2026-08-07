@@ -159,11 +159,16 @@
   /* Illuminated-manuscript drop cap, via ::first-letter — survives the i18n
      script's textContent swaps (a wrapping span would not) and needs no
      markup change on the paragraph itself. Latin only — never on Gurmukhi
-     (DESIGN.md: a drop cap would orphan matras above/below the line). */
+     (DESIGN.md: a drop cap would orphan matras above/below the line).
+     No forced color by default (inherits the paragraph's own text color, so
+     contrast always matches its surroundings); the saffron accent is scoped
+     to hall pages below, where it's checked against the fixed navy ambient —
+     #f4b21a would fail AA on a light paper background if applied there. */
   .versal::first-letter {
     float: left; font-family: "Source Serif 4", Georgia, serif; font-weight: 600;
-    font-size: 3.4em; line-height: .82; padding: .04em .09em 0 0; color: #f4b21a;
+    font-size: 3.4em; line-height: .82; padding: .04em .09em 0 0;
   }
+  body[data-ambient="hall"] .versal::first-letter { color: #f4b21a; }
 
   /* Bilingual display pairing: a Gurmukhi label at/above its paired Latin line's
      optical size (never-smaller-than-Latin rule), stacked over a Latin display
