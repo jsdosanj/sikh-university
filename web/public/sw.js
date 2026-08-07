@@ -1,6 +1,6 @@
 /* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v22';
+var CACHE = 'su-web-v23'; // bumped: purges the stale pre-font-fix cache (see activate handler below)
 var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest', '/offline.html'];
 
 self.addEventListener('install', function (e) {
