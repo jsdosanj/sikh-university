@@ -36,7 +36,7 @@ const faqLd = {
   mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
 ---
-<Base title="About — Sikhi University" description="Why Sikhi University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills." ambient="hall">
+<Base title="About — Sikhi University" description="Why Sikhi University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills." ambient="hall" bgImage="/assets/backgrounds/about.jpg">
   <script type="application/ld+json" set:html={ldJson(faqLd)} slot="head" />
   <!-- Hero: sits over the ambient-hall backdrop, same language as index.astro -->
   <header class="relative overflow-hidden text-white">
