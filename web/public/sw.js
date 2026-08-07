@@ -1,6 +1,12 @@
 /* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v24'; // bumped again: purges the cache from this session's hero/branding/font pass
+var CACHE = 'su-web-v25'; // packs moved to their own unversioned cache (see PACKS_CACHE below) — this bump is the last one that can ever touch offline course data
+// Offline course packs live in their OWN unversioned cache, separate from the
+// app-shell CACHE above. The activate handler purges every cache key except
+// CACHE on every version bump (below) — before this split, that purge was
+// silently deleting every learner's downloaded offline course material on
+// each deploy that bumped CACHE. PACKS_CACHE is named once and never bumped.
+var PACKS_CACHE = 'su-packs-v1';
 var CORE = ['/', '/catalog', '/about', '/professors', '/paths', '/search', '/dashboard', '/read', '/santhiya', '/assets/icon.svg', '/assets/icon-192.png', '/assets/apple-touch-icon.png', '/assets/data/professors.json', '/manifest.webmanifest', '/offline.html'];
 
 self.addEventListener('install', function (e) {
@@ -22,7 +28,7 @@ self.addEventListener('activate', function (e) {
       .then(function () { return self.clients.claim(); }));
     return;
   }
-  e.waitUntil(caches.keys().then(function (keys) { return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); }));
+  e.waitUntil(caches.keys().then(function (keys) { return Promise.all(keys.filter(function (k) { return k !== CACHE && k !== PACKS_CACHE; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); }));
 });
 
 // Rebuild a response without the "redirected" flag (which navigations reject).
@@ -87,7 +93,7 @@ self.addEventListener('notificationclick', function (e) {
 self.addEventListener('message', function (e) {
   var d = e.data || {};
   if (d.type === 'cache-pack' && Array.isArray(d.urls)) {
-    e.waitUntil(caches.open(CACHE).then(function (c) {
+    e.waitUntil(caches.open(PACKS_CACHE).then(function (c) {
       return Promise.all(d.urls.map(function (u) {
         return fetch(u, { credentials: 'same-origin' }).then(function (res) {
           if (res && res.ok && res.type === 'basic') return c.put(u, res.clone());
