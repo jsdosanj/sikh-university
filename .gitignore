@@ -16,3 +16,7 @@ site/assets/data/courses.public.json
 # Generated at build time by web/scripts/build-index.mjs (slim catalogue index)
 web/public/data/
 .claude/
+
+# Python bytecode cache
+__pycache__/
+*.pyc
