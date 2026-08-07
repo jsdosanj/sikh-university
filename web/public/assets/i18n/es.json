@@ -427,5 +427,6 @@
   "verify.ph.certid": "SU-…",
   "verify.aria.certid": "ID de certificado",
   "cmdk.placeholder": "Busca cursos, páginas, acciones…",
-  "cmdk.hint": "Escribe para buscar · ↑↓ para navegar · Enter para abrir"
+  "cmdk.hint": "Escribe para buscar · ↑↓ para navegar · Enter para abrir",
+  "home.hero.scroll": "Desplázate"
 }

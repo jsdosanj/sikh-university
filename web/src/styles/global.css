@@ -148,8 +148,39 @@
 
   /* Fluid display type scale — the only sanctioned sizes above text-4xl.
      (DESIGN.md: no raw text-[…rem] literals outside the scale.) */
-  .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; letter-spacing: -0.015em; text-wrap: balance; }
-  .text-display-sm { font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); line-height: 1.12; letter-spacing: -0.01em; text-wrap: balance; }
+  /* Collegiate crest wordmark face, applied at the SOURCE class definition so
+     every one of the ~10 pages that use .text-display/.text-display-sm gets
+     it consistently — an earlier fix scoped this to index.astro only, which
+     is exactly why it looked right on the homepage and wrong everywhere else.
+     Two things must travel together with the font, confirmed by direct
+     comparison against the reference (clean) render:
+       1. font-weight: 400 (the file's only real weight) with font-synthesis
+          off — text-display's font-bold (700) has no matching weight file,
+          so the browser fakes/smears a synthetic bold otherwise.
+       2. the ORIGINAL font-size, not a shrunk one — this outline-style face
+          reads noticeably rougher at smaller sizes since its strokes are
+          already thin; don't reduce size to fight wrapping, widen the
+          container instead. */
+  /* Reverted: applying this face to EVERY h1 site-wide (including small
+     functional titles — game headers, dashboard "Profile", etc.) read as
+     heavy-handed there. It's a display face for large hero-style headings,
+     not body-scale titles. Scoped back down to just .text-display/
+     .text-display-sm, which is what it was actually designed for; other
+     h1s fall back to the site's normal serif. */
+  /* :not(.gur) — this class also gets combined with .gur for bilingual
+     titles (e.g. Santhya's "ਸੰਥਿਆ" span). This font stack has no Gurmukhi
+     glyphs, so without the exclusion it was silently breaking Gurmukhi
+     rendering wherever the two combine, falling back past .gur's correct
+     Noto Serif Gurmukhi to whatever the browser has. */
+  .text-display:not(.gur), .text-display-sm:not(.gur) {
+    font-family: 'Vintage College Dept', 'Bevan', Georgia, serif;
+    font-weight: 400 !important;
+    font-synthesis: none;
+    text-transform: uppercase;
+    text-wrap: wrap;
+  }
+  .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; letter-spacing: 0.01em; }
+  .text-display-sm { font-size: clamp(2.2rem, 1.6rem + 3.2vw, 3.6rem); line-height: 1.12; letter-spacing: 0.01em; }
   .eyebrow { @apply font-sans text-xs font-bold uppercase; letter-spacing: 0.18em; }
 
   /* Elevated card: gold hairline reveals on hover, deeper lift. Saffron (not
@@ -176,10 +207,12 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
   }
 
-  /* Phulkari-inspired diamond lattice for navy hero bands — abstract geometry,
-     deliberately not sacred iconography. ~4% white, reads as woven texture. */
+  /* Phulkari-inspired diamond lattice for navy hero bands — removed site-wide
+     per request (was showing as a visible thin checker/diamond overlay on
+     hero bands across ~8 pages + the shared Base ambient system). Disabled
+     at the source rather than stripping every page's markup. */
   .pattern-lattice {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1'%3E%3Cpath d='M28 0 56 28 28 56 0 28Z'/%3E%3Cpath d='M28 14 42 28 28 42 14 28Z'/%3E%3Ccircle cx='28' cy='28' r='2.5' fill='%23f4b21a' fill-opacity='0.07' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: none;
   }
 
   /* Loading skeletons. */
@@ -205,14 +238,51 @@
 
   /* Frosted primary nav: brand navy at 82% over a strong blur, deepening once
      the page scrolls. Counts as 1 of the ≤6 viewport blur budget. */
+  /* Nav is position:fixed (overlays on top of the page rather than reserving
+     its own row) so a full-bleed hero can render truly edge-to-edge behind
+     it. #main compensates with matching top padding so normal content pages
+     aren't hidden under it; CinematicHero cancels that padding with a
+     negative margin so the film still bleeds to the true top. */
+  #main { padding-top: calc(65px + env(safe-area-inset-top)); }
+
   .su-nav {
     background: rgb(22 51 92 / .82);
-    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
-    backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
-    border-bottom: 1px solid rgb(255 255 255 / .10);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    border-bottom: 1px solid rgb(255 255 255 / .14);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .12), 0 8px 32px rgb(0 0 0 / .25);
     transition: background var(--dur-hover) var(--ease-out);
   }
-  .su-nav[data-scrolled] { background: rgb(17 40 73 / .92); }
+  .su-nav[data-scrolled] { background: rgb(22 51 92 / .92); }
+  /* The cinematic homepage hero sits full-bleed under the fixed nav and needs
+     a near-invisible "liquid glass" treatment at the very top so the film
+     reads edge-to-edge — but that treatment is illegible over the near-white
+     .ambient-study background every OTHER page uses (catalog, course,
+     dashboard, search, professors). Scoped to the homepage only, and only
+     before the user scrolls past the hero (data-scrolled still darkens it,
+     same as every other page, once real content is behind it). */
+  body.su-home .su-nav:not([data-scrolled]) {
+    background: rgb(6 11 20 / .02);
+    -webkit-backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
+  }
+  /* Nav menu entries in the same collegiate crest face as the brand lockup.
+     Uppercase glyphs only (A-Z), hence the forced text-transform. This font
+     has no non-Latin glyphs, so :lang() scopes it to English only — every
+     other UI language (nav labels are data-i18n-translated at runtime) falls
+     through to the site's normal sans stack instead of showing tofu/fallback
+     glyphs. font-weight isn't forced with !important here: this face only
+     ships one real weight (400) so nothing heavier should ever be applied to
+     it in the first place, but !important on a class also stomped the
+     active-page indicator's own weight change — letting normal cascade rules
+     apply keeps that indicator working while base .su-nav-link stays 400. */
+  html:lang(en) .su-nav-link {
+    font-family: 'Vintage College Dept', 'Bevan', Georgia, serif;
+    font-weight: 400;
+    font-synthesis: none;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
   @supports not (backdrop-filter: blur(1px)) { .su-nav { background: #16335c; } }
   body.hc .su-nav { background: #000 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 
@@ -269,6 +339,17 @@
   .ambient {
     position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
   }
+  /* Optional per-page oil-painting layer (Base `bgImage` prop). Sits under
+     the existing gradient/pattern for that ambient, dimmed and desaturated
+     so foreground text stays legible — enhances the ambient system rather
+     than replacing it. */
+  .ambient-painting {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0.35; filter: saturate(0.85);
+  }
+  .ambient-hall .ambient-painting, .ambient-sanctum .ambient-painting { opacity: 0.30; }
+  [data-theme="light"] .ambient-study .ambient-painting { opacity: 0.16; }
   .ambient::before, .ambient::after {
     content: ''; position: absolute; border-radius: 9999px; will-change: transform;
   }
