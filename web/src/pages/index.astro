@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Logo from '../components/Logo.astro';
 import Icon from '../components/Icon.astro';
 import CinematicHero from '../components/CinematicHero.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
@@ -13,7 +12,7 @@ const ld = {
 };
 // WebSite (with the sitelinks SearchAction) is now emitted site-wide by Base.astro.
 ---
-<Base title="Sikhi University — free, open Sikhi & modern-skills courses" ambient="hall">
+<Base title="Sikhi University — free, open Sikhi & modern-skills courses" ambient="hall" bodyClass="su-home">
   <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
   <!-- self-hosted (not the unpkg CDN — CSP script-src is 'self' only) -->
   <script type="module" src="/scripts/model-viewer.min.js" slot="head" />
@@ -23,7 +22,7 @@ const ld = {
        kept intact and in place, just demoted from the very top to right after the film. -->
   <CinematicHero />
 
-  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow behind the Logo -->
+  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow -->
   <header class="relative overflow-hidden text-white">
     <!-- data-parallax removed: it drifts by absolute window.scrollY, calibrated
          for this section sitting at the top of the page. The cinematic hero

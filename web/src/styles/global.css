@@ -246,22 +246,39 @@
   #main { padding-top: calc(65px + env(safe-area-inset-top)); }
 
   .su-nav {
-    background: rgb(6 11 20 / .02);
-    -webkit-backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
-    backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
+    background: rgb(22 51 92 / .82);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
     border-bottom: 1px solid rgb(255 255 255 / .14);
     box-shadow: inset 0 1px 0 rgb(255 255 255 / .12), 0 8px 32px rgb(0 0 0 / .25);
     transition: background var(--dur-hover) var(--ease-out);
   }
-  .su-nav[data-scrolled] { background: rgb(6 11 20 / .10); }
+  .su-nav[data-scrolled] { background: rgb(22 51 92 / .92); }
+  /* The cinematic homepage hero sits full-bleed under the fixed nav and needs
+     a near-invisible "liquid glass" treatment at the very top so the film
+     reads edge-to-edge — but that treatment is illegible over the near-white
+     .ambient-study background every OTHER page uses (catalog, course,
+     dashboard, search, professors). Scoped to the homepage only, and only
+     before the user scrolls past the hero (data-scrolled still darkens it,
+     same as every other page, once real content is behind it). */
+  body.su-home .su-nav:not([data-scrolled]) {
+    background: rgb(6 11 20 / .02);
+    -webkit-backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
+  }
   /* Nav menu entries in the same collegiate crest face as the brand lockup.
-     Uppercase glyphs only (A-Z), hence the forced text-transform. */
-  .su-nav-link {
+     Uppercase glyphs only (A-Z), hence the forced text-transform. This font
+     has no non-Latin glyphs, so :lang() scopes it to English only — every
+     other UI language (nav labels are data-i18n-translated at runtime) falls
+     through to the site's normal sans stack instead of showing tofu/fallback
+     glyphs. font-weight isn't forced with !important here: this face only
+     ships one real weight (400) so nothing heavier should ever be applied to
+     it in the first place, but !important on a class also stomped the
+     active-page indicator's own weight change — letting normal cascade rules
+     apply keeps that indicator working while base .su-nav-link stays 400. */
+  html:lang(en) .su-nav-link {
     font-family: 'Vintage College Dept', 'Bevan', Georgia, serif;
-    /* same real-weight fix as index.astro's headings — this font has one
-       weight (400); anything heavier gets browser-faked (font-semibold on
-       the active-link state, etc.), which distorts/"warps" the glyphs. */
-    font-weight: 400 !important;
+    font-weight: 400;
     font-synthesis: none;
     text-transform: uppercase;
     letter-spacing: 0.03em;
