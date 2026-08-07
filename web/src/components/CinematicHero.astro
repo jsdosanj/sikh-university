@@ -148,6 +148,20 @@ const BASE = "/media/media/hero";
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var WINDOW_RADIUS = 18;
+  var failed = false;
+
+  // If the R2-hosted frame sequence isn't reachable (e.g. not yet uploaded),
+  // fail loudly instead of leaving a blank black 381vh stage: collapse the
+  // stage to nothing and reveal the site nav/content immediately.
+  function fallback(){
+    if (failed) return;
+    failed = true;
+    window.removeEventListener("scroll", onScroll);
+    window.removeEventListener("resize", onScroll);
+    stage.style.height = "0";
+    stage.style.marginTop = "0";
+    pin.style.display = "none";
+  }
 
   function resizeCanvas(){
     canvas.width = Math.round(window.innerWidth * dpr);
@@ -163,12 +177,23 @@ const BASE = "/media/media/hero";
     var img = new Image();
     img.decoding = "async";
     img.onload = function(){ loaded[i] = true; };
+    img.onerror = function(){ if (i === 0) fallback(); };
     img.src = FRAME_PATH(i + 1);
     frames[i] = img;
   }
 
   function preloadWindow(center){
     for (var d = -WINDOW_RADIUS; d <= WINDOW_RADIUS; d++) loadFrame(center + d);
+    // Evict decoded bitmaps outside the window (+ a small margin so the lerp
+    // catch-up in tick() doesn't thrash reload at the edge) — otherwise all
+    // 213 frames stay decoded in memory for the life of the page.
+    var evictMargin = WINDOW_RADIUS + 6;
+    for (var i = 0; i < FRAME_COUNT; i++){
+      if (frames[i] && Math.abs(i - center) > evictMargin){
+        frames[i] = undefined;
+        loaded[i] = false;
+      }
+    }
   }
 
   function drawFrame(i){
