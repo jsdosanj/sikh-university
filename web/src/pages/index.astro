@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Logo from '../components/Logo.astro';
 import Icon from '../components/Icon.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 import { SITE, ldJson } from '../lib/site';
@@ -65,7 +64,7 @@ const ld = {
       </div>
       <div data-parallax="0.3" class="relative hidden justify-self-center lg:block">
         <div aria-hidden="true" class="glow-saffron pointer-events-none absolute -inset-12"></div>
-        <Logo class="relative h-72 w-72 text-saffron/90 drop-shadow-[0_8px_40px_rgba(244,178,26,0.35)] xl:h-[22rem] xl:w-[22rem]" />
+        <img src="/assets/su-crest.png" alt="" aria-hidden="true" class="relative h-72 w-auto drop-shadow-[0_8px_40px_rgba(244,178,26,0.35)] xl:h-[22rem]" />
       </div>
     </div>
   </header>
