@@ -22,7 +22,7 @@ const texts = [
   { gur: 'ਰਹਿਤ ਅਤੇ ਨੈਤਿਕਤਾ', en: 'Rehat & Ethics', d: 'The Sikh codes of conduct — historical Rehatnamas, Sikh Rehat Maryada, Tankhahnama, and Prem Sumarag. The ethics of the Khalsa.', href: '/collection/rehat-ethics', live: true },
 ];
 ---
-<Base title="Santhya Pathway & Read-along — Sikhi University" description="Learn to read Gurbani with shudh uchaaran: from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio — read Ang by Ang here." ambient="sanctum">
+<Base title="Santhya Pathway & Read-along — Sikhi University" description="Learn to read Gurbani with shudh uchaaran: from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio — read Ang by Ang here." ambient="sanctum" bgImage="/assets/backgrounds/santhiya.jpg">
   <header id="su-hero" class="wrap pt-16 pb-6">
     <div class="hero-panel glass rounded-xl2 px-6 py-12 text-white sm:px-10">
       <p class="eyebrow text-saffron" data-i18n="santhiya.eyebrow">Shudh Uchaaran · Read-along</p>
@@ -594,3 +594,16 @@ const texts = [
     } // end runReader
   </script>
 </Base>
+
+<style>
+  /* This page's h1 has two spans: the Gurmukhi word (class="gur text-display",
+     needs its proper Gurmukhi font — left untouched) and the English title
+     (class="text-display-sm", which is the same shared class the collegiate
+     crest font hooks into for hero-scale headings elsewhere). Only the
+     English span is reverted to the site's normal serif here. */
+  #su-hero h1 span.text-display-sm {
+    font-family: 'Source Serif 4', Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    font-weight: 700;
+    text-transform: none;
+  }
+</style>

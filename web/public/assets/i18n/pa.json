@@ -427,5 +427,6 @@
   "verify.ph.certid": "SU-…",
   "verify.aria.certid": "ਸਰਟੀਫਿਕੇਟ ID",
   "cmdk.placeholder": "ਕੋਰਸ, ਪੰਨੇ, ਕਾਰਵਾਈਆਂ ਖੋਜੋ…",
-  "cmdk.hint": "ਖੋਜਣ ਲਈ ਲਿਖੋ · ↑↓ ਨਾਲ ਚੁਣੋ · Enter ਨਾਲ ਖੋਲ੍ਹੋ"
+  "cmdk.hint": "ਖੋਜਣ ਲਈ ਲਿਖੋ · ↑↓ ਨਾਲ ਚੁਣੋ · Enter ਨਾਲ ਖੋਲ੍ਹੋ",
+  "home.hero.scroll": "ਸਕ੍ਰੌਲ ਕਰੋ"
 }

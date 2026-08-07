@@ -16,3 +16,9 @@ site/assets/data/courses.public.json
 # Generated at build time by web/scripts/build-index.mjs (slim catalogue index)
 web/public/data/
 .claude/
+
+# local-only dev preview assets (staged for R2, not committed — see r2-upload-staging/)
+web/public/media/media/hero/
+
+# local wrangler dev-server state/cache
+.wrangler/

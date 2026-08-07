@@ -34,7 +34,7 @@ const progTypeLabel: Record<string, string> = { certificate: 'Certificates', ass
 const progTypeBg: Record<string, string> = { certificate: 'bg-saffron-soft', associate: 'bg-blue-50 dark:bg-blue-950/20', bachelor: 'bg-paper', master: 'bg-navy/5 dark:bg-navy/20', giani: 'bg-saffron-soft' };
 const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], programs: programsData.programs.filter((p) => p.type === t) }));
 ---
-<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study">
+<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study" bgImage="/assets/backgrounds/catalog.jpg">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
 
   <!-- Compact hero header -->
@@ -94,7 +94,7 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     <!-- Learning paths view -->
     <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6">
       <p class="text-muted" data-i18n="catalog.paths.intro">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
-      <details id="guided-journeys-section" class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
+      <details id="guided-journeys-section" open class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
         <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
           <div>
             <h2 class="text-xl font-bold" data-i18n="catalog.paths.guided.h">Guided journeys</h2>
@@ -124,7 +124,7 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
         </div>
       </details>
 
-      <details id="explore-by-subject-section" class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
+      <details id="explore-by-subject-section" open class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
         <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
           <div>
             <h2 class="text-xl font-bold" data-i18n="catalog.paths.subject.h">Explore by subject</h2>

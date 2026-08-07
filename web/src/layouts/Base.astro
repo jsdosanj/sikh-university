@@ -16,8 +16,8 @@ import path from 'node:path';
 // an asset reference and the embedded CSS breaks the compiled module.)
 const fontFaceCss = readFileSync(path.resolve(process.cwd(), 'public/fonts/fonts.css'), 'utf-8');
 
-interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; ambient?: 'hall' | 'study' | 'sanctum' | 'none'; noindex?: boolean }
-const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true, ambient = 'none', noindex = false } = Astro.props;
+interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; ambient?: 'hall' | 'study' | 'sanctum' | 'none'; bgImage?: string; noindex?: boolean; bodyClass?: string }
+const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true, ambient = 'none', bgImage, noindex = false, bodyClass } = Astro.props;
 import { SITE, ldJson } from '../lib/site';
 // Normalise to the extensionless URLs the site is actually served/linked at
 // (e.g. /catalog, not /catalog.html; / for the homepage).
@@ -94,9 +94,10 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="twitter:image" content={`${SITE}/assets/og-image.png`} />
   <slot name="head" />
 </head>
-<body>
+<body class={bodyClass}>
   {ambient !== 'none' && (
     <div aria-hidden="true" class={`ambient ambient-${ambient}`}>
+      {bgImage && <div class="ambient-painting" style={`background-image:url('${bgImage}')`}></div>}
       {(ambient === 'hall' || ambient === 'sanctum') && <div class="lattice pattern-lattice absolute inset-0"></div>}
       {ambient === 'study' && <div class="texture texture-manuscript absolute inset-0"></div>}
     </div>
