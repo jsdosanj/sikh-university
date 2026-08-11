@@ -4,20 +4,23 @@ import Avatar from '../components/Avatar.astro';
 import { professorList, profBio, profSlug } from '../lib/data';
 const list = professorList().sort((a, b) => a.name.localeCompare(b.name));
 ---
-<Base title="Our professors — Sikhi University" description="The Sikh scholars and writers whose works anchor Sikhi University's courses." ambient="hall">
-  <header class="relative overflow-hidden text-white">
-    <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
+<Base title="Our professors — Sikhi University" description="The Sikh scholars and writers whose works anchor Sikhi University's courses." ambient="study">
+  <!-- Compact study-page hero band (same pattern as catalog.astro) — this page
+       lives on ambient="study" per DESIGN.md's ambient table, so no parallax/
+       arrival here; the navy band is a static painted section, not the ambient. -->
+  <section class="relative overflow-hidden bg-brand text-white">
+    <div class="absolute inset-0 pattern-lattice" aria-hidden="true"></div>
     <div class="wrap relative py-16">
       <p class="eyebrow text-saffron" data-i18n="profs.eyebrow">Faculty · Sikhi University</p>
       <h1 class="text-display-sm mt-3 font-bold text-white" data-i18n="profs.h1">Our professors</h1>
       <p class="mt-4 max-w-2xl text-lg text-white/85" data-i18n="profs.sub">Sikhi University courses are built on the works of leading Sikh scholars and writers. Each course is taught in the voice of, or drawn from, its author.</p>
     </div>
-  </header>
+  </section>
 
   <section class="wrap py-12">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {list.map(({ name, courses }) => (
-        <a href={`/professor/${profSlug(name)}`} class="glass-lite relative block p-5 text-center transition duration-200 hover:-translate-y-1.5 hover:shadow-lift active:scale-[.985]">
+        <a href={`/professor/${profSlug(name)}`} class="glass-lite relative block p-5 text-center transition duration-200 hover:-translate-y-1.5 hover:shadow-lift hover:border-saffron/60 active:scale-[.985]">
           <div class="flex justify-center"><Avatar name={name} size={76} /></div>
           <h3 class="mt-3 text-base font-bold">{name}</h3>
           <div class="font-sans text-xs text-muted">{courses.length} course{courses.length === 1 ? '' : 's'}</div>
