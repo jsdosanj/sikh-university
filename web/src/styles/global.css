@@ -169,6 +169,18 @@
     font-size: 3.4em; line-height: .82; padding: .04em .09em 0 0;
   }
   body[data-ambient="hall"] .versal::first-letter { color: #f4b21a; }
+  /* The "Latin only" rule above cannot be enforced by markup: every .versal so
+     far sits on a [data-i18n] paragraph, and the i18n script swaps textContent
+     in place — so at ?lang=pa/hi/ur the drop cap lands on the translated string
+     and tears the first grapheme cluster apart (verified: ਸਿੱ rendered as a
+     61px floated cap with its matra and addak orphaned). ::first-letter styles
+     a UTF-16 unit, not a cluster, so it is never safe on these scripts. Stand
+     the cap down whenever the document is not English — the decorative loss on
+     the Latin translations is worth never mangling sacred script. */
+  html:not([lang="en"]) .versal::first-letter {
+    float: none; font-size: inherit; font-family: inherit; font-weight: inherit;
+    line-height: inherit; padding: 0; color: inherit;
+  }
 
   /* Bilingual display pairing: a Gurmukhi label at/above its paired Latin line's
      optical size (never-smaller-than-Latin rule), stacked over a Latin display

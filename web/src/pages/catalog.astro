@@ -60,19 +60,19 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
       <div class="mt-12 flex flex-wrap items-start gap-x-14 gap-y-8 pb-1">
         <div class="reveal">
           <div class="stat-num text-saffron"><span id="cat-count">{sorted.length}</span></div>
-          <div class="eyebrow mt-1.5 text-white/65" data-i18n="catalog.courseslabel">courses</div>
+          <div class="mt-2 font-sans text-sm text-white/70" data-i18n="catalog.courseslabel">courses</div>
         </div>
         <div class="reveal" data-reveal-delay="90">
           <div class="stat-num text-saffron">{topics.length}</div>
-          <div class="eyebrow mt-1.5 text-white/65">subjects</div>
+          <div class="mt-2 font-sans text-sm text-white/70">subjects</div>
         </div>
         <div class="reveal" data-reveal-delay="180">
           <div class="stat-num text-saffron">{paths.length}</div>
-          <div class="eyebrow mt-1.5 text-white/65">learning paths</div>
+          <div class="mt-2 font-sans text-sm text-white/70">learning paths</div>
         </div>
         <div class="reveal hidden sm:block" data-reveal-delay="270">
           <div class="stat-num text-saffron">100%</div>
-          <div class="eyebrow mt-1.5 text-white/65">free, forever</div>
+          <div class="mt-2 font-sans text-sm text-white/70">free, forever</div>
         </div>
       </div>
     </div>
@@ -372,8 +372,10 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     .filt[aria-pressed="true"]:hover { color: #fff; }
     .filt[aria-pressed="true"] { box-shadow: 0 4px 12px rgb(11 30 58 / .22); }
 
-    /* Search field inside the sticky filter bar. */
+    /* Search field inside the sticky filter bar: the wrapper carries the visible
+       focus indicator, so the input doesn't paint a second ring inside it. */
     .searchfield:focus-within { border-color: rgb(244 178 26); box-shadow: 0 0 0 3px rgb(244 178 26 / .28); }
+    .searchfield input:focus-visible { outline: none; }
 
     /* Collapsible sections: Safari still paints a marker without this. */
     summary::-webkit-details-marker { display: none; }
