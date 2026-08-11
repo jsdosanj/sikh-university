@@ -80,10 +80,10 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
 
   <section class="wrap relative pb-16">
     <!-- Segmented control, straddling the seam between the navy band and the paper. -->
-    <div id="tabbar" role="tablist" aria-label="Browse courses" data-i18n-aria="catalog.tabbar.aria" class="glass-strong relative z-30 -mt-7 inline-flex rounded-full p-1.5 font-sans text-sm shadow-lift">
-      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white" data-i18n="catalog.tab.paths">Learning paths</button>
-      <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-4 py-1.5" data-i18n="catalog.eyebrow">Catalogue</button>
-      <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-4 py-1.5" data-i18n="catalog.tab.programs">Programs</button>
+    <div id="tabbar" role="tablist" aria-label="Browse courses" data-i18n-aria="catalog.tabbar.aria" class="glass-strong relative z-30 -mt-7 inline-flex max-w-full rounded-full p-1.5 font-sans text-xs shadow-lift sm:text-sm">
+      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-3 py-1.5 bg-brand text-white sm:px-4" data-i18n="catalog.tab.paths">Learning paths</button>
+      <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-3 py-1.5 sm:px-4" data-i18n="catalog.eyebrow">Catalogue</button>
+      <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-3 py-1.5 sm:px-4" data-i18n="catalog.tab.programs">Programs</button>
     </div>
 
     <!-- Catalogue view (hidden by default: guided paths lead so slow connections
