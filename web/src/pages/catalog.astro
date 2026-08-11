@@ -6,7 +6,10 @@ import { topics, published, topicName, paths, TOPIC_ICONS } from '../lib/data';
 import programsData from '../../public/assets/data/programs.json';
 const sorted = [...published].sort((a, b) => a.level - b.level);
 const byId = Object.fromEntries(published.map((c) => [c.id, c]));
-const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer transition hover:border-saffron hover:text-navy';
+// NOTE: the `filt` class and the data-t / data-l attributes are JS hooks
+// (see the script below — setActive() toggles bg-brand/text-white/border-navy/
+// text-muted/bg-surface on these). Style around them, never rename them.
+const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 font-sans text-muted cursor-pointer transition duration-200 hover:-translate-y-px hover:border-saffron hover:text-navy hover:shadow-card';
 import { SITE } from '../lib/site';
 const itemListLd = {
   '@context': 'https://schema.org', '@type': 'ItemList',
@@ -37,22 +40,47 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
 <Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
 
-  <!-- Compact hero header -->
-  <section class="relative overflow-hidden bg-brand text-white">
-    <div class="absolute inset-0 pattern-lattice" aria-hidden="true"></div>
-    <div class="wrap relative py-10 sm:py-12">
-      <p class="eyebrow text-saffron" data-i18n="catalog.eyebrow">Catalogue</p>
-      <h1 class="text-display-sm mt-2 font-bold text-white" data-i18n="catalog.h1">Courses &amp; learning paths</h1>
-      <p class="mt-3 max-w-2xl font-sans text-white/80" data-i18n="catalog.sub">Browse every course by topic and level — or follow a guided path from foundations to advanced study.</p>
-      <p class="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 font-sans text-sm text-white/90">
-        <Icon name="books" class="h-4 w-4" />
-        <span><span id="cat-count">{sorted.length}</span> <span data-i18n="catalog.courseslabel">courses</span></span>
-      </p>
+  <!-- Arrival band: the navy "entrance hall" of the library, layered over the study
+       ambient. Lattice + saffron glow drift on scroll (transform only, desktop, and
+       frozen by the global reduced-motion guard). Everything here is server-rendered
+       text — nothing is gated on JS. -->
+  <section class="relative isolate overflow-hidden bg-brand text-white">
+    <div aria-hidden="true" data-parallax="0.12" class="pattern-lattice pointer-events-none absolute inset-x-0 -inset-y-32"></div>
+    <div aria-hidden="true" data-parallax="0.05" class="glow-saffron pointer-events-none absolute -left-40 -top-56 h-[42rem] w-[42rem]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-32 -bottom-40 h-[26rem] w-[26rem] rounded-full bg-navy-soft/40 blur-3xl"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-saffron/70 to-transparent"></div>
+
+    <div class="wrap relative py-16 sm:py-20 lg:py-24">
+      <p class="eyebrow-rule text-saffron" data-i18n="catalog.eyebrow">Catalogue</p>
+      <h1 class="text-display mt-5 max-w-4xl font-bold text-white" data-i18n="catalog.h1">Courses &amp; learning paths</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/85" data-i18n="catalog.sub">Browse every course by topic and level — or follow a guided path from foundations to advanced study.</p>
+
+      <!-- Decorative summary figures. `#cat-count` is a live hook: renderCat() writes the
+           filtered course count into it, so it carries no count-up animation. -->
+      <div class="mt-12 flex flex-wrap items-start gap-x-14 gap-y-8 pb-1">
+        <div class="reveal">
+          <div class="stat-num text-saffron"><span id="cat-count">{sorted.length}</span></div>
+          <div class="eyebrow mt-1.5 text-white/65" data-i18n="catalog.courseslabel">courses</div>
+        </div>
+        <div class="reveal" data-reveal-delay="90">
+          <div class="stat-num text-saffron">{topics.length}</div>
+          <div class="eyebrow mt-1.5 text-white/65">subjects</div>
+        </div>
+        <div class="reveal" data-reveal-delay="180">
+          <div class="stat-num text-saffron">{paths.length}</div>
+          <div class="eyebrow mt-1.5 text-white/65">learning paths</div>
+        </div>
+        <div class="reveal hidden sm:block" data-reveal-delay="270">
+          <div class="stat-num text-saffron">100%</div>
+          <div class="eyebrow mt-1.5 text-white/65">free, forever</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="wrap py-10">
-    <div id="tabbar" role="tablist" aria-label="Browse courses" data-i18n-aria="catalog.tabbar.aria" class="glass inline-flex rounded-full p-1 font-sans text-sm">
+  <section class="wrap relative pb-16">
+    <!-- Segmented control, straddling the seam between the navy band and the paper. -->
+    <div id="tabbar" role="tablist" aria-label="Browse courses" data-i18n-aria="catalog.tabbar.aria" class="glass-strong relative z-30 -mt-7 inline-flex rounded-full p-1.5 font-sans text-sm shadow-lift">
       <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white" data-i18n="catalog.tab.paths">Learning paths</button>
       <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-4 py-1.5" data-i18n="catalog.eyebrow">Catalogue</button>
       <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-4 py-1.5" data-i18n="catalog.tab.programs">Programs</button>
@@ -60,62 +88,74 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
 
     <!-- Catalogue view (hidden by default: guided paths lead so slow connections
          don't hit a wall of 558 cards before JS runs). -->
-    <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6" hidden>
-      <div class="glass sticky top-[4.5rem] z-30 p-4">
-        <input id="cat-search" type="search" placeholder="Search courses…" data-i18n-ph="catalog.search.ph" aria-label="Search courses" data-i18n-aria="catalog.search.aria"
-          class="w-full max-w-xl rounded-xl border border-line bg-paper px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-        <div id="cat-filters" class="mt-3 flex flex-wrap gap-2 font-sans text-sm">
+    <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-8" hidden>
+      <div class="filterbar glass-strong sticky top-[4.5rem] z-30 p-4 sm:p-5">
+        <div class="searchfield flex max-w-xl items-center gap-3 rounded-xl border border-line bg-paper px-4 transition">
+          <Icon name="search" class="h-4 w-4 shrink-0 text-saffron-deep" />
+          <input id="cat-search" type="search" placeholder="Search courses…" data-i18n-ph="catalog.search.ph" aria-label="Search courses" data-i18n-aria="catalog.search.aria"
+            class="w-full bg-transparent py-2.5 font-sans outline-none" />
+        </div>
+        <div id="cat-filters" class="mt-4 flex flex-wrap gap-2 font-sans text-sm">
           <button data-t="all" class={btn} data-i18n="catalog.filter.all">All</button>
           {[...topics].sort((a, b) => a.name.localeCompare(b.name)).map((t) => <button data-t={t.id} class={btn}>{t.name}</button>)}
         </div>
-        <div id="level-filters" class="mt-3 flex flex-wrap items-center gap-2 font-sans text-sm">
-          <span class="self-center font-sans text-xs font-semibold uppercase tracking-wide text-muted mr-1" data-i18n="catalog.filter.levellabel">Level</span>
+        <div class="mt-4 h-px bg-gradient-to-r from-line via-line to-transparent"></div>
+        <div id="level-filters" class="mt-4 flex flex-wrap items-center gap-2 font-sans text-sm">
+          <span class="eyebrow self-center text-saffron-deep mr-2" data-i18n="catalog.filter.levellabel">Level</span>
           <button data-l="all" class={btn} data-i18n="catalog.filter.alllevels">All levels</button>
           {[100, 200, 300, 400, 500].map((l) => <button data-l={String(l)} class={btn}>{l}-level</button>)}
         </div>
       </div>
-      <div id="cat-grid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div id="cat-grid" class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sorted.map((c) => (
           <div class="cat-item" data-topic={c.topic} data-level={String(Math.floor(c.level / 100) * 100)} data-hay={`${c.title} ${c.summary} ${c.professor} ${topicName(c.topic)}`.toLowerCase()}>
             <CourseCard course={c} />
           </div>
         ))}
       </div>
-      <div id="cat-empty" class="glass-lite mt-10 hidden p-8 text-center" aria-live="polite">
+      <div id="cat-empty" class="glass mt-10 hidden p-10 text-center" aria-live="polite">
         <div class="flex flex-col items-center gap-3">
-          <span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-muted"><Icon name="folder" class="h-7 w-7" /></span>
-          <p class="font-serif text-lg font-bold text-navy" data-i18n="catalog.empty.title">No courses match</p>
+          <span class="inline-flex h-16 w-16 items-center justify-center rounded-full bg-saffron-soft text-saffron-deep ring-1 ring-saffron/25"><Icon name="folder" class="h-7 w-7" /></span>
+          <p class="mt-1 font-serif text-2xl font-bold text-navy" data-i18n="catalog.empty.title">No courses match</p>
           <p class="max-w-sm font-sans text-sm text-muted" data-i18n="catalog.empty.sub">Try a different topic, level, or search term.</p>
-          <button id="cat-clear" type="button" class="btn mt-1" data-i18n="catalog.empty.clear">Clear filters</button>
+          <button id="cat-clear" type="button" class="btn mt-2" data-i18n="catalog.empty.clear">Clear filters</button>
         </div>
       </div>
     </div>
 
     <!-- Learning paths view -->
-    <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6">
-      <p class="text-muted" data-i18n="catalog.paths.intro">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
-      <details id="guided-journeys-section" class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
-        <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-          <div>
-            <h2 class="text-xl font-bold" data-i18n="catalog.paths.guided.h">Guided journeys</h2>
-            <p class="text-muted text-sm" data-i18n="catalog.paths.guided.sub">Hand-curated routes that weave across subjects.</p>
+    <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-8">
+      <p class="max-w-3xl text-lg leading-relaxed text-muted" data-i18n="catalog.paths.intro">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
+
+      <details id="guided-journeys-section" class="sect group/sect glass mt-8 overflow-hidden" open>
+        <summary class="sect-sum flex cursor-pointer list-none items-center gap-4 p-5 sm:p-6">
+          <span aria-hidden="true" class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl2 bg-saffron-soft text-saffron-deep ring-1 ring-saffron/30"><Icon name="compass" class="h-6 w-6" /></span>
+          <div class="min-w-0 flex-1">
+            <h2 class="text-2xl font-bold leading-tight" data-i18n="catalog.paths.guided.h">Guided journeys</h2>
+            <p class="font-sans text-sm text-muted" data-i18n="catalog.paths.guided.sub">Hand-curated routes that weave across subjects.</p>
           </div>
-          <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
+          <span aria-hidden="true" class="chev shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
         </summary>
-        <div class="px-5 pb-5 space-y-4">
+        <div class="space-y-4 px-4 pb-6 sm:px-6">
         {withGrad(featured, 0).map(({ p, grad }) => (
-          <details id={p.id} class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
-            <summary class={`flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r ${grad} p-4 text-white`}>
-              <Icon name={iconFor(p)} class="h-7 w-7 shrink-0 text-white" />
-              <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
-              <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
-              <span aria-hidden="true" class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+          <details id={p.id} class="path group scroll-mt-24 overflow-hidden rounded-xl2 shadow-card ring-1 ring-black/5 transition duration-200 hover:shadow-lift">
+            <summary class={`relative flex cursor-pointer list-none items-center gap-4 overflow-hidden bg-gradient-to-r ${grad} p-4 text-white`}>
+              <span aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></span>
+              <span class="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/25">
+                <Icon name={iconFor(p)} class="h-6 w-6 text-white" />
+              </span>
+              <span class="relative min-w-0 flex-1">
+                <span class="block text-lg font-bold leading-tight text-white">{p.name}</span>
+                <span class="block font-sans text-xs text-white/80">{p.blurb}</span>
+              </span>
+              <span class="path-count relative shrink-0 rounded-full bg-white/20 px-3 py-1 font-sans text-xs font-semibold ring-1 ring-white/25" data-path={p.id}>{p.courseIds.length} courses</span>
+              <span aria-hidden="true" class="chev relative shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
             </summary>
-            <div class="p-5">
-              <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
-              <ol class="mt-4 list-decimal space-y-2 pl-5">
+            <div class="bg-surface p-5">
+              <div class="h-1.5 w-full overflow-hidden rounded-full bg-line/70"><div class="path-bar h-full rounded-full bg-saffron transition-all duration-700" data-path={p.id} style="width:0%"></div></div>
+              <ol class="path-list mt-5">
                 {p.courseIds.map((id) => byId[id] && (
-                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
+                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-sm leading-snug text-muted">{byId[id].summary}</div></li>
                 ))}
               </ol>
             </div>
@@ -124,28 +164,35 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
         </div>
       </details>
 
-      <details id="explore-by-subject-section" class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
-        <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
-          <div>
-            <h2 class="text-xl font-bold" data-i18n="catalog.paths.subject.h">Explore by subject</h2>
-            <p class="text-muted text-sm" data-i18n="catalog.paths.subject.sub">Every subject, with all its courses in order.</p>
+      <details id="explore-by-subject-section" class="sect group/sect glass mt-8 overflow-hidden">
+        <summary class="sect-sum flex cursor-pointer list-none items-center gap-4 p-5 sm:p-6">
+          <span aria-hidden="true" class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl2 bg-saffron-soft text-saffron-deep ring-1 ring-saffron/30"><Icon name="books" class="h-6 w-6" /></span>
+          <div class="min-w-0 flex-1">
+            <h2 class="text-2xl font-bold leading-tight" data-i18n="catalog.paths.subject.h">Explore by subject</h2>
+            <p class="font-sans text-sm text-muted" data-i18n="catalog.paths.subject.sub">Every subject, with all its courses in order.</p>
           </div>
-          <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
+          <span aria-hidden="true" class="chev shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
         </summary>
-        <div class="px-5 pb-5 space-y-4">
+        <div class="space-y-4 px-4 pb-6 sm:px-6">
         {withGrad(subjects, 1).map(({ p, grad }) => (
-          <details id={p.id} class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
-            <summary class={`flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r ${grad} p-4 text-white`}>
-              <Icon name={iconFor(p)} class="h-7 w-7 shrink-0 text-white" />
-              <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
-              <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
-              <span aria-hidden="true" class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+          <details id={p.id} class="path group scroll-mt-24 overflow-hidden rounded-xl2 shadow-card ring-1 ring-black/5 transition duration-200 hover:shadow-lift">
+            <summary class={`relative flex cursor-pointer list-none items-center gap-4 overflow-hidden bg-gradient-to-r ${grad} p-4 text-white`}>
+              <span aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></span>
+              <span class="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/25">
+                <Icon name={iconFor(p)} class="h-6 w-6 text-white" />
+              </span>
+              <span class="relative min-w-0 flex-1">
+                <span class="block text-lg font-bold leading-tight text-white">{p.name}</span>
+                <span class="block font-sans text-xs text-white/80">{p.blurb}</span>
+              </span>
+              <span class="path-count relative shrink-0 rounded-full bg-white/20 px-3 py-1 font-sans text-xs font-semibold ring-1 ring-white/25" data-path={p.id}>{p.courseIds.length} courses</span>
+              <span aria-hidden="true" class="chev relative shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
             </summary>
-            <div class="p-5">
-              <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
-              <ol class="mt-4 list-decimal space-y-2 pl-5">
+            <div class="bg-surface p-5">
+              <div class="h-1.5 w-full overflow-hidden rounded-full bg-line/70"><div class="path-bar h-full rounded-full bg-saffron transition-all duration-700" data-path={p.id} style="width:0%"></div></div>
+              <ol class="path-list mt-5">
                 {p.courseIds.map((id) => byId[id] && (
-                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
+                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-sm leading-snug text-muted">{byId[id].summary}</div></li>
                 ))}
               </ol>
             </div>
@@ -156,27 +203,30 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
     </div>
 
     <!-- Programs view -->
-    <div id="view-programs" role="tabpanel" aria-labelledby="tab-programs-btn" class="mt-6" hidden>
-      <p class="text-lg text-muted" data-i18n="catalog.programs.intro">Certificate to Giani — a full academic ladder, free and open to all.</p>
-      <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm" data-i18n="catalog.programs.disclaimer">
+    <div id="view-programs" role="tabpanel" aria-labelledby="tab-programs-btn" class="mt-8" hidden>
+      <p class="max-w-3xl text-lg leading-relaxed text-muted" data-i18n="catalog.programs.intro">Certificate to Giani — a full academic ladder, free and open to all.</p>
+      <div class="glass mt-6 border-l-4 border-saffron p-5 font-sans text-sm" data-i18n="catalog.programs.disclaimer">
         Sikhi University is not an accredited university and these courses are for self-development only.
       </div>
       {grouped.map(({ type, label, programs }) => programs.length > 0 && (
-        <div class="mt-10">
-          <h2 class="border-b border-line pb-2 text-2xl font-bold">{label}</h2>
+        <div class="mt-14">
+          <h2 class="flex items-center gap-5 text-2xl font-bold">
+            <span class="shrink-0">{label}</span>
+            <span aria-hidden="true" class="h-px flex-1 bg-gradient-to-r from-line to-transparent"></span>
+          </h2>
           <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {programs.map((p) => (
-              <a href={`/program/${p.id}`} class={`card flex flex-col gap-2 hover:border-saffron transition ${progTypeBg[type]}`}>
+              <a href={`/program/${p.id}`} class={`glass-lite relative flex flex-col gap-2 p-5 transition duration-200 hover:-translate-y-1.5 hover:border-saffron hover:shadow-lift active:scale-[.985] ${progTypeBg[type]}`}>
                 <div class="flex items-center gap-3">
                   <Icon name={p.icon} class="h-8 w-8 shrink-0 text-saffron-deep" />
                   <div>
-                    <div class="font-sans text-xs font-bold uppercase tracking-wider text-muted">{p.abbreviation}</div>
-                    <h3 class="text-lg font-bold text-navy leading-tight">{p.title}</h3>
-                    <div class="font-gur text-sm text-muted">{p.titleGur}</div>
+                    <div class="eyebrow text-muted">{p.abbreviation}</div>
+                    <h3 class="mt-0.5 text-lg font-bold text-navy leading-tight">{p.title}</h3>
+                    <div class="font-gur text-sm text-muted" lang="pa">{p.titleGur}</div>
                   </div>
                 </div>
                 <p class="flex-1 font-sans text-sm text-muted">{p.description.slice(0, 140)}…</p>
-                <div class="mt-auto flex flex-wrap gap-3 font-sans text-xs text-muted">
+                <div class="mt-auto flex flex-wrap gap-3 border-t border-line pt-3 font-sans text-xs text-muted">
                   <span class="inline-flex items-center gap-1"><Icon name="books" class="h-3.5 w-3.5" />{p.courseIds.length} courses</span>
                   <span class="inline-flex items-center gap-1"><Icon name="clock" class="h-3.5 w-3.5" />{p.duration}</span>
                   <span class="inline-flex items-center gap-1"><Icon name="check-square" class="h-3.5 w-3.5" />{p.passMark}% to pass cumulative exam</span>
@@ -186,15 +236,15 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
           </div>
         </div>
       ))}
-      <div class="mt-12 rounded-xl2 border border-line bg-surface p-6">
-        <h2 class="text-xl font-bold" data-i18n="catalog.programs.how.h">How programs work</h2>
-        <ol class="mt-4 list-decimal list-inside space-y-3 font-sans text-sm text-muted">
+      <div class="glass mt-16 p-6 sm:p-8">
+        <h2 class="text-2xl font-bold" data-i18n="catalog.programs.how.h">How programs work</h2>
+        <ol class="how-list mt-6 space-y-4 font-sans text-sm text-muted">
           <li data-i18n="catalog.programs.how.li1">Complete all courses in the program — each has lectures, reading, and a quiz.</li>
           <li>Once every course is passed (70% quiz score), unlock the <strong>Cumulative Examination</strong>.</li>
           <li>Pass the cumulative exam with <strong>80% or higher</strong> to earn the credential.</li>
           <li data-i18n="catalog.programs.how.li4">Download your certificate and share your academic credential.</li>
         </ol>
-        <p class="mt-4 font-sans text-sm text-muted" data-i18n="catalog.programs.stackable">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
+        <p class="mt-6 border-t border-line pt-5 font-sans text-sm text-muted" data-i18n="catalog.programs.stackable">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
       </div>
     </div>
   </section>
@@ -301,5 +351,70 @@ const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], pr
        whole grid fades once instead. Frozen by the global reduced-motion guard. */
     @keyframes su-cat-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     #cat-grid { animation: su-cat-fade .5s cubic-bezier(.2,.7,.3,1) both; }
+
+    /* Hero figures — display numerals, one notch under .text-display-sm so they
+       read as data, not as a second headline. */
+    .stat-num {
+      font-family: "Source Serif 4", Georgia, serif; font-weight: 700;
+      font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem); line-height: 1; letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Segmented control. The script owns bg-brand/text-white/text-muted on these
+       buttons; everything here keys off aria-selected so the two never fight. */
+    #tabbar button { transition: color .15s var(--ease-out), box-shadow .3s var(--ease-out), transform .15s var(--ease-out); font-weight: 600; letter-spacing: .01em; }
+    #tabbar button[aria-selected="true"] { box-shadow: 0 6px 16px rgb(11 30 58 / .28); }
+    #tabbar button[aria-selected="false"]:hover { color: rgb(var(--c-navy)); }
+    #tabbar button:active { transform: scale(.97); }
+
+    /* Filter pills: the active pill keeps white text on navy even under :hover
+       (the utility hover:text-navy would otherwise erase it). */
+    .filt[aria-pressed="true"]:hover { color: #fff; }
+    .filt[aria-pressed="true"] { box-shadow: 0 4px 12px rgb(11 30 58 / .22); }
+
+    /* Search field inside the sticky filter bar. */
+    .searchfield:focus-within { border-color: rgb(244 178 26); box-shadow: 0 0 0 3px rgb(244 178 26 / .28); }
+
+    /* Collapsible sections: Safari still paints a marker without this. */
+    summary::-webkit-details-marker { display: none; }
+    .sect-sum, .path > summary { transition: background-color .2s var(--ease-out); }
+    .sect-sum:hover { background: rgb(244 178 26 / .07); }
+    .path > summary::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: rgb(255 255 255 / 0); transition: background-color .2s var(--ease-out);
+    }
+    .path > summary:hover::after { background: rgb(255 255 255 / .07); }
+    .path[open] { box-shadow: 0 14px 34px rgba(31, 111, 235, .18); }
+    .chev { line-height: 1; }
+
+    /* Numbered course rows inside a path — a manuscript-style ordinal medallion
+       instead of a browser list marker. */
+    .path-list { counter-reset: su-step; list-style: none; padding: 0; }
+    .path-list > li {
+      counter-increment: su-step; position: relative; padding: .45rem .6rem .5rem 2.9rem;
+      border-radius: .6rem; transition: background-color .2s var(--ease-out);
+    }
+    .path-list > li:hover { background: rgb(244 178 26 / .09); }
+    .path-list > li::before {
+      content: counter(su-step); position: absolute; left: .5rem; top: .5rem;
+      width: 1.7rem; height: 1.7rem; display: flex; align-items: center; justify-content: center;
+      border-radius: 9999px; background: rgb(var(--c-paper)); border: 1px solid rgb(var(--c-line));
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: .72rem; font-weight: 700; color: rgb(var(--c-muted)); font-variant-numeric: tabular-nums;
+    }
+
+    /* "How programs work" — same ordinal medallion, on the glass panel. */
+    .how-list { counter-reset: su-how; list-style: none; padding: 0; }
+    .how-list > li { counter-increment: su-how; position: relative; padding-left: 2.9rem; min-height: 1.7rem; }
+    .how-list > li::before {
+      content: counter(su-how); position: absolute; left: 0; top: -.05rem;
+      width: 1.7rem; height: 1.7rem; display: flex; align-items: center; justify-content: center;
+      border-radius: 9999px; background: rgb(var(--c-saffron-soft)); border: 1px solid rgb(244 178 26 / .35);
+      font-size: .72rem; font-weight: 700; color: rgb(var(--c-saffron-deep)); font-variant-numeric: tabular-nums;
+    }
+
+    /* High-contrast mode must never keep a translucent tint over glass. */
+    :global(body.hc) .sect-sum:hover,
+    :global(body.hc) .path-list > li:hover { background: transparent; }
   </style>
 </Base>
