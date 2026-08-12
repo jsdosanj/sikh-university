@@ -4,7 +4,22 @@ import Base from '../layouts/Base.astro';
 <Base title="My Learning — Sikhi University" description="Your progress, certificates, streak and badges at Sikhi University." ambient="study" noindex={true}>
   <section class="wrap py-12">
     <div id="bar"></div>
-    <div id="dash"><p class="text-muted" data-i18n="dash.loading">Loading your learning…</p></div>
+    <div id="dash">
+      <p class="sr-only" data-i18n="dash.loading">Loading your learning…</p>
+      <!-- Shimmer skeleton mirroring the dashboard layout (heading, stat row,
+           promo card, seals grid) so the page doesn't flash blank while
+           /api/me + progress + enrollments load. Replaced by the real render. -->
+      <div aria-hidden="true">
+        <div class="skeleton h-9 w-64 max-w-full"></div>
+        <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div class="skeleton h-28"></div><div class="skeleton h-28"></div><div class="skeleton h-28"></div><div class="skeleton h-28"></div>
+        </div>
+        <div class="skeleton mt-6 h-20"></div>
+        <div class="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div class="skeleton h-36"></div><div class="skeleton h-36"></div><div class="skeleton h-36"></div><div class="skeleton h-36"></div>
+        </div>
+      </div>
+    </div>
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
@@ -67,14 +82,14 @@ import Base from '../layouts/Base.astro';
       let view = (user && location.hash === '#profile') ? 'profile' : 'learning';
       function drawView() {
         const nav = document.getElementById('dash-tabs');
-        if (nav) Array.from(nav.children).forEach((b) => { const on = b.dataset.v === view; b.className = 'px-4 py-2 font-sans text-sm border-b-2 ' + (on ? 'border-saffron text-navy font-semibold' : 'border-transparent text-muted'); });
+        if (nav) Array.from(nav.children).forEach((b) => { const on = b.dataset.v === view; b.className = 'px-4 py-2 font-sans text-sm border-b-2 transition-colors ' + (on ? 'border-saffron text-navy font-semibold' : 'border-transparent text-muted hover:border-line hover:text-navy'); });
         if (view === 'profile') renderProfile(); else renderLearning();
       }
       if (user) {
         const nav = document.createElement('div');
         nav.id = 'dash-tabs';
         nav.className = 'mb-6 flex gap-1 border-b border-line';
-        nav.innerHTML = [['learning', 'My Learning'], ['profile', 'Profile']].map(([k, l]) => `<button data-v="${k}" class="px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted">${l}</button>`).join('');
+        nav.innerHTML = [['learning', 'My Learning'], ['profile', 'Profile']].map(([k, l]) => `<button data-v="${k}" class="px-4 py-2 font-sans text-sm border-b-2 transition-colors border-transparent text-muted hover:border-line hover:text-navy">${l}</button>`).join('');
         bar.appendChild(nav);
         nav.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => { view = b.dataset.v; location.hash = view === 'profile' ? '#profile' : ''; drawView(); }));
       }
@@ -124,7 +139,7 @@ import Base from '../layouts/Base.astro';
             <div id="pf-del-confirm" class="mt-4 hidden rounded-xl2 border-l-4 border-danger bg-surface p-4">
               <p class="font-sans text-sm">This permanently erases your profile, progress, enrolments, certificates, ratings and posts. <strong>It cannot be undone.</strong> Type <strong>DELETE</strong> to confirm.</p>
               <div class="mt-3 flex flex-wrap items-center gap-2">
-                <input id="pf-del-input" type="text" placeholder="DELETE" class="rounded-lg border border-line bg-surface px-3 py-2 font-sans" />
+                <input id="pf-del-input" type="text" placeholder="DELETE" class="rounded-lg border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" />
                 <button id="pf-del-go" class="btn border border-danger/40 text-danger hover:bg-danger/10">Permanently delete</button>
                 <button id="pf-del-cancel" class="btn">Cancel</button>
               </div>
@@ -183,9 +198,9 @@ import Base from '../layouts/Base.astro';
           if (!body) return;
           body.innerHTML = `
             ${p.is_public ? `<a class="pill bg-ok/20 text-ok" href="/teacher/${esc(p.slug)}" target="_blank">Live at /teacher/${esc(p.slug)} →</a>` : p.publish_requested_at ? '<span class="pill bg-paper text-muted">Publish requested — awaiting admin approval</span>' : ''}
-            <label class="block"><span class="font-sans text-sm font-semibold">Display name</span><input id="tp-name" value="${esc(p.display_name || cur.name || '')}" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" /></label>
-            <label class="block"><span class="font-sans text-sm font-semibold">Bio</span><textarea id="tp-bio" rows="4" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans">${esc(p.bio || '')}</textarea></label>
-            <label class="block"><span class="font-sans text-sm font-semibold">Credentials</span><textarea id="tp-credentials" rows="2" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans">${esc(p.credentials || '')}</textarea></label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Display name</span><input id="tp-name" value="${esc(p.display_name || cur.name || '')}" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" /></label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Bio</span><textarea id="tp-bio" rows="4" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none">${esc(p.bio || '')}</textarea></label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Credentials</span><textarea id="tp-credentials" rows="2" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none">${esc(p.credentials || '')}</textarea></label>
             <div><span class="font-sans text-sm font-semibold">Teaching areas</span><div class="mt-2 flex flex-wrap gap-2">${areas.map((a) => `<label class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-paper px-2.5 py-1 font-sans text-xs has-[:checked]:border-saffron has-[:checked]:bg-saffron-soft/40"><input type="checkbox" value="${esc(a)}" ${curAreas.has(a) ? 'checked' : ''} class="tp-area" /> ${esc(a)}</label>`).join('')}</div></div>
             <div><span class="font-sans text-sm font-semibold">Languages you teach in</span><div class="mt-2 flex flex-wrap gap-2">${languages.map((l) => `<label class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-paper px-2.5 py-1 font-sans text-xs has-[:checked]:border-saffron has-[:checked]:bg-saffron-soft/40"><input type="checkbox" value="${esc(l)}" ${curLangs.has(l) ? 'checked' : ''} class="tp-lang" /> ${esc(l)}</label>`).join('')}</div></div>
             <label class="block"><span class="font-sans text-sm font-semibold">Photo</span><input id="tp-photo" type="file" accept="image/jpeg,image/png,image/webp" class="mt-1 block font-sans text-sm" /><span class="font-sans text-xs text-muted">Uploads for admin review before it appears publicly.</span></label>
@@ -266,7 +281,7 @@ import Base from '../layouts/Base.astro';
           if (mode === 'started') {
             return `<h3 class="mt-10 text-xl font-bold">${title}</h3><div class="mt-4 flex flex-col gap-4 sm:flex-row sm:overflow-x-auto sm:snap-x sm:pb-2">${list.map((c) => {
               const p = progress(c);
-              return `<a href="/course/${c.id}" class="glass-lite p-5 transition hover:-translate-y-1 sm:w-72 sm:shrink-0 sm:snap-start"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${p}%"></div></div><div class="font-sans text-xs text-muted mt-1">${p}% complete</div></a>`;
+              return `<a href="/course/${c.id}" class="glass-lite p-5 transition hover:-translate-y-1 hover:shadow-lift sm:w-72 sm:shrink-0 sm:snap-start"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3><div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${p}%"></div></div><div class="font-sans text-xs text-muted mt-1">${p}% complete</div></a>`;
             }).join('')}</div>`;
           }
           return `<h3 class="mt-10 text-xl font-bold">${title}</h3><div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:grid-cols-4">${list.map((c) => {
@@ -286,6 +301,7 @@ import Base from '../layouts/Base.astro';
           <div id="ann-feed"></div>
           ${user ? `<p class="mt-3 font-sans text-sm text-muted">Set your name, country and languages in the <a class="underline" href="#profile" id="go-profile">Profile</a> tab — your name appears on certificates.</p>` : ''}
           <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">${stat(points, 'Points')}${stat(st, 'Day streak', { icon: 'fire' })}${stat(completed.length, 'Courses complete', { ring: pub.length ? Math.round(completed.length / pub.length * 100) : 0 })}${stat(lessonsDone, 'Lessons done', { ring: (() => { const tot = pub.reduce((a, c) => a + (c.nLessons || 0), 0); return tot ? Math.round(lessonsDone / tot * 100) : 0; })() })}</div>
+          ${!completed.length && !started.length ? `<div class="glass mt-8 p-8 text-center"><div class="flex flex-col items-center gap-3"><span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-saffron-deep">${iconSvg('sprout', 'h-7 w-7')}</span><p class="font-serif text-lg font-bold text-navy">Your journey begins here.</p><p class="max-w-sm font-sans text-sm text-muted">Start a course and your progress, streak and certificates will appear on this page.</p><div class="mt-1 flex flex-wrap justify-center gap-3"><a class="btn btn-primary" href="/catalog">Browse the catalogue</a>${!user ? '<a class="btn" href="/login">Sign in to save progress</a>' : ''}</div></div></div>` : ''}
           <a href="/baal-updesh#flashcards" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="text-saffron-deep">${iconSvg('cards', 'h-8 w-8')}</span><span><span class="block font-bold text-navy">Review flashcards</span><span class="block font-sans text-sm text-muted">Lock in Gurmukhi terms and the most-used words of Gurbani with spaced repetition.</span></span><span class="ml-auto font-sans text-sm text-saffron-deep">Study →</span></a>
           <div id="remind-card" hidden class="glass-lite mt-3 flex flex-wrap items-center gap-4 p-4"><span class="text-saffron-deep">${iconSvg('clock', 'h-8 w-8')}</span><span class="min-w-0 flex-1"><span class="block font-bold text-navy">Remind me to keep learning</span><span id="remind-body" class="block font-sans text-sm text-muted">One gentle notification a day — a few minutes of seva to yourself.</span></span><button id="remind-btn" class="btn shrink-0">Enable</button></div>
           <h3 class="mt-10 text-xl font-bold">Milestone seals</h3>
@@ -306,7 +322,6 @@ import Base from '../layouts/Base.astro';
           <div id="assign-summary-section"></div>
           <div id="prog-summary-section"></div>
           <div class="mt-6"><button id="exp" class="btn">${iconSvg('download', 'h-4 w-4')} Export my notes (.md)</button></div>
-          ${!completed.length && !started.length ? `<div class="glass mt-8 p-6 text-center"><div class="mx-auto flex h-12 w-12 items-center justify-center text-saffron-deep">${iconSvg('sprout', 'h-8 w-8')}</div><p class="mt-3 font-serif text-lg text-navy">Your journey begins here.</p><p class="mt-1 font-sans text-sm text-muted">Start a course and your progress, streak and certificates will appear on this page.</p><div class="mt-4 flex flex-wrap justify-center gap-3"><a class="btn btn-primary" href="/catalog">Browse the catalogue</a>${!user ? '<a class="btn" href="/login">Sign in to save progress</a>' : ''}</div></div>` : ''}
           ${section('Continue learning', started, 'started')}
           ${section('Completed — certificates earned', completed, 'completed')}
           ${section('Start something new', fresh.slice(0, 6), 'fresh')}`;
@@ -353,7 +368,7 @@ import Base from '../layouts/Base.astro';
         if (enrolled.size) api('/api/announcements').then((d) => {
           const list = ((d && d.announcements) || []).filter((a) => enrolled.has(a.course_id)).slice(0, 5);
           const fe = document.getElementById('ann-feed'); if (!fe || !list.length) return;
-          fe.innerHTML = `<h3 class="mt-8 text-xl font-bold">Announcements</h3><div class="mt-4 space-y-3">${list.map((a) => { const c = pub.find((x) => x.id === a.course_id); return `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(c ? c.title : a.course_id)} · ${esc(a.author_name || '')} · ${fmtRel(a.created_at)}</div>${a.title ? `<div class="mt-1 font-bold text-navy">${esc(a.title)}</div>` : ''}<p class="mt-1 text-sm">${esc(a.body)}</p></div>`; }).join('')}</div>`;
+          fe.innerHTML = `<h3 class="mt-10 text-xl font-bold">Announcements</h3><div class="mt-4 space-y-3">${list.map((a) => { const c = pub.find((x) => x.id === a.course_id); return `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(c ? c.title : a.course_id)} · ${esc(a.author_name || '')} · ${fmtRel(a.created_at)}</div>${a.title ? `<div class="mt-1 font-bold text-navy">${esc(a.title)}</div>` : ''}<p class="mt-1 text-sm">${esc(a.body)}</p></div>`; }).join('')}</div>`;
         });
         // My assignments — across every explicitly-enrolled course, due-soon first.
         if (enrolledCourses.size) {
@@ -416,7 +431,7 @@ import Base from '../layouts/Base.astro';
 
         if (demo) { renderTeacherDemo(stat); return; }
 
-        root.innerHTML = '<h1 class="text-3xl font-bold">Teacher dashboard</h1><p class="mt-6 text-muted">Loading your gradebook…</p>';
+        root.innerHTML = '<h1 class="text-3xl font-bold">Teacher dashboard</h1><p class="sr-only">Loading your gradebook…</p><div aria-hidden="true"><div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4"><div class="skeleton h-24"></div><div class="skeleton h-24"></div><div class="skeleton h-24"></div><div class="skeleton h-24"></div></div><div class="skeleton mt-6 h-48"></div></div>';
         api('/api/gradebook').then((g) => {
           const tcourses = g.courses || [];
           const rows = g.rows || [];
@@ -437,11 +452,11 @@ import Base from '../layouts/Base.astro';
             <a href="/studio" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="min-w-0 flex-1"><span class="block font-bold text-navy">Course Studio</span><span class="block font-sans text-sm text-muted">Draft a new course and submit it for scholar review.</span></span><span class="font-sans text-sm text-saffron-deep">Open →</span></a>
             <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(tcourses.length, 'Courses you teach')}${stat(students.size, 'Students')}${stat(completions, 'Completions')}${stat(avg ? avg + '%' : '—', 'Avg. score')}</div>
             <div class="mt-6 flex flex-wrap gap-2 items-end">
-              <input id="t-search" type="search" placeholder="Search students…" class="rounded-lg border border-line bg-paper px-3 py-1.5 font-sans text-sm w-48" />
-              <select id="t-status" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm">
+              <input id="t-search" type="search" placeholder="Search students…" class="rounded-lg border border-line bg-paper px-3 py-1.5 font-sans text-sm w-48 focus:border-saffron focus:outline-none" />
+              <select id="t-status" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm focus:border-saffron focus:outline-none">
                 <option value="">All statuses</option><option value="passed">Passed</option><option value="inprogress">In progress</option><option value="notstarted">Not started</option>
               </select>
-              <select id="t-sort" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm">
+              <select id="t-sort" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm focus:border-saffron focus:outline-none">
                 <option value="score">Sort: Score ↓</option><option value="progress">Sort: Progress ↓</option><option value="name">Sort: Name A→Z</option><option value="active">Sort: Recently active</option>
               </select>
               <button id="t-exp-all" class="btn font-sans text-xs px-3 py-1.5">Expand all</button>
@@ -612,7 +627,7 @@ import Base from '../layouts/Base.astro';
           ${gradebook}
           ${analytics}
           <h3 class="mt-10 text-xl font-bold">Class roster <span class="rounded-full bg-saffron-soft text-saffron-deep font-sans text-xs px-2.5 py-0.5">Demo preview</span></h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Student</th><th>Email</th><th>Last active</th></tr></thead><tbody>${roster.map((st) => `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(st.name)}</td><td>${esc(st.email)}</td><td class="text-muted">${esc(st.active)}</td></tr>`).join('')}</tbody></table></div>
-          <div class="mt-8"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
+          <div class="mt-10"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
       }
     }).catch(() => { document.getElementById('dash').innerHTML = '<p class="text-muted">Could not load.</p>'; });
   </script>

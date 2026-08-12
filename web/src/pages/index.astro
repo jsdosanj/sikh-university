@@ -41,7 +41,10 @@ const ld = {
 
         <!-- Daily Shabad centerpiece: server-rendered hidden shell; daily-shabad.ts fills the
              verse verbatim from the local corpus and unhides it. Stays hidden on any failure. -->
-        <div id="daily-shabad" hidden class="glass mt-10 max-w-2xl rounded-xl2 p-6">
+        {/* glass-strong (not glass): this card holds muted/saffron-deep text
+            over the hall ambient — only sanctioned on the stronger surface in
+            light theme (regular glass measures ~4.4:1, see test/contrast-glass.mjs). */}
+        <div id="daily-shabad" hidden class="glass-strong mt-10 max-w-2xl rounded-xl2 p-6">
           <p class="eyebrow flex flex-wrap items-baseline gap-x-3 text-saffron-deep">
             <span lang="pa" class="gur">ਅੱਜ ਦਾ ਸ਼ਬਦ</span>
             <span>Shabad of the day</span>
@@ -189,9 +192,13 @@ const ld = {
   </section>
 
   <!-- First of its kind -->
+  <!-- glass-strong on this panel and "By the numbers" below: they hold muted +
+       saffron-deep body text over the hall ambient, which regular .glass only
+       carries at ~3.7-4.4:1 in light theme (unsanctioned pair per
+       test/contrast-glass.mjs); the strong surface keeps those tokens ≥4.5:1. -->
   <section id="first-of-kind">
     <div class="wrap py-20">
-      <div class="glass rounded-xl2 p-8 sm:p-12">
+      <div class="glass-strong rounded-xl2 p-8 sm:p-12">
       <div class="mx-auto max-w-4xl xl:max-w-5xl text-center">
         <p class="eyebrow text-saffron-deep" data-i18n="home.first.eyebrow">First of its kind</p>
         <h2 class="text-display-sm mt-4 font-bold" data-i18n="home.first.heading">Nothing like this has ever existed for Sikhi.</h2>
@@ -281,7 +288,7 @@ const ld = {
   <!-- Proof points / differentiators -->
   <section>
     <div class="wrap py-16">
-      <div class="glass rounded-xl2 p-8 sm:p-10">
+      <div class="glass-strong rounded-xl2 p-8 sm:p-10">
       <p class="eyebrow text-center text-saffron-deep" data-i18n="home.stats2.eyebrow">By the numbers</p>
       <div class="mt-8 grid gap-6 text-center sm:grid-cols-2 lg:grid-cols-4">
         <div class="reveal glass-lite rounded-xl2 p-6" data-reveal-delay="0">
