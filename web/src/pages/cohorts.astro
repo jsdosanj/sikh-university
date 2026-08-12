@@ -41,9 +41,16 @@ import Base from '../layouts/Base.astro';
           <p class="mt-1 text-sm text-muted" data-i18n="cohorts.create.hint">Pick a course you teach and name the group. You'll get an invite code to share.</p>
           ${myCourses.length ? `
           <form id="create-form" class="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
-            <select id="c-course" aria-label="Course" data-i18n-aria="cohorts.aria.course" class="rounded-xl border border-line bg-surface px-3 py-2.5 font-sans">${opts}</select>
+            <!-- min-w-0 on both 1fr columns: a <select>'s closed-state width defaults to its
+                 LONGEST option's min-content (course titles run long, e.g. "AI Foundations:
+                 Understanding Artificial Intelligence"), and grid items default to
+                 min-width:auto — so without this the select ignores its 1fr share and hogs
+                 the row, squeezing the name input down to a sliver (its placeholder was
+                 getting clipped). min-w-0 lets both tracks actually honor the 1fr:1fr split;
+                 the select's own text still truncates gracefully at that width. -->
+            <select id="c-course" aria-label="Course" data-i18n-aria="cohorts.aria.course" class="min-w-0 rounded-xl border border-line bg-surface px-3 py-2.5 font-sans">${opts}</select>
             <input id="c-name" aria-label="Cohort name" data-i18n-aria="cohorts.aria.cohortname" placeholder="e.g. Summer Camp 2026" data-i18n-ph="cohorts.ph.cohortname"
-              class="rounded-xl border border-line bg-surface px-3 py-2.5 font-sans" />
+              class="min-w-0 rounded-xl border border-line bg-surface px-3 py-2.5 font-sans" />
             <button class="btn btn-primary" data-i18n="cohorts.create.button">Create</button>
           </form>` : `<p class="mt-3 rounded-xl border border-line bg-surface p-3 text-sm text-muted" data-i18n="cohorts.nocourses">No courses available to create a cohort for yet.</p>`}
           <div id="create-out" class="mt-3 text-sm" aria-live="polite"></div>
