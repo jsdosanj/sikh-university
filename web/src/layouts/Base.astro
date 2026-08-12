@@ -92,6 +92,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={`${SITE}/assets/og-image.png`} />
+  <meta name="twitter:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <slot name="head" />
 </head>
 <body class={bodyClass}>
@@ -144,6 +145,12 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     };
     if (!ttsSupported()) panel?.querySelectorAll('[data-a="read"],[data-a="stop"]').forEach((b) => b.remove());
     fab?.addEventListener('click', () => { const hidden = panel?.classList.toggle('hidden'); fab.setAttribute('aria-expanded', String(!hidden)); });
+    // Escape closes the accessibility panel and hands focus back to its button.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel && !panel.classList.contains('hidden')) {
+        panel.classList.add('hidden'); fab?.setAttribute('aria-expanded', 'false'); fab?.focus();
+      }
+    });
     panel?.addEventListener('click', (e) => {
       const t = e.target.closest('button'); if (!t) return; const p = get(); const a = t.dataset.a;
       if (a === 'smaller') p.scale = Math.max(80, (p.scale || 100) - 10);
