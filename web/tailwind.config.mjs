@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'],
+  // The site's theme switch sets data-theme on <html> (Base.astro, key
+  // su_v1_theme). Without this, `dark:` variants follow the OS
+  // prefers-color-scheme media query instead — disconnected from the toggle,
+  // so e.g. the program-card tints (programs/catalog) kept their LIGHT
+  // background for an OS-light user in site-dark mode (light-blue panel with
+  // light-blue text, ~1.8:1) and vice versa.
+  darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {

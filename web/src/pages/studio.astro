@@ -9,7 +9,17 @@ import Base from '../layouts/Base.astro';
         <p class="mt-2 text-white/85">Draft a course, then submit it for scholar review. Nothing here is public until an admin approves it and it's merged into the live catalogue.</p>
       </div>
     </div>
-    <div id="app" class="mt-8"><p class="text-white/70">Loading…</p></div>
+    <div id="app" class="mt-8">
+      <p class="sr-only">Loading the studio…</p>
+      <!-- Shimmer skeleton mirroring the drafts list (button + card grid) so the
+           page doesn't flash blank while /api/me + drafts load. -->
+      <div aria-hidden="true">
+        <div class="skeleton h-11 w-36"></div>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          <div class="skeleton h-24"></div><div class="skeleton h-24"></div>
+        </div>
+      </div>
+    </div>
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
@@ -46,7 +56,7 @@ import Base from '../layouts/Base.astro';
     };
 
     function draftListItem(d: any) {
-      return `<div data-draft-card="${esc(d.id)}" class="glass-lite relative block p-4 transition hover:-translate-y-0.5">
+      return `<div data-draft-card="${esc(d.id)}" class="glass-lite relative block p-4 transition hover:-translate-y-0.5 hover:shadow-lift">
         <a href="#" data-open="${esc(d.id)}" class="block">
           <div class="flex items-center gap-2 pr-7"><span class="font-bold text-navy">${esc(d.title)}</span>${statusPill(d.status)}</div>
           <div class="mt-1 font-sans text-xs text-muted">${esc(d.course_id)} · ${esc(d.topic)} · level ${esc(d.level)}</div>
@@ -90,10 +100,15 @@ import Base from '../layouts/Base.astro';
       app.innerHTML = `
         <button id="new-draft" class="btn btn-primary">${iconSvg('pen', 'h-4 w-4')} New draft</button>
         <div class="mt-6 grid gap-3 sm:grid-cols-2">${drafts.length ? drafts.map(draftListItem).join('') : `
-          <div class="col-span-full rounded-xl2 border border-dashed border-line bg-surface/50 p-8 text-center">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-paper text-muted">${iconSvg('note', 'h-6 w-6')}</div>
-            <p class="mt-3 font-sans text-sm text-muted">No drafts yet. Start your first course — it stays private until you submit it.</p>
+          <div class="col-span-full glass-lite p-8 text-center">
+            <div class="flex flex-col items-center gap-3">
+              <span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-saffron-deep">${iconSvg('pen', 'h-7 w-7')}</span>
+              <p class="font-serif text-lg font-bold text-navy">Begin your first course</p>
+              <p class="max-w-sm font-sans text-sm text-muted">Draft lessons and a quiz at your own pace — everything stays private until you submit it for scholar review.</p>
+              <button type="button" id="empty-new-draft" class="btn btn-primary mt-1">${iconSvg('pen', 'h-4 w-4')} New draft</button>
+            </div>
           </div>`}</div>`;
+      document.getElementById('empty-new-draft')?.addEventListener('click', () => document.getElementById('new-draft')!.click());
       document.querySelectorAll('[data-open]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); goToEditor((a as HTMLElement).dataset.open!); }));
       document.querySelectorAll('[data-delete-draft]').forEach((b) => b.addEventListener('click', (e) => {
         e.preventDefault(); e.stopPropagation();
@@ -127,7 +142,7 @@ import Base from '../layouts/Base.astro';
       const TABS: Array<[typeof tab, string]> = [['overview', 'Overview'], ['lessons', `Lessons (${lessons.length})`], ['quiz', `Quiz (${quiz.length})`], ['submit', 'Review & submit']];
 
       app.innerHTML = `
-        <button id="back" class="font-sans text-sm text-white/80 underline">&larr; All drafts</button>
+        <button id="back" class="font-sans text-sm text-white/80 underline transition-colors hover:text-white">&larr; All drafts</button>
         <div class="glass-strong mt-4 rounded-xl2 p-6">
           <div class="flex flex-wrap items-center gap-2"><h2 class="text-2xl font-bold text-navy">${esc(draft.title)}</h2>${statusPill(draft.status)}</div>
           <p class="mt-1 font-sans text-xs text-muted">${esc(draft.course_id)} · ${esc(draft.topic)} · level ${esc(draft.level)}</p>
@@ -145,7 +160,7 @@ import Base from '../layouts/Base.astro';
         const b = document.createElement('button');
         b.textContent = label;
         b.dataset.k = key;
-        b.className = 'px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted';
+        b.className = 'px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted transition-colors hover:border-line hover:text-navy';
         b.addEventListener('click', () => { tab = key; drawTabs(); drawPanel(); });
         tabsEl.appendChild(b);
       });
@@ -154,6 +169,7 @@ import Base from '../layouts/Base.astro';
           const el = b as HTMLElement;
           const on = el.dataset.k === tab;
           el.classList.toggle('border-saffron', on); el.classList.toggle('text-navy', on); el.classList.toggle('font-semibold', on);
+          el.classList.toggle('hover:border-line', !on); // hover underline must not fight the active saffron one
         });
       }
       function drawPanel() {
@@ -168,15 +184,15 @@ import Base from '../layouts/Base.astro';
       function renderOverview() {
         panel.innerHTML = `
           <div class="grid gap-2">
-            <label class="block font-sans text-sm font-semibold">Summary<textarea id="f-summary" rows="3" class="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans" ${editable ? '' : 'disabled'}>${esc(meta.summary || '')}</textarea></label>
+            <label class="block font-sans text-sm font-semibold">Summary<textarea id="f-summary" rows="3" class="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" ${editable ? '' : 'disabled'}>${esc(meta.summary || '')}</textarea></label>
             <label class="block font-sans text-sm font-semibold">Created with AI assistance?
-              <select id="f-ai" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans" ${editable ? '' : 'disabled'}>
+              <select id="f-ai" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" ${editable ? '' : 'disabled'}>
                 <option value="true" ${meta.aiAssisted ? 'selected' : ''}>Yes</option>
                 <option value="false" ${meta.aiAssisted === false ? 'selected' : ''}>No</option>
               </select>
             </label>
             <label class="block font-sans text-sm font-semibold">Visibility
-              <select id="f-visibility" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans" ${editable ? '' : 'disabled'}>
+              <select id="f-visibility" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" ${editable ? '' : 'disabled'}>
                 <option value="public" ${draft.visibility !== 'gated' ? 'selected' : ''}>Public — free, fully listed</option>
                 <option value="gated" ${draft.visibility === 'gated' ? 'selected' : ''}>Institutional — title &amp; summary public, full content requires cohort access</option>
               </select>
@@ -218,8 +234,8 @@ import Base from '../layouts/Base.astro';
             return `
             <div class="mt-3 rounded-xl2 border border-line bg-surface p-4" data-lesson="${i}">
               <div class="flex items-center gap-2"><span class="font-sans text-xs font-bold uppercase text-muted">Lesson ${i + 1}</span></div>
-              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm font-semibold" data-l-title value="${esc(ls.title)}" ${editable ? '' : 'disabled'} />
-              <textarea rows="6" class="mt-2 w-full rounded-lg border border-line bg-paper px-2 py-1 font-mono text-xs" data-l-html ${editable ? '' : 'disabled'}>${esc(ls.html)}</textarea>
+              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm font-semibold focus:border-saffron focus:outline-none" data-l-title value="${esc(ls.title)}" ${editable ? '' : 'disabled'} />
+              <textarea rows="6" class="mt-2 w-full rounded-lg border border-line bg-paper px-2 py-1 font-mono text-xs focus:border-saffron focus:outline-none" data-l-html ${editable ? '' : 'disabled'}>${esc(ls.html)}</textarea>
               <div class="mt-2"><p class="font-sans text-xs font-bold uppercase text-muted">Live preview</p><div class="lesson-prose mt-1 rounded-lg border border-line bg-paper p-3 text-sm" data-l-preview>${expandYoutubeEmbeds(ls.html)}</div></div>
               <div class="mt-3 rounded-lg border border-line bg-paper p-3" data-l-media>
                 <p class="font-sans text-xs font-bold uppercase text-muted">Attached media</p>
@@ -363,8 +379,8 @@ import Base from '../layouts/Base.astro';
             const options = Array.isArray(q.options) ? q.options : JSON.parse(q.options || '[]');
             return `<div class="mt-3 rounded-xl2 border border-line bg-surface p-4" data-q="${i}">
               <div class="font-sans text-xs font-bold uppercase text-muted">Question ${i + 1}</div>
-              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm" data-q-text value="${esc(q.q)}" ${editable ? '' : 'disabled'} />
-              <div class="mt-2 grid gap-1" data-q-options>${options.map((o: string, oi: number) => `<div class="flex items-center gap-2"><input type="radio" name="ans-${i}" data-q-answer value="${oi}" ${q.answer === oi ? 'checked' : ''} ${editable ? '' : 'disabled'} /><input class="flex-1 rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm" data-q-option value="${esc(o)}" ${editable ? '' : 'disabled'} /></div>`).join('')}</div>
+              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm focus:border-saffron focus:outline-none" data-q-text value="${esc(q.q)}" ${editable ? '' : 'disabled'} />
+              <div class="mt-2 grid gap-1" data-q-options>${options.map((o: string, oi: number) => `<div class="flex items-center gap-2"><input type="radio" name="ans-${i}" data-q-answer value="${oi}" ${q.answer === oi ? 'checked' : ''} ${editable ? '' : 'disabled'} /><input class="flex-1 rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm focus:border-saffron focus:outline-none" data-q-option value="${esc(o)}" ${editable ? '' : 'disabled'} /></div>`).join('')}</div>
               ${editable ? '<button class="mt-1 font-sans text-xs underline" data-add-option>+ option</button> <button class="mt-1 font-sans text-xs text-danger underline" data-delete-q>Delete question</button>' : ''}
             </div>` ;
           }).join('') : '<div class="rounded-xl2 border border-dashed border-line bg-surface/50 p-6 text-center font-sans text-sm text-muted">No questions yet.</div>')

@@ -171,6 +171,10 @@ const texts = [
     body:not(.hc) #audbar { background: rgb(11 30 58 / .60); border-color: rgb(255 255 255 / .12); }
     body:not(.hc) #audnote { color: rgb(255 255 255 / .74); }
     body:not(.hc) #pathway > p { color: rgb(255 255 255 / .78); }
+    /* The feedback link inside that credit line otherwise falls back to the
+       base `a { text-navy }` rule — dark navy over the near-black sanctum
+       ambient (~1.5:1) in light theme. Inherit the paragraph's white. */
+    body:not(.hc) #pathway > p a { color: inherit; }
 
     /* Zen mode — a distraction-free full-viewport reader. */
     #zen-exit { display: none; }

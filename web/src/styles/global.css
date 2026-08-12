@@ -76,6 +76,15 @@
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
     outline: 3px solid rgb(var(--c-navy)); outline-offset: 2px; border-radius: 4px;
   }
+  /* On FIXED-navy surfaces the theme navy outline is invisible in light theme
+     (navy on navy): the nav bar, ghost buttons on hall/navy hero bands, and
+     the white-on-navy header buttons (course page "Enroll"/"Save offline").
+     Gold reads ≥3:1 over brand navy in both themes. */
+  .su-nav :where(a, button, input, select):focus-visible,
+  .btn-ghost:focus-visible,
+  .btn.text-white:focus-visible {
+    outline-color: #ffc83d;
+  }
   body { @apply bg-paper text-ink font-serif antialiased; line-height: 1.65; }
   /* Stop iOS Safari zooming the page when a sub-16px input is focused. */
   @media (max-width: 640px) { input, select, textarea { font-size: 16px; } }
