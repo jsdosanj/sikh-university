@@ -87,15 +87,26 @@ describe("angWindow + wordIndexAt + wordTime", () => {
 
 describe("throttleIndex", () => {
   it("holds a forward jump until the minimum dwell time has passed", () => {
-    expect(throttleIndex(2, 5, 100, 260)).toBe(2); // too soon — no burst through 3 words
-    expect(throttleIndex(2, 5, 260, 260)).toBe(3); // dwell met — advance exactly one word
+    expect(throttleIndex(2, 5, 100, 260, 200, 1200)).toBe(2); // too soon — no burst through 3 words
+    expect(throttleIndex(2, 5, 260, 260, 200, 1200)).toBe(3); // dwell met — advance exactly one word
   });
 
   it("never throttles a backward correction (seek, scrub, tap-to-anchor)", () => {
-    expect(throttleIndex(10, 4, 0, 260)).toBe(4);
+    expect(throttleIndex(10, 4, 0, 260, 200, 1200)).toBe(4);
   });
 
   it("passes an equal target straight through", () => {
-    expect(throttleIndex(3, 3, 0, 260)).toBe(3);
+    expect(throttleIndex(3, 3, 0, 260, 200, 1200)).toBe(3);
+  });
+
+  it("snaps immediately when the audio position itself jumped (a real seek), not just the estimate", () => {
+    // e.g. the ±10s buttons or scrubber — the audio jumped ~10s in one tick,
+    // far more than a normal ~200ms timeupdate interval, so word 40 must be
+    // shown right away, not crawled to one word per dwell period.
+    expect(throttleIndex(2, 40, 0, 260, 10000, 1200)).toBe(40);
+  });
+
+  it("still throttles a same-tick overshoot when the audio position barely moved", () => {
+    expect(throttleIndex(2, 40, 0, 260, 200, 1200)).toBe(2);
   });
 });
