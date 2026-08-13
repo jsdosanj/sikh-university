@@ -188,7 +188,7 @@ const texts = [
   </style>
 
   <script>
-    import { angWeight, segmentTimeline, angWindow, wordIndexAt, wordTime, wordWeight } from '../lib/santhya-sync';
+    import { angWeight, segmentTimeline, angWindow, wordIndexAt, wordTime, wordWeight, throttleIndex } from '../lib/santhya-sync';
     import { openLineStudy } from '../lib/line-study';
     import { iconSvg } from '../lib/icons';
     var SRC = {
@@ -352,7 +352,8 @@ const texts = [
     document.getElementById('anglabel').childNodes[0].nodeValue = cfg.unit + ' ';
     angin.max = cfg.max;
     var ang = parseInt(qp.get('ang') || get(src + '_ang', 1), 10) || 1;
-    var words = [], cum = [], total = 0, curIdx = -1;
+    var words = [], cum = [], total = 0, curIdx = -1, lastAdvanceAt = -Infinity;
+    var MIN_WORD_DWELL_MS = 260; // floor on how fast the highlight may advance — see throttleIndex
 
     var santhya = null, curUrl = '';
     function trackFor(n) {
@@ -457,7 +458,7 @@ const texts = [
         ln.appendChild(ab);
         page.appendChild(ln);
       });
-      curIdx = -1; buildTiming();
+      curIdx = -1; lastAdvanceAt = -Infinity; buildTiming();
     }
     function load(n, opts) {
       n = Math.max(1, Math.min(cfg.max, n)); ang = n; angin.value = n; set(src + '_ang', n);
@@ -474,7 +475,10 @@ const texts = [
     aud.addEventListener('timeupdate', function () {
       if (!cfg.audio) return;
       var w = curWin(); if (!w) return;
-      applyWord(wordIndexAt(aud.currentTime, w, cum, total));
+      var target = wordIndexAt(aud.currentTime, w, cum, total);
+      var now = performance.now();
+      var next = throttleIndex(curIdx, target, now - lastAdvanceAt, MIN_WORD_DWELL_MS);
+      if (next !== curIdx) { lastAdvanceAt = now; applyWord(next); }
       // Sehaj flow: the recitation crossed this ang's window — turn the page
       // with it (and turn back if the listener scrubbed backwards).
       if (!aud.paused && segTrack) {
