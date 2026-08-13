@@ -38,7 +38,11 @@ const faqLd = {
 ---
 <Base title="About — Sikhi University" description="Why Sikhi University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills." ambient="hall" bgImage="/assets/backgrounds/about.jpg">
   <script type="application/ld+json" set:html={ldJson(faqLd)} slot="head" />
-  <!-- Hero: sits over the ambient-hall backdrop, same language as index.astro -->
+  <!-- Hero: sits over the ambient-hall backdrop, same language as index.astro
+       (including the .text-display crest treatment on the H1 — this was
+       previously plain text-4xl/5xl, out of step with every other hall-ambient
+       hero H1 on the site: index/login/404/catalog/course all use .text-display
+       or .text-display-sm). -->
   <header class="relative overflow-hidden text-white">
     <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
     <div class="wrap relative py-20">
@@ -47,7 +51,7 @@ const faqLd = {
         <span class="text-white/50">·</span>
         <span data-i18n="about.hero.badge">Free Open University</span>
       </div>
-      <h1 class="max-w-3xl text-4xl font-bold text-white sm:text-5xl leading-tight"><span data-i18n="about.hero.h1a">A space to</span> <span class="text-saffron" data-i18n="about.hero.h1b">dig deeper</span><br class="hidden sm:block" /> <span data-i18n="about.hero.h1c">into Sikhi.</span></h1>
+      <h1 class="text-display-sm max-w-3xl font-bold text-white leading-tight"><span data-i18n="about.hero.h1a">A space to</span> <span class="text-saffron" data-i18n="about.hero.h1b">dig deeper</span><br class="hidden sm:block" /> <span data-i18n="about.hero.h1c">into Sikhi.</span></h1>
       <p class="mt-5 max-w-2xl text-lg text-white/85 leading-relaxed" data-i18n="about.hero.sub">Sikhi University is a free, open online university — built so that anyone, anywhere can study Sikhi seriously, from authentic sources, at their own pace.</p>
       <!-- Stats row -->
       <div class="mt-10 grid grid-cols-2 gap-4 sm:flex sm:gap-8">

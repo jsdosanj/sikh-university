@@ -26,7 +26,7 @@ const grouped = typeOrder.map((t) => ({
 ---
 <Base title="Degree Programs — Sikhi University" description="Certificate, Associate, Bachelor's, Master's and Giani degree programs in Sikh Studies — free, open, and comprehensive." ambient="hall" bgImage="/assets/backgrounds/programs.jpg">
   <section class="wrap py-12">
-    <h1 class="text-3xl font-bold text-white" data-i18n="programs.h1">Academic Programs</h1>
+    <h1 class="text-display-sm font-bold text-white" data-i18n="programs.h1">Academic Programs</h1>
     <p class="mt-3 max-w-2xl text-lg text-white/80" data-i18n="programs.sub">Sikhi University offers a full academic ladder — from introductory certificates through the prestigious Giani qualification. All programs are free and open to every learner worldwide.</p>
 
     <div class="mt-4 glass-strong border-l-4 border-saffron p-4 font-sans text-sm" data-i18n="programs.disclaimer">
@@ -44,7 +44,7 @@ const grouped = typeOrder.map((t) => ({
                 <div>
                   <div class="font-sans text-xs font-bold uppercase tracking-wider text-muted">{p.abbreviation}</div>
                   <h3 class="text-lg font-bold text-navy leading-tight">{p.title}</h3>
-                  <div class="font-gurmukhi text-sm text-muted">{p.titleGur}</div>
+                  <div class="font-gur text-sm text-muted" lang="pa">{p.titleGur}</div>
                 </div>
               </div>
               <p class="font-sans text-sm text-muted flex-1">{p.description.slice(0, 140)}…</p>
