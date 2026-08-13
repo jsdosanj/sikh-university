@@ -100,3 +100,21 @@ export function wordTime(
   const before = cum[idx - 1] / total;
   return win.start + before * (win.end - win.start);
 }
+
+// The weight estimate is a heuristic, not a transcript alignment — it's
+// correct on average over a whole ang (anchored to the real audio duration)
+// but can misjudge a single passage (e.g. a more heavily-paused stretch) and
+// briefly race ahead several words in one tick. Cap forward jumps to one word
+// per `minDwellMs` so the highlight advances at a readable pace instead of
+// visibly blitzing through words; never throttles a backward correction
+// (seek, scrub, tap-to-anchor), only the automatic forward crawl.
+export function throttleIndex(
+  current: number,
+  target: number,
+  msSinceLastAdvance: number,
+  minDwellMs: number,
+): number {
+  if (target <= current) return target;
+  if (msSinceLastAdvance < minDwellMs) return current;
+  return current + 1;
+}

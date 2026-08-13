@@ -8,6 +8,7 @@ import {
   angWindow,
   wordIndexAt,
   wordTime,
+  throttleIndex,
 } from "../web/src/lib/santhya-sync";
 
 describe("weights", () => {
@@ -81,5 +82,20 @@ describe("angWindow + wordIndexAt + wordTime", () => {
   it("degenerate inputs return safe values", () => {
     expect(wordIndexAt(60, win, [], 0)).toBe(-1);
     expect(wordTime(0, win, cum, total)).toBe(win.start);
+  });
+});
+
+describe("throttleIndex", () => {
+  it("holds a forward jump until the minimum dwell time has passed", () => {
+    expect(throttleIndex(2, 5, 100, 260)).toBe(2); // too soon — no burst through 3 words
+    expect(throttleIndex(2, 5, 260, 260)).toBe(3); // dwell met — advance exactly one word
+  });
+
+  it("never throttles a backward correction (seek, scrub, tap-to-anchor)", () => {
+    expect(throttleIndex(10, 4, 0, 260)).toBe(4);
+  });
+
+  it("passes an equal target straight through", () => {
+    expect(throttleIndex(3, 3, 0, 260)).toBe(3);
   });
 });
