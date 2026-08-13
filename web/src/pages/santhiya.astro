@@ -352,8 +352,9 @@ const texts = [
     document.getElementById('anglabel').childNodes[0].nodeValue = cfg.unit + ' ';
     angin.max = cfg.max;
     var ang = parseInt(qp.get('ang') || get(src + '_ang', 1), 10) || 1;
-    var words = [], cum = [], total = 0, curIdx = -1, lastAdvanceAt = -Infinity;
+    var words = [], cum = [], total = 0, curIdx = -1, lastAdvanceAt = -Infinity, lastTickAudioTime = null;
     var MIN_WORD_DWELL_MS = 260; // floor on how fast the highlight may advance — see throttleIndex
+    var SEEK_JUMP_MS = 1200; // an audio-position jump bigger than this is a real seek, not playback drift
 
     var santhya = null, curUrl = '';
     function trackFor(n) {
@@ -458,7 +459,7 @@ const texts = [
         ln.appendChild(ab);
         page.appendChild(ln);
       });
-      curIdx = -1; lastAdvanceAt = -Infinity; buildTiming();
+      curIdx = -1; lastAdvanceAt = -Infinity; lastTickAudioTime = null; buildTiming();
     }
     function load(n, opts) {
       n = Math.max(1, Math.min(cfg.max, n)); ang = n; angin.value = n; set(src + '_ang', n);
@@ -477,7 +478,9 @@ const texts = [
       var w = curWin(); if (!w) return;
       var target = wordIndexAt(aud.currentTime, w, cum, total);
       var now = performance.now();
-      var next = throttleIndex(curIdx, target, now - lastAdvanceAt, MIN_WORD_DWELL_MS);
+      var audioJumpMs = lastTickAudioTime == null ? 0 : Math.abs(aud.currentTime - lastTickAudioTime) * 1000;
+      lastTickAudioTime = aud.currentTime;
+      var next = throttleIndex(curIdx, target, now - lastAdvanceAt, MIN_WORD_DWELL_MS, audioJumpMs, SEEK_JUMP_MS);
       if (next !== curIdx) { lastAdvanceAt = now; applyWord(next); }
       // Sehaj flow: the recitation crossed this ang's window — turn the page
       // with it (and turn back if the listener scrubbed backwards).
