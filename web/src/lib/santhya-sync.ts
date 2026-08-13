@@ -104,17 +104,26 @@ export function wordTime(
 // The weight estimate is a heuristic, not a transcript alignment — it's
 // correct on average over a whole ang (anchored to the real audio duration)
 // but can misjudge a single passage (e.g. a more heavily-paused stretch) and
-// briefly race ahead several words in one tick. Cap forward jumps to one word
-// per `minDwellMs` so the highlight advances at a readable pace instead of
-// visibly blitzing through words; never throttles a backward correction
-// (seek, scrub, tap-to-anchor), only the automatic forward crawl.
+// briefly race ahead several words during continuous playback. Cap forward
+// jumps to one word per `minDwellMs` so the highlight advances at a readable
+// pace instead of visibly blitzing through words during normal playback.
+//
+// A real seek (drag the scrubber, ±10s buttons, tap-to-anchor) must still
+// snap immediately — `audioJumpMs` is the audio position's own jump since the
+// last tick; a jump past `seekJumpMs` (far larger than a normal ~200-250ms
+// timeupdate interval) means the *position* moved, not just the estimate, so
+// the throttle is bypassed for that tick. Backward targets always pass
+// through immediately regardless (rewinding never needs throttling).
 export function throttleIndex(
   current: number,
   target: number,
   msSinceLastAdvance: number,
   minDwellMs: number,
+  audioJumpMs: number,
+  seekJumpMs: number,
 ): number {
   if (target <= current) return target;
+  if (audioJumpMs > seekJumpMs) return target;
   if (msSinceLastAdvance < minDwellMs) return current;
   return current + 1;
 }
