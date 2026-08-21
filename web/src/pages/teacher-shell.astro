@@ -23,7 +23,7 @@ import Base from '../layouts/Base.astro';
       const paras = (p.bio || '').split('\n\n').filter(Boolean).map((t: string) => `<p class="mt-3 max-w-3xl text-lg text-muted">${esc(t)}</p>`).join('');
       root.innerHTML = `
         <div class="flex flex-wrap items-center gap-4">
-          ${p.photoUrl ? `<img src="${esc(p.photoUrl)}" width="96" height="96" alt="${esc(p.displayName)}" class="rounded-xl2 border border-line object-cover" style="width:96px;height:96px" />` : ''}
+          ${p.photoUrl ? `<img src="${esc(p.photoUrl)}" width="96" height="96" loading="lazy" alt="${esc(p.displayName)}" class="rounded-xl2 border border-line object-cover" style="width:96px;height:96px" />` : ''}
           <div>
             <h1 class="text-3xl font-bold">${esc(p.displayName)}</h1>
             <div class="mt-1">${badge(p.verificationLevel)}</div>

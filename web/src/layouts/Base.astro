@@ -101,7 +101,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="twitter:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <slot name="head" />
 </head>
-<body class={bodyClass}>
+<body class={bodyClass} data-ambient={ambient}>
   {ambient !== 'none' && (
     <div aria-hidden="true" class={`ambient ambient-${ambient}`}>
       {bgImage && <div class="ambient-painting" style={`background-image:url('${bgImage}')`}></div>}
@@ -285,7 +285,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     body.hc { background: #000; color: #fff; }
     body.hc .card, body.hc .card-lift, body.hc .bg-surface, body.hc .bg-paper, body.hc nav, body.hc footer { background: #000 !important; color: #fff !important; border-color: #fff !important; }
     /* High contrast defeats glass entirely: solid black, no blur, white borders. */
-    body.hc .glass, body.hc .glass-strong, body.hc .glass-lite, body.hc .glass-card { background: #000 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-color: #fff !important; color: #fff !important; }
+    body.hc .glass, body.hc .glass-strong, body.hc .glass-lite, body.hc .glass-card, body.hc .glass-hall { background: #000 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-color: #fff !important; color: #fff !important; }
     body.hc .ambient { display: none !important; }
     body.hc a, body.hc h1, body.hc h2, body.hc h3 { color: #ffd479 !important; }
   </style>
