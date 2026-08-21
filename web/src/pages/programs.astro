@@ -24,7 +24,7 @@ const grouped = typeOrder.map((t) => ({
   programs: programsData.programs.filter((p) => p.type === t),
 }));
 ---
-<Base title="Degree Programs — Sikhi University" description="Certificate, Associate, Bachelor's, Master's and Giani degree programs in Sikh Studies — free, open, and comprehensive." ambient="hall">
+<Base title="Degree Programs — Sikhi University" description="Certificate, Associate, Bachelor's, Master's and Giani degree programs in Sikh Studies — free, open, and comprehensive." ambient="hall" bgImage="/assets/backgrounds/programs.jpg">
   <!-- Hero: sits over the ambient-hall backdrop, same language as index.astro/about.astro -->
   <header class="relative overflow-hidden text-white">
     <div class="su-arrival-curtain"></div>
@@ -56,7 +56,7 @@ const grouped = typeOrder.map((t) => ({
                 <div>
                   <div class="font-sans text-xs font-bold uppercase tracking-wider text-muted">{p.abbreviation}</div>
                   <h3 class="text-lg font-bold text-navy leading-tight">{p.title}</h3>
-                  <div class="font-gurmukhi text-sm text-muted">{p.titleGur}</div>
+                  <div class="font-gur text-sm text-muted" lang="pa">{p.titleGur}</div>
                 </div>
               </div>
               <p class="font-sans text-sm text-muted flex-1">{p.description.slice(0, 140)}…</p>

@@ -427,6 +427,7 @@ export default {
       "img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; " +
       "connect-src 'self' https://api.banidb.com; " +
       "frame-src https://www.youtube-nocookie.com https://www.youtube.com; " +
+      "worker-src 'self' blob:; " +
       "form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'");
     return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
   },

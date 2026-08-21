@@ -27,6 +27,7 @@
   "nav.mylearning": "تعلّمي",
   "nav.cohorts": "المجموعات",
   "nav.signin": "تسجيل الدخول",
+  "nav.account": "الحساب",
   "nav.searchph": "ابحث بالإنجليزية أو ਪੰਜਾਬੀ…",
   "lang.label": "اللغة",
   "nav.signout": "تسجيل الخروج",
@@ -427,5 +428,6 @@
   "verify.ph.certid": "SU-…",
   "verify.aria.certid": "معرّف الشهادة",
   "cmdk.placeholder": "ابحث عن الدورات والصفحات والإجراءات…",
-  "cmdk.hint": "اكتب للبحث · ↑↓ للتنقل · Enter للفتح"
+  "cmdk.hint": "اكتب للبحث · ↑↓ للتنقل · Enter للفتح",
+  "home.hero.scroll": "مرر لأسفل"
 }

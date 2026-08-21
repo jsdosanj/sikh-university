@@ -27,6 +27,7 @@
   "nav.mylearning": "我的学习",
   "nav.cohorts": "学习小组",
   "nav.signin": "登录",
+  "nav.account": "账户",
   "nav.searchph": "用英文或 ਪੰਜਾਬੀ 搜索…",
   "lang.label": "语言",
   "nav.signout": "退出登录",
@@ -427,5 +428,6 @@
   "verify.ph.certid": "SU-…",
   "verify.aria.certid": "证书编号",
   "cmdk.placeholder": "搜索课程、页面、操作…",
-  "cmdk.hint": "输入以搜索 · ↑↓ 导航 · Enter 打开"
+  "cmdk.hint": "输入以搜索 · ↑↓ 导航 · Enter 打开",
+  "home.hero.scroll": "滚动"
 }

@@ -37,7 +37,7 @@ const progTypeLabel: Record<string, string> = { certificate: 'Certificates', ass
 const progTypeBg: Record<string, string> = { certificate: 'bg-saffron-soft', associate: 'bg-blue-50 dark:bg-blue-950/20', bachelor: 'bg-paper', master: 'bg-navy/5 dark:bg-navy/20', giani: 'bg-saffron-soft' };
 const grouped = progTypeOrder.map((t) => ({ type: t, label: progTypeLabel[t], programs: programsData.programs.filter((p) => p.type === t) }));
 ---
-<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study">
+<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study" bgImage="/assets/backgrounds/catalog.jpg">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
 
   <!-- Arrival band: the navy "entrance hall" of the library, layered over the study

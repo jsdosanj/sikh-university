@@ -30,7 +30,10 @@ const personLd = {
 <Base title={`${name} — Sikhi University`} description={bio || `${name} teaches courses at Sikhi University.`} ogType="profile" ambient="hall">
   <script type="application/ld+json" set:html={ldJson(personLd)} slot="head" />
   <section class="wrap py-12">
-    <div class="glass rounded-xl2 p-6 sm:p-8">
+    {/* glass-strong (not glass): muted text over the hall ambient is only
+        sanctioned on the stronger surface in light theme (~3.7:1 on regular
+        glass, see test/contrast-glass.mjs). */}
+    <div class="glass-strong rounded-xl2 p-6 sm:p-8">
       <a href="/professors" class="font-sans text-sm text-muted hover:text-navy">← All professors</a>
       <div class="mt-4 flex flex-wrap items-center gap-5">
         <Avatar name={name} size={110} />

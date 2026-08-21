@@ -835,9 +835,16 @@ const breadcrumb = {
       };
     })();
 
-    // Gurbani verse viewer — scan lessons for "Ang N" refs, fetch from banidb, display verified tuks
+    // Gurbani verse viewer — scan lessons for "Ang N" refs, fetch from OUR OWN
+    // verified corpus (the same /assets/gurbani/sggs/<ang>.json the /santhiya
+    // reader and verify-gurbani.mjs's build-time accuracy gate both use — not
+    // a third-party API), and link straight into that reader (which now has a
+    // dedicated recording for nearly every Ang) so a student doesn't just see
+    // an isolated static verse — they can read AND listen along at that exact
+    // Ang. Previously fetched from api.banidb.com: an external dependency
+    // disconnected from the site's own verified text.
     (function () {
-      var CACHE_KEY = 'su_gbcache_';
+      var CACHE_KEY = 'su_gbcache_v2_';
       var seen = {}, angs = [];
       document.querySelectorAll('.lesson-prose').forEach(function (el) {
         var text = el.textContent || '';
@@ -861,20 +868,15 @@ const breadcrumb = {
         var cached = sessionStorage.getItem(CACHE_KEY + ang);
         if (cached) { container.innerHTML = cached; return; }
         container.innerHTML = '<span class="font-sans text-xs text-muted">Fetching…</span>';
-        fetch('https://api.banidb.com/v2/angs/' + ang + '/SGGS')
+        fetch('/assets/gurbani/sggs/' + ang + '.json')
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (data) {
-            if (!data || !data.page || !data.page.length) { container.innerHTML = '<span class="font-sans text-xs text-muted">Verse unavailable.</span>'; return; }
-            var html = data.page.slice(0, 3).map(function (v) {
-              var gurmukhi = (v.verse && v.verse.unicode) || '';
-              var en = (v.translation && v.translation.en && v.translation.en.bdb) || '';
-              if (!gurmukhi) return '';
-              return '<div class="py-2 border-b border-line last:border-0">'
-                + '<p class="gur text-base leading-relaxed text-navy">' + esc(gurmukhi) + '</p>'
-                + (en ? '<p class="mt-1 font-sans text-xs italic text-muted leading-snug">' + esc(en) + '</p>' : '')
-                + '</div>';
-            }).filter(Boolean).join('');
-            if (!html) { container.innerHTML = '<span class="font-sans text-xs text-muted">No verses found for this Ang.</span>'; return; }
+            if (!data || !data.lines || !data.lines.length) { container.innerHTML = '<span class="font-sans text-xs text-muted">Verse unavailable.</span>'; return; }
+            var lines = data.lines.slice(0, 6); // an Ang can run long; show an excerpt, link to the full reader
+            var html = lines.map(function (line) {
+              return '<p class="gur text-base leading-relaxed text-navy" lang="pa">' + esc(line) + '</p>';
+            }).join('')
+              + '<a class="mt-2 inline-flex items-center gap-1 font-sans text-xs font-semibold text-saffron-deep hover:underline" href="/santhiya?src=sggs&amp;ang=' + ang + '">Read &amp; listen along in the Santhya reader →</a>';
             sessionStorage.setItem(CACHE_KEY + ang, html);
             container.innerHTML = html;
           })

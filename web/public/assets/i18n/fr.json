@@ -27,6 +27,7 @@
   "nav.mylearning": "Mon apprentissage",
   "nav.cohorts": "Cohortes",
   "nav.signin": "Se connecter",
+  "nav.account": "Compte",
   "nav.searchph": "Recherchez en anglais ou en ਪੰਜਾਬੀ…",
   "lang.label": "Langue",
   "nav.signout": "Se déconnecter",
@@ -427,5 +428,6 @@
   "verify.ph.certid": "SU-…",
   "verify.aria.certid": "ID de certificat",
   "cmdk.placeholder": "Recherchez cours, pages, actions…",
-  "cmdk.hint": "Tapez pour chercher · ↑↓ pour naviguer · Entrée pour ouvrir"
+  "cmdk.hint": "Tapez pour chercher · ↑↓ pour naviguer · Entrée pour ouvrir",
+  "home.hero.scroll": "Défiler"
 }

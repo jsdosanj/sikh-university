@@ -1,26 +1,37 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import CinematicHero from '../components/CinematicHero.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 import { SITE, ldJson } from '../lib/site';
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
   '@id': SITE + '/#org', // merges with the Organization node Base.astro emits site-wide
-  name: 'Sikhi University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon-512.png', image: SITE + '/assets/og-image.png',
+  name: 'Sikhi University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon-512.png?v=2', image: SITE + '/assets/og-image.png?v=2',
   sameAs: ['https://sikharchive.net'],
 };
 // WebSite (with the sitelinks SearchAction) is now emitted site-wide by Base.astro.
 ---
-<Base title="Sikhi University — free, open Sikhi & modern-skills courses" ambient="hall">
+<Base title="Sikhi University — free, open Sikhi & modern-skills courses" ambient="hall" bodyClass="su-home">
   <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
+  <!-- self-hosted (not the unpkg CDN — CSP script-src is 'self' only) -->
+  <script type="module" src="/scripts/model-viewer.min.js" slot="head" />
 
-  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow behind the Logo.
+  <!-- Cinematic hero: the new scroll-scrubbed film opener. Page 2 (below) is the
+       original hero content — eyebrow, headline, CTAs, Daily Shabad, stat counters —
+       kept intact and in place, just demoted from the very top to right after the film. -->
+  <CinematicHero />
+
+  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow.
        data-arrival children play a one-time entrance (lib/motion.ts initArrival); #daily-shabad
        below is sacred content and deliberately carries no arrival/parallax/tilt. -->
   <header class="relative overflow-hidden text-white">
     <div class="su-arrival-curtain"></div>
-    <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
-    <div aria-hidden="true" data-parallax="0.08" class="glow-saffron pointer-events-none absolute -left-24 top-1/3 h-[36rem] w-[36rem]"></div>
+    <!-- data-parallax removed: it drifts by absolute window.scrollY, calibrated
+         for this section sitting at the top of the page. The cinematic hero
+         now sits above it (~4000px tall), so the same formula translated this
+         layer ~1200px off-screen. -->
+    <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
     <div class="wrap relative grid items-center gap-12 py-24 lg:grid-cols-[minmax(0,1fr)_auto]">
       <div>
         <p data-arrival class="eyebrow text-saffron" data-i18n="home.eyebrow">Free · Open · Worldwide</p>
@@ -33,7 +44,10 @@ const ld = {
 
         <!-- Daily Shabad centerpiece: server-rendered hidden shell; daily-shabad.ts fills the
              verse verbatim from the local corpus and unhides it. Stays hidden on any failure. -->
-        <div id="daily-shabad" hidden class="glass mt-10 max-w-2xl rounded-xl2 p-6">
+        {/* glass-strong (not glass): this card holds muted/saffron-deep text
+            over the hall ambient — only sanctioned on the stronger surface in
+            light theme (regular glass measures ~4.4:1, see test/contrast-glass.mjs). */}
+        <div id="daily-shabad" hidden class="glass-strong mt-10 max-w-2xl rounded-xl2 p-6">
           <p class="eyebrow flex flex-wrap items-baseline gap-x-3 text-saffron-deep">
             <span lang="pa" class="gur">ਅੱਜ ਦਾ ਸ਼ਬਦ</span>
             <span>Shabad of the day</span>
@@ -62,9 +76,25 @@ const ld = {
           </div>
         </div>
       </div>
-      <div data-parallax="0.3" class="relative hidden justify-self-center lg:block">
+      <div class="relative hidden justify-self-center lg:block">
         <div aria-hidden="true" class="glow-saffron pointer-events-none absolute -inset-12"></div>
-        <img src="/assets/su-crest.png" alt="" aria-hidden="true" class="relative h-72 w-auto drop-shadow-[0_8px_40px_rgba(244,178,26,0.35)] xl:h-[22rem]" />
+        <model-viewer
+          src="/media/media/hero/sikh-uni-3d-model.glb"
+          poster="/assets/su-crest-ivory.png"
+          alt="A rotating 3D model of the Sikhi University crest"
+          auto-rotate
+          auto-rotate-delay="0"
+          rotation-per-second="18deg"
+          camera-controls
+          disable-zoom
+          interaction-prompt="none"
+          exposure="1.1"
+          shadow-intensity="0.8"
+          environment-image="neutral"
+          loading="lazy"
+          class="relative block"
+          style="height: clamp(24rem, 32vw, 45rem); width: clamp(24rem, 32vw, 45rem); background:transparent; --poster-color:transparent;">
+        </model-viewer>
       </div>
     </div>
   </header>
@@ -137,7 +167,7 @@ const ld = {
   </section>
 
   <!-- Mission -->
-  <section class="text-white">
+  <section id="mission-section" class="text-white">
     <div class="wrap py-20">
       <p class="eyebrow text-center text-saffron" data-i18n="home.mission.eyebrow">Our mission</p>
       <h2 class="text-display-sm mx-auto mt-4 max-w-4xl xl:max-w-5xl text-center font-bold text-white" data-i18n="home.mission.heading">From the wisdom of our ancestors to a living bond with Waheguru</h2>
@@ -165,9 +195,13 @@ const ld = {
   </section>
 
   <!-- First of its kind -->
-  <section>
+  <!-- glass-strong on this panel and "By the numbers" below: they hold muted +
+       saffron-deep body text over the hall ambient, which regular .glass only
+       carries at ~3.7-4.4:1 in light theme (unsanctioned pair per
+       test/contrast-glass.mjs); the strong surface keeps those tokens ≥4.5:1. -->
+  <section id="first-of-kind">
     <div class="wrap py-20">
-      <div class="glass rounded-xl2 p-8 sm:p-12">
+      <div class="glass-strong rounded-xl2 p-8 sm:p-12">
       <div class="mx-auto max-w-4xl xl:max-w-5xl text-center">
         <p class="eyebrow text-saffron-deep" data-i18n="home.first.eyebrow">First of its kind</p>
         <h2 class="text-display-sm mt-4 font-bold" data-i18n="home.first.heading">Nothing like this has ever existed for Sikhi.</h2>
@@ -177,38 +211,38 @@ const ld = {
       <div class="mt-14 grid gap-6 sm:grid-cols-2">
         {[
           {
-            icon: 'ruler',
+            img: 'ladder',
             title: 'A complete academic ladder',
             body: '100-level introductions to 500-level graduate seminars — the only Sikh learning platform with a full university-style curriculum, from your first question to doctoral depth.',
           },
           {
-            icon: 'pillar',
+            img: 'quill',
             title: 'Scholar-attributed courses',
             body: 'Every course is taught by a named scholar — Prof. Sahib Singh, Kavi Santokh Singh, Bhai Randhir Singh, Bhai Kahn Singh Nabha, Bhai Vir Singh and more — grounding each lesson in authentic, authoritative scholarship.',
           },
           {
-            icon: 'globe',
+            img: 'globe',
             title: 'Open to the whole world',
             body: 'No fees. No visa. No Gurdwara nearby required. A Sikh in Kenya, Canada, Chile, or Australia gets the same world-class education as one sitting in Amritsar.',
           },
           {
-            icon: 'books',
+            img: 'books',
             title: `${published.length}+ courses across 23 subjects`,
             body: 'Theology, philosophy, history, language, music, the arts, economics, science, health, parenting — Sikhi touches every dimension of life, and we cover all of it.',
           },
           {
-            icon: 'microscope',
+            img: 'magnifier',
             title: 'Graduate seminars that go all the way',
             body: 'Sikh hermeneutics. Manuscript paleography. Gurmat metaphysics. Comparative mysticism. For students who refuse to stop at the surface — we go as deep as there is to go.',
           },
           {
-            icon: 'lotus',
+            img: 'lotus',
             title: 'Rooted in authentic sources',
             body: 'Every course draws from the Sri Guru Granth Sahib Ji, authenticated scholarly works, and the SikhLibrary dataset — not Wikipedia summaries or secondhand summaries.',
           },
         ].map((f, i) => (
           <div class="reveal glass-lite rounded-xl2 p-6" data-reveal-delay={(i % 3) * 90}>
-            <Icon name={f.icon} class="h-8 w-8 text-saffron-deep" />
+            <img src={`/assets/cards/${f.img}.jpg`} alt="" class="h-14 w-14 rounded-full object-cover shadow-lift" />
             <h3 class="mt-3 text-lg font-bold text-navy">{f.title}</h3>
             <p class="mt-2 text-muted leading-relaxed">{f.body}</p>
           </div>
@@ -219,7 +253,7 @@ const ld = {
   </section>
 
   <!-- Built for current and future generations -->
-  <section class="text-white">
+  <section id="built-for-future" class="text-white">
     <div class="wrap py-20">
       <div class="mx-auto max-w-5xl xl:max-w-6xl">
         <div class="grid gap-10 lg:grid-cols-2 items-center">
@@ -257,7 +291,7 @@ const ld = {
   <!-- Proof points / differentiators -->
   <section>
     <div class="wrap py-16">
-      <div class="glass rounded-xl2 p-8 sm:p-10">
+      <div class="glass-strong rounded-xl2 p-8 sm:p-10">
       <p class="eyebrow text-center text-saffron-deep" data-i18n="home.stats2.eyebrow">By the numbers</p>
       <div class="mt-8 grid gap-6 text-center sm:grid-cols-2 lg:grid-cols-4">
         <div class="reveal glass-lite rounded-xl2 p-6" data-reveal-delay="0">
@@ -284,7 +318,8 @@ const ld = {
   <!-- Call to action -->
   <section class="text-white">
     <div class="wrap py-24 text-center">
-      <p class="eyebrow text-saffron" data-i18n="home.cta2.eyebrow">Begin today</p>
+      <img src="/assets/su-crest-full.png" alt="Sikhi University crest" class="mx-auto h-32 w-auto" />
+      <p class="eyebrow text-saffron mt-6" data-i18n="home.cta2.eyebrow">Begin today</p>
       <h2 class="text-display-sm mt-4 font-bold text-white" data-i18n="home.cta2.heading">Start your journey today.</h2>
       <p class="mx-auto mt-4 max-w-xl text-lg text-white/85" data-i18n="home.cta2.sub">It takes thirty seconds to begin. No sign-up required. Pick a course, start a lesson — and see how deep Sikhi really goes.</p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
@@ -296,3 +331,38 @@ const ld = {
   </section>
 
 </Base>
+
+<style>
+  /* Font/weight/size for .text-display/.text-display-sm now live at the
+     source in global.css (applies to all ~10 pages using these classes, not
+     just this one). Only the h1's container width still needs a per-page
+     override: Tailwind's max-w-3xl class on the h1 element (not the class
+     this stylesheet controls) forces an awkward wrap at this font's wider
+     letterforms. */
+  h1.text-display {
+    max-width: 56rem;
+  }
+
+  /* Distinct backgrounds per homepage section, instead of all three sharing
+     the one page-level ambient image. The image lives ONLY on ::before (not
+     the section itself) so its opacity actually dims it -- putting the image
+     directly on the section and duplicating it on ::before would show the
+     full-brightness base layer underneath, defeating the dim entirely. */
+  #mission-section, #first-of-kind, #built-for-future {
+    position: relative;
+    overflow: hidden;
+  }
+  #mission-section::before, #first-of-kind::before, #built-for-future::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.28;
+    filter: saturate(0.85);
+    z-index: -1;
+  }
+  #mission-section::before { background-image: url('/assets/backgrounds/home-mission.jpg'); }
+  #first-of-kind::before { background-image: url('/assets/backgrounds/home-first.jpg'); }
+  #built-for-future::before { background-image: url('/assets/backgrounds/home-future.jpg'); }
+</style>
+

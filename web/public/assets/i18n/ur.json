@@ -27,6 +27,7 @@
   "nav.mylearning": "میری تعلیم",
   "nav.cohorts": "گروہ",
   "nav.signin": "سائن اِن",
+  "nav.account": "اکاؤنٹ",
   "nav.searchph": "انگریزی یا ਪੰਜਾਬੀ میں تلاش کریں…",
   "lang.label": "زبان",
   "nav.signout": "سائن آؤٹ",
@@ -427,5 +428,6 @@
   "verify.ph.certid": "SU-…",
   "verify.aria.certid": "سرٹیفکیٹ شناخت",
   "cmdk.placeholder": "کورسز، صفحات، ایکشنز تلاش کریں…",
-  "cmdk.hint": "تلاش کے لیے لکھیں · ↑↓ سے منتخب کریں · Enter سے کھولیں"
+  "cmdk.hint": "تلاش کے لیے لکھیں · ↑↓ سے منتخب کریں · Enter سے کھولیں",
+  "home.hero.scroll": "سکرول کریں"
 }

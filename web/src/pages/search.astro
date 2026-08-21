@@ -127,6 +127,7 @@ const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
   </style>
   <script type="application/json" id="extra-index" set:html={JSON.stringify(extra)}></script>
   <script>
+    import { iconSvg } from '../lib/icons';
     const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const extra = JSON.parse(document.getElementById('extra-index').textContent);
@@ -247,7 +248,11 @@ const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
         const retry = search(shorter, shorter.join(' '));
         if (retry.length) { scored = retry; terms = shorter; note = shorter.join(' '); }
       }
-      if (!scored.length) { out.innerHTML = panel(`<p class="font-serif text-xl font-bold text-navy">No results for "${esc(q.value)}"</p><p class="mt-2 font-sans text-sm text-muted">Try a shorter query, a professor's name, or the name of a bani.</p>`); return; }
+      if (!scored.length) {
+        // Empty state matches catalog.astro's pattern: icon + serif title + sans sub + CTA.
+        out.innerHTML = `<div class="glass-lite mx-auto mt-2 max-w-md p-8 text-center"><div class="flex flex-col items-center gap-3"><span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-muted">${iconSvg('search', 'h-7 w-7')}</span><p class="font-serif text-lg font-bold text-navy">No results for "${esc(q.value)}"</p><p class="max-w-sm font-sans text-sm text-muted">Try a shorter word, a different spelling, or search in ਗੁਰਮੁਖੀ.</p><a class="btn mt-1" href="/catalog">Browse the catalogue</a></div></div>`;
+        return;
+      }
       const groups = {};
       scored.forEach(({ r }) => (groups[r.kind] = groups[r.kind] || []).push(r));  // globally score-sorted, so each group stays in order
       let html = '';
@@ -266,9 +271,15 @@ const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
       out.innerHTML = `<div class="${firstPaint ? 'res-in' : ''}">${html}</div>`;
       firstPaint = false;
     }
+    // Deep-linked queries (?q=…) fill the input immediately and show a shimmer
+    // skeleton while the index downloads, instead of a blank flash.
+    const pre = new URLSearchParams(location.search).get('q');
+    if (pre) {
+      q.value = pre;
+      out.innerHTML = `<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-hidden="true">${'<div class="skeleton h-24"></div>'.repeat(8)}</div>`;
+    }
     fetch('/data/search.json').then((r) => r.json()).then((d) => {
       data = d; buildIndex();
-      const pre = new URLSearchParams(location.search).get('q'); if (pre) q.value = pre;
       render();
     }).catch(() => { out.innerHTML = panel('<p class="font-sans text-muted">Could not load the search index.</p>'); });
     q.addEventListener('input', render);
