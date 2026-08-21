@@ -2,12 +2,21 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Sign in / Sign up — Sikhi University" description="Join Sikhi University free with a magic link — as a student to learn, or apply to teach. No password needed." ambient="hall" bgImage="/assets/backgrounds/login.jpg" noindex={true}>
-  <section class="wrap py-14">
-    <div class="mx-auto max-w-md text-center">
-      <p class="eyebrow text-saffron">Sign in</p>
-      <h1 class="text-display-sm mt-2 font-bold text-white" data-i18n="login.h1">Sign in or sign up</h1>
-      <p class="mt-2 font-sans text-white/85" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
+  <!-- Hero: same arrival language as index.astro/about.astro's header. -->
+  <header class="relative overflow-hidden text-white">
+    <div class="su-arrival-curtain"></div>
+    <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
+    <div aria-hidden="true" data-parallax="0.08" class="glow-saffron pointer-events-none absolute left-1/2 top-0 h-[26rem] w-[26rem] -translate-x-1/2"></div>
+    <div class="wrap relative py-16">
+      <div class="mx-auto max-w-md text-center">
+        <p data-arrival class="eyebrow text-saffron">Sign in</p>
+        <h1 data-arrival class="text-display-sm mt-2 font-bold text-white" data-i18n="login.h1">Sign in or sign up</h1>
+        <p data-arrival class="mt-2 font-sans text-white/85" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
+      </div>
     </div>
+  </header>
+
+  <section class="wrap pb-14">
     <div id="err" class="mx-auto mt-4 max-w-md"></div>
 
     <div class="glass-strong mx-auto mt-6 max-w-md rounded-xl2 p-6">

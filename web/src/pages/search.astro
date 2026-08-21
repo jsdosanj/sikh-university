@@ -40,27 +40,90 @@ const gWords = (gurbaniWords as { gur: string; tr: string; var?: string; url: st
 }));
 
 const extra = { professors, readings, pages, gWords };
+
+// Starter queries, drawn from the app's own bani register (web/src/lib/santhya.ts)
+// so every Gurmukhi label here is verbatim from the corpus — never hand-typed.
+// Plain links carrying ?q=, so they work before (and without) the page script.
+const SUGGEST_IDS = ['japji', 'sukhmani', 'asadivar', 'anand'] as const;
+const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
 ---
 <Base title="Search — Sikhi University" description="Search everything at Sikhi University — courses, professors, topics, learning paths, banis and scripture." ambient="study">
-  <section class="wrap py-12">
-    <h1 class="text-3xl font-bold" data-i18n="search.h1">Search Sikhi University</h1>
-    <div class="glass mt-6 flex max-w-xl items-center gap-2 px-4 py-1 transition focus-within:border-saffron">
-      <Icon name="search" class="h-4 w-4 shrink-0 text-muted" />
-      <input id="q" type="search" aria-label="Search Sikhi University" data-i18n-aria="search.h1" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" data-i18n-ph="search.ph" autofocus
-        class="w-full bg-transparent py-2.5 font-sans outline-none" />
+  <!-- Reading-room search desk: a single wide field on warm paper, with the
+       saffron study glow pooled behind it. All chrome is server-rendered; only
+       the result list itself needs JS (search is inherently a live query). -->
+  <section class="relative isolate">
+    <div aria-hidden="true" class="glow-saffron pointer-events-none absolute -top-40 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 opacity-70"></div>
+
+    <div class="wrap relative pt-14 pb-6 sm:pt-20">
+      <p class="eyebrow-rule text-saffron-deep">Sikhi University</p>
+      <h1 class="text-display mt-5 max-w-3xl font-bold" data-i18n="search.h1">Search Sikhi University</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">Courses, professors, learning paths, banis, scripture and Gurbani words — one field, the whole university.</p>
+
+      <div class="searchfield glass-strong mt-9 flex max-w-3xl items-center gap-4 px-5 py-1 sm:px-6">
+        <Icon name="search" class="h-5 w-5 shrink-0 text-saffron-deep" />
+        <input id="q" type="search" aria-label="Search Sikhi University" data-i18n-aria="search.h1" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" data-i18n-ph="search.ph" autofocus
+          class="w-full bg-transparent py-4 font-sans text-lg outline-none sm:py-5" />
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center gap-2.5">
+        <span class="eyebrow mr-1 text-muted">Try</span>
+        {suggestions.map((b) => (
+          <a href={`/search?q=${encodeURIComponent(b.en)}`} class="inline-flex items-baseline gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 shadow-card transition duration-200 hover:-translate-y-px hover:border-saffron hover:shadow-lift">
+            <span class="gur text-navy" lang="pa">{b.gur}</span>
+            <span class="font-sans text-xs text-muted">{b.en}</span>
+          </a>
+        ))}
+      </div>
     </div>
-    <div id="out" class="mt-6" aria-live="polite"></div>
   </section>
+
+  <section class="wrap pb-16">
+    <div id="out" class="mt-8" aria-live="polite"></div>
+  </section>
+
   <style>
+    /* The whole result list is injected via innerHTML, so anything that has to
+       reach it must be :global — the Astro scope class is never stamped on
+       dynamically-created nodes. (Tailwind utilities are already global.) */
+
     /* Highlight for matched query terms. Saffron-soft ground + ink text keeps AA
-       contrast in both themes (see global.css tokens). Results are injected via
-       innerHTML, so :global reaches the dynamically-created <mark> under scoped #out. */
+       contrast in both themes (see global.css tokens). */
     #out :global(mark) {
       background: rgb(var(--c-saffron-soft));
       color: rgb(var(--c-ink));
       border-radius: 3px;
       padding: 0 .15em;
     }
+
+    /* The search desk: a saffron focus ring that reads as a lit lamp rather than
+       a form outline. box-shadow only — never animate backdrop-filter. */
+    .searchfield { transition: box-shadow .3s var(--ease-out), transform .3s var(--ease-out); }
+    .searchfield:focus-within {
+      box-shadow: 0 0 0 3px rgb(244 178 26 / .32), 0 18px 44px rgb(11 30 58 / .16);
+      transform: translateY(-1px);
+    }
+    /* The field owns the focus ring; the input inside it does not double up. */
+    .searchfield input:focus-visible { outline: none; }
+
+    /* Result group headings: a hairline that trails off to the right. */
+    #out :global(.res-head)::after {
+      content: ''; flex: 1 1 auto; height: 1px;
+      background: linear-gradient(90deg, rgb(var(--c-line)), transparent);
+    }
+
+    /* Each hit lifts on a gold hairline — the same language as .card-lift. */
+    #out :global(.res-hit)::after {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      border: 1px solid transparent; transition: border-color .2s var(--ease-out);
+    }
+    #out :global(.res-hit:hover)::after,
+    #out :global(.res-hit:focus-visible)::after { border-color: rgb(244 178 26 / .6); }
+
+    /* Whisper-quiet entrance for the FIRST result set only (a ?q= deep link).
+       Re-typing must not replay it — an animation on every keystroke would fight
+       the reader. Frozen by the global reduced-motion guard. */
+    @keyframes su-res-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    #out :global(.res-in) { animation: su-res-in .45s var(--ease-out) both; }
   </style>
   <script type="application/json" id="extra-index" set:html={JSON.stringify(extra)}></script>
   <script>
@@ -75,10 +138,12 @@ const extra = { professors, readings, pages, gWords };
     // Build a flat, typed index. Each entry carries display fields (kind/title/sub/url)
     // plus four lowercased search fields the scorer weights: t = title, p = professor,
     // o = topic, b = body/summary. Non-course kinds leave p/o empty.
+    // `gur` is display-only: the Gurmukhi half of a reading's name, kept in its own
+    // field so the row can render it with lang="pa" in a real Gurmukhi face.
     let index = [];
     function buildIndex() {
       index = [];
-      const push = (e) => index.push({ p: '', o: '', b: '', ...e });
+      const push = (e) => index.push({ p: '', o: '', b: '', gur: '', ...e });
       data.courses.forEach((c) => push({
         kind: 'Course', title: c.title, sub: 'Prof. ' + c.professor + ' · ' + tn(c.topic), url: '/course/' + c.id,
         t: (c.title || '').toLowerCase(), p: (c.professor || '').toLowerCase(), o: tn(c.topic).toLowerCase(),
@@ -97,7 +162,7 @@ const extra = { professors, readings, pages, gWords };
         t: (p.name || '').toLowerCase(), b: (p.blurb || '').toLowerCase(),
       }));
       extra.readings.forEach((r) => push({
-        kind: 'Reading', title: (r.gur ? r.gur + ' — ' : '') + r.title, sub: r.sub || '', url: r.url,
+        kind: 'Reading', title: r.title, gur: r.gur || '', sub: r.sub || '', url: r.url,
         t: ((r.gur || '') + ' ' + r.title).toLowerCase(), b: (r.sub || '').toLowerCase(),
       }));
       extra.pages.forEach((p) => push({
@@ -156,12 +221,25 @@ const extra = { professors, readings, pages, gWords };
 
     const ORDER = ['Course', 'Professor', 'Reading', 'Word', 'Path', 'Topic', 'Page'];
     const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Word: 'Gurbani Words', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
+    // A shell for the non-result states (idle / no match / index failure) so they
+    // read as a considered panel rather than stray text.
+    const panel = (inner) => `<div class="glass-lite max-w-2xl p-6 sm:p-8">${inner}</div>`;
     function row(r, terms) {
-      return `<a href="${r.url}" class="glass-lite relative block p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${hl(r.title, terms)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${hl(r.sub, terms)}</div>` : ''}</a>`;
+      // Gurmukhi always gets lang="pa" + a real Gurmukhi face, and sits at or above
+      // the optical size of the Latin line beside it (DESIGN.md, reverence rules).
+      const isGur = r.kind === 'Word';
+      const gur = r.gur ? `<span class="gur block leading-snug text-navy" lang="pa">${hl(r.gur, terms)}</span>` : '';
+      const title = `<span class="${isGur ? 'gur ' : ''}block font-bold leading-snug text-navy"${isGur ? ' lang="pa"' : ''}>${hl(r.title, terms)}</span>`;
+      return `<a href="${r.url}" class="res-hit glass-lite relative flex h-full flex-col p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift active:scale-[.985]">`
+        + `<span class="pill mb-2.5 w-fit bg-paper text-muted ring-1 ring-line">${esc(r.kind)}</span>`
+        + gur + title
+        + (r.sub ? `<span class="mt-1.5 block font-sans text-sm text-muted">${hl(r.sub, terms)}</span>` : '')
+        + `</a>`;
     }
+    let firstPaint = true;   // the entrance animation plays once, not per keystroke
     function render() {
       const v = q.value.normalize('NFC').toLowerCase().trim();
-      if (!v) { out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`; return; }
+      if (!v) { out.innerHTML = panel(`<p class="font-sans text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`); return; }
       let terms = v.split(/\s+/);
       let scored = search(terms, v);
       let note = '';
@@ -178,13 +256,20 @@ const extra = { professors, readings, pages, gWords };
       const groups = {};
       scored.forEach(({ r }) => (groups[r.kind] = groups[r.kind] || []).push(r));  // globally score-sorted, so each group stays in order
       let html = '';
-      if (note) html += `<p class="mb-2 text-sm text-muted">Showing results for: ${esc(note)}</p>`;
-      html += `<p class="mb-4 text-muted">${scored.length} result${scored.length === 1 ? '' : 's'}</p>`;
+      if (note) html += `<p class="mb-2 font-sans text-sm text-muted">Showing results for: ${esc(note)}</p>`;
+      html += `<p class="eyebrow mb-6 text-saffron-deep">${scored.length} result${scored.length === 1 ? '' : 's'}</p>`;
+      let firstGroup = true;
       ORDER.forEach((k) => {
         const g = groups[k]; if (!g || !g.length) return;
-        html += `<h2 class="mb-3 mt-6 text-lg font-bold">${LABEL[k]} <span class="font-sans text-sm font-normal text-muted">(${g.length})</span></h2><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">${g.map((r) => row(r, terms)).join('')}</div>`;
+        html += `<h2 class="res-head mb-4 ${firstGroup ? '' : 'mt-12'} flex items-center gap-4 text-xl font-bold text-navy">`
+          + `<span class="shrink-0">${LABEL[k]}</span>`
+          + `<span class="shrink-0 font-sans text-xs font-bold tracking-widest text-muted">${g.length}</span>`
+          + `</h2>`
+          + `<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">${g.map((r) => row(r, terms)).join('')}</div>`;
+        firstGroup = false;
       });
-      out.innerHTML = html;
+      out.innerHTML = `<div class="${firstPaint ? 'res-in' : ''}">${html}</div>`;
+      firstPaint = false;
     }
     // Deep-linked queries (?q=…) fill the input immediately and show a shimmer
     // skeleton while the index downloads, instead of a blank flash.
@@ -196,7 +281,7 @@ const extra = { professors, readings, pages, gWords };
     fetch('/data/search.json').then((r) => r.json()).then((d) => {
       data = d; buildIndex();
       render();
-    }).catch(() => { out.innerHTML = '<p class="text-muted">Could not load the search index.</p>'; });
+    }).catch(() => { out.innerHTML = panel('<p class="font-sans text-muted">Could not load the search index.</p>'); });
     q.addEventListener('input', render);
   </script>
 </Base>

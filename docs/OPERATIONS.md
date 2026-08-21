@@ -44,6 +44,22 @@ while restoring.
 Nothing to fail over to; wait for Cloudflare. (Most course data moved off R2 in the
 data-layer split, so the blast radius is media + the legacy `courses.json` route.)
 
+**`uptime.yml` job hangs or gets cancelled instead of failing fast.** Both curl calls carry
+`--connect-timeout 10 --max-time 30 --retry 2`, and the job has `timeout-minutes: 5` — so as
+of this hardening, a genuine hang should self-terminate and email within ~5 minutes, not run
+until someone notices and cancels it. If it still happens: open the failed run's log — the
+script echoes progressively, so the last line printed pins the failure down:
+- Nothing past `Probing …/api/health` → the health request never got a response (DNS/TLS/
+  connect-level; check for a Cloudflare incident or a WAF/Safe-Browsing interstitial on the
+  domain — `worker.js` has prior history with the latter).
+- `HTTP 200` then a `bindings:` line with `db:false` or `r2:false` → a real binding outage;
+  see the D1/R2 runbooks above.
+- Hang or a non-200 only after `Probing …/ (homepage)` → homepage-specific (edge/WAF), not
+  D1/R2 — the health probe already ruled those out.
+Also check whether the *job itself* is stuck in `queued` status (visible in the Actions tab)
+rather than running — that's a GitHub-hosted-runner allocation delay, not a production issue,
+and is outside this repo's control; re-run once runners are available.
+
 **Resend (email) down / quota exhausted.** Symptom: `/api/auth/request` returns 502; existing
 sessions keep working (30-day cookie). Sign-in is fully email-dependent — check the Resend
 dashboard quota and bump if needed. Failures are logged (`auth_request` errors in Workers

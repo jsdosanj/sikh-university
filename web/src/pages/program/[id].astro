@@ -215,17 +215,12 @@ const breadcrumb = {
   });
 
   function launchTest() {
-    // Pull quiz *questions* from the public catalogue. Answers are NOT present in
-    // the browser-served catalogue (stripped by build_public_data.py) — grading is
-    // done on the server via /api/program-exam, keyed by (courseId, question-index).
-    fetch('/assets/data/courses.json').then(r => r.json()).then(data => {
-      const pool = [];
-      data.courses.forEach(c => {
-        if (!courseIds.includes(c.id)) return;
-        (c.quiz || []).forEach((q, qi) => {
-          pool.push({ cid: c.id, qi, q: q.q, options: q.options, courseTitle: c.title });
-        });
-      });
+    // Pull this program's quiz *questions* from its build-time-generated exam pool
+    // (web/scripts/build-index.mjs) — no answers, and no need to fetch the full
+    // 40+ MB catalogue for one program. Grading is done on the server via
+    // /api/program-exam, keyed by (courseId, question-index).
+    fetch(`/data/exam/${progId}.json`).then(r => r.json()).then(data => {
+      const pool = data.questions || [];
       // Shuffle and pick N questions
       const shuffled = pool.sort(() => Math.random() - 0.5).slice(0, testQuestions);
       if (shuffled.length === 0) {
@@ -233,7 +228,7 @@ const breadcrumb = {
         return;
       }
       renderTest(shuffled);
-    });
+    }).catch(() => { window.suToast('Could not load the exam — please try again in a moment.', 'error'); });
   }
 
   function renderTest(questions) {

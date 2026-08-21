@@ -22,8 +22,11 @@ const ld = {
        kept intact and in place, just demoted from the very top to right after the film. -->
   <CinematicHero />
 
-  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow -->
+  <!-- Hero: sits over the ambient-hall backdrop — parallax lattice + saffron glow.
+       data-arrival children play a one-time entrance (lib/motion.ts initArrival); #daily-shabad
+       below is sacred content and deliberately carries no arrival/parallax/tilt. -->
   <header class="relative overflow-hidden text-white">
+    <div class="su-arrival-curtain"></div>
     <!-- data-parallax removed: it drifts by absolute window.scrollY, calibrated
          for this section sitting at the top of the page. The cinematic hero
          now sits above it (~4000px tall), so the same formula translated this
@@ -31,10 +34,10 @@ const ld = {
     <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
     <div class="wrap relative grid items-center gap-12 py-24 lg:grid-cols-[minmax(0,1fr)_auto]">
       <div>
-        <p class="eyebrow text-saffron" data-i18n="home.eyebrow">Free · Open · Worldwide</p>
-        <h1 class="text-display mt-4 max-w-3xl font-bold text-white">Dive into the depths of <span class="text-saffron">Sikhi</span>.</h1>
-        <p class="mt-5 max-w-2xl text-lg text-white/85" data-i18n="home.herosub">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
-        <div class="mt-8 flex flex-wrap gap-3">
+        <p data-arrival class="eyebrow text-saffron" data-i18n="home.eyebrow">Free · Open · Worldwide</p>
+        <h1 data-arrival class="text-display-xl mt-4 max-w-3xl font-bold text-white">Dive into the depths of <span class="text-saffron">Sikhi</span>.</h1>
+        <p data-arrival class="versal mt-5 max-w-2xl text-lg text-white/85" data-i18n="home.herosub">A free, open university anyone, anywhere can attend. Start at the surface and keep going — Sikh history, theology, philosophy, language, music and the arts, taught from authentic sources. The deeper you go, the more there is.</p>
+        <div data-arrival class="mt-8 flex flex-wrap gap-3">
           <a class="btn btn-primary" href="/catalog" data-i18n="home.cta.browse">Browse courses</a>
           <a class="btn btn-ghost" href="https://sikharchive.net" target="_blank" rel="noopener noreferrer" data-i18n="home.cta.archive">Visit Sikh Archive →</a>
         </div>
