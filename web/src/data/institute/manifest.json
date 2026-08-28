@@ -3,7 +3,7 @@
   "generated": "2026-08-28",
   "shipShape": "minimum-lovable-institute-full",
   "wedge": "The Sikh community's own institution now teaches the skills that pay — inside a platform its youth already trust, in the community's voice, and pointed at building for the Panth.",
-  "notes": "AISF phases imported (149 lessons, source rohitg00/ai-engineering-from-scratch). Lesson bodies in imported/<track>/; our seva intros + lab checks in ours/<track>/ (merged at build, never clobbered by re-sync). 'Build for the Panth' capstone published (briefs in capstone/briefs.json). sikhi.io dojos + guide still 'planned'.",
+  "notes": "AISF phases imported (149 lessons, source rohitg00/ai-engineering-from-scratch). Lesson bodies in imported/<track>/; our seva intros + lab checks in ours/<track>/ (merged at build). 'Build for the Panth' capstone + the Claude Code guide + both Sikh Code dojos published (dojo engines in lib/institute/dojo/, content in dojo/*.json, guide in guide/*.json, briefs in capstone/*.json). MLI content complete.",
   "tracks": [
     {
       "id": "aisf-00-setup",
@@ -119,7 +119,7 @@
       "level": 100,
       "prereq": null,
       "topicCount": 9,
-      "status": "planned",
+      "status": "published",
       "license": "CC-BY-SA-4.0",
       "professor": "sikh-code",
       "summary": "A from-scratch crash course in programming — variables to classes, taught through an IDE that types itself out and explains every line, live."
@@ -133,7 +133,7 @@
       "level": 200,
       "prereq": null,
       "topicCount": 6,
-      "status": "planned",
+      "status": "published",
       "license": "CC-BY-SA-4.0",
       "professor": "sikh-code",
       "summary": "The real Claude Code command set — type / to explore. Every command is a topic, with the why behind it, synced to the docs."
