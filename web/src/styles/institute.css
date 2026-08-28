@@ -238,3 +238,86 @@ body[data-institute] .su-nav .su-nav-link[aria-current="page"] { border-color: v
   body[data-institute] .i-powerline,
   body[data-institute] .i-caret { animation: none !important; }
 }
+
+/* ============================================================================
+   The Code Lab (components/institute/CodeLab.astro). Desktop: editor left,
+   output right. Mobile (< 760px, D5): editor on top, Preview + Console as
+   collapsible <details>, Run fixed to the bottom.
+   ========================================================================== */
+body[data-institute] .i-lab {
+  border: 1px solid var(--i-line);
+  border-radius: var(--i-r-lg);
+  overflow: hidden;
+  background: var(--i-surface-2);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12.5px;
+  margin: 20px 0;
+}
+body[data-institute] .i-lab-top {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  background: var(--i-surface);
+  border-bottom: 1px solid var(--i-line);
+  color: var(--i-muted); font-size: 11px; letter-spacing: 0.08em;
+}
+body[data-institute] .i-lab-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--i-line); flex: none; }
+body[data-institute] .i-lab-label { text-transform: lowercase; }
+body[data-institute] .i-lab-actions { margin-left: auto; display: flex; gap: 8px; }
+body[data-institute] .i-lab-actions button {
+  font: inherit; font-size: 10.5px; letter-spacing: 0.06em;
+  background: transparent; color: var(--i-ink-dim);
+  border: 1px solid var(--i-line); border-radius: var(--i-r-sm);
+  padding: 3px 8px; cursor: pointer;
+}
+body[data-institute] .i-lab-actions button:hover { color: var(--i-signal); border-color: var(--i-signal); }
+
+body[data-institute] .i-lab-grid { display: grid; grid-template-columns: 1.05fr 1fr; min-height: 240px; }
+body[data-institute] .i-lab-editorwrap { display: block; border-right: 1px solid var(--i-line); }
+body[data-institute] .i-lab-code {
+  display: block; width: 100%; height: 100%; min-height: 240px;
+  resize: vertical; border: 0; outline: none;
+  background: var(--i-surface-2); color: var(--i-ink);
+  font: inherit; line-height: 1.75; tab-size: 2;
+  padding: 14px; white-space: pre;
+}
+body[data-institute] .i-lab-code:focus { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--i-signal) 45%, transparent); }
+
+body[data-institute] .i-lab-out { display: flex; flex-direction: column; min-width: 0; }
+body[data-institute] .i-lab-panel { border-bottom: 1px solid var(--i-line); }
+body[data-institute] .i-lab-panel:last-child { border-bottom: 0; }
+body[data-institute] .i-lab-panel > summary {
+  cursor: pointer; padding: 7px 12px; list-style: none;
+  color: var(--i-muted); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  background: var(--i-surface);
+}
+body[data-institute] .i-lab-panel > summary::-webkit-details-marker { display: none; }
+body[data-institute] .i-lab-preview { width: 100%; height: 200px; border: 0; background: #fff; display: block; }
+body[data-institute] .i-lab-console {
+  min-height: 90px; max-height: 220px; overflow: auto;
+  padding: 10px 12px; background: var(--i-ground-deep); line-height: 1.7;
+}
+body[data-institute] .i-lab-cline { white-space: pre-wrap; word-break: break-word; }
+body[data-institute] .i-lab-log { color: var(--i-ink-dim); }
+body[data-institute] .i-lab-warn { color: var(--i-filament); }
+body[data-institute] .i-lab-error { color: var(--i-fail); }
+
+body[data-institute] .i-lab-checkswrap { padding: 10px 12px; background: var(--i-surface); border-top: 1px solid var(--i-line); }
+body[data-institute] .i-lab-checks-title { display: block; color: var(--i-muted); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
+body[data-institute] .i-lab-crow { line-height: 1.9; }
+body[data-institute] .i-lab-tick { color: var(--i-signal); }
+body[data-institute] .i-lab-cross { color: var(--i-fail); }
+body[data-institute] .i-lab-hint { color: var(--i-muted); }
+body[data-institute] .i-lab-running, body[data-institute] .i-lab-done { color: var(--i-signal); }
+body[data-institute] .i-lab-done { display: block; margin-top: 6px; }
+
+body[data-institute] .i-lab-run { margin: 0; border-radius: 0; width: 100%; justify-content: center; }
+
+@media (max-width: 760px) {
+  body[data-institute] .i-lab-grid { grid-template-columns: 1fr; }
+  body[data-institute] .i-lab-editorwrap { border-right: 0; border-bottom: 1px solid var(--i-line); }
+  body[data-institute] .i-lab-code { min-height: 200px; }
+  body[data-institute] .i-lab-run {
+    position: sticky; bottom: 0; z-index: 5;
+    box-shadow: 0 -6px 16px color-mix(in srgb, var(--i-ground) 70%, transparent);
+  }
+}
