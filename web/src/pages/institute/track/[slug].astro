@@ -4,6 +4,7 @@ import InstituteRail from '../../../components/institute/InstituteRail.astro';
 import { tracks, trackSlug, professorOf, trackById } from '../../../lib/institute';
 
 const indexes = import.meta.glob('../../../data/institute/imported/*/index.json', { eager: true });
+const examBanks = import.meta.glob('../../../data/institute/exam/*.json', { eager: true });
 
 export function getStaticPaths() {
   return tracks.map((t) => ({ params: { slug: trackSlug(t) }, props: { t } }));
@@ -15,6 +16,12 @@ const prereq = t.prereq ? trackById(t.prereq) : null;
 const idxMod = indexes[`../../../data/institute/imported/${t.id}/index.json`];
 const idx = idxMod && (idxMod.default ?? idxMod);
 const isImported = t.kind === 'phase' && idx && idx.lessons?.length > 0;
+
+const examMod = examBanks[`../../../data/institute/exam/${t.id}.json`] as any;
+const examBank = examMod && (examMod.default ?? examMod);
+const hasExam = isImported && t.status === 'published' && examBank && examBank.count > 0;
+const examN = hasExam ? Math.min(20, examBank.count) : 0;
+const pnum = String(t.num ?? 0).padStart(2, '0');
 
 const ld = {
   '@context': 'https://schema.org', '@type': 'Course',
@@ -57,6 +64,22 @@ const ld = {
           </li>
         ))}
       </ol>
+      {hasExam && (
+        <div class="i-panel i-cert-cta">
+          <span class="i-corner">Phase {pnum} certificate</span>
+          <h2>Finish the phase, then sit the exam</h2>
+          <p class="i-prose">
+            The {idx.lessons.length} lessons above and a <strong>{examN}-question exam</strong> stand between
+            you and the <em>Sikhi University &middot; Institute of Technology</em> certificate for this phase.
+            The exam is graded on our server, needs 80% to pass, and verifies at <a href="/verify">/verify</a>.
+            Experienced already? You can <a href={`/institute/exam/${t.slug}`}>go straight to the exam</a>.
+          </p>
+          <p class="i-cert-cta-actions">
+            <a class="i-btn i-btn-primary" href={`/institute/exam/${t.slug}`}>Take the Phase {pnum} exam &rarr;</a>
+            <a class="i-btn i-btn-ghost" href={`/institute/cert?track=${t.slug}`}>View my certificate</a>
+          </p>
+        </div>
+      )}
       <p class="i-prose" style="margin-top:20px;font-size:13px;color:var(--i-muted)">
         Adapted from <a href="https://aiengineeringfromscratch.com">AI Engineering from Scratch</a> by {prof?.name || 'Rohit Ghumare'}, used under the MIT License. Reformatted into the Institute's structure. See <a href="/institute/licenses">sources &amp; licenses</a>.
       </p>
@@ -89,5 +112,10 @@ const ld = {
     .i-ll-num { color: var(--i-filament); font-weight: 700; font-size: 12px; flex: none; }
     .i-ll-title { color: var(--i-ink); font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 15px; }
     .i-ll-tag { margin-left: auto; color: var(--i-muted); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; flex: none; }
+
+    .i-cert-cta { max-width: 720px; margin-top: 22px; }
+    .i-cert-cta h2 { margin: 6px 0 8px; font-size: 18px; }
+    .i-cert-cta .i-prose { font-size: 14px; }
+    .i-cert-cta-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 0; }
   </style>
 </Base>

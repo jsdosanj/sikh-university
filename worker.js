@@ -36,6 +36,7 @@ import { onRequestGet as gradebookGet, onRequestPost as gradebookPost } from "./
 import { onRequestPost as quizPost } from "./functions/api/quiz.js";
 import { onRequestGet as courseContentGet } from "./functions/api/course-content.js";
 import { onRequestPost as programExamPost } from "./functions/api/program-exam.js";
+import { onRequestPost as instituteExamPost } from "./functions/api/institute-exam.js";
 import { onRequestGet as announcementsGet, onRequestPost as announcementsPost } from "./functions/api/announcements.js";
 import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
 import { onRequestGet as discussionsModerateGet, onRequestPost as discussionsModeratePost } from "./functions/api/discussions/moderate.js";
@@ -105,6 +106,7 @@ const routes = {
   "/api/quiz": { POST: quizPost },
   "/api/course-content": { GET: courseContentGet },
   "/api/program-exam": { POST: programExamPost },
+  "/api/institute-exam": { POST: instituteExamPost },
   "/api/announcements": { GET: announcementsGet, POST: announcementsPost },
   "/api/discussions": { GET: discussionsGet, POST: discussionsPost },
   "/api/discussions/moderate": { GET: discussionsModerateGet, POST: discussionsModeratePost },
