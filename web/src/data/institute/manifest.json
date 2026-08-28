@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "generated": "2026-08-28",
+  "shipShape": "minimum-lovable-institute-full",
+  "wedge": "The Sikh community's own institution now teaches the skills that pay — inside a platform its youth already trust, in the community's voice, and pointed at building for the Panth.",
+  "notes": "Wave 1: spine only. tracks[].status is 'planned' until Wave 4 (AISF import) / Wave 3 (dojos) / Wave 5 (capstone) land their content. Lesson bodies live in imported/<track>/ and authored sidecars in ours/<track>/ (never merged, so an AISF re-sync only touches imported/).",
+  "tracks": [
+    { "id": "aisf-00-setup", "kind": "phase", "source": "aisf", "num": 0, "slug": "00-setup-and-tooling", "title": "Setup & Tooling", "level": 100, "prereq": null, "lessonCount": 12, "status": "planned", "license": "MIT", "professor": "rohit-ghumare", "summary": "Get your environment ready for everything that follows. Reframed browser-first — the code lab runs Python and JavaScript, so local install is optional, not the gate." },
+    { "id": "aisf-02-ml", "kind": "phase", "source": "aisf", "num": 2, "slug": "02-ml-fundamentals", "title": "ML Fundamentals", "level": 200, "prereq": "aisf-00-setup", "lessonCount": 18, "status": "planned", "license": "MIT", "professor": "rohit-ghumare", "summary": "Classical machine learning is still the backbone of most production AI." },
+    { "id": "aisf-03-deep-learning", "kind": "phase", "source": "aisf", "num": 3, "slug": "03-deep-learning-core", "title": "Deep Learning Core", "level": 300, "prereq": "aisf-02-ml", "lessonCount": 13, "status": "planned", "license": "MIT", "professor": "rohit-ghumare", "summary": "Neural networks from first principles. No frameworks until you build one yourself." },
+    { "id": "aisf-07-transformers", "kind": "phase", "source": "aisf", "num": 7, "slug": "07-transformers-deep-dive", "title": "Transformers, Deep Dive", "level": 300, "prereq": "aisf-03-deep-learning", "lessonCount": 16, "status": "planned", "license": "MIT", "professor": "rohit-ghumare", "summary": "The architecture that changed everything. Understand every layer." },
+    { "id": "aisf-11-llm-engineering", "kind": "phase", "source": "aisf", "num": 11, "slug": "11-llm-engineering", "title": "LLM Engineering", "level": 300, "prereq": "aisf-00-setup", "lessonCount": 17, "status": "planned", "license": "MIT", "professor": "rohit-ghumare", "summary": "Put LLMs to work in production applications — prompting, RAG, evals, serving, observability." },
+    { "id": "aisf-13-tools-protocols", "kind": "phase", "source": "aisf", "num": 13, "slug": "13-tools-and-protocols", "title": "Tools & Protocols", "level": 400, "prereq": "aisf-11-llm-engineering", "lessonCount": 31, "status": "planned", "license": "MIT", "professor": "rohit-ghumare", "summary": "The interfaces between AI and the real world — function calls, tool schemas, Model Context Protocol, Agent Skills, security, governance." },
+    { "id": "aisf-14-agent-engineering", "kind": "phase", "source": "aisf", "num": 14, "slug": "14-agent-engineering", "title": "Agent Engineering", "level": 400, "prereq": "aisf-13-tools-protocols", "lessonCount": 42, "status": "planned", "license": "MIT", "professor": "rohit-ghumare", "summary": "The core of modern AI engineering. Build agents from first principles — the loop, memory, planning, multi-step work." },
+
+    { "id": "sikh-code-foundations", "kind": "dojo", "source": "sikhi.io", "engine": "terminal", "title": "Sikh Code — Learn Coding", "level": 100, "prereq": null, "topicCount": 9, "status": "planned", "license": "CC-BY-SA-4.0", "professor": "sikh-code", "summary": "A from-scratch crash course in programming — variables to classes, taught through an IDE that types itself out and explains every line, live." },
+    { "id": "sikh-code-agentic", "kind": "dojo", "source": "sikhi.io", "engine": "dojo", "title": "Sikh Code — Learn Agentic Coding", "level": 200, "prereq": null, "topicCount": 6, "status": "planned", "license": "CC-BY-SA-4.0", "professor": "sikh-code", "summary": "The real Claude Code command set — type / to explore. Every command is a topic, with the why behind it, synced to the docs." },
+    { "id": "claude-code-guide", "kind": "guide", "source": "sikhi.io", "title": "Claude Code Guide", "level": 100, "prereq": null, "status": "planned", "license": "CC-BY-SA-4.0", "professor": "sikh-code", "summary": "A plain-English map of Claude Desktop and Claude Code for people with zero coding experience — each feature named, then what it lets you do." },
+
+    { "id": "build-for-the-panth", "kind": "capstone", "source": "ours", "title": "Build for the Panth", "level": 400, "prereq": "aisf-14-agent-engineering", "projectCount": 5, "status": "planned", "license": "CC-BY-SA-4.0", "professor": "sikh-code", "summary": "Pick one project and ship it: a Gurbani search tool, a gurdwara event board, an archive-OCR helper, a langar/seva coordinator, or a Punjabi-learning bot. Finishing it plus the phase exams earns the Institute certificate." }
+  ],
+  "explore": [
+    { "id": "freecodecamp", "title": "freeCodeCamp", "kind": "booth", "href": "https://www.freecodecamp.org/learn/", "wave": "mli", "blurb": "~11,000 free interactive challenges across ~15 certifications. Their editor, their tests, their certificate — go straight there." }
+  ],
+  "deferred": {
+    "phases": ["01-math-foundations", "04-computer-vision", "05-nlp-foundations-to-advanced", "06-speech-and-audio", "08-generative-ai", "09-reinforcement-learning", "10-llms-from-scratch", "12-multimodal-ai", "15-autonomous-systems", "16-multi-agent-and-swarms", "17-infrastructure-and-production", "18-ethics-safety-alignment"],
+    "atlas": "link to sikhi.io/opensource for v1 (CEO C8)",
+    "booths": ["class-central", "libre-academy"]
+  }
+}

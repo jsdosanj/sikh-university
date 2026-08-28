@@ -1,8 +1,8 @@
 # Sikhi University — Institute of Technology
 
 **World-class plan · v1 · 2026-08-28**
-Status: **Reviewed (design ✅ locked · eng · DX · CEO folded). Awaiting founder sign-off on
-22 decisions — C1–C8 (§5·8), E1–E7 (§10·5), X1–X7 (§5·7). See the review report at the end.**
+Status: **APPROVED 2026-08-28 — all 22 decisions resolved (C2 = Full MLI; everything else as
+recommended). Wave 1 (spine) shipped. See the review report at the end.**
 Design system: `DESIGN-INSTITUTE.md` (v1.0). Preview: https://claude.ai/code/artifact/b52a803e-097a-4aaf-851f-b3a64784a149
 
 ---
@@ -665,23 +665,12 @@ before `astro build`, served from R2, pushed by a separate `deploy-data` step).
 
 | Review | Trigger | Why | Runs | Status | Findings |
 |--------|---------|-----|------|--------|----------|
-| CEO Review | `/plan-ceo-review` | Scope & strategy | 1 | issues_open | SELECTIVE EXPANSION. Premise: content is not the moat — worth building only if the community wedge is stated. Recommends **Minimum Lovable Institute** (Approach B) + a "Build for the Panth" capstone + seva-framed intros + editorial spend on the first 10 lessons + soft-launch to a cohort + defer the Atlas. C1–C8 await founder. |
-| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | issues_open | Arch 4 / CodeQual 2 / Perf 1 / Test-gaps 3; 7 clear fixes folded; E1–E7 await founder (E1/E2 gate whether the lab ships) |
-| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | 4.5/10 → 8.5/10; 6 sections added; D1–D10 locked by founder |
-| DX Review | `/plan-devex-review` | Developer / learner experience | 1 | issues_open | first-timer TTHW is Red-Flag tier as written (Phase-0-setup-first + 6 MB Pyodide cold start + phone typing); X1–X7 surfaced; 6 clear fixes folded |
+| CEO Review | `/plan-ceo-review` | Scope & strategy | 1 | clean | SELECTIVE EXPANSION. Wedge stated (C1). Ship shape = **Full Minimum Lovable Institute** (C2: phases 0/2/3/7/11/13/14 + both dojos + guide + capstone). C3–C8 accepted as recommended. |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | clean | E1–E7 accepted as recommended (lean editor · per-path CSP · quiz-key spread · build-time mermaid · reuse `_r2-serve.js` · Wave-4 split · pipeline+engine tests). `enrollments.kind` verified: bare `TEXT`, no CHECK — `'institute'` is data-only, no migration. |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | 4.5/10 → 8.5/10; D1–D10 locked; `DESIGN-INSTITUTE.md` v1.0. |
+| DX Review | `/plan-devex-review` | Developer / learner experience | 1 | clean | X1–X7 accepted as recommended (JS-first taster · Pyodide prefetch · goal router · mobile snippet toolbar · engineer exam fast-path · buffer autosave · lesson search). |
 
-- **OUTSIDE VOICE:** Codex not installed for any pass; inline adversarial only. Recommend a `/codex` pass before implementation.
-- **CROSS-MODEL:** n/a (single model).
-- **VERDICT:** DESIGN CLEARED (D1–D10 locked). CEO + ENG + DX run and folded; **plan NOT yet implementation-ready** — 22 decisions await the founder: **C1–C8** (strategy: the wedge, ship shape, capstone, framing, editorial, launch, data split, atlas), **E1–E7** (architecture: editor, CSP, quiz keys, mermaid, R2 reuse, wave split, tests), **X1–X7** (learner experience: first-win path, Pyodide, goal router, mobile input, engineer fast-path, buffer autosave, lesson search). The load-bearing ones: **C1/C2** (is there a why-us, and is v1 the full 20 phases or a lovable slice), **E1/E2** (can the lab ship under the CSP), **X1/X2** (is the first win fast).
+- **OUTSIDE VOICE:** Codex not installed; inline adversarial pass only. A `/codex` pass is still recommended before the engine waves (2 & 3).
+- **VERDICT:** ALL FOUR REVIEWS CLEARED. Plan approved 2026-08-28. **Wave 1 (spine) shipped** — `/institute` + `/institute/catalog` + `/institute/track/[slug]` + `/institute/licenses` live behind `noindex`; `institute` prop on `Base.astro`; Chakra Petch + JetBrains Mono self-hosted; dark-primary + light theme; `sync-institute` + `validate-institute` in CI; nav entry + i18n (8 langs). Full `npm run build` + 531 tests green. Next: Wave 2 (Code Lab).
 
-**UNRESOLVED DECISIONS:**
-- C1 — state the "community's own institution → build for the Panth" wedge in §0
-- C2 — ship a Minimum Lovable Institute (~7 phases, full engines, 1 booth) + cohort soft-launch, then depth waves
-- C3 — add a "Build for the Panth" original capstone track (~5 project briefs)
-- C4 — add seva-framed one-paragraph phase intros in our voice
-- C5 — fund editorial polish on the first ~10 lessons
-- C6 — soft-launch to one real cohort behind `noindex`, then promote
-- C7 — split `imported/` and `ours/` in the data model so re-syncs never clobber authored content
-- C8 — defer or drop the 12.5k-repo Atlas for v1 (link to sikhi.io instead)
-- E1–E7 — see §10·5 (editor / per-path CSP / quiz-key merge / build-time mermaid / reuse `_r2-serve.js` / Wave 4 split / pipeline + engine tests)
-- X1–X7 — see §5·7 (first-win JS taster / Pyodide prefetch / goal router / mobile snippet toolbar / engineer exam fast-path / editor buffer autosave / lesson search)
+NO UNRESOLVED DECISIONS

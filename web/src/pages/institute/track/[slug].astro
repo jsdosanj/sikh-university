@@ -1,0 +1,55 @@
+---
+import Base from '../../../layouts/Base.astro';
+import InstituteRail from '../../../components/institute/InstituteRail.astro';
+import { tracks, trackSlug, professorOf, trackById } from '../../../lib/institute';
+
+export function getStaticPaths() {
+  return tracks.map((t) => ({ params: { slug: trackSlug(t) }, props: { t } }));
+}
+const { t } = Astro.props;
+const prof = professorOf(t);
+const prereq = t.prereq ? trackById(t.prereq) : null;
+const count = t.lessonCount ?? t.topicCount ?? t.projectCount ?? 0;
+const unit = t.kind === 'phase' || t.kind === 'guide' ? 'lessons'
+  : t.kind === 'dojo' ? 'topics' : 'projects';
+---
+<Base title={`${t.title} — Institute of Technology`} description={t.summary} institute noindex>
+  <InstituteRail />
+
+  <header class="i-thead">
+    <div class="i-wrap">
+      <span class="i-label i-mono">
+        {t.kind}{typeof t.num === 'number' ? ` · f${String(t.num).padStart(2, '0')}` : ''} · {t.license}
+      </span>
+      <h1>{t.title}</h1>
+      <p class="i-prose i-thead-sum">{t.summary}</p>
+      <p class="i-mono i-thead-meta">
+        {count} {unit} · {t.level}-level
+        {prereq ? <> · prereq: <a href={`/institute/track/${trackSlug(prereq)}`}>{prereq.title}</a></> : null}
+        {prof ? <> · {prof.name}</> : null}
+      </p>
+    </div>
+  </header>
+
+  <section class="i-wrap i-sec">
+    <div class="i-empty">
+      <p class="i-mono" style="letter-spacing:.14em;text-transform:uppercase;color:var(--i-signal)">status: {t.status}</p>
+      <p class="i-prose" style="margin:12px auto 0;max-width:52ch">
+        This track’s content is being built.
+        {t.kind === 'phase' && ' The lessons import from AI Engineering from Scratch in Wave 4 — reformatted into the Institute’s structure, with a browser code lab, quizzes, and a seva-framed intro.'}
+        {t.kind === 'dojo' && ' The live terminal engine ports from sikhi.io in Wave 3.'}
+        {t.kind === 'guide' && ' Ports from sikhi.io in Wave 3.'}
+        {t.kind === 'capstone' && ' The five “Build for the Panth” project briefs and starter repos land in Wave 5.'}
+      </p>
+      <p style="margin-top:20px"><a class="i-btn i-btn-ghost" href="/institute/catalog">&larr; Back to the catalogue</a></p>
+    </div>
+  </section>
+
+  <style>
+    .i-thead { border-bottom: 1px solid var(--i-line); padding: 36px 0 30px; background: var(--i-ground-deep); }
+    .i-thead h1 { margin: 10px 0 0; font-size: clamp(24px, 4vw, 36px); }
+    .i-thead-sum { margin-top: 12px; font-size: 17px; max-width: 54ch; }
+    .i-thead-meta { margin-top: 14px; font-size: 12px; color: var(--i-muted); letter-spacing: 0.05em; }
+    .i-sec { padding: 48px 24px 72px; }
+  </style>
+</Base>

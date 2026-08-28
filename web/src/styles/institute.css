@@ -1,0 +1,240 @@
+/* ============================================================================
+   Sikhi University · Institute of Technology — scoped design system.
+   Companion to DESIGN.md; full spec in DESIGN-INSTITUTE.md (v1.0, D1–D10 locked).
+
+   EVERY rule here is scoped under `body[data-institute]` so this file is inert
+   on the rest of sikhiuni. Base.astro sets that attribute + inlines
+   institute-fonts.css when a page passes `institute`.
+
+   Theme: dark is the primary voice (the lab at night); a "lights-on" light
+   theme also ships (D3+D7). The site's pre-paint script already stamps
+   `data-theme` on <html>, so the media-query / [data-theme] guards below
+   Just Work with the existing toggle.
+   ========================================================================== */
+
+body[data-institute] {
+  /* --- dark (primary) --- */
+  --i-ground: #090d18;
+  --i-ground-deep: #06090f;
+  --i-surface: #111826;
+  --i-surface-2: #0c121e;
+  --i-line: #253049;
+  --i-line-soft: #1a2236;
+  --i-ink: #e8e5db;
+  --i-ink-dim: #a7afc2;
+  --i-muted: #79839a;
+  --i-filament: #e6a93c;
+  --i-filament-dim: #8a6a2c;
+  --i-signal: #58e0c8;
+  --i-fail: #e96a70;
+  --i-plum: #b48ae0;
+  --i-grid-op: 0.26;
+
+  --i-r-sm: 3px;
+  --i-r-md: 5px;
+  --i-r-lg: 6px;
+
+  color-scheme: dark;
+}
+
+/* --- light ("lights on"): OS-light and not explicitly dark --- */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme="dark"]) body[data-institute] {
+    --i-ground: #f4f2ec;
+    --i-ground-deep: #eeebe2;
+    --i-surface: #ffffff;
+    --i-surface-2: #eeebe2;
+    --i-line: #d8d3c6;
+    --i-line-soft: #e6e2d6;
+    --i-ink: #1c2333;
+    --i-ink-dim: #4a5468;
+    --i-muted: #6b7488;
+    --i-filament: #b27a16;
+    --i-filament-dim: #c9a465;
+    --i-signal: #0e9c86;
+    --i-fail: #c0343b;
+    --i-plum: #7c3fb0;
+    --i-grid-op: 0.15;
+    color-scheme: light;
+  }
+}
+/* --- light: explicit toggle wins in both directions --- */
+html[data-theme="light"] body[data-institute] {
+  --i-ground: #f4f2ec;
+  --i-ground-deep: #eeebe2;
+  --i-surface: #ffffff;
+  --i-surface-2: #eeebe2;
+  --i-line: #d8d3c6;
+  --i-line-soft: #e6e2d6;
+  --i-ink: #1c2333;
+  --i-ink-dim: #4a5468;
+  --i-muted: #6b7488;
+  --i-filament: #b27a16;
+  --i-filament-dim: #c9a465;
+  --i-signal: #0e9c86;
+  --i-fail: #c0343b;
+  --i-plum: #7c3fb0;
+  --i-grid-op: 0.15;
+  color-scheme: light;
+}
+
+/* ---------------------------------------------------------------------------
+   Page ground + the faint bench-grid texture (≤0.3 opacity, top-masked,
+   never behind reading text — hard rule §5·5).
+   --------------------------------------------------------------------------- */
+body[data-institute] {
+  background: var(--i-ground);
+  color: var(--i-ink);
+  font-family: "Source Serif 4", Georgia, "Noto Serif Gurmukhi", serif;
+}
+body[data-institute]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--i-line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--i-line-soft) 1px, transparent 1px);
+  background-size: 46px 46px;
+  opacity: var(--i-grid-op);
+  -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 18%, transparent 74%);
+  mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 18%, transparent 74%);
+}
+body[data-institute] > * { position: relative; z-index: 1; }
+
+/* ---------------------------------------------------------------------------
+   Type roles
+   --------------------------------------------------------------------------- */
+body[data-institute] .i-mono,
+body[data-institute] .i-label,
+body[data-institute] code,
+body[data-institute] kbd {
+  font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-feature-settings: "tnum" 1;
+}
+body[data-institute] h1,
+body[data-institute] h2,
+body[data-institute] h3,
+body[data-institute] .i-disp {
+  font-family: "Chakra Petch", "JetBrains Mono", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+  color: var(--i-ink);
+}
+body[data-institute] h1 { font-weight: 700; }
+body[data-institute] .i-label {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--i-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Layout primitives
+   --------------------------------------------------------------------------- */
+body[data-institute] .i-wrap {
+  max-width: 1080px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* The persistent return rail — crest + wordmark + quiet "← Sikhi University" */
+body[data-institute] .i-rail {
+  position: sticky;
+  top: calc(env(safe-area-inset-top) + 3.25rem); /* clears the shared .su-nav */
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 24px;
+  background: color-mix(in srgb, var(--i-ground-deep) 88%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--i-line);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+}
+body[data-institute] .i-rail .i-crest { color: var(--i-filament); font-size: 14px; }
+body[data-institute] .i-rail .i-wm { letter-spacing: 0.12em; text-transform: uppercase; color: var(--i-ink-dim); }
+body[data-institute] .i-rail .i-wm b { color: var(--i-filament); font-weight: 700; }
+body[data-institute] .i-rail .i-back {
+  margin-left: auto;
+  color: var(--i-ink-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--i-line);
+  padding-bottom: 2px;
+}
+body[data-institute] .i-rail .i-back:hover { color: var(--i-signal); border-color: var(--i-signal); }
+
+/* Instrument panel — hairline box + monospace corner-label. No colored
+   left-border (hard rule §5·5). */
+body[data-institute] .i-panel {
+  background: var(--i-surface);
+  border: 1px solid var(--i-line);
+  border-radius: var(--i-r-md);
+  padding: 18px;
+}
+body[data-institute] .i-panel > .i-corner {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--i-muted);
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+body[data-institute] .i-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: var(--i-r-sm);
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 150ms var(--ease-out, ease), border-color 150ms;
+}
+body[data-institute] .i-btn-primary { background: var(--i-filament); color: #201603; font-weight: 700; }
+body[data-institute] .i-btn-primary:hover { filter: brightness(1.06); }
+body[data-institute] .i-btn-ghost { background: transparent; color: var(--i-ink); border-color: var(--i-line); }
+body[data-institute] .i-btn-ghost:hover { border-color: var(--i-ink-dim); }
+body[data-institute] .i-btn-run { background: transparent; color: var(--i-signal); border-color: color-mix(in srgb, var(--i-signal) 50%, transparent); }
+
+/* Prose (lesson body stays serif — the blend, D4) */
+body[data-institute] .i-prose { color: var(--i-ink-dim); max-width: 68ch; line-height: 1.65; }
+body[data-institute] .i-prose strong { color: var(--i-ink); }
+body[data-institute] a { color: var(--i-signal); }
+
+/* Empty-state block */
+body[data-institute] .i-empty {
+  border: 1px dashed var(--i-line);
+  border-radius: var(--i-r-lg);
+  padding: 40px 28px;
+  text-align: center;
+  color: var(--i-ink-dim);
+}
+
+/* Focus ring in the signal colour (a11y §5·5) */
+body[data-institute] :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--i-signal);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   The shared nav (.su-nav) sits on a dark navy ground already; on institute
+   pages nudge its active accent from saffron to the filament and let the
+   crest wordmark carry an "Institute" sub-label via the rail below it.
+   --------------------------------------------------------------------------- */
+body[data-institute] .su-nav .su-nav-link[aria-current="page"] { border-color: var(--i-filament); }
+
+/* Reduced motion: the threshold power-on + typing resolve instantly (§5·5). */
+@media (prefers-reduced-motion: reduce) {
+  body[data-institute] .i-powerline,
+  body[data-institute] .i-caret { animation: none !important; }
+}
