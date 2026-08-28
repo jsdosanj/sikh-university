@@ -18,6 +18,13 @@ import Base from '../layouts/Base.astro';
     const out = document.getElementById('out');
     let titles = {};
     fetch('/data/index.json').then((r) => r.json()).then((d) => { d.courses.forEach((c) => (titles[c.id] = c.title)); }).catch(() => {});
+    // Institute of Technology phase ids (e.g. aisf-11-llm-engineering) aren't in
+    // the main catalogue — resolve their names from the Institute manifest.
+    fetch('/data/institute/manifest.json').then((r) => r.json()).then((m) => {
+      (m.tracks || []).forEach((t) => {
+        if (!titles[t.id]) titles[t.id] = t.kind === 'phase' ? `${t.title} — Institute of Technology` : t.title;
+      });
+    }).catch(() => {});
     const btn = document.querySelector('#vf button');
     function verify(id) {
       if (!id) return;
