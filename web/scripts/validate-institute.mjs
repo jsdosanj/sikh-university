@@ -65,6 +65,36 @@ if (existsSync(pagesDir)) {
   }
 }
 
+// ---- imported AISF lessons ------------------------------------------------
+const IMP = 'src/data/institute/imported';
+if (existsSync(IMP)) {
+  for (const track of readdirSync(IMP, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)) {
+    const t = (m.tracks || []).find((x) => x.id === track);
+    if (!t) { err(`imported/${track}: no matching track in manifest`); continue; }
+    let idx;
+    try { idx = JSON.parse(readFileSync(`${IMP}/${track}/index.json`, 'utf-8')); }
+    catch { err(`imported/${track}: missing or bad index.json`); continue; }
+    if (t.status === 'published' && idx.lessons.length !== t.lessonCount) {
+      err(`${track}: manifest lessonCount ${t.lessonCount} != ${idx.lessons.length} imported lessons`);
+    }
+    for (const lref of idx.lessons) {
+      let lesson;
+      try { lesson = JSON.parse(readFileSync(`${IMP}/${track}/${lref.slug}.json`, 'utf-8')); }
+      catch { err(`${track}/${lref.slug}.json: missing or unreadable`); continue; }
+      if (!lesson.title || !lesson.prose_html) err(`${track}/${lref.slug}: missing title/prose_html`);
+      if (/<script\b/i.test(lesson.prose_html) || /\son\w+=/i.test(lesson.prose_html)) {
+        err(`${track}/${lref.slug}: prose_html contains a script or event handler — the sanitiser let something through`);
+      }
+      for (const q of lesson.quiz || []) {
+        if (!Array.isArray(q.options) || q.options.length < 2) err(`${track}/${lref.slug}: quiz option list < 2`);
+        if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= (q.options || []).length) {
+          err(`${track}/${lref.slug}: quiz answer index out of range`);
+        }
+      }
+    }
+  }
+}
+
 // ---- report -------------------------------------------------------------
 if (errs.length) {
   console.error(`validate-institute: ${errs.length} error(s)`);

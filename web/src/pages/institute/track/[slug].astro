@@ -3,17 +3,29 @@ import Base from '../../../layouts/Base.astro';
 import InstituteRail from '../../../components/institute/InstituteRail.astro';
 import { tracks, trackSlug, professorOf, trackById } from '../../../lib/institute';
 
+const indexes = import.meta.glob('../../../data/institute/imported/*/index.json', { eager: true });
+
 export function getStaticPaths() {
   return tracks.map((t) => ({ params: { slug: trackSlug(t) }, props: { t } }));
 }
 const { t } = Astro.props;
 const prof = professorOf(t);
 const prereq = t.prereq ? trackById(t.prereq) : null;
-const count = t.lessonCount ?? t.topicCount ?? t.projectCount ?? 0;
-const unit = t.kind === 'phase' || t.kind === 'guide' ? 'lessons'
-  : t.kind === 'dojo' ? 'topics' : 'projects';
+
+const idxMod = indexes[`../../../data/institute/imported/${t.id}/index.json`];
+const idx = idxMod && (idxMod.default ?? idxMod);
+const isImported = t.kind === 'phase' && idx && idx.lessons?.length > 0;
+
+const ld = {
+  '@context': 'https://schema.org', '@type': 'Course',
+  name: t.title, description: t.summary,
+  provider: { '@type': 'EducationalOrganization', name: 'Sikhi University · Institute of Technology' },
+  isAccessibleForFree: true, inLanguage: 'en', educationalLevel: t.level,
+  ...(prof ? { author: { '@type': prof.kind === 'org' ? 'Organization' : 'Person', name: prof.name } } : {}),
+};
 ---
-<Base title={`${t.title} — Institute of Technology`} description={t.summary} institute noindex>
+<Base title={`${t.title} — Institute of Technology`} description={t.summary} institute noindex ogType="article">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
   <InstituteRail />
 
   <header class="i-thead">
@@ -22,34 +34,60 @@ const unit = t.kind === 'phase' || t.kind === 'guide' ? 'lessons'
         {t.kind}{typeof t.num === 'number' ? ` · f${String(t.num).padStart(2, '0')}` : ''} · {t.license}
       </span>
       <h1>{t.title}</h1>
-      <p class="i-prose i-thead-sum">{t.summary}</p>
+      <p class="i-prose i-thead-sum">{idx?.blurb || t.summary}</p>
       <p class="i-mono i-thead-meta">
-        {count} {unit} · {t.level}-level
+        {isImported ? `${idx.lessons.length} lessons` : (t.lessonCount || t.topicCount || t.projectCount || 0) + ' ' + (t.kind === 'dojo' ? 'topics' : t.kind === 'capstone' ? 'projects' : 'lessons')}
+        {' · '}{t.level}-level
         {prereq ? <> · prereq: <a href={`/institute/track/${trackSlug(prereq)}`}>{prereq.title}</a></> : null}
-        {prof ? <> · {prof.name}</> : null}
+        {prof ? <> · <a href={prof.links?.[0]?.href || '#'} target="_blank" rel="noopener">{prof.name}</a></> : null}
       </p>
     </div>
   </header>
 
-  <section class="i-wrap i-sec">
-    <div class="i-empty">
-      <p class="i-mono" style="letter-spacing:.14em;text-transform:uppercase;color:var(--i-signal)">status: {t.status}</p>
-      <p class="i-prose" style="margin:12px auto 0;max-width:52ch">
-        This track’s content is being built.
-        {t.kind === 'phase' && ' The lessons import from AI Engineering from Scratch in Wave 4 — reformatted into the Institute’s structure, with a browser code lab, quizzes, and a seva-framed intro.'}
-        {t.kind === 'dojo' && ' The live terminal engine ports from sikhi.io in Wave 3.'}
-        {t.kind === 'guide' && ' Ports from sikhi.io in Wave 3.'}
-        {t.kind === 'capstone' && ' The five “Build for the Panth” project briefs and starter repos land in Wave 5.'}
+  {isImported ? (
+    <section class="i-wrap i-track-body">
+      <ol class="i-lessonlist">
+        {idx.lessons.map((l) => (
+          <li>
+            <a href={`/institute/lesson/${t.id}/${l.slug}`}>
+              <span class="i-ll-num i-mono">{String(l.num).padStart(2, '0')}</span>
+              <span class="i-ll-title">{l.title}</span>
+              {l.nQuiz > 0 && <span class="i-ll-tag i-mono">{l.nQuiz}-q check</span>}
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="i-prose" style="margin-top:20px;font-size:13px;color:var(--i-muted)">
+        Adapted from <a href="https://aiengineeringfromscratch.com">AI Engineering from Scratch</a> by {prof?.name || 'Rohit Ghumare'}, used under the MIT License. Reformatted into the Institute's structure. See <a href="/institute/licenses">sources &amp; licenses</a>.
       </p>
-      <p style="margin-top:20px"><a class="i-btn i-btn-ghost" href="/institute/catalog">&larr; Back to the catalogue</a></p>
-    </div>
-  </section>
+    </section>
+  ) : (
+    <section class="i-wrap i-track-body">
+      <div class="i-empty">
+        <p class="i-mono" style="letter-spacing:.14em;text-transform:uppercase;color:var(--i-signal)">status: {t.status}</p>
+        <p class="i-prose" style="margin:12px auto 0;max-width:52ch">
+          {t.kind === 'dojo' && "The live terminal engine ports from sikhi.io in Wave 3."}
+          {t.kind === 'guide' && "Ports from sikhi.io in Wave 3."}
+          {t.kind === 'capstone' && "The five “Build for the Panth” project briefs land in Wave 5."}
+        </p>
+        <p style="margin-top:20px"><a class="i-btn i-btn-ghost" href="/institute/catalog">&larr; Back to the catalogue</a></p>
+      </div>
+    </section>
+  )}
 
   <style>
     .i-thead { border-bottom: 1px solid var(--i-line); padding: 36px 0 30px; background: var(--i-ground-deep); }
     .i-thead h1 { margin: 10px 0 0; font-size: clamp(24px, 4vw, 36px); }
-    .i-thead-sum { margin-top: 12px; font-size: 17px; max-width: 54ch; }
+    .i-thead-sum { margin-top: 12px; font-size: 17px; max-width: 60ch; }
     .i-thead-meta { margin-top: 14px; font-size: 12px; color: var(--i-muted); letter-spacing: 0.05em; }
-    .i-sec { padding: 48px 24px 72px; }
+    .i-track-body { padding: 36px 24px 72px; }
+    .i-lessonlist { list-style: none; margin: 0; padding: 0; border: 1px solid var(--i-line); border-radius: var(--i-r-md); max-width: 720px; }
+    .i-lessonlist > li { border-top: 1px solid var(--i-line-soft); }
+    .i-lessonlist > li:first-child { border-top: 0; }
+    .i-lessonlist a { display: flex; align-items: baseline; gap: 14px; padding: 12px 16px; text-decoration: none; transition: background 150ms; }
+    .i-lessonlist a:hover { background: color-mix(in srgb, var(--i-signal) 7%, var(--i-surface)); }
+    .i-ll-num { color: var(--i-filament); font-weight: 700; font-size: 12px; flex: none; }
+    .i-ll-title { color: var(--i-ink); font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 15px; }
+    .i-ll-tag { margin-left: auto; color: var(--i-muted); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; flex: none; }
   </style>
 </Base>
