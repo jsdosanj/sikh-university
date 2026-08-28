@@ -1,7 +1,9 @@
 # Sikhi University — Institute of Technology
 
 **World-class plan · v1 · 2026-08-28**
-Status: **DRAFT — awaiting founder sign-off + design-consultation + `/plan-design-review`**
+Status: **Reviewed (design ✅ locked · eng · DX · CEO folded). Awaiting founder sign-off on
+22 decisions — C1–C8 (§5·8), E1–E7 (§10·5), X1–X7 (§5·7). See the review report at the end.**
+Design system: `DESIGN-INSTITUTE.md` (v1.0). Preview: https://claude.ai/code/artifact/b52a803e-097a-4aaf-851f-b3a64784a149
 
 ---
 
