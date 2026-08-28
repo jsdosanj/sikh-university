@@ -3,7 +3,7 @@
   "generated": "2026-08-28",
   "shipShape": "minimum-lovable-institute-full",
   "wedge": "The Sikh community's own institution now teaches the skills that pay — inside a platform its youth already trust, in the community's voice, and pointed at building for the Panth.",
-  "notes": "AISF phases imported (149 lessons, source rohitg00/ai-engineering-from-scratch). Lesson bodies in imported/<track>/; our seva intros + lab checks in ours/<track>/ (merged at build, never clobbered by re-sync). sikhi.io dojos + guide + capstone still 'planned'.",
+  "notes": "AISF phases imported (149 lessons, source rohitg00/ai-engineering-from-scratch). Lesson bodies in imported/<track>/; our seva intros + lab checks in ours/<track>/ (merged at build, never clobbered by re-sync). 'Build for the Panth' capstone published (briefs in capstone/briefs.json). sikhi.io dojos + guide still 'planned'.",
   "tracks": [
     {
       "id": "aisf-00-setup",
@@ -158,7 +158,7 @@
       "level": 400,
       "prereq": "aisf-14-agent-engineering",
       "projectCount": 5,
-      "status": "planned",
+      "status": "published",
       "license": "CC-BY-SA-4.0",
       "professor": "sikh-code",
       "summary": "Pick one project and ship it: a Gurbani search tool, a gurdwara event board, an archive-OCR helper, a langar/seva coordinator, or a Punjabi-learning bot. Finishing it plus the phase exams earns the Institute certificate."
