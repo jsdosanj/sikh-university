@@ -25,6 +25,8 @@ const examN = hasExam ? Math.min(20, examBank.count) : 0;
 const pnum = String(t.num ?? 0).padStart(2, '0');
 
 const isCapstone = t.kind === 'capstone' && t.status === 'published';
+const isGuide = t.kind === 'guide' && t.status === 'published';
+const isDojo = t.kind === 'dojo' && t.status === 'published';
 
 const ld = {
   '@context': 'https://schema.org', '@type': 'Course',
@@ -80,6 +82,29 @@ const ld = {
 
       <p class="i-prose" style="margin-top:20px;font-size:13px;color:var(--i-muted)">
         {capstone.licenseNote} Written by {prof?.name || 'Sikhi University'}. See <a href="/institute/licenses">sources &amp; licenses</a>.
+      </p>
+    </section>
+  ) : isGuide ? (
+    <section class="i-wrap i-track-body">
+      <p class="i-prose i-cap-intro">
+        A plain-English map of Claude Desktop and Claude Code, for people with no coding experience.
+        Every feature is named, then explained by what it lets you do. Developer detail sits at the end,
+        so a beginner is never blocked by it — and Part 5 links the official Anthropic courses.
+      </p>
+      <p><a class="i-btn i-btn-primary" href="/institute/guide/claude-code">Open the guide &rarr;</a></p>
+    </section>
+  ) : isDojo ? (
+    <section class="i-wrap i-track-body">
+      <p class="i-prose i-cap-intro">
+        {t.engine === 'terminal'
+          ? `A from-scratch crash course — ${t.topicCount} topics, each a real file that types itself out and explains what it teaches, line by line, as it goes.`
+          : `The real Claude Code command set. Type / to explore — every command is its own short lesson, with the reason it exists, synced to the docs.`}
+      </p>
+      <p>
+        <a class="i-btn i-btn-primary" href={`/institute/dojo/${t.id}`}>Enter the dojo &rarr;</a>
+      </p>
+      <p class="i-prose" style="margin-top:20px;font-size:13px;color:var(--i-muted)">
+        Rebuilt for the Institute from the sikhi.io <a href="https://sikhi.io">Sikh Code</a> dojos, by {prof?.name || 'Sikhi University'}. CC BY-SA 4.0. See <a href="/institute/licenses">sources &amp; licenses</a>.
       </p>
     </section>
   ) : isImported ? (
