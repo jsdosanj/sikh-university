@@ -303,6 +303,111 @@ Empty states carry warmth + one action, never "No items found."
 - Course-content translation for IoT lessons (English-authoritative, like the main courses).
 - Redesigning the main university to match (the blend runs one direction only).
 
+## 5·7 DX / learner-experience review additions (2026-08-28, `/plan-devex-review`)
+
+The "developer" here is the learner. Two personas: **a first-time coder** (never written
+a line) and **a working engineer** after the AI/agent phases (11–19). "World-class /
+premium" in DX terms = nothing makes you wait without saying why, errors help instead of
+scold, the machine feels alive, you are never lost.
+
+**Time-to-first-win estimate — the plan as written scores poorly for the first-timer.**
+AISF's Phase 0 is *"Setup & Tooling"* — 12 lessons about installing Python, Node, Rust,
+uv, Docker on your own machine. That is the opposite of a fast first win, and our in-browser
+lab makes most of it unnecessary for the early phases. A first-timer who lands on
+`/institute`, clicks "Start Phase 0", and hits *"xcode-select --install"* on lesson 1 (on
+a phone) bounces. AISF's own site routes people past this by goal.
+
+### Decisions needed (X1–X7)
+
+| # | Issue | Recommendation |
+|---|---|---|
+| **X1** | The new-student primary action is "Start Phase 0" (a local-setup slog). | **Make it "Write your first line of code"** → a single zero-setup JavaScript taster in the lab (drawn from `coding-fundamentals.ts`). First "green" in under 60 s, no download. Phase 0 becomes *"when you're ready to work on your own machine"* — optional, not the gate. |
+| **X2** | Pyodide is ~6 MB on the first Python lesson — a 10–30 s wait right in the abandon window, worse on mobile data. | **Prefetch Pyodide during the 2.4 s power-on** when the manifest says the student's next lesson needs it; and make lesson 1 of every Python phase JS-or-no-code so the first green is instant. Frame the load as *"warming up the lab"*, never *"downloading 6 MB"*. |
+| **X3** | `/institute` shows the 20-phase list; a first-timer sees "511 lessons, where do I start?" | **Reproduce AISF's goal router** on `/institute`: *I'm new · I know Python · I want to build agents · I want MCP* → each drops the student at the right lesson. Proven on the source site. |
+| **X4** | Typing a whole code file on a phone keyboard is genuinely bad; first-timers are often on phones. | **A mobile snippet toolbar** (`()` `[]` `=` `"` `:` `→`) above the keyboard, and **fill-in-the-blank** entry for the earliest lessons (type the missing token, not the whole file). freeCodeCamp added exactly this. Full free-typing for later lessons. |
+| **X5** | An experienced engineer must walk every lesson in a phase to reach its exam. | **A fast path:** let a signed-in student open the phase exam directly. Still ≥ 80 % to pass and earn the cert — the credential stays honest, the engineer's time is respected. |
+| **X6** | Progress sync covers lesson-done flags, not the editor buffer. Close the tab mid-exercise → your code is gone. | **Autosave the editor buffer to `localStorage` per lesson** (`iot_v1_buf_<lesson>`). Cheap, and it is table stakes for a premium tool. Server sync not needed. |
+| **X7** | No way to find a lesson by memory ("the one about attention") across 511. | **Client-side lesson search** over the manifest (title + objectives), on `/institute` and in the catalog. The manifest is already loaded; ~1 KB of index per phase. |
+
+### Clear fixes (folded in — no decision)
+
+- **The "you did it" beat.** After the first lesson's checks all pass, a quiet one-line
+  acknowledgement — *"you just wrote and ran a real program"* — within the whisper-motion
+  budget. First-timer confidence is the whole game in the first five minutes.
+- **Progress-to-certificate surfacing.** The track page shows *"3 lessons and the exam from
+  your Phase 7 certificate"* — earned credentials should feel close, not abstract.
+- **Prerequisites are a soft gate.** `PREREQ: PHASE 03` on a card warns on entry, never blocks.
+- **Brittle-check grace.** When a check fails but the student's code *ran*, show *"your code
+  works — the check expects X, here's why"* with partial credit, plus a "this check looks
+  wrong" link to the feedback page. AISF checks can be strict.
+- **"Run it locally" toggle** per lesson (engineer path + Rust/Julia from E8): full code +
+  the exact repo path + command, so an engineer who prefers their own editor is not fighting
+  the lab.
+- **Deep links everywhere** (`/institute/lesson/[...path]` already gives this) — an engineer
+  shares a single lesson URL, it opens to that lesson, not the catalog.
+
+### TTHW target
+
+- **First-timer:** land → "write your first line" → type one line → Run (JS, no download) →
+  output. **Champion tier, < 2 min** — achievable only if X1 + X2 land.
+- **Engineer:** land → goal router "I want agents" → Phase 14 lesson 1 → read → run → green.
+  **Competitive tier, ~3–4 min.**
+- Without X1/X2 the first-timer path is *Red Flag tier (> 10 min + a local-setup wall)*.
+
+## 5·8 CEO / strategy review additions (2026-08-28, `/plan-ceo-review`, SELECTIVE EXPANSION)
+
+**The premise challenge.** The content is not ours and is not the moat — AISF, freeCodeCamp,
+and boot.dev already teach this, free and well. If the Institute is "a worse-integrated
+freeCodeCamp mirror," it is scope-creep on sikhiuni's Sikhi mission and a large permanent
+maintenance surface. It is worth building **only if the community wedge is real and stated.**
+
+**The wedge (C1 — adopt as the stated "why us"):** *the Sikh community's own institution now
+teaches the skills that pay — inside a platform its youth already trust and belong to, framed
+by kirat karni and seva, and pointed at building for the Panth.* freeCodeCamp cannot be that.
+The 12-month ideal is not "freeCodeCamp for Sikhs" — it is the pipeline that produces the
+people who build the next sikharchive, the next gurdwara system, the next Punjabi-learning
+tool. Every scope call below is judged against that pipeline.
+
+### Implementation approaches considered
+
+| | Approach | Effort | Risk |
+|---|---|---|---|
+| A | Full faithful import (the plan as written) — all 20 phases, 4 languages, 2 engines, atlas, 3 booths | XL | Med — maintenance surface + the premium/imported-content gap |
+| **B** ✅ | **Minimum Lovable Institute** — goal router + Phases 0–3 + 11 + 13 + 14 + a capstone; **both engines + both dojos + the guide built in full** (they are the moat); **1 booth** (freeCodeCamp). ~150 lessons. Validate with a real cohort, then depth waves 4–10 / 12 / 15–19. | L | Low |
+| C | Curated original track (~40 lessons in our voice), AISF as a "go deeper" link, no import | M | Med — 40 lessons doesn't feel like a university; content bar is on us |
+
+**Recommendation: B.** It is the ideal architecture and the minimal-viable at once — the
+engines (the real differentiator) ship complete, the content ships as a lovable slice, and
+the wedge gets tested before we commit to maintaining 511 imported lessons.
+
+### Decisions needed (C1–C8)
+
+| # | Decision | Recommendation |
+|---|---|---|
+| **C1** | State the wedge in §0. | **Adopt** the "community's own institution → build for the Panth" thesis as the plan's stated why-us. Without it this is a mirror. |
+| **C2** | Ship shape. | **Minimum Lovable Institute (Approach B).** Re-sequence Waves: MLI first (router + ~7 phases + full engines + dojos + guide + freeCodeCamp booth), soft-launch to a real cohort, then the remaining phases + atlas + booths as depth waves. |
+| **C3** | A **"Build for the Panth" capstone track** — our own ~5 project briefs + starter repos (a Gurbani search tool, a gurdwara event board, an archive-OCR helper, a langar inventory app, a Punjabi-learning bot). | **Add to scope.** This is the thesis made concrete and the one thing freeCodeCamp structurally cannot have. S/M effort (briefs + starters). |
+| **C4** | **Seva-framed phase intros** — one paragraph per phase, in the university's voice, connecting the skill to kirat karni / honest work. Not preachy. | **Add to scope.** S effort, and it is what makes a faithful import read as *ours*. |
+| **C5** | **Editorial investment on the first ~10 lessons** — our intros, our diagrams, tuned lab exercises, the "you did it" beats — even if lessons 11–150 are a cleaner import. | **Add to scope.** Premium is set in the first ten minutes; spend the editorial budget there, not spread thin. |
+| **C6** | Launch. | **Soft-launch to one real cohort** (a gurdwara youth group or a handful of students) behind `noindex`, iterate on their friction, *then* promote from the homepage. Not "noindex until Wave 8 then broad promote". |
+| **C7** | Data model: authored content vs. imported. | **Split `imported/` and `ours/`** in `web/src/data/institute/` (keyed by lesson id). An AISF re-sync only touches `imported/`; our intros, checks, and exercises in `ours/` are never clobbered. (Also an eng concern — see §10·5.) |
+| **C8** | The 12,500-repo **Atlas**. | **Defer to a depth wave** (or drop). It is the least "premium classroom" and most "firehose" thing in the plan, it already lives on sikhi.io, and it does not serve the pipeline. Link to sikhi.io's `/opensource` for v1. |
+
+### Certificate positioning (folded in — no decision)
+
+IoT certificates are **verifiable completion records** for the learner and the community —
+"a record of what you finished," publicly verifiable at `/verify`. Copy must not imply
+industry or employer recognition the credential does not have. The "graduates who build"
+wall (an opt-in directory, C3-adjacent) is where the credential earns community weight over
+time.
+
+### The `/institute/explore` hall (folded in)
+
+Three outbound "go learn elsewhere" doors on a brand-new section can read as "we don't have
+much here." The hall must be visibly **secondary** — a "when you want breadth / have
+outgrown us" wing, one booth for MLI (freeCodeCamp), never co-equal with the Institute's
+own courses in nav weight or catalog placement.
+
 ## 6. Licensing & legal — making it airtight
 
 New page `/institute/licenses` (and an entry in `docs/CONTENT-AND-LICENSING.md`), plus a
@@ -558,19 +663,23 @@ before `astro build`, served from R2, pushed by a separate `deploy-data` step).
 
 | Review | Trigger | Why | Runs | Status | Findings |
 |--------|---------|-----|------|--------|----------|
-| CEO Review | `/plan-ceo-review` | Scope & strategy | 0 | — | not run |
-| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | issues_open | Arch 4, CodeQual 2, Perf 1, Test-gaps 3. Grounded in worker.js / quiz.js / progress.js / _r2-serve.js. 7 clear fixes folded (sandbox attrs, R2 strip-before-build, sanitizer allowlist, http.postBuffer, cert path). E1–E7 recommended, awaiting founder. |
-| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | score 4.5/10 → 8.5/10; 6 plan sections added; D1–D10 locked by founder |
-| DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | not run (queued) |
+| CEO Review | `/plan-ceo-review` | Scope & strategy | 1 | issues_open | SELECTIVE EXPANSION. Premise: content is not the moat — worth building only if the community wedge is stated. Recommends **Minimum Lovable Institute** (Approach B) + a "Build for the Panth" capstone + seva-framed intros + editorial spend on the first 10 lessons + soft-launch to a cohort + defer the Atlas. C1–C8 await founder. |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | issues_open | Arch 4 / CodeQual 2 / Perf 1 / Test-gaps 3; 7 clear fixes folded; E1–E7 await founder (E1/E2 gate whether the lab ships) |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | 4.5/10 → 8.5/10; 6 sections added; D1–D10 locked by founder |
+| DX Review | `/plan-devex-review` | Developer / learner experience | 1 | issues_open | first-timer TTHW is Red-Flag tier as written (Phase-0-setup-first + 6 MB Pyodide cold start + phone typing); X1–X7 surfaced; 6 clear fixes folded |
 
-- **OUTSIDE VOICE:** Codex not installed; ran an inline adversarial pass instead (no independent-model second opinion). Recommend `/codex` if available before implementation.
-- **VERDICT:** DESIGN CLEARED. ENG REVIEW run, plan hardened, **not yet clean** — E1–E7 need founder sign-off (E1/E2 are load-bearing: the editor choice and the per-path CSP gate whether the lab can ship). DX + CEO review queued at founder request.
+- **OUTSIDE VOICE:** Codex not installed for any pass; inline adversarial only. Recommend a `/codex` pass before implementation.
+- **CROSS-MODEL:** n/a (single model).
+- **VERDICT:** DESIGN CLEARED (D1–D10 locked). CEO + ENG + DX run and folded; **plan NOT yet implementation-ready** — 22 decisions await the founder: **C1–C8** (strategy: the wedge, ship shape, capstone, framing, editorial, launch, data split, atlas), **E1–E7** (architecture: editor, CSP, quiz keys, mermaid, R2 reuse, wave split, tests), **X1–X7** (learner experience: first-win path, Pyodide, goal router, mobile input, engineer fast-path, buffer autosave, lesson search). The load-bearing ones: **C1/C2** (is there a why-us, and is v1 the full 20 phases or a lovable slice), **E1/E2** (can the lab ship under the CSP), **X1/X2** (is the first win fast).
 
 **UNRESOLVED DECISIONS:**
-- E1 — lean editor (textarea + Prism) vs. CodeMirror 6 under strict CSP
-- E2 — per-path relaxed CSP for `/institute/*` (enables Pyodide) vs. one strict CSP everywhere
-- E3 — merge quiz keys via spread in `quiz.js` (2 lines)
-- E4 — mermaid rendered to static SVG at build time
-- E5 — reuse `_r2-serve.js` + whitelist regex for lesson bodies + atlas
-- E6 — split Wave 4 into 4a (pipeline + Phase 0 gate) + 4b–4e (folded into the plan)
-- E7 — golden-file + unit tests for the import pipeline and both engines
+- C1 — state the "community's own institution → build for the Panth" wedge in §0
+- C2 — ship a Minimum Lovable Institute (~7 phases, full engines, 1 booth) + cohort soft-launch, then depth waves
+- C3 — add a "Build for the Panth" original capstone track (~5 project briefs)
+- C4 — add seva-framed one-paragraph phase intros in our voice
+- C5 — fund editorial polish on the first ~10 lessons
+- C6 — soft-launch to one real cohort behind `noindex`, then promote
+- C7 — split `imported/` and `ours/` in the data model so re-syncs never clobber authored content
+- C8 — defer or drop the 12.5k-repo Atlas for v1 (link to sikhi.io instead)
+- E1–E7 — see §10·5 (editor / per-path CSP / quiz-key merge / build-time mermaid / reuse `_r2-serve.js` / Wave 4 split / pipeline + engine tests)
+- X1–X7 — see §5·7 (first-win JS taster / Pyodide prefetch / goal router / mobile snippet toolbar / engineer exam fast-path / editor buffer autosave / lesson search)
