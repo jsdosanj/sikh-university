@@ -207,7 +207,9 @@ class CodeLab {
     if (!this.cfg.checks.length) { this.checksEl.textContent = ''; return; }
 
     const rows = o.results.map((r) => {
-      const glyph = r.pass ? '<span class="i-lab-tick">✓</span>' : '<span class="i-lab-cross">✗</span>';
+      // The pass/fail marks are CSS-drawn (.i-lab-tick / .i-lab-cross ::before) —
+      // no unicode glyph in the source (DESIGN.md emoji-ban gate).
+      const glyph = `<span class="i-lab-mark ${r.pass ? 'i-lab-tick' : 'i-lab-cross'}" aria-hidden="true"></span>`;
       const hint = !r.pass && (this.fails >= 2 || r.error)
         ? `<span class="i-lab-hint"> — ${esc(r.hint || r.error || '')}</span>` : '';
       return `<div class="i-lab-crow">${glyph} ${esc(r.name)}${hint}</div>`;
