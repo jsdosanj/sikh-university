@@ -444,7 +444,8 @@ out to background subagents (the Sikh Archive course-wave pattern).
 | **1 · Spine** | `/institute` routes scaffold, IoT `Base`-variant layout, nav entry, monospace font added, `manifest.json` schema, `sync-institute` + validators wired into CI, `enrollments.kind` confirmed | `/institute` + `/institute/catalog` render empty-state; CI green; a11y pass |
 | **2 · Code Lab** | Engine 4.1: editor, JS/TS run, console, preview, checks runner, reset/solution; Pyodide lazy-load path | Lab runs a hand-written JS + Python sample lesson end to end; `prefers-reduced-motion` OK; CSP clean |
 | **3 · Terminal Dojo** | Engine 4.2 ported (dojo + terminal + sequencer + CRT CSS); `/institute/dojo/[slug]` | `/ai` and `/code` equivalents play + are drivable; keyboard + reduced-motion OK |
-| **4 · AISF import** | `sync-aisf.mjs` + quiz-key builder; **all 20 phase-courses, all 511 lessons, 4 languages, 361 quizzes** imported; per-phase exams | Every lesson page renders; every exam server-grades; spot-review 1 lesson per phase |
+| **4a · AISF pipeline** | `sync-aisf.mjs` + `build-institute-quiz-keys.mjs` + golden-file tests; **Phase 0 only** imported end-to-end | Phase 0 lessons render; the phase exam server-grades; golden-file tests pass; sanitizer allowlist covers code blocks + figures |
+| **4b–4e · AISF content** | remaining 19 phases in 4 batches via background subagents (Sikh Archive wave pattern); all 4 languages; 361 quizzes | Every lesson page renders; every exam server-grades; spot-review 1 lesson per phase; R2 pushed |
 | **5 · Sikh Code + Guide + Atlas** | `coding-fundamentals` + `ai-coding` as dojo courses; `claude-code` guide; Open Source Atlas ported + restyled | All four pages QA'd; atlas chunk-fetch + search work; video embeds load |
 | **6 · Gradebook + Certificates** | IoT courses in enrollments/gradebook/teacher scope; `cert.astro` institute variant; `/verify` unchanged; completion criteria for dojos | Earn + verify a cert on a test account for one AISF phase and one dojo |
 | **7 · Booths + Legal** | 3 booths (§7); `/institute/licenses`; `docs/` + Terms + README + ADR-0003 updates | Legal review checklist (§6.6) complete; booths link out correctly; brand mimicry reads right |
@@ -452,6 +453,60 @@ out to background subagents (the Sikh Archive course-wave pattern).
 
 **Deploy:** each wave merges to `master`; §9 R2 pushes run with the content waves; full prod
 cutover after Wave 8 (`wrangler deploy` + `npm run deploy-institute` + canary).
+
+---
+
+## 10·5 Engineering review additions (2026-08-28, `/plan-eng-review`)
+
+Grounded in the real backend: `worker.js` (explicit import + route table), `functions/api/quiz.js`
+(server-grades against `_quiz-keys.js`, a single flat `QUIZ_KEYS` object; upserts
+`progress.passed_score = MAX(old,new)`), `progress.js` (`done` = capped JSON int array, score
+never accepted here), `functions/api/_r2-serve.js` (`/media/*` served from `sikh-university-media`
+R2 behind a key-prefix whitelist `^(santhya|audio|gurbani|media)/`), hash-based CSP with no
+`unsafe-inline` in `script-src` (PR #188), and the `courses.json` precedent (45 MB, stripped
+before `astro build`, served from R2, pushed by a separate `deploy-data` step).
+
+### Decisions needed (E1–E7)
+
+| # | Issue | Recommendation |
+|---|---|---|
+| **E1** | CodeMirror 6 injects `<style>` at runtime → fights the strict `style-src`. The plan defaults to CM6 with a lean fallback. | **Flip the default.** Start with a lean editor: a `<textarea>` + a Prism.js highlight overlay (Prism self-hosted, class-based static stylesheet, no `eval`, no runtime style injection). Add CM6 only if the lean one proves inadequate — "boring by default". |
+| **E2** | Pyodide needs `script-src 'wasm-unsafe-eval'` (possibly `'unsafe-eval'`); the atlas needs `img-src opengraph.githubassets.com i.ytimg.com`; the preview iframe + worker need their own policy. This cannot live under the site's current strict CSP. | **Per-path CSP for `/institute/*` only.** `worker.js` already sets headers per path — give `/institute/*` a CSP that adds `'wasm-unsafe-eval'` to `script-src` and the two `img-src` hosts, and keeps everything else the site already forbids. The rest of sikhiuni stays byte-for-byte strict. Confirm a scoped CSP is acceptable (the alternative — one CSP everywhere — rules out in-browser Python). |
+| **E3** | The plan adds `_institute-quiz-keys.js` but `quiz.js` only imports `QUIZ_KEYS`. | Keep the file separate; change `quiz.js` to `const key = {...QUIZ_KEYS, ...INSTITUTE_QUIZ_KEYS}[b.courseId]` (2 lines). Generators stay independent (Python for Sikhi, `.mjs` for IoT). |
+| **E4** | AISF markdown has mermaid diagrams; the plan defers "render vs. omit" to Wave 4 and floats a client mermaid lib. | **Render mermaid to static SVG at build time** inside `sync-aisf.mjs` (mermaid-cli). Zero client library, zero CSP problem, zero runtime cost. The custom `figures-*.js` diagrams: import the ~12 with a mermaid equivalent, link the rest to source. |
+| **E5** | The plan invents `web/scripts/deploy-institute` + a new `/data/institute/` route for R2. | **Reuse `_r2-serve.js`.** Add `institute` to the whitelist regex (`^(santhya|audio|gurbani|media|institute)/`); serve `institute/lessons/<phase>/<lesson>.json` + `institute/atlas/chunk-NNN.json` from the existing `sikh-university-media` bucket. `deploy-institute` = one `wrangler r2 object put` loop, same shape as `deploy-data`. Zero new Worker route code. |
+| **E6** | Wave 4 ("all 511 lessons in one wave") is unshippable as a unit. | Split into 4a (pipeline + Phase 0 end-to-end, a hard gate) and 4b–4e (19 phases in batches via background subagents). Done above. |
+| **E7** | The riskiest new code — markdown→sanitized-HTML, the lab check-runner, the ported dojo sequencer — has a CI schema validator but no unit tests in the plan. | Add: **golden-file tests** for `sync-aisf.mjs` (3–5 sample AISF lessons → committed expected HTML), **unit tests** for the check-runner (code + checks → pass/fail list) and the dojo sequencer (steps → frames). Written in the same wave as each engine, per the "well-tested is non-negotiable" bar. |
+
+### Clear fixes (folded in — no decision)
+
+- **Sandbox precisely.** The preview iframe is `sandbox="allow-scripts"` — **never** with `allow-same-origin` (the pair defeats the sandbox). User code + checks run in a **Web Worker**; the 10 s timeout is enforced by `worker.terminate()` on the main thread, not a flag inside the worker. Console/stdout cross the boundary by `postMessage` only.
+- **`enrollments.kind`** — check `schema.sql` for a `CHECK` constraint before Wave 1; if present, it needs an `ALTER TABLE` migration to allow `'institute'`. If it's a bare `TEXT`, it's data-only.
+- **Certificate issuance** stays on the existing path: a cert exists once `progress.passed_score >= 80` for the course id. AISF phases → the phase exam. Dojo tracks → a short authored check-quiz that also lands in `INSTITUTE_QUIZ_KEYS` (so "no exam" still means "server-graded", not "client-attested").
+- **Deploy gotcha (from the `courses.json` "stale 331 courses" incident):** the build **strips** `public/data/institute/lessons/` + `atlas/` before `astro build` (asset-size limit), and `npm run deploy-institute` pushes them to R2 **separately**. A `wrangler deploy` that skips the R2 push ships an empty catalogue. This step is in the Wave-4 and Wave-5 verify columns.
+- **Large pushes:** committing regenerated AISF JSON needs `git config http.postBuffer 524288000` (HTTP 400 otherwise — known repo gotcha).
+- **Sanitizer allowlist delta:** `_sanitize-html.js` must additionally allow `<pre><code class="language-*">`, `<details><summary>`, `<figure><figcaption>`, `<img src>` (self/R2 only), and must **entity-encode, not strip**, `<`/`>`/`&` inside code text.
+- **Atlas `img-src`:** covered by the E2 per-path CSP.
+
+### What already exists (reuse — the plan mostly does; gaps noted)
+
+- `functions/api/quiz.js` — server grading, `passed_score` upsert, gated-course fallback. **Reuse**; 2-line merge for E3.
+- `functions/api/progress.js` — the roster spine; `done` array. **Reuse as-is** (IoT course ids just appear).
+- `functions/api/_r2-serve.js` + the R2 whitelist — **reuse** for lesson bodies + atlas (E5). Plan currently rebuilds this.
+- `functions/api/certificates.js` + `cert.astro` + `/verify` + the drawn seal — **reuse**; `cert.astro` gets a variant branch only.
+- `functions/api/enrollments.js` — **reuse**; one new `kind` value.
+- `web/src/layouts/Base.astro` — **extend** with an `institute` prop (per design review), don't fork.
+- `web/src/pages/course/[id].astro` — the lesson-render + `getStaticPaths` + quiz-POST pattern is the `/institute/lesson` template.
+- `scripts/validate.py` + `.github/workflows/ci.yml` `validate` gate — **extend** with `validate-institute.mjs`, same gate.
+- `test/` + `vitest.config.mjs` — the home for the E7 tests.
+
+### NOT in scope (deferred, with rationale)
+
+- Server-side execution of lab code / challenge tests — model B (client-attested) stands; a sandboxed-Worker execution service is a separate project.
+- Migrating `_quiz-keys.js` to a D1 table — the flat generated file works at ~600 courses; revisit past ~2000.
+- CM6 rich editing (multi-cursor, LSP) — the lean editor covers lesson exercises (E1).
+- A shared package for the two engines — they're different enough (REPL vs. bench); no premature abstraction.
+- Incremental/partial R2 sync — full re-push per content change is fine at this size.
 
 ---
 
@@ -504,11 +559,18 @@ cutover after Wave 8 (`wrangler deploy` + `npm run deploy-institute` + canary).
 | Review | Trigger | Why | Runs | Status | Findings |
 |--------|---------|-----|------|--------|----------|
 | CEO Review | `/plan-ceo-review` | Scope & strategy | 0 | — | not run |
-| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 0 | — | not run |
-| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | score 4.5/10 → 8.5/10; 6 plan sections added (IA hierarchy, state table, journey arc, hard slop rules, responsive/a11y, reuse + not-in-scope); D1–D10 all locked by founder |
-| DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | not run |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | issues_open | Arch 4, CodeQual 2, Perf 1, Test-gaps 3. Grounded in worker.js / quiz.js / progress.js / _r2-serve.js. 7 clear fixes folded (sandbox attrs, R2 strip-before-build, sanitizer allowlist, http.postBuffer, cert path). E1–E7 recommended, awaiting founder. |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | score 4.5/10 → 8.5/10; 6 plan sections added; D1–D10 locked by founder |
+| DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | not run (queued) |
 
-- **DESIGN REVIEW:** text-only (design binary present but no API key → no mockups; the published preview artifact `b52a803e` is the visual reference). Passes after fixes + decisions: Info Arch 8, States 8, Journey 8, AI-Slop 9, Design-System 8, Responsive/a11y 8 (mobile lab = D5 stack, light theme = D3+D7 both ship), Decisions 10/10 locked.
-- **VERDICT:** DESIGN REVIEW CLEARED — plan is design-complete, `DESIGN-INSTITUTE.md` v1.0 locked. ENG REVIEW required before implementation.
+- **OUTSIDE VOICE:** Codex not installed; ran an inline adversarial pass instead (no independent-model second opinion). Recommend `/codex` if available before implementation.
+- **VERDICT:** DESIGN CLEARED. ENG REVIEW run, plan hardened, **not yet clean** — E1–E7 need founder sign-off (E1/E2 are load-bearing: the editor choice and the per-path CSP gate whether the lab can ship). DX + CEO review queued at founder request.
 
-NO UNRESOLVED DECISIONS
+**UNRESOLVED DECISIONS:**
+- E1 — lean editor (textarea + Prism) vs. CodeMirror 6 under strict CSP
+- E2 — per-path relaxed CSP for `/institute/*` (enables Pyodide) vs. one strict CSP everywhere
+- E3 — merge quiz keys via spread in `quiz.js` (2 lines)
+- E4 — mermaid rendered to static SVG at build time
+- E5 — reuse `_r2-serve.js` + whitelist regex for lesson bodies + atlas
+- E6 — split Wave 4 into 4a (pipeline + Phase 0 gate) + 4b–4e (folded into the plan)
+- E7 — golden-file + unit tests for the import pipeline and both engines
