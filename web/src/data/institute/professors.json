@@ -1,0 +1,33 @@
+{
+  "rohit-ghumare": {
+    "name": "Rohit Ghumare",
+    "kind": "person",
+    "role": "Author, AI Engineering from Scratch",
+    "bio": "Rohit Ghumare wrote 'AI Engineering from Scratch' — 511 lessons that build every algorithm from raw math before a framework gets imported. The Institute's AI-engineering phases are adapted from that curriculum, used under the MIT License. Modifications: reformatted into Sikhi University's course structure, with the code lab, quizzes, and seva-framed intros added.",
+    "links": [
+      { "label": "aiengineeringfromscratch.com", "href": "https://aiengineeringfromscratch.com" },
+      { "label": "github.com/rohitg00", "href": "https://github.com/rohitg00" }
+    ],
+    "license": "MIT"
+  },
+  "freecodecamp": {
+    "name": "freeCodeCamp",
+    "kind": "org",
+    "role": "Curriculum, freeCodeCamp.org",
+    "bio": "freeCodeCamp.org is a 501(c)(3) non-profit. Its curriculum is CC BY-SA 4.0 and its platform code is BSD-3-Clause. The Institute links to the freeCodeCamp curriculum and is not affiliated with, sponsored by, or endorsed by freeCodeCamp.org. Certifications are issued by freeCodeCamp.",
+    "links": [
+      { "label": "freecodecamp.org/learn", "href": "https://www.freecodecamp.org/learn/" }
+    ],
+    "license": "CC-BY-SA-4.0"
+  },
+  "sikh-code": {
+    "name": "Sikhi University · Sikh Code",
+    "kind": "org",
+    "role": "Sikhi University",
+    "bio": "The Institute's own coding courses, guides, and the Build for the Panth capstone — written by Sikhi University, offered under CC BY-SA 4.0 (prose) and MIT (engine code).",
+    "links": [
+      { "label": "sikhi.io", "href": "https://sikhi.io" }
+    ],
+    "license": "CC-BY-SA-4.0"
+  }
+}
