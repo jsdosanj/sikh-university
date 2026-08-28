@@ -1,16 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
 import InstituteRail from '../../components/institute/InstituteRail.astro';
-import { phases, dojos, guides, capstones, explore, WEDGE, totalLessons } from '../../lib/institute';
+import { phases, dojos, guides, capstones, WEDGE, totalLessons } from '../../lib/institute';
 
 // The AISF-style goal router (X3): four doors, each drops the student at the
 // right place. Wave 1 targets the track overview / catalogue; Wave 4+ deep-links
 // to the first lesson.
 const goals = [
-  { label: "I'm new to coding", to: '/institute/track/sikh-code-foundations', hint: 'start from zero — variables to classes, in a terminal that teaches itself' },
-  { label: 'I know how to code', to: '/institute/track/aisf-11-llm-engineering', hint: 'jump to LLM engineering — prompting, RAG, evals, serving' },
-  { label: 'I want to build agents', to: '/institute/track/aisf-14-agent-engineering', hint: 'the agent loop from first principles — memory, planning, multi-step work' },
-  { label: 'I want to build for the Panth', to: '/institute/track/build-for-the-panth', hint: 'the capstone — ship a real tool for the community' },
+  { label: "I'm new to coding", to: '/institute/track/00-setup-and-tooling', hint: 'start with the tooling, then the fundamentals — the from-scratch Sikh Code dojo lands in the next wave' },
+  { label: 'I know some ML', to: '/institute/track/02-ml-fundamentals', hint: 'classical machine learning, then deep learning and transformers' },
+  { label: 'I want to build with LLMs', to: '/institute/track/11-llm-engineering', hint: 'prompting, RAG, evals, serving, observability' },
+  { label: 'I want to build agents', to: '/institute/track/14-agent-engineering', hint: 'the agent loop from first principles — memory, planning, multi-step work' },
 ];
 const desc = 'Sikhi University’s engineering wing — learn to code and build AI systems, in a code lab that runs in your browser, and ship a project for the Panth.';
 ---
@@ -74,17 +74,8 @@ const desc = 'Sikhi University’s engineering wing — learn to code and build 
   <section class="i-wrap i-sec i-sec-last">
     <span class="i-label">04 — when you want breadth</span>
     <h2>Explore free courses elsewhere</h2>
-    <p class="i-prose">The Institute’s own courses come first. When you have outgrown them, or want a wider on-ramp:</p>
-    {explore.map((b) => (
-      <a class="i-panel i-card" href={b.href} target="_blank" rel="noopener">
-        <span class="i-corner">{b.kind}</span>
-        <strong class="i-card-title">{b.title} &nearr;</strong>
-        <span class="i-prose i-card-sum">{b.blurb}</span>
-      </a>
-    ))}
-    <p class="i-prose" style="margin-top:16px;font-size:13px;color:var(--i-muted)">
-      Links to the freeCodeCamp&reg; curriculum. Sikhi University is not affiliated with, sponsored by, or endorsed by freeCodeCamp.org. See <a href="/institute/licenses">sources &amp; licenses</a>.
-    </p>
+    <p class="i-prose">The Institute's own courses come first — you finish those and earn its certificate. When you want a wider on-ramp or an interactive challenge platform, the <a href="/institute/explore">college fair</a> sends you out to freeCodeCamp and more.</p>
+    <p><a class="i-btn i-btn-ghost" href="/institute/explore">Walk the college fair &rarr;</a></p>
   </section>
 
   <style>
