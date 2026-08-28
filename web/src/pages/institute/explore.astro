@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import InstituteRail from '../../components/institute/InstituteRail.astro';
+import { explore, deferred } from '../../lib/institute';
+---
+<Base
+  title="Explore free courses — Institute of Technology"
+  description="When you have outgrown the Institute's own courses, or want a wider on-ramp: free coding curricula from freeCodeCamp and other open platforms."
+  institute noindex
+>
+  <InstituteRail />
+
+  <section class="i-wrap i-exp-head">
+    <span class="i-label">/institute/explore</span>
+    <h1>The college fair</h1>
+    <p class="i-prose">The Institute's own courses come first — you finish those and earn its certificate. This hall is for after: when you want breadth, a different teaching style, or an interactive challenge platform. Each stand links straight out.</p>
+  </section>
+
+  <section class="i-wrap i-fair">
+    {explore.map((b) => (
+      <a class={`i-booth i-booth-${b.id}`} href={b.href} target="_blank" rel="noopener">
+        <span class="i-booth-mark" aria-hidden="true">{b.id === 'freecodecamp' ? '{ }' : '↗'}</span>
+        <div>
+          <strong class="i-booth-name">{b.title}</strong>
+          <span class="i-booth-blurb">{b.blurb}</span>
+          {b.id === 'freecodecamp' && (
+            <span class="i-booth-fine">
+              Lecture companions and links to the freeCodeCamp&reg; curriculum. Sikhi University is not affiliated with, sponsored by, or endorsed by freeCodeCamp.org. Certifications are issued by freeCodeCamp. Curriculum content is CC&nbsp;BY-SA&nbsp;4.0.
+            </span>
+          )}
+        </div>
+        <span class="i-booth-go">open &nearr;</span>
+      </a>
+    ))}
+  </section>
+
+  <section class="i-wrap i-exp-soon">
+    <span class="i-label">arriving in a later wave</span>
+    <p class="i-prose">
+      <strong>Class Central</strong> (a search engine for free university courses) and <strong>Libre.academy</strong> (technical books turned into guided exercises) get their own stands here soon. Libre's course packs derive from books under non-commercial and no-derivatives licenses we're bound to honour, so that stand links out rather than rehosting. For the open-source project atlas, see <a href="https://sikhi.io/opensource" target="_blank" rel="noopener">sikhi.io/opensource</a>.
+    </p>
+    <p class="i-prose" style="font-size:13px;color:var(--i-muted)">
+      Full attribution and licences: <a href="/institute/licenses">/institute/licenses</a>.
+    </p>
+  </section>
+
+  <style>
+    .i-exp-head { padding: 40px 24px 8px; }
+    .i-exp-head h1 { margin: 6px 0 10px; font-size: clamp(24px, 4vw, 34px); }
+    .i-exp-head p { max-width: 62ch; }
+
+    .i-fair { display: grid; gap: 18px; padding: 24px; }
+    .i-booth {
+      display: grid; grid-template-columns: 48px 1fr auto; gap: 16px; align-items: start;
+      padding: 22px 24px; border-radius: 8px; text-decoration: none;
+      border: 1px solid var(--i-line);
+    }
+    .i-booth-mark { font-size: 20px; font-family: "JetBrains Mono", monospace; }
+    .i-booth-name { display: block; font-size: 17px; margin-bottom: 4px; }
+    .i-booth-blurb { display: block; font-size: 14px; line-height: 1.55; }
+    .i-booth-fine { display: block; margin-top: 10px; font-size: 12px; line-height: 1.5; }
+    .i-booth-go { align-self: center; font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.08em; white-space: nowrap; }
+
+    /* Each stand deliberately breaks the Institute's system to look like its source
+       (DESIGN-INSTITUTE.md §college-fair). No logos, no scraped screenshots. */
+    .i-booth-freecodecamp {
+      background: #0a0a23; border-color: #1b1b46;
+      font-family: Lato, "Helvetica Neue", system-ui, sans-serif;
+      color: #d4d4e8;
+    }
+    .i-booth-freecodecamp .i-booth-mark { color: #99c9ff; }
+    .i-booth-freecodecamp .i-booth-name { color: #fff; font-weight: 700; }
+    .i-booth-freecodecamp .i-booth-fine { color: #8a8ab8; }
+    .i-booth-freecodecamp .i-booth-go { color: #02be8c; }
+    .i-booth-freecodecamp:hover { border-color: #02be8c; }
+
+    .i-exp-soon { padding: 16px 24px 72px; }
+    .i-exp-soon p { max-width: 62ch; }
+
+    @media (max-width: 600px) {
+      .i-booth { grid-template-columns: 1fr; }
+      .i-booth-go { justify-self: start; }
+    }
+  </style>
+</Base>
