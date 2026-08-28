@@ -12,7 +12,7 @@ const ld = {
 };
 // WebSite (with the sitelinks SearchAction) is now emitted site-wide by Base.astro.
 ---
-<Base title="Sikhi University — free, open Sikhi & modern-skills courses" ambient="hall" bodyClass="su-home">
+<Base title="Sikhi University — free, open Sikhi & modern-skills courses" description="A free, open online university — 550+ self-paced courses in Gurbani, Sikh history, philosophy, Rehat, Kirtan, Punjabi and modern skills, with verifiable certificates." ambient="hall" bodyClass="su-home">
   <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
   <!-- self-hosted (not the unpkg CDN — CSP script-src is 'self' only) -->
   <script type="module" src="/scripts/model-viewer.min.js" slot="head" />

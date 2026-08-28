@@ -19,6 +19,13 @@ const fontFaceCss = readFileSync(path.resolve(process.cwd(), 'public/fonts/fonts
 
 interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; ambient?: 'hall' | 'study' | 'sanctum' | 'none'; bgImage?: string; noindex?: boolean; bodyClass?: string; institute?: boolean }
 const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true, ambient = 'none', bgImage, noindex = false, bodyClass, institute = false } = Astro.props;
+// Clamp the meta/OG/Twitter description to ~160 chars at a word boundary. Many
+// course pages pass their full multi-hundred-char summary; search engines
+// truncate at ~155–160 and a hard mid-word cut looks careless. The full text
+// still renders in the page body — this only trims what crawlers read.
+const metaDesc = description.length <= 160
+  ? description
+  : description.slice(0, 157).replace(/\s+\S*$/, '').replace(/[,;:—-]$/, '') + '…';
 // Institute of Technology pages: the extra display + mono faces (Chakra Petch,
 // JetBrains Mono), and course content is English-authoritative so it opts out
 // of the machine-translate layer, same as /course pages.
@@ -77,7 +84,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     </script>
   )}
   <title>{title}</title>
-  <meta name="description" content={description} />
+  <meta name="description" content={metaDesc} />
   <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
   <meta name="application-name" content="Sikhi University" />
   <meta name="theme-color" content="#16335c" media="(prefers-color-scheme: light)" />
@@ -111,7 +118,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta property="og:type" content={ogType} />
   <meta property="og:site_name" content="Sikhi University" />
   <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
+  <meta property="og:description" content={metaDesc} />
   <meta property="og:url" content={canon} />
   <meta property="og:image" content={`${SITE}/assets/og-image.png?v=2`} />
   <meta property="og:image:width" content="1200" />
@@ -119,7 +126,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta property="og:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
+  <meta name="twitter:description" content={metaDesc} />
   <meta name="twitter:image" content={`${SITE}/assets/og-image.png?v=2`} />
   <meta name="twitter:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <slot name="head" />
