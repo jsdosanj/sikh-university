@@ -4,18 +4,3 @@
   X-Frame-Options: DENY
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' https://api.banidb.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'
-
-# Institute of Technology (/institute/*) — the code lab runs Python in the
-# browser (Pyodide needs 'wasm-unsafe-eval') and renders learner HTML/JS in a
-# sandboxed srcdoc iframe (needs frame-src 'self'). Everything the rest of the
-# site forbids stays forbidden: no 'unsafe-inline' scripts (build-csp.mjs
-# hashes the institute pages' inline pre-paint scripts into the line below),
-# no eval, no extra hosts. img-src/worker-src/connect-src are unchanged from
-# the base policy (they already cover the atlas OG cards + the blob test-runner
-# worker + self-hosted Pyodide).
-/institute/*
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  X-Frame-Options: DENY
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' https://api.banidb.com; frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self'; base-uri 'self'; frame-ancestors 'none'
