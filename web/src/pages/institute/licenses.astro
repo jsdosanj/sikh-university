@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import InstituteRail from '../../components/institute/InstituteRail.astro';
+
+const rows = [
+  {
+    what: 'AI Engineering from Scratch',
+    who: 'Rohit Ghumare and contributors',
+    license: 'MIT License',
+    use: 'The AI-engineering phases are adapted from this curriculum, used under the MIT License. Modifications: reformatted into Sikhi University’s course structure, with a browser code lab, quizzes, and seva-framed introductions added. The full MIT text is retained in the repository and linked from every phase.',
+    link: 'https://aiengineeringfromscratch.com',
+  },
+  {
+    what: 'Sikh Code — Learn Coding, Learn Agentic Coding, Claude Code Guide, Build for the Panth',
+    who: 'Sikhi University',
+    license: 'CC BY-SA 4.0 (prose) · MIT (engine code)',
+    use: 'Written by Sikhi University for the Institute. The Learn Agentic Coding course tracks the public Claude Code documentation and links to it; no Anthropic branding is used beyond naming the product.',
+    link: 'https://sikhi.io',
+  },
+  {
+    what: 'freeCodeCamp curriculum (Explore booth)',
+    who: 'freeCodeCamp.org (a 501(c)(3) non-profit)',
+    license: 'Curriculum: CC BY-SA 4.0 · Platform code: BSD-3-Clause',
+    use: 'The Institute links to the freeCodeCamp curriculum and rehosts none of it. Sikhi University is not affiliated with, sponsored by, or endorsed by freeCodeCamp.org. Certifications are issued by freeCodeCamp. “freeCodeCamp” and its logo are trademarks of freeCodeCamp.org.',
+    link: 'https://www.freecodecamp.org/learn/',
+  },
+];
+---
+<Base title="Sources & licenses — Institute of Technology" description="Every content source behind the Institute of Technology, and the license it is used under." institute noindex>
+  <InstituteRail />
+
+  <section class="i-wrap" style="padding:40px 24px 72px">
+    <span class="i-label">/institute/licenses</span>
+    <h1 style="margin:6px 0 10px;font-size:clamp(24px,4vw,34px)">Sources &amp; licenses</h1>
+    <p class="i-prose">The Institute is only as legitimate as its content rights. Every source here is either ours or openly licensed, used with attribution and — where required — share-alike, and nothing is rehosted without permission.</p>
+
+    <div class="i-lic-list">
+      {rows.map((r) => (
+        <article class="i-panel" style="margin-top:14px">
+          <span class="i-corner">{r.license}</span>
+          <h2 style="margin:6px 0 0;font-size:17px">{r.what}</h2>
+          <p class="i-mono" style="margin:4px 0 0;font-size:12px;color:var(--i-muted)">{r.who}</p>
+          <p class="i-prose" style="margin:10px 0 0;font-size:14px">{r.use}</p>
+          <p style="margin:10px 0 0;font-size:13px"><a href={r.link} target="_blank" rel="noopener">{r.link} &nearr;</a></p>
+        </article>
+      ))}
+    </div>
+
+    <p class="i-prose" style="margin-top:28px;font-size:13px;color:var(--i-muted)">
+      The Open Source Atlas, and the Class Central and Libre.academy booths, are deferred to a later wave — Libre.academy’s course packs derive from books under non-commercial and no-derivatives licenses the Institute is bound to honour, so that section links out rather than rehosting.
+    </p>
+  </section>
+</Base>
