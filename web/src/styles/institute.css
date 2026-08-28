@@ -303,9 +303,25 @@ body[data-institute] .i-lab-error { color: var(--i-fail); }
 
 body[data-institute] .i-lab-checkswrap { padding: 10px 12px; background: var(--i-surface); border-top: 1px solid var(--i-line); }
 body[data-institute] .i-lab-checks-title { display: block; color: var(--i-muted); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
-body[data-institute] .i-lab-crow { line-height: 1.9; }
-body[data-institute] .i-lab-tick { color: var(--i-signal); }
-body[data-institute] .i-lab-cross { color: var(--i-fail); }
+body[data-institute] .i-lab-crow { line-height: 1.9; display: flex; align-items: baseline; gap: 8px; }
+/* Pass / fail marks — CSS-drawn (no unicode glyph; DESIGN.md emoji-ban gate). */
+body[data-institute] .i-lab-mark {
+  position: relative; flex: none; display: inline-block;
+  width: 11px; height: 11px; align-self: center;
+}
+body[data-institute] .i-lab-tick::before {
+  content: ""; position: absolute; left: 1px; top: 0;
+  width: 5px; height: 9px;
+  border: solid var(--i-signal); border-width: 0 2px 2px 0;
+  transform: rotate(40deg);
+}
+body[data-institute] .i-lab-cross::before,
+body[data-institute] .i-lab-cross::after {
+  content: ""; position: absolute; left: 4px; top: 0;
+  width: 2px; height: 11px; background: var(--i-fail);
+}
+body[data-institute] .i-lab-cross::before { transform: rotate(45deg); }
+body[data-institute] .i-lab-cross::after { transform: rotate(-45deg); }
 body[data-institute] .i-lab-hint { color: var(--i-muted); }
 body[data-institute] .i-lab-running, body[data-institute] .i-lab-done { color: var(--i-signal); }
 body[data-institute] .i-lab-done { display: block; margin-top: 6px; }
