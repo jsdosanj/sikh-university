@@ -337,3 +337,105 @@ body[data-institute] .i-lab-run { margin: 0; border-radius: 0; width: 100%; just
     box-shadow: 0 -6px 16px color-mix(in srgb, var(--i-ground) 70%, transparent);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Phase exam (Wave 6). The question set is injected by lib/institute/exam.ts,
+   so these are global under body[data-institute] — an Astro-scoped block on
+   the page cannot reach dynamically-inserted nodes.
+   --------------------------------------------------------------------------- */
+body[data-institute] .i-exam-form { margin-top: 4px; }
+body[data-institute] .i-exam-q {
+  border: 1px solid var(--i-line); border-radius: var(--i-r-md);
+  padding: 14px 16px; margin: 0 0 12px;
+}
+body[data-institute] .i-exam-q legend {
+  font-family: "Chakra Petch", sans-serif; font-weight: 600;
+  color: var(--i-ink); padding: 0 6px;
+}
+body[data-institute] .i-exam-q label {
+  display: block; padding: 5px 0; color: var(--i-ink-dim); cursor: pointer;
+}
+body[data-institute] .i-exam-q input { margin-right: 8px; accent-color: var(--i-signal); }
+body[data-institute] .i-exam-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+body[data-institute] .i-exam-result { margin-top: 14px; }
+body[data-institute] .i-exam-result.pass { color: var(--i-signal); }
+body[data-institute] .i-exam-result.fail { color: var(--i-fail); }
+body[data-institute] .i-exam-result a { color: inherit; text-decoration: underline; }
+
+/* ---------------------------------------------------------------------------
+   Certificate (D10). Distinct dark face, same drawn seal + same /verify spine
+   as the main /cert. Card + inner rule stay dark in print/PDF on purpose —
+   a dark diploma is the point.
+   --------------------------------------------------------------------------- */
+body[data-institute] .i-cert-msg { max-width: 560px; margin-top: 8px; }
+body[data-institute] .i-cert-note {
+  max-width: 720px; margin: 0 auto 16px; padding: 10px 14px;
+  border: 1px solid var(--i-line-soft); border-left: 2px solid var(--i-filament-dim);
+  border-radius: var(--i-r-sm); font-size: 13px; color: var(--i-ink-dim);
+}
+body[data-institute] .i-clink { color: var(--i-signal); text-decoration: underline; }
+
+body[data-institute] .i-cert-card {
+  max-width: 720px; margin: 0 auto;
+  background: var(--i-ground-deep);
+  border: 1px solid var(--i-line);
+  padding: 10px;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+body[data-institute] .i-cert-inner {
+  border: 1px solid var(--i-filament-dim);
+  padding: 44px 40px 34px; text-align: center;
+}
+body[data-institute] .i-cert-emblem { color: var(--i-filament); display: flex; justify-content: center; }
+body[data-institute] .i-cert-emblem svg { width: 40px; height: 40px; }
+body[data-institute] .i-cert-wordmark {
+  margin-top: 10px; font-family: "Chakra Petch", sans-serif; font-weight: 700;
+  font-size: 24px; letter-spacing: 0.03em; color: var(--i-ink);
+}
+body[data-institute] .i-cert-subline {
+  margin-top: 4px; font-family: "JetBrains Mono", monospace; font-size: 10.5px;
+  letter-spacing: 0.34em; text-transform: uppercase; color: var(--i-filament);
+}
+body[data-institute] .i-cert-kind {
+  margin-top: 16px; font-family: "JetBrains Mono", monospace; font-size: 10px;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--i-muted);
+}
+body[data-institute] .i-cert-certifies { margin-top: 30px; font-size: 13px; color: var(--i-muted); }
+body[data-institute] .i-cert-name {
+  margin-top: 10px; font-family: "Chakra Petch", sans-serif; font-weight: 500;
+  font-size: 30px; line-height: 1.2; color: var(--i-ink);
+}
+body[data-institute] .i-cert-rule { width: 160px; height: 1px; background: var(--i-filament); margin: 12px auto 0; }
+body[data-institute] .i-cert-has { margin-top: 22px; font-size: 13px; color: var(--i-muted); }
+body[data-institute] .i-cert-course {
+  margin-top: 8px; font-family: "Chakra Petch", sans-serif; font-weight: 600;
+  font-size: 19px; line-height: 1.4; color: var(--i-ink);
+}
+body[data-institute] .i-cert-meta {
+  margin-top: 10px; font-family: "JetBrains Mono", monospace; font-size: 11px;
+  letter-spacing: 0.04em; color: var(--i-muted);
+}
+body[data-institute] .i-cert-foot {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+  margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--i-line);
+  text-align: left;
+}
+body[data-institute] .i-cert-foot-l { font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: var(--i-muted); line-height: 1.6; }
+body[data-institute] .i-cert-vid { margin-top: 4px; }
+body[data-institute] .i-cert-vid strong { color: var(--i-ink-dim); }
+body[data-institute] .i-cert-seal { flex: none; text-align: center; color: var(--i-filament); }
+body[data-institute] .i-cert-seal svg { width: 34px; height: 34px; }
+body[data-institute] .i-cert-sealed {
+  margin-top: 2px; font-family: "JetBrains Mono", monospace; font-size: 8.5px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+body[data-institute] .i-cert-verify {
+  margin-top: 14px; font-family: "JetBrains Mono", monospace; font-size: 10px;
+  color: var(--i-muted); letter-spacing: 0.02em;
+}
+body[data-institute] .i-cert-actions { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+
+@media print {
+  body[data-institute] nav, body[data-institute] footer,
+  body[data-institute] .i-rail, body[data-institute] .noprint { display: none !important; }
+}
