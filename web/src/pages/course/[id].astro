@@ -53,8 +53,13 @@ const breadcrumb = {
     { '@type': 'ListItem', position: 4, name: c.title, item: `${SITE}/course/${c.id}` },
   ],
 };
+// SERP titles truncate near 60 chars. Course titles are long and descriptive
+// (good), so only append the " — Sikhi University" brand suffix when the title
+// still fits; otherwise let the course title stand alone (og:site_name already
+// carries the brand). The <h1> in the page keeps the full title regardless.
+const pageTitle = c.title.length > 46 ? c.title : `${c.title} — Sikhi University`;
 ---
-<Base title={`${c.title} — Sikhi University`} description={c.summary} ogType="article" autoTranslate={false} ambient="study">
+<Base title={pageTitle} description={c.summary} ogType="article" autoTranslate={false} ambient="study">
   <script type="application/ld+json" set:html={ldJson(ld)} slot="head" />
   <script type="application/ld+json" set:html={ldJson(breadcrumb)} slot="head" />
 
