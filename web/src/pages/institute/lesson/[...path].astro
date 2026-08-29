@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import InstituteRail from '../../../components/institute/InstituteRail.astro';
+import CodeLab from '../../../components/institute/CodeLab.astro';
 import { phases, trackById } from '../../../lib/institute';
 
 // Every imported AISF lesson. path = "<track>/<slug>" (a rest param so the
@@ -8,6 +9,9 @@ import { phases, trackById } from '../../../lib/institute';
 // the quiz is rendered WITHOUT answers (server grades via /api/quiz).
 const lessons = import.meta.glob('../../../data/institute/imported/*/*.json', { eager: true });
 const indexes = import.meta.glob('../../../data/institute/imported/*/index.json', { eager: true });
+// Our own additions (C7): an authored code-lab exercise for a lesson lives in
+// ours/<track>/<slug>.json and is NEVER touched by a re-sync of imported/.
+const oursMods = import.meta.glob('../../../data/institute/ours/*/*.json', { eager: true });
 
 export async function getStaticPaths() {
   const all = import.meta.glob('../../../data/institute/imported/*/*.json', { eager: true });
@@ -32,6 +36,13 @@ const next = pos >= 0 && pos < idx.lessons.length - 1 ? idx.lessons[pos + 1] : n
 
 const codeEntries = Object.entries(lesson.code || {});
 const LANG_NAME = { py: 'Python', ts: 'TypeScript', js: 'JavaScript', rs: 'Rust', jl: 'Julia' };
+
+const oursMod = oursMods[`../../../data/institute/ours/${trackId}/${slug}.json`];
+const ours = (oursMod && (oursMod.default ?? oursMod)) || null;
+// A code-lab exercise: our own hands-on bench for this lesson. Runs in the
+// browser (JS / Python-via-Pyodide / HTML) and marks the lesson done on a pass.
+const lab = ours?.lab || null;
+const labId = lab ? `${trackId}::${slug}::lab` : '';
 
 const ld = {
   '@context': 'https://schema.org', '@type': 'LearningResource',
@@ -77,8 +88,29 @@ const ld = {
           </details>
         ))}
         <p class="i-prose" style="font-size:13px;color:var(--i-muted)">
-          Rust and Julia don't run in the browser lab — copy the code and run it locally. Python and JavaScript exercises run right here in later lessons.
+          Rust and Julia don't run in the browser lab — copy the code and run it locally.
+          {lab ? ' The exercise below runs right here.' : ' Python and JavaScript exercises run right here in some lessons.'}
         </p>
+      </section>
+    )}
+
+    {lab && (
+      <section class="i-lesson-lab">
+        <span class="i-label">{lab.prompt ? 'exercise' : 'try it — the bench runs in your browser'}</span>
+        {lab.prompt && <p class="i-prose i-lesson-lab-prompt" set:html={lab.prompt}></p>}
+        <CodeLab
+          id={labId}
+          lang={lab.lang || 'js'}
+          starter={lab.starter}
+          checks={lab.checks || []}
+          solution={lab.solution}
+          title={lab.title}
+        />
+        {(lab.lang || 'js') === 'py' && (
+          <p class="i-prose" style="font-size:12.5px;color:var(--i-muted);margin-top:8px">
+            The first Run downloads Python (Pyodide) in your browser — a few seconds once, then it is instant.
+          </p>
+        )}
       </section>
     )}
 
@@ -148,6 +180,10 @@ const ld = {
       padding: 16px; margin: 0 0 16px; text-align: center; overflow-x: auto;
     }
     .i-lesson-prose :global(.i-lesson-figure) { font-size: 13px; color: var(--i-muted); }
+
+    .i-lesson-lab { margin: 34px 0; }
+    .i-lesson-lab > .i-label { display: block; margin-bottom: 10px; }
+    .i-lesson-lab-prompt { margin: 0 0 14px; }
 
     .i-lesson-code { margin: 34px 0; }
     .i-lesson-code .i-panel { margin-top: 10px; padding: 0; }

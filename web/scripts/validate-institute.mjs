@@ -95,6 +95,32 @@ if (existsSync(IMP)) {
   }
 }
 
+// ---- ours/ sidecars (C7): authored labs for a lesson --------------------
+const OURS = 'src/data/institute/ours';
+const LAB_LANGS = new Set(['js', 'html', 'py']);
+if (existsSync(OURS)) {
+  for (const track of readdirSync(OURS, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)) {
+    for (const f of readdirSync(`${OURS}/${track}`).filter((n) => n.endsWith('.json'))) {
+      const slug = f.replace(/\.json$/, '');
+      if (!existsSync(`${IMP}/${track}/${slug}.json`)) {
+        err(`ours/${track}/${f}: no matching imported lesson ${track}/${slug}.json`);
+        continue;
+      }
+      let o;
+      try { o = JSON.parse(readFileSync(`${OURS}/${track}/${f}`, 'utf-8')); }
+      catch { err(`ours/${track}/${f}: not valid JSON`); continue; }
+      if (o.lab) {
+        const L = o.lab;
+        if (!LAB_LANGS.has(L.lang || 'js')) err(`ours/${track}/${f}: lab.lang "${L.lang}" not one of js/html/py`);
+        if (typeof L.starter !== 'string' || !L.starter.trim()) err(`ours/${track}/${f}: lab.starter missing`);
+        for (const [ci, c] of (L.checks || []).entries()) {
+          if (!c.name || !c.test) err(`ours/${track}/${f}: lab.checks[${ci}] needs name + test`);
+        }
+      }
+    }
+  }
+}
+
 // ---- report -------------------------------------------------------------
 if (errs.length) {
   console.error(`validate-institute: ${errs.length} error(s)`);
