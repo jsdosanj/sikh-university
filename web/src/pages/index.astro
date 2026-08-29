@@ -410,6 +410,25 @@ const ld = {
     </div>
   </section>
 
+  <!-- Gateway to the sister project's proposal, sikhi.io/3rd. Sits at the very
+       bottom of the homepage — stark + architectural to echo the proposal's own
+       type; a doorway, not a banner. Inverts on hover, like the proposal's chips. -->
+  <a href="https://sikhi.io/3rd" target="_blank" rel="noopener" class="su-3rd" aria-label="The 3rd Panth — a proposal to the Sikh Panth (opens on Sikhi.io)">
+    <span class="su-3rd-in">
+      <span class="su-3rd-id">
+        <span class="su-3rd-ik" lang="pa" aria-hidden="true">ੴ</span>
+        <span class="su-3rd-wm">THE&nbsp;3RD&nbsp;PANTH</span>
+        <span class="su-3rd-rev">A proposal to the Sikh Panth &middot; Rev 01</span>
+      </span>
+      <span class="su-3rd-end">
+        <span class="su-3rd-tag">One orchestrator. Zero ego.</span>
+        <span class="su-3rd-go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </span>
+      </span>
+    </span>
+  </a>
+
 </Base>
 
 <style>
@@ -502,5 +521,41 @@ const ld = {
   .portal-arrow { transition: transform .2s; }
   .portal-card:hover .portal-arrow { transform: translateX(4px); }
   .portal-foot { margin-top: clamp(2rem, 4vw, 3rem); text-align: center; }
+
+  /* The 3rd Panth doorway — bottom of the homepage. The negative bottom margin
+     cancels the shared footer's mt-20 so the strip sits flush above it. */
+  .su-3rd {
+    display: block; text-decoration: none;
+    margin-bottom: -5rem;
+    background: #0c0c0d; color: #f3f2ee;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    transition: background .16s ease, color .16s ease;
+  }
+  .su-3rd:hover, .su-3rd:focus-visible { background: #f3f2ee; color: #0c0c0d; outline: none; }
+  .su-3rd-in {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 28px;
+    max-width: 1680px; margin: 0 auto;
+    padding: 22px max(2rem, env(safe-area-inset-left)) 22px max(2rem, env(safe-area-inset-right));
+  }
+  @media (min-width: 768px)  { .su-3rd-in { padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right)); } }
+  @media (min-width: 1024px) { .su-3rd-in { padding-left: max(6rem, env(safe-area-inset-left)); padding-right: max(6rem, env(safe-area-inset-right)); } }
+  @media (min-width: 1400px) { .su-3rd-in { padding-left: max(8rem, env(safe-area-inset-left)); padding-right: max(8rem, env(safe-area-inset-right)); } }
+  .su-3rd-id { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-width: 0; }
+  .su-3rd-ik { font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif; font-size: 18px; line-height: 1; }
+  .su-3rd-wm { font-family: var(--font-sans, system-ui); font-weight: 800; font-size: 14px; letter-spacing: .16em; }
+  .su-3rd-rev {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; opacity: .55;
+  }
+  .su-3rd-end { display: flex; align-items: center; gap: 12px; }
+  .su-3rd-tag {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  }
+  .su-3rd-go { display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid currentColor; }
+  @media (max-width: 520px) {
+    .su-3rd-rev { flex-basis: 100%; }
+    .su-3rd-tag { font-size: 9px; letter-spacing: .14em; }
+  }
 </style>
 

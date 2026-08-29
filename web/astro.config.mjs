@@ -6,9 +6,13 @@ export default defineConfig({
   site: 'https://sikhiuni.com',
   outDir: './dist',
   build: { format: 'file' },
-  // The Language & Literature department split into two schools (2026-08).
   redirects: {
+    // The Language & Literature department split into two schools (2026-08).
     '/departments/language-and-literature': '/departments/language',
+    // The Wootz Workshop moved from the Institute of Technology to the
+    // Department of Martial Arts, where it belongs (2026-08).
+    '/technology/workshop': '/departments/martial-arts/workshop',
+    '/technology/workshop/[slug]': '/departments/martial-arts/workshop/[slug]',
   },
   // assetsInlineLimit 0: never inline bundled scripts into HTML. Every hoisted
   // script ships as an external file (covered by CSP script-src 'self'), so
