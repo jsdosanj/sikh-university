@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/departments.css';
+import DeptHero from '../../components/departments/DeptHero.astro';
+import DeptSections from '../../components/departments/DeptSections.astro';
+import { departments } from '../../lib/departments';
+const d = departments.find((x) => x.id === 'language-and-literature')!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'EducationalOrganization',
+  name: `${d.name}, Sikhi University`, description: d.blurb,
+  url: 'https://sikhiuni.com/departments/language-and-literature',
+  parentOrganization: { '@type': 'CollegeOrUniversity', name: 'Sikhi University', url: 'https://sikhiuni.com/' },
+};
+// The Gurmukhī paintī — 35 letters, in the traditional order.
+const paintee = [
+  'ੳ','ਅ','ੲ','ਸ','ਹ','ਕ','ਖ','ਗ','ਘ','ਙ',
+  'ਚ','ਛ','ਜ','ਝ','ਞ','ਟ','ਠ','ਡ','ਢ','ਣ',
+  'ਤ','ਥ','ਦ','ਧ','ਨ','ਪ','ਫ','ਬ','ਭ','ਮ',
+  'ਯ','ਰ','ਲ','ਵ','ੜ',
+];
+---
+<Base title={`${d.name} — Sikhi University`} description={d.blurb} ambient="none">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+  <div class="dept-page" style={`--dept:${d.accent}`}>
+    <DeptHero d={d}>
+      <section class="ll-sig" aria-label="The Gurmukhi alphabet">
+        <div class="wrap">
+          <p class="ll-sig-kicker">Thirty-five letters — the whole of Gurbāṇī is written in them</p>
+          <h2 class="ll-sig-h">The paiṇtī</h2>
+          <div class="ll-grid" lang="pa" role="list" aria-label="Gurmukhi paintee">
+            {paintee.map((ch) => <span class="ll-ch" role="listitem">{ch}</span>)}
+          </div>
+          <p class="ll-sig-note">First the script, then the grammar — the lagāṇ-mātrā that carry the meaning — then the registers: Sant Bhāṣā, Braj, Persian. Only then, the literature.</p>
+        </div>
+      </section>
+    </DeptHero>
+    <DeptSections d={d} />
+  </div>
+
+  <style>
+    .ll-sig { background: linear-gradient(180deg, #0c1b30, #0a1526); color: #d7e3f2; padding: clamp(44px, 7vw, 84px) 24px; border-bottom: 1px solid rgb(var(--c-line)); }
+    .ll-sig-kicker { font-family: var(--font-sans, system-ui); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--dept) 50%, #fff); }
+    .ll-sig-h { margin: 8px 0 0; font-family: "Noto Serif Gurmukhi", serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; color: #fff; }
+    .ll-grid {
+      display: grid; gap: 8px; margin: 24px 0 0;
+      grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+    }
+    @media (min-width: 640px) { .ll-grid { grid-template-columns: repeat(10, 1fr); max-width: 640px; } }
+    .ll-ch {
+      display: grid; place-items: center; aspect-ratio: 1;
+      border-radius: 8px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+      font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif; font-size: 22px; color: #cfe0f5;
+      transition: transform .18s var(--ease-spring, ease), background .18s, color .18s, border-color .18s;
+    }
+    .ll-ch:hover, .ll-ch:focus-visible {
+      transform: scale(1.18); background: color-mix(in srgb, var(--dept) 30%, transparent);
+      border-color: var(--dept); color: #fff; outline: none;
+    }
+    .ll-sig-note { margin: 26px 0 0; max-width: 60ch; font-size: 14px; line-height: 1.7; color: #9fb4cd; }
+    @media (prefers-reduced-motion: reduce) { .ll-ch:hover, .ll-ch:focus-visible { transform: none; } }
+  </style>
+</Base>
