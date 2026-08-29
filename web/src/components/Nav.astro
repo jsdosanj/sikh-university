@@ -4,16 +4,16 @@ import deptData from '../data/departments.json';
 const departments = (deptData as any).departments as { name: string; slug: string }[];
 const wing = (deptData as any).wing as { name: string; href: string };
 // "Departments" is a mega-menu (see below); the rest are plain links.
+// Santhya + Professors live only inside the Departments menu now — the top
+// row stays deliberately spare.
 const links = [
-  { href: '/santhiya', label: 'Santhya', m: '/santhiya', key: 'nav.santhya' },
-  { href: '/professors', label: 'Professors', m: '/professor', key: 'nav.professors' },
   { href: '/about', label: 'About', m: '/about', key: 'nav.about' },
 ];
 const moreWays = [
   { href: '/catalog#paths', label: 'Guided journeys' },
   { href: '/programs', label: 'Degree programs' },
   { href: '/santhiya', label: 'Santhya pathway' },
-  { href: '/baal-updesh', label: 'Baal Updesh — learn Gurmukhi' },
+  { href: '/professors', label: 'Professors' },
 ];
 const LANG_OPTS = [
   ['en', 'English'], ['pa', 'ਪੰਜਾਬੀ'], ['hi', 'हिन्दी'], ['ur', 'اردو'], ['es', 'Español'],
@@ -171,6 +171,10 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
             <a href={`/departments/${d.slug}`} class="block font-sans text-[0.82rem] py-1 px-2 rounded text-white/75 hover:text-white">{d.name}</a>
           ))}
           <a href={wing.href} class="block font-sans text-[0.82rem] py-1 px-2 rounded text-white/75 hover:text-white">{wing.name}</a>
+          <div class="my-1.5 border-t border-white/10"></div>
+          {moreWays.map((m) => (
+            <a href={m.href} class="block font-sans text-[0.82rem] py-1 px-2 rounded text-white/75 hover:text-white">{m.label}</a>
+          ))}
           <a href="/catalog" class="block font-sans text-[0.82rem] py-1 px-2 rounded font-semibold text-saffron">Browse all courses &rarr;</a>
         </div>
       </details>

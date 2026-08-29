@@ -104,15 +104,22 @@
 @layer components {
   /* Full-width on desktop with responsive, safe-area-aware gutters (PWA notch-safe).
      max-w-screen-2xl caps at 1536px on ultrawide monitors so content never stretches too far. */
+  /* Generous, breathing gutters at every width (px-8 / md:px-16 / lg:px-24 /
+     xl:px-32), safe-area-aware, capped by max-width on ultrawide. */
   .wrap {
     @apply mx-auto w-full;
-    max-width: 1600px;
-    padding-left: max(1.25rem, env(safe-area-inset-left));
-    padding-right: max(1.25rem, env(safe-area-inset-right));
+    max-width: 1680px;
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
   }
-  @media (min-width: 768px)  { .wrap { padding-left: max(2rem, env(safe-area-inset-left));   padding-right: max(2rem, env(safe-area-inset-right)); } }
-  @media (min-width: 1280px) { .wrap { padding-left: max(3.5rem, env(safe-area-inset-left)); padding-right: max(3.5rem, env(safe-area-inset-right)); } }
-  @media (min-width: 1600px) { .wrap { padding-left: max(4.5rem, env(safe-area-inset-left)); padding-right: max(4.5rem, env(safe-area-inset-right)); } }
+  @media (min-width: 768px)  { .wrap { padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right)); } }
+  @media (min-width: 1024px) { .wrap { padding-left: max(6rem, env(safe-area-inset-left)); padding-right: max(6rem, env(safe-area-inset-right)); } }
+  @media (min-width: 1400px) { .wrap { padding-left: max(8rem, env(safe-area-inset-left)); padding-right: max(8rem, env(safe-area-inset-right)); } }
+  /* The nav row keeps modest gutters — its content is wide and must not clip
+     (see Nav.astro). Only content sections get the generous treatment above. */
+  .su-nav .wrap { padding-left: max(1.5rem, env(safe-area-inset-left)); padding-right: max(1.5rem, env(safe-area-inset-right)); }
+  @media (min-width: 768px)  { .su-nav .wrap { padding-left: 2rem;   padding-right: 2rem; } }
+  @media (min-width: 1280px) { .su-nav .wrap { padding-left: 3rem;   padding-right: 3rem; } }
   .btn { @apply inline-flex items-center gap-2 rounded-xl2 border border-navy px-5 py-2.5 font-sans font-semibold text-navy bg-surface transition duration-150 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 active:shadow-card; }
   .btn-primary { @apply border-saffron bg-saffron text-black hover:brightness-105; }
   .btn-blue { @apply border-blue bg-blue text-white hover:brightness-110; }
