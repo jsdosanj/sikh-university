@@ -55,7 +55,7 @@ const ld = {
 <Base
   title={`${lesson.title} — ${track?.title || 'Institute of Technology'}`}
   description={lesson.tagline || `${lesson.title} — a lesson in ${track?.title || 'the Institute of Technology'}.`}
-  institute noindex ogType="article"
+  institute ogType="article"
 >
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
   <InstituteRail />
