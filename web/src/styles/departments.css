@@ -27,7 +27,7 @@
 /* ── hero ─────────────────────────────────────────────────────────────── */
 .dept-hero {
   position: relative; overflow: clip; isolation: isolate;
-  min-height: clamp(30rem, 82vh, 46rem);
+  min-height: clamp(34rem, 88vh, 52rem);
   display: flex; align-items: flex-end;
   color: #fff; background: #0b1018;
 }
@@ -46,32 +46,35 @@
 }
 .dept-hero-in {
   position: relative; z-index: 2;
-  padding: clamp(40px, 8vw, 88px) 0 clamp(36px, 6vw, 60px);
+  padding-block: clamp(3.5rem, 9vw, 6rem) clamp(2rem, 5vw, 3.25rem);
+  max-width: 62rem;
 }
 .dept-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--font-sans, system-ui); font-size: 11px; font-weight: 700;
-  letter-spacing: .18em; text-transform: uppercase;
-  color: color-mix(in srgb, var(--dept) 30%, #fff);
+  letter-spacing: .2em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--dept) 32%, #fff);
 }
-.dept-eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--dept); border-radius: 2px; }
-.dept-tagline {
-  margin: 20px 0 0; max-width: 40ch;
-  font-size: clamp(15px, 1.7vw, 19px); font-style: italic;
-  color: color-mix(in srgb, var(--dept) 24%, #fff);
-}
+.dept-eyebrow::before { content: ""; width: 30px; height: 2px; background: var(--dept); border-radius: 2px; }
 .dept-h1 {
-  margin: 6px 0 0; font-weight: 800; letter-spacing: -0.015em; line-height: 1.02;
-  font-size: clamp(38px, 7.5vw, 82px);
-  text-shadow: 0 2px 40px rgba(0,0,0,.4);
+  margin: 18px 0 0; font-weight: 800; letter-spacing: -0.02em; line-height: 1.0;
+  font-size: clamp(2.6rem, 7vw, 5.4rem);
+  text-shadow: 0 2px 44px rgba(0,0,0,.45);
+  text-wrap: balance;
+}
+.dept-tagline {
+  margin: 14px 0 0; max-width: 46ch;
+  font-size: clamp(1rem, 1.6vw, 1.2rem); font-style: italic;
+  color: color-mix(in srgb, var(--dept) 22%, #fff);
+  text-wrap: balance;
 }
 .dept-stance {
-  margin: 22px 0 0; max-width: 60ch;
-  font-size: clamp(16px, 1.5vw, 19px); line-height: 1.72; color: rgba(255,255,255,.92);
+  margin: 22px 0 0; max-width: 58ch;
+  font-size: clamp(1rem, 1.4vw, 1.18rem); line-height: 1.72; color: rgba(255,255,255,.9);
 }
 .dept-stance :where(b, strong) { color: #fff; }
 .dept-hero-meta {
-  display: flex; flex-wrap: wrap; gap: 8px 12px; margin: 30px 0 0;
+  display: flex; flex-wrap: wrap; gap: 10px 12px; margin: 32px 0 0;
 }
 .dept-chip {
   display: inline-flex; align-items: baseline; gap: 7px;
@@ -93,23 +96,23 @@
 .dept-hero-cta svg { transition: transform .18s; }
 .dept-hero-cta:hover svg { transform: translateY(3px); }
 .dept-back {
-  position: absolute; top: clamp(16px, 4vw, 28px); left: 0; z-index: 3;
+  position: absolute; top: clamp(18px, 4vw, 30px); left: 0; z-index: 3;
   font-family: var(--font-sans, system-ui); font-size: 12px; letter-spacing: .04em;
-  color: rgba(255,255,255,.7); text-decoration: none;
+  color: rgba(255,255,255,.72); text-decoration: none;
 }
 .dept-back:hover { color: #fff; }
 .dept-credit {
-  position: absolute; right: clamp(12px, 3vw, 24px); bottom: 10px; z-index: 3;
-  max-width: 44ch; text-align: right;
-  font-family: var(--font-sans, system-ui); font-size: 10px; line-height: 1.4;
-  color: rgba(255,255,255,.42);
+  margin: 26px 0 0;
+  font-family: var(--font-sans, system-ui); font-size: 10.5px; line-height: 1.5;
+  color: rgba(255,255,255,.45);
 }
 .dept-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-.dept-credit a:hover { color: rgba(255,255,255,.7); }
+.dept-credit a:hover { color: rgba(255,255,255,.8); }
 
 /* ── body sections ────────────────────────────────────────────────────── */
+/* generous, uncrowded rhythm — .wrap supplies the inline gutters (global) */
 .dept-body { background: rgb(var(--c-paper)); }
-.dept-sec { padding: clamp(44px, 7vw, 84px) 24px; }
+.dept-sec { padding-block: clamp(4rem, 9vw, 6.5rem); }
 .dept-sec + .dept-sec { border-top: 1px solid rgb(var(--c-line)); }
 .dept-kicker {
   font-family: var(--font-sans, system-ui); font-size: 11px; font-weight: 800;
@@ -248,6 +251,40 @@
 .dept-btn-solid:hover { transform: translateY(-2px); }
 .dept-btn-ghost { border: 1px solid rgba(255,255,255,.4); color: #fff; }
 .dept-btn-ghost:hover { background: rgba(255,255,255,.1); }
+
+/* ── curriculum accordions (DeptAccordion.astro) ─────────────────────── */
+.dax { margin-top: 28px; display: grid; gap: 12px; }
+.dax-item {
+  border: 1px solid rgb(var(--c-line)); border-radius: 14px; overflow: hidden;
+  background: rgb(var(--c-surface)); transition: border-color .2s, box-shadow .2s;
+}
+.dax-item[open] { border-color: var(--dept-45); box-shadow: 0 10px 30px rgb(11 30 58 / .08); }
+.dax-sum {
+  display: flex; align-items: center; gap: 14px; padding: 18px 20px;
+  cursor: pointer; list-style: none; user-select: none;
+}
+.dax-sum::-webkit-details-marker { display: none; }
+.dax-sum:focus-visible { outline: 3px solid var(--dept); outline-offset: -3px; border-radius: 12px; }
+.dax-ic {
+  flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px;
+  background: var(--dept-10); color: var(--dept-ink);
+}
+[data-theme="dark"] .dept-page .dax-ic { color: color-mix(in srgb, var(--dept) 60%, #fff); }
+.dax-t { flex: 1; font-family: "Source Serif 4", Georgia, serif; font-weight: 800; font-size: 1.05rem; color: rgb(var(--c-navy)); }
+.dax-n { font-family: var(--font-sans, system-ui); font-size: .74rem; color: rgb(var(--c-muted)); white-space: nowrap; }
+.dax-chev { flex: none; color: rgb(var(--c-muted)); transition: transform .25s var(--ease-out, ease); }
+.dax-item[open] .dax-chev { transform: rotate(180deg); color: var(--dept); }
+/* No-JS: native <details> hides/shows the panel. JS arms .armed for the smooth
+   max-height transition and single-open behaviour. */
+.dax-panel { overflow: hidden; }
+[data-accordion].armed .dax-panel { max-height: 0; transition: max-height .34s var(--ease-out, cubic-bezier(.2,.7,.3,1)); }
+.dax-inner {
+  display: grid; gap: 14px; padding: 4px 20px 22px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px)  { .dax-inner { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1200px) { .dax-inner { grid-template-columns: repeat(3, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .dax-panel { transition: none; } .dax-chev { transition: none; } }
 
 /* ── scroll reveal (armed by the tiny inline script on each page) ─────── */
 .dept-page [data-rise] { opacity: 0; transform: translateY(22px); }
