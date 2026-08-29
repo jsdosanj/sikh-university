@@ -277,11 +277,13 @@ const breadcrumb = {
       body: JSON.stringify({ items, passMark }),
     })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error('grade failed'))))
-      .then((res) => { submitBtn.disabled = false; showTestResult(res.score, res.correct, res.total, res.passed); })
+      .then((res) => { submitBtn.disabled = false; showTestResult(res.score, res.passed); })
       .catch(() => { submitBtn.disabled = false; window.suToast('Could not grade the exam right now. Please check your connection and try again.', 'error'); });
   }
 
-  function showTestResult(score, correct, total, passed_exam) {
+  // The server returns the score only on a pass — a failing attempt is just the
+  // boolean, so the count can't be used to reverse-engineer the answer key.
+  function showTestResult(score, passed_exam) {
     const resultEl = document.getElementById('cum-test-result');
     const iconEl = document.getElementById('cum-result-icon');
     const scoreEl = document.getElementById('cum-result-score');
@@ -290,8 +292,8 @@ const breadcrumb = {
     const certLink = document.getElementById('cum-cert-link');
 
     iconEl.innerHTML = passed_exam ? ICONS.cap : ICONS.books;
-    scoreEl.textContent = `${score}% (${correct} / ${total} correct)`;
     if (passed_exam) {
+      scoreEl.textContent = `${score}%`;
       msgEl.textContent = `Congratulations — you have passed the ${progTitle} cumulative examination. Your credential is ready.`;
       certLink.href = `/cert?program=${progId}`;
       certLink.classList.remove('hidden');
@@ -299,7 +301,8 @@ const breadcrumb = {
       set('cum_passed_' + progId, true);
       set('cum_score_' + progId, score);
     } else {
-      msgEl.textContent = `You scored ${score}% — you need ${passMark}% to pass. Review the material and try again.`;
+      scoreEl.textContent = '';
+      msgEl.textContent = `Not passed — you need ${passMark}% to pass. Review the material and try again.`;
       retryBtn.classList.remove('hidden');
       certLink.classList.add('hidden');
     }

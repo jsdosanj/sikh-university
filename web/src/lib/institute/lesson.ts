@@ -47,7 +47,7 @@ function wireQuiz() {
 
     out.textContent = 'checking…';
     out.className = 'i-quiz-result i-mono';
-    let r: { score?: number; correct?: number; total?: number; passed?: boolean } | null = null;
+    let r: { score?: number; passed?: boolean } | null = null;
     try {
       r = await fetch('/api/quiz', {
         method: 'POST',
@@ -59,13 +59,15 @@ function wireQuiz() {
       /* offline */
     }
 
-    if (!r || typeof r.score !== 'number') {
+    if (!r || typeof r.passed !== 'boolean') {
       out.textContent = "couldn't reach the grader — try again.";
       out.className = 'i-quiz-result i-mono fail';
       return;
     }
     if (r.passed) {
-      out.textContent = `${r.score}% — ${r.correct}/${r.total}. Nice.`;
+      // Score comes back only on a pass — a failing attempt returns just the
+      // boolean so the count can't be used to reverse the answer key.
+      out.textContent = `${r.score}% — nice.`;
       out.className = 'i-quiz-result i-mono pass';
       try {
         const k = 'iot_v1_quiz_done';
@@ -76,7 +78,7 @@ function wireQuiz() {
         /* ignore */
       }
     } else {
-      out.textContent = `${r.score}% — ${r.correct}/${r.total}. You need 80%. Re-read and try again.`;
+      out.textContent = 'Not passed — you need 80%. Re-read and try again.';
       out.className = 'i-quiz-result i-mono fail';
     }
   });
