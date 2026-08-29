@@ -1,0 +1,139 @@
+---
+import Base from '../../layouts/Base.astro';
+import InstituteRail from '../../components/institute/InstituteRail.astro';
+---
+<Base
+  title="Open Source Atlas — Institute of Technology"
+  description="A browsable directory of ~12,500 AI and engineering open-source projects — each with a line on what you could build with it for the Panth — plus an engineering video shelf."
+  institute noindex
+>
+  <InstituteRail />
+
+  <section class="i-wrap i-atlas-head">
+    <span class="i-label">/institute/atlas</span>
+    <h1>Open Source Atlas</h1>
+    <p class="i-prose">
+      Two halves that do different jobs: engineering videos to learn from, and a catalogue of
+      open-source projects to build with. Every repository carries a line on what you could build
+      with it for the sangat. Curation by
+      <a href="https://tom-doerr.github.io/repo_posts/" target="_blank" rel="noopener">Tom D&ouml;rr</a>;
+      videos by
+      <a href="https://www.youtube.com/@cloud-codes" target="_blank" rel="noopener">Cloud Codes</a>.
+    </p>
+    <p class="i-mono i-atlas-meta" id="i-atlas-meta">loading the atlas&hellip;</p>
+  </section>
+
+  <section class="i-wrap i-atlas" id="i-atlas">
+    <div class="i-atlas-cols">
+      <div class="i-atlas-left">
+        <h2 class="i-label">watch first</h2>
+        <div class="i-atlas-shelf" id="i-atlas-videos">
+          <p class="i-atlas-empty i-mono">loading&hellip;</p>
+        </div>
+      </div>
+
+      <div class="i-atlas-right">
+        <div class="i-atlas-bar">
+          <h2 class="i-label">build with <span class="i-mono i-atlas-count" id="i-atlas-count"></span></h2>
+          <label class="sr-only" for="i-atlas-search">Search all repositories</label>
+          <input type="search" id="i-atlas-search" placeholder="Search all repositories…" autocomplete="off" spellcheck="false" />
+        </div>
+
+        <div class="i-atlas-grid" id="i-atlas-grid">
+          <p class="i-atlas-empty i-mono">loading&hellip;</p>
+        </div>
+
+        <div class="i-atlas-pager i-mono" id="i-atlas-pager" hidden>
+          <button type="button" data-atlas-prev>&lsaquo; prev</button>
+          <span data-atlas-pos></span>
+          <button type="button" data-atlas-next>next &rsaquo;</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="i-atlas-foot i-prose">
+      Every repository belongs to its own authors and carries its own licence &mdash; check it on
+      GitHub before you use one. Screenshots are GitHub's own OpenGraph cards. The catalogue is
+      curated by <a href="https://tom-doerr.github.io/repo_posts/" target="_blank" rel="noopener">Tom D&ouml;rr</a>
+      and the videos are made by <a href="https://www.youtube.com/@cloud-codes" target="_blank" rel="noopener">Cloud Codes</a>.
+      See <a href="/institute/licenses">sources &amp; licenses</a>.
+    </footer>
+  </section>
+
+  <style>
+    .i-atlas-head { padding: 40px 24px 8px; }
+    .i-atlas-head h1 { margin: 6px 0 10px; font-size: clamp(24px, 4vw, 34px); }
+    .i-atlas-head p { max-width: 68ch; }
+    .i-atlas-meta { margin-top: 10px; font-size: 12px; color: var(--i-muted); }
+
+    .i-atlas { padding: 20px 24px 72px; }
+    .i-atlas-cols { display: grid; gap: 28px; }
+    @media (min-width: 1000px) { .i-atlas-cols { grid-template-columns: minmax(0, 320px) minmax(0, 1fr); align-items: start; } }
+
+    .i-atlas-left h2, .i-atlas-right h2 { display: block; margin: 0 0 12px; }
+    @media (min-width: 1000px) { .i-atlas-left { position: sticky; top: 84px; } }
+
+    /* video shelf: horizontal rail on narrow, vertical list on wide */
+    .i-atlas-shelf { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+    @media (min-width: 1000px) {
+      .i-atlas-shelf { display: block; max-height: calc(100vh - 12rem); overflow-y: auto; overflow-x: visible; padding-right: 4px; }
+      .i-atlas-shelf > * + * { margin-top: 12px; }
+    }
+    .i-atlas-vid { flex: 0 0 74vw; max-width: 300px; border: 1px solid var(--i-line); border-radius: var(--i-r-md); overflow: hidden; background: var(--i-surface-2); }
+    @media (min-width: 640px) { .i-atlas-vid { flex-basis: 46vw; } }
+    @media (min-width: 1000px) { .i-atlas-vid { max-width: none; } }
+    .i-atlas-vid-play, .i-atlas-vid iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; background: #000; position: relative; padding: 0; cursor: pointer; }
+    .i-atlas-vid-play img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    .i-atlas-vid-play:hover img { opacity: 1; }
+    .i-atlas-vid-tri { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 20px; text-shadow: 0 1px 6px rgba(0,0,0,.6); }
+    .i-atlas-vid-meta { padding: 10px 12px; }
+    .i-atlas-vid-meta h3 { margin: 0; font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 13px; color: var(--i-ink); line-height: 1.35; }
+    .i-atlas-vid-meta p { margin: 5px 0 0; font-size: 10.5px; color: var(--i-muted); }
+
+    .i-atlas-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .i-atlas-count { text-transform: none; letter-spacing: 0; color: var(--i-muted); font-size: 11px; margin-left: 8px; }
+    #i-atlas-search {
+      flex: 1 1 220px; max-width: 300px; border: 1px solid var(--i-line); border-radius: 999px;
+      background: var(--i-surface-2); color: var(--i-ink); padding: 7px 14px; font-size: 13px;
+      font-family: "JetBrains Mono", monospace; outline: none;
+    }
+    #i-atlas-search:focus { border-color: color-mix(in srgb, var(--i-signal) 50%, var(--i-line)); }
+
+    .i-atlas-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+    .i-atlas-card { display: flex; flex-direction: column; border: 1px solid var(--i-line); border-radius: var(--i-r-md); overflow: hidden; background: var(--i-surface); transition: border-color 150ms; }
+    .i-atlas-card:hover { border-color: color-mix(in srgb, var(--i-signal) 35%, var(--i-line)); }
+    .i-atlas-shot { display: block; aspect-ratio: 2 / 1; background: #fff; position: relative; overflow: hidden; }
+    .i-atlas-shot img { width: 100%; height: 100%; object-fit: cover; }
+    .i-atlas-shot-fallback { display: none; }
+    .i-atlas-shot.dead { background: var(--i-ground-deep); }
+    .i-atlas-shot.dead .i-atlas-shot-fallback {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      height: 100%; padding: 0 14px; text-align: center;
+    }
+    .i-atlas-shot.dead .i-atlas-shot-fallback span:first-child { font-size: 11px; color: var(--i-ink-dim); overflow-wrap: anywhere; }
+    .i-atlas-shot.dead .i-atlas-shot-fallback span:last-child { font-size: 9px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--i-muted); }
+    .i-atlas-card-body { display: flex; flex-direction: column; flex: 1; padding: 11px 12px; }
+    .i-atlas-card-body h3 { margin: 0; font-size: 12px; line-height: 1.3; overflow-wrap: anywhere; }
+    .i-atlas-card-body h3 a { color: var(--i-signal); }
+    .i-atlas-desc { margin: 6px 0 0; font-size: 12px; line-height: 1.45; color: var(--i-ink-dim); }
+    .i-atlas-use { margin: 8px 0 0; font-size: 12px; line-height: 1.45; color: var(--i-filament); border-left: 2px solid var(--i-filament-dim); padding-left: 8px; }
+    .i-atlas-spacer { flex: 1; }
+    .i-atlas-card-foot { display: flex; align-items: center; gap: 12px; margin-top: 10px; font-size: 10px; color: var(--i-muted); }
+    .i-atlas-card-foot a:hover { color: var(--i-signal); }
+    .i-atlas-date { margin-left: auto; }
+
+    .i-atlas-pager { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 22px; font-size: 12px; }
+    .i-atlas-pager button { border: 1px solid var(--i-line); border-radius: 999px; background: transparent; color: var(--i-ink-dim); padding: 7px 16px; cursor: pointer; }
+    .i-atlas-pager button:hover:not(:disabled) { border-color: var(--i-ink-dim); }
+    .i-atlas-pager button:disabled { opacity: 0.35; cursor: default; }
+    .i-atlas-pager span { color: var(--i-muted); }
+
+    .i-atlas-empty { padding: 40px 0; text-align: center; color: var(--i-muted); font-size: 12px; }
+    .i-atlas-foot { margin-top: 34px; padding-top: 16px; border-top: 1px solid var(--i-line-soft); font-size: 12px; color: var(--i-muted); max-width: 80ch; }
+  </style>
+
+  <script>
+    import { initAtlas } from '../../lib/institute/atlas';
+    initAtlas();
+  </script>
+</Base>

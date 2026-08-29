@@ -1,0 +1,185 @@
+{
+  "generated": "2026-08-24",
+  "chunkSize": 250,
+  "total": 12517,
+  "chunks": 51,
+  "newest": "2026-01-31",
+  "sources": {
+    "repos": {
+      "name": "Tom Dörr — repo_posts",
+      "url": "https://tom-doerr.github.io/repo_posts/"
+    },
+    "videos": {
+      "name": "Cloud Codes",
+      "url": "https://www.youtube.com/@cloud-codes",
+      "channelId": "UC0DZj1PNa_Fp0MU6uPSKv5w"
+    }
+  },
+  "videos": [
+    {
+      "id": "fvIVGmwgk4w",
+      "title": "Pi Agent vs OpenCode: Same Qwen 3.8 Model, Completely Different Results",
+      "published": "2026-08-24",
+      "views": 7467
+    },
+    {
+      "id": "4felGszvs_4",
+      "title": "Ox Alpha: Who Is Behind This Anonymous Frontier Model?",
+      "published": "2026-08-23",
+      "views": 22740
+    },
+    {
+      "id": "Mlo16hrA5wQ",
+      "title": "New Local AI Engine Everyone Will Be Using in 2027 ? (FreeToken)",
+      "published": "2026-08-22",
+      "views": 38856
+    },
+    {
+      "id": "629J4G3aek4",
+      "title": "Get 4× More Context From the Same Card (VRAM Calculators Are Wrong)",
+      "published": "2026-08-22",
+      "views": 7133
+    },
+    {
+      "id": "nWbZmJMWg6E",
+      "title": "Unsloth vs PyTorch: The ONLY Video You Need to Understand the Difference",
+      "published": "2026-08-21",
+      "views": 5617
+    },
+    {
+      "id": "xJe8MZlnX1Q",
+      "title": "Scale Your API to 1 million requests Per Second",
+      "published": "2026-08-21",
+      "views": 3200
+    },
+    {
+      "id": "j-Dtp9705Bs",
+      "title": "Rate Limits Explained: Claude, OpenAI & Gemini",
+      "published": "2026-08-21",
+      "views": 2756
+    },
+    {
+      "id": "6i2503NESzU",
+      "title": "The Real Reason Why Stripe Bought OpenRouter",
+      "published": "2026-08-20",
+      "views": 2272
+    },
+    {
+      "id": "iOLF9T6aoV8",
+      "title": "Run Ornith 1.5 35B Locally: 155 Tokens/Sec on Your GPU?",
+      "published": "2026-08-20",
+      "views": 14870
+    },
+    {
+      "id": "9NzdeRZ-Kzw",
+      "title": "NVIDIA NOOA vs LangChain: Half the Tokens, Higher Score",
+      "published": "2026-08-20",
+      "views": 3398
+    },
+    {
+      "id": "Tp8rcRKIDnE",
+      "title": "4 AI Skills That Actually Get Hired (Andrew Ng's Roadmap)",
+      "published": "2026-08-19",
+      "views": 2626
+    },
+    {
+      "id": "n7oje5wsGWo",
+      "title": "Higgsfield Review: What AI Video Actually Costs (2¢/Second?)",
+      "published": "2026-08-19",
+      "views": 1112
+    },
+    {
+      "id": "EjDN2EX2lOE",
+      "title": "Programmatic Tool Calling: The Architecture Replacing JSON Function Calls",
+      "published": "2026-08-19",
+      "views": 8431
+    },
+    {
+      "id": "-vJZByDDvUc",
+      "title": "I Opened a New AI Model's Config File. Every Line Was a Paper",
+      "published": "2026-08-18",
+      "views": 4873
+    },
+    {
+      "id": "XcniP0CD-bs",
+      "title": "Can You Fine-Tune a 27B Model on a Laptop? (I Did the Math)",
+      "published": "2026-08-18",
+      "views": 7761
+    },
+    {
+      "id": "FIwqMbfZUaE",
+      "title": "Model Distillation: Steal a Billion Dollar AI",
+      "published": "2026-07-25"
+    },
+    {
+      "id": "T8v8Rxr8rMM",
+      "title": "Best Local AI Models For Your GPU",
+      "published": "2026-07-25"
+    },
+    {
+      "id": "9VpaPURdBb4",
+      "title": "Train Local Model on Your Own Codebase",
+      "published": "2026-07-24"
+    },
+    {
+      "id": "vFtJeZ7ifTA",
+      "title": "Tokenization Just Got 1,000x Faster! (Gigatoken)",
+      "published": "2026-07-24"
+    },
+    {
+      "id": "CQzlLJ1YqDs",
+      "title": "C++ is Dying: Why Microsoft & Google Switch to Rust",
+      "published": "2026-07-24"
+    },
+    {
+      "id": "xSZoPhY9BGA",
+      "title": "Laguna S 2.1: The Best Local Model?",
+      "published": "2026-07-24"
+    },
+    {
+      "id": "7Sk6soglMKU",
+      "title": "Fable 5 is INSANE: Build ANY App in Plain English",
+      "published": "2026-07-23"
+    },
+    {
+      "id": "MbkDloawTf4",
+      "title": "PocketBase + HTMX: Production App in One File",
+      "published": "2026-07-23"
+    },
+    {
+      "id": "lwnhJajthWc",
+      "title": "DuckDB: The 20MB Database Killing Your Snowflake Bill",
+      "published": "2026-07-23"
+    },
+    {
+      "id": "bW6aClmB-v4",
+      "title": "Polars vs Pandas: Process 14GB Data 11x Faster",
+      "published": "2026-07-23"
+    },
+    {
+      "id": "p2OZqljmGww",
+      "title": "Top 10 AI Repos You Need Right Now",
+      "published": "2026-07-22"
+    },
+    {
+      "id": "q_FQegMRWUQ",
+      "title": "10 Open Models | Zero API Keys (Cline)",
+      "published": "2026-07-22"
+    },
+    {
+      "id": "XBhqYWe6kQo",
+      "title": "Rust is Quietly Eating JavaScript's Backend",
+      "published": "2026-07-22"
+    },
+    {
+      "id": "udBL9zW4Gm4",
+      "title": "Go + SQLite + Stripe: $10K/mo Side Projects",
+      "published": "2026-07-22"
+    },
+    {
+      "id": "dl25OUcWj2k",
+      "title": "HTMX + PHP + CSS Is Insanely Fast",
+      "published": "2026-07-21"
+    }
+  ]
+}
