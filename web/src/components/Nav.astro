@@ -35,36 +35,25 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
       <img src="/assets/su-wordmark.png" alt="Sikhi University" class="h-6 w-auto shrink-0" />
     </a>
 
-    <!-- Search (desktop only — appears between logo and nav links) -->
-    <form id="nav-search-form" action="/search" method="get" role="search" class="hidden md:block mx-3 w-40 xl:w-56 shrink-0">
-      <label class="sr-only" for="nav-search-input">Search courses</label>
-      <div class="relative">
-        <svg aria-hidden="true" class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-        </svg>
-        <input
-          id="nav-search-input"
-          type="search"
-          name="q"
-          placeholder="Search in English or ਪੰਜਾਬੀ…"
-          data-i18n-ph="nav.searchph"
-          autocomplete="off"
-          class="w-full rounded-full bg-white/10 pl-8 pr-12 py-1.5 font-sans text-sm text-white placeholder-white/75 outline-none ring-1 ring-white/20 focus:bg-white/20 focus:ring-saffron/60 transition"
-        />
-        <button type="button" data-cmdk-open aria-label="Open command palette" class="absolute right-1.5 top-1/2 -translate-y-1/2 rounded border border-white/25 px-1.5 py-0.5 font-sans text-[0.65rem] text-white/80 hover:border-saffron hover:text-white">⌘K</button>
-      </div>
-    </form>
-
     <!-- Spacer pushes nav links to the right -->
     <div class="flex-1"></div>
 
-    <!-- Nav links + auth (desktop). gap-x-3 (not -5): at 1280-1440px laptop
-         widths this row's fixed-width content already exceeds the available
-         space — the flex-1 spacer above collapses to 0 and every item past
-         it sits at a viewport-independent pixel position, so anything past
-         the tail silently clips (page has overflow-x:clip). Every px of
-         gap reclaimed here is a px less of that clipping. -->
-    <div class="hidden md:flex items-center gap-x-3">
+    <!-- Nav links + auth (desktop). Shown at xl (1280px), not md: the full row
+         (logo + 5 links + My Learning + Cohorts + search + language + theme +
+         auth) measures ~1170px, which only clears the viewport once gutters
+         fit too — below ~1280px the flex-1 spacer collapses to 0 and the tail
+         (theme toggle, auth pill) sits at a viewport-independent pixel
+         position and silently clips (page has overflow-x:clip). Below xl the
+         hamburger menu carries every item instead. The old inline search box
+         (~250px) was dropped from this row — the ⌘K palette below and the
+         mobile menu both search the same index. -->
+    <div class="hidden xl:flex items-center gap-x-3">
+      <button type="button" data-cmdk-open aria-label="Search" data-i18n-aria="nav.search" title="Search (⌘K)"
+        class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/85 hover:bg-white/10 hover:text-white transition">
+        <svg aria-hidden="true" class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
       {links.map((l) => (
         <a
           href={l.href}
@@ -84,19 +73,18 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
       <!-- Signed-in identity cluster: ONE bounded-width menu, never flat links.
            A user can hold multiple hats (student/teacher/admin) and the old
            pattern appended one link per hat + "Sign out" straight into this
-           row — at common laptop widths (1280-1440px) that overflowed and
-           either wrapped "Sign out" onto two lines or got clipped off-screen
-           entirely by the page's overflow-x:clip (invisible, unclickable
-           sign-out for an authenticated admin). This wrapper's width never
-           grows past the button below, regardless of hat count. -->
+           row — near the xl breakpoint that overflowed and either wrapped
+           "Sign out" onto two lines or got clipped off-screen entirely by the
+           page's overflow-x:clip (invisible, unclickable sign-out for an
+           authenticated admin). This wrapper's width never grows past the
+           button below, regardless of hat count. -->
       <div id="nav-account" class="relative hidden shrink-0">
-        <!-- Icon-only trigger, deliberately: even the signed-out "Sign in"
-             pill already eats into this row's right-hand gutter at common
-             laptop widths (measured ~33px into the intended 56px padding at
-             1440px viewport) — a labelled "Account" button (~117px) pushed
-             the row past the viewport edge. This compact pill (~48px) fits
-             comfortably under the "Sign in" pill's own width, so signing in
-             never makes the row wider than signing out did. -->
+        <!-- Icon-only trigger, deliberately: keeps this cluster no wider than
+             the signed-out "Sign in" pill, so signing in never makes the row
+             wider than signing out did — and leaves headroom for the wider
+             translated nav-link labels (Punjabi / German) at the xl breakpoint
+             where the row is tightest. A labelled "Account" button (~117px)
+             would eat that headroom. -->
         <button id="nav-account-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="nav-account-menu"
           aria-label="Account" data-i18n-aria="nav.account" title="Account"
           class="inline-flex items-center gap-1 rounded-full bg-white/10 py-1.5 pl-2.5 pr-2 text-white hover:bg-white/20 transition">
@@ -108,25 +96,25 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
       </div>
     </div>
 
-    <!-- Hamburger (mobile) -->
+    <!-- Hamburger (below xl — see the desktop-cluster comment above) -->
     <button id="nav-toggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu"
-      class="md:hidden ml-2 inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:bg-white/10 hover:text-white transition">
+      class="xl:hidden ml-2 inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:bg-white/10 hover:text-white transition">
       <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
         <path d="M4 6h16M4 12h16M4 18h16"/>
       </svg>
     </button>
   </div>
 
-  <!-- Mobile menu (full-width dropdown) -->
-  <div id="nav-menu" class="hidden md:hidden border-t border-white/10">
+  <!-- Menu below xl (full-width dropdown) -->
+  <div id="nav-menu" class="hidden xl:hidden border-t border-white/10">
     <div class="wrap py-3 flex flex-col gap-y-1">
-      <!-- Search on mobile -->
+      <!-- Search (below xl) -->
       <form action="/search" method="get" role="search" class="mb-2">
         <div class="relative">
           <svg aria-hidden="true" class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
           </svg>
-          <input type="search" name="q" placeholder="Search in English or ਪੰਜਾਬੀ…" data-i18n-ph="nav.searchph" autocomplete="off"
+          <input id="nav-search-input" type="search" name="q" placeholder="Search in English or ਪੰਜਾਬੀ…" data-i18n-ph="nav.searchph" autocomplete="off"
             class="w-full rounded-full bg-white/10 pl-8 pr-3 py-1.5 font-sans text-sm text-white placeholder-white/75 outline-none ring-1 ring-white/20 focus:bg-white/20 focus:ring-saffron/60 transition" />
         </div>
       </form>
