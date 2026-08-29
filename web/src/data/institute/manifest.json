@@ -172,6 +172,22 @@
       "href": "https://www.freecodecamp.org/learn/",
       "wave": "mli",
       "blurb": "~11,000 free interactive challenges across ~15 certifications. Their editor, their tests, their certificate — go straight there."
+    },
+    {
+      "id": "class-central",
+      "title": "Class Central",
+      "kind": "booth",
+      "href": "https://www.classcentral.com/",
+      "wave": "depth",
+      "blurb": "A search engine for ~250,000 online courses from 1,000+ universities and providers. Filter for free — and for a free certificate — by subject, level, and provider, then go take the course at the source."
+    },
+    {
+      "id": "libre-academy",
+      "title": "Libre.academy",
+      "kind": "booth",
+      "href": "https://libre.academy/",
+      "wave": "depth",
+      "blurb": "A local-first desktop app: 90+ interactive coding courses, no account, native compilers offline — and it turns any technical PDF or EPUB into a course with generated exercises. Its book-derived packs sit under non-commercial and no-derivatives licences, so this stand links out rather than rehosting."
     }
   ],
   "deferred": {
@@ -190,9 +206,6 @@
       "18-ethics-safety-alignment"
     ],
     "atlas": "link to sikhi.io/opensource for v1 (CEO C8)",
-    "booths": [
-      "class-central",
-      "libre-academy"
-    ]
+    "booths": []
   }
 }
