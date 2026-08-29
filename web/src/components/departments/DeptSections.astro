@@ -2,22 +2,15 @@
 // The shared "body" of every department landing page — consistent, premium
 // sections below each page's bespoke hero. Uniqueness lives in the hero + the
 // per-department signature module each page renders above this.
-import Icon from '../Icon.astro';
-import CourseCard from '../CourseCard.astro';
+import DeptAccordion from './DeptAccordion.astro';
 import { departmentTopics, coursesInDepartment, type Department } from '../../lib/departments';
-import { paths, published, profBio, profSlug, profInitials, avatarColor, TOPIC_ICONS } from '../../lib/data';
+import { paths, published, profBio, profSlug, profInitials, avatarColor } from '../../lib/data';
 
 interface Props { d: Department }
 const { d } = Astro.props;
 
 const courses = coursesInDepartment(d);
 const topicRows = departmentTopics(d);
-const byTopic = topicRows.map((t) => ({
-  ...t,
-  courses: courses
-    .filter((c) => c.topic === t.id)
-    .sort((a, b) => a.level - b.level || a.title.localeCompare(b.title)),
-}));
 
 const byId = Object.fromEntries(published.map((c) => [c.id, c]));
 const featured = d.featured.map((id) => byId[id]).filter(Boolean);
@@ -122,32 +115,12 @@ const relatedPaths = paths
     </section>
   )}
 
-  <!-- Full catalogue -->
+  <!-- Full curriculum, as accordions -->
   <section id="catalogue" class="dept-sec wrap" data-rise>
-    <p class="dept-kicker">The department catalogue</p>
+    <p class="dept-kicker">The department curriculum</p>
     <h2 class="dept-h2">{courses.length} courses, {topicRows.length} subject{topicRows.length === 1 ? '' : 's'}</h2>
-    {topicRows.length > 1 && (
-      <nav aria-label="Subjects in this department" class="dept-subjnav">
-        {topicRows.map((t) => (
-          <a href={`#${t.id}`}>
-            <Icon name={TOPIC_ICONS[t.id] || 'book'} class="h-4 w-4 shrink-0" />
-            {t.name}<span>{t.count}</span>
-          </a>
-        ))}
-      </nav>
-    )}
-    {byTopic.map((t) => (
-      <div id={t.id} class="dept-topic scroll-mt-24" data-rise>
-        <div class="dept-topic-head">
-          <Icon name={TOPIC_ICONS[t.id] || 'book'} class="h-6 w-6 shrink-0" />
-          <h3>{t.name}</h3>
-          <span>{t.courses.length}</span>
-        </div>
-        <div class="dept-cgrid">
-          {t.courses.map((c) => <CourseCard course={c} />)}
-        </div>
-      </div>
-    ))}
+    <p class="dept-lead">Open a subject to see its courses, foundations through graduate.</p>
+    <DeptAccordion d={d} />
   </section>
 
   <!-- Closing band -->
