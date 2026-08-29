@@ -478,11 +478,10 @@
   .ring-track { stroke: rgb(var(--c-line)); }
   .ring-value { stroke: #f4b21a; stroke-linecap: round; transition: stroke-dashoffset .9s var(--ease-cinema); }
 
-  /* ── MPA View Transitions: 250ms cross-fade where supported; the
-     su-page-enter animation is disabled there so pages never double-animate. */
-  @view-transition { navigation: auto; }
-  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 250ms; }
-  @supports (view-transition-name: root) {
-    main { animation: none; }
-  }
+  /* MPA cross-document View Transitions (`@view-transition { navigation: auto }`)
+     were removed 2026-08-29: on the browsers that support them they were leaving
+     a stuck white `::view-transition` overlay on ordinary link clicks (a hard
+     refresh cleared it). Every navigation is now a plain full page load with the
+     `su-page-enter` fade above — the same behaviour every non-Chromium browser
+     always had. Revisit only with real cross-browser QA. */
 }
