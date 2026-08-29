@@ -29,7 +29,7 @@ const prof = professorOf(t);
 const examN = Math.min(20, bank.count);
 const pass = 80;
 const pnum = String(t.num ?? 0).padStart(2, '0');
-const certHref = `/institute/cert?track=${t.slug}`;
+const certHref = `/technology/cert?track=${t.slug}`;
 ---
 <Base
   title={`Phase ${pnum} exam — Institute of Technology`}
@@ -74,7 +74,7 @@ const certHref = `/institute/cert?track=${t.slug}`;
     </div>
 
     <p class="i-prose i-eback">
-      <a href={`/institute/track/${t.slug}`}>&larr; Back to {t.title}</a>
+      <a href={`/technology/track/${t.slug}`}>&larr; Back to {t.title}</a>
     </p>
   </section>
 

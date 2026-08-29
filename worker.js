@@ -303,6 +303,12 @@ export default {
     if (LEGACY_HOSTS.has(url.hostname) && !pathname.startsWith("/api/") && !pathname.startsWith("/media/") && !pathname.startsWith("/assets/data/")) {
       return Response.redirect(CANONICAL_ORIGIN + pathname + url.search, 301);
     }
+    // The engineering wing moved /institute -> /technology (2026-08). 301 the
+    // old paths, preserving the sub-path and query. Kept in run_worker_first so
+    // the Worker actually runs for these.
+    if (pathname === "/institute" || pathname.startsWith("/institute/")) {
+      return Response.redirect(CANONICAL_ORIGIN + "/technology" + pathname.slice("/institute".length) + url.search, 301);
+    }
     if (pathname.startsWith("/api/")) {
       const route = routes[pathname];
       if (!route) {
@@ -437,14 +443,14 @@ export default {
     h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     h.set('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
 
-    // Institute of Technology (routed here by run_worker_first): the code lab
-    // runs Python via Pyodide ('wasm-unsafe-eval' + the jsDelivr CDN) and renders
+    // Institute of Technology — /technology/* (routed here by run_worker_first):
+    // the code lab runs Python via Pyodide ('wasm-unsafe-eval' + the jsDelivr CDN) and renders
     // learner HTML in a sandboxed srcdoc iframe (frame-src 'self'). Take the
     // asset layer's OWN hash-hardened CSP (from web/public/_headers, post
     // build-csp) and only widen those three directives — everything else the
     // site forbids stays forbidden. Falls back to the hardened baseline if the
     // asset response somehow carried no CSP.
-    if (pathname === '/institute' || pathname.startsWith('/institute/')) {
+    if (pathname === '/technology' || pathname.startsWith('/technology/')) {
       const assetCsp = assetResp.headers.get('content-security-policy')
         || "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' https://api.banidb.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self'; base-uri 'self'; frame-ancestors 'none'";
       const CDN = 'https://cdn.jsdelivr.net';

@@ -1,4 +1,4 @@
-// The Open Source Atlas island (/institute/atlas). Client-only on purpose —
+// The Open Source Atlas island (/technology/atlas). Client-only on purpose —
 // 12.5k repos is far too much for one payload, so it pages through committed
 // chunk-NNN.json files and pulls the search index only once someone types.
 //

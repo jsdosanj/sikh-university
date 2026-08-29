@@ -1,5 +1,5 @@
 // Lesson-page client bits: mermaid (only when a diagram is present, loaded
-// lazily from jsDelivr — the /institute/* CSP allows it), and the
+// lazily from jsDelivr — the /technology/* CSP allows it), and the
 // check-understanding quiz (server-graded via /api/quiz).
 // Syntax highlighting is deliberately not loaded — the code blocks are legible
 // monospace as-is, and it isn't worth an extra CDN dependency per lesson.

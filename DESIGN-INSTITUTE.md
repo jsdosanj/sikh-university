@@ -4,7 +4,7 @@
 Preview: https://claude.ai/code/artifact/b52a803e-097a-4aaf-851f-b3a64784a149
 
 This is a **companion** to the root `DESIGN.md`, not a replacement. The main design
-system governs sikhiuni.com. This governs the `/institute/*` wing only. Where this file
+system governs sikhiuni.com. This governs the `/technology/*` wing only. Where this file
 is silent, `DESIGN.md` applies (a11y gates, the verification seal spine, self-hosted
 fonts, no-emoji-as-chrome, `prefers-reduced-motion`, the certificate verification model).
 
@@ -114,16 +114,16 @@ background. The site's existing `su_v1_theme` key drives the toggle; IoT reads i
 
 - **Approach:** intentional. The signature is **typing / assembly** — text and code that
   write themselves (the dojo already does this; the lab console echoes it).
-- **The threshold (D6):** entering `/institute` plays a one-time "power-on" — a `--signal`
+- **The threshold (D6):** entering `/technology` plays a one-time "power-on" — a `--signal`
   sweep line + a typed wordmark, ~2.4s. **Once per session** (`sessionStorage` flag); never
-  on internal navigation within `/institute/*`.
+  on internal navigation within `/technology/*`.
 - **Micro:** hover lifts on cards (2px), a scanline whisper on terminal surfaces, caret blink.
 - **Easing:** enter `ease-out` · exit `ease-in` · move `ease-in-out`.
 - **Duration:** micro 60–100ms · short 150–250ms · medium 250–400ms · threshold 2400ms.
 - **`prefers-reduced-motion`:** all typing resolves instantly to final text; the power-on
   sweep and caret are suppressed; no scanline.
 
-## The college-fair booths (`/institute/explore`)
+## The college-fair booths (`/technology/explore`)
 
 The hall is this system. Each booth is a self-contained region that **deliberately breaks**
 it to mimic its source — palette + type cues only, **no logos, no scraped screenshots**,

@@ -62,7 +62,7 @@ export function initInstituteCert(): void {
       const score = row && typeof row.passed_score === 'number' ? row.passed_score : null;
       if (!(typeof score === 'number' && score >= 80)) {
         app.innerHTML = panel(
-          `Pass the <a class="i-clink" href="/institute/exam/${esc(track.slug)}">Phase ${pnum} exam</a> ` +
+          `Pass the <a class="i-clink" href="/technology/exam/${esc(track.slug)}">Phase ${pnum} exam</a> ` +
             '(80% or higher) to unlock this certificate. Your exam score must sync while you are signed in.',
         );
         return;

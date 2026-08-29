@@ -46,9 +46,9 @@ for (const b of m.explore || []) {
   if (!b.blurb) err(`booth ${b.id}: missing blurb`);
 }
 
-// ---- page hygiene: every /institute/* page opts out of index + uses the rail;
-//      external links carry rel="noopener"; no emoji as chrome -------------------
-const pagesDir = 'src/pages/institute';
+// ---- page hygiene: every /technology/* page carries the `institute` prop +
+//      the rail; external links carry rel="noopener"; no emoji as chrome --------
+const pagesDir = 'src/pages/technology';
 const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
   d.isDirectory() ? walk(`${dir}/${d.name}`) : d.name.endsWith('.astro') ? [`${dir}/${d.name}`] : []);
 const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/u;
