@@ -15,7 +15,7 @@
 
 import type { Check, RunOutcome } from './check-runner';
 
-type Lang = 'js' | 'html';
+type Lang = 'js' | 'html' | 'py';
 
 interface LabConfig {
   id: string;
@@ -26,6 +26,9 @@ interface LabConfig {
 }
 
 const RUN_TIMEOUT_MS = 10_000;
+// Python's first Run downloads Pyodide (~6 MB wasm + stdlib) from jsDelivr;
+// give it room. The worker is kept alive between Runs so later Runs are fast.
+const PY_TIMEOUT_MS = 45_000;
 const bufKey = (id: string) => `iot_v1_buf_${id}`;
 
 function esc(s: string): string {
@@ -43,6 +46,7 @@ class CodeLab {
   checksEl: HTMLElement;
   previewFrame: HTMLIFrameElement | null;
   worker: Worker | null = null;
+  pyWorker: Worker | null = null; // kept alive between Runs (Pyodide stays loaded)
   timer: number | null = null;
   fails = 0;
 
@@ -168,6 +172,8 @@ class CodeLab {
       return;
     }
 
+    if (this.cfg.lang === 'py') { this.runPy(); return; }
+
     this.worker?.terminate();
     this.worker = new Worker(new URL('./lab.worker.ts', import.meta.url), { type: 'module' });
     this.timer = window.setTimeout(() => {
@@ -200,6 +206,45 @@ class CodeLab {
       ? extractScript(this.ta.value)   // checks for an HTML lesson run against its <script>
       : this.ta.value;
     this.worker.postMessage({ code, checks: this.cfg.checks });
+  }
+
+  // ---- Python (Pyodide worker, kept alive between Runs) -------------------
+  runPy() {
+    if (!this.pyWorker) {
+      this.pyWorker = new Worker(new URL('./lab-python.worker.ts', import.meta.url), { type: 'module' });
+      this.pyWorker.onmessage = (ev: MessageEvent) => {
+        const m = ev.data;
+        if (m.type === 'status') {
+          this.checksEl.innerHTML = `<span class="i-lab-running">${esc(m.text)}</span>`;
+        } else if (m.type === 'log') {
+          this.logLine(m.level, m.text);
+        } else if (m.type === 'result') {
+          clearTimeout(this.timer ?? undefined);
+          this.runBtn.disabled = false;
+          this.renderChecks(m.outcome as RunOutcome);
+        }
+      };
+      this.pyWorker.onerror = () => {
+        clearTimeout(this.timer ?? undefined);
+        this.pyWorker?.terminate();
+        this.pyWorker = null;
+        this.runBtn.disabled = false;
+        this.logLine('error', 'the Python runner could not start — try Run again');
+        this.checksEl.textContent = '';
+      };
+    }
+
+    this.timer = window.setTimeout(() => {
+      // A hang (infinite loop, or a stalled download): kill the worker so the
+      // next Run rebuilds it from scratch.
+      this.pyWorker?.terminate();
+      this.pyWorker = null;
+      this.runBtn.disabled = false;
+      this.logLine('error', 'still running after 45s — stopped it. An infinite loop, or a slow connection?');
+      this.checksEl.innerHTML = '<span class="i-lab-cross">timed out</span>';
+    }, PY_TIMEOUT_MS);
+
+    this.pyWorker.postMessage({ code: this.ta.value, checks: this.cfg.checks });
   }
 
   renderChecks(o: RunOutcome) {
