@@ -1,62 +1,112 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Icon from '../../components/Icon.astro';
+import '../../styles/departments.css';
 import { departments, wing, departmentCourseCount } from '../../lib/departments';
 import { published } from '../../lib/data';
 
-const deptIcon: Record<string, string> = {
-  theology: 'diya',
-  history: 'scroll',
-  'language-and-literature': 'book',
-  'political-governance': 'pillar',
-  'the-arts': 'palette',
-  'the-sciences': 'microscope',
-  health: 'heart',
-};
 const desc =
-  'The academic departments of Sikhi University — Theology, History, Language & Literature, Political Governance, the Arts, the Sciences, Health, and the Institute of Technology.';
+  'The schools of Sikhi University — Theology, History, Language & Literature, Political Governance, the Arts, the Sciences, Health, and the Institute of Technology. Every course belongs to one.';
+const cards = [
+  ...departments.map((d) => ({
+    href: `/departments/${d.slug}`,
+    name: d.name,
+    tagline: d.tagline,
+    accent: d.accent,
+    img: d.image.src,
+    count: `${departmentCourseCount(d)} courses`,
+  })),
+  {
+    href: wing.href,
+    name: wing.name,
+    tagline: wing.tagline,
+    accent: wing.accent,
+    img: null,
+    count: 'The engineering wing',
+  },
+];
 ---
-<Base title="Departments — Sikhi University" description={desc} ambient="study" bgImage="/assets/backgrounds/catalog.jpg">
-  <header class="relative overflow-hidden text-white">
-    <div class="su-arrival-curtain"></div>
-    <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
-    <div class="wrap relative py-16">
-      <p data-arrival class="eyebrow text-saffron">Schools &amp; departments</p>
-      <h1 data-arrival class="text-display-sm mt-3 font-bold text-white">Departments</h1>
-      <p data-arrival class="versal mt-4 max-w-2xl text-lg text-white/85">
-        Every course belongs to a department. Start with the one that fits your question — or
-        <a class="underline hover:text-saffron" href="/catalog">browse all {published.length} courses</a>.
-      </p>
-    </div>
-  </header>
+<Base title="Departments — Sikhi University" description={desc} ambient="none">
+  <div class="dept-page dept-index" style="--dept:#b58015">
+    <header class="dx-hero dept-grain">
+      <div class="dx-hero-in wrap">
+        <p class="dept-eyebrow">One university</p>
+        <h1 class="dx-h1">Eight schools</h1>
+        <p class="dx-sub">
+          Every course at Sikhi University belongs to a department — each with its own faculty, its
+          own signature courses, and its own front door. Start with the one that fits your question,
+          or <a href="/catalog">browse all {published.length} courses</a>.
+        </p>
+      </div>
+    </header>
 
-  <section class="wrap py-14">
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {departments.map((d) => (
-        <a href={`/departments/${d.slug}`} class="glass-lite group flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift">
-          <div class="flex items-center gap-3">
-            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-saffron-soft text-saffron-deep ring-1 ring-saffron/25">
-              <Icon name={deptIcon[d.id] || 'book'} class="h-5 w-5" />
-            </span>
-            <h2 class="text-lg font-bold leading-tight text-navy">{d.name}</h2>
-          </div>
-          <p class="mt-3 flex-1 text-sm leading-relaxed text-muted">{d.blurb}</p>
-          <span class="mt-4 font-sans text-xs font-semibold uppercase tracking-wide text-saffron-deep">
-            {departmentCourseCount(d)} courses &rarr;
-          </span>
-        </a>
-      ))}
-
-      <a href={wing.href} class="glass-lite group flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift">
-        <div class="flex items-center gap-3">
-          <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy/10 text-navy ring-1 ring-navy/15">
-            <Icon name="robot" class="h-5 w-5" />
-          </span>
-          <h2 class="text-lg font-bold leading-tight text-navy">{wing.name}</h2>
+    <section class="dx-grid-wrap">
+      <div class="wrap">
+        <div class="dx-grid">
+          {cards.map((c) => (
+            <a class="dx-card" href={c.href} style={`--dept:${c.accent}`} data-rise>
+              <span class="dx-card-media" aria-hidden="true">
+                {c.img
+                  ? <img src={c.img} alt="" loading="lazy" />
+                  : <span class="dx-card-tech"></span>}
+                <span class="dx-card-veil"></span>
+              </span>
+              <span class="dx-card-body">
+                <span class="dx-card-name">{c.name}</span>
+                <span class="dx-card-tag">{c.tagline}</span>
+                <span class="dx-card-count">{c.count} &rarr;</span>
+              </span>
+            </a>
+          ))}
         </div>
-        <p class="mt-3 flex-1 text-sm leading-relaxed text-muted">{wing.blurb}</p>
-        <span class="mt-4 font-sans text-xs font-semibold uppercase tracking-wide text-navy">Enter the wing &rarr;</span>
-      </a>
-    </div>
-  </section>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .dx-hero {
+      position: relative; overflow: hidden; color: #fff;
+      background: radial-gradient(120% 90% at 15% 0%, #23303f, #131b26 55%, #0d131c);
+      padding: clamp(56px, 10vw, 120px) 24px clamp(40px, 6vw, 72px);
+    }
+    .dx-h1 { margin: 10px 0 0; font-size: clamp(44px, 9vw, 104px); font-weight: 800; letter-spacing: -0.02em; line-height: .98; }
+    .dx-sub { margin: 22px 0 0; max-width: 58ch; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.75; color: rgba(255,255,255,.82); }
+    .dx-sub a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+    .dx-grid-wrap { background: rgb(var(--c-paper)); padding: clamp(36px, 6vw, 72px) 24px clamp(56px, 8vw, 100px); }
+    .dx-grid { display: grid; gap: 18px; }
+    @media (min-width: 640px) { .dx-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1040px) { .dx-grid { grid-template-columns: repeat(3, 1fr); } }
+    .dx-card {
+      position: relative; display: flex; flex-direction: column; overflow: hidden;
+      border-radius: 18px; background: rgb(var(--c-surface)); border: 1px solid rgb(var(--c-line));
+      text-decoration: none; isolation: isolate;
+      transition: transform .24s var(--ease-out, ease), box-shadow .24s, border-color .24s;
+    }
+    .dx-card:hover { transform: translateY(-6px); box-shadow: 0 26px 54px rgb(11 30 58 / .16); border-color: var(--dept-45); }
+    .dx-card-media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #0d131c; }
+    .dx-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-out, ease); }
+    .dx-card:hover .dx-card-media img { transform: scale(1.06); }
+    .dx-card-tech { position: absolute; inset: 0; background: radial-gradient(120% 100% at 20% 0%, #3a2a08, #1a1204 60%, #0d0a02); }
+    .dx-card-tech::after {
+      content: ""; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(230,169,60,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(230,169,60,.10) 1px, transparent 1px);
+      background-size: 30px 30px; mask-image: radial-gradient(ellipse 80% 70% at 20% 0%, #000, transparent 75%);
+    }
+    .dx-card-veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(10,15,22,.15)), linear-gradient(90deg, color-mix(in srgb, var(--dept) 28%, transparent), transparent 60%); }
+    .dx-card-body { display: flex; flex-direction: column; flex: 1; padding: 20px 20px 22px; border-top: 3px solid var(--dept); }
+    .dx-card-name { font-family: "Source Serif 4", Georgia, serif; font-size: 19px; font-weight: 800; color: rgb(var(--c-navy)); line-height: 1.2; }
+    .dx-card-tag { margin-top: 8px; flex: 1; font-size: 13.5px; line-height: 1.55; color: rgb(var(--c-muted)); font-style: italic; }
+    .dx-card-count { margin-top: 14px; font-family: var(--font-sans, system-ui); font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--dept); }
+  </style>
+
+  <script>
+    (function () {
+      const page = document.querySelector('.dept-index');
+      if (!page) return;
+      page.classList.add('revealed');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+      page.querySelectorAll('[data-rise]').forEach((el) => io.observe(el));
+    })();
+  </script>
 </Base>

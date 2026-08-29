@@ -7,6 +7,11 @@ export interface Pillar {
   title: string;
   body: string;
 }
+export interface DeptImage {
+  src: string;
+  credit: string;
+  source: string;
+}
 export interface Department {
   id: string;
   name: string;
@@ -18,6 +23,7 @@ export interface Department {
   stance: string;
   pillars: Pillar[];
   featured: string[];
+  image: DeptImage;
 }
 export interface Wing {
   id: string;

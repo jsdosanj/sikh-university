@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/departments.css';
+import DeptHero from '../../components/departments/DeptHero.astro';
+import DeptSections from '../../components/departments/DeptSections.astro';
+import { departments } from '../../lib/departments';
+const d = departments.find((x) => x.id === 'history')!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'EducationalOrganization',
+  name: `${d.name}, Sikhi University`, description: d.blurb,
+  url: 'https://sikhiuni.com/departments/history',
+  parentOrganization: { '@type': 'CollegeOrUniversity', name: 'Sikhi University', url: 'https://sikhiuni.com/' },
+};
+const timeline = [
+  ['1469', 'Guru Nanak Sāhib', 'The founding — and the first of the ten Gurus.'],
+  ['1604', 'The Ādi Granth', 'Guru Arjan Sāhib compiles the scripture; installed at Darbār Sāhib.'],
+  ['1699', 'The Khālsā', 'Guru Gobind Singh Jī gives the Panth its form on Vaisākhī at Anandpur.'],
+  ['1799', 'Sarkār-i-Khālsā', 'Ranjīt Singh takes Lahore; four decades of Sikh sovereignty.'],
+  ['1849', 'Annexation', 'The Sikh kingdom falls to the East India Company.'],
+  ['1920', 'The Akālī Lehar', 'The Gurdwārā reform movement; the SGPC is founded.'],
+  ['1947', 'Partition', 'Punjab is cut in two; the largest forced migration in history.'],
+  ['1984', 'Ghallūghārā', 'The attack on Darbār Sāhib and its aftermath.'],
+  ['Now', 'A global Panth', 'Sikhs on every continent — and the questions the diaspora carries.'],
+];
+---
+<Base title={`${d.name} — Sikhi University`} description={d.blurb} ambient="none">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+  <div class="dept-page" style={`--dept:${d.accent}`}>
+    <DeptHero d={d}>
+      <section class="hi-sig" aria-label="A timeline of the Sikh past">
+        <div class="wrap">
+          <p class="hi-sig-kicker">Five and a half centuries, from Nānak to now</p>
+          <h2 class="hi-sig-h">The spine the department runs along</h2>
+        </div>
+        <div class="hi-rail" role="list">
+          {timeline.map(([yr, t, b]) => (
+            <div class="hi-node" role="listitem">
+              <span class="hi-yr">{yr}</span>
+              <span class="hi-t">{t}</span>
+              <span class="hi-b">{b}</span>
+            </div>
+          ))}
+        </div>
+        <p class="hi-sig-note wrap">Drag the strip. Every course in the department lives somewhere on it — read from the chronicles, the hukamnāmās and the gazetteers, not a summary.</p>
+      </section>
+    </DeptHero>
+    <DeptSections d={d} />
+  </div>
+
+  <style>
+    .hi-sig { background: linear-gradient(180deg, #24160c, #1a1009); color: #ecd9c4; padding: clamp(44px, 7vw, 80px) 0; border-bottom: 1px solid rgb(var(--c-line)); }
+    .hi-sig-kicker { font-family: var(--font-sans, system-ui); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--dept) 50%, #fff); }
+    .hi-sig-h { margin: 8px 0 0; font-size: clamp(20px, 3vw, 28px); font-weight: 800; color: #fff; }
+    .hi-rail {
+      display: flex; gap: 14px; margin: 26px 0 0; padding: 0 24px 12px;
+      overflow-x: auto; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+    .hi-node {
+      scroll-snap-align: start; flex: 0 0 min(78vw, 300px);
+      display: flex; flex-direction: column; padding: 20px;
+      border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
+      border-top: 3px solid var(--dept);
+    }
+    .hi-yr { font-family: var(--font-sans, system-ui); font-weight: 800; font-size: 22px; color: color-mix(in srgb, var(--dept) 40%, #fff); }
+    .hi-t { margin-top: 6px; font-weight: 800; font-size: 15px; color: #fff; }
+    .hi-b { margin-top: 8px; font-size: 13px; line-height: 1.55; color: #c9b193; }
+    .hi-sig-note { margin: 18px auto 0; max-width: 60ch; padding: 0 24px; font-size: 13.5px; line-height: 1.7; color: #b79c7d; }
+  </style>
+
+  <script>
+    // Drag-to-scroll the timeline (pointer), keeping wheel + touch native.
+    (function () {
+      const rail = document.querySelector('.hi-rail');
+      if (!rail) return;
+      let down = false, sx = 0, sl = 0;
+      rail.addEventListener('pointerdown', (e) => { down = true; sx = e.clientX; sl = rail.scrollLeft; rail.setPointerCapture(e.pointerId); });
+      rail.addEventListener('pointermove', (e) => { if (down) rail.scrollLeft = sl - (e.clientX - sx); });
+      rail.addEventListener('pointerup', () => { down = false; });
+      rail.addEventListener('pointercancel', () => { down = false; });
+    })();
+  </script>
+</Base>
