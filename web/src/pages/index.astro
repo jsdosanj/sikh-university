@@ -18,7 +18,7 @@ const portals = [
   })),
   {
     href: wing.href, name: short(wing.name), full: wing.name, tagline: wing.tagline,
-    accent: wing.accent, img: null, meta: 'The engineering wing',
+    accent: wing.accent, img: wing.image!.src, meta: 'The engineering wing',
   },
 ];
 const ld = {
@@ -171,9 +171,7 @@ const ld = {
         {portals.map((d, i) => (
           <a href={d.href} class="portal-card" style={`--accent:${d.accent}`} data-reveal-delay={(i % 4) * 70}>
             <span class="portal-media" aria-hidden="true">
-              {d.img
-                ? <img src={d.img} alt="" loading={i < 3 ? 'eager' : 'lazy'} />
-                : <span class="portal-tech"></span>}
+              <img src={d.img} alt="" loading={i < 3 ? 'eager' : 'lazy'} />
               <span class="portal-veil"></span>
               <span class="portal-name">{d.name}</span>
             </span>
@@ -488,16 +486,6 @@ const ld = {
   .portal-media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #0d131c; }
   .portal-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.3,1); }
   .portal-card:hover .portal-media img { transform: scale(1.07); }
-  .portal-tech {
-    position: absolute; inset: 0;
-    background: radial-gradient(120% 100% at 15% 0%, #3a2a08, #1a1204 60%, #0d0a02);
-  }
-  .portal-tech::after {
-    content: ""; position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(230,169,60,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(230,169,60,.12) 1px, transparent 1px);
-    background-size: 26px 26px;
-    mask-image: radial-gradient(ellipse 80% 70% at 20% 0%, #000, transparent 78%);
-  }
   .portal-veil {
     position: absolute; inset: 0;
     background:

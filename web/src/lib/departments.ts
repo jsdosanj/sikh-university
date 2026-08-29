@@ -53,6 +53,7 @@ export interface Wing {
   accent: string;
   tagline: string;
   blurb: string;
+  image?: DeptImage;
 }
 
 export const departments: Department[] = (raw as any).departments;
