@@ -4,6 +4,16 @@ import Icon from '../components/Icon.astro';
 import CinematicHero from '../components/CinematicHero.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 import { SITE, ldJson } from '../lib/site';
+import { departments, wing, departmentCourseCount } from '../lib/departments';
+const homeDepartments = [
+  ...departments.map((d) => ({
+    href: `/departments/${d.slug}`,
+    short: d.name.replace(/^Department(s)? of (the )?/, '').replace(/ Department$/, ''),
+    accent: d.accent,
+    count: departmentCourseCount(d),
+  })),
+  { href: wing.href, short: wing.name, accent: wing.accent, count: null },
+];
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
   '@id': SITE + '/#org', // merges with the Organization node Base.astro emits site-wide
@@ -163,6 +173,26 @@ const ld = {
           ))}
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Departments -->
+  <section id="home-departments">
+    <div class="wrap py-16">
+      <p class="eyebrow text-center text-saffron-deep">Schools &amp; departments</p>
+      <h2 class="text-display-sm mx-auto mt-3 max-w-3xl text-center font-bold text-navy">Eight schools, one university.</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-center text-muted">Every course belongs to a department — each with its own faculty, its own signature courses, and its own way in.</p>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {homeDepartments.map((d) => (
+          <a href={d.href} class="group flex flex-col rounded-xl2 border border-line bg-surface p-5 transition hover:-translate-y-1 hover:shadow-lift" style={`border-top:3px solid ${d.accent}`}>
+            <span class="font-serif text-base font-bold text-navy">{d.short}</span>
+            <span class="mt-1 font-sans text-xs text-muted">{d.count != null ? `${d.count} courses` : 'The engineering wing'}</span>
+          </a>
+        ))}
+      </div>
+      <p class="mt-8 text-center">
+        <a class="btn btn-ghost" href="/departments">Explore all departments &rarr;</a>
+      </p>
     </div>
   </section>
 

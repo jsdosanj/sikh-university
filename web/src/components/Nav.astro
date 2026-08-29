@@ -1,11 +1,19 @@
 ---
 import Icon from './Icon.astro';
+import deptData from '../data/departments.json';
+const departments = (deptData as any).departments as { name: string; slug: string }[];
+const wing = (deptData as any).wing as { name: string; href: string };
+// "Departments" is a mega-menu (see below); the rest are plain links.
 const links = [
-  { href: '/catalog', label: 'Courses', m: '/catalog', key: 'nav.courses' },
-  { href: '/technology', label: 'Technology', m: '/technology', key: 'nav.technology' },
   { href: '/santhiya', label: 'Santhya', m: '/santhiya', key: 'nav.santhya' },
   { href: '/professors', label: 'Professors', m: '/professor', key: 'nav.professors' },
   { href: '/about', label: 'About', m: '/about', key: 'nav.about' },
+];
+const moreWays = [
+  { href: '/catalog#paths', label: 'Guided journeys' },
+  { href: '/programs', label: 'Degree programs' },
+  { href: '/santhiya', label: 'Santhya pathway' },
+  { href: '/baal-updesh', label: 'Baal Updesh — learn Gurmukhi' },
 ];
 const LANG_OPTS = [
   ['en', 'English'], ['pa', 'ਪੰਜਾਬੀ'], ['hi', 'हिन्दी'], ['ur', 'اردو'], ['es', 'Español'],
@@ -54,6 +62,41 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
         </svg>
       </button>
+      <!-- Departments mega-menu -->
+      <div id="nav-mega" class="relative">
+        <button id="nav-mega-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="nav-mega-panel"
+          data-i18n="nav.departments"
+          class={`su-nav-link inline-flex items-center gap-1 font-sans text-sm border-b-2 pb-0.5 transition whitespace-nowrap ${isActive('/departments') || isActive('/technology') ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}
+        >Departments
+          <svg id="nav-mega-chev" aria-hidden="true" class="h-3.5 w-3.5 shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="nav-mega-panel" role="menu" aria-labelledby="nav-mega-btn" hidden
+          class="absolute left-0 top-full mt-3 w-[min(46rem,90vw)] overflow-hidden rounded-xl2 border border-white/15 bg-brand-strong text-white shadow-lift">
+          <div class="grid gap-x-8 gap-y-2 p-6 sm:grid-cols-[1.4fr_1fr]">
+            <div>
+              <p class="mb-2 font-sans text-[0.68rem] font-bold uppercase tracking-wider text-white/45">Schools &amp; departments</p>
+              <ul class="grid gap-0.5 sm:grid-cols-2">
+                {departments.map((d) => (
+                  <li><a role="menuitem" href={`/departments/${d.slug}`} class="block rounded-md px-2.5 py-1.5 font-sans text-sm text-white/85 hover:bg-white/10 hover:text-white">{d.name.replace(/^Department(s)? of (the )?/, '').replace(/ Department$/, '')}</a></li>
+                ))}
+                <li><a role="menuitem" href={wing.href} class="block rounded-md px-2.5 py-1.5 font-sans text-sm text-white/85 hover:bg-white/10 hover:text-white">{wing.name}</a></li>
+              </ul>
+            </div>
+            <div>
+              <p class="mb-2 font-sans text-[0.68rem] font-bold uppercase tracking-wider text-white/45">More ways to learn</p>
+              <ul class="grid gap-0.5">
+                {moreWays.map((m) => (
+                  <li><a role="menuitem" href={m.href} class="block rounded-md px-2.5 py-1.5 font-sans text-sm text-white/85 hover:bg-white/10 hover:text-white">{m.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-4 border-t border-white/10 bg-white/[0.03] px-6 py-3 font-sans text-sm">
+            <a role="menuitem" href="/departments" class="text-white/80 hover:text-white">All departments &rarr;</a>
+            <a role="menuitem" href="/catalog" class="font-semibold text-saffron hover:brightness-110">Browse all courses &rarr;</a>
+          </div>
+        </div>
+      </div>
       {links.map((l) => (
         <a
           href={l.href}
@@ -118,6 +161,19 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
             class="w-full rounded-full bg-white/10 pl-8 pr-3 py-1.5 font-sans text-sm text-white placeholder-white/75 outline-none ring-1 ring-white/20 focus:bg-white/20 focus:ring-saffron/60 transition" />
         </div>
       </form>
+      <details class="group/dept rounded">
+        <summary class="su-nav-link flex cursor-pointer items-center justify-between font-sans text-sm py-1.5 px-2 rounded text-white/80 marker:content-none">
+          <span data-i18n="nav.departments">Departments</span>
+          <svg aria-hidden="true" class="h-4 w-4 transition-transform group-open/dept:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="ml-2 border-l border-white/10 pl-3 py-1">
+          {departments.map((d) => (
+            <a href={`/departments/${d.slug}`} class="block font-sans text-[0.82rem] py-1 px-2 rounded text-white/75 hover:text-white">{d.name}</a>
+          ))}
+          <a href={wing.href} class="block font-sans text-[0.82rem] py-1 px-2 rounded text-white/75 hover:text-white">{wing.name}</a>
+          <a href="/catalog" class="block font-sans text-[0.82rem] py-1 px-2 rounded font-semibold text-saffron">Browse all courses &rarr;</a>
+        </div>
+      </details>
       {links.map((l) => (
         <a href={l.href} data-i18n={l.key} class={`su-nav-link font-sans text-sm py-1.5 px-2 rounded ${isActive(l.m) ? 'text-white font-semibold' : 'text-white/80'}`}>{l.label}</a>
       ))}
@@ -165,6 +221,29 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
       menu.classList.toggle('hidden', open);
     });
   }
+</script>
+<script>
+  // Departments mega-menu (desktop, >= xl). Click to open; close on outside
+  // click, Escape, or following a link. Hover opens after a short intent delay.
+  (function () {
+    const wrap = document.getElementById('nav-mega');
+    const btn = document.getElementById('nav-mega-btn');
+    const panel = document.getElementById('nav-mega-panel');
+    const chev = document.getElementById('nav-mega-chev');
+    if (!wrap || !btn || !panel) return;
+    let hoverT = 0;
+    const set = (open) => {
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      chev && chev.classList.toggle('rotate-180', open);
+    };
+    btn.addEventListener('click', () => set(panel.hidden));
+    wrap.addEventListener('mouseenter', () => { clearTimeout(hoverT); hoverT = window.setTimeout(() => set(true), 120); });
+    wrap.addEventListener('mouseleave', () => { clearTimeout(hoverT); hoverT = window.setTimeout(() => set(false), 180); });
+    document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) set(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { set(false); btn.focus(); } });
+    panel.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+  })();
 </script>
 <script>
   (function () {
