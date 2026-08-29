@@ -14,21 +14,33 @@ const ld = {
 ---
 <Base title={`${d.name} — Sikhi University`} description={d.blurb} ambient="none">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
-  <div class="dept-page" style={`--dept:${d.accent}`}>
+  <div class="dept-page he-page" style={`--dept:${d.accent}`}>
     <DeptHero d={d}>
-      <section class="he-sig" aria-label="A breathing exercise">
+      <section class="he-sig" aria-label="The breath, through the body">
         <div class="wrap he-in">
-          <div class="he-breath" aria-hidden="true">
-            <span class="he-ring"></span><span class="he-ring"></span><span class="he-core"></span>
-            <span class="he-label">breathe with the circle</span>
-          </div>
+          <figure class="he-figure" aria-hidden="true">
+            <svg viewBox="0 0 260 340" class="he-svg">
+              <defs>
+                <filter id="he-glow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="3.5" result="b" />
+                  <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
+              </defs>
+              <g class="he-body" filter="url(#he-glow)">
+                <path d="M130 22 c14 0 24 11 24 26 c0 10-4 16-4 22 c10 4 26 12 30 30 l14 78 c1 8-10 12-13 3 l-12-44 -3 66 c6 40 10 66 10 84 c0 10-16 10-18 0 l-8-64 -8 64 c-2 10-18 10-18 0 c0-18 4-44 10-84 l-3-66 -12 44 c-3 9-14 5-13-3 l14-78 c4-18 20-26 30-30 c0-6-4-12-4-22 c0-15 10-26 24-26 z" />
+              </g>
+              <path class="he-airway" d="M130 40 L130 96 M130 96 C 108 108, 96 130, 92 160 M130 96 C 152 108, 164 130, 168 160"
+                    fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" pathLength="1" />
+              <circle class="he-breath-dot" r="5" />
+            </svg>
+          </figure>
           <div class="he-copy">
-            <p class="he-kicker">ਸਾਸਿ ਸਾਸਿ &mdash; with every breath</p>
+            <p class="he-kicker" lang="pa">ਸਾਸਿ ਸਾਸਿ &mdash; with every breath</p>
             <h2 class="he-h">The body is a vessel, and caring for it is seva</h2>
             <p class="he-note">
-              This department covers physical and mental health with Sikh framing and without stigma
-              &mdash; grief and bhāṇā, trauma and recovery, raising children in the faith, and the quiet
-              discipline of growing your own food. Follow the circle for four counts in, four counts out.
+              Physical and mental health with Sikh framing and without stigma &mdash; grief and bhāṇā,
+              trauma and recovery, raising children in the faith, and the quiet discipline of growing
+              your own food. Scroll, and watch a breath travel the airway.
             </p>
           </div>
         </div>
@@ -38,21 +50,29 @@ const ld = {
   </div>
 
   <style>
-    .he-sig { background: linear-gradient(180deg, #0e2418, #0a1a11); color: #d7ecdf; padding: clamp(48px, 8vw, 96px) 24px; border-bottom: 1px solid rgb(var(--c-line)); }
-    .he-in { display: grid; gap: 34px; align-items: center; }
-    @media (min-width: 820px) { .he-in { grid-template-columns: 240px 1fr; gap: 48px; } }
-    .he-breath { position: relative; width: 200px; height: 200px; margin: 0 auto; display: grid; place-items: center; }
-    .he-core { position: absolute; width: 64px; height: 64px; border-radius: 50%; background: var(--dept); box-shadow: 0 0 40px color-mix(in srgb, var(--dept) 70%, transparent); animation: he-breathe 8s ease-in-out infinite; }
-    .he-ring { position: absolute; width: 200px; height: 200px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--dept) 45%, transparent); animation: he-breathe 8s ease-in-out infinite; }
-    .he-ring:nth-child(2) { width: 140px; height: 140px; animation-delay: -0.4s; opacity: .7; }
-    .he-label { position: relative; z-index: 1; font-family: var(--font-sans, system-ui); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #eafff2; text-align: center; max-width: 90px; line-height: 1.4; }
-    @keyframes he-breathe { 0%,100% { transform: scale(.62); } 45%,55% { transform: scale(1); } }
+    .he-sig { background: linear-gradient(180deg, #0d2c1e, #081a11); color: #d7ecdf; padding: clamp(3.5rem, 8vw, 6rem) 0; border-bottom: 1px solid rgb(var(--c-line)); }
+    .he-in { display: grid; gap: 40px; align-items: center; }
+    @media (min-width: 860px) { .he-in { grid-template-columns: 260px 1fr; gap: 64px; } }
+    .he-figure { margin: 0 auto; width: min(240px, 62vw); }
+    .he-svg { width: 100%; height: auto; overflow: visible; color: color-mix(in srgb, var(--dept) 60%, #fff); }
+    .he-body path { fill: none; stroke: color-mix(in srgb, var(--dept) 55%, #eafff2); stroke-width: 1.6; opacity: .9; }
+    .he-airway { color: color-mix(in srgb, var(--dept) 40%, #fff); opacity: .55; }
+    .he-breath-dot {
+      fill: #eafff5;
+      filter: drop-shadow(0 0 10px var(--dept)) drop-shadow(0 0 22px color-mix(in srgb, var(--dept) 70%, transparent));
+      offset-path: path("M130 40 L130 96 C 108 108, 96 130, 92 160");
+      offset-distance: 0%;
+      animation: he-inhale ease-in-out both; animation-timeline: view(); animation-range: entry 5% cover 70%;
+    }
+    @keyframes he-inhale { 0% { offset-distance: 0%; opacity: 0; } 12% { opacity: 1; } 100% { offset-distance: 100%; opacity: .2; } }
+    @supports not (animation-timeline: view()) {
+      .he-breath-dot { animation: he-inhale 4s ease-in-out infinite; }
+    }
     .he-kicker { font-family: "Noto Serif Gurmukhi", serif; font-size: 15px; color: color-mix(in srgb, var(--dept) 40%, #fff); }
-    .he-h { margin: 8px 0 0; font-size: clamp(20px, 3vw, 30px); font-weight: 800; color: #fff; max-width: 22ch; }
+    .he-h { margin: 8px 0 0; font-size: clamp(1.35rem, 3vw, 1.9rem); font-weight: 800; color: #fff; max-width: 22ch; }
     .he-note { margin: 16px 0 0; max-width: 58ch; font-size: 14.5px; line-height: 1.72; color: #a9cdb6; }
     @media (prefers-reduced-motion: reduce) {
-      .he-core, .he-ring { animation: none; }
-      .he-core { transform: scale(.85); }
+      .he-breath-dot { animation: none; offset-distance: 55%; opacity: .8; }
     }
   </style>
 </Base>
