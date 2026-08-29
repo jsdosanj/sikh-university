@@ -12,10 +12,10 @@ const hasExam = (id: string) => !!examBanks[`../../data/institute/exam/${id}.jso
 // right place. Wave 1 targets the track overview / catalogue; Wave 4+ deep-links
 // to the first lesson.
 const goals = [
-  { label: "I'm new to coding", to: '/institute/track/00-setup-and-tooling', hint: 'start with the tooling, then the fundamentals — the from-scratch Sikh Code dojo lands in the next wave' },
-  { label: 'I know some ML', to: '/institute/track/02-ml-fundamentals', hint: 'classical machine learning, then deep learning and transformers' },
-  { label: 'I want to build with LLMs', to: '/institute/track/11-llm-engineering', hint: 'prompting, RAG, evals, serving, observability' },
-  { label: 'I want to build agents', to: '/institute/track/14-agent-engineering', hint: 'the agent loop from first principles — memory, planning, multi-step work' },
+  { label: "I'm new to coding", to: '/technology/track/00-setup-and-tooling', hint: 'start with the tooling, then the fundamentals — the from-scratch Sikh Code dojo lands in the next wave' },
+  { label: 'I know some ML', to: '/technology/track/02-ml-fundamentals', hint: 'classical machine learning, then deep learning and transformers' },
+  { label: 'I want to build with LLMs', to: '/technology/track/11-llm-engineering', hint: 'prompting, RAG, evals, serving, observability' },
+  { label: 'I want to build agents', to: '/technology/track/14-agent-engineering', hint: 'the agent loop from first principles — memory, planning, multi-step work' },
 ];
 const desc = 'Sikhi University’s engineering wing — learn to code and build AI systems, in a code lab that runs in your browser, and ship a project for the Panth.';
 ---
@@ -75,7 +75,7 @@ const desc = 'Sikhi University’s engineering wing — learn to code and build 
       {phases.map((p) => (
         <li class="i-spine-row">
           <span class="i-spine-num i-mono">{String(p.num).padStart(2, '0')}</span>
-          <a class="i-spine-title" href={`/institute/track/${p.slug}`}>{p.title}</a>
+          <a class="i-spine-title" href={`/technology/track/${p.slug}`}>{p.title}</a>
           <span class="i-spine-meta i-mono">{p.lessonCount} lessons{p.prereq ? ' · prereq' : ''}</span>
           <span class="i-spine-status i-mono">{hasExam(p.id) ? 'exam + cert' : 'reading'}</span>
         </li>
@@ -88,7 +88,7 @@ const desc = 'Sikhi University’s engineering wing — learn to code and build 
     <h2>Learn to code, in our voice</h2>
     <div class="i-card-grid">
       {[...dojos, ...guides, ...capstones].map((t) => (
-        <a class="i-panel i-card" href={`/institute/track/${t.id}`}>
+        <a class="i-panel i-card" href={`/technology/track/${t.id}`}>
           <span class="i-corner">{t.kind}</span>
           <strong class="i-card-title">{t.title}</strong>
           <span class="i-prose i-card-sum">{t.summary}</span>
@@ -100,11 +100,11 @@ const desc = 'Sikhi University’s engineering wing — learn to code and build 
   <section class="i-wrap i-sec i-sec-last">
     <span class="i-label">04 — when you want breadth</span>
     <h2>Explore free courses elsewhere</h2>
-    <p class="i-prose">The Institute's own courses come first — you finish those and earn its certificate. When you want a wider on-ramp or an interactive challenge platform, the <a href="/institute/explore">college fair</a> sends you out to freeCodeCamp and more.</p>
-    <p class="i-prose">And when you are ready to build: the <a href="/institute/atlas">Open Source Atlas</a> is ~12,500 AI and engineering projects, each with a line on what it could do for the Panth.</p>
+    <p class="i-prose">The Institute's own courses come first — you finish those and earn its certificate. When you want a wider on-ramp or an interactive challenge platform, the <a href="/technology/explore">college fair</a> sends you out to freeCodeCamp and more.</p>
+    <p class="i-prose">And when you are ready to build: the <a href="/technology/atlas">Open Source Atlas</a> is ~12,500 AI and engineering projects, each with a line on what it could do for the Panth.</p>
     <p>
-      <a class="i-btn i-btn-ghost" href="/institute/explore">Walk the college fair &rarr;</a>
-      <a class="i-btn i-btn-ghost" href="/institute/atlas">Open the atlas &rarr;</a>
+      <a class="i-btn i-btn-ghost" href="/technology/explore">Walk the college fair &rarr;</a>
+      <a class="i-btn i-btn-ghost" href="/technology/atlas">Open the atlas &rarr;</a>
     </p>
   </section>
 

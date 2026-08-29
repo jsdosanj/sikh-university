@@ -36,7 +36,7 @@ const ld = {
 
   <header class="i-chead">
     <div class="i-wrap">
-      <a class="i-mono i-ccrumb" href="/institute/track/build-for-the-panth">&larr; Build for the Panth</a>
+      <a class="i-mono i-ccrumb" href="/technology/track/build-for-the-panth">&larr; Build for the Panth</a>
       <span class="i-label i-mono">capstone brief &middot; CC BY-SA 4.0</span>
       <h1>{b.title}</h1>
       <p class="i-prose i-clede">{b.oneLine}</p>
@@ -73,7 +73,7 @@ const ld = {
         {b.phases.map((slug) => {
           const p = phaseFor(slug);
           return p
-            ? <a class="i-cpill" href={`/institute/track/${p.slug}`}>Phase {String(p.num).padStart(2, '0')} &middot; {p.title}</a>
+            ? <a class="i-cpill" href={`/technology/track/${p.slug}`}>Phase {String(p.num).padStart(2, '0')} &middot; {p.title}</a>
             : null;
         })}
       </p>
@@ -104,7 +104,7 @@ const ld = {
       <p class="i-prose" style="font-size:13px;color:var(--i-muted)">
         {capstone.licenseNote}
       </p>
-      <p style="margin-top:16px"><a class="i-btn i-btn-ghost" href="/institute/track/build-for-the-panth">&larr; All five briefs</a></p>
+      <p style="margin-top:16px"><a class="i-btn i-btn-ghost" href="/technology/track/build-for-the-panth">&larr; All five briefs</a></p>
     </section>
   </div>
 

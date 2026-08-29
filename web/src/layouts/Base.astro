@@ -72,11 +72,11 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
     <script is:inline>
       // The Institute is a committed-dark experience with a light escape hatch
       // (DESIGN-INSTITUTE.md D3+D7: "dark is primary"). If the visitor has never
-      // picked a theme, force dark on /institute/* regardless of OS preference;
+      // picked a theme, force dark on /technology/* regardless of OS preference;
       // an explicit choice (su_v1_theme) still wins.
       (function () {
         try {
-          if (!localStorage.getItem('su_v1_theme') && location.pathname.indexOf('/institute') === 0) {
+          if (!localStorage.getItem('su_v1_theme') && location.pathname.indexOf('/technology') === 0) {
             document.documentElement.setAttribute('data-theme', 'dark');
           }
         } catch (e) {}

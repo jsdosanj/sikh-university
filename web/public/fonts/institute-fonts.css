@@ -1,6 +1,6 @@
 /* Institute of Technology faces — self-hosted, OFL (SIL Open Font License).
    Chakra Petch = the display face (D1). JetBrains Mono = UI / code / data (variable,
-   one file covers 100–800). Loaded only on /institute/* pages (Base.astro `institute` prop).
+   one file covers 100–800). Loaded only on /technology/* pages (Base.astro `institute` prop).
    Latin subset only; the Institute is English-authoritative. Gurmukhi stays on the
    university's Noto faces (fonts.css). */
 

@@ -62,7 +62,7 @@ const ld = {
 
   <div class="i-lessonwrap">
     <header class="i-lesson-head">
-      <a class="i-lesson-crumb i-mono" href={`/institute/track/${track?.slug || trackId}`}>&larr; {track?.title || trackId}</a>
+      <a class="i-lesson-crumb i-mono" href={`/technology/track/${track?.slug || trackId}`}>&larr; {track?.title || trackId}</a>
       <h1>{lesson.title}</h1>
       {lesson.tagline && <p class="i-prose i-lesson-tag">{lesson.tagline}</p>}
       <p class="i-mono i-lesson-meta">
@@ -134,11 +134,11 @@ const ld = {
 
     <nav class="i-lesson-nav">
       {prev
-        ? <a class="i-btn i-btn-ghost" href={`/institute/lesson/${trackId}/${prev.slug}`}>&larr; {prev.title}</a>
+        ? <a class="i-btn i-btn-ghost" href={`/technology/lesson/${trackId}/${prev.slug}`}>&larr; {prev.title}</a>
         : <span></span>}
       {next
-        ? <a class="i-btn i-btn-ghost" href={`/institute/lesson/${trackId}/${next.slug}`}>{next.title} &rarr;</a>
-        : <a class="i-btn i-btn-primary" href={`/institute/track/${track?.slug || trackId}`}>Finish the phase &rarr;</a>}
+        ? <a class="i-btn i-btn-ghost" href={`/technology/lesson/${trackId}/${next.slug}`}>{next.title} &rarr;</a>
+        : <a class="i-btn i-btn-primary" href={`/technology/track/${track?.slug || trackId}`}>Finish the phase &rarr;</a>}
     </nav>
   </div>
 

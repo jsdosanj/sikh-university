@@ -59,7 +59,7 @@ const ld = {
       <p class="i-mono i-thead-meta">
         {isImported ? `${idx.lessons.length} lessons` : (t.lessonCount || t.topicCount || t.projectCount || 0) + ' ' + (t.kind === 'dojo' ? 'topics' : t.kind === 'capstone' ? 'projects' : 'lessons')}
         {' · '}{t.level}-level
-        {prereq ? <> · prereq: <a href={`/institute/track/${trackSlug(prereq)}`}>{prereq.title}</a></> : null}
+        {prereq ? <> · prereq: <a href={`/technology/track/${trackSlug(prereq)}`}>{prereq.title}</a></> : null}
         {prof ? <> · <a href={prof.links?.[0]?.href || '#'} target="_blank" rel="noopener">{prof.name}</a></> : null}
       </p>
     </div>
@@ -72,7 +72,7 @@ const ld = {
       <ol class="i-cap-list">
         {capstone.briefs.map((b, i) => (
           <li>
-            <a href={`/institute/capstone/${b.slug}`}>
+            <a href={`/technology/capstone/${b.slug}`}>
               <span class="i-cap-num i-mono">{String(i + 1).padStart(2, '0')}</span>
               <span class="i-cap-text">
                 <strong class="i-cap-title">{b.title}</strong>
@@ -90,7 +90,7 @@ const ld = {
       </div>
 
       <p class="i-prose" style="margin-top:20px;font-size:13px;color:var(--i-muted)">
-        {capstone.licenseNote} Written by {prof?.name || 'Sikhi University'}. See <a href="/institute/licenses">sources &amp; licenses</a>.
+        {capstone.licenseNote} Written by {prof?.name || 'Sikhi University'}. See <a href="/technology/licenses">sources &amp; licenses</a>.
       </p>
     </section>
   ) : isGuide ? (
@@ -100,7 +100,7 @@ const ld = {
         Every feature is named, then explained by what it lets you do. Developer detail sits at the end,
         so a beginner is never blocked by it — and Part 5 links the official Anthropic courses.
       </p>
-      <p><a class="i-btn i-btn-primary" href="/institute/guide/claude-code">Open the guide &rarr;</a></p>
+      <p><a class="i-btn i-btn-primary" href="/technology/guide/claude-code">Open the guide &rarr;</a></p>
     </section>
   ) : isDojo ? (
     <section class="i-wrap i-track-body">
@@ -110,10 +110,10 @@ const ld = {
           : `The real Claude Code command set. Type / to explore — every command is its own short lesson, with the reason it exists, synced to the docs.`}
       </p>
       <p>
-        <a class="i-btn i-btn-primary" href={`/institute/dojo/${t.id}`}>Enter the dojo &rarr;</a>
+        <a class="i-btn i-btn-primary" href={`/technology/dojo/${t.id}`}>Enter the dojo &rarr;</a>
       </p>
       <p class="i-prose" style="margin-top:20px;font-size:13px;color:var(--i-muted)">
-        Rebuilt for the Institute from the sikhi.io <a href="https://sikhi.io">Sikh Code</a> dojos, by {prof?.name || 'Sikhi University'}. CC BY-SA 4.0. See <a href="/institute/licenses">sources &amp; licenses</a>.
+        Rebuilt for the Institute from the sikhi.io <a href="https://sikhi.io">Sikh Code</a> dojos, by {prof?.name || 'Sikhi University'}. CC BY-SA 4.0. See <a href="/technology/licenses">sources &amp; licenses</a>.
       </p>
     </section>
   ) : isImported ? (
@@ -121,7 +121,7 @@ const ld = {
       <ol class="i-lessonlist">
         {idx.lessons.map((l) => (
           <li>
-            <a href={`/institute/lesson/${t.id}/${l.slug}`}>
+            <a href={`/technology/lesson/${t.id}/${l.slug}`}>
               <span class="i-ll-num i-mono">{String(l.num).padStart(2, '0')}</span>
               <span class="i-ll-title">{l.title}</span>
               {l.nQuiz > 0 && <span class="i-ll-tag i-mono">{l.nQuiz}-q check</span>}
@@ -137,11 +137,11 @@ const ld = {
             The {idx.lessons.length} lessons above and a <strong>{examN}-question exam</strong> stand between
             you and the <em>Sikhi University &middot; Institute of Technology</em> certificate for this phase.
             The exam is graded on our server, needs 80% to pass, and verifies at <a href="/verify">/verify</a>.
-            Experienced already? You can <a href={`/institute/exam/${t.slug}`}>go straight to the exam</a>.
+            Experienced already? You can <a href={`/technology/exam/${t.slug}`}>go straight to the exam</a>.
           </p>
           <p class="i-cert-cta-actions">
-            <a class="i-btn i-btn-primary" href={`/institute/exam/${t.slug}`}>Take the Phase {pnum} exam &rarr;</a>
-            <a class="i-btn i-btn-ghost" href={`/institute/cert?track=${t.slug}`}>View my certificate</a>
+            <a class="i-btn i-btn-primary" href={`/technology/exam/${t.slug}`}>Take the Phase {pnum} exam &rarr;</a>
+            <a class="i-btn i-btn-ghost" href={`/technology/cert?track=${t.slug}`}>View my certificate</a>
           </p>
         </div>
       ) : (
@@ -152,12 +152,12 @@ const ld = {
             The upstream curriculum doesn't ship a quiz bank for this phase, so there is no
             Phase&nbsp;{pnum} exam or certificate for now &mdash; read it for the material.
             The phases with an exam are marked <span class="i-mono">exam&nbsp;+&nbsp;cert</span> on
-            the <a href="/institute">curriculum spine</a>.
+            the <a href="/technology">curriculum spine</a>.
           </p>
         </div>
       )}
       <p class="i-prose" style="margin-top:20px;font-size:13px;color:var(--i-muted)">
-        Adapted from <a href="https://aiengineeringfromscratch.com">AI Engineering from Scratch</a> by {prof?.name || 'Rohit Ghumare'}, used under the MIT License. Reformatted into the Institute's structure. See <a href="/institute/licenses">sources &amp; licenses</a>.
+        Adapted from <a href="https://aiengineeringfromscratch.com">AI Engineering from Scratch</a> by {prof?.name || 'Rohit Ghumare'}, used under the MIT License. Reformatted into the Institute's structure. See <a href="/technology/licenses">sources &amp; licenses</a>.
       </p>
     </section>
   ) : (
@@ -169,7 +169,7 @@ const ld = {
           {t.kind === 'guide' && "Ports from sikhi.io in Wave 3."}
           {t.kind === 'capstone' && "The “Build for the Panth” project briefs are being finalised."}
         </p>
-        <p style="margin-top:20px"><a class="i-btn i-btn-ghost" href="/institute/catalog">&larr; Back to the catalogue</a></p>
+        <p style="margin-top:20px"><a class="i-btn i-btn-ghost" href="/technology/catalog">&larr; Back to the catalogue</a></p>
       </div>
     </section>
   )}
