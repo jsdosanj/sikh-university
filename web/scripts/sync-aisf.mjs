@@ -11,9 +11,13 @@
 // Our own additions (seva intros, extra lab checks) live in ours/<track>/ and
 // are merged at build time (sync-institute.mjs) — this script NEVER touches them.
 import { execSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync, cpSync } from 'node:fs';
 import { join } from 'node:path';
 import { parseLessonDoc, bodyToHtml } from './lib/aisf-md.mjs';
+
+// Lesson figures (the ![alt](../assets/x.svg) diagrams) are copied here and
+// served as /technology-figures/x.svg. Wiped and rebuilt each run.
+const FIG_OUT = 'public/technology-figures';
 
 // phase dir -> Institute track id (must match manifest.json). All 20 AISF
 // phases: the 7 MLI phases shipped first (Wave 4), the other 13 as a depth
@@ -52,8 +56,12 @@ if (!REPO) {
 const COMMIT = execSync(`git -C ${REPO} rev-parse --short HEAD`).toString().trim();
 const OUT = 'src/data/institute/imported';
 
+if (existsSync(FIG_OUT)) rmSync(FIG_OUT, { recursive: true, force: true });
+mkdirSync(FIG_OUT, { recursive: true });
+
 let totalLessons = 0;
 let totalQuiz = 0;
+let totalFigs = 0;
 
 for (const [phaseDir, trackId] of PHASES) {
   const pDir = join(REPO, 'phases', phaseDir);
@@ -83,7 +91,15 @@ for (const [phaseDir, trackId] of PHASES) {
     if (!existsSync(enPath)) { console.warn(`  ${trackId}/${ld} — no docs/en.md`); continue; }
 
     const { title, tagline, meta, objectives, bodyMd } = parseLessonDoc(readFileSync(enPath, 'utf-8'));
-    const { html, hasMermaid } = bodyToHtml(bodyMd);
+    const { html, hasMermaid, assets } = bodyToHtml(bodyMd);
+
+    // Copy each referenced figure SVG into public/technology-figures/. The
+    // markdown path is ../assets/<name> relative to docs/, i.e. <ld>/assets/.
+    for (const name of assets) {
+      const srcSvg = join(pDir, ld, 'assets', name);
+      if (existsSync(srcSvg)) { cpSync(srcSvg, join(FIG_OUT, name)); totalFigs += 1; }
+      else console.warn(`  ${trackId}/${slug} — figure asset missing: ${name}`);
+    }
 
     // "type this" code: the code/ dir, keyed by language.
     const code = {};
@@ -147,4 +163,4 @@ for (const [phaseDir, trackId] of PHASES) {
   console.log(`${trackId.padEnd(26)} ${index.length} lessons, ${index.reduce((n, l) => n + l.nQuiz, 0)} quiz Qs`);
 }
 
-console.log(`\nsync-aisf: ${totalLessons} lessons, ${totalQuiz} quiz questions across ${PHASES.length} phases (source ${COMMIT})`);
+console.log(`\nsync-aisf: ${totalLessons} lessons, ${totalQuiz} quiz questions, ${totalFigs} figure SVGs across ${PHASES.length} phases (source ${COMMIT})`);

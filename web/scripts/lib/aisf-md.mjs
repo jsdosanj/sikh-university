@@ -3,11 +3,18 @@
 // user content — but we still scrub defensively.
 //
 //   ```mermaid        -> <pre class="mermaid"> (rendered client-side, lazily,
-//                        from jsDelivr — the /institute/* CSP allows it)
+//                        from jsDelivr — the /technology/* CSP allows it)
 //   ```figure NAME    -> a "see the interactive diagram in the source" note
 //   ```lang           -> <pre><code class="language-lang"> (Prism-ready)
+//   ![alt](../assets/x.svg) -> <figure> with the svg served from
+//                        /technology-figures/x.svg (sync-aisf copies the file);
+//                        the returned `assets` list tells it which
 //   everything else   -> marked, GFM on
 import { marked } from 'marked';
+
+// Where the imported lesson figures are served from (sync-aisf.mjs copies the
+// referenced SVGs into web/public/technology-figures/).
+const FIG_BASE = '/technology-figures/';
 
 /** Split the lesson doc into { title, tagline, meta, objectives, bodyMd }. */
 export function parseLessonDoc(md) {
@@ -80,7 +87,57 @@ export function bodyToHtml(bodyMd) {
   marked.use({ gfm: true, breaks: false });
   let html = marked.parse(bodyMd, { renderer });
   html = scrub(html);
-  return { html, figures, hasMermaid: /class="mermaid"/.test(html) };
+
+  // ---- image assets: ![alt](../assets/x.svg) -> a served <figure> ----------
+  // marked emits <img src="../assets/x.svg" ...> — a relative path that 404s on
+  // our site. Rewrite to /technology-figures/x.svg (sync-aisf copies the file)
+  // and wrap in a <figure> with the alt as the caption. Non-svg / absolute /
+  // remote images are left alone.
+  const assets = [];
+  html = html.replace(
+    /<img\b[^>]*?src=(["'])([^"']+?)\1[^>]*>/gi,
+    (tag, _q, src) => {
+      const m = src.match(/(?:^|\/)assets\/([\w.-]+\.svg)$/i);
+      if (!m) return tag;
+      const name = m[1];
+      if (!assets.includes(name)) assets.push(name);
+      const altM = tag.match(/alt=(["'])([^"']*)\1/i);
+      const alt = altM ? altM[2] : '';
+      return (
+        `<figure class="i-lesson-fig">` +
+        `<img src="${FIG_BASE}${name}" alt="${escapeHtml(alt)}" loading="lazy">` +
+        (alt ? `<figcaption>${escapeHtml(alt)}</figcaption>` : '') +
+        `</figure>`
+      );
+    },
+  );
+
+  // ---- defuse links marked over-eagerly created --------------------------
+  html = html
+    // "mAP@0.5" etc. -> autolinked as mailto:. Unwrap anything that isn't a
+    // real-looking address.
+    .replace(
+      /<a\b[^>]*?href=(["'])mailto:([^"']+)\1[^>]*>(.*?)<\/a>/gi,
+      (whole, _q, addr, inner) =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(addr) ? whole : inner,
+    )
+    // cross-lesson refs into the AISF source tree (".../docs/en.md", "../../NN-slug/")
+    // — no such path here. Keep the link text, drop the dead href.
+    .replace(
+      /<a\b[^>]*?href=(["'])((?:\.\.?\/)[^"']*?(?:\/docs\/en\.md|\/)?)\1[^>]*>(.*?)<\/a>/gi,
+      (whole, _q, href, inner) =>
+        /^(?:\.\.?\/)/.test(href) && !/^\.\.?\/assets\//.test(href) ? inner : whole,
+    )
+    // external links open in a new tab, safely
+    .replace(
+      /<a\b([^>]*?)href=(["'])(https?:\/\/[^"']+)\2([^>]*?)>/gi,
+      (whole, pre, q, href, post) =>
+        /target=/i.test(whole) ? whole : `<a${pre}href=${q}${href}${q}${post} target="_blank" rel="noopener">`,
+    )
+    // marked wraps the image in <p>; a block <figure> inside <p> is invalid — unwrap.
+    .replace(/<p>\s*(<figure class="i-lesson-fig">[\s\S]*?<\/figure>)\s*<\/p>/gi, '$1');
+
+  return { html, figures, assets, hasMermaid: /class="mermaid"/.test(html) };
 }
 
 function escapeHtml(s) {
