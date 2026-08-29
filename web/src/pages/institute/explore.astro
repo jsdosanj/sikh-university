@@ -2,10 +2,19 @@
 import Base from '../../layouts/Base.astro';
 import InstituteRail from '../../components/institute/InstituteRail.astro';
 import { explore, deferred } from '../../lib/institute';
+
+// Per-booth chrome. Each stand deliberately breaks the Institute's design
+// system to read like its source (DESIGN-INSTITUTE.md §college-fair) — no
+// logos, no scraped screenshots, just type + colour.
+const MARKS: Record<string, string> = {
+  freecodecamp: '{ }',
+  'class-central': '///',
+  'libre-academy': '[ ]',
+};
 ---
 <Base
   title="Explore free courses — Institute of Technology"
-  description="When you have outgrown the Institute's own courses, or want a wider on-ramp: free coding curricula from freeCodeCamp and other open platforms."
+  description="When you have outgrown the Institute's own courses, or want a wider on-ramp: free coding curricula and course directories — freeCodeCamp, Class Central, Libre.academy."
   institute noindex
 >
   <InstituteRail />
@@ -19,7 +28,7 @@ import { explore, deferred } from '../../lib/institute';
   <section class="i-wrap i-fair">
     {explore.map((b) => (
       <a class={`i-booth i-booth-${b.id}`} href={b.href} target="_blank" rel="noopener">
-        <span class="i-booth-mark" aria-hidden="true">{b.id === 'freecodecamp' ? '{ }' : '↗'}</span>
+        <span class="i-booth-mark" aria-hidden="true">{MARKS[b.id] ?? '↗'}</span>
         <div>
           <strong class="i-booth-name">{b.title}</strong>
           <span class="i-booth-blurb">{b.blurb}</span>
@@ -28,16 +37,26 @@ import { explore, deferred } from '../../lib/institute';
               Lecture companions and links to the freeCodeCamp&reg; curriculum. Sikhi University is not affiliated with, sponsored by, or endorsed by freeCodeCamp.org. Certifications are issued by freeCodeCamp. Curriculum content is CC&nbsp;BY-SA&nbsp;4.0.
             </span>
           )}
+          {b.id === 'class-central' && (
+            <span class="i-booth-fine">
+              A course-discovery aggregator. &ldquo;Class Central&rdquo; is a trademark of Class Central SL, used here nominatively to name the service &mdash; no affiliation or endorsement is claimed. Course listings, ratings, and editorial content are Class Central&rsquo;s own.
+            </span>
+          )}
+          {b.id === 'libre-academy' && (
+            <span class="i-booth-fine">
+              The Libre.academy app is open source (MIT). Its course packs are each adapted from a separate book &mdash; several under CC&nbsp;BY-NC or BY-NC-ND (Eloquent JavaScript, You Don&rsquo;t Know JS Yet, Pro Git, JavaScript.info, Automate the Boring Stuff). We honour those non-commercial / no-derivatives terms, so this stand links out and never rehosts a pack.
+            </span>
+          )}
         </div>
         <span class="i-booth-go">open &nearr;</span>
       </a>
     ))}
   </section>
 
-  <section class="i-wrap i-exp-soon">
-    <span class="i-label">arriving in a later wave</span>
+  <section class="i-wrap i-exp-foot">
     <p class="i-prose">
-      <strong>Class Central</strong> (a search engine for free university courses) and <strong>Libre.academy</strong> (technical books turned into guided exercises) get their own stands here soon. Libre's course packs derive from books under non-commercial and no-derivatives licenses we're bound to honour, so that stand links out rather than rehosting. For the open-source project atlas, see <a href="https://sikhi.io/opensource" target="_blank" rel="noopener">sikhi.io/opensource</a>.
+      Building something open yourself? The open-source project atlas lives at
+      <a href="https://sikhi.io/opensource" target="_blank" rel="noopener">sikhi.io/opensource</a>.
     </p>
     <p class="i-prose" style="font-size:13px;color:var(--i-muted)">
       Full attribution and licences: <a href="/institute/licenses">/institute/licenses</a>.
@@ -74,8 +93,37 @@ import { explore, deferred } from '../../lib/institute';
     .i-booth-freecodecamp .i-booth-go { color: #02be8c; }
     .i-booth-freecodecamp:hover { border-color: #02be8c; }
 
-    .i-exp-soon { padding: 16px 24px 72px; }
-    .i-exp-soon p { max-width: 62ch; }
+    /* Class Central: their clean light card, indigo + coral. */
+    .i-booth-class-central {
+      background: #ffffff; border-color: #e3ddf3;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+      color: #4a4560;
+    }
+    .i-booth-class-central .i-booth-mark { color: #5f37be; letter-spacing: -0.05em; }
+    .i-booth-class-central .i-booth-name { color: #1c1633; font-weight: 700; }
+    .i-booth-class-central .i-booth-fine { color: #8a8399; }
+    .i-booth-class-central .i-booth-go { color: #e64b5f; font-weight: 600; }
+    .i-booth-class-central:hover { border-color: #5f37be; }
+
+    /* Libre.academy: near-black, halftone dots, burnt orange, mono display. */
+    .i-booth-libre-academy {
+      background-color: #0c0b0a; border-color: #2b2723;
+      background-image: radial-gradient(#1e1b17 1px, transparent 1.4px);
+      background-size: 9px 9px;
+      font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+      color: #a89684;
+    }
+    .i-booth-libre-academy .i-booth-mark { color: #e0734d; }
+    .i-booth-libre-academy .i-booth-name {
+      color: #f0e6db; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; font-size: 15px;
+    }
+    .i-booth-libre-academy .i-booth-fine { color: #7c6f61; }
+    .i-booth-libre-academy .i-booth-go { color: #e0734d; }
+    .i-booth-libre-academy:hover { border-color: #e0734d; }
+
+    .i-exp-foot { padding: 16px 24px 72px; }
+    .i-exp-foot p { max-width: 62ch; }
 
     @media (max-width: 600px) {
       .i-booth { grid-template-columns: 1fr; }
