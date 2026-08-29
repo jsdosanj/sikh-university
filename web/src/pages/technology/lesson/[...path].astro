@@ -180,6 +180,18 @@ const ld = {
       padding: 16px; margin: 0 0 16px; text-align: center; overflow-x: auto;
     }
     .i-lesson-prose :global(.i-lesson-figure) { font-size: 13px; color: var(--i-muted); }
+    /* Imported diagram (![alt](../assets/x.svg)). The source SVGs are drawn for
+       a light page, so they sit on a light card in both themes — same call the
+       Atlas makes for GitHub's OG cards. */
+    .i-lesson-prose :global(.i-lesson-fig) {
+      margin: 0 0 18px; padding: 14px; border: 1px solid var(--i-line);
+      border-radius: var(--i-r-md); background: #f7f4ee; text-align: center;
+    }
+    .i-lesson-prose :global(.i-lesson-fig img) { max-width: 100%; height: auto; }
+    .i-lesson-prose :global(.i-lesson-fig figcaption) {
+      margin-top: 10px; font-size: 12px; line-height: 1.5; color: #5a5344;
+      font-family: "JetBrains Mono", monospace;
+    }
 
     .i-lesson-lab { margin: 34px 0; }
     .i-lesson-lab > .i-label { display: block; margin-bottom: 10px; }
