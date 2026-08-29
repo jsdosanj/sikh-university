@@ -37,18 +37,16 @@ async function getPyodide(): Promise<any> {
   return pyodidePromise;
 }
 
-/** Escape a Python string literal for embedding a check expression safely. */
-function pyExpr(test: string): string {
-  // Each check is a Python expression that should evaluate truthy to pass.
-  // Run it in the shared namespace; capture the result + any exception.
-  return (
-    'def __run_check(__expr):\n' +
-    '    try:\n' +
-    '        return (bool(eval(__expr, globals())), None)\n' +
-    '    except Exception as __ex:\n' +
-    '        return (False, f"{type(__ex).__name__}: {__ex}")\n'
-  );
-}
+// The check harness, defined once in the student's namespace. Each check's
+// `test` is a Python expression string; it is passed as a normal function
+// ARGUMENT at call time (`__run_check(c.test)`) — never string-concatenated
+// into code — so there is nothing to escape. It evaluates truthy to pass.
+const CHECK_HARNESS =
+  'def __run_check(__expr):\n' +
+  '    try:\n' +
+  '        return (bool(eval(__expr, globals())), None)\n' +
+  '    except Exception as __ex:\n' +
+  '        return (False, f"{type(__ex).__name__}: {__ex}")\n';
 
 self.onmessage = async (e: MessageEvent<{ code: string; checks: Check[] }>) => {
   const { code, checks } = e.data;
@@ -72,7 +70,7 @@ self.onmessage = async (e: MessageEvent<{ code: string; checks: Check[] }>) => {
     const results = checks.map((c) => ({ name: c.name, hint: c.hint, pass: false, error: undefined as string | undefined }));
 
     if (ran && checks.length) {
-      py.runPython(pyExpr(''), { globals: ns });
+      py.runPython(CHECK_HARNESS, { globals: ns });
       const runCheck = ns.get('__run_check');
       checks.forEach((c, i) => {
         try {
