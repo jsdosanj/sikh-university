@@ -1,6 +1,10 @@
 /* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v25'; // packs moved to their own unversioned cache (see PACKS_CACHE below) — this bump is the last one that can ever touch offline course data
+// __BUILD__ is replaced with a hash of the built assets by scripts/stamp-sw.mjs
+// (post `astro build`). Every deploy that changes any asset gets a new cache
+// key, so `activate` purges the old shell and returning users always get the
+// current HTML/CSS/JS — the SW can no longer serve a months-stale shell.
+var CACHE = 'su-web-__BUILD__';
 // Offline course packs live in their OWN unversioned cache, separate from the
 // app-shell CACHE above. The activate handler purges every cache key except
 // CACHE on every version bump (below) — before this split, that purge was
@@ -44,6 +48,7 @@ self.addEventListener('fetch', function (e) {
   var url = new URL(req.url); if (url.origin !== location.origin) return;
   if (url.pathname.indexOf('/api/') === 0) return; // never touch APIs
   if (url.pathname.indexOf('/media/') === 0) return; // audio streams direct (range requests); don't cache
+  if (url.pathname.indexOf('/data/institute/atlas/') === 0) return; // large (~4 MB), rarely changes — a stuck cache here is worse than a fetch
 
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req).then(function (res) {
@@ -54,7 +59,14 @@ self.addEventListener('fetch', function (e) {
   }
 
   if (url.pathname.indexOf('courses.json') !== -1 || url.pathname.indexOf('professors.json') !== -1 || url.pathname.indexOf('/data/') === 0) {
-    e.respondWith(fetch(req).then(function (res) { if (cacheable(res)) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); }); } return res; }).catch(function () { return caches.match(req); }));
+    // network-first, cache fallback. If the network fails AND nothing is cached,
+    // fall through to a plain fetch so the page gets a real rejection to handle —
+    // never resolve to undefined (that surfaces as a silent "unavailable").
+    e.respondWith(
+      fetch(req)
+        .then(function (res) { if (cacheable(res)) { var cp = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, cp); }); } return res; })
+        .catch(function () { return caches.match(req).then(function (h) { return h || fetch(req); }); }),
+    );
     return;
   }
 
