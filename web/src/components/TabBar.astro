@@ -6,7 +6,7 @@
 import Icon from './Icon.astro';
 const tabs = [
   { href: '/', icon: 'home', label: 'Home', key: 'nav.home', m: '/' },
-  { href: '/catalog', icon: 'books', label: 'Courses', key: 'nav.courses', m: '/catalog' },
+  { href: '/departments', icon: 'books', label: 'Departments', key: 'nav.departments', m: '/departments' },
   { href: '/santhiya', icon: 'music', label: 'Santhya', key: 'nav.santhya', m: '/santhiya' },
   { href: '/dashboard', icon: 'backpack', label: 'My Learning', key: 'nav.mylearning', m: '/dashboard' },
 ];
@@ -15,7 +15,11 @@ const tabs = [
 const raw = Astro.url.pathname.replace(/\.html$/, '');
 const path = raw === '/index' ? '/' : raw;
 const isActive = (m: string) =>
-  m === '/' ? path === '/' : path === m || path.startsWith(m + '/') || (m === '/catalog' && path.startsWith('/course/'));
+  m === '/'
+    ? path === '/'
+    : path === m ||
+      path.startsWith(m + '/') ||
+      (m === '/departments' && (path === '/catalog' || path.startsWith('/course/') || path.startsWith('/catalog/')));
 ---
 <nav aria-label="Quick navigation" class="su-tabbar glass-strong">
   {tabs.map((t) => (
