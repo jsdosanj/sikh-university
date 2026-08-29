@@ -542,17 +542,18 @@ const pageTitle = c.title.length > 46 ? c.title : `${c.title} — Sikhi Universi
       let res;
       try { res = await fetch('/api/quiz', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: id, answers }) }).then((x) => x.json()); } catch (e) { res = null; }
       submit.disabled = false; submit.textContent = 'Submit test';
-      if (!res || typeof res.score !== 'number') { r.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not submit your test — please try again.</div>'; return; }
-      const score = res.score, correct = res.correct, total = res.total;
+      if (!res || typeof res.passed !== 'boolean') { r.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not submit your test — please try again.</div>'; return; }
+      // The server returns the score only on a pass — a failing attempt is just
+      // the boolean, so the score can't be used to reverse-engineer the key.
+      const score = res.score;
       const wasPassed = get('passed_' + id, 0) >= 80;
-      set(scoreKey, Math.max(score, get(scoreKey, 0)));
-      if (res.passed) set('passed_' + id, score);
+      if (res.passed && typeof score === 'number') { set(scoreKey, Math.max(score, get(scoreKey, 0))); set('passed_' + id, score); }
       recordActivity();
       if (res.passed) {
         const cert = res.signedIn ? ` <a class="underline" href="/cert?course=${id}">View your certificate →</a>` : ' <a class="underline" href="/login">Sign in</a> to save this and earn a certificate.';
-        r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}% (${correct}/${total}).</strong> Course complete.${cert}</div>`;
+        r.innerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${score}%.</strong> Course complete.${cert}</div>`;
         if (!wasPassed) celebratePass(score, !!res.signedIn);
-      } else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${score}% (${correct}/${total}).</strong> You need 80%. Review the lessons and try again.</div>`;
+      } else r.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet.</strong> You need 80%. Review the lessons and try again.</div>`;
       r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     // Pass celebration overlay — only fires on a NEW pass (never on page load).
@@ -671,10 +672,10 @@ const pageTitle = c.title.length > 46 ? c.title : `${c.title} — Sikhi Universi
             submitBtn.disabled = true; submitBtn.textContent = 'Submitting…';
             let r; try { r = await fetch('/api/quiz', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ courseId: id, answers }) }).then((x) => x.json()); } catch (e) { r = null; }
             submitBtn.disabled = false; submitBtn.textContent = 'Submit test';
-            if (!r || typeof r.score !== 'number') { result.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not submit your test — please try again.</div>'; return; }
+            if (!r || typeof r.passed !== 'boolean') { result.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Could not submit your test — please try again.</div>'; return; }
             result.innerHTML = r.passed
-              ? `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${r.score}% (${r.correct}/${r.total}).</strong> Course complete.</div>`
-              : `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet — ${r.score}% (${r.correct}/${r.total}).</strong> You need 80%. Review the lessons and try again.</div>`;
+              ? `<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Passed — ${r.score}%.</strong> Course complete.</div>`
+              : `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Not yet.</strong> You need 80%. Review the lessons and try again.</div>`;
             result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           });
         }

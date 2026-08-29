@@ -133,23 +133,25 @@ export function initExam(): void {
       }
 
       const d = res ? await res.json().catch(() => null) : null;
-      if (!d || typeof d.score !== 'number') {
+      if (!d || typeof d.passed !== 'boolean') {
         out.textContent = "Couldn't reach the grader — try again in a moment.";
         out.className = 'i-exam-result i-mono fail';
         return;
       }
 
       if (d.passed) {
+        // The server reveals the score only on a pass (a failing attempt
+        // returns just the boolean, so the count can't be used as an
+        // answer-key oracle).
         out.innerHTML =
-          `<strong>${d.score}%</strong> — ${d.correct}/${d.total}. You passed. ` +
+          `<strong>${d.score}%</strong> — you passed. ` +
           `<a href="${escapeHtml(certHref)}">Claim your certificate &rarr;</a>`;
         out.className = 'i-exam-result i-mono pass';
         form.querySelectorAll('input').forEach((el) => ((el as HTMLInputElement).disabled = true));
         submit.disabled = true;
       } else {
         out.textContent =
-          `${d.score}% — ${d.correct}/${d.total}. You need 80%. ` +
-          'Go back through the phase, then try a new question set.';
+          'Not passed — you need 80%. Go back through the phase, then try a new question set.';
         out.className = 'i-exam-result i-mono fail';
       }
     });
