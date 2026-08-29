@@ -120,7 +120,7 @@ const ld = {
           </li>
         ))}
       </ol>
-      {hasExam && (
+      {hasExam ? (
         <div class="i-panel i-cert-cta">
           <span class="i-corner">Phase {pnum} certificate</span>
           <h2>Finish the phase, then sit the exam</h2>
@@ -133,6 +133,17 @@ const ld = {
           <p class="i-cert-cta-actions">
             <a class="i-btn i-btn-primary" href={`/institute/exam/${t.slug}`}>Take the Phase {pnum} exam &rarr;</a>
             <a class="i-btn i-btn-ghost" href={`/institute/cert?track=${t.slug}`}>View my certificate</a>
+          </p>
+        </div>
+      ) : (
+        <div class="i-panel i-cert-cta">
+          <span class="i-corner">reading track</span>
+          <h2>No phase exam yet</h2>
+          <p class="i-prose">
+            The upstream curriculum doesn't ship a quiz bank for this phase, so there is no
+            Phase&nbsp;{pnum} exam or certificate for now &mdash; read it for the material.
+            The phases with an exam are marked <span class="i-mono">exam&nbsp;+&nbsp;cert</span> on
+            the <a href="/institute">curriculum spine</a>.
           </p>
         </div>
       )}

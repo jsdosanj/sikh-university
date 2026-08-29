@@ -3,6 +3,11 @@ import Base from '../../layouts/Base.astro';
 import InstituteRail from '../../components/institute/InstituteRail.astro';
 import { phases, dojos, guides, capstones, WEDGE, totalLessons } from '../../lib/institute';
 
+// Which phases carry a server-graded exam + certificate, and which are
+// reading tracks for now (source has no quiz bank yet).
+const examBanks = import.meta.glob('../../data/institute/exam/*.json', { eager: true });
+const hasExam = (id: string) => !!examBanks[`../../data/institute/exam/${id}.json`];
+
 // The AISF-style goal router (X3): four doors, each drops the student at the
 // right place. Wave 1 targets the track overview / catalogue; Wave 4+ deep-links
 // to the first lesson.
@@ -65,14 +70,14 @@ const desc = 'Sikhi University’s engineering wing — learn to code and build 
   <section class="i-wrap i-sec">
     <span class="i-label">02 — the curriculum &middot; {phases.length} phases &middot; ~{totalLessons} lessons</span>
     <h2>AI Engineering</h2>
-    <p class="i-prose">Adapted from <a href="https://aiengineeringfromscratch.com">AI Engineering from Scratch</a> by Rohit Ghumare, used under the MIT License. The full 20-phase curriculum arrives in waves; these seven ship first.</p>
+    <p class="i-prose">Adapted from <a href="https://aiengineeringfromscratch.com">AI Engineering from Scratch</a> by Rohit Ghumare, used under the MIT License &mdash; reformatted into the Institute's structure, with a browser code lab, server-graded quizzes, and phase exams. All {phases.length} phases are live; a few of the newest are reading tracks until their exams are written.</p>
     <ol class="i-spine">
       {phases.map((p) => (
         <li class="i-spine-row">
           <span class="i-spine-num i-mono">{String(p.num).padStart(2, '0')}</span>
           <a class="i-spine-title" href={`/institute/track/${p.slug}`}>{p.title}</a>
           <span class="i-spine-meta i-mono">{p.lessonCount} lessons{p.prereq ? ' · prereq' : ''}</span>
-          <span class="i-spine-status i-mono">{p.status}</span>
+          <span class="i-spine-status i-mono">{hasExam(p.id) ? 'exam + cert' : 'reading'}</span>
         </li>
       ))}
     </ol>
