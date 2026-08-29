@@ -15,15 +15,30 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync
 import { join } from 'node:path';
 import { parseLessonDoc, bodyToHtml } from './lib/aisf-md.mjs';
 
-// phase dir -> Institute track id (must match manifest.json)
+// phase dir -> Institute track id (must match manifest.json). All 20 AISF
+// phases: the 7 MLI phases shipped first (Wave 4), the other 13 as a depth
+// wave. Order here is the AISF spine order.
 const PHASES = [
   ['00-setup-and-tooling', 'aisf-00-setup'],
+  ['01-math-foundations', 'aisf-01-math'],
   ['02-ml-fundamentals', 'aisf-02-ml'],
   ['03-deep-learning-core', 'aisf-03-deep-learning'],
+  ['04-computer-vision', 'aisf-04-vision'],
+  ['05-nlp-foundations-to-advanced', 'aisf-05-nlp'],
+  ['06-speech-and-audio', 'aisf-06-speech'],
   ['07-transformers-deep-dive', 'aisf-07-transformers'],
+  ['08-generative-ai', 'aisf-08-genai'],
+  ['09-reinforcement-learning', 'aisf-09-rl'],
+  ['10-llms-from-scratch', 'aisf-10-llms-from-scratch'],
   ['11-llm-engineering', 'aisf-11-llm-engineering'],
+  ['12-multimodal-ai', 'aisf-12-multimodal'],
   ['13-tools-and-protocols', 'aisf-13-tools-protocols'],
   ['14-agent-engineering', 'aisf-14-agent-engineering'],
+  ['15-autonomous-systems', 'aisf-15-autonomous'],
+  ['16-multi-agent-and-swarms', 'aisf-16-multi-agent'],
+  ['17-infrastructure-and-production', 'aisf-17-infra'],
+  ['18-ethics-safety-alignment', 'aisf-18-ethics'],
+  ['19-capstone-projects', 'aisf-19-capstone'],
 ];
 const LANGS = { python: 'py', typescript: 'ts', javascript: 'js', rust: 'rs', julia: 'jl', node: 'js' };
 
