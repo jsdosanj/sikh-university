@@ -2,7 +2,6 @@ import type { APIRoute } from 'astro';
 import { tracks, trackSlug, capstones } from '../../lib/institute';
 import { siteBase, urlsetXml } from '../../lib/sitemap';
 import capstoneBriefs from '../../data/institute/capstone/briefs.json';
-import { workshops } from '../../data/institute/workshops';
 
 // The Institute of Technology wing — /technology/*. The hub, the section
 // pages, every track and lesson, the dojos and capstone briefs. The exam
@@ -16,7 +15,6 @@ export const GET: APIRoute = ({ site }) => {
     { path: '/technology/catalog', priority: '0.7' },
     { path: '/technology/explore', priority: '0.6' },
     { path: '/technology/atlas', priority: '0.6' },
-    { path: '/technology/workshop', priority: '0.6' },
     { path: '/technology/licenses', priority: '0.4' },
     { path: '/technology/guide/claude-code', priority: '0.7' },
     { path: '/technology/claude', priority: '0.7' },
@@ -41,10 +39,6 @@ export const GET: APIRoute = ({ site }) => {
     for (const l of idx.lessons || []) {
       entries.push({ path: `/technology/lesson/${m[1]}/${l.slug}`, priority: '0.5' });
     }
-  }
-
-  for (const w of workshops) {
-    entries.push({ path: `/technology/workshop/${w.slug}`, priority: '0.6' });
   }
 
   return urlsetXml(siteBase(site), entries);
