@@ -1,11 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import '../../styles/departments.css';
-import { departments, wing, departmentCourseCount } from '../../lib/departments';
+import { departments, wing, departmentEntryLabel, schoolCountWord } from '../../lib/departments';
 import { published } from '../../lib/data';
 
 const desc =
-  'The schools of Sikhi University — Theology, History, Language & Literature, Political Governance, the Arts, the Sciences, Health, and the Institute of Technology. Every course belongs to one.';
+  'The schools of Sikhi University — Theology, History, Language, Literature, Political Governance, the Arts, the Sciences, Health, Martial Arts, and the Institute of Technology. Every course belongs to one.';
 const cards = [
   ...departments.map((d) => ({
     href: `/departments/${d.slug}`,
@@ -13,7 +13,7 @@ const cards = [
     tagline: d.tagline,
     accent: d.accent,
     img: d.image.src,
-    count: `${departmentCourseCount(d)} courses`,
+    count: departmentEntryLabel(d),
   })),
   {
     href: wing.href,
@@ -30,7 +30,7 @@ const cards = [
     <header class="dx-hero dept-grain">
       <div class="dx-hero-in wrap">
         <p class="dept-eyebrow">One university</p>
-        <h1 class="dx-h1">Eight schools</h1>
+        <h1 class="dx-h1">{schoolCountWord} schools</h1>
         <p class="dx-sub">
           Every course at Sikhi University belongs to a department — each with its own faculty, its
           own signature courses, and its own front door. Start with the one that fits your question,

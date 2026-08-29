@@ -6,6 +6,10 @@ export default defineConfig({
   site: 'https://sikhiuni.com',
   outDir: './dist',
   build: { format: 'file' },
+  // The Language & Literature department split into two schools (2026-08).
+  redirects: {
+    '/departments/language-and-literature': '/departments/language',
+  },
   // assetsInlineLimit 0: never inline bundled scripts into HTML. Every hoisted
   // script ships as an external file (covered by CSP script-src 'self'), so
   // build-csp only hashes the few deliberate is:inline pre-paint scripts —
