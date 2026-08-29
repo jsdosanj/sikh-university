@@ -166,7 +166,7 @@ body[data-institute] .i-rail .i-back {
   border-bottom: 1px solid var(--i-line);
   padding-bottom: 2px;
 }
-body[data-institute] .i-rail .i-back:hover { color: var(--i-signal); border-color: var(--i-signal); }
+body[data-institute] .i-rail .i-back:hover { color: var(--i-filament); border-color: var(--i-filament); }
 
 /* Instrument panel — hairline box + monospace corner-label. No colored
    left-border (hard rule §5·5). */
@@ -209,7 +209,11 @@ body[data-institute] .i-btn-run { background: transparent; color: var(--i-signal
 /* Prose (lesson body stays serif — the blend, D4) */
 body[data-institute] .i-prose { color: var(--i-ink-dim); max-width: 68ch; line-height: 1.65; }
 body[data-institute] .i-prose strong { color: var(--i-ink); }
-body[data-institute] a { color: var(--i-signal); }
+/* Content links carry the university's gold thread. --signal (cyan) is
+   reserved for "live / running / correct" (D2): the code lab, the dojos, a
+   passing check. Scoped to <main> so the shared nav + footer keep their own
+   site-wide dark-theme treatment. */
+body[data-institute] main a { color: var(--i-filament); }
 
 /* Empty-state block */
 body[data-institute] .i-empty {
@@ -373,7 +377,7 @@ body[data-institute] .i-cert-note {
   border: 1px solid var(--i-line-soft); border-left: 2px solid var(--i-filament-dim);
   border-radius: var(--i-r-sm); font-size: 13px; color: var(--i-ink-dim);
 }
-body[data-institute] .i-clink { color: var(--i-signal); text-decoration: underline; }
+body[data-institute] .i-clink { color: var(--i-filament); text-decoration: underline; }
 
 body[data-institute] .i-cert-card {
   max-width: 720px; margin: 0 auto;
