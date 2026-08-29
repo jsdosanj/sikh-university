@@ -5,14 +5,21 @@ import CinematicHero from '../components/CinematicHero.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 import { SITE, ldJson } from '../lib/site';
 import { departments, wing, departmentCourseCount } from '../lib/departments';
-const homeDepartments = [
+const short = (name: string) => name.replace(/^Department(s)? of (the )?/, '').replace(/ Department$/, '');
+const portals = [
   ...departments.map((d) => ({
     href: `/departments/${d.slug}`,
-    short: d.name.replace(/^Department(s)? of (the )?/, '').replace(/ Department$/, ''),
+    name: short(d.name),
+    full: d.name,
+    tagline: d.tagline,
     accent: d.accent,
-    count: departmentCourseCount(d),
+    img: d.image.src,
+    meta: `${departmentCourseCount(d)} courses`,
   })),
-  { href: wing.href, short: wing.name, accent: wing.accent, count: null },
+  {
+    href: wing.href, name: short(wing.name), full: wing.name, tagline: wing.tagline,
+    accent: wing.accent, img: null, meta: 'The engineering wing',
+  },
 ];
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
@@ -152,6 +159,37 @@ const ld = {
     initDailyShabad();
   </script>
 
+  <!-- The portal: eight departments, each previewing its own world -->
+  <section id="home-portal">
+    <div class="wrap">
+      <div class="portal-head">
+        <p class="eyebrow text-saffron-deep">Schools &amp; departments</p>
+        <h2 class="text-display-sm mt-3 font-bold text-navy">Eight schools. One university.</h2>
+        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted">Every course belongs to a department — each with its own faculty, its own signature courses, its own front door. Step through the one that fits your question.</p>
+      </div>
+      <div class="portal-grid">
+        {portals.map((d, i) => (
+          <a href={d.href} class="portal-card" style={`--accent:${d.accent}`} data-reveal-delay={(i % 4) * 70}>
+            <span class="portal-media" aria-hidden="true">
+              {d.img
+                ? <img src={d.img} alt="" loading={i < 3 ? 'eager' : 'lazy'} />
+                : <span class="portal-tech"></span>}
+              <span class="portal-veil"></span>
+              <span class="portal-name">{d.name}</span>
+            </span>
+            <span class="portal-body">
+              <span class="portal-tag">{d.tagline}</span>
+              <span class="portal-meta">{d.meta}<span class="portal-arrow" aria-hidden="true">&rarr;</span></span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <p class="portal-foot">
+        <a class="btn btn-ghost" href="/departments">Walk the full directory &rarr;</a>
+      </p>
+    </div>
+  </section>
+
   <!-- Subjects marquee: every subject drifts past, linking into the catalog -->
   <section class="border-y border-line bg-surface texture-manuscript">
     <div class="py-5">
@@ -163,8 +201,6 @@ const ld = {
               <span>{t.name}</span>
             </a>
           ))}
-          {/* Second copy exists only to make the -50% loop seamless — hidden
-              from the accessibility tree and tab order. */}
           {topics.map((t) => (
             <a href={`/catalog#${t.id}`} aria-hidden="true" tabindex="-1" class="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-sm font-medium text-navy transition hover:-translate-y-0.5 hover:border-saffron hover:text-saffron-deep">
               <Icon name={TOPIC_ICONS[t.id] ?? 'book'} class="h-4 w-4 shrink-0 text-saffron-deep" />
@@ -173,26 +209,6 @@ const ld = {
           ))}
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Departments -->
-  <section id="home-departments">
-    <div class="wrap py-16">
-      <p class="eyebrow text-center text-saffron-deep">Schools &amp; departments</p>
-      <h2 class="text-display-sm mx-auto mt-3 max-w-3xl text-center font-bold text-navy">Eight schools, one university.</h2>
-      <p class="mx-auto mt-4 max-w-2xl text-center text-muted">Every course belongs to a department — each with its own faculty, its own signature courses, and its own way in.</p>
-      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {homeDepartments.map((d) => (
-          <a href={d.href} class="group flex flex-col rounded-xl2 border border-line bg-surface p-5 transition hover:-translate-y-1 hover:shadow-lift" style={`border-top:3px solid ${d.accent}`}>
-            <span class="font-serif text-base font-bold text-navy">{d.short}</span>
-            <span class="mt-1 font-sans text-xs text-muted">{d.count != null ? `${d.count} courses` : 'The engineering wing'}</span>
-          </a>
-        ))}
-      </div>
-      <p class="mt-8 text-center">
-        <a class="btn btn-ghost" href="/departments">Explore all departments &rarr;</a>
-      </p>
     </div>
   </section>
 
@@ -428,5 +444,63 @@ const ld = {
   #mission-section::before { background-image: url('/assets/backgrounds/home-mission.jpg'); }
   #first-of-kind::before { background-image: url('/assets/backgrounds/home-first.jpg'); }
   #built-for-future::before { background-image: url('/assets/backgrounds/home-future.jpg'); }
+
+  /* ── The department portal ─────────────────────────────────────────── */
+  #home-portal { padding: clamp(3.5rem, 8vw, 7rem) 0; background: rgb(var(--c-paper)); }
+  #home-portal .portal-head { max-width: 60ch; }
+  #home-portal .portal-grid {
+    margin-top: clamp(2rem, 4vw, 3.25rem);
+    display: grid; gap: clamp(1rem, 1.6vw, 1.5rem);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px)  { #home-portal .portal-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { #home-portal .portal-grid { grid-template-columns: repeat(4, 1fr); } }
+  .portal-card {
+    position: relative; display: flex; flex-direction: column; overflow: hidden;
+    border-radius: 1.1rem; background: rgb(var(--c-surface)); border: 1px solid rgb(var(--c-line));
+    text-decoration: none; isolation: isolate;
+    transition: transform .26s cubic-bezier(.2,.7,.3,1), box-shadow .26s, border-color .26s;
+  }
+  .portal-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 56px rgb(11 30 58 / .17);
+    border-color: color-mix(in srgb, var(--accent) 50%, rgb(var(--c-line)));
+  }
+  .portal-media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #0d131c; }
+  .portal-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.3,1); }
+  .portal-card:hover .portal-media img { transform: scale(1.07); }
+  .portal-tech {
+    position: absolute; inset: 0;
+    background: radial-gradient(120% 100% at 15% 0%, #3a2a08, #1a1204 60%, #0d0a02);
+  }
+  .portal-tech::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(230,169,60,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(230,169,60,.12) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 80% 70% at 20% 0%, #000, transparent 78%);
+  }
+  .portal-veil {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, transparent 35%, rgba(8,12,20,.72) 100%),
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 32%, transparent), transparent 55%);
+  }
+  .portal-name {
+    position: absolute; left: 1rem; right: 1rem; bottom: .85rem;
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 800;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem); color: #fff; line-height: 1.15;
+    text-shadow: 0 2px 16px rgba(0,0,0,.5);
+  }
+  .portal-body { display: flex; flex-direction: column; flex: 1; padding: 1.15rem 1.15rem 1.25rem; border-top: 3px solid var(--accent); }
+  .portal-tag { flex: 1; font-size: .86rem; line-height: 1.5; color: rgb(var(--c-muted)); font-style: italic; }
+  .portal-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: .9rem; font-family: var(--font-sans, system-ui);
+    font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .portal-arrow { transition: transform .2s; }
+  .portal-card:hover .portal-arrow { transform: translateX(4px); }
+  .portal-foot { margin-top: clamp(2rem, 4vw, 3rem); text-align: center; }
 </style>
 
