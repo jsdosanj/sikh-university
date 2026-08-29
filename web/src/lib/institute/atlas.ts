@@ -13,14 +13,15 @@ const PER_CHUNK = 250;
 const MAX_RESULTS = 120;
 
 interface Repo { r: string; s?: string; d?: string; p?: string; u?: string }
-interface Video { id: string; title: string; published?: string; views?: number }
+interface Video { id: string; title: string; published?: string; views?: number; ch?: string }
+interface Channel { key: string; name: string; url: string; channelId?: string }
 interface Index {
   generated: string;
   total: number;
   chunks: number;
   newest?: string;
   videos: Video[];
-  sources: Record<string, { name: string; url: string }>;
+  sources: { repos: { name: string; url: string }; channels: Channel[] };
 }
 
 const esc = (s: unknown): string =>
@@ -73,21 +74,39 @@ export function initAtlas(): void {
     );
   };
 
+  const vidCard = (v: Video) => (
+    `<article class="i-atlas-vid" data-vid="${esc(v.id)}">` +
+      `<button type="button" class="i-atlas-vid-play" aria-label="Play ${esc(v.title)}">` +
+        `<img loading="lazy" alt="" src="${esc(ytThumb(v.id))}" />` +
+        `<span class="i-atlas-vid-tri" aria-hidden="true">&#9654;</span>` +
+      `</button>` +
+      `<div class="i-atlas-vid-meta">` +
+        `<h3>${esc(v.title)}</h3>` +
+        `<p class="i-mono">${esc(v.published ?? '')}${v.views ? ` &middot; ${nfmt(v.views)} views` : ''}</p>` +
+      `</div>` +
+    `</article>`
+  );
+
   const renderVideos = () => {
     const vids = index?.videos ?? [];
+    const channels = index?.sources?.channels ?? [];
     if (!vids.length) { elVideos.innerHTML = '<p class="i-atlas-empty i-mono">video shelf unavailable</p>'; return; }
-    elVideos.innerHTML = vids.map((v) => (
-      `<article class="i-atlas-vid" data-vid="${esc(v.id)}">` +
-        `<button type="button" class="i-atlas-vid-play" aria-label="Play ${esc(v.title)}">` +
-          `<img loading="lazy" alt="" src="${esc(ytThumb(v.id))}" />` +
-          `<span class="i-atlas-vid-tri" aria-hidden="true">&#9654;</span>` +
-        `</button>` +
-        `<div class="i-atlas-vid-meta">` +
-          `<h3>${esc(v.title)}</h3>` +
-          `<p class="i-mono">${esc(v.published ?? '')}${v.views ? ` &middot; ${nfmt(v.views)} views` : ''}</p>` +
-        `</div>` +
-      `</article>`
-    )).join('');
+    // Group by channel, in the order the manifest lists them; anything with an
+    // unknown channel falls into a trailing "more" group.
+    const order = channels.map((c) => c.key);
+    const groups = new Map<string, Video[]>();
+    for (const v of vids) {
+      const k = v.ch && order.includes(v.ch) ? v.ch : '_other';
+      (groups.get(k) ?? groups.set(k, []).get(k)!).push(v);
+    }
+    const keys = [...order.filter((k) => groups.has(k)), ...(groups.has('_other') ? ['_other'] : [])];
+    elVideos.innerHTML = keys.map((k) => {
+      const ch = channels.find((c) => c.key === k);
+      const head = ch
+        ? `<a class="i-atlas-ch" href="${esc(ch.url)}" target="_blank" rel="noopener">${esc(ch.name)} &nearr;</a>`
+        : `<span class="i-atlas-ch">more</span>`;
+      return `<div class="i-atlas-chgroup">${head}<div class="i-atlas-chrail">${groups.get(k)!.map(vidCard).join('')}</div></div>`;
+    }).join('');
     elVideos.querySelectorAll<HTMLButtonElement>('.i-atlas-vid-play').forEach((btn) => {
       btn.addEventListener('click', () => {
         const card = btn.closest<HTMLElement>('.i-atlas-vid')!;
