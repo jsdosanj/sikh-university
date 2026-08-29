@@ -300,8 +300,8 @@
       ],
       "image": {
         "src": "/assets/departments/health.jpg",
-        "credit": "Guru Ram Das Langar in the golden temple complex in Amritsar 04 — Kritzolina, CC BY-SA 4.0, via Wikimedia Commons",
-        "source": "https://commons.wikimedia.org/wiki/File:Guru_Ram_Das_Langar_in_the_golden_temple_complex_in_Amritsar_04.jpg"
+        "credit": "Ion Proton sequencers at BGI Shenzhen — Scotted400, CC BY 3.0, via Wikimedia Commons",
+        "source": "https://commons.wikimedia.org/wiki/File:Ion_Proton_Sequencers,_BGI_Shenzhen.JPG"
       }
     },
     {
@@ -494,6 +494,11 @@
     "href": "/technology",
     "accent": "#e6a93c",
     "tagline": "Software and AI from first principles — build for the Panth.",
-    "blurb": "The engineering wing — software and AI from first principles, in a code lab that runs in your browser, framed around what you could build for the Panth."
+    "blurb": "The engineering wing — software and AI from first principles, in a code lab that runs in your browser, framed around what you could build for the Panth.",
+    "image": {
+      "src": "/assets/departments/technology.jpg",
+      "credit": "The Frontier supercomputer at Oak Ridge National Laboratory — Oak Ridge National Laboratory, CC BY 2.0, via Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Frontier_supercomputer_(15).jpg"
+    }
   }
 }
