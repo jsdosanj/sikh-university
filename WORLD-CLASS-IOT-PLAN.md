@@ -683,6 +683,11 @@ before `astro build`, served from R2, pushed by a separate `deploy-data` step).
 
 **Deliberately NOT done in the depth waves:** build-time static-SVG mermaid (E4) — `mermaid-cli` works here, but every rendered SVG bakes in theme-specific colours (incl. shades mermaid derives per-diagram), so one static SVG can't read on both the dark and light Institute themes without fragile per-diagram-type post-processing; the current client-side render (lazy, from CSP-allowlisted jsDelivr, graceful fallback) picks the theme at runtime and is left as-is. The ~667 `figure` blocks already degrade honestly to "see the interactive version in the source"; converting ~12 to mermaid was judged <2% coverage at high authoring risk and skipped.
 
-**Remaining: founder C6 soft-launch sign-off — lift `noindex`, promote from homepage, add to sitemap.**
+- **LAUNCHED (PRs #253-255, 2026-08-29, on prod):**
+  · **#253 rename `/institute` -> `/technology`** — the wing's public URL now matches its "Technology" nav label. `git mv` the pages dir; every page-URL `/institute` -> `/technology`; `worker.js` 301s `/institute/*` -> `/technology/*` (sub-path + query preserved), kept in `run_worker_first`. Internal namespaces unchanged: `/data/institute/*`, `/api/institute-exam`, `lib/institute`, `components/institute`, the `institute` Base prop, the build scripts.
+  · **#254 launch (founder C6 sign-off)** — `noindex` removed from every public `/technology` page (kept on `/technology/cert`, `/technology/exam/*`, `/technology/lab-demo`); new `sitemaps/technology.xml` (548 URLs: hub, sections, every track + lesson, dojos, capstone briefs, guide) in the sitemap index; a dedicated "Institute of Technology" band on the homepage after "Built for future" (four stat cards, CTAs to `/technology` + the Atlas).
+  · **#255 lesson-content QA fix** — a sweep of all 511 lessons (all solid: 944-3694 avg words, zero thin/empty) found 3 markdown-import defects, fixed in `aisf-md.mjs` + `sync-aisf.mjs`: 79 `![](../assets/x.svg)` diagrams that 404'd -> `/technology-figures/x.svg` in a `<figure>` on a light card (79 SVGs copied to `web/public/technology-figures/`); `mAP@0.5` autolinked as `mailto:` -> unwrapped; ~20 dead `.../docs/en.md` cross-lesson links -> href dropped, text kept. 2821 external prose links now `target=_blank rel=noopener`.
+
+**Remaining: nothing blocking — the wing is public. Watch a real cohort's friction and iterate (C6's original intent).**
 - **VERDICT:** ALL FOUR REVIEWS CLEARED. Plan approved 2026-08-28. 
 NO UNRESOLVED DECISIONS
