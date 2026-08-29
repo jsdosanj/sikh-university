@@ -65,5 +65,9 @@ export async function onRequestPost({ request, env }) {
   await logEvent(env, user, "institute_exam_attempted", track, "score=" + score);
   if (passed && !wasPassed) await logEvent(env, user, "passed_course", track, "score=" + score);
 
-  return json({ score, correct, total, passed });
+  // A failing attempt returns ONLY the boolean — see functions/api/quiz.js.
+  // Returning `correct` lets a client binary-search the sampled key over many
+  // re-submissions and mint a certificate without knowing the material. The
+  // score is revealed on a pass; the grade is persisted server-side regardless.
+  return passed ? json({ passed: true, score }) : json({ passed: false });
 }

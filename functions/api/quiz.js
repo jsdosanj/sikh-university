@@ -56,5 +56,12 @@ export async function onRequestPost({ request, env }) {
     await logEvent(env, user, "quiz_attempted", b.courseId, "score=" + score);
     if (passed && !wasPassed) await logEvent(env, user, "passed_course", b.courseId, "score=" + score);
   }
-  return json({ score, correct, total, passed, signedIn: !!user });
+  // A failing attempt returns ONLY the boolean. Returning `correct`/`score`
+  // lets a client re-submit varied answers and use the count as an oracle to
+  // reconstruct the answer key over many tries (CSO 2026-08-29). The score is
+  // revealed once passed — the oracle is moot then, and the grade is already
+  // in `progress` server-side regardless.
+  return passed
+    ? json({ passed: true, score, signedIn: !!user })
+    : json({ passed: false, signedIn: !!user });
 }
