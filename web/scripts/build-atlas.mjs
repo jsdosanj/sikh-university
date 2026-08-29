@@ -1,6 +1,6 @@
 // Build the Open Source Atlas dataset for the Institute — a browsable directory
 // of ~12.5k AI / engineering repositories, each with a line on what a Sikh
-// engineer could build with it, plus the Cloud Codes video shelf.
+// engineer could build with it, plus a video shelf from a few channels.
 //
 // A MAINTAINER dev tool — NOT part of `npm run build` (it fetches the network).
 // Run it, review the diff, commit the generated JSON; `sync-institute.mjs` then
@@ -14,9 +14,10 @@
 //   chunk-NNN.json  250 repos each                            (fetched as you page)
 //   search.json     compact [repo, description] pairs         (fetched on first search)
 //
-// SOURCES (credited on /institute/atlas and /institute/licenses):
-//   repos  https://tom-doerr.github.io/repo_posts/   (Tom Dörr's curation)
-//   videos https://www.youtube.com/@cloud-codes      (Cloud Codes)
+// SOURCES (credited on /technology/atlas and /technology/licenses):
+//   repos   https://tom-doerr.github.io/repo_posts/  (Tom Dörr's curation)
+//   videos  the channels in CHANNELS below (Cloud Codes, Andrej Karpathy, Proton)
+//           — link/embed only, nothing rehosted
 //   build-lines  src/data/institute/atlas-src/uses.jsonl — written once by the
 //                sikhi.io enrichment pass; MUST survive a refresh (a rebuild
 //                without this merge silently strips 12.5k sentences off the page)
@@ -30,9 +31,16 @@ const SRC_DIR = 'src/data/institute/atlas-src';
 const SEED = path.join(SRC_DIR, 'videos.seed.json');
 const USES = path.join(SRC_DIR, 'uses.jsonl');
 const INDEX_URL = 'https://tom-doerr.github.io/repo_posts/assets/search-index.json';
-const CHANNEL_ID = 'UC0DZj1PNa_Fp0MU6uPSKv5w'; // Cloud Codes
-const FEED_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
 const CHUNK_SIZE = 250;
+
+// The video shelf. Each video is tagged with its channel `key` so the page can
+// label it. The YouTube RSS feed only exposes a channel's latest ~15 videos, so
+// `videos.seed.json` carries a back-catalogue (merged, newest wins).
+const CHANNELS = [
+  { key: 'cloud-codes', name: 'Cloud Codes', handle: '@cloud-codes', id: 'UC0DZj1PNa_Fp0MU6uPSKv5w' },
+  { key: 'karpathy', name: 'Andrej Karpathy', handle: '@AndrejKarpathy', id: 'UCXUPKJO5MZQN11PqgIvyuvQ' },
+  { key: 'proton', name: 'Proton', handle: '@ProtonPrivacy', id: 'UC4JpFaR7m3AOiVHlenk9fqA' },
+];
 
 const args = new Set(process.argv.slice(2));
 
@@ -67,30 +75,38 @@ async function buildRepos() {
   return repos;
 }
 
-/** Cloud Codes' Atom feed -> the informational shelf. */
+/** Each channel's Atom feed -> the informational shelf, videos tagged by channel. */
 async function buildVideos() {
-  const xml = await getText(FEED_URL, 'youtube feed');
   const seeded = fs.existsSync(SEED) ? JSON.parse(fs.readFileSync(SEED, 'utf8')) : [];
-  if (!xml) {
-    console.log(`  videos: feed unreachable, using ${seeded.length} seeded`);
-    return seeded;
-  }
-  const out = [];
-  for (const block of xml.split('<entry>').slice(1)) {
-    const pick = (re) => (re.exec(block) ?? [])[1];
-    const id = pick(/<yt:videoId>([^<]+)</);
-    if (!id) continue;
-    out.push({
-      id,
-      title: (pick(/<title>([^<]*)</) ?? '').replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim(),
-      published: (pick(/<published>([^<]+)</) ?? '').slice(0, 10),
-      views: Number(pick(/views="(\d+)"/) ?? 0) || undefined,
-    });
-  }
   const merged = new Map(seeded.map((v) => [v.id, v]));
-  for (const v of out) merged.set(v.id, { ...merged.get(v.id), ...v });
-  const videos = [...merged.values()].sort((a, b) => (b.published || '').localeCompare(a.published || ''));
-  console.log(`  videos: ${out.length} from feed, ${videos.length} total after merging the seed`);
+  let fromFeeds = 0;
+
+  for (const ch of CHANNELS) {
+    const xml = await getText(
+      `https://www.youtube.com/feeds/videos.xml?channel_id=${ch.id}`,
+      `youtube feed (${ch.name})`,
+    );
+    if (!xml) continue;
+    for (const block of xml.split('<entry>').slice(1)) {
+      const pick = (re) => (re.exec(block) ?? [])[1];
+      const id = pick(/<yt:videoId>([^<]+)</);
+      if (!id) continue;
+      fromFeeds += 1;
+      const v = {
+        id,
+        ch: ch.key,
+        title: (pick(/<title>([^<]*)</) ?? '').replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim(),
+        published: (pick(/<published>([^<]+)</) ?? '').slice(0, 10),
+        views: Number(pick(/views="(\d+)"/) ?? 0) || undefined,
+      };
+      merged.set(id, { ...merged.get(id), ...v });
+    }
+  }
+
+  const videos = [...merged.values()]
+    .map((v) => ({ ch: 'cloud-codes', ...v })) // seed entries predate the `ch` field
+    .sort((a, b) => (b.published || '').localeCompare(a.published || ''));
+  console.log(`  videos: ${fromFeeds} from ${CHANNELS.length} feeds, ${videos.length} total after merging the seed`);
   return videos;
 }
 
@@ -135,7 +151,9 @@ const index = {
   newest: repos ? repos[0]?.d : existing.newest,
   sources: {
     repos: { name: 'Tom Dörr — repo_posts', url: 'https://tom-doerr.github.io/repo_posts/' },
-    videos: { name: 'Cloud Codes', url: 'https://www.youtube.com/@cloud-codes', channelId: CHANNEL_ID },
+    channels: CHANNELS.map((c) => ({
+      key: c.key, name: c.name, url: `https://www.youtube.com/${c.handle}`, channelId: c.id,
+    })),
   },
   videos,
 };
