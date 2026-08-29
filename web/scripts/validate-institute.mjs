@@ -102,6 +102,20 @@ if (existsSync(OURS)) {
   for (const track of readdirSync(OURS, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name)) {
     for (const f of readdirSync(`${OURS}/${track}`).filter((n) => n.endsWith('.json'))) {
       const slug = f.replace(/\.json$/, '');
+      // intro.json is a track-level sidecar (the seva-framed phase intro, C4),
+      // not a per-lesson override — it has no matching imported lesson.
+      if (f === 'intro.json') {
+        let intro;
+        try { intro = JSON.parse(readFileSync(`${OURS}/${track}/${f}`, 'utf-8')); }
+        catch { err(`ours/${track}/intro.json: not valid JSON`); continue; }
+        if (typeof intro.blurb !== 'string' || intro.blurb.trim().length < 20) {
+          err(`ours/${track}/intro.json: needs a "blurb" string`);
+        }
+        if (!(m.tracks || []).some((x) => x.id === track)) {
+          err(`ours/${track}/intro.json: no matching track "${track}" in manifest`);
+        }
+        continue;
+      }
       if (!existsSync(`${IMP}/${track}/${slug}.json`)) {
         err(`ours/${track}/${f}: no matching imported lesson ${track}/${slug}.json`);
         continue;
