@@ -15,10 +15,13 @@ import InstituteRail from '../../components/institute/InstituteRail.astro';
     <p class="i-prose">
       Two halves that do different jobs: engineering videos to learn from, and a catalogue of
       open-source projects to build with. Every repository carries a line on what you could build
-      with it for the sangat. Curation by
+      with it for the sangat. Repo curation by
       <a href="https://tom-doerr.github.io/repo_posts/" target="_blank" rel="noopener">Tom D&ouml;rr</a>;
-      videos by
-      <a href="https://www.youtube.com/@cloud-codes" target="_blank" rel="noopener">Cloud Codes</a>.
+      the video shelf pulls from
+      <a href="https://www.youtube.com/@AndrejKarpathy" target="_blank" rel="noopener">Andrej Karpathy</a>,
+      <a href="https://www.youtube.com/@cloud-codes" target="_blank" rel="noopener">Cloud Codes</a>, and
+      <a href="https://www.youtube.com/@ProtonPrivacy" target="_blank" rel="noopener">Proton</a> &mdash;
+      nothing rehosted, every video plays from YouTube.
     </p>
     <p class="i-mono i-atlas-meta" id="i-atlas-meta">loading the atlas&hellip;</p>
   </section>
@@ -53,9 +56,10 @@ import InstituteRail from '../../components/institute/InstituteRail.astro';
 
     <footer class="i-atlas-foot i-prose">
       Every repository belongs to its own authors and carries its own licence &mdash; check it on
-      GitHub before you use one. Screenshots are GitHub's own OpenGraph cards. The catalogue is
-      curated by <a href="https://tom-doerr.github.io/repo_posts/" target="_blank" rel="noopener">Tom D&ouml;rr</a>
-      and the videos are made by <a href="https://www.youtube.com/@cloud-codes" target="_blank" rel="noopener">Cloud Codes</a>.
+      GitHub before you use one. Screenshots are GitHub's own OpenGraph cards. Videos are embedded
+      from YouTube and belong to their channels. Repo curation by
+      <a href="https://tom-doerr.github.io/repo_posts/" target="_blank" rel="noopener">Tom D&ouml;rr</a>;
+      videos from Andrej Karpathy, Cloud Codes, and Proton.
       See <a href="/technology/licenses">sources &amp; licenses</a>.
     </footer>
   </section>
@@ -73,11 +77,23 @@ import InstituteRail from '../../components/institute/InstituteRail.astro';
     .i-atlas-left h2, .i-atlas-right h2 { display: block; margin: 0 0 12px; }
     @media (min-width: 1000px) { .i-atlas-left { position: sticky; top: 84px; } }
 
-    /* video shelf: horizontal rail on narrow, vertical list on wide */
-    .i-atlas-shelf { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+    /* video shelf: grouped by channel. Each group is a header + a rail that
+       scrolls horizontally on narrow, stacks on wide. */
+    .i-atlas-shelf { display: block; }
     @media (min-width: 1000px) {
-      .i-atlas-shelf { display: block; max-height: calc(100vh - 12rem); overflow-y: auto; overflow-x: visible; padding-right: 4px; }
-      .i-atlas-shelf > * + * { margin-top: 12px; }
+      .i-atlas-shelf { max-height: calc(100vh - 10rem); overflow-y: auto; padding-right: 4px; }
+    }
+    .i-atlas-chgroup + .i-atlas-chgroup { margin-top: 22px; }
+    .i-atlas-ch {
+      display: block; margin-bottom: 10px; font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--i-ink-dim); text-decoration: none;
+    }
+    .i-atlas-ch:hover { color: var(--i-signal); }
+    .i-atlas-chrail { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+    @media (min-width: 1000px) {
+      .i-atlas-chrail { display: block; overflow-x: visible; }
+      .i-atlas-chrail > * + * { margin-top: 12px; }
     }
     .i-atlas-vid { flex: 0 0 74vw; max-width: 300px; border: 1px solid var(--i-line); border-radius: var(--i-r-md); overflow: hidden; background: var(--i-surface-2); }
     @media (min-width: 640px) { .i-atlas-vid { flex-basis: 46vw; } }
