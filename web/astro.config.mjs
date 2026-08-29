@@ -11,5 +11,18 @@ export default defineConfig({
   // build-csp only hashes the few deliberate is:inline pre-paint scripts —
   // Cloudflare rejects any _headers line over 2000 chars, and 31 inlined-script
   // hashes blew past that at deploy time.
-  vite: { plugins: [tailwindcss()], build: { assetsInlineLimit: 0 } },
+  vite: {
+    plugins: [tailwindcss()],
+    build: { assetsInlineLimit: 0 },
+    // The Code Lab's runner workers get a STABLE path (/_lab/…, no content
+    // hash) so worker.js + wrangler `run_worker_first` can hand them a
+    // widened CSP: the JS runner needs 'unsafe-eval' (new Function on the
+    // learner's snippet), the Python runner loads Pyodide from jsDelivr.
+    worker: {
+      format: 'es',
+      rollupOptions: {
+        output: { entryFileNames: '_lab/[name].js', chunkFileNames: '_lab/[name].js' },
+      },
+    },
+  },
 });

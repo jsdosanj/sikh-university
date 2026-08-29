@@ -414,6 +414,21 @@ export default {
     // engines and AI/ML training. Per-bot rules live in /robots.txt and /ai.txt;
     // human-readable policy at /ai-policy. Search indexing is untouched (no
     // noindex here) and never was restricted.
+    // The Code Lab's sandboxed runner workers (Vite emits them to /_lab/,
+    // routed here by run_worker_first). They execute learner code: the JS
+    // runner does `new Function(snippet)` (needs 'unsafe-eval'); the Python
+    // runner imports Pyodide from jsDelivr and fetches its wasm/stdlib. This
+    // widened policy is scoped to exactly those worker files — same-origin,
+    // no DOM, cannot touch the page — so the site-wide CSP stays strict.
+    if (pathname.startsWith('/_lab/')) {
+      h.set('Content-Security-Policy',
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; " +
+        "connect-src 'self' https://cdn.jsdelivr.net; " +
+        "worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'");
+      return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
+    }
+
     if (!ct.includes('text/html')) {
       return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
     }
