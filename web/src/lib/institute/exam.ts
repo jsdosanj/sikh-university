@@ -4,7 +4,7 @@
 // synced to /data/institute/exam/), samples a fixed-size set, renders it, and
 // submits (pool-index, choice) tuples to /api/institute-exam for server-side
 // grading. No answer key is ever in the browser. Pass >= 80% and the phase
-// certificate unlocks at /institute/cert?track=<slug>.
+// certificate unlocks at /technology/cert?track=<slug>.
 
 interface PoolQ {
   q: string;
@@ -37,7 +37,7 @@ export function initExam(): void {
   if (!root) return;
 
   const trackId = root.dataset.track!; // e.g. aisf-00-setup
-  const certHref = root.dataset.cert!; // /institute/cert?track=<slug>
+  const certHref = root.dataset.cert!; // /technology/cert?track=<slug>
   const poolUrl = `/data/institute/exam/${trackId}.json`;
 
   const startBtn = root.querySelector<HTMLButtonElement>('[data-start]');

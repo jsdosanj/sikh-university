@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 // The Code Lab's Python runner (Wave 2c). Pyodide is loaded lazily from
-// jsDelivr the first time a Python lab is Run — the /institute/* CSP allows
+// jsDelivr the first time a Python lab is Run — the /technology/* CSP allows
 // `script-src 'wasm-unsafe-eval' https://cdn.jsdelivr.net` and
 // `connect-src https://cdn.jsdelivr.net` for exactly this. The worker file
 // itself is bundled same-origin (worker-src 'self'); an infinite loop is

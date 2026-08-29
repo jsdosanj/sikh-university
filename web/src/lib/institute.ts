@@ -64,7 +64,7 @@ export const capstones = tracks.filter((t) => t.kind === 'capstone');
 export const trackById = (id: string): Track | undefined => tracks.find((t) => t.id === id);
 export const professorOf = (t: Track): InstituteProfessor | undefined => professors[t.professor];
 
-/** Route slug for a track's overview page: /institute/track/<slug>. */
+/** Route slug for a track's overview page: /technology/track/<slug>. */
 export const trackSlug = (t: Track): string =>
   t.kind === 'phase' && t.slug ? t.slug : t.id;
 
