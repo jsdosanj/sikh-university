@@ -112,18 +112,19 @@ const desc = 'Sikhi University’s engineering wing — learn to code and build 
     .i-sec > p { margin: 0 0 22px; }
 
     .i-goals { display: grid; gap: 2px; border: 1px solid var(--i-line); border-radius: var(--i-r-md); overflow: hidden; }
-    .i-goal { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; gap: 2px 14px; padding: 16px 18px; background: var(--i-surface); text-decoration: none; transition: background 150ms; }
-    .i-goal:hover { background: color-mix(in srgb, var(--i-signal) 8%, var(--i-surface)); }
-    .i-goal-label { font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 16px; color: var(--i-ink); }
-    .i-goal-hint { grid-column: 1; font-size: 13.5px; margin: 0; }
-    .i-goal-arrow { grid-row: 1 / 3; align-self: center; color: var(--i-signal); font-size: 18px; }
+    .i-goal { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; align-items: center; column-gap: 16px; row-gap: 3px; padding: 15px 18px; background: var(--i-surface); text-decoration: none; transition: background 150ms; }
+    .i-goal:hover { background: color-mix(in srgb, var(--i-filament) 8%, var(--i-surface)); }
+    .i-goal-label { grid-area: 1 / 1; font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 16px; color: var(--i-ink); }
+    .i-goal-hint { grid-area: 2 / 1; font-size: 13.5px; margin: 0; }
+    .i-goal-arrow { grid-area: 1 / 2 / 3 / 3; align-self: center; color: var(--i-filament); font-size: 18px; transition: transform 150ms; }
+    .i-goal:hover .i-goal-arrow { transform: translateX(3px); }
 
     .i-spine { list-style: none; margin: 0; padding: 0; border: 1px solid var(--i-line); border-radius: var(--i-r-md); }
     .i-spine-row { display: grid; grid-template-columns: 44px 1fr auto auto; align-items: baseline; gap: 14px; padding: 12px 16px; border-top: 1px solid var(--i-line-soft); }
     .i-spine-row:first-child { border-top: 0; }
     .i-spine-num { font-family: "Chakra Petch", sans-serif; font-weight: 700; color: var(--i-filament); font-size: 15px; }
     .i-spine-title { color: var(--i-ink); text-decoration: none; font-family: "Chakra Petch", sans-serif; font-weight: 600; }
-    .i-spine-title:hover { color: var(--i-signal); }
+    .i-spine-title:hover { color: var(--i-ink); }
     .i-spine-meta { font-size: 11px; color: var(--i-muted); letter-spacing: 0.06em; }
     .i-spine-status { font-size: 10.5px; color: var(--i-muted); text-transform: uppercase; letter-spacing: 0.14em; }
 
