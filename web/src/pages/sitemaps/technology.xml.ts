@@ -17,6 +17,7 @@ export const GET: APIRoute = ({ site }) => {
     { path: '/technology/atlas', priority: '0.6' },
     { path: '/technology/licenses', priority: '0.4' },
     { path: '/technology/guide/claude-code', priority: '0.7' },
+    { path: '/technology/claude', priority: '0.7' },
   ];
 
   for (const t of tracks) {
