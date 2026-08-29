@@ -1,0 +1,277 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CourseCard from '../../components/CourseCard.astro';
+import { departments, departmentTopics, coursesInDepartment } from '../../lib/departments';
+import { TOPIC_ICONS, paths, published, profBio, profSlug, profInitials, avatarColor } from '../../lib/data';
+
+export function getStaticPaths() {
+  return departments.map((d) => ({ params: { slug: d.slug }, props: { d } }));
+}
+const { d } = Astro.props;
+
+const courses = coursesInDepartment(d);
+const topicRows = departmentTopics(d);
+const byTopic = topicRows.map((t) => ({
+  ...t,
+  courses: courses
+    .filter((c) => c.topic === t.id)
+    .sort((a, b) => a.level - b.level || a.title.localeCompare(b.title)),
+}));
+
+const byId = Object.fromEntries(published.map((c) => [c.id, c]));
+const featured = d.featured.map((id) => byId[id]).filter(Boolean);
+
+const levels = [...new Set(courses.map((c) => Math.floor(c.level / 100) * 100))].sort((a, b) => a - b);
+const levelSpan = levels.length ? `${levels[0]}–${levels[levels.length - 1]}` : '';
+
+// Faculty: the named scholars whose work anchors this department (most courses
+// first), excluding the institutional bylines.
+const INSTITUTIONAL = new Set(['Sikhi University', 'Sikh Archive']);
+const facultyCounts = new Map<string, number>();
+for (const c of courses) {
+  if (INSTITUTIONAL.has(c.professor)) continue;
+  facultyCounts.set(c.professor, (facultyCounts.get(c.professor) ?? 0) + 1);
+}
+const faculty = [...facultyCounts.entries()]
+  .filter(([name]) => profBio(name))
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 6)
+  .map(([name, n]) => ({ name, n }));
+
+// Guided journeys mostly inside this department.
+const relatedPaths = paths
+  .filter((p) => !p.id.startsWith('topic-'))
+  .map((p) => {
+    const inDept = p.courseIds.filter((id) => courses.some((c) => c.id === id)).length;
+    return { p, inDept, ratio: p.courseIds.length ? inDept / p.courseIds.length : 0 };
+  })
+  .filter((x) => x.ratio >= 0.5 && x.inDept >= 2)
+  .sort((a, b) => b.ratio - a.ratio)
+  .slice(0, 4)
+  .map((x) => x.p);
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: `${d.name}, Sikhi University`,
+  description: d.blurb,
+  url: `https://sikhiuni.com/departments/${d.slug}`,
+  parentOrganization: { '@type': 'CollegeOrUniversity', name: 'Sikhi University', url: 'https://sikhiuni.com/' },
+};
+---
+<Base title={`${d.name} — Sikhi University`} description={d.blurb} ambient="none" bodyClass={`dept dept-${d.id}`}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+
+  <div class="dept-page" style={`--dept:${d.accent}`}>
+    <!-- ── Hero ─────────────────────────────────────────────────────── -->
+    <header class="dept-hero">
+      <div class="dept-hero-wash" aria-hidden="true"></div>
+      <div class="wrap dept-hero-in">
+        <a href="/departments" class="dept-back">Sikhi University &middot; Departments</a>
+        <p class="dept-tagline">{d.tagline}</p>
+        <h1 class="dept-h1">{d.name}</h1>
+        <p class="dept-stance">{d.stance}</p>
+        <div class="dept-stats">
+          <span><strong>{courses.length}</strong> courses</span>
+          <span><strong>{topicRows.length}</strong> subject{topicRows.length === 1 ? '' : 's'}</span>
+          <span><strong>{levelSpan}</strong> level</span>
+          {faculty.length > 0 && <span><strong>{faculty.length}+</strong> named scholars</span>}
+        </div>
+        <a class="dept-cta" href="#catalogue">Browse the department &darr;</a>
+      </div>
+    </header>
+
+    <!-- ── What you'll study ────────────────────────────────────────── -->
+    <section class="wrap dept-sec">
+      <h2 class="dept-h2">What you'll study</h2>
+      <div class="dept-pillars">
+        {d.pillars.map((p) => (
+          <div class="dept-pillar">
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ── Signature courses ───────────────────────────────────────── -->
+    {featured.length > 0 && (
+      <section class="wrap dept-sec">
+        <h2 class="dept-h2">Signature courses</h2>
+        <div class="dept-featured">
+          {featured.map((c) => (
+            <a class="dept-feat" href={`/course/${c.id}`}>
+              <span class="dept-feat-strip" aria-hidden="true"></span>
+              <span class="dept-feat-meta">{c.level} level &middot; {c.professor}</span>
+              <strong class="dept-feat-title">{c.title}</strong>
+              <span class="dept-feat-sum">{c.summary}</span>
+              <span class="dept-feat-go">Open the course &rarr;</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- ── Faculty & sources ───────────────────────────────────────── -->
+    {faculty.length > 0 && (
+      <section class="wrap dept-sec">
+        <h2 class="dept-h2">Faculty &amp; sources</h2>
+        <p class="dept-lead">Courses in this department are taught from — and attributed to — the scholars whose work is authoritative in the field.</p>
+        <div class="dept-faculty">
+          {faculty.map((f) => (
+            <a class="dept-prof" href={`/professor/${profSlug(f.name)}`}>
+              <span class="dept-prof-av" style={`background:${avatarColor(f.name)}`}>{profInitials(f.name)}</span>
+              <span class="dept-prof-body">
+                <strong>{f.name}</strong>
+                <span class="dept-prof-bio">{(profBio(f.name).split('. ')[0] || '') + '.'}</span>
+                <span class="dept-prof-n">{f.n} course{f.n === 1 ? '' : 's'}</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- ── Guided journeys ─────────────────────────────────────────── -->
+    {relatedPaths.length > 0 && (
+      <section class="wrap dept-sec">
+        <h2 class="dept-h2">Guided journeys</h2>
+        <p class="dept-lead">A path runs foundations → advanced; finish one course to light up the next.</p>
+        <ul class="dept-paths">
+          {relatedPaths.map((p) => (
+            <li>
+              <a href={`/catalog#${p.id}`}>
+                <span class="dept-path-name">{p.name}</span>
+                <span class="dept-path-blurb">{p.blurb}</span>
+                <span class="dept-path-n">{p.courseIds.length} courses &rarr;</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- ── The full catalogue ──────────────────────────────────────── -->
+    <section id="catalogue" class="wrap dept-sec dept-sec-last">
+      <h2 class="dept-h2">The department catalogue</h2>
+      {topicRows.length > 1 && (
+        <nav aria-label="Subjects in this department" class="dept-subjnav">
+          {topicRows.map((t) => (
+            <a href={`#${t.id}`}>
+              <Icon name={TOPIC_ICONS[t.id] || 'book'} class="h-4 w-4 shrink-0" />
+              {t.name}<span>{t.count}</span>
+            </a>
+          ))}
+        </nav>
+      )}
+      {byTopic.map((t) => (
+        <div id={t.id} class="dept-topic scroll-mt-24">
+          <div class="dept-topic-head">
+            <Icon name={TOPIC_ICONS[t.id] || 'book'} class="h-6 w-6 shrink-0" />
+            <h3>{t.name}</h3>
+            <span>{t.courses.length}</span>
+          </div>
+          <div class="dept-grid">
+            {t.courses.map((c) => <CourseCard course={c} />)}
+          </div>
+        </div>
+      ))}
+    </section>
+  </div>
+
+  <style>
+    /* --dept is set per-page via the inline style on .dept-page above. */
+    .dept-page { --dept-soft: color-mix(in srgb, var(--dept) 12%, transparent); }
+
+    /* Hero — the department's own colour, its own front door. */
+    .dept-hero { position: relative; overflow: hidden; background: #0b1220; color: #fff; }
+    .dept-hero-wash {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 0%, color-mix(in srgb, var(--dept) 55%, transparent), transparent 70%),
+        radial-gradient(ellipse 60% 80% at 100% 100%, color-mix(in srgb, var(--dept) 30%, transparent), transparent 65%),
+        linear-gradient(160deg, #0b1220, #0f1830 60%, #0b1220);
+    }
+    .dept-hero-wash::after {
+      content: ""; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 90% 70% at 20% 0%, #000 10%, transparent 70%);
+    }
+    .dept-hero-in { position: relative; z-index: 1; padding: clamp(48px, 8vw, 92px) 0 clamp(40px, 6vw, 72px); }
+    .dept-back { font-family: var(--font-sans, system-ui); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--dept) 40%, #fff); text-decoration: none; }
+    .dept-back:hover { color: #fff; }
+    .dept-tagline { margin: 22px 0 0; font-size: clamp(15px, 2vw, 18px); color: color-mix(in srgb, var(--dept) 35%, #fff); font-style: italic; max-width: 44ch; }
+    .dept-h1 { margin: 8px 0 0; font-size: clamp(32px, 6vw, 60px); line-height: 1.05; font-weight: 800; letter-spacing: -0.01em; }
+    .dept-stance { margin: 22px 0 0; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.7; max-width: 62ch; color: rgba(255,255,255,.9); }
+    .dept-stats { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 28px 0 0; font-family: var(--font-sans, system-ui); font-size: 13px; color: rgba(255,255,255,.65); }
+    .dept-stats strong { color: #fff; font-size: 20px; font-weight: 800; margin-right: 6px; }
+    .dept-cta {
+      display: inline-block; margin-top: 30px; padding: 11px 22px; border-radius: 999px;
+      background: var(--dept); color: #fff; font-family: var(--font-sans, system-ui); font-weight: 700; font-size: 14px;
+      text-decoration: none; box-shadow: 0 8px 26px color-mix(in srgb, var(--dept) 45%, transparent);
+    }
+    .dept-cta:hover { filter: brightness(1.08); }
+
+    /* Sections */
+    .dept-sec { padding: clamp(40px, 6vw, 68px) 24px; border-bottom: 1px solid rgb(var(--c-line)); }
+    .dept-sec-last { border-bottom: 0; }
+    .dept-h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 800; color: rgb(var(--c-navy)); position: relative; padding-left: 16px; }
+    .dept-h2::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 4px; border-radius: 2px; background: var(--dept); }
+    .dept-lead { margin: 12px 0 0; max-width: 60ch; color: rgb(var(--c-muted)); line-height: 1.7; }
+
+    .dept-pillars { display: grid; gap: 16px; margin-top: 26px; }
+    @media (min-width: 720px) { .dept-pillars { grid-template-columns: repeat(3, 1fr); } }
+    .dept-pillar { padding: 22px; border: 1px solid rgb(var(--c-line)); border-top: 3px solid var(--dept); border-radius: 12px; background: rgb(var(--c-surface)); }
+    .dept-pillar h3 { font-size: 16px; font-weight: 800; color: rgb(var(--c-navy)); }
+    .dept-pillar p { margin: 8px 0 0; font-size: 14px; line-height: 1.65; color: rgb(var(--c-muted)); }
+
+    .dept-featured { display: grid; gap: 16px; margin-top: 26px; }
+    @media (min-width: 900px) { .dept-featured { grid-template-columns: repeat(3, 1fr); } }
+    .dept-feat {
+      position: relative; display: flex; flex-direction: column; padding: 24px 22px 20px;
+      border: 1px solid rgb(var(--c-line)); border-radius: 14px; background: rgb(var(--c-surface));
+      text-decoration: none; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .dept-feat:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgb(11 30 58 / .12); border-color: color-mix(in srgb, var(--dept) 45%, rgb(var(--c-line))); }
+    .dept-feat-strip { position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--dept); }
+    .dept-feat-meta { font-family: var(--font-sans, system-ui); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: rgb(var(--c-muted)); }
+    .dept-feat-title { display: block; margin-top: 8px; font-size: 18px; font-weight: 800; line-height: 1.25; color: rgb(var(--c-navy)); }
+    .dept-feat-sum { display: block; margin-top: 10px; flex: 1; font-size: 13.5px; line-height: 1.6; color: rgb(var(--c-muted)); }
+    .dept-feat-go { margin-top: 16px; font-family: var(--font-sans, system-ui); font-size: 12px; font-weight: 700; color: var(--dept); }
+
+    .dept-faculty { display: grid; gap: 12px; margin-top: 24px; }
+    @media (min-width: 700px) { .dept-faculty { grid-template-columns: repeat(2, 1fr); } }
+    .dept-prof { display: flex; gap: 14px; padding: 16px; border: 1px solid rgb(var(--c-line)); border-radius: 12px; background: rgb(var(--c-surface)); text-decoration: none; transition: border-color .2s, transform .2s; }
+    .dept-prof:hover { border-color: color-mix(in srgb, var(--dept) 45%, rgb(var(--c-line))); transform: translateY(-2px); }
+    .dept-prof-av { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-family: var(--font-sans, system-ui); font-weight: 800; font-size: 15px; }
+    .dept-prof-body { display: flex; flex-direction: column; min-width: 0; }
+    .dept-prof-body strong { font-size: 15px; color: rgb(var(--c-navy)); }
+    .dept-prof-bio { margin-top: 3px; font-size: 12.5px; line-height: 1.55; color: rgb(var(--c-muted)); }
+    .dept-prof-n { margin-top: 5px; font-family: var(--font-sans, system-ui); font-size: 11px; color: var(--dept); font-weight: 700; }
+
+    .dept-paths { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 12px; }
+    @media (min-width: 760px) { .dept-paths { grid-template-columns: repeat(2, 1fr); } }
+    .dept-paths a { display: block; padding: 18px; border: 1px solid rgb(var(--c-line)); border-left: 4px solid var(--dept); border-radius: 10px; background: rgb(var(--c-surface)); text-decoration: none; transition: transform .2s; }
+    .dept-paths a:hover { transform: translateY(-2px); }
+    .dept-path-name { display: block; font-size: 16px; font-weight: 800; color: rgb(var(--c-navy)); }
+    .dept-path-blurb { display: block; margin-top: 5px; font-size: 13px; line-height: 1.55; color: rgb(var(--c-muted)); }
+    .dept-path-n { display: block; margin-top: 10px; font-family: var(--font-sans, system-ui); font-size: 11.5px; font-weight: 700; color: var(--dept); }
+
+    .dept-subjnav { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 8px; }
+    .dept-subjnav a { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border: 1px solid rgb(var(--c-line)); border-radius: 999px; font-family: var(--font-sans, system-ui); font-size: 13px; color: rgb(var(--c-navy)); text-decoration: none; transition: border-color .15s, color .15s; }
+    .dept-subjnav a:hover { border-color: var(--dept); color: var(--dept); }
+    .dept-subjnav a span { color: rgb(var(--c-muted)); }
+    .dept-subjnav :global(svg) { color: var(--dept); }
+
+    .dept-topic { margin-top: 40px; }
+    .dept-topic-head { display: flex; align-items: center; gap: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--dept-soft); margin-bottom: 18px; }
+    .dept-topic-head h3 { font-size: 22px; font-weight: 800; color: rgb(var(--c-navy)); }
+    .dept-topic-head span { font-family: var(--font-sans, system-ui); font-size: 13px; color: rgb(var(--c-muted)); }
+    .dept-topic-head :global(svg) { color: var(--dept); }
+    .dept-grid { display: grid; gap: 16px; }
+    @media (min-width: 640px) { .dept-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .dept-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</Base>

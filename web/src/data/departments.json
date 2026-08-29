@@ -1,0 +1,125 @@
+{
+  "_note": "Academic departments. Each groups a set of course topics (see site/assets/data/courses.json). The Institute of Technology is a wing with its own section at /technology; the rest resolve to /departments/<slug>. Order here is the order shown in the nav and on /departments. `featured` course ids drive each department's signature-courses row.",
+  "departments": [
+    {
+      "id": "theology",
+      "name": "Department of Theology",
+      "slug": "theology",
+      "topics": ["theology", "spirituality", "apologetics", "rehat", "comparative", "philosophy", "ethics"],
+      "accent": "#b58015",
+      "tagline": "Gurmat as a system of thought — and a way of life.",
+      "blurb": "Gurmat as a system of thought and a way of life — the theology of Sri Guru Granth Sahib Ji, Sikh metaphysics and philosophy, spiritual practice, Rehat and Maryada, ethics, and Sikhi in conversation with other traditions.",
+      "stance": "This department reads the Guru's word as the Guru intended it to be read: not as data to be catalogued, but as ਗੁਰਮਤਿ — a discipline that reshapes the reader. Every course begins in the text and stays there, working outward to the questions a Sikh actually asks.",
+      "pillars": [
+        { "title": "The word", "body": "The theology of Sri Guru Granth Sahib Ji — Naam, Hukam, Shabad, the nature of the Divine and the self." },
+        { "title": "The practice", "body": "Simran, seva, Rehat and Maryada — how the theology is lived, not just believed." },
+        { "title": "The conversation", "body": "Sikhi in dialogue with philosophy, other faiths, and the questions of the age." }
+      ],
+      "featured": ["bhagti-foundation", "dasam-granth-charitropakhyan", "sikh-theology-liberation"]
+    },
+    {
+      "id": "history",
+      "name": "Department of History",
+      "slug": "history",
+      "topics": ["history"],
+      "accent": "#7c4a2d",
+      "tagline": "The Sikh past, read from primary sources.",
+      "blurb": "The Sikh past from the Guru period to the present — the lives of the Gurus, the Khalsa, the misls and the Sarkar-i-Khalsa, colonial rule, the Singh Sabha, 1947 and 1984, and the global Panth today, read from primary sources.",
+      "stance": "History here is not a list of dates. It is the record of a people learning to be sovereign — under the Gurus, under the misls, under empire, and in the diaspora now. The department works from the chronicles, the hukamnamas, the gazetteers and the oral record, and it does not look away from the hard chapters.",
+      "pillars": [
+        { "title": "The Guru period", "body": "The ten Gurus, the founding of the Khalsa, and the sources — Janamsakhis, Bhatt Vahis, court records — that carry it." },
+        { "title": "Sovereignty and empire", "body": "The misls, the Sarkar-i-Khalsa, the colonial encounter, and the reform movements that followed." },
+        { "title": "The modern Panth", "body": "1947, 1984, and the making of a global Sikh community." }
+      ],
+      "featured": ["sikh-history-foundations", "guru-nanak-udasis", "history-500-sikh-empire-advanced"]
+    },
+    {
+      "id": "language-and-literature",
+      "name": "Department of Language & Literature",
+      "slug": "language-and-literature",
+      "topics": ["language", "literature", "reference"],
+      "accent": "#1d4e89",
+      "tagline": "The languages Gurbani is written in, and the literature they carry.",
+      "blurb": "The languages Gurbani is written in — Punjabi, Braj Bhasha, Sant Bhasha, Persian — and the literature they carry: poetry, vaaran, kavita, the classical commentaries, and the dictionaries and concordances that open them.",
+      "stance": "Gurbani is poetry before it is anything else, and its meaning lives in its language. This department teaches you to read the script, then the grammar, then the registers — Sant Bhasha, Braj, Persian — and finally the literature itself: Bhai Gurdas, Bhai Vir Singh, the Janamsakhi tradition, the teekas.",
+      "pillars": [
+        { "title": "Script and grammar", "body": "Reading Gurmukhi, then the grammar of Gurbani — the lagaan-matra that carry the meaning." },
+        { "title": "The registers", "body": "Sant Bhasha, Braj Bhasha, Persian — the linguistic layers of Sri Guru Granth Sahib Ji." },
+        { "title": "The literature", "body": "Vaaran, kavita, the classical commentaries, and the reference works that unlock them." }
+      ],
+      "featured": ["gurmukhi-script-basics", "bhai-vir-singh-rana-surat-singh", "punjabi-intellectual-tradition"]
+    },
+    {
+      "id": "political-governance",
+      "name": "Political Governance Department",
+      "slug": "political-governance",
+      "topics": ["politics", "sociology", "economics", "finance"],
+      "accent": "#5c3b6e",
+      "tagline": "How a people governs itself, and lives together.",
+      "blurb": "How a people governs itself and lives together — Sikh political thought and sovereignty, community and caste, the institutions of the Panth, and the economics and personal finance of a household run on Sikh principles.",
+      "stance": "The Gurus built institutions, not just ideas — the sangat, the langar, the Panj Pyare, the Sarbat Khalsa. This department studies Sikh political thought as something meant to be practised: sovereignty (ਮੀਰੀ-ਪੀਰੀ), the rejection of caste, the running of a community, and the economics of kirat and dasvandh.",
+      "pillars": [
+        { "title": "Sovereignty", "body": "Miri-Piri, Halemi Raj, and Sikh political philosophy from the Gurus to the present." },
+        { "title": "The community", "body": "Caste and its rejection, the gurdwara and the Panth's institutions, identity in the diaspora." },
+        { "title": "Kirat and dasvandh", "body": "Honest livelihood, giving, and the economics of a household run on Sikh principles." }
+      ],
+      "featured": ["caste-and-sikhi", "sikh-institutions", "sikh-political-philosophy-graduate"]
+    },
+    {
+      "id": "the-arts",
+      "name": "Departments of the Arts",
+      "slug": "the-arts",
+      "topics": ["music", "arts"],
+      "accent": "#a23b2e",
+      "tagline": "The sound and the sight of the Guru's darbar.",
+      "blurb": "Kirtan and Gurmat Sangeet — raag, taal, the stringed instruments of the Guru's darbar — alongside the visual and material arts: calligraphy, manuscript illumination, architecture, and the crafts of seva.",
+      "stance": "Kirtan is not a performance and Sikh art is not decoration — both are ways of holding the Shabad. This department teaches the raag and taal of Gurmat Sangeet, the tanti saaj the Gurus played, and the visual tradition: the frescoes of Darbar Sahib, the illuminated birs, the architecture of the gurdwara.",
+      "pillars": [
+        { "title": "Gurmat Sangeet", "body": "Raag, taal, the shabad reet, and the stringed instruments of the Guru's court." },
+        { "title": "The visual tradition", "body": "Calligraphy, manuscript illumination, the Sikh fresco, and gurdwara architecture." },
+        { "title": "Poetics", "body": "Sri Guru Granth Sahib Ji as literature — its raag structure, its imagery, its form." }
+      ],
+      "featured": ["gurmat-sangeet-survey", "tanti-saaj", "sikh-literary-theory-sggs"]
+    },
+    {
+      "id": "the-sciences",
+      "name": "Department of the Sciences",
+      "slug": "the-sciences",
+      "topics": ["science", "modern-skills"],
+      "accent": "#0f7b6c",
+      "tagline": "The natural world, and the tools to work in it.",
+      "blurb": "The natural world and the tools to work in it — physics, biology, cosmology and climate read alongside Gurbani's account of creation, plus the modern skills (data, AI literacy, research method) a student needs today.",
+      "stance": "Gurbani describes a universe of countless worlds, running on Hukam. This department takes that seriously — reading modern cosmology, evolution and neuroscience alongside the Guru's account of creation, without forcing either to bend — and it equips students with the modern literacy (research method, data, AI) to do the reading well.",
+      "pillars": [
+        { "title": "Creation and Hukam", "body": "Cosmology, evolution and physics read alongside Gurbani's account of a universe running on divine order." },
+        { "title": "Mind and meditation", "body": "What neuroscience and psychology say about simran, attention, and the self." },
+        { "title": "Modern literacy", "body": "Research method, data, and AI literacy — the tools of a serious student today." }
+      ],
+      "featured": ["sikh-meditation-science", "creation-evolution-hukam", "science-500-physics-metaphysics"]
+    },
+    {
+      "id": "health",
+      "name": "Health Department",
+      "slug": "health",
+      "topics": ["health", "mental-health", "parenting", "gardening"],
+      "accent": "#2f7d4f",
+      "tagline": "The body and mind as a trust.",
+      "blurb": "The body and mind as a trust — physical health and nutrition, mental health and resilience, raising children in Sikhi, and growing food: the everyday practice of caring for what you have been given.",
+      "stance": "The body is ਅੰਮ੍ਰਿਤ ਦਾ ਭਾਂਡਾ — a vessel — and caring for it is seva, not vanity. This department covers physical and mental health with Sikh framing and without stigma: grief and bhaana, trauma and recovery, raising children in the faith, and the quiet discipline of growing your own food.",
+      "pillars": [
+        { "title": "Mind", "body": "Mental health without stigma — grief, trauma, resilience, and the Sikh understanding of bhaana." },
+        { "title": "Body", "body": "Nutrition, physical health, and the ethics of medicine in Sikh thought." },
+        { "title": "Home and land", "body": "Raising Gurmukhs, and the seva of growing food." }
+      ],
+      "featured": ["sikh-approach-to-mental-health", "healing-trauma", "health-500-sikh-medical-ethics"]
+    }
+  ],
+  "wing": {
+    "id": "technology",
+    "name": "Institute of Technology",
+    "href": "/technology",
+    "accent": "#e6a93c",
+    "tagline": "Software and AI from first principles — build for the Panth.",
+    "blurb": "The engineering wing — software and AI from first principles, in a code lab that runs in your browser, framed around what you could build for the Panth."
+  }
+}

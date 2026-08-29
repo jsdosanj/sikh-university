@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { departments, wing, departmentCourseCount } from '../../lib/departments';
+import { published } from '../../lib/data';
+
+const deptIcon: Record<string, string> = {
+  theology: 'diya',
+  history: 'scroll',
+  'language-and-literature': 'book',
+  'political-governance': 'pillar',
+  'the-arts': 'palette',
+  'the-sciences': 'microscope',
+  health: 'heart',
+};
+const desc =
+  'The academic departments of Sikhi University — Theology, History, Language & Literature, Political Governance, the Arts, the Sciences, Health, and the Institute of Technology.';
+---
+<Base title="Departments — Sikhi University" description={desc} ambient="study" bgImage="/assets/backgrounds/catalog.jpg">
+  <header class="relative overflow-hidden text-white">
+    <div class="su-arrival-curtain"></div>
+    <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
+    <div class="wrap relative py-16">
+      <p data-arrival class="eyebrow text-saffron">Schools &amp; departments</p>
+      <h1 data-arrival class="text-display-sm mt-3 font-bold text-white">Departments</h1>
+      <p data-arrival class="versal mt-4 max-w-2xl text-lg text-white/85">
+        Every course belongs to a department. Start with the one that fits your question — or
+        <a class="underline hover:text-saffron" href="/catalog">browse all {published.length} courses</a>.
+      </p>
+    </div>
+  </header>
+
+  <section class="wrap py-14">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {departments.map((d) => (
+        <a href={`/departments/${d.slug}`} class="glass-lite group flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-saffron-soft text-saffron-deep ring-1 ring-saffron/25">
+              <Icon name={deptIcon[d.id] || 'book'} class="h-5 w-5" />
+            </span>
+            <h2 class="text-lg font-bold leading-tight text-navy">{d.name}</h2>
+          </div>
+          <p class="mt-3 flex-1 text-sm leading-relaxed text-muted">{d.blurb}</p>
+          <span class="mt-4 font-sans text-xs font-semibold uppercase tracking-wide text-saffron-deep">
+            {departmentCourseCount(d)} courses &rarr;
+          </span>
+        </a>
+      ))}
+
+      <a href={wing.href} class="glass-lite group flex h-full flex-col p-6 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy/10 text-navy ring-1 ring-navy/15">
+            <Icon name="robot" class="h-5 w-5" />
+          </span>
+          <h2 class="text-lg font-bold leading-tight text-navy">{wing.name}</h2>
+        </div>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-muted">{wing.blurb}</p>
+        <span class="mt-4 font-sans text-xs font-semibold uppercase tracking-wide text-navy">Enter the wing &rarr;</span>
+      </a>
+    </div>
+  </section>
+</Base>
