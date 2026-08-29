@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/departments.css';
+import DeptHero from '../../components/departments/DeptHero.astro';
+import DeptSections from '../../components/departments/DeptSections.astro';
+import { departments } from '../../lib/departments';
+const d = departments.find((x) => x.id === 'the-sciences')!;
+const ld = {
+  '@context': 'https://schema.org', '@type': 'EducationalOrganization',
+  name: `${d.name}, Sikhi University`, description: d.blurb,
+  url: 'https://sikhiuni.com/departments/the-sciences',
+  parentOrganization: { '@type': 'CollegeOrUniversity', name: 'Sikhi University', url: 'https://sikhiuni.com/' },
+};
+---
+<Base title={`${d.name} — Sikhi University`} description={d.blurb} ambient="none">
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
+  <div class="dept-page" style={`--dept:${d.accent}`}>
+    <DeptHero d={d}>
+      <section class="sc-sig" aria-label="Gurbani on the scale of creation">
+        <div class="sc-stars" aria-hidden="true"></div>
+        <div class="wrap sc-in">
+          <p class="sc-kicker">The Guru describes a universe of countless worlds, running on Hukam</p>
+          <p class="sc-verse" lang="pa">ਕੇਤੇ ਪਵਣ ਪਾਣੀ ਵੈਸੰਤਰ ਕੇਤੇ ਕਾਨ ਮਹੇਸ ॥</p>
+          <p class="sc-trans">&ldquo;How many winds, waters, fires. How many Krishnas and Shivas.&rdquo; &mdash; Japjī Sāhib, Aṅg 7</p>
+          <p class="sc-note">This department reads modern cosmology, evolution and neuroscience alongside that account &mdash; without forcing either to bend &mdash; and it teaches the research method and data literacy to do the reading well.</p>
+        </div>
+      </section>
+    </DeptHero>
+    <DeptSections d={d} />
+  </div>
+
+  <style>
+    .sc-sig { position: relative; overflow: hidden; background: radial-gradient(120% 100% at 70% 0%, #0b2b2a, #05161c 55%, #030b12); color: #cfeae6; padding: clamp(52px, 9vw, 108px) 24px; border-bottom: 1px solid rgb(var(--c-line)); }
+    .sc-stars {
+      position: absolute; inset: 0; opacity: .8;
+      background-image:
+        radial-gradient(1.4px 1.4px at 12% 22%, #fff, transparent),
+        radial-gradient(1.2px 1.2px at 78% 14%, #cfeae6, transparent),
+        radial-gradient(1.6px 1.6px at 44% 68%, #fff, transparent),
+        radial-gradient(1px 1px at 62% 40%, #9fd, transparent),
+        radial-gradient(1.3px 1.3px at 88% 74%, #fff, transparent),
+        radial-gradient(1px 1px at 26% 84%, #bfe, transparent),
+        radial-gradient(1.5px 1.5px at 6% 60%, #fff, transparent),
+        radial-gradient(1px 1px at 52% 8%, #fff, transparent);
+      animation: sc-drift 40s linear infinite alternate;
+    }
+    @keyframes sc-drift { from { transform: translate3d(0,0,0); } to { transform: translate3d(-2%, -3%, 0); } }
+    .sc-in { position: relative; z-index: 1; }
+    .sc-kicker { font-family: var(--font-sans, system-ui); font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: color-mix(in srgb, var(--dept) 45%, #fff); }
+    .sc-verse {
+      margin: 20px 0 0; max-width: 24ch;
+      font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif;
+      font-size: clamp(22px, 3.6vw, 38px); line-height: 1.6; color: #eafffb;
+      text-shadow: 0 0 34px color-mix(in srgb, var(--dept) 65%, transparent);
+    }
+    .sc-trans { margin: 16px 0 0; font-size: 14px; color: #8fc7c0; font-style: italic; }
+    .sc-note { margin: 24px 0 0; max-width: 60ch; font-size: 14.5px; line-height: 1.72; color: #a9d4cd; }
+    @media (prefers-reduced-motion: reduce) { .sc-stars { animation: none; } }
+  </style>
+</Base>
