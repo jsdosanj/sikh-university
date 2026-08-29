@@ -1,5 +1,5 @@
 {
-  "_note": "Academic departments. Each groups a set of course topics (see site/assets/data/courses.json). The Institute of Technology is a wing with its own section at /technology; the rest resolve to /departments/<slug>. Order here is the order shown in the nav and on /departments. `featured` course ids drive each department's signature-courses row.",
+  "_note": "Academic departments. Each groups a set of course topics (see site/assets/data/courses.json). The Institute of Technology is a wing with its own section at /technology; the rest resolve to /departments/<slug>. Order here is the order shown in the nav and on /departments. `featured` course ids drive each department's signature-courses row. A department with `standalone: true` has no course catalogue yet — it renders its own bespoke page from `curriculum` instead of the shared DeptSections.",
   "departments": [
     {
       "id": "theology",
@@ -80,41 +80,76 @@
       }
     },
     {
-      "id": "language-and-literature",
-      "name": "Department of Language & Literature",
-      "slug": "language-and-literature",
+      "id": "language",
+      "name": "School of Language",
+      "slug": "language",
       "topics": [
         "language",
-        "literature",
         "reference"
       ],
-      "accent": "#1d4e89",
-      "tagline": "The languages Gurbani is written in, and the literature they carry.",
-      "blurb": "The languages Gurbani is written in — Punjabi, Braj Bhasha, Sant Bhasha, Persian — and the literature they carry: poetry, vaaran, kavita, the classical commentaries, and the dictionaries and concordances that open them.",
-      "stance": "Gurbani is poetry before it is anything else, and its meaning lives in its language. This department teaches you to read the script, then the grammar, then the registers — Sant Bhasha, Braj, Persian — and finally the literature itself: Bhai Gurdas, Bhai Vir Singh, the Janamsakhi tradition, the teekas.",
+      "accent": "#4a4fc7",
+      "tagline": "The script, the sound, and the grammar that carries the meaning.",
+      "blurb": "The languages Gurbani is written in — Gurmukhi, Punjabi, Sant Bhasha, Braj, Persian — and everything that opens them: phonetics and correct uchaaran, the grammar of Gurbani, palaeography, and the dictionaries, concordances and encyclopaedias of the tradition.",
+      "stance": "Gurbani's meaning lives in its language, and its language begins as sound. This school teaches you to shape the script, then to say it — the lagāṇ-mātrā and the uchaaran that decide the sense — then the grammar, then the registers: Sant Bhāṣā, Braj, Persian. Only with those in hand does the text fully open.",
       "pillars": [
         {
-          "title": "Script and grammar",
-          "body": "Reading Gurmukhi, then the grammar of Gurbani — the lagaan-matra that carry the meaning."
+          "title": "Script and sound",
+          "body": "Writing Gurmukhi, then the phonetics — correct uchaaran, larivaar reading, and the vowel signs that carry the meaning."
         },
         {
-          "title": "The registers",
-          "body": "Sant Bhasha, Braj Bhasha, Persian — the linguistic layers of Sri Guru Granth Sahib Ji."
+          "title": "Grammar and the registers",
+          "body": "The grammar of Gurbani, and its linguistic layers — Sant Bhasha, Braj Bhasha, Persian — read on their own terms."
         },
         {
-          "title": "The literature",
-          "body": "Vaaran, kavita, the classical commentaries, and the reference works that unlock them."
+          "title": "The reference shelf",
+          "body": "The Mahān Kosh, the concordances, the encyclopaedias and the palaeography that let a reader check their own work."
         }
       ],
       "featured": [
         "gurmukhi-script-basics",
-        "bhai-vir-singh-rana-surat-singh",
-        "punjabi-intellectual-tradition"
+        "sant-bhasha",
+        "language-500-paleography"
       ],
       "image": {
-        "src": "/assets/departments/language-and-literature.jpg",
-        "credit": "Illustrated and illuminated Guru Granth Sahib manuscript from circa 1820 — Unknown, Public domain, via Wikimedia Commons",
-        "source": "https://commons.wikimedia.org/wiki/File:Illustrated_and_illuminated_Guru_Granth_Sahib_manuscript_from_circa_1820.jpg"
+        "src": "/assets/departments/language.jpg",
+        "credit": "Historical Guru Granth Sahib manuscript showing crisp calligraphy and the vowel signs of verses attributed to Sheikh Farid, page 488 — Unknown scribe, Public domain, via Wikimedia Commons",
+        "source": "https://commons.wikimedia.org/wiki/File:Historical_Guru_Granth_Sahib_manuscript_showcasing_crisp_calligraphy_and_vowel_sounds_of_verses_attributed_to_Sheikh_Fareed_on_page_488.jpg"
+      }
+    },
+    {
+      "id": "literature",
+      "name": "School of Literature",
+      "slug": "literature",
+      "topics": [
+        "literature"
+      ],
+      "accent": "#9a3b2a",
+      "tagline": "The Guru's word is poetry first — and it keeps company with the world's.",
+      "blurb": "The Sikh literary tradition — the vaaran of Bhai Gurdas, the kavita of the Guru's darbar, Bhai Nand Lal's Persian, Bhai Vir Singh and the Singh Sabha writers, and the classical teekas — read closely, and set alongside a reading room of the world's classics.",
+      "stance": "Before Gurbani is theology or history it is poetry, and poetry asks to be read slowly. This school teaches close reading — the teeka tradition, prosody, narrative — of the Sikh canon itself, and then opens a comparative reading room: Gurbani's imagery next to Homer, the Gita, Rumi, not to flatten them into one thing but to hear each more clearly.",
+      "pillars": [
+        {
+          "title": "The Sikh canon",
+          "body": "Bhai Gurdas's vaaran, Bhai Nand Lal, the Dasam Granth poetry, Bhai Vir Singh and the modern Punjabi renaissance."
+        },
+        {
+          "title": "Commentary and close reading",
+          "body": "The teeka tradition, Gurmat poetics, prosody and narrative theory — how meaning is built line by line."
+        },
+        {
+          "title": "The comparative reading room",
+          "body": "The world's classics in verified public-domain translations — epic, scripture, philosophy — read next to the Sikh text."
+        }
+      ],
+      "featured": [
+        "bhai-gurdas-vaaran",
+        "bhai-vir-singh-rana-surat-singh",
+        "literature-500-gurmat-poetics"
+      ],
+      "image": {
+        "src": "/assets/departments/literature.jpg",
+        "credit": "Calligraphy and gold 'Kangra' decoration with floral borders in a Guru Granth Sahib manuscript, Punjabi University, Patiala — Unknown scribe, photographed by Mohinder Singh, Public domain, via Wikimedia Commons",
+        "source": "https://commons.wikimedia.org/wiki/File:Glorious_calligraphy_%26_gold_%E2%80%98Kangra%E2%80%99_decoration_with_floral_borders_and_swirling_paisleys,_in_this_Guru_Granth_Sahib_manuscript_housed_at_Punjabi_University,_Patiala_01.jpg"
       }
     },
     {
@@ -267,6 +302,189 @@
         "src": "/assets/departments/health.jpg",
         "credit": "Guru Ram Das Langar in the golden temple complex in Amritsar 04 — Kritzolina, CC BY-SA 4.0, via Wikimedia Commons",
         "source": "https://commons.wikimedia.org/wiki/File:Guru_Ram_Das_Langar_in_the_golden_temple_complex_in_Amritsar_04.jpg"
+      }
+    },
+    {
+      "id": "martial-arts",
+      "name": "Department of Martial Arts (Shastar Vidya)",
+      "slug": "martial-arts",
+      "standalone": true,
+      "catalogueNote": "A sourced reading room",
+      "topics": [],
+      "accent": "#c1272d",
+      "tagline": "Discipline, ancient steel, and the science of the Punjab battlefield.",
+      "blurb": "A reading room on ਸ਼ਸਤਰ ਵਿਦਿਆ — the martial science of the Sikhs: the names it has carried, the weapons and stances, the akhara curriculum, and the lineage and revival of the tradition, set down as its custodians tell it.",
+      "stance": "The Khalsa was raised sant-sipāhī — saint and soldier — and its battlefield art has its own custodians, its own vocabulary, and its own contested history. This department gathers the living tradition's account of itself, drawn from the Baba Darbara Singh Akhara. Where that account is disputed by other Sikh readings, the dispute is named — not settled.",
+      "pillars": [
+        {
+          "title": "The steel",
+          "body": "The Indian armoury the system uses — sword, spear, dagger, club, chain-and-ball, chakar, bagh nakha — and how each is carried."
+        },
+        {
+          "title": "The science",
+          "body": "Locomotion, angling, and power drawn from movement rather than muscle — what makes it a battlefield science, not a sport."
+        },
+        {
+          "title": "The lineage",
+          "body": "Nine generations of the Baba Darbara Singh Akhara from 1661, and the revival that brought the art to Britain."
+        }
+      ],
+      "featured": [],
+      "curriculum": [
+        {
+          "id": "history",
+          "name": "History — from the Shiv Akhara to the Sikh Gurus",
+          "icon": "scroll",
+          "summary": "The lineage the tradition claims for itself, from ancient ascetic orders to Guru Nanak and the Sikh warrior akharas.",
+          "sections": [
+            {
+              "heading": "The names the art carries",
+              "body": [
+                "Shastar Vidiya translates as \"the science of weapons\": shastar meaning weapon, and specifically edged weapons, and vidiya meaning science. The akhara describes it as a complete traditional Indian battlefield system from the Punjab, joining unarmed technique to the full Indian armoury.",
+                "The tradition answers to several older designations, each naming a different aspect of the same art."
+              ],
+              "list": [
+                { "term": "Ayudh Vidiya", "detail": "the science of weapons" },
+                { "term": "Bir / Vir Vidiya", "detail": "the science of warriors" },
+                { "term": "Jujaroo / Loojaroo Vidiya", "detail": "the science of those who die fighting for Dharma" },
+                { "term": "Chatka Gatka", "detail": "quick-killing gatka" },
+                { "term": "Sanatan Shastar Vidiya", "detail": "the timeless science of weapons" }
+              ]
+            },
+            {
+              "heading": "The pre-Sikh chain",
+              "body": [
+                "The akhara sets out its history in nine stages: Shiva, the Pashupati, the Kapalika, Taxila, the Natha Sadhus, Guru Nanak, the Ranjit Akhara, the Baba Darbara Singh Akhara, and the lineage of that akhara.",
+                "The first five belong to ascetic and warrior currents older than Sikhi itself. The tradition holds that the art was, in its own phrase, a gift from Lord Shiva to the world, and that it passed through those orders before the Sikh Gurus took it up."
+              ]
+            },
+            {
+              "heading": "Guru Nanak and the Sikh adoption",
+              "body": [
+                "The akhara records that enlightened ascetic warrior Natha Sadhus identified Guru Nanak (born 1469) as the Yuga Pursh — the man of his age — and bestowed their martial skills as an offering to him. It is explicit that this is not widely known: \"The concept of Guru Nanak being an accomplished and sophisticated warrior is not well known outside of the traditional Sikh martial orders.\"",
+                "As physical testimony it points to the Sikh temple at Patna, Bihar, where a sword (tegha), a quoit (chakram) and a pincher (chimta) attributed to Guru Nanak can still be seen. From there the akhara traces the art forward into the Sikh warrior orders — the Ranjit Akhara of the 17th century, and the Baba Darbara Singh Akhara founded in 1661."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "science",
+          "name": "The Science — locomotion, angling, power from movement",
+          "icon": "compass",
+          "summary": "Three stated principles that make it a battlefield science rather than a sport, and the armoury and combat forms built on them.",
+          "sections": [
+            {
+              "heading": "The three principles",
+              "body": [
+                "The tradition sets out its mechanics in three parts, which it treats as one integrated thing rather than three techniques."
+              ],
+              "list": [
+                { "term": "Locomotion", "detail": "Body mass is held over the centre of gravity, then do_lana — spilling — shifts that weight directionally, the feet following in measured steps." },
+                { "term": "Angling", "detail": "A narrow foot stance permits sharper angle cuts than the standard forty-five degrees, one foot often lifted during motion, keeping the opponent constantly misaligned." },
+                { "term": "Power generation", "detail": "Force derives from movement itself rather than muscular strength or firm grounding — body mass sunk through the technique while kinetic energy is channelled." }
+              ]
+            },
+            {
+              "heading": "The armoury",
+              "body": [
+                "The system combines unarmed technique with the Indian weapons: swords, spears, daggers, clubs, sticks, chain and ball, chakars (quoits), and bagh nakha — the leopard claw."
+              ]
+            },
+            {
+              "heading": "The combat forms",
+              "body": [
+                "The fighting styles, or yudhan, are grouped into three families — the six-limbed Khat Ang Yudhan take animal forms; Sapt Ang Yudhan adds a seventh; and the Dev Ang Yudhan take divine forms."
+              ],
+              "list": [
+                { "term": "Khat Ang Yudhan", "detail": "Viraha (wild boar), Sheshnaga (snake), Garuda (bird), Nandi (bull), Narsingha (tiger), Hanuman (monkey)" },
+                { "term": "Sapt Ang Yudhan", "detail": "Bagh Yudhan — the leopard style" },
+                { "term": "Dev Ang Yudhan", "detail": "Ashtbuja Deva (Chandi, the goddess), Adi Deva (Shiva), Ardhanarishvara (the androgynous Shiva)" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "curriculum",
+          "name": "Curriculum — Sava Rakhsha, Yudh Vidiya, Sanjam Kiriya Variyam",
+          "icon": "shield",
+          "summary": "What is actually taught, in three stages — and who the akhara will and will not teach.",
+          "sections": [
+            {
+              "heading": "Who it is for",
+              "body": [
+                "The akhara describes the art as traditionally understood to be a gift from Lord Shiva to the world, revitalised by the 16th-century Sikh Gurus to defend Sanatan Dharma against tyranny. On that basis it states the art is \"open to all decent law-abiding people around the world, regardless of race, religion, colour, caste, gender, or sexual orientation.\"",
+                "It names its exclusions plainly: those of low character, those who would misuse the skills, and those under the influence of drugs or alcohol."
+              ]
+            },
+            {
+              "heading": "The three stages",
+              "body": ["The published curriculum is divided into three, taught in order."],
+              "list": [
+                { "term": "Sava Rakhsha", "detail": "The foundational self-protection system, with separate streams for children, for women and for men." },
+                { "term": "Yudh Vidiya", "detail": "The advanced combat science — the battlefield art itself." },
+                { "term": "Sanjam Kiriya Variyam", "detail": "The martial yoga that accompanies the art, and the training discipline that carries it." }
+              ]
+            },
+            {
+              "heading": "Where it is taught",
+              "body": [
+                "The akhara runs classes in London and Birmingham and has offered instruction remotely. Contact for the tradition is published on its own site as info@shastarvidiya.org — Sikhi University is not affiliated with the akhara and cannot arrange training."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lineage",
+          "name": "Lineage and Revival — nine generations, one surviving master",
+          "icon": "crown",
+          "summary": "The Baba Darbara Singh Akhara from 1661 to today, and how Nidar Singh Nihang came to be taught it.",
+          "sections": [
+            {
+              "heading": "The chain of masters",
+              "body": [
+                "The akhara publishes its succession from its founding in 1661 as nine generations. It carries as its motto a line it attributes to the Siri Guru Panth Parkash: \"Preserve Shastar Vidiya any way you can.\""
+              ],
+              "list": [
+                { "term": "1661", "detail": "Gurdev Baba Darbara Singh — founder" },
+                { "term": "2–7", "detail": "Baba Buddha Singh, Baba Sukha Singh, Baba Lakha Singh, Baba Savan Singh Bangroo, Baba Mangal Singh, Baba Gian Singh Sutantar" },
+                { "term": "8", "detail": "Gurdev Baba Mohinder Singh (1920–1995)" },
+                { "term": "9", "detail": "Gurdev Nidar Singh Nihang — described as the sole-surviving master" }
+              ]
+            },
+            {
+              "heading": "How the transmission happened",
+              "body": [
+                "The akhara's own account: in 1984, aged seventeen, Nidar Singh returned to India from the UK. A chance encounter led him to Akali Nihang Baba Mohinder Singh, who became his teacher; he gave up his college education to study, over his parents' objection.",
+                "After eleven years of training he inherited, in the akhara's words, a great responsibility — becoming the only surviving master of Sanatan Shastar Vidiya, and the ninth Gurdev of a line running back to 1661."
+              ]
+            },
+            {
+              "heading": "Bringing it to Britain",
+              "body": [
+                "Nidar Singh arrived in the UK in 1995. He introduced the art at first under the name Chatka Gatka — a deliberate strategy, the akhara says, to separate committed students from those with ideological objections — and only over time revealed it as Shastar Vidiya, then Sanatan Shastar Vidiya, in full.",
+                "He taught without charging fees from the outset, working factory jobs to support himself, and as student numbers grew established classes across London and Birmingham."
+              ]
+            }
+          ]
+        }
+      ],
+      "caveat": "The akhara's framing is its own and is contested. It uses the term \"Sanatan\" — timeless — and argues for a Hindu–Sikh cultural continuity that modern reformist Sikh thought, which took shape from the late 19th century, rejects. This department reproduces the tradition's position as the tradition states it; it does not endorse it over other Sikh readings. Doctrinal and historical review by the scholar board precedes any formal course.",
+      "sources": [
+        { "label": "shastarvidiya.org — the Baba Darbara Singh Akhara", "url": "https://www.shastarvidiya.org/" },
+        { "label": "shastarvidiya.org — History", "url": "https://www.shastarvidiya.org/history/index.html" },
+        { "label": "shastarvidiya.org — The science of the art", "url": "https://www.shastarvidiya.org/combat/science.html" },
+        { "label": "shastarvidiya.org — Teaching", "url": "https://www.shastarvidiya.org/teaching/index.html" }
+      ],
+      "book": {
+        "title": "Sanatan Shastar Vidiya — The Timeless Science of Weapons",
+        "authors": "Nidar Singh Nihang and Nihang Teja Singh",
+        "note": "The tradition's own account of itself — the classical North Indian battlefield science traced from the Shiv Akhara to the 17th-century Sikh Ranjit Akhara.",
+        "url": "https://www.amazon.co.uk/dp/B0D65CX1SL"
+      },
+      "image": {
+        "src": "/assets/departments/martial-arts.jpg",
+        "credit": "Mural depicting two Sikhs sparring in a gatka match, from Shahi Samadhan, Sangrur, ca.1870s — Unknown muralist, Public domain, via Wikimedia Commons",
+        "source": "https://commons.wikimedia.org/wiki/File:Mural_depicting_two_Sikhs_sparring_in_a_gatka_match,_from_Shahi_Samadhan,_Sangrur,_ca.1870%27s.jpg"
       }
     }
   ],
