@@ -20,7 +20,7 @@ const cards = [
     name: wing.name,
     tagline: wing.tagline,
     accent: wing.accent,
-    img: null,
+    img: wing.image!.src,
     count: 'The engineering wing',
   },
 ];
@@ -45,9 +45,7 @@ const cards = [
           {cards.map((c) => (
             <a class="dx-card" href={c.href} style={`--dept:${c.accent}`} data-rise>
               <span class="dx-card-media" aria-hidden="true">
-                {c.img
-                  ? <img src={c.img} alt="" loading="lazy" />
-                  : <span class="dx-card-tech"></span>}
+                <img src={c.img} alt="" loading="lazy" />
                 <span class="dx-card-veil"></span>
               </span>
               <span class="dx-card-body">
@@ -86,12 +84,6 @@ const cards = [
     .dx-card-media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #0d131c; }
     .dx-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-out, ease); }
     .dx-card:hover .dx-card-media img { transform: scale(1.06); }
-    .dx-card-tech { position: absolute; inset: 0; background: radial-gradient(120% 100% at 20% 0%, #3a2a08, #1a1204 60%, #0d0a02); }
-    .dx-card-tech::after {
-      content: ""; position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(230,169,60,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(230,169,60,.10) 1px, transparent 1px);
-      background-size: 30px 30px; mask-image: radial-gradient(ellipse 80% 70% at 20% 0%, #000, transparent 75%);
-    }
     .dx-card-veil { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(10,15,22,.15)), linear-gradient(90deg, color-mix(in srgb, var(--dept) 28%, transparent), transparent 60%); }
     .dx-card-body { display: flex; flex-direction: column; flex: 1; padding: 20px 20px 22px; border-top: 3px solid var(--dept); }
     .dx-card-name { font-family: "Source Serif 4", Georgia, serif; font-size: 19px; font-weight: 800; color: rgb(var(--c-navy)); line-height: 1.2; }
