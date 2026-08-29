@@ -26,6 +26,9 @@ cpSync(`${SRC}/manifest.json`, `${OUT}/manifest.json`);
 cpSync(`${SRC}/professors.json`, `${OUT}/professors.json`);
 if (existsSync(`${SRC}/exam`)) cpSync(`${SRC}/exam`, `${OUT}/exam`, { recursive: true });
 if (existsSync(`${SRC}/dojo`)) cpSync(`${SRC}/dojo`, `${OUT}/dojo`, { recursive: true });
+// Open Source Atlas: chunked repo directory + search index + video shelf,
+// snapshot committed under src/, refreshed by `node scripts/build-atlas.mjs`.
+if (existsSync(`${SRC}/atlas`)) cpSync(`${SRC}/atlas`, `${OUT}/atlas`, { recursive: true });
 
 let lessonCount = 0;
 const imp = `${SRC}/imported`;

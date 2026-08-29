@@ -1,0 +1,17 @@
+[
+  { "id": "FIwqMbfZUaE", "title": "Model Distillation: Steal a Billion Dollar AI", "published": "2026-07-25" },
+  { "id": "T8v8Rxr8rMM", "title": "Best Local AI Models For Your GPU", "published": "2026-07-25" },
+  { "id": "9VpaPURdBb4", "title": "Train Local Model on Your Own Codebase", "published": "2026-07-24" },
+  { "id": "vFtJeZ7ifTA", "title": "Tokenization Just Got 1,000x Faster! (Gigatoken)", "published": "2026-07-24" },
+  { "id": "CQzlLJ1YqDs", "title": "C++ is Dying: Why Microsoft & Google Switch to Rust", "published": "2026-07-24" },
+  { "id": "xSZoPhY9BGA", "title": "Laguna S 2.1: The Best Local Model?", "published": "2026-07-24" },
+  { "id": "7Sk6soglMKU", "title": "Fable 5 is INSANE: Build ANY App in Plain English", "published": "2026-07-23" },
+  { "id": "MbkDloawTf4", "title": "PocketBase + HTMX: Production App in One File", "published": "2026-07-23" },
+  { "id": "lwnhJajthWc", "title": "DuckDB: The 20MB Database Killing Your Snowflake Bill", "published": "2026-07-23" },
+  { "id": "bW6aClmB-v4", "title": "Polars vs Pandas: Process 14GB Data 11x Faster", "published": "2026-07-23" },
+  { "id": "p2OZqljmGww", "title": "Top 10 AI Repos You Need Right Now", "published": "2026-07-22" },
+  { "id": "q_FQegMRWUQ", "title": "10 Open Models | Zero API Keys (Cline)", "published": "2026-07-22" },
+  { "id": "XBhqYWe6kQo", "title": "Rust is Quietly Eating JavaScript's Backend", "published": "2026-07-22" },
+  { "id": "udBL9zW4Gm4", "title": "Go + SQLite + Stripe: $10K/mo Side Projects", "published": "2026-07-22" },
+  { "id": "dl25OUcWj2k", "title": "HTMX + PHP + CSS Is Insanely Fast", "published": "2026-07-21" }
+]
