@@ -1,9 +1,10 @@
-// Institute of Technology — Workshops. Hands-on "how it is actually made"
-// references, migrated from the sister project sikhi.io. Rendered by
-// src/pages/technology/workshop/[slug].astro; getStaticPaths maps this array,
-// so adding a workshop here adds a route.
+// Workshops — hands-on "how it is actually made" references, migrated from the
+// sister project sikhi.io. Rendered by
+// src/pages/departments/martial-arts/workshop/[slug].astro; getStaticPaths maps
+// this array, so adding a workshop here adds a route.
 //
-// The first is the Wootz Workshop — the real metallurgy behind Sikh shastar.
+// The first is the Wootz Workshop — the real metallurgy behind Sikh shastar,
+// which is why it lives with the Department of Martial Arts (Shastar Vidya).
 // Content is Sikhi.io's original synthesis of the factual/technical material
 // from four "Knife Steel Nerds" (Larrin Thomas) videos; every figure is a lab
 // record, not a claim. Nothing doctrinal here — this is materials science.
