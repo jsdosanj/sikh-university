@@ -34,7 +34,7 @@ const ld = {
   ...(prof ? { author: { '@type': 'Organization', name: prof.name } } : {}),
 };
 ---
-<Base title={`${t.title} — Institute of Technology`} description={t.summary} institute noindex ogType="article">
+<Base title={`${t.title} — Institute of Technology`} description={t.summary} institute ogType="article">
   <script type="application/ld+json" set:html={JSON.stringify(ld)} slot="head" />
   <InstituteRail />
 

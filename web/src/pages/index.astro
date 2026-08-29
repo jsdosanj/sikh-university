@@ -288,6 +288,40 @@ const ld = {
     </div>
   </section>
 
+  <!-- Institute of Technology — the engineering wing -->
+  <section id="technology-wing" class="text-white">
+    <div class="wrap py-20">
+      <div class="mx-auto max-w-5xl xl:max-w-6xl">
+        <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
+            <p class="eyebrow text-saffron">Institute of Technology</p>
+            <h2 class="text-display-sm mt-4 font-bold text-white">Learn to build — and build for the Panth.</h2>
+            <p class="mt-5 text-lg text-white/85 leading-relaxed">Sikhi University's engineering wing teaches software and AI engineering from first principles, in a code lab that runs in your browser. Every phase is framed around what you could build for the sangat — Gurbani search, archive digitisation, Gurmukhi tools, gurdwara systems.</p>
+            <p class="mt-4 text-white/80 leading-relaxed">Twenty phases from setup to autonomous agents, a from-scratch coding dojo, the Claude Code guide, and a &ldquo;Build for the Panth&rdquo; capstone. Finish a phase, pass its server-graded exam, earn a verifiable certificate.</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a class="btn btn-primary" href="/technology">Enter the Institute of Technology &rarr;</a>
+              <a class="btn btn-ghost" href="/technology/atlas">Open Source Atlas &rarr;</a>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            {[
+              ['20', 'phases', 'Setup, math, ML, deep learning, transformers, LLMs, agents, infra, safety'],
+              ['500+', 'lessons', 'Adapted from AI Engineering from Scratch (MIT), reframed for seva'],
+              ['In-browser', 'code lab', 'Python, JavaScript and HTML run right on the page — nothing to install'],
+              ['Verifiable', 'certificates', 'Server-graded phase exams, each certificate checkable at /verify'],
+            ].map((t, i) => (
+              <div class="reveal glass-lite rounded-xl2 p-5" data-reveal-delay={(i % 2) * 90}>
+                <div class="text-2xl font-bold text-navy">{t[0]}</div>
+                <div class="mt-0.5 font-sans text-sm font-semibold text-navy">{t[1]}</div>
+                <div class="mt-2 text-xs text-ink/70 leading-relaxed">{t[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Proof points / differentiators -->
   <section>
     <div class="wrap py-16">
