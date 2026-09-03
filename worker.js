@@ -6,6 +6,7 @@ import { onRequestGet as progressGet, onRequestPost as progressPost } from "./fu
 import { onRequestPost as authRequestPost } from "./functions/api/auth/request.js";
 import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
 import { onRequestPost as authLogoutPost } from "./functions/api/auth/logout.js";
+import { onRequestGet as authSsoGet } from "./functions/api/auth/sso.js";
 import { onRequestPost as mfaEnrollPost } from "./functions/api/auth/mfa/enroll.js";
 import { onRequestPost as mfaConfirmPost } from "./functions/api/auth/mfa/confirm.js";
 import { onRequestPost as mfaVerifyPost } from "./functions/api/auth/mfa/verify.js";
@@ -78,6 +79,7 @@ const routes = {
   "/api/auth/request": { POST: authRequestPost },
   "/api/auth/verify": { GET: authVerifyGet },
   "/api/auth/logout": { POST: authLogoutPost },
+  "/api/auth/sso": { GET: authSsoGet },
   "/api/auth/mfa/enroll": { POST: mfaEnrollPost },
   "/api/auth/mfa/confirm": { POST: mfaConfirmPost },
   "/api/auth/mfa/verify": { POST: mfaVerifyPost },
