@@ -1,0 +1,59 @@
+import { newId, sessionCookie, isAdminEmail, logEvent } from "../_lib.js";
+import { verifySsoToken } from "../../_sso.js";
+
+// GET /api/auth/sso?sso_token=...&return=/some/path
+//
+// Consumer side of the cross-domain handoff minted by sikhi.io's
+// GET /api/sso/issue. Verifies the token, finds-or-creates a local user by
+// email (same MFA-aware session logic as functions/api/auth/verify.js's
+// magic-link path -- an SSO login is a real login and must respect an
+// existing account's security settings, not just skip them for a
+// newly-provisioned one), then redirects to a same-origin-only `return`
+// path (never an absolute URL -- that would make this an open redirect off
+// a trusted-looking sikhiuni.com link).
+export async function onRequestGet({ request, env }) {
+  const url = new URL(request.url);
+  const token = url.searchParams.get("sso_token") || "";
+  const returnPath = url.searchParams.get("return") || "/dashboard.html";
+  const base = env.SITE_URL || url.origin;
+
+  const safeReturn = returnPath.startsWith("/") && !returnPath.startsWith("//") ? returnPath : "/dashboard.html";
+  const dest = `${base}${safeReturn}`;
+  const fail = (msg) => Response.redirect(`${base}/login.html?error=${encodeURIComponent(msg)}`, 302);
+
+  const secret = env.SSO_SHARED_SECRET;
+  if (!secret) return fail("Sign-in via sikhi.io is not configured yet.");
+
+  const payload = await verifySsoToken(token, secret);
+  if (!payload) return fail("This sign-in link is invalid or expired.");
+
+  const email = payload.email;
+  let user = await env.DB.prepare("SELECT id, role FROM users WHERE email = ?").bind(email).first();
+  const wantAdmin = isAdminEmail(env, email);
+  if (!user) {
+    const id = newId();
+    const role = wantAdmin ? "admin" : "learner";
+    await env.DB.prepare("INSERT INTO users (id, email, name, role, created_at) VALUES (?,?,?,?,?)")
+      .bind(id, email, payload.name || null, role, Date.now()).run();
+    user = { id, role };
+    await logEvent(env, { id, role }, "user_created", email, "sso:sikhi.io");
+  } else if (wantAdmin && user.role !== "admin") {
+    await env.DB.prepare("UPDATE users SET role='admin' WHERE id=?").bind(user.id).run();
+  } else if (!wantAdmin && user.role === "admin") {
+    await env.DB.prepare("UPDATE users SET role='learner' WHERE id=?").bind(user.id).run();
+  }
+
+  const sid = newId() + newId();
+  const expires = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days, matches verify.js
+  const mfaRow = await env.DB.prepare("SELECT enabled_at FROM user_mfa WHERE user_id=?").bind(user.id).first();
+  const mfaEnrolled = !!(mfaRow && mfaRow.enabled_at);
+  await env.DB.prepare("INSERT INTO sessions (id, user_id, expires_at, mfa_ok) VALUES (?,?,?,?)")
+    .bind(sid, user.id, expires, mfaEnrolled ? 0 : 1).run();
+  await logEvent(env, user, "login", email, "sso:sikhi.io");
+
+  const location = mfaEnrolled ? `${base}/mfa.html` : dest;
+  return new Response(null, {
+    status: 302,
+    headers: { Location: location, "Set-Cookie": sessionCookie(sid, 30 * 24 * 60 * 60) },
+  });
+}
