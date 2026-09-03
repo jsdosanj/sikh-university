@@ -22,7 +22,7 @@ self.addEventListener('install', function (e) {
 // Worker's 301 internally, so the address bar never moves). On a legacy host,
 // unregister and drop caches so the next navigation hits the network and the
 // 301 performs a real, visible move to sikhiuni.com.
-var LEGACY_HOSTS = ['sikh-university.dosanjhlabs.com', 'sikh-university.jasvant-dosanjh.workers.dev'];
+var LEGACY_HOSTS = ['sikh-university.com', 'www.sikh-university.com', 'sikh-university.dosanjhlabs.com', 'sikh-university.jasvant-dosanjh.workers.dev'];
 var IS_LEGACY = LEGACY_HOSTS.indexOf(self.location.hostname) !== -1;
 
 self.addEventListener('activate', function (e) {

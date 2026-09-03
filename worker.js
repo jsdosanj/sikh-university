@@ -193,6 +193,8 @@ async function checkRateLimit(env, key, limit, windowSec) {
 // previews) are deliberately NOT redirected.
 const CANONICAL_ORIGIN = "https://sikhiuni.com";
 const LEGACY_HOSTS = new Set([
+  "sikh-university.com",
+  "www.sikh-university.com",
   "sikh-university.dosanjhlabs.com",
   "sikh-university.jasvant-dosanjh.workers.dev",
 ]);
