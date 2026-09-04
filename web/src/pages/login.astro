@@ -1,68 +1,75 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Sign in / Sign up — Sikhi University" description="Sign in to Sikhi University — as a student to learn, or apply to teach." ambient="hall" bgImage="/assets/backgrounds/login.jpg" noindex={true}>
-  <section class="wrap py-14">
-    <div class="mx-auto max-w-md text-center">
-      <p class="eyebrow text-saffron">Sign in</p>
-      <h1 class="text-display-sm mt-2 font-bold text-white" id="mode-h1">Sign in</h1>
-      <p class="mt-2 font-sans text-white/85" id="mode-sub">New here? <button type="button" id="mode-toggle" class="underline">Create an account</button></p>
-    </div>
-    <div id="err" class="mx-auto mt-4 max-w-md"></div>
-
-    <div class="glass-strong mx-auto mt-6 max-w-md rounded-xl2 p-6">
-      <fieldset id="role-fieldset" class="hidden">
-        <legend class="font-sans text-sm font-semibold">I am joining as a…</legend>
-        <div class="mt-2 grid gap-3">
-          <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
-            <input type="radio" name="role" value="student" class="mr-2" checked />
-            <span class="font-semibold text-navy">Student</span>
-            <p class="mt-1 font-sans text-sm text-muted">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
-          </label>
-          <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
-            <input type="radio" name="role" value="teacher" class="mr-2" />
-            <span class="font-semibold text-navy">Teacher</span>
-            <p class="mt-1 font-sans text-sm text-muted">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
-          </label>
+<Base title="Sign in / Sign up — Sikhi University" description="Sign in to Sikhi University — as a student to learn, or apply to teach." ambient="hall" noindex={true}>
+  <!-- islogin (555-575): centered hero-midnight surface, flat crest, mono
+       footer links, gold primary button. Real form ids/names/logic below are
+       untouched -- only classes and wrapping markup changed. -->
+  <div class="hero-midnight flex min-h-[620px] items-center py-16">
+    <div class="wrap relative w-full">
+      <div class="mx-auto w-full max-w-[420px]">
+        <div class="flex justify-center">
+          <img src="/assets/su-crest-ivory.png" alt="Sikhi University crest" class="h-16 w-auto" />
         </div>
-      </fieldset>
+        <p class="mt-4 text-center text-[11.5px] font-bold uppercase tracking-[0.24em] text-white">Sikhi University</p>
+        <h1 class="text-display-sm mt-5 text-center font-bold text-white" id="mode-h1">Sign in</h1>
+        <p class="mt-3 text-center text-[15.5px] leading-relaxed text-white/[0.72]" id="mode-sub">New here? <button type="button" id="mode-toggle" class="underline underline-offset-2">Create an account</button></p>
 
-      <!-- Primary: email + password -->
-      <form id="password-form" class="mt-4 space-y-4">
-        <label class="block font-sans text-sm font-semibold"><span>Email</span>
-          <input id="email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-        </label>
-        <label class="block font-sans text-sm font-semibold"><span>Password</span>
-          <input id="password" type="password" required minlength="12" autocomplete="current-password" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-        </label>
-        <button id="password-btn" type="submit" class="btn btn-primary w-full justify-center">Sign in</button>
-        <p class="text-center font-sans text-sm"><a href="/reset-password.html" class="underline text-muted" id="forgot-link">Forgot password?</a></p>
-      </form>
-    </div>
+        <div id="err" class="mt-4"></div>
 
-    <!-- Secondary: magic-link, for the accounts that predate password auth -->
-    <div class="mx-auto mt-4 max-w-md text-center">
-      <button type="button" id="magic-toggle" class="font-sans text-sm underline text-white/70">Sign in via emailed link instead</button>
-    </div>
-    <div id="magic-wrap" class="glass-strong mx-auto mt-4 max-w-md rounded-xl2 p-6 hidden">
-      <p class="font-sans text-sm text-muted mb-3">For accounts created before password sign-in existed. We'll email you a one-click link — no password needed.</p>
-      <form id="login-form" class="space-y-4">
-        <label class="block font-sans text-sm font-semibold"><span>Email</span>
-          <input id="magic-email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-        </label>
-        <button id="send" type="submit" class="btn btn-primary w-full justify-center">Send magic link</button>
-      </form>
-    </div>
+        <fieldset id="role-fieldset" class="mt-7 hidden">
+          <legend class="font-sans text-sm font-semibold text-white">I am joining as a…</legend>
+          <div class="mt-3 grid gap-3">
+            <label class="cursor-pointer rounded-[2px] border border-white/[0.2] bg-white/[0.04] p-4 has-[:checked]:border-saffron">
+              <input type="radio" name="role" value="student" class="mr-2" checked />
+              <span class="font-semibold text-white">Student</span>
+              <p class="mt-1 font-sans text-sm text-white/[0.65]">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
+            </label>
+            <label class="cursor-pointer rounded-[2px] border border-white/[0.2] bg-white/[0.04] p-4 has-[:checked]:border-saffron">
+              <input type="radio" name="role" value="teacher" class="mr-2" />
+              <span class="font-semibold text-white">Teacher</span>
+              <p class="mt-1 font-sans text-sm text-white/[0.65]">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
+            </label>
+          </div>
+        </fieldset>
 
-    <div id="out" class="mx-auto mt-4 max-w-md"></div>
-  </section>
+        <!-- Primary: email + password -->
+        <form id="password-form" class="mt-7 space-y-5">
+          <label class="block"><span class="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/[0.72]">Email</span>
+            <input id="email" type="email" required placeholder="you@example.com" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
+          </label>
+          <label class="block"><span class="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/[0.72]">Password</span>
+            <input id="password" type="password" required minlength="12" autocomplete="current-password" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
+          </label>
+          <button id="password-btn" type="submit" class="btn btn-primary w-full justify-center">Sign in</button>
+          <p class="text-center"><a href="/reset-password.html" id="forgot-link" class="font-mono text-[11px] tracking-[0.08em] text-white/[0.62] underline underline-offset-2">Forgot password?</a></p>
+        </form>
+
+        <!-- Secondary: magic-link, for the accounts that predate password auth -->
+        <div class="mt-8 border-t border-white/10 pt-6 text-center">
+          <button type="button" id="magic-toggle" class="font-mono text-[11px] tracking-[0.08em] text-white/[0.62] underline underline-offset-2">Sign in via emailed link instead</button>
+        </div>
+        <div id="magic-wrap" class="mt-4 hidden">
+          <p class="mb-3 font-sans text-sm text-white/[0.65]">For accounts created before password sign-in existed. We'll email you a one-click link — no password needed.</p>
+          <form id="login-form" class="space-y-5">
+            <label class="block"><span class="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/[0.72]">Email</span>
+              <input id="magic-email" type="email" required placeholder="you@example.com" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
+            </label>
+            <button id="send" type="submit" class="btn btn-primary w-full justify-center">Send magic link</button>
+          </form>
+        </div>
+
+        <div id="out" class="mt-4"></div>
+      </div>
+    </div>
+  </div>
   <script>
     import { iconSvg } from '../lib/icons';
     function esc(s: string) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
     const params = new URLSearchParams(location.search);
     const e = params.get('error');
     const errEl = document.getElementById('err')!;
-    if (e) errEl.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc(e)}</strong></div>`;
+    if (e) errEl.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc(e)}</strong></div>`;
     const out = document.getElementById('out')!;
 
     // Sign in / create account toggle
@@ -99,14 +106,14 @@ import Base from '../layouts/Base.astro';
         .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
         .then(({ ok, d }) => {
           passwordBtn.disabled = false;
-          if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not sign in.')}</strong></div>`; return; }
+          if (!ok) { out.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not sign in.')}</strong></div>`; return; }
           if (mode === 'signup') {
             const role = (document.querySelector('input[name="role"]:checked') as HTMLInputElement)?.value || 'student';
             try { localStorage.setItem('su_v1_signup_intent', JSON.stringify(role)); } catch {}
           }
           location.href = d.mfaRequired ? '/mfa.html' : '/dashboard.html';
         })
-        .catch(() => { passwordBtn.disabled = false; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
+        .catch(() => { passwordBtn.disabled = false; out.innerHTML = '<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
     });
 
     // Secondary magic-link form (unchanged mechanism, just repositioned)
@@ -125,11 +132,11 @@ import Base from '../layouts/Base.astro';
         .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
         .then(({ ok, d }) => {
           btn.disabled = false; btn.textContent = 'Send magic link';
-          if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not send the link.')}</strong></div>`; return; }
-          if (d.sent) out.innerHTML = `<div class="flex items-start gap-3 rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><span class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">${iconSvg('check', 'h-3.5 w-3.5')}</span><span><strong>Check your email.</strong> A sign-in link was sent to ${esc(email)} (expires in 15 minutes).</span></div>`;
-          else out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${esc(d.devLink)}">click here to sign in</a>.</div>`;
+          if (!ok) { out.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not send the link.')}</strong></div>`; return; }
+          if (d.sent) out.innerHTML = `<div class="flex items-start gap-3 rounded-[2px] border-l-4 border-ok bg-surface p-3 font-sans text-sm"><span class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">${iconSvg('check', 'h-3.5 w-3.5')}</span><span><strong>Check your email.</strong> A sign-in link was sent to ${esc(email)} (expires in 15 minutes).</span></div>`;
+          else out.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${esc(d.devLink)}">click here to sign in</a>.</div>`;
         })
-        .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
+        .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
     });
   </script>
 </Base>
