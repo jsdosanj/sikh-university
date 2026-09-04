@@ -33,7 +33,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
        @font-face rules are inlined (see frontmatter) and the two above-the-fold
        faces are preloaded so text paints without a stylesheet round-trip. -->
   <Fragment set:html={`<style>${fontFaceCss}</style>`} />
-  <link rel="preload" href="/fonts/sourceserif4-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/notoserifgur-gurmukhi-400.woff2" as="font" type="font/woff2" crossorigin />
   <script is:inline>
     // Set the colour theme before first paint to avoid a flash. Honours a
