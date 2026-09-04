@@ -82,12 +82,11 @@ const ld = {
         <div class="relative hidden justify-self-center lg:block">
           <div aria-hidden="true" class="glow-saffron pointer-events-none absolute -inset-12"></div>
           <model-viewer
+            id="su-crest-model"
             src="/assets/sikh-uni-crest-v2.glb"
             poster="/assets/su-crest-ivory.png"
-            alt="A rotating 3D model of the Sikhi University crest"
-            auto-rotate
-            auto-rotate-delay="0"
-            rotation-per-second="18deg"
+            alt="A 3D model of the Sikhi University crest, gently rocking side to side"
+            camera-orbit="0deg 75deg auto"
             camera-controls
             disable-zoom
             interaction-prompt="none"
@@ -100,6 +99,47 @@ const ld = {
           </model-viewer>
         </div>
       </div>
+      <script>
+        // Rock the crest gently side to side instead of a full 360° spin —
+        // a continuous auto-rotate shows the model's (unfinished/plain) back
+        // face on every loop, which reads as a bug on a heraldic emblem
+        // meant to be seen from the front. Drives model-viewer's own
+        // `cameraOrbit` property directly (there is no built-in "rock"
+        // mode) rather than the auto-rotate attribute, and pauses the whole
+        // time a visitor is actually dragging it — model-viewer's own
+        // `camera-change` event reports `source: 'user-interaction'` for a
+        // real drag vs `'none'`/`'automated'` for a code-driven change, so
+        // this never fights a manual turn. Resumes rocking, re-synced from
+        // wherever the user left it, a few seconds after they let go.
+        (function () {
+          var el = document.getElementById('su-crest-model');
+          if (!el) return;
+          var AMPLITUDE_DEG = 16;
+          var PERIOD_MS = 5200;
+          var paused = false;
+          var resumeTimer = null;
+          var start = performance.now();
+          function frame(t) {
+            if (!paused) {
+              var phase = ((t - start) % PERIOD_MS) / PERIOD_MS;
+              var theta = AMPLITUDE_DEG * Math.sin(phase * 2 * Math.PI);
+              el.cameraOrbit = theta.toFixed(2) + 'deg 75deg auto';
+            }
+            requestAnimationFrame(frame);
+          }
+          requestAnimationFrame(frame);
+          el.addEventListener('camera-change', function (e) {
+            if (e.detail && e.detail.source === 'user-interaction') {
+              paused = true;
+              clearTimeout(resumeTimer);
+              resumeTimer = setTimeout(function () {
+                start = performance.now();
+                paused = false;
+              }, 3000);
+            }
+          });
+        })();
+      </script>
 
       <!-- "The schools" ruled panel (prototype 327–341): fed by the real
            `topics` list, not the prototype's 10-school sample — roman
@@ -332,7 +372,7 @@ const ld = {
   <!-- Call to action -->
   <section class="text-white">
     <div class="wrap py-24 text-center">
-      <img src="/assets/su-crest-full.png" alt="Sikhi University crest" class="mx-auto h-32 w-auto" />
+      <img src="/assets/su-crest-full.png" alt="Sikhi University crest" class="mx-auto h-96 w-auto" />
       <p class="eyebrow text-saffron mt-6" data-i18n="home.cta2.eyebrow">Begin today</p>
       <h2 class="text-display-sm mt-4 font-bold text-white" data-i18n="home.cta2.heading">Start your journey today.</h2>
       <p class="mx-auto mt-4 max-w-xl text-lg text-white/85" data-i18n="home.cta2.sub">It takes thirty seconds to begin. No sign-up required. Pick a course, start a lesson — and see how deep Sikhi really goes.</p>
