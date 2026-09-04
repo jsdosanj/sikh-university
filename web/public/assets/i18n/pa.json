@@ -477,5 +477,13 @@
   "cmdk.hint": "ਖੋਜਣ ਲਈ ਲਿਖੋ · ↑↓ ਨਾਲ ਚੁਣੋ · Enter ਨਾਲ ਖੋਲ੍ਹੋ",
   "home.hero.scroll": "ਸਕ੍ਰੌਲ ਕਰੋ",
   "catalog.filter.schoollabel": "ਸਕੂਲ ਅਨੁਸਾਰ ਫਿਲਟਰ ਕਰੋ",
-  "catalog.stat.subjects": "ਵਿਸ਼ੇ"
+  "catalog.stat.subjects": "ਵਿਸ਼ੇ",
+  "baal.painti.tap": "ਸੁਣਨ ਲਈ ਟੈਪ ਕਰੋ",
+  "baal.audio.label": "ਆਡੀਓ, ਅਤੇ ਜੋ ਅਜੇ ਬਾਕੀ ਹੈ",
+  "baal.audio.body": "ਹਰ ਅੱਖਰ, ਮਾਤਰਾ, ਮੁਹਾਰਨੀ ਦੀ ਕਤਾਰ ਅਤੇ ਅੰਕ ਟੈਪ ਕਰਕੇ ਸੁਣਨਯੋਗ ਪਾਠ ਹੈ, ਜਿਸ ਦਾ ਸਿਹਰਾ ਭਗਤ ਜਸਵੰਤ ਸਿੰਘ ਜੀ ਦੌਦਰ ਨੂੰ ਜਾਂਦਾ ਹੈ ਅਤੇ ਆਗਿਆ ਨਾਲ ਵਰਤਿਆ ਗਿਆ ਹੈ। ਕਲਿੱਪ ਹੌਲੀ-ਹੌਲੀ ਕੱਢੇ ਜਾ ਰਹੇ ਹਨ, ਅਤੇ ਜੋ ਅਜੇ ਨਹੀਂ ਕੱਢੇ ਗਏ ਉਹ ਬੰਦ ਬਟਨ ਦੀ ਥਾਂ \"ਛੇਤੀ ਆ ਰਿਹਾ ਹੈ\" ਦਾ ਨੋਟ ਵਿਖਾਉਂਦੇ ਹਨ।",
+  "baal.kakaar.kesh.what": "— ਅਣਕੱਟੇ ਵਾਲ",
+  "baal.kakaar.kangha.what": "— ਲੱਕੜ ਦੀ ਕੰਘੀ",
+  "baal.kakaar.kara.what": "— ਸਟੀਲ ਦਾ ਕੜਾ",
+  "baal.kakaar.kachera.what": "— ਸੂਤੀ ਕਛਹਿਰਾ",
+  "baal.kakaar.kirpan.what": "— ਸਟੀਲ ਦੀ ਕਿਰਪਾਨ"
 }

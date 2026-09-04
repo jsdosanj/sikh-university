@@ -477,5 +477,13 @@
   "cmdk.hint": "Escribe para buscar · ↑↓ para navegar · Enter para abrir",
   "home.hero.scroll": "Desplázate",
   "catalog.filter.schoollabel": "Filtrar por facultad",
-  "catalog.stat.subjects": "Materias"
+  "catalog.stat.subjects": "Materias",
+  "baal.painti.tap": "Toca para escuchar",
+  "baal.audio.label": "Audio, y lo que falta",
+  "baal.audio.body": "Cada letra, matra, fila de la muharni y numeral es una recitación que se puede escuchar al tocarla, acreditada a Bhagat Jaswant Singh Ji Daudar y usada con su permiso. Los clips se extraen de forma progresiva, y los que aún no se han extraído muestran el aviso «disponible pronto» en lugar de un botón inactivo.",
+  "baal.kakaar.kesh.what": "— cabello sin cortar",
+  "baal.kakaar.kangha.what": "— peine de madera",
+  "baal.kakaar.kara.what": "— brazalete de acero",
+  "baal.kakaar.kachera.what": "— calzoncillo de algodón",
+  "baal.kakaar.kirpan.what": "— espada de acero"
 }

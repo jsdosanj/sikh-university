@@ -477,5 +477,13 @@
   "cmdk.hint": "输入以搜索 · ↑↓ 导航 · Enter 打开",
   "home.hero.scroll": "滚动",
   "catalog.filter.schoollabel": "按学院筛选",
-  "catalog.stat.subjects": "学科"
+  "catalog.stat.subjects": "学科",
+  "baal.painti.tap": "点按聆听",
+  "baal.audio.label": "音频，以及尚缺的部分",
+  "baal.audio.body": "每个字母、元音符号、拼读行和数字都可点按聆听朗读，由 Bhagat Jaswant Singh Ji Daudar 提供并获准使用。音频片段正在逐步制作中，尚未完成的片段会显示\"即将推出\"提示，而不是失效的按钮。",
+  "baal.kakaar.kesh.what": "— 未剪的头发",
+  "baal.kakaar.kangha.what": "— 木梳",
+  "baal.kakaar.kara.what": "— 钢手镯",
+  "baal.kakaar.kachera.what": "— 棉质短裤",
+  "baal.kakaar.kirpan.what": "— 钢剑"
 }

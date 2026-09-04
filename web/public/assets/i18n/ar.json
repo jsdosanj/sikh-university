@@ -477,5 +477,13 @@
   "cmdk.hint": "اكتب للبحث · ↑↓ للتنقل · Enter للفتح",
   "home.hero.scroll": "مرر لأسفل",
   "catalog.filter.schoollabel": "تصفية حسب الكلية",
-  "catalog.stat.subjects": "المواضيع"
+  "catalog.stat.subjects": "المواضيع",
+  "baal.painti.tap": "اضغط للاستماع",
+  "baal.audio.label": "الصوت، وما هو مفقود",
+  "baal.audio.body": "كل حرف ومترا وصف مُهارني ورقم هو تلاوة يمكن الاستماع إليها بالنقر، منسوبة إلى بهاگت جسونت سنگه جی داودر ومستخدمة بإذنه. يتم استخراج المقاطع تدريجيًا، وأي مقطع لم يُستخرج بعد يظهر كملاحظة \"قريبًا\" بدلاً من زر معطّل.",
+  "baal.kakaar.kesh.what": "— شعر غير مقصوص",
+  "baal.kakaar.kangha.what": "— مشط خشبي",
+  "baal.kakaar.kara.what": "— سوار فولاذي",
+  "baal.kakaar.kachera.what": "— سروال قطني",
+  "baal.kakaar.kirpan.what": "— سيف فولاذي"
 }
