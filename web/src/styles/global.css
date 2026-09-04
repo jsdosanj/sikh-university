@@ -222,6 +222,20 @@
      like the nav, so header text stays on a dark field. */
   .band-navy { @apply bg-brand text-white; }
 
+  /* Mono ledger-header typography (workbench/review tools). Was copy-pasted
+     verbatim across admin.astro/review.astro before this extraction --
+     whole-branch review flagged it after the individual per-task diffs
+     each looked small on their own. Border shape isn't included here on
+     purpose: admin.astro's <thead><tr> rows and review.astro's CSS-grid
+     header use genuinely different border treatments, so callers add their
+     own border-* utilities alongside this class. */
+  .label-ledger { @apply font-mono uppercase text-muted; font-size: 10px; letter-spacing: 0.16em; }
+  .thead-ledger { @apply border-b-2 border-navy text-left font-mono uppercase text-muted; font-size: 10px; letter-spacing: 0.16em; }
+
+  /* Mono field label on the dark hero-midnight auth forms (login/reset-
+     password). Same consolidation reasoning as .thead-ledger. */
+  .field-label-dark { @apply block font-mono uppercase text-white/[0.72]; font-size: 10.5px; letter-spacing: 0.16em; }
+
   /* Dark editorial hero (prototype homepage lines 309–311): a midnight field
      with a single off-canvas gold radial glow. The glow is a decorative
      ::before — invisible to the accessibility tree, so no aria-hidden markup is
