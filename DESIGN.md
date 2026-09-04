@@ -222,8 +222,13 @@ grids.
 ## Iconography — law
 
 One line-icon set (`web/src/lib/icons.ts`), `currentColor`, consistent stroke. **Emoji are
-banned as UI glyphs** (CI grep guard). The verification mark is the drawn seal, rendered
-pixel-identical across verse → course pill → catalog card → certificate → verify page.
+banned as UI glyphs** (CI grep guard). The verification mark is the drawn seal
+(`sealMark()` in `icons.ts`); as shipped it's used on the certificate and the verify
+page. Course-pill/catalog-card "verified" indicators currently use a plain
+`.chip-status` pill instead (`course/[id].astro`) — a real, disclosed gap, not an
+implementation of this canon's original intent. Wiring those two surfaces onto
+`sealMark()` (or narrowing this line further if that turns out not to be the right
+call) is open follow-up work, not silently done.
 
 ## Component canon
 

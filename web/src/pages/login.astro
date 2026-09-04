@@ -35,10 +35,10 @@ import Base from '../layouts/Base.astro';
 
         <!-- Primary: email + password -->
         <form id="password-form" class="mt-7 space-y-5">
-          <label class="block"><span class="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/[0.72]">Email</span>
+          <label class="block"><span class="field-label-dark">Email</span>
             <input id="email" type="email" required placeholder="you@example.com" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
           </label>
-          <label class="block"><span class="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/[0.72]">Password</span>
+          <label class="block"><span class="field-label-dark">Password</span>
             <input id="password" type="password" required minlength="12" autocomplete="current-password" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
           </label>
           <button id="password-btn" type="submit" class="btn btn-primary w-full justify-center">Sign in</button>
@@ -52,7 +52,7 @@ import Base from '../layouts/Base.astro';
         <div id="magic-wrap" class="mt-4 hidden">
           <p class="mb-3 font-sans text-sm text-white/[0.65]">For accounts created before password sign-in existed. We'll email you a one-click link — no password needed.</p>
           <form id="login-form" class="space-y-5">
-            <label class="block"><span class="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/[0.72]">Email</span>
+            <label class="block"><span class="field-label-dark">Email</span>
               <input id="magic-email" type="email" required placeholder="you@example.com" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
             </label>
             <button id="send" type="submit" class="btn btn-primary w-full justify-center">Send magic link</button>

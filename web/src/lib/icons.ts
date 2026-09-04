@@ -4,9 +4,9 @@
 //   • Icon.astro renders these in .astro markup.
 //   • iconSvg(name, class) returns a full <svg> string for client-side JS that
 //     builds HTML (dashboard badges, flashcards, kakaar popups, etc.).
-// Kept deliberately minimal and geometric, in the Logo's visual language.
+// Kept deliberately minimal and geometric, in the crest's visual language.
 
-// Non-class attributes shared by every icon (matches Logo.astro's line style).
+// Non-class attributes shared by every icon (matches the crest's line style).
 export const ICON_ATTRS =
   'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
 

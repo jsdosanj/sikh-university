@@ -31,9 +31,11 @@ const ld = {
 
   <!-- Editorial hero (redesign task 5 / Decision 7): the prototype's compact
        dark hero (`ishome`, prototype lines 309–326) replaces the cinematic
-       scroll-scrubbed film opener, which is unmounted (see the UNMOUNTED
-       banner atop CinematicHero.astro — component and its R2 assets are
-       untouched, so re-mounting is a one-line re-import). -->
+       scroll-scrubbed film opener. The old CinematicHero.astro component was
+       deleted in the redesign's whole-branch review pass (task 21 follow-up)
+       after sitting unmounted and unimported since this task — its git
+       history (see `git log --follow` on this path) is the record if it's
+       ever wanted back. -->
   <header class="hero-midnight">
     <div class="wrap relative py-14 sm:py-20">
       <div class="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_auto]">

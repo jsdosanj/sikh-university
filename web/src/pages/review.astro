@@ -88,7 +88,7 @@ import Base from '../layouts/Base.astro';
       loadStats();
       app.innerHTML = drafts.length ? `
         <div class="overflow-x-auto">
-        <div class="min-w-[620px] grid grid-cols-[86px_60px_1fr_170px_84px] gap-3.5 border-t-2 border-t-navy border-b border-b-line py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+        <div class="min-w-[620px] grid grid-cols-[86px_60px_1fr_170px_84px] gap-3.5 border-t-2 border-t-navy border-b border-b-line py-2.5 label-ledger">
           <span>Status</span><span>Topic</span><span>Item</span><span>Submitted by</span><span>Waiting</span>
         </div>
         ${drafts.map((dr: any) => `
