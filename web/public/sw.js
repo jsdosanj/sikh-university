@@ -1,6 +1,6 @@
 /* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
-var CACHE = 'su-web-v25'; // packs moved to their own unversioned cache (see PACKS_CACHE below) — this bump is the last one that can ever touch offline course data
+var CACHE = 'su-web-v26'; // packs moved to their own unversioned cache (see PACKS_CACHE below) — this bump is the last one that can ever touch offline course data
 // Offline course packs live in their OWN unversioned cache, separate from the
 // app-shell CACHE above. The activate handler purges every cache key except
 // CACHE on every version bump (below) — before this split, that purge was

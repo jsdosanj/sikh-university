@@ -51,12 +51,10 @@ Serif Gurmukhi. Clamp sizes are unchanged: `.text-display` `clamp(2.6rem,1.6rem+
 `serif` stack for rollback/any content that names it) but has **no default role**; body and
 headings are Archivo, not serif.
 
-**Vintage College Dept — RETIRED.** It was the former collegiate display/wordmark face and
-was shipping in production as a **demo-license** font (`fonts.css`'s own note:
-fontspace.com/vintage-college-dept-font, uppercase glyphs only). Archivo replaced its role in
-task 2 (`.text-display`, `.su-nav-link`); no active rule references it. The `@font-face` block
-and `.ttf` remain on disk pending removal in the final cleanup task — it is not the display
-face any longer.
+**Vintage College Dept — RETIRED, and fully removed (task 21).** It was the former
+collegiate display/wordmark face and was shipping in production as a **demo-license** font
+(fontspace.com/vintage-college-dept-font, uppercase glyphs only). Archivo replaced its role in
+task 2 (`.text-display`, `.su-nav-link`). The `@font-face` block and the `.ttf` file are gone.
 
 Display scale: `.text-display` / `.text-display-sm` / `.eyebrow` are the only sanctioned
 sizes above `text-4xl`. `.gur` bumps to `1.12em` / 1.9 leading; every Gurmukhi run carries
