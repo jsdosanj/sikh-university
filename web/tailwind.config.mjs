@@ -29,7 +29,9 @@ export default {
       },
       fontFamily: {
         serif: ['"Source Serif 4"', 'Georgia', '"Iowan Old Style"', '"Times New Roman"', 'serif'],
-        sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['Archivo', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        display: ['Archivo', 'Georgia', 'serif'],
         gur: ['"Noto Sans Gurmukhi"', '"Gurmukhi MN"', '"Gurbani Akhar"', '"Raavi"', 'serif'],
         gurserif: ['"Noto Serif Gurmukhi"', '"Noto Sans Gurmukhi"', '"Gurbani Akhar"', 'serif'],
       },
