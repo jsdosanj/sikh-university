@@ -79,3 +79,24 @@ export function iconSvg(name: string, cls = 'h-6 w-6'): string {
   const body = ICON_PATHS[name] ?? ICON_PATHS.book;
   return `<svg class="${cls}" ${ICON_ATTRS}>${body}</svg>`;
 }
+
+// The verification seal — DESIGN.md's Iconography law: "The verification
+// mark is the drawn seal, rendered pixel-identical across verse -> course
+// pill -> catalog card -> certificate -> verify page." This promotes the
+// medal-in-a-circle mark already shipped on the course completion badge
+// (course/[id].astro) to one shared source, so the certificate and the
+// verify page render the identical mark instead of two hand-tuned copies.
+// Decorative only — the surrounding copy already names it ("Sealed",
+// "Valid certificate"), so it stays aria-hidden like every other icon here.
+// Border uses `border-saffron` (the fixed #f4b21a token, not an opacity
+// modifier on a variable-driven one) deliberately: Tailwind v4 compiles an
+// opacity modifier on a `rgb(var(...) / <alpha-value>)` token to
+// `color-mix(in oklab, ...)`, and Chromium's getComputedStyle resolves that
+// to an `oklab()` value that html2canvas cannot parse -- it throws
+// "Attempting to parse an unsupported color function 'oklab'" and the whole
+// certificate download silently fails. Found by actually exercising the
+// download button, not by reading the CSS. A solid, non-variable border
+// colour sidesteps the whole class of bug.
+export function sealMark(cls = 'h-[76px] w-[76px]'): string {
+  return `<div class="seal-mark grid ${cls} shrink-0 place-items-center rounded-full border-2 border-saffron bg-saffron-soft text-saffron-deep" aria-hidden="true">${iconSvg('medal', 'h-8 w-8')}</div>`;
+}
