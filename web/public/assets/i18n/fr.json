@@ -207,6 +207,7 @@
   "cert.vid.middle": "· vérifiez sur",
   "cert.vid.signin": "Connectez-vous (et laissez votre progression se synchroniser) pour obtenir un ID de certificat vérifiable.",
   "cert.loaderror": "Impossible de charger.",
+  "cohorts.eyebrow": "Étudier ensemble",
   "cohorts.h1": "Cohortes",
   "cohorts.sub": "Apprenez ensemble. Rejoignez un groupe avec un code d'invitation ou — si vous enseignez un cours — créez une cohorte et suivez la progression de votre groupe. Conçu pour les camps, les classes et les sangats qui étudient comme un seul.",
   "cohorts.loading": "Chargement…",
@@ -485,5 +486,10 @@
   "baal.kakaar.kangha.what": "— peigne en bois",
   "baal.kakaar.kara.what": "— bracelet en acier",
   "baal.kakaar.kachera.what": "— sous-vêtement en coton",
-  "baal.kakaar.kirpan.what": "— épée en acier"
+  "baal.kakaar.kirpan.what": "— épée en acier",
+  "external.eyebrow": "Au-delà de Sikhi University",
+  "external.h1": "Poursuivre ses études ailleurs",
+  "external.sub": "Sikhi University n'est qu'une partie d'un monde plus vaste d'apprentissage du Sikhisme. Voici des cours fiables hébergés par d'autres institutions — nous y renvoyons pour que vous puissiez continuer à apprendre. Leur contenu reste sur leurs propres sites ; nous ne le réhébergeons pas.",
+  "external.open": "Ouvrir sur leur site",
+  "external.footer.prefix": "Vous connaissez un cours gratuit et fiable sur le Sikhisme à ajouter ici ? Dites-le-nous via"
 }

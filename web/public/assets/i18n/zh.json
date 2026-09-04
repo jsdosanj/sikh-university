@@ -207,6 +207,7 @@
   "cert.vid.middle": "· 验证地址：",
   "cert.vid.signin": "登录（并同步您的进度）以获取可验证的证书编号。",
   "cert.loaderror": "无法加载。",
+  "cohorts.eyebrow": "共同学习",
   "cohorts.h1": "学习小组",
   "cohorts.sub": "一起学习。用邀请码加入一个小组，或者——如果您教授某门课程——创建一个学习小组并跟踪本组的进度。专为营会、班级和共同学习的 sangat 而设。",
   "cohorts.loading": "加载中…",
@@ -485,5 +486,10 @@
   "baal.kakaar.kangha.what": "— 木梳",
   "baal.kakaar.kara.what": "— 钢手镯",
   "baal.kakaar.kachera.what": "— 棉质短裤",
-  "baal.kakaar.kirpan.what": "— 钢剑"
+  "baal.kakaar.kirpan.what": "— 钢剑",
+  "external.eyebrow": "超越Sikhi大学",
+  "external.h1": "在其他地方继续学习",
+  "external.sub": "Sikhi大学只是锡克教学习这个更广阔世界的一部分。这些是由其他机构提供的可靠课程——我们链接到它们,方便你继续学习。它们的内容保留在各自的网站上;我们不会重新托管。",
+  "external.open": "在其网站上打开",
+  "external.footer.prefix": "有值得信赖的免费锡克教课程应该添加到这里吗?请通过"
 }
