@@ -17,12 +17,6 @@ const steps = [
   ['Take notes & track progress.', 'Make notes as you go, build a streak, and earn badges on your dashboard.'],
   ['Pass the test, earn a certificate.', 'Score 80%+ to complete a course and unlock what comes next.'],
 ];
-const stats = [
-  { n: '531+', label: 'Courses' },
-  { n: '23', label: 'Topics' },
-  { n: '38+', label: 'Learning paths' },
-  { n: '100%', label: 'Free' },
-];
 const faqs = [
   ['Is Sikhi University really free?', 'Yes. Every course, lesson, test and learning path is free today, with no sign-up required to start learning — pick a course and begin straight away.'],
   ['Do I need an account?', "No account is needed to start a course. You only need to sign in — free, with a magic link and no password — to save your progress across devices and to download a certificate after you pass a course's test."],
@@ -35,42 +29,60 @@ const faqLd = {
   '@context': 'https://schema.org', '@type': 'FAQPage',
   mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
 };
+// Registrar's-ledger mission hero + 4-pillar grid (task 9: isabout, prototype
+// lines 1583-1602). Not invented copy: the prototype's own mission h1 ("From
+// the wisdom of our ancestors...") and its four pillar titles are near-
+// verbatim the real copy already shipped in index.astro's #mission-section
+// (home.mission.eyebrow/heading + the four mission cards) — reused here
+// verbatim (Decision 9a: keep existing copy/keys wherever possible), so this
+// hero needs zero new i18n keys. The hero paragraph is a verbatim prefix of
+// the same real homepage sentence; the "basics to depths" / "relationship
+// with Waheguru" clauses it omits are exactly what the pillar grid below
+// elaborates, so nothing is lost, only reordered.
+const pillars: [string, string][] = [
+  ['Learn from our ancestors', 'The Gurus, scholars, saints and soldiers whose lives and writings light the way — taught from authentic sources.'],
+  ['From the basics to the depths', 'Start with the simplest questions and follow them as far as you dare. The deeper you go, the more there is.'],
+  ['Sri Guru Granth Sahib Ji', 'The living Guru and the universal Truth. Every path here leads back to the Shabad — read it for yourself in our reader.'],
+  ['A relationship with Waheguru', 'Not just knowledge, but Naam, Simran and seva — a living, personal bond with the Divine.'],
+];
 ---
 <Base title="About — Sikhi University" description="Why Sikhi University exists: a free, open space for anyone, anywhere to dig deeper into Sikhi and modern skills." ambient="hall">
   <script type="application/ld+json" set:html={ldJson(faqLd)} slot="head" />
-  <!-- Hero: sits over the ambient-hall backdrop, same language as index.astro -->
-  <header class="relative overflow-hidden text-white">
-    <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
-    <div class="wrap relative py-20">
-      <div class="inline-flex items-center gap-2 rounded-full border border-saffron/40 bg-saffron/10 px-4 py-1.5 font-sans text-sm text-saffron mb-6">
-        <span class="gur text-base" lang="pa">ਸਿੱਖੀ ਯੂਨੀਵਰਸਿਟੀ</span>
-        <span class="text-white/50">·</span>
-        <span data-i18n="about.hero.badge">Free Open University</span>
-      </div>
-      <h1 class="max-w-3xl text-4xl font-bold text-white sm:text-5xl leading-tight"><span data-i18n="about.hero.h1a">A space to</span> <span class="text-saffron" data-i18n="about.hero.h1b">dig deeper</span><br class="hidden sm:block" /> <span data-i18n="about.hero.h1c">into Sikhi.</span></h1>
-      <p class="mt-5 max-w-2xl text-lg text-white/85 leading-relaxed" data-i18n="about.hero.sub">Sikhi University is a free, open online university — built so that anyone, anywhere can study Sikhi seriously, from authentic sources, at their own pace.</p>
-      <!-- Stats row -->
-      <div class="mt-10 grid grid-cols-2 gap-4 sm:flex sm:gap-8">
-        {stats.map((s) => {
-          const m = s.n.match(/^([\d.]+)(.*)$/);
-          return (
-            <div class="text-center sm:text-left">
-              <div class="text-3xl font-bold text-saffron" data-countup={m ? m[1] : undefined} data-countup-suffix={m ? m[2] : undefined}>{s.n}</div>
-              <div class="font-sans text-sm text-white/60">{s.label}</div>
-            </div>
-          );
-        })}
-      </div>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a class="btn btn-primary" href="/catalog" data-i18n="home.cta.browse">Browse courses</a>
-        <a class="btn btn-ghost" href="https://sikharchive.net" target="_blank" rel="noopener" data-i18n="home.cta.archive">Visit Sikh Archive →</a>
+
+  <!-- Mission hero (isabout 1585-1591): dark hero-midnight band, mono eyebrow
+       + display h1 + lead paragraph, all real copy reused from index.astro. -->
+  <div class="hero-midnight">
+    <div class="wrap relative py-16 sm:py-20">
+      <div class="relative max-w-[58ch]">
+        <p class="eyebrow text-saffron" data-i18n="home.mission.eyebrow">Our mission</p>
+        <h1 class="text-display mt-4 text-white" data-i18n="home.mission.heading">From the wisdom of our ancestors to a living bond with Waheguru</h1>
+        <p class="mt-5 text-lg leading-relaxed text-white/80">We learn from those who came before us — the Gurus, the scholars, the saints and the soldiers — and carry their light forward, until one truth becomes unmistakable: that <strong>Sri Guru Granth Sahib Ji</strong> is the living Guru.</p>
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- Why we built it -->
+  <!-- 4-pillar ruled grid (isabout 1592-1600): a full-bleed light band right
+       under the dark hero — same edge-to-edge convention the Offers band
+       below already uses. Border-top-2 navy cells + mono numerals, no
+       cards, no glass. -->
+  <div class="bg-paper border-b border-line">
+    <div class="wrap py-12 sm:py-14">
+      <div class="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        {pillars.map((p, i) => (
+          <div class="border-t-2 border-navy pt-4">
+            <span aria-hidden="true" class="font-mono text-[11px] text-saffron-deep">{String(i + 1).padStart(2, '0')}</span>
+            <h4 class="mt-2 text-lg font-bold leading-tight tracking-tight text-navy">{p[0]}</h4>
+            <p class="mt-1.5 text-[14.5px] leading-relaxed text-muted">{p[1]}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Why we built it (no prototype block for this — real site content kept
+       verbatim, de-glassed to a flat surface panel per Decision 5). -->
   <section class="wrap py-14">
-    <div class="glass-strong max-w-4xl xl:max-w-5xl rounded-xl2 p-8 sm:p-10">
+    <div class="rounded-xl2 border border-line bg-surface max-w-4xl xl:max-w-5xl p-8 sm:p-10">
       <p class="eyebrow text-saffron-deep" data-i18n="about.why.eyebrow">Our purpose</p>
       <h2 class="mt-2 text-2xl font-bold" data-i18n="about.why.h2">Why we built Sikhi University</h2>
       <p class="mt-1 font-sans text-sm text-saffron-deep uppercase tracking-widest"><span class="gur" lang="pa">ਸਿੱਖ</span> <span data-i18n="about.why.tagline">— the learner who never stops</span></p>
@@ -91,7 +103,7 @@ const faqLd = {
       <h2 class="mt-2 text-2xl font-bold" data-i18n="about.offers.h2">What the university offers</h2>
       <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {offers.map((o, i) => (
-          <div class="reveal glass-lite p-5" data-reveal-delay={(i % 3) * 80}>
+          <div class="reveal card-lift p-5" data-reveal-delay={(i % 3) * 80}>
             <Icon name={o[0]} class="h-8 w-8 text-saffron-deep" />
             <h3 class="mt-2 text-base font-bold">{o[1]}</h3>
             <p class="mt-1 text-sm text-muted leading-relaxed">{o[2]}</p>
@@ -101,40 +113,49 @@ const faqLd = {
     </div>
   </section>
 
-  <!-- How it works -->
+  <!-- How it works: no prototype block; kept as a floating rounded panel on
+       the dark ambient (matching index.astro's "First of its kind" pattern)
+       instead of bare text-on-ambient, so the glass cards can become flat
+       card-lift surfaces without losing contrast. -->
   <section class="wrap py-14">
-    <p class="eyebrow text-saffron" data-i18n="about.how.eyebrow">Getting started</p>
-    <h2 class="mt-2 text-2xl font-bold text-white" data-i18n="about.how.h2">How it works</h2>
-    <ol class="mt-6 grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {steps.map((s, i) => (
-        <li class="reveal glass-lite p-5" data-reveal-delay={(i % 4) * 70}>
-          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-sans text-sm font-bold text-saffron-deep ring-2 ring-saffron">{i + 1}</span>
-          <h3 class="mt-3 font-semibold text-navy">{s[0]}</h3>
-          <p class="mt-1 text-sm text-muted leading-relaxed">{s[1]}</p>
-        </li>
-      ))}
-    </ol>
+    <div class="rounded-xl2 border border-line bg-surface p-8 sm:p-12">
+      <p class="eyebrow text-saffron-deep" data-i18n="about.how.eyebrow">Getting started</p>
+      <h2 class="mt-2 text-2xl font-bold text-navy" data-i18n="about.how.h2">How it works</h2>
+      <ol class="mt-6 grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((s, i) => (
+          <li class="reveal card-lift p-5" data-reveal-delay={(i % 4) * 70}>
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-sans text-sm font-bold text-saffron-deep ring-2 ring-saffron">{i + 1}</span>
+            <h3 class="mt-3 font-semibold text-navy">{s[0]}</h3>
+            <p class="mt-1 text-sm text-muted leading-relaxed">{s[1]}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- FAQ: ruled single-column list (Decision 6 — list-like Q&amp;A data
+       renders as ruled rows, not a card grid), inside the same floating-panel
+       convention as the rest of this dark-ambient page. -->
   <section class="wrap pb-14">
-    <h2 class="text-2xl font-bold text-white" data-i18n="about.faq.h2">Frequently asked questions</h2>
-    <div class="mt-6 grid gap-4 sm:grid-cols-2">
-      {faqs.map(([q, a]) => (
-        <details class="group glass-lite p-5">
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-navy">
-            {q}
-            <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open:rotate-180">▾</span>
-          </summary>
-          <p class="mt-2 text-muted leading-relaxed">{a}</p>
-        </details>
-      ))}
+    <div class="rounded-xl2 border border-line bg-surface p-8 sm:p-12">
+      <h2 class="text-2xl font-bold text-navy" data-i18n="about.faq.h2">Frequently asked questions</h2>
+      <div class="mt-6">
+        {faqs.map(([q, a]) => (
+          <details class="group border-b border-line py-4 first:pt-0 last:border-b-0">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-navy">
+              {q}
+              <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <p class="mt-2 text-muted leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
     </div>
   </section>
 
   <!-- Sikh Archive partnership -->
   <section class="wrap pb-14">
-    <div class="glass-strong rounded-xl2 p-8">
+    <div class="rounded-xl2 border border-line bg-surface p-8">
       <div class="flex items-start gap-4">
         <Icon name="folder" class="h-9 w-9 shrink-0 text-saffron-deep" />
         <div>
@@ -148,7 +169,7 @@ const faqLd = {
 
   <!-- Accuracy -->
   <section class="wrap pb-14">
-    <div class="glass-strong max-w-4xl xl:max-w-5xl rounded-xl2 p-8 sm:p-10">
+    <div class="rounded-xl2 border border-line bg-surface max-w-4xl xl:max-w-5xl p-8 sm:p-10">
       <h2 class="text-2xl font-bold" data-i18n="about.accuracy.h2">A note on accuracy</h2>
       <p class="mt-3 text-lg leading-relaxed">Accuracy is sacred to us. Many courses are drafted with AI to make broad teaching possible quickly, and every one carries a clear <strong data-i18n="about.accuracy.label">"Created by AI"</strong> label. Every <span class="gur">ਸ਼ਬਦ</span> quoted in a course is machine-verified against the canonical text of <span class="gur">ਸ੍ਰੀ ਗੁਰੂ ਗਰੰਥ ਸਾਹਿਬ ਜੀ</span> at build time — a quote that doesn't match, or cites the wrong ang, cannot ship. See the numbers and the method on our <a class="underline" href="/integrity">content-integrity page</a>, or download the catalogue metadata and verification report as an openly-licensed dataset on our <a class="underline" href="/open-data">open data page</a>. AI-drafted prose is reviewed for accuracy, Gurbani is handled with reverence, and we welcome corrections — use the <a class="underline" href="/feedback">feedback page</a> to tell us anything we should fix.</p>
       <a class="btn btn-primary mt-6" href="/catalog" data-i18n="about.accuracy.cta">Start learning →</a>
@@ -157,7 +178,7 @@ const faqLd = {
 
   <!-- Sacred Content Disclaimer -->
   <section class="wrap pb-16">
-    <div class="glass-strong max-w-4xl xl:max-w-5xl rounded-xl2 p-6">
+    <div class="rounded-xl2 border border-line bg-surface max-w-4xl xl:max-w-5xl p-6">
       <h2 class="text-2xl font-bold" data-i18n="about.sacred.h2">Sacred content &amp; disclaimer</h2>
       <div class="mt-4 space-y-3 text-[0.97rem] leading-relaxed text-muted">
         <p data-i18n="about.sacred.p1">Sikhi University is an independent educational resource. It is not a religious authority, and it is not affiliated with, sponsored by, or endorsed by the Shiromani Gurdwara Parbandhak Committee (SGPC), the Akal Takht, any Takht, any Gurdwara, or any other Sikh institution.</p>

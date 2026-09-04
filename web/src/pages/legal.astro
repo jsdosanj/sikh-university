@@ -3,9 +3,10 @@ import Base from '../layouts/Base.astro';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-// Single source: reuse the existing legal content (GDPR/CCPA-aligned drafts).
-// Resolve the source from a few candidate locations so the static build (which may
-// run the module from a temp dir) reliably finds site/legal.html at the repo root.
+// Single source of the REAL legal wording: site/legal.html (unchanged by this
+// task -- task 20, islegal, prototype lines 1537-1554). Resolve from a few
+// candidate locations so the static build (which may run this module from a
+// temp dir) reliably finds site/legal.html at the repo root.
 const candidates = [
   fileURLToPath(new URL('../../../site/legal.html', import.meta.url)),
   path.resolve(process.cwd(), '../site/legal.html'),
@@ -21,19 +22,61 @@ for (const c of candidates) {
   } catch (e) { /* try next candidate */ }
 }
 if (!inner) inner = '<p>Terms &amp; Privacy are being prepared.</p>';
+
+// Numbering is presentation, not wording: the source has 8 real <h2>
+// sections (Terms / Accreditation / Privacy / AI-content / Content-licensing
+// / Disclaimer / Accessibility / Governing-law) and none of them carry a
+// number of their own. Prefix each with a roman numeral, matching the
+// section-head convention used everywhere else on the redesigned site
+// (teachers.astro I/II, about.astro 01-04) -- the heading TEXT is untouched
+// byte-for-byte; only a decorative numeral <span> and a wrapping
+// <div class="rule-navy"> are inserted around it.
+const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+let n = 0;
+inner = inner.replace(/<h2([^>]*)>/g, (_m, attrs) => {
+  const num = ROMAN[n] || String(n + 1);
+  n += 1;
+  return `<div class="legal-h2 rule-navy mt-10 flex items-baseline gap-3 pb-2"><span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">${num}</span><h2${attrs} class="m-0 text-[22px] font-bold leading-[1.15] tracking-[-.026em] text-navy">`;
+});
+inner = inner.replace(/<\/h2>/g, '</h2></div>');
 ---
-<Base title="Terms & Privacy — Sikhi University" description="Sikhi University Terms of Service and Privacy Policy (GDPR/CCPA-aligned drafts)." ambient="study">
-  <section class="wrap py-12">
-    <article class="legal glass mx-auto max-w-3xl p-6 sm:p-10" set:html={inner} />
+<Base title="Terms & Privacy — Sikhi University" description="Sikhi University Terms of Service and Privacy Policy (GDPR/CCPA-aligned drafts)." ambient="none">
+  <section class="wrap max-w-3xl py-12 sm:py-14">
+    <p class="eyebrow flex items-center gap-2.5 text-saffron-deep">
+      <span aria-hidden="true" class="inline-block h-px w-6 bg-current opacity-50"></span>
+      Legal
+    </p>
+    <h1 class="text-display-sm mt-3 text-navy">Terms &amp; Privacy</h1>
+    <p class="mt-4 max-w-[66ch] text-lg leading-[1.62] text-muted">Plain terms for a free, open university. No fees, no adverts, and nothing about you is sold.</p>
+
+    <article class="legal mt-2" set:html={inner} />
   </section>
   <style is:global>
     @reference "../styles/global.css";
-    .legal h2 { @apply mt-10 text-2xl font-bold text-navy; }
-    .legal h3 { @apply mt-6 text-lg font-bold text-navy; }
-    .legal p, .legal li { @apply my-2 leading-relaxed; }
-    .legal ul { @apply list-disc pl-6; }
+    /* First numbered section sits right under the intro paragraph -- no
+       double top margin. */
+    .legal > .legal-h2:first-child { margin-top: 2rem; }
+    .legal p, .legal li { @apply my-2 leading-relaxed text-ink; }
     .legal a { @apply text-navy underline; }
-    .legal .callout { @apply my-4 rounded-xl border border-line border-l-4 border-l-saffron bg-surface p-4 font-sans text-sm; }
     .legal .sans { @apply font-sans; }
+
+    /* "What we store"-style definition rows: every real bullet already reads
+       as <li><strong>Label.</strong> value</li> -- style the label as a mono
+       eyebrow above the value, ruled-ledger style, with zero markup change. */
+    .legal ul { @apply mt-3 list-none border-t-2 border-navy pl-0; }
+    .legal li { @apply my-0 border-b border-line py-3 leading-[1.55]; }
+    .legal li strong:first-child {
+      @apply mb-1 block font-mono text-[10.5px] font-semibold uppercase tracking-[.12em] text-muted;
+    }
+
+    /* Flagged callouts (the "Draft for review" / "On this page" notices):
+       ledger-style flagged box, not a card. */
+    .legal .callout {
+      @apply my-6 max-w-[78ch] border border-line border-l-[3px] border-l-saffron-deep bg-surface px-6 py-5 font-sans text-[15.5px] leading-[1.62] text-muted;
+    }
+    .legal .callout strong:first-child { @apply block font-mono text-[10.5px] font-semibold uppercase tracking-[.18em] text-saffron-deep; }
+    .legal .callout ul { @apply mt-2 border-t-0 pl-5; list-style: disc; }
+    .legal .callout li { @apply border-b-0 py-0.5 text-muted; }
+    .legal .callout li strong:first-child { @apply inline font-sans text-[15.5px] font-normal normal-case tracking-normal text-muted; }
   </style>
 </Base>

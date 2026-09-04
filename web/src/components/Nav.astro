@@ -1,5 +1,4 @@
 ---
-import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 const links = [
   { href: '/catalog', label: 'Courses', m: '/catalog', key: 'nav.courses' },
@@ -14,7 +13,7 @@ const LANG_OPTS = [
 const path = Astro.url.pathname;
 const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !== '/' && path.startsWith(m));
 ---
-<nav aria-label="Primary" class="su-nav sticky top-0 z-40 text-white" style="padding-top: env(safe-area-inset-top)">
+<nav aria-label="Primary" class="su-nav fixed top-0 left-0 right-0 w-full z-40 text-white" style="padding-top: env(safe-area-inset-top)">
   <script>
     // Deepen the frosted tint once the page scrolls (glass reads over content,
     // solid-ish at rest for LCP contrast). rAF-throttled, passive.
@@ -28,10 +27,11 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
     onScroll();
   </script>
   <div class="wrap flex items-center gap-x-3 py-3">
-    <!-- Logo -->
-    <a href="/" aria-label="Sikhi University — home" class="flex shrink-0 items-center gap-2 font-serif text-xl font-bold tracking-tight">
-      <Logo class="h-7 w-7 shrink-0 text-saffron" />
-      <span class="text-white">Sikhi <span class="text-saffron">University</span></span>
+    <!-- Logo: the crest emblem + wordmark lockup from the cinematic hero,
+         same assets used there (su-crest.png / su-wordmark.png). -->
+    <a href="/" aria-label="Sikhi University — home" class="flex shrink-0 items-center gap-2.5">
+      <img src="/assets/su-crest.png" alt="" aria-hidden="true" class="h-10 w-auto shrink-0" />
+      <img src="/assets/su-wordmark.png" alt="Sikhi University" class="h-6 w-auto shrink-0" />
     </a>
 
     <!-- Search (desktop only — appears between logo and nav links) -->
@@ -64,11 +64,11 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
           href={l.href}
           aria-current={isActive(l.m) ? 'page' : undefined}
           data-i18n={l.key}
-          class={`font-sans text-sm border-b-2 pb-0.5 transition whitespace-nowrap ${isActive(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}
+          class={`su-nav-link text-xs border-b-2 pb-1 transition whitespace-nowrap ${isActive(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}
         >{l.label}</a>
       ))}
-      <a href="/dashboard" aria-current={isActive('/dashboard') ? 'page' : undefined} data-i18n="nav.mylearning" class="font-sans text-sm whitespace-nowrap text-white/80 hover:text-white">My Learning</a>
-      <a href="/cohorts" aria-current={isActive('/cohorts') ? 'page' : undefined} data-i18n="nav.cohorts" class="font-sans text-sm whitespace-nowrap text-white/80 hover:text-white">Cohorts</a>
+      <a href="/dashboard" aria-current={isActive('/dashboard') ? 'page' : undefined} data-i18n="nav.mylearning" class={`su-nav-link text-xs border-b-2 pb-1 whitespace-nowrap transition ${isActive('/dashboard') ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}>My Learning</a>
+      <a href="/cohorts" aria-current={isActive('/cohorts') ? 'page' : undefined} data-i18n="nav.cohorts" class={`su-nav-link text-xs border-b-2 pb-1 whitespace-nowrap transition ${isActive('/cohorts') ? 'border-saffron text-white' : 'border-transparent text-white/80 hover:text-white'}`}>Cohorts</a>
       <select data-lang-switch aria-label="Language" data-i18n-aria="lang.label" class="shrink-0 rounded-full bg-white/10 px-2 py-1.5 font-sans text-xs text-white outline-none ring-1 ring-white/20 hover:bg-white/20 [&>option]:text-black">
         {LANG_OPTS.map(([v, l]) => (<option value={v}>{l}</option>))}
       </select>
@@ -100,10 +100,10 @@ const isActive = (m: string) => path === m || path.startsWith(m + '/') || (m !==
         </div>
       </form>
       {links.map((l) => (
-        <a href={l.href} data-i18n={l.key} class={`font-sans text-sm py-1.5 px-2 rounded ${isActive(l.m) ? 'text-white font-semibold' : 'text-white/80'}`}>{l.label}</a>
+        <a href={l.href} data-i18n={l.key} class={`su-nav-link text-xs py-1.5 pl-2 border-l-2 transition ${isActive(l.m) ? 'border-saffron text-white' : 'border-transparent text-white/80'}`}>{l.label}</a>
       ))}
-      <a href="/dashboard" data-i18n="nav.mylearning" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">My Learning</a>
-      <a href="/cohorts" data-i18n="nav.cohorts" class="font-sans text-sm py-1.5 px-2 rounded text-white/80">Cohorts</a>
+      <a href="/dashboard" data-i18n="nav.mylearning" class={`su-nav-link text-xs py-1.5 pl-2 border-l-2 transition ${isActive('/dashboard') ? 'border-saffron text-white' : 'border-transparent text-white/80'}`}>My Learning</a>
+      <a href="/cohorts" data-i18n="nav.cohorts" class={`su-nav-link text-xs py-1.5 pl-2 border-l-2 transition ${isActive('/cohorts') ? 'border-saffron text-white' : 'border-transparent text-white/80'}`}>Cohorts</a>
       <div class="mt-2 flex items-center gap-x-3 px-2">
         <button id="theme-toggle-mobile" type="button" aria-label="Toggle theme" class="inline-flex h-8 w-8 items-center justify-center rounded-full text-white/90 hover:bg-white/10 transition"><span data-theme-icon-mobile><Icon name="moon" class="h-5 w-5" /></span></button>
         <select data-lang-switch aria-label="Language" data-i18n-aria="lang.label" class="rounded-full bg-white/10 px-2 py-1.5 font-sans text-xs text-white outline-none ring-1 ring-white/20 [&>option]:text-black">

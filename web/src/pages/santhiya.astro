@@ -23,36 +23,42 @@ const texts = [
 ];
 ---
 <Base title="Santhya Pathway & Read-along — Sikhi University" description="Learn to read Gurbani with shudh uchaaran: from the first primer to the complete Sri Guru Granth Sahib Ji, with read-along audio — read Ang by Ang here." ambient="sanctum">
-  <header id="su-hero" class="wrap pt-16 pb-6">
-    <div class="hero-panel glass rounded-xl2 px-6 py-12 text-white sm:px-10">
-      <p class="eyebrow text-saffron" data-i18n="santhiya.eyebrow">Shudh Uchaaran · Read-along</p>
-      <h1 class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-        <span class="gur text-display font-bold text-white" lang="pa">ਸੰਥਿਆ</span>
-        <span class="text-display-sm font-bold text-white" data-i18n="santhiya.h1">The Santhya Pathway</span>
-      </h1>
-      <p class="mt-5 max-w-2xl text-lg text-white/85" data-i18n="santhiya.hero.sub">Santhya is the careful, correct reading of Gurbani. Walk the traditional path — from your first letters to the complete Sri Guru Granth Sahib Ji — reading along with audio, one step at a time.</p>
-      <div id="pathway-progress" hidden class="mt-6 max-w-md">
-        <div class="flex items-baseline justify-between font-sans text-sm text-white/80">
-          <span><span id="pp-count">0</span> / {texts.length} <span data-i18n="santhiya.steps">steps completed</span></span>
-        </div>
-        <div class="mt-1.5 h-2 overflow-hidden rounded-full bg-white/15"><div id="pp-bar" class="h-full rounded-full bg-saffron transition-all" style="width:0%"></div></div>
+  <!-- Dark hero (redesign task 11, issanthya, prototype lines 1144-1156): the
+       page's own ambient-sanctum gradient (.ambient-sanctum in global.css) IS
+       the prototype's inline dark-navy linear-gradient — same colours, one
+       layer, per Decision 5 — so no separate glass/midnight box sits here;
+       this is just the text content over the ambient (same convention as
+       collection/[name].astro's dark header). -->
+  <header id="su-hero" class="wrap relative py-14 text-paper sm:py-16">
+    <p class="eyebrow text-saffron" data-i18n="santhiya.eyebrow">Shudh Uchaaran · Read-along</p>
+    <h1 class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+      <span class="gur text-display font-bold text-white" lang="pa">ਸੰਥਿਆ</span>
+      <span class="text-display-sm font-bold text-white" data-i18n="santhiya.h1">The Santhya Pathway</span>
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg text-paper/85" data-i18n="santhiya.hero.sub">Santhya is the careful, correct reading of Gurbani. Walk the traditional path — from your first letters to the complete Sri Guru Granth Sahib Ji — reading along with audio, one step at a time.</p>
+    <div id="pathway-progress" hidden class="mt-6 max-w-md">
+      <div class="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[.12em] text-paper/70">
+        <span><span id="pp-count">0</span> / {texts.length} <span data-i18n="santhiya.steps">steps completed</span></span>
       </div>
-      <a id="pp-continue" hidden href="#" class="mt-4 inline-flex items-center gap-2 rounded-full border border-saffron/50 bg-saffron/15 px-4 py-1.5 font-sans text-sm text-saffron hover:bg-saffron/25"><Icon name="compass" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.continue">Continue where you left off</span><span id="pp-continue-name" class="gur" lang="pa"></span></a>
+      <div class="mt-1.5 h-[3px] overflow-hidden bg-white/15"><div id="pp-bar" class="h-full bg-saffron transition-all" style="width:0%"></div></div>
     </div>
+    <a id="pp-continue" hidden href="#" class="mt-4 inline-flex items-center gap-2 rounded-sm border border-saffron/50 bg-saffron/10 px-4 py-1.5 font-sans text-sm text-saffron hover:bg-saffron/20"><Icon name="compass" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.continue">Continue where you left off</span><span id="pp-continue-name" class="gur" lang="pa"></span></a>
   </header>
 
   <!-- Learning arcade: mini-games for the foundational santhiya skills.
        Interactive-only by nature (games need JS); the sacred learning content
-       itself lives in the pathway/reader below, never gated. -->
-  <section id="arcade" class="wrap pt-10">
-    <div class="cosmos-panel glass relative overflow-hidden rounded-xl2 p-6 sm:p-8">
+       itself lives in the pathway/reader below, never gated. A contained
+       feature panel (its own cosmos glow/star decoration), not a page-level
+       hero — kept bordered/flat (no glass, no blur) per Decision 5. -->
+  <section id="arcade" class="wrap pb-10 pt-2">
+    <div class="cosmos-panel relative overflow-hidden rounded-xl2 border border-white/14 p-6 sm:p-8">
       <div aria-hidden="true" class="cosmos absolute inset-0"></div>
       <div class="relative">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <h2 class="flex items-baseline gap-3 text-2xl font-bold text-white"><span class="gur text-saffron" lang="pa">ਖੇਡੋ ਤੇ ਸਿੱਖੋ</span><span>Learn by playing</span></h2>
           <div class="flex items-center gap-3 font-sans text-sm text-white/85">
             <span id="arcade-streak" class="inline-flex items-center gap-1.5"></span>
-            <button id="arcade-kid" type="button" role="switch" aria-checked="false" class="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/25 px-4 py-1.5 hover:border-saffron">Kids mode <span id="arcade-kid-dot" class="h-2.5 w-2.5 rounded-full bg-white/30"></span></button>
+            <button id="arcade-kid" type="button" role="switch" aria-checked="false" class="inline-flex min-h-[44px] items-center gap-2 rounded-sm border border-white/25 px-4 py-1.5 hover:border-saffron">Kids mode <span id="arcade-kid-dot" class="h-2.5 w-2.5 rounded-full bg-white/30"></span></button>
           </div>
         </div>
         <p class="mt-1 max-w-2xl font-sans text-sm text-white/75">Little games that teach the letters, sounds and words of Gurmukhi — for kids and grown-ups. Stars and seals are saved on this device.</p>
@@ -61,76 +67,88 @@ const texts = [
     </div>
   </section>
 
-  <section id="pathway" class="wrap py-12">
-    <ol class="space-y-5">
-      {texts.map((t, i) => (
-        <li class="reveal flex gap-4" data-reveal-delay={Math.min(i, 6) * 55}>
-          <div class="relative flex flex-col items-center">
-            <div class="z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-sans text-lg font-bold text-saffron-deep ring-2 ring-saffron shadow-lift">{i + 1}</div>
-            {i < texts.length - 1 && (
-              <div aria-hidden="true" class="river-connector -mt-2 w-6 flex-1">
-                <svg class="h-full w-full" viewBox="0 0 24 120" preserveAspectRatio="none" fill="none">
-                  <path d="M12 4 C 3 34, 21 74, 12 116" stroke="#f4b21a" stroke-opacity="0.5" stroke-width="2.5" stroke-linecap="round" />
-                </svg>
+  <!-- Ruled pathway ladder (Decision 6: list-like data is a ruled ledger, not
+       cards). Sits in its own light paper band — same "dark hero, light
+       ledger band beneath" shape as collection/[name].astro — since the
+       ambient behind is dark navy and ruled-row text (navy/ink/muted) needs a
+       light surface to read against. -->
+  <div id="pathway" class="border-t border-line bg-paper">
+    <div class="wrap py-12">
+      <ol>
+        {texts.map((t, i) => (
+          <li class="row-ruled items-start gap-y-2 py-5">
+            <div class="flex flex-none flex-col items-center">
+              <div class="z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-saffron-soft font-mono text-[13px] font-semibold text-saffron-deep ring-2 ring-saffron">{i + 1}</div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span class="gur text-xl font-bold text-navy" lang="pa">{t.gur}</span>
+                <span class="font-mono text-[11px] uppercase tracking-[.12em] text-muted">{t.en}</span>
+                {t.live && <span class="chip-status border-ok text-ok" data-i18n="santhiya.available">Available</span>}
               </div>
-            )}
-          </div>
-          <div class="card-lift glass-lite mb-1 flex-1 p-5">
-            <div class="flex flex-wrap items-baseline gap-x-3">
-              <span class="gur text-xl font-bold text-navy" lang="pa">{t.gur}</span>
-              <span class="font-sans text-sm text-muted">{t.en}</span>
-              {t.live && <span class="pill bg-saffron text-[#2a1c06]" data-i18n="santhiya.available">Available</span>}
+              <p class="mt-2 max-w-[62ch] text-[15.5px] leading-relaxed text-ink/90">{paSegs(t.d).map((s) => (s.pa ? <span lang="pa" class="gur">{s.x}</span> : s.x))}</p>
+              <div class="mt-3 flex flex-wrap items-center gap-3">
+                {t.href
+                  ? <a href={t.href} class="btn btn-primary" data-i18n="santhiya.open">Open →</a>
+                  : <span class="font-mono text-[11px] uppercase tracking-[.12em] text-muted" data-i18n="santhiya.comingsoon">Reader coming soon</span>}
+                <button type="button" data-step-toggle={i} class="chip-status gap-1.5 border-line text-muted transition hover:border-saffron hover:text-navy"><Icon name="check" class="h-3.5 w-3.5 shrink-0" /><span class="step-lbl" data-i18n="santhiya.markdone">Mark complete</span></button>
+              </div>
             </div>
-            <p class="mt-1 text-ink/90">{paSegs(t.d).map((s) => (s.pa ? <span lang="pa" class="gur">{s.x}</span> : s.x))}</p>
-            <div class="mt-3 flex flex-wrap items-center gap-3">
-              {t.href
-                ? <a href={t.href} class="btn btn-primary" data-i18n="santhiya.open">Open →</a>
-                : <span class="font-sans text-sm text-muted" data-i18n="santhiya.comingsoon">Reader coming soon</span>}
-              <button type="button" data-step-toggle={i} class="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-1.5 font-sans text-sm text-muted transition hover:border-saffron hover:text-navy"><Icon name="check" class="h-4 w-4 shrink-0" /><span class="step-lbl" data-i18n="santhiya.markdone">Mark complete</span></button>
-            </div>
-          </div>
-        </li>
-      ))}
-    </ol>
-    <p class="mt-8 font-sans text-sm text-muted">Audio: <em>SGGS Santhya Shudh Uchaaran Sehaj Paath</em> — Bhindran Taksal (gurmatveechar.com). Gurbani text handled with reverence; report any correction via <a class="underline" href="/feedback" data-i18n="santhiya.feedbacklink">feedback</a>.</p>
-  </section>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-8 font-sans text-sm text-muted">Audio: <em>SGGS Santhya Shudh Uchaaran Sehaj Paath</em> — Bhindran Taksal (gurmatveechar.com). Gurbani text handled with reverence; report any correction via <a class="underline" href="/feedback" data-i18n="santhiya.feedbacklink">feedback</a>.</p>
+    </div>
+  </div>
 
-  <!-- Read-along reader (merged from the former /read page); shown when ?src=… is present. -->
+  <!-- Read-along reader (merged from the former /read page; redesign task 11,
+       isreader, prototype lines 529-553); shown when ?src=… is present. No
+       separate dark box here either — the ambient-sanctum layer behind IS the
+       prototype's dark gradient reader surface (Decision 5); only the text
+       colours below are set for it. Real functional controls (chapter jump,
+       audio player, skip/rate/larivaar/zen) go well beyond the prototype's
+       static 3-toggle mockup, so they're restyled in the same mono-bordered
+       language rather than replaced by it. -->
   <section id="reader" class="wrap py-8" style="display:none">
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 id="title" class="text-2xl font-bold">Read-along</h1>
-      <div class="flex items-center gap-2 font-sans text-sm">
-        <select id="chapter" aria-label="Jump to chapter" data-i18n-aria="santhiya.aria.chapter" class="max-w-[60vw] rounded-lg border border-line bg-surface px-2 py-1.5 sm:max-w-xs"></select>
-        <button id="prev" aria-label="Previous Ang" data-i18n-aria="santhiya.aria.prevang" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron">←</button>
-        <label id="anglabel">Ang <input id="angin" type="number" min="1" value="1" class="w-20 rounded-lg border border-line px-2 py-1"></label>
-        <button id="next" aria-label="Next Ang" data-i18n-aria="santhiya.aria.nextang" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron">→</button>
+    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/14 pb-4">
+      <div class="flex flex-wrap items-baseline gap-3">
+        <h1 id="title" class="font-mono text-[12px] font-semibold uppercase tracking-[.16em] text-saffron">Read-along</h1>
+        <span lang="pa" class="gur text-sm text-white/70">ਅੰਗ</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 font-mono text-[10.5px] uppercase tracking-[.1em]">
+        <select id="chapter" aria-label="Jump to chapter" data-i18n-aria="santhiya.aria.chapter" class="max-w-[60vw] rounded-sm border border-line bg-surface px-2 py-1.5 normal-case tracking-normal sm:max-w-xs"></select>
+        <button id="prev" aria-label="Previous Ang" data-i18n-aria="santhiya.aria.prevang" class="rounded-sm border border-white/25 px-3 py-1.5 text-white/80 hover:border-saffron hover:text-saffron">←</button>
+        <label id="anglabel" class="flex items-center gap-1.5 normal-case tracking-normal text-white/80">Ang <input id="angin" type="number" min="1" value="1" class="w-16 rounded-sm border border-line bg-surface px-2 py-1 text-center"></label>
+        <button id="next" aria-label="Next Ang" data-i18n-aria="santhiya.aria.nextang" class="rounded-sm border border-white/25 px-3 py-1.5 text-white/80 hover:border-saffron hover:text-saffron">→</button>
       </div>
     </div>
 
-    <div id="audbar" class="glass-strong mt-4 flex flex-wrap items-center gap-3 rounded-xl2 p-3">
-      <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
-      <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-lg bg-paper px-3 py-2 font-sans text-sm text-muted"><Icon name="volume-off" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.audioprep">Audio for this Ang is being prepared.</span></div>
-      <div class="flex items-center gap-2 font-sans text-sm">
-        <button id="skip-back" aria-label="Back 10 seconds" class="rounded-lg border border-line px-2.5 py-1 hover:border-saffron">−10s</button>
-        <button id="skip-fwd" aria-label="Forward 10 seconds" class="rounded-lg border border-line px-2.5 py-1 hover:border-saffron">+10s</button>
-        <select id="aud-rate" aria-label="Playback speed" class="rounded-lg border border-line bg-surface px-1.5 py-1">
-          <option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option>
-        </select>
-        <button data-fs="-" aria-label="Decrease text size" data-i18n-aria="santhiya.aria.smaller" class="rounded-lg border border-line px-2.5 py-1">A−</button>
-        <button data-fs="+" aria-label="Increase text size" data-i18n-aria="santhiya.aria.bigger" class="rounded-lg border border-line px-2.5 py-1">A+</button>
-        <button id="larivaar" aria-pressed="false" data-i18n="santhiya.larivaar" class="rounded-lg border border-line px-2.5 py-1">Larivaar</button>
-        <button id="zen-btn" type="button" aria-label="Zen reading mode" class="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 hover:border-saffron"><Icon name="meditation" class="h-4 w-4 shrink-0" />Zen</button>
-        <button id="zen-exit" type="button" aria-label="Exit Zen reading mode" class="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 hover:border-saffron"><Icon name="stop" class="h-4 w-4 shrink-0" />Exit</button>
+    <div class="mx-auto max-w-[70ch]">
+      <div id="audbar" class="mt-4 flex flex-wrap items-center gap-3 rounded-xl2 border p-3">
+        <audio id="aud" controls preload="none" class="min-w-[260px] flex-1"></audio>
+        <div id="audph" class="hidden min-w-[260px] flex-1 items-center gap-2 rounded-sm bg-white/10 px-3 py-2 font-sans text-sm text-white/70"><Icon name="volume-off" class="h-4 w-4 shrink-0" /><span data-i18n="santhiya.audioprep">Audio for this Ang is being prepared.</span></div>
+        <div class="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[.1em]">
+          <button id="skip-back" aria-label="Back 10 seconds" class="rounded-sm border border-white/25 px-2.5 py-1 text-white/80 hover:border-saffron hover:text-saffron">−10s</button>
+          <button id="skip-fwd" aria-label="Forward 10 seconds" class="rounded-sm border border-white/25 px-2.5 py-1 text-white/80 hover:border-saffron hover:text-saffron">+10s</button>
+          <select id="aud-rate" aria-label="Playback speed" class="rounded-sm border border-line bg-surface px-1.5 py-1 normal-case tracking-normal">
+            <option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option>
+          </select>
+          <button data-fs="-" aria-label="Decrease text size" data-i18n-aria="santhiya.aria.smaller" class="rounded-sm border border-white/25 px-2.5 py-1 text-white/80 hover:border-saffron">A−</button>
+          <button data-fs="+" aria-label="Increase text size" data-i18n-aria="santhiya.aria.bigger" class="rounded-sm border border-white/25 px-2.5 py-1 text-white/80 hover:border-saffron">A+</button>
+          <button id="larivaar" aria-pressed="false" data-i18n="santhiya.larivaar" class="rounded-sm border border-white/25 px-2.5 py-1 text-white/80 hover:border-saffron">Larivaar</button>
+          <button id="zen-btn" type="button" aria-label="Zen reading mode" class="inline-flex items-center gap-1.5 rounded-sm border border-white/25 px-2.5 py-1 text-white/80 hover:border-saffron"><Icon name="meditation" class="h-4 w-4 shrink-0" />Zen</button>
+          <button id="zen-exit" type="button" aria-label="Exit Zen reading mode" class="inline-flex items-center gap-1.5 rounded-sm border border-white/25 px-2.5 py-1 text-white/80 hover:border-saffron"><Icon name="stop" class="h-4 w-4 shrink-0" />Exit</button>
+        </div>
       </div>
+      <p id="audnote" class="mt-1 font-mono text-[11px] text-white/60"></p>
+
+      <div id="page" aria-live="polite" aria-label="Gurbani text" lang="pa" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
     </div>
-    <p id="audnote" class="mt-1 font-sans text-xs text-muted"></p>
 
-    <div id="page" aria-live="polite" aria-label="Gurbani text" lang="pa" class="gur mt-6 leading-loose" style="font-size:1.9rem"></div>
-
-    <div class="mt-8 flex items-center justify-between font-sans text-sm">
-      <button id="prev2" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" data-i18n="santhiya.prev">← Previous</button>
-      <a href="/santhiya" class="text-muted hover:text-navy" data-i18n="santhiya.alltexts">← All Santhya texts</a>
-      <button id="next2" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" data-i18n="santhiya.next">Next →</button>
+    <div class="mt-8 flex items-center justify-between border-t border-white/14 pt-4 font-mono text-[11px] uppercase tracking-[.14em] text-white/72">
+      <button id="prev2" class="hover:text-saffron" data-i18n="santhiya.prev">← Previous</button>
+      <a href="/santhiya" class="hover:text-saffron" data-i18n="santhiya.alltexts">← All Santhya texts</a>
+      <button id="next2" class="hover:text-saffron" data-i18n="santhiya.next">Next →</button>
     </div>
   </section>
 
@@ -145,7 +163,7 @@ const texts = [
     body.zen #page .arth-btn { display: none; }
     /* ── Arcade cosmos: pure gradients (no backdrop-filter cost), slow
        transform/opacity drift, frozen by reduced-motion, off in hc. ─── */
-    .cosmos-panel { background: linear-gradient(150deg, rgb(11 30 58 / .92), rgb(10 13 20 / .95)); border-color: rgb(255 255 255 / .14); }
+    .cosmos-panel { background: linear-gradient(150deg, rgb(11 30 58 / .92), rgb(10 13 20 / .95)); }
     .cosmos { pointer-events: none; }
     .cosmos::before, .cosmos::after { content: ''; position: absolute; border-radius: 9999px; will-change: transform; }
     .cosmos::before { width: 26rem; height: 26rem; left: -8rem; top: -10rem; background: radial-gradient(closest-side, rgb(244 178 26 / .18), transparent 70%); animation: su-drift-a 50s var(--ease-out) infinite alternate; }
@@ -162,15 +180,22 @@ const texts = [
     #page.lari .ln { word-spacing: -0.25em; }
     [data-theme="dark"] #page .w.on { background: #f4b21a; color: #0a0d14; box-shadow: 0 0 0 2px #f4b21a; }
 
-    /* Sanctum skin: hero + reader present dark so white/saffron text stays AA on
-       the deep-navy ambient. Guarded off body.hc so high-contrast stays solid. */
-    body:not(.hc) #su-hero .hero-panel { background: linear-gradient(135deg, rgb(11 30 58 / .62), rgb(10 13 20 / .70)); border-color: rgb(255 255 255 / .12); }
+    /* Sanctum skin: reader presents dark (ambient-sanctum sits behind it, per
+       Decision 5) so white/saffron text stays AA there; #angin/#chapter/
+       #aud-rate are native form controls and keep the light surface/ink pair
+       (matches every other reader-style input on this site) rather than
+       fighting the browser's own control chrome. Guarded off body.hc so
+       high-contrast stays solid. */
     body:not(.hc) #reader { color: #eaf0f8; }
     body:not(.hc) #reader input, body:not(.hc) #reader select { color: rgb(var(--c-ink)); background: rgb(var(--c-surface)); }
     body:not(.hc) #page { color: #eef2f8; }
     body:not(.hc) #audbar { background: rgb(11 30 58 / .60); border-color: rgb(255 255 255 / .12); }
     body:not(.hc) #audnote { color: rgb(255 255 255 / .74); }
-    body:not(.hc) #pathway > p { color: rgb(255 255 255 / .78); }
+
+    /* Larivaar is a real toggle (JS flips aria-pressed on click) — mono
+       bordered off, gold filled on, matching the prototype's active-toggle
+       styling (isreader, "Santhiya" pill). */
+    #larivaar[aria-pressed="true"] { border-color: #f4b21a; background: #f4b21a; color: #0A1729; }
 
     /* Zen mode — a distraction-free full-viewport reader. */
     #zen-exit { display: none; }
@@ -251,14 +276,14 @@ const texts = [
 
         games.forEach(function (g) {
           var card = document.createElement('div');
-          card.className = 'arcade-card glass-lite relative p-4';
+          card.className = 'arcade-card relative rounded-xl2 border border-white/14 bg-white/5 p-4';
           var stars = kit.getStars(g.id);
           card.innerHTML =
-            '<div class="flex items-baseline gap-2"><span class="gur text-2xl font-bold text-navy" lang="pa">' + g.gur + '</span><span class="font-sans text-sm font-semibold text-navy">' + g.title + '</span></div>' +
-            '<p class="mt-1 font-sans text-xs text-muted">' + g.blurb + '</p>' +
+            '<div class="flex items-baseline gap-2"><span class="gur text-2xl font-bold text-white" lang="pa">' + g.gur + '</span><span class="font-sans text-sm font-semibold text-white">' + g.title + '</span></div>' +
+            '<p class="mt-1 font-sans text-xs text-white/70">' + g.blurb + '</p>' +
             '<div class="mt-3 flex items-center justify-between">' +
-            '<span class="star-count inline-flex items-center gap-1 font-sans text-xs text-saffron-deep">' + (stars > 0 ? iconSvg('star', 'h-3.5 w-3.5') + ' ' + stars : '') + '</span>' +
-            '<button type="button" class="arcade-play min-h-[44px] rounded-full border border-line px-5 py-1.5 font-sans text-sm font-semibold text-navy transition">Play</button></div>';
+            '<span class="star-count inline-flex items-center gap-1 font-sans text-xs text-saffron">' + (stars > 0 ? iconSvg('star', 'h-3.5 w-3.5') + ' ' + stars : '') + '</span>' +
+            '<button type="button" class="arcade-play min-h-[44px] rounded-sm border border-white/25 px-5 py-1.5 font-sans text-sm font-semibold text-white transition">Play</button></div>';
           card.querySelector('.arcade-play').addEventListener('click', function () {
             var ov = kit.overlay({ title: g.title, gur: g.gur });
             var cleanup = g.mount(ov.body, {

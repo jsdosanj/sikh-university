@@ -6,6 +6,11 @@ import { onRequestGet as progressGet, onRequestPost as progressPost } from "./fu
 import { onRequestPost as authRequestPost } from "./functions/api/auth/request.js";
 import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
 import { onRequestPost as authLogoutPost } from "./functions/api/auth/logout.js";
+import { onRequestGet as authSsoGet } from "./functions/api/auth/sso.js";
+import { onRequestPost as authSignupPost } from "./functions/api/auth/signup.js";
+import { onRequestPost as authLoginPost } from "./functions/api/auth/login.js";
+import { onRequestPost as authForgotPasswordPost } from "./functions/api/auth/forgot-password.js";
+import { onRequestPost as authResetPasswordPost } from "./functions/api/auth/reset-password.js";
 import { onRequestPost as mfaEnrollPost } from "./functions/api/auth/mfa/enroll.js";
 import { onRequestPost as mfaConfirmPost } from "./functions/api/auth/mfa/confirm.js";
 import { onRequestPost as mfaVerifyPost } from "./functions/api/auth/mfa/verify.js";
@@ -77,6 +82,11 @@ const routes = {
   "/api/auth/request": { POST: authRequestPost },
   "/api/auth/verify": { GET: authVerifyGet },
   "/api/auth/logout": { POST: authLogoutPost },
+  "/api/auth/sso": { GET: authSsoGet },
+  "/api/auth/signup": { POST: authSignupPost },
+  "/api/auth/login": { POST: authLoginPost },
+  "/api/auth/forgot-password": { POST: authForgotPasswordPost },
+  "/api/auth/reset-password": { POST: authResetPasswordPost },
   "/api/auth/mfa/enroll": { POST: mfaEnrollPost },
   "/api/auth/mfa/confirm": { POST: mfaConfirmPost },
   "/api/auth/mfa/verify": { POST: mfaVerifyPost },
@@ -145,6 +155,9 @@ const routes = {
 // rely on it.
 const RATE_LIMITS = {
   "/api/auth/request": { limit: 20, window: 60 },  // magic-link sends (anti mail-bomb)
+  "/api/auth/forgot-password": { limit: 20, window: 60 },  // password-reset sends (same rule -- this is where Resend cost actually lives now)
+  "/api/auth/login": { limit: 30, window: 60 },  // password guess throttle
+  "/api/auth/signup": { limit: 20, window: 60 },
   "/api/translate": { limit: 60, window: 60 },     // paid Workers AI — cap per-IP cost
   "/api/feedback": { limit: 15, window: 60 },
   "/api/discussions": { limit: 15, window: 60 },
@@ -400,6 +413,7 @@ export default {
       "img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; " +
       "connect-src 'self' https://api.banidb.com; " +
       "frame-src https://www.youtube-nocookie.com https://www.youtube.com; " +
+      "worker-src 'self' blob:; " +
       "form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'");
     return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
   },

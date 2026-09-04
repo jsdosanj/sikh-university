@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
 import { professorList, profBio, profSlug } from '../lib/data';
 import { REF, COLLECTIONS } from '../lib/santhya';
 import gurbaniWords from '../data/gurbani-words.json';
@@ -43,13 +42,19 @@ const extra = { professors, readings, pages, gWords };
 ---
 <Base title="Search — Sikhi University" description="Search everything at Sikhi University — courses, professors, topics, learning paths, banis and scripture." ambient="study">
   <section class="wrap py-12">
-    <h1 class="text-3xl font-bold" data-i18n="search.h1">Search Sikhi University</h1>
-    <div class="glass mt-5 flex max-w-xl items-center gap-2 px-4 py-1">
-      <Icon name="search" class="h-4 w-4 shrink-0 text-muted" />
+    <h1 class="text-display-sm text-navy" data-i18n="search.h1">Search Sikhi University</h1>
+
+    <!-- Bordered query box with a mono "/" glyph (issearch, lines 497-527). -->
+    <div class="mt-5 flex max-w-xl flex-wrap items-center gap-3 rounded-[3px] border border-navy bg-surface px-4 py-3">
+      <span aria-hidden="true" class="font-mono text-[15px] text-saffron-deep">/</span>
       <input id="q" type="search" aria-label="Search Sikhi University" data-i18n-aria="search.h1" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" data-i18n-ph="search.ph" autofocus
-        class="w-full bg-transparent py-2.5 font-sans outline-none" />
+        class="min-w-0 flex-1 bg-transparent py-1 text-[21px] font-medium tracking-[-.02em] text-navy outline-none placeholder:text-base placeholder:font-normal placeholder:tracking-normal placeholder:text-muted" />
     </div>
-    <div id="out" class="mt-6" aria-live="polite"></div>
+
+    <!-- Mono count chips, one per result kind — filled by render() below. -->
+    <div id="chips" class="mt-4 flex flex-wrap gap-2" aria-live="polite"></div>
+
+    <div id="out" class="mt-8" aria-live="polite"></div>
   </section>
   <style>
     /* Highlight for matched query terms. Saffron-soft ground + ink text keeps AA
@@ -70,6 +75,7 @@ const extra = { professors, readings, pages, gWords };
     let data = { courses: [], topics: [], paths: [] };
     const tn = (id) => (data.topics.find((t) => t.id === id) || {}).name || id;
     const out = document.getElementById('out'); const q = document.getElementById('q');
+    const chips = document.getElementById('chips');
 
     // Build a flat, typed index. Each entry carries display fields (kind/title/sub/url)
     // plus four lowercased search fields the scorer weights: t = title, p = professor,
@@ -155,12 +161,33 @@ const extra = { professors, readings, pages, gWords };
 
     const ORDER = ['Course', 'Professor', 'Reading', 'Word', 'Path', 'Topic', 'Page'];
     const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Word: 'Gurbani Words', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
+
+    // Mono count chips ("ALL 24 / COURSES 11 / ANGS 9 / FACULTY 3", issearch
+    // 497-527) — display counters only, driven by the same score groups the
+    // sections below render from. Not a second filter control.
+    function renderChips(scored, groups) {
+      if (!scored.length) { chips.innerHTML = ''; return; }
+      let html = `<span class="chip-status border-navy bg-brand text-white">${esc('ALL ' + scored.length)}</span>`;
+      ORDER.forEach((k) => {
+        const g = groups[k]; if (!g || !g.length) return;
+        html += `<span class="chip-status border-line bg-surface text-navy">${esc(LABEL[k].toUpperCase() + ' ' + g.length)}</span>`;
+      });
+      chips.innerHTML = html;
+    }
+
+    // A ruled result row, in place of the old card. Kind is shown as a
+    // chip-status tag rather than a pill.
     function row(r, terms) {
-      return `<a href="${r.url}" class="glass-lite relative block p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift"><div class="flex items-baseline justify-between gap-2"><span class="font-bold text-navy">${hl(r.title, terms)}</span><span class="pill bg-paper text-muted shrink-0">${esc(r.kind)}</span></div>${r.sub ? `<div class="mt-1 font-sans text-sm text-muted">${hl(r.sub, terms)}</div>` : ''}</a>`;
+      return `<a href="${r.url}" class="row-ruled group block hover:bg-paper"><span class="flex min-w-0 flex-1 items-baseline justify-between gap-3"><span class="font-bold text-navy group-hover:text-saffron-deep">${hl(r.title, terms)}</span><span class="chip-status shrink-0 border-line text-muted">${esc(r.kind)}</span></span>${r.sub ? `<span class="basis-full font-sans text-sm text-muted">${hl(r.sub, terms)}</span>` : ''}</a>`;
+    }
+    // One ruled-ledger column per result kind, headed by a mono eyebrow over a
+    // rule-navy hairline ("In the corpus" / "Courses" / …).
+    function section(k, g, terms) {
+      return `<div class="min-w-0 flex-1 basis-[280px]"><p class="font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep">${esc(LABEL[k])}</p><div class="rule-navy"></div>${g.map((r) => row(r, terms)).join('')}</div>`;
     }
     function render() {
       const v = q.value.normalize('NFC').toLowerCase().trim();
-      if (!v) { out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`; return; }
+      if (!v) { chips.innerHTML = ''; out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`; return; }
       let terms = v.split(/\s+/);
       let scored = search(terms, v);
       let note = '';
@@ -169,16 +196,19 @@ const extra = { professors, readings, pages, gWords };
         const retry = search(shorter, shorter.join(' '));
         if (retry.length) { scored = retry; terms = shorter; note = shorter.join(' '); }
       }
-      if (!scored.length) { out.innerHTML = `<p class="text-muted">No results for "${esc(q.value)}".</p>`; return; }
+      if (!scored.length) { chips.innerHTML = ''; out.innerHTML = `<p class="text-muted">No results for "${esc(q.value)}".</p>`; return; }
       const groups = {};
       scored.forEach(({ r }) => (groups[r.kind] = groups[r.kind] || []).push(r));  // globally score-sorted, so each group stays in order
+      renderChips(scored, groups);
       let html = '';
       if (note) html += `<p class="mb-2 text-sm text-muted">Showing results for: ${esc(note)}</p>`;
       html += `<p class="mb-4 text-muted">${scored.length} result${scored.length === 1 ? '' : 's'}</p>`;
+      html += `<div class="flex flex-wrap gap-x-10 gap-y-8">`;
       ORDER.forEach((k) => {
         const g = groups[k]; if (!g || !g.length) return;
-        html += `<h2 class="mb-3 mt-6 text-lg font-bold">${LABEL[k]} <span class="font-sans text-sm font-normal text-muted">(${g.length})</span></h2><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">${g.map((r) => row(r, terms)).join('')}</div>`;
+        html += section(k, g, terms);
       });
+      html += `</div>`;
       out.innerHTML = html;
     }
     fetch('/data/search.json').then((r) => r.json()).then((d) => {

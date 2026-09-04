@@ -15,107 +15,122 @@ if (!prog) return Astro.redirect('/programs');
 
 const courseMap = Object.fromEntries(coursesData.courses.map((c) => [c.id, c]));
 const progCourses = prog.courseIds.map((cid) => courseMap[cid]).filter(Boolean);
-
 const topicSet = [...new Set(progCourses.map((c) => c.topic))].sort();
-const levelSet = [...new Set(progCourses.map((c) => c.level))].sort((a, b) => a - b);
 
-const typeLabel = {
-  certificate: 'Certificate Program',
+// --- Registrar's-ledger programme detail (task 7: isprogram, lines 955-1005) ---
+// Breadcrumb labels + "entry from" meta are real, derived data (programs.json
+// `type` and `prerequisites`); course codes are still a proposal nobody has
+// decided (see the "flagged design note" this page deliberately does NOT
+// render, per Decision 12) — the level slot beside each course is the real
+// `level` field from courses.json, never a fabricated letters-plus-digits code.
+const BREADCRUMB_TYPE: Record<string, string> = {
+  certificate: 'Certificates',
   associate: 'Associate Degree',
-  bachelor: "Bachelor's Degree",
-  master: "Master's Degree",
-  giani: 'Giani — Highest Distinction',
+  bachelor: "Bachelor's Degrees",
+  master: "Master's Degrees",
+  giani: 'Giani',
 };
+
+function entryFrom(p: typeof prog): { text: string; none: boolean } {
+  if (!p.prerequisites.length) return { text: 'No prerequisites', none: true };
+  const abbrs = p.prerequisites.map(
+    (pid) => programsData.programs.find((x) => x.id === pid)?.abbreviation ?? pid,
+  );
+  return { text: abbrs.join(' or '), none: false };
+}
+const entry = entryFrom(prog);
+
+// Real programme(s) that require this one — computed from programs.json,
+// never hand-listed.
+const leadsTo = programsData.programs.filter((p) => p.prerequisites.includes(prog.id));
 ---
-<Base title={`${prog.title} — Sikhi University`} description={prog.description} ambient="hall">
-  <section class="wrap py-10">
-    <!-- Header: sits over the ambient-hall backdrop -->
-    <div class="flex flex-wrap items-start gap-4">
-      <Icon name={prog.icon} class="h-12 w-12 shrink-0 text-saffron" />
-      <div class="flex-1">
-        <div class="font-sans text-sm font-semibold uppercase tracking-wider text-white/70">{typeLabel[prog.type]} · {prog.abbreviation}</div>
-        <h1 class="text-3xl font-bold text-white">{prog.title}</h1>
-        <div class="mt-0.5 font-gurmukhi text-lg text-white/70">{prog.titleGur}</div>
+<Base title={`${prog.title} — Sikhi University`} description={prog.description} ambient="study">
+  <div class="band-navy">
+    <div class="wrap py-8 sm:pb-9 sm:pt-10">
+      <p class="flex flex-wrap items-center gap-2.5 font-mono text-[10.5px] uppercase tracking-[.16em] text-white/72">
+        <a href="/programs" class="hover:text-white" data-i18n="program.breadcrumb.programs">Programmes</a>
+        <span aria-hidden="true">›</span>
+        <span data-no-i18n>{BREADCRUMB_TYPE[prog.type]}</span>
+        <span aria-hidden="true">›</span>
+        <span class="text-saffron" data-no-i18n>{prog.abbreviation}</span>
+      </p>
+      <div class="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+        <h1 class="text-display-sm max-w-[26ch] text-white" data-no-i18n>{prog.title}</h1>
+        <span class="font-mono text-[15px] text-saffron" data-no-i18n>{prog.abbreviation}</span>
+      </div>
+      <p lang="pa" class="mt-2.5 font-gurmukhi text-xl leading-[1.9] text-white/88" data-no-i18n>{prog.titleGur}</p>
+      <div class="mt-4 flex flex-wrap gap-x-7 gap-y-2.5 font-mono text-[11px] uppercase tracking-[.12em] text-white/78">
+        <span data-no-i18n>{prog.courseIds.length} courses</span>
+        <span data-no-i18n>{prog.duration}</span>
+        <span data-no-i18n>{prog.testQuestions}-question exam</span>
+        <span data-no-i18n>Pass at {prog.passMark}%</span>
+        <span class:list={[entry.none && "text-saffron"]} data-no-i18n>{entry.none ? 'No prerequisites' : `Requires ${entry.text}`}</span>
+      </div>
+      <div class="mt-6">
+        <button id="register-btn" class="btn btn-ghost">Register for this program</button>
       </div>
     </div>
-    <p class="mt-4 max-w-3xl text-lg text-white/85">{prog.description}</p>
+  </div>
 
-    <div class="mt-5">
-      <button id="register-btn" class="btn btn-primary">Register for this program</button>
-    </div>
+  <section class="wrap py-9 md:py-11">
+    <p class="max-w-[74ch] font-sans text-lg leading-relaxed text-ink" data-no-i18n>{prog.description}</p>
 
-    <!-- Stats bar -->
-    <div class="mt-6 grid grid-cols-2 gap-4 font-sans text-sm sm:grid-cols-4">
-      <div class="glass-lite px-4 py-2 text-center">
-        <div class="text-2xl font-bold text-navy">{prog.courseIds.length}</div>
-        <div class="text-xs text-muted">Courses required</div>
-      </div>
-      <div class="glass-lite px-4 py-2 text-center">
-        <div class="text-2xl font-bold text-navy">{prog.duration.split('(')[0].trim()}</div>
-        <div class="text-xs text-muted">Estimated duration</div>
-      </div>
-      <div class="glass-lite px-4 py-2 text-center">
-        <div class="text-2xl font-bold text-navy">{prog.testQuestions}</div>
-        <div class="text-xs text-muted">Cumulative exam questions</div>
-      </div>
-      <div class="glass-lite px-4 py-2 text-center">
-        <div class="text-2xl font-bold text-navy">{prog.passMark}%</div>
-        <div class="text-xs text-muted">Pass mark</div>
-      </div>
-    </div>
-
-    <!-- Progress and exam (client-side) -->
-    <div id="prog-status" class="mt-8 rounded-xl2 border border-line bg-surface p-5">
-      <p class="font-sans text-sm text-muted">Loading your progress…</p>
-    </div>
-
-    <!-- Prerequisites -->
-    {prog.prerequisites.length > 0 && (
-      <div class="mt-6 glass-strong border-l-4 border-saffron p-4 font-sans text-sm">
-        <strong>Prerequisites:</strong> Complete{' '}
-        {prog.prerequisites.map((pid, i) => {
-          const pre = programsData.programs.find((p) => p.id === pid);
-          return (
-            <span>{i > 0 ? ' and ' : ' '}<a href={`/program/${pid}`} class="underline font-semibold">{pre ? pre.abbreviation : pid}</a></span>
-          );
-        })} before starting this program.
-      </div>
-    )}
-
-    <!-- Course list by topic -->
-    <div class="mt-10">
-      <h2 class="text-xl font-bold text-white">Required Courses</h2>
-      <p class="mt-1 font-sans text-sm text-white/70">Complete all {prog.courseIds.length} courses below, then take the cumulative examination.</p>
-
-      <div id="course-list-progress" class="mt-6 space-y-8">
-        {topicSet.map((topic) => {
-          const tCourses = progCourses.filter((c) => c.topic === topic);
-          return (
-            <div>
-              <h3 class="text-base font-bold capitalize border-b border-white/15 pb-1 mb-3 text-white">{topic.replace(/-/g, ' ')}</h3>
-              <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-9 flex flex-wrap gap-x-10 gap-y-10">
+      <!-- Required courses -->
+      <div class="min-w-0 flex-[2] basis-[420px]">
+        <p class="font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep" data-i18n="program.required.label">Required courses</p>
+        <div id="course-list-progress">
+          {topicSet.map((topic) => {
+            const tCourses = progCourses.filter((c) => c.topic === topic);
+            return (
+              <div class="mt-6 first:mt-2">
+                <div class="rule-navy pb-1.5">
+                  <h3 class="font-mono text-[11px] uppercase tracking-[.1em] text-navy" data-no-i18n>{topic.replace(/-/g, ' ')}</h3>
+                </div>
                 {tCourses.map((c) => (
-                  <a href={`/course/${c.id}`} class="card flex items-start gap-3 hover:border-saffron transition" data-course-id={c.id}>
-                    <span class="mt-0.5" data-course-check>{/* filled by JS */}</span>
-                    <div class="flex-1 min-w-0">
-                      <div class="font-sans text-xs text-muted">{c.level} level</div>
-                      <div class="text-sm font-semibold text-navy leading-tight">{c.title}</div>
-                      <div class="font-sans text-xs text-muted mt-0.5">{(c.lessons || []).length} lessons</div>
-                    </div>
+                  <a href={`/course/${c.id}`} class="row-ruled hover:bg-paper" data-course-id={c.id} data-no-i18n>
+                    <span class="w-10 flex-none font-mono text-[11.5px] text-saffron-deep">{c.level}</span>
+                    <span class="min-w-0 flex-1">
+                      <span class="block text-[15.5px] font-semibold leading-tight text-navy">{c.title}</span>
+                      <span class="mt-0.5 block font-mono text-[10.5px] text-muted">{(c.lessons || []).length} lessons</span>
+                    </span>
+                    <span class="w-9 flex-none text-right" data-course-check></span>
                   </a>
                 ))}
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Your standing + Leads to -->
+      <div class="min-w-0 flex-1 basis-[240px]">
+        <p class="font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep" data-i18n="program.standing.label">Your standing</p>
+        <div id="prog-status" class="mt-1 border-t-2 border-navy pt-4">
+          <p class="font-sans text-sm text-muted" data-i18n="program.standing.loading">Loading your progress…</p>
+        </div>
+
+        <p class="mt-8 font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep" data-i18n="program.leadsto.label">Leads to</p>
+        <div class="mt-1 border-t-2 border-navy">
+          {leadsTo.length === 0 ? (
+            <p class="py-3 font-sans text-sm text-muted" data-i18n="program.leadsto.none">No further programme currently requires this one.</p>
+          ) : (
+            leadsTo.map((lp) => (
+              <a href={`/program/${lp.id}`} class="row-ruled hover:bg-paper" data-no-i18n>
+                <span class="text-[15px] font-semibold text-navy">{lp.abbreviation}</span>
+                <span class="ml-auto font-mono text-[11px] text-muted">{lp.courseIds.length} courses</span>
+              </a>
+            ))
+          )}
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Cumulative Test Modal -->
-  <div id="cum-test-modal" class="hidden fixed inset-0 z-50 flex items-start justify-center bg-black/60 overflow-y-auto py-10">
-    <div class="w-full max-w-2xl glass-strong p-8 mx-4">
-      <h2 class="text-2xl font-bold" id="cum-test-title">Cumulative Examination</h2>
+  <div id="cum-test-modal" class="hidden fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 py-10">
+    <div class="mx-4 w-full max-w-2xl border border-line bg-surface p-8">
+      <h2 class="text-2xl font-bold text-navy" id="cum-test-title">Cumulative Examination</h2>
       <p class="mt-1 font-sans text-sm text-muted" id="cum-test-subtitle"></p>
       <div id="cum-test-body" class="mt-6 space-y-6"></div>
       <div id="cum-test-result" class="hidden mt-6 rounded-xl2 border border-line bg-paper p-5 text-center">
@@ -152,31 +167,24 @@ const typeLabel = {
   const pct = Math.round((done / total) * 100);
   const allDone = done === total;
 
-  // Update status panel
+  // Update status panel ("Your standing" rail — ruled ledger treatment)
   const statusEl = document.getElementById('prog-status');
   const cumPassed = get('cum_passed_' + progId, false);
   statusEl.innerHTML = `
-    <div class="flex flex-wrap items-center gap-4">
-      <div class="flex-1">
-        <div class="flex items-center justify-between mb-1">
-          <span class="font-sans text-sm font-semibold text-navy">Course progress</span>
-          <span class="font-sans text-sm text-muted">${done} / ${total} completed</span>
-        </div>
-        <div class="h-3 w-full overflow-hidden rounded-full bg-paper border border-line">
-          <div class="h-full bg-saffron transition-all" style="width:${pct}%"></div>
-        </div>
-        <div class="mt-1 font-sans text-xs text-muted">${pct}% complete</div>
-      </div>
-      ${allDone
-        ? cumPassed
-          ? `<div class="flex flex-col items-center gap-1"><span>${ICONS.capSmall}</span><span class="font-sans text-xs text-saffron-deep font-bold">Credential earned</span><a href="/cert?program=${progId}" class="btn btn-primary mt-1">View credential →</a></div>`
-          : `<button id="start-cum-test" class="btn btn-primary">Take Cumulative Exam →</button>`
-        : `<div class="font-sans text-sm text-muted text-center">Complete all courses<br>to unlock the exam</div>`
-      }
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="font-mono text-[11px] uppercase tracking-[.12em] text-muted">Courses complete</span>
+      <span class="font-mono text-[19px] text-navy">${done} / ${total}</span>
     </div>
+    <div class="mt-3 h-1 w-full bg-line"><div class="h-full bg-saffron" style="width:${pct}%"></div></div>
+    ${allDone
+      ? cumPassed
+        ? `<div class="mt-4 flex flex-col items-center gap-1.5 text-center"><span>${ICONS.capSmall}</span><span class="font-mono text-xs uppercase tracking-[.1em] text-saffron-deep">Credential earned</span><a href="/cert?program=${progId}" class="btn btn-primary mt-1 w-full">View credential →</a></div>`
+        : `<button id="start-cum-test" class="btn btn-primary mt-4 w-full">Take Cumulative Exam →</button>`
+      : `<p class="mt-3 font-sans text-[14.5px] leading-relaxed text-muted">The comprehensive examination unlocks when all ${total} courses are complete. ${testQuestions} questions, ${passMark}% to pass.</p><div class="mt-3 border border-line bg-surface px-4 py-3 text-center font-mono text-[11px] font-bold uppercase tracking-[.12em] text-muted">Exam locked</div>`
+    }
   `;
 
-  // Update course cards with completion checkmarks
+  // Update course rows with completion checkmarks
   document.querySelectorAll('[data-course-id]').forEach((card) => {
     const cid = card.getAttribute('data-course-id');
     const icon = card.querySelector('[data-course-check]');
@@ -229,7 +237,7 @@ const typeLabel = {
         <p class="font-semibold text-navy"><span class="text-muted font-normal">${i+1}.</span> ${esc(q.q)}</p>
         <div class="font-sans text-xs text-muted mb-1">— ${esc(q.courseTitle)}</div>
         ${q.options.map((opt, oi) => `
-          <label class="flex items-start gap-2 cursor-pointer rounded-lg border border-line p-2 hover:bg-paper transition">
+          <label class="flex items-start gap-2 cursor-pointer border border-line rounded-xl2 p-2 hover:bg-paper transition">
             <input type="radio" name="q${i}" value="${oi}" class="mt-0.5 accent-saffron shrink-0" />
             <span class="text-sm">${esc(opt)}</span>
           </label>

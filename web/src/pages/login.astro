@@ -1,68 +1,142 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Sign in / Sign up — Sikhi University" description="Join Sikhi University free with a magic link — as a student to learn, or apply to teach. No password needed." ambient="hall" noindex={true}>
-  <section class="wrap py-14">
-    <div class="mx-auto max-w-md text-center">
-      <p class="eyebrow text-saffron">Sign in</p>
-      <h1 class="text-display-sm mt-2 font-bold text-white" data-i18n="login.h1">Sign in or sign up</h1>
-      <p class="mt-2 font-sans text-white/85" data-i18n="login.sub">Free, no password — we email you a magic sign-in link. New here? Choose how you'd like to join.</p>
-    </div>
-    <div id="err" class="mx-auto mt-4 max-w-md"></div>
-
-    <div class="glass-strong mx-auto mt-6 max-w-md rounded-xl2 p-6">
-      <fieldset>
-        <legend class="font-sans text-sm font-semibold" data-i18n="login.role.legend">I am joining as a…</legend>
-        <div class="mt-2 grid gap-3">
-          <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
-            <input type="radio" name="role" value="student" class="mr-2" checked />
-            <span class="font-semibold text-navy" data-i18n="login.role.student">Student</span>
-            <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.studentdesc">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
-          </label>
-          <label class="cursor-pointer rounded-xl2 border border-line bg-surface p-4 has-[:checked]:border-saffron has-[:checked]:shadow-card">
-            <input type="radio" name="role" value="teacher" class="mr-2" />
-            <span class="font-semibold text-navy" data-i18n="login.role.teacher">Teacher</span>
-            <p class="mt-1 font-sans text-sm text-muted" data-i18n="login.role.teacherdesc">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
-          </label>
+<Base title="Sign in / Sign up — Sikhi University" description="Sign in to Sikhi University — as a student to learn, or apply to teach." ambient="hall" noindex={true}>
+  <!-- islogin (555-575): centered hero-midnight surface, flat crest, mono
+       footer links, gold primary button. Real form ids/names/logic below are
+       untouched -- only classes and wrapping markup changed. -->
+  <div class="hero-midnight flex min-h-[620px] items-center py-16">
+    <div class="wrap relative w-full">
+      <div class="mx-auto w-full max-w-[420px]">
+        <div class="flex justify-center">
+          <img src="/assets/su-crest-ivory.png" alt="Sikhi University crest" class="h-16 w-auto" />
         </div>
-      </fieldset>
+        <p class="mt-4 text-center text-[11.5px] font-bold uppercase tracking-[0.24em] text-white">Sikhi University</p>
+        <h1 class="text-display-sm mt-5 text-center font-bold text-white" id="mode-h1">Sign in</h1>
+        <p class="mt-3 text-center text-[15.5px] leading-relaxed text-white/[0.72]" id="mode-sub">New here? <button type="button" id="mode-toggle" class="underline underline-offset-2">Create an account</button></p>
 
-      <form id="login-form" class="mt-6 space-y-4">
-        <label class="block font-sans text-sm font-semibold"><span data-i18n="login.email.label">Email</span>
-          <input id="email" type="email" required placeholder="you@example.com" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" />
-        </label>
-        <button id="send" type="submit" class="btn btn-primary w-full justify-center" data-i18n="login.submit">Send magic link</button>
-      </form>
+        <div id="err" class="mt-4"></div>
+
+        <fieldset id="role-fieldset" class="mt-7 hidden">
+          <legend class="font-sans text-sm font-semibold text-white">I am joining as a…</legend>
+          <div class="mt-3 grid gap-3">
+            <label class="cursor-pointer rounded-[2px] border border-white/[0.2] bg-white/[0.04] p-4 has-[:checked]:border-saffron">
+              <input type="radio" name="role" value="student" class="mr-2" checked />
+              <span class="font-semibold text-white">Student</span>
+              <p class="mt-1 font-sans text-sm text-white/[0.65]">Learn Sikhi and life skills. Free access to every course, tests, certificates and learning paths.</p>
+            </label>
+            <label class="cursor-pointer rounded-[2px] border border-white/[0.2] bg-white/[0.04] p-4 has-[:checked]:border-saffron">
+              <input type="radio" name="role" value="teacher" class="mr-2" />
+              <span class="font-semibold text-white">Teacher</span>
+              <p class="mt-1 font-sans text-sm text-white/[0.65]">Share your knowledge. Sign in, then complete a short application — an admin reviews it before you get teacher access.</p>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Primary: email + password -->
+        <form id="password-form" class="mt-7 space-y-5">
+          <label class="block"><span class="field-label-dark">Email</span>
+            <input id="email" type="email" required placeholder="you@example.com" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
+          </label>
+          <label class="block"><span class="field-label-dark">Password</span>
+            <input id="password" type="password" required minlength="12" autocomplete="current-password" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
+          </label>
+          <button id="password-btn" type="submit" class="btn btn-primary w-full justify-center">Sign in</button>
+          <p class="text-center"><a href="/reset-password.html" id="forgot-link" class="font-mono text-[11px] tracking-[0.08em] text-white/[0.62] underline underline-offset-2">Forgot password?</a></p>
+        </form>
+
+        <!-- Secondary: magic-link, for the accounts that predate password auth -->
+        <div class="mt-8 border-t border-white/10 pt-6 text-center">
+          <button type="button" id="magic-toggle" class="font-mono text-[11px] tracking-[0.08em] text-white/[0.62] underline underline-offset-2">Sign in via emailed link instead</button>
+        </div>
+        <div id="magic-wrap" class="mt-4 hidden">
+          <p class="mb-3 font-sans text-sm text-white/[0.65]">For accounts created before password sign-in existed. We'll email you a one-click link — no password needed.</p>
+          <form id="login-form" class="space-y-5">
+            <label class="block"><span class="field-label-dark">Email</span>
+              <input id="magic-email" type="email" required placeholder="you@example.com" class="mt-2 w-full rounded-[2px] border border-white/[0.34] bg-white/[0.05] px-4 py-3.5 text-base text-white placeholder:text-white/[0.55] focus:border-saffron focus:outline-none" />
+            </label>
+            <button id="send" type="submit" class="btn btn-primary w-full justify-center">Send magic link</button>
+          </form>
+        </div>
+
+        <div id="out" class="mt-4"></div>
+      </div>
     </div>
-    <div id="out" class="mx-auto mt-4 max-w-md"></div>
-  </section>
+  </div>
   <script>
     import { iconSvg } from '../lib/icons';
-    function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+    function esc(s: string) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
     const params = new URLSearchParams(location.search);
     const e = params.get('error');
-    if (e) document.getElementById('err').innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc(e)}</strong></div>`;
-    const form = document.getElementById('login-form');
-    const out = document.getElementById('out');
-    const btn = document.getElementById('send');
+    const errEl = document.getElementById('err')!;
+    if (e) errEl.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc(e)}</strong></div>`;
+    const out = document.getElementById('out')!;
+
+    // Sign in / create account toggle
+    let mode: 'signin' | 'signup' = 'signin';
+    const h1 = document.getElementById('mode-h1')!;
+    const sub = document.getElementById('mode-sub')!;
+    const roleFieldset = document.getElementById('role-fieldset')!;
+    const passwordBtn = document.getElementById('password-btn') as HTMLButtonElement;
+    document.getElementById('mode-toggle')!.addEventListener('click', () => {
+      mode = mode === 'signin' ? 'signup' : 'signin';
+      if (mode === 'signup') {
+        h1.textContent = 'Create your account';
+        sub.innerHTML = `Already have an account? <button type="button" id="mode-toggle-2" class="underline">Sign in</button>`;
+        roleFieldset.classList.remove('hidden');
+        passwordBtn.textContent = 'Create account';
+        document.getElementById('mode-toggle-2')!.addEventListener('click', () => document.getElementById('mode-toggle')!.click());
+      } else {
+        h1.textContent = 'Sign in';
+        sub.innerHTML = `New here? <button type="button" id="mode-toggle">Create an account</button>`;
+        roleFieldset.classList.add('hidden');
+        passwordBtn.textContent = 'Sign in';
+      }
+    });
+
+    // Primary password form (handles both sign-in and sign-up submit)
+    (document.getElementById('password-form') as HTMLFormElement).addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+      const password = (document.getElementById('password') as HTMLInputElement).value;
+      if (!email || !password) return;
+      passwordBtn.disabled = true;
+      const endpoint = mode === 'signup' ? '/api/auth/signup' : '/api/auth/login';
+      fetch(endpoint, { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, password }) })
+        .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
+        .then(({ ok, d }) => {
+          passwordBtn.disabled = false;
+          if (!ok) { out.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not sign in.')}</strong></div>`; return; }
+          if (mode === 'signup') {
+            const role = (document.querySelector('input[name="role"]:checked') as HTMLInputElement)?.value || 'student';
+            try { localStorage.setItem('su_v1_signup_intent', JSON.stringify(role)); } catch {}
+          }
+          location.href = d.mfaRequired ? '/mfa.html' : '/dashboard.html';
+        })
+        .catch(() => { passwordBtn.disabled = false; out.innerHTML = '<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
+    });
+
+    // Secondary magic-link form (unchanged mechanism, just repositioned)
+    const magicToggle = document.getElementById('magic-toggle')!;
+    const magicWrap = document.getElementById('magic-wrap')!;
+    magicToggle.addEventListener('click', () => magicWrap.classList.toggle('hidden'));
+
+    const form = document.getElementById('login-form') as HTMLFormElement;
+    const btn = document.getElementById('send') as HTMLButtonElement;
     form.addEventListener('submit', (ev) => {
       ev.preventDefault();
-      const email = document.getElementById('email').value.trim();
+      const email = (document.getElementById('magic-email') as HTMLInputElement).value.trim();
       if (!email) return;
-      const role = (document.querySelector('input[name="role"]:checked') || {}).value || 'student';
-      // Everyone signs in as a learner; teacher applicants are routed to the application after sign-in.
-      try { localStorage.setItem('su_v1_signup_intent', JSON.stringify(role)); } catch {}
       btn.disabled = true; btn.textContent = 'Sending…';
       fetch('/api/auth/request', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) })
         .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
         .then(({ ok, d }) => {
           btn.disabled = false; btn.textContent = 'Send magic link';
-          if (!ok) { out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not send the link.')}</strong></div>`; return; }
-          const tail = role === 'teacher' ? " After signing in, you'll complete a short teacher application." : '';
-          if (d.sent) out.innerHTML = `<div class="flex items-start gap-3 rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><span class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">${iconSvg('check', 'h-3.5 w-3.5')}</span><span><strong>Check your email.</strong> A sign-in link was sent to ${esc(email)} (expires in 15 minutes).${tail}</span></div>`;
-          else out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${esc(d.devLink)}">click here to sign in</a>.${tail}</div>`;
+          if (!ok) { out.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>${esc((d && d.error) || 'Could not send the link.')}</strong></div>`; return; }
+          if (d.sent) out.innerHTML = `<div class="flex items-start gap-3 rounded-[2px] border-l-4 border-ok bg-surface p-3 font-sans text-sm"><span class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">${iconSvg('check', 'h-3.5 w-3.5')}</span><span><strong>Check your email.</strong> A sign-in link was sent to ${esc(email)} (expires in 15 minutes).</span></div>`;
+          else out.innerHTML = `<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm"><strong>Dev mode:</strong> <a class="underline" href="${esc(d.devLink)}">click here to sign in</a>.</div>`;
         })
-        .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
+        .catch(() => { btn.disabled = false; btn.textContent = 'Send magic link'; out.innerHTML = '<div class="rounded-[2px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Network error. Please try again.</div>'; });
     });
   </script>
 </Base>

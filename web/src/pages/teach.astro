@@ -1,22 +1,84 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Teach at Sikhi University" description="Apply to author and maintain courses at Sikhi University." ambient="hall">
-  <section class="wrap max-w-2xl py-14">
-    <p class="eyebrow text-saffron">Teach</p>
-    <h1 class="mt-2 text-3xl font-bold text-white" data-i18n="teach.h1">Teach at Sikhi University</h1>
-    <div id="teach" class="glass-strong mt-6 p-6"><p class="text-muted" data-i18n="teach.loading">Loading…</p></div>
+<!-- Redesign task 16 (isteachers #2, prototype lines 1105-1142 -- flag name
+     misleads, see plan block map). This is the REAL apply-to-teach flow
+     (`teach.astro`), restyled with the prototype's midnight-hero + ruled
+     4-step process + "what we ask" ledger structure. The prototype's own
+     "Not a paid position -- seva" honesty card is DELIBERATELY OMITTED: no
+     copy anywhere on this site states teaching is unpaid/seva (checked
+     against about.astro, ai-policy.astro, teachers.astro -- "free" there
+     always means free for students), and Decision 12 forbids inventing a
+     policy claim the real site doesn't make. In its place, a "How review
+     works" card carries the page's own REAL existing copy (teach.submitted.body)
+     instead. Protected hooks (untouched): #teach, #ap, #bg, #co, #sub, #out. -->
+<Base title="Teach at Sikhi University" description="Apply to author and maintain courses at Sikhi University." ambient="none">
+  <section class="hero-midnight">
+    <div class="wrap relative max-w-[58ch] py-12 sm:py-16">
+      <p class="eyebrow text-saffron" data-i18n="teach.hero.eyebrow">Teach with us</p>
+      <h1 class="text-display-sm mt-4 font-bold text-white" data-i18n="teach.h1">Teach at Sikhi University</h1>
+      <p class="mt-4 text-lg leading-relaxed text-white/80" data-i18n="teach.intro">Are you a scholar or knowledgeable teacher? Apply to author and maintain courses. Each application is reviewed by an admin.</p>
+    </div>
   </section>
+
+  <section class="wrap py-10">
+    <ol class="grid list-none gap-x-9 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+      <li class="border-t-2 border-navy pt-3.5">
+        <span class="font-mono text-[11px] text-saffron-deep">01</span>
+        <h4 class="mt-2 text-[17.5px] font-bold tracking-tight text-navy" data-i18n="teach.step1.title">Apply</h4>
+        <p class="mt-1.5 text-[14.5px] leading-relaxed text-muted" data-i18n="teach.step1.body">Tell us your background, qualifications, and the course(s) you'd like to teach.</p>
+      </li>
+      <li class="border-t-2 border-navy pt-3.5">
+        <span class="font-mono text-[11px] text-saffron-deep">02</span>
+        <h4 class="mt-2 text-[17.5px] font-bold tracking-tight text-navy" data-i18n="teach.step2.title">Reviewed by an admin</h4>
+        <p class="mt-1.5 text-[14.5px] leading-relaxed text-muted" data-i18n="teach.step2.body">Every application is read individually before a decision is made.</p>
+      </li>
+      <li class="border-t-2 border-navy pt-3.5">
+        <span class="font-mono text-[11px] text-saffron-deep">03</span>
+        <h4 class="mt-2 text-[17.5px] font-bold tracking-tight text-navy" data-i18n="teach.step3.title">Hear back by email</h4>
+        <p class="mt-1.5 text-[14.5px] leading-relaxed text-muted" data-i18n="teach.step3.body">You'll be notified of the decision by email.</p>
+      </li>
+      <li class="border-t-2 border-navy pt-3.5">
+        <span class="font-mono text-[11px] text-saffron-deep">04</span>
+        <h4 class="mt-2 text-[17.5px] font-bold tracking-tight text-navy" data-i18n="teach.step4.title">Draft under review</h4>
+        <p class="mt-1.5 text-[14.5px] leading-relaxed text-muted" data-i18n="teach.step4.body">The course studio lets you draft lessons, cite sources and submit for scholar review before anything publishes.</p>
+      </li>
+    </ol>
+
+    <div class="mt-10 flex flex-wrap gap-9">
+      <div class="min-w-0 flex-[1_1_380px]">
+        <h2 class="rule-navy pb-2 text-xl font-bold text-navy" data-i18n="teach.ask.h2">What we ask</h2>
+        <ul class="mt-3.5 list-disc space-y-2 pl-5 text-base leading-relaxed text-ink">
+          <li data-i18n="teach.ask.1">Key concepts and Gurbani in Gurmukhi Unicode, not transliteration.</li>
+          <li data-i18n="teach.ask.2">Cite your sources, and quote Gurbani by ang -- no invented phrases.</li>
+          <li data-i18n="teach.ask.3">Accept review. Work sent back for changes isn't a rejected scholar.</li>
+          <li data-i18n="teach.ask.4">Label AI assistance plainly if you use it to help draft content.</li>
+        </ul>
+      </div>
+      <div class="min-w-0 flex-[1_1_260px]">
+        <div class="rounded-[3px] border border-navy bg-surface p-6">
+          <p class="eyebrow text-saffron-deep" data-i18n="teach.howreview.eyebrow">How review works</p>
+          <p class="mt-2.5 text-[15.5px] leading-relaxed text-ink" data-i18n="teach.submitted.body">An admin will review it and you'll be notified by email.</p>
+          <a href="#apply" class="btn btn-primary mt-5 block text-center" data-i18n="teach.cta.apply">Apply to teach</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" class="wrap max-w-2xl scroll-mt-24 pb-14">
+    <h2 class="rule-navy pb-2 text-xl font-bold text-navy" data-i18n="teach.apply.h2">Apply now</h2>
+    <div id="teach" class="mt-5"><p class="text-muted" data-i18n="teach.loading">Loading…</p></div>
+  </section>
+
   <script>
     const root = document.getElementById('teach');
     fetch('/api/me', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : { user: null })).then(({ user: u }) => {
-      if (!u) { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4"><span data-i18n="teach.please">Please</span> <a class="underline" href="/login" data-i18n="teach.signinlink">sign in</a> <span data-i18n="teach.signin.suffix1">first, then apply to teach.</span></div>'; return; }
-      if (u.role === 'teacher' || u.role === 'admin') { root.innerHTML = `<div class="mt-4 rounded-xl border-l-4 border-ok bg-surface p-4"><span data-i18n="teach.approved.prefix">You're an approved</span> <strong>${u.role}</strong>. <span data-i18n="teach.approved.suffix">Course-authoring tools are coming next.</span></div>`; return; }
+      if (!u) { root.innerHTML = '<div class="rounded-[3px] border-l-4 border-saffron bg-surface p-4"><span data-i18n="teach.please">Please</span> <a class="underline" href="/login" data-i18n="teach.signinlink">sign in</a> <span data-i18n="teach.signin.suffix1">first, then apply to teach.</span></div>'; return; }
+      if (u.role === 'teacher' || u.role === 'admin') { root.innerHTML = `<div class="rounded-[3px] border border-navy bg-surface p-6"><p class="eyebrow text-saffron-deep" data-i18n="teach.desk.eyebrow">Scholar desk</p><p class="mt-2.5 text-[15.5px] leading-relaxed text-ink"><span data-i18n="teach.approved.prefix">You're an approved</span> <strong>${u.role}</strong>. <span data-i18n="teach.approved.suffix">Course-authoring tools are coming next.</span></p></div>`; return; }
       root.innerHTML = `
-        <p class="mt-2 text-lg text-muted" data-i18n="teach.intro">Are you a scholar or knowledgeable teacher? Apply to author and maintain courses. Each application is reviewed by an admin.</p>
-        <form id="ap" class="mt-6 space-y-4">
-          <label class="block font-sans text-sm font-semibold"><span data-i18n="teach.label.bg">Your background</span><textarea id="bg" rows="6" required placeholder="Your background, qualifications, and area(s) of expertise." data-i18n-ph="teach.ph.bg" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea></label>
-          <label class="block font-sans text-sm font-semibold"><span data-i18n="teach.label.courses">Courses you'd like to teach</span><textarea id="co" rows="3" placeholder="What course(s) would you like to teach?" data-i18n-ph="teach.ph.courses" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea></label>
+        <form id="ap" class="space-y-4">
+          <label class="block font-sans text-sm font-semibold"><span data-i18n="teach.label.bg">Your background</span><textarea id="bg" rows="6" required placeholder="Your background, qualifications, and area(s) of expertise." data-i18n-ph="teach.ph.bg" class="mt-1 w-full rounded-[3px] border border-line bg-surface px-4 py-2.5 font-sans"></textarea></label>
+          <label class="block font-sans text-sm font-semibold"><span data-i18n="teach.label.courses">Courses you'd like to teach</span><textarea id="co" rows="3" placeholder="What course(s) would you like to teach?" data-i18n-ph="teach.ph.courses" class="mt-1 w-full rounded-[3px] border border-line bg-surface px-4 py-2.5 font-sans"></textarea></label>
           <button id="sub" type="submit" class="btn btn-primary" data-i18n="teach.submit">Submit application</button>
         </form><div id="out" class="mt-4"></div>`;
       const form = document.getElementById('ap'); const out = document.getElementById('out'); const btn = document.getElementById('sub');
@@ -25,10 +87,10 @@ import Base from '../layouts/Base.astro';
         btn.disabled = true;
         fetch('/api/teacher/apply', { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ background: bg, courses: document.getElementById('co').value }) })
           .then((r) => r.json().then((d) => ({ ok: r.ok, d }))).then(({ ok, d }) => {
-            if (ok) form.outerHTML = `<div class="rounded-xl border-l-4 border-ok bg-surface p-4"><strong data-i18n="teach.submitted.title">Application submitted.</strong> <span data-i18n="teach.submitted.body">An admin will review it and you'll be notified by email.</span></div>`;
-            else { btn.disabled = false; out.innerHTML = `<div class="rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">${(d && d.error) || 'Error'}</div>`; }
+            if (ok) form.outerHTML = `<div class="rounded-[3px] border-l-4 border-ok bg-surface p-4"><strong data-i18n="teach.submitted.title">Application submitted.</strong> <span data-i18n="teach.submitted.body">An admin will review it and you'll be notified by email.</span></div>`;
+            else { btn.disabled = false; out.innerHTML = `<div class="rounded-[3px] border-l-4 border-saffron bg-surface p-3 font-sans text-sm">${(d && d.error) || 'Error'}</div>`; }
           }).catch(() => { btn.disabled = false; });
       });
-    }).catch(() => { root.innerHTML = '<div class="mt-4 rounded-xl border-l-4 border-saffron bg-surface p-4"><span data-i18n="teach.please">Please</span> <a class="underline" href="/login" data-i18n="teach.signinlink">sign in</a> <span data-i18n="teach.signin.suffix2">first.</span></div>'; });
+    }).catch(() => { root.innerHTML = '<div class="rounded-[3px] border-l-4 border-saffron bg-surface p-4"><span data-i18n="teach.please">Please</span> <a class="underline" href="/login" data-i18n="teach.signinlink">sign in</a> <span data-i18n="teach.signin.suffix2">first.</span></div>'; });
   </script>
 </Base>

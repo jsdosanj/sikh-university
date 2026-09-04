@@ -76,10 +76,10 @@
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
     outline: 3px solid rgb(var(--c-navy)); outline-offset: 2px; border-radius: 4px;
   }
-  body { @apply bg-paper text-ink font-serif antialiased; line-height: 1.65; }
+  body { @apply bg-paper text-ink font-sans antialiased; line-height: 1.65; }
   /* Stop iOS Safari zooming the page when a sub-16px input is focused. */
   @media (max-width: 640px) { input, select, textarea { font-size: 16px; } }
-  h1, h2, h3, h4 { @apply font-serif text-navy; }
+  h1, h2, h3, h4 { @apply font-sans text-navy; }
   a { @apply text-navy; }
   /* Gurmukhi sits optically smaller than Latin at equal em and carries marks above
      and below the line, so it needs a size bump and looser leading to read as equal. */
@@ -104,8 +104,12 @@
   @media (min-width: 768px)  { .wrap { padding-left: max(2rem, env(safe-area-inset-left));   padding-right: max(2rem, env(safe-area-inset-right)); } }
   @media (min-width: 1280px) { .wrap { padding-left: max(3.5rem, env(safe-area-inset-left)); padding-right: max(3.5rem, env(safe-area-inset-right)); } }
   @media (min-width: 1600px) { .wrap { padding-left: max(4.5rem, env(safe-area-inset-left)); padding-right: max(4.5rem, env(safe-area-inset-right)); } }
-  .btn { @apply inline-flex items-center gap-2 rounded-xl2 border border-navy px-5 py-2.5 font-sans font-semibold text-navy bg-surface transition duration-150 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 active:shadow-card; }
-  .btn-primary { @apply border-saffron bg-saffron text-black hover:brightness-105; }
+  /* Registrar's-ledger button: flat, sharp (2px), uppercase mono-tracking label.
+     Default is a navy outline for LIGHT backgrounds; .btn-ghost is the white
+     outline for DARK backgrounds. Variants below (primary/blue/ghost) are
+     defined after this rule so their explicit bg/text win by source order. */
+  .btn { @apply inline-flex items-center gap-2 border border-navy font-sans font-bold uppercase text-navy bg-surface transition duration-150 hover:bg-navy hover:text-surface; border-radius: 2px; font-size: 11.5px; letter-spacing: 0.16em; padding: 13px 21px; }
+  .btn-primary { @apply border-saffron bg-saffron text-midnight hover:brightness-105; }
   .btn-blue { @apply border-blue bg-blue text-white hover:brightness-110; }
   .btn.btn-ghost { @apply border-white/50 bg-transparent text-white hover:bg-white/10; }
   .pill { @apply inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[0.68rem] font-bold uppercase tracking-wide; }
@@ -132,7 +136,10 @@
   .lesson-prose .toc { @apply rounded-xl border border-line bg-paper p-4 font-sans text-[0.92rem] mb-5; }
   .lesson-prose .toc strong { @apply block mb-1 text-navy; }
   .lesson-prose blockquote.gurbani {
-    @apply border-l-4 border-saffron bg-saffron-soft rounded-r-lg my-4 px-4 py-2;
+    /* Registrar's-ledger treatment (prototype line 371): flat saffron rule on
+       the leading edge, saffron-soft panel, no corner radius. */
+    @apply border-saffron bg-saffron-soft rounded-none my-4 px-4 py-2;
+    border-left-width: 3px; border-left-style: solid;
     font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif;
     font-size: 1.2em; line-height: 1.95;
   }
@@ -148,9 +155,107 @@
 
   /* Fluid display type scale — the only sanctioned sizes above text-4xl.
      (DESIGN.md: no raw text-[…rem] literals outside the scale.) */
-  .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; letter-spacing: -0.015em; text-wrap: balance; }
-  .text-display-sm { font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); line-height: 1.12; letter-spacing: -0.01em; text-wrap: balance; }
-  .eyebrow { @apply font-sans text-xs font-bold uppercase; letter-spacing: 0.18em; }
+  /* Collegiate crest wordmark face, applied at the SOURCE class definition so
+     every one of the ~10 pages that use .text-display/.text-display-sm gets
+     it consistently — an earlier fix scoped this to index.astro only, which
+     is exactly why it looked right on the homepage and wrong everywhere else.
+     Two things must travel together with the font, confirmed by direct
+     comparison against the reference (clean) render:
+       1. font-weight: 400 (the file's only real weight) with font-synthesis
+          off — text-display's font-bold (700) has no matching weight file,
+          so the browser fakes/smears a synthetic bold otherwise.
+       2. the ORIGINAL font-size, not a shrunk one — this outline-style face
+          reads noticeably rougher at smaller sizes since its strokes are
+          already thin; don't reduce size to fight wrapping, widen the
+          container instead. */
+  /* Reverted: applying this face to EVERY h1 site-wide (including small
+     functional titles — game headers, dashboard "Profile", etc.) read as
+     heavy-handed there. It's a display face for large hero-style headings,
+     not body-scale titles. Scoped back down to just .text-display/
+     .text-display-sm, which is what it was actually designed for; other
+     h1s fall back to the site's normal serif. */
+  /* :not(.gur) — this class also gets combined with .gur for bilingual
+     titles (e.g. Santhya's "ਸੰਥਿਆ" span). This font stack has no Gurmukhi
+     glyphs, so without the exclusion it was silently breaking Gurmukhi
+     rendering wherever the two combine, falling back past .gur's correct
+     Noto Serif Gurmukhi to whatever the browser has. */
+  /* Display headings: Archivo 700, tight tracking, sentence case (Decision 2 —
+     the former collegiate display face is retired; it was a demo-license font).
+     The :not(.gur) guard is kept: bilingual titles (e.g. Santhya's "ਸੰਥਿਆ"
+     span) combine .text-display with .gur, and this Latin face has no Gurmukhi
+     glyphs, so the guard lets .gur's Noto Serif Gurmukhi render instead — and
+     the tight negative tracking is scoped here too so it never cramps Gurmukhi.
+     Clamp sizes/line-heights are unchanged from the previous scale. */
+  .text-display:not(.gur), .text-display-sm:not(.gur) {
+    font-family: 'Archivo', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.034em;
+    text-wrap: wrap;
+  }
+  .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; }
+  .text-display-sm { font-size: clamp(2.2rem, 1.6rem + 3.2vw, 3.6rem); line-height: 1.12; }
+  .eyebrow { @apply font-mono uppercase; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; }
+
+  /* ── Registrar's-ledger primitives (redesign task 2) ──────────────────────
+     Flat "ruled ledger" surface vocabulary from the redesign prototype:
+     mono micro-labels, 2px navy section rules, ruled list rows, bordered
+     status chips, navy header bands, midnight dark heroes, mono stat blocks.
+     All colours come from token utilities so dark mode keeps working — the two
+     fixed exceptions (bg-brand band, bg-midnight hero) are intentionally
+     theme-invariant, like .su-nav. */
+
+  /* Section-head underline: a 2px navy rule under a heading row. `border-navy`
+     is variable-driven, so the rule reads navy on light and light-blue on dark. */
+  .rule-navy { @apply border-b-2 border-navy; }
+
+  /* One ruled list row (catalog/programs/roster ledgers). Full-width, hairline
+     bottom rule, baseline-aligned cells. */
+  .row-ruled { @apply flex flex-wrap items-baseline gap-x-4 gap-y-1 py-3 border-b border-line; }
+
+  /* Small status chip (REVIEWED / IN REVIEW / DRAFT …). Shape + type only — the
+     CALLER sets the colour with token utilities, e.g.
+     <span class="chip-status text-ok border-ok">Reviewed</span>. With no colour
+     utility the border falls back to currentColor (Tailwind v4 default). */
+  .chip-status { @apply inline-flex items-center border font-mono uppercase; font-size: 10px; letter-spacing: 0.1em; border-radius: 2px; padding: 2px 7px; }
+
+  /* Navy page-header band (breadcrumb + title). Fixed navy in both themes,
+     like the nav, so header text stays on a dark field. */
+  .band-navy { @apply bg-brand text-white; }
+
+  /* Mono ledger-header typography (workbench/review tools). Was copy-pasted
+     verbatim across admin.astro/review.astro before this extraction --
+     whole-branch review flagged it after the individual per-task diffs
+     each looked small on their own. Border shape isn't included here on
+     purpose: admin.astro's <thead><tr> rows and review.astro's CSS-grid
+     header use genuinely different border treatments, so callers add their
+     own border-* utilities alongside this class. */
+  .label-ledger { @apply font-mono uppercase text-muted; font-size: 10px; letter-spacing: 0.16em; }
+  .thead-ledger { @apply border-b-2 border-navy text-left font-mono uppercase text-muted; font-size: 10px; letter-spacing: 0.16em; }
+
+  /* Mono field label on the dark hero-midnight auth forms (login/reset-
+     password). Same consolidation reasoning as .thead-ledger. */
+  .field-label-dark { @apply block font-mono uppercase text-white/[0.72]; font-size: 10.5px; letter-spacing: 0.16em; }
+
+  /* Dark editorial hero (prototype homepage lines 309–311): a midnight field
+     with a single off-canvas gold radial glow. The glow is a decorative
+     ::before — invisible to the accessibility tree, so no aria-hidden markup is
+     needed — matching the prototype's rgba(244,178,26,.13) closest-side
+     gradient placed top-left. */
+  .hero-midnight { @apply relative overflow-hidden bg-midnight text-paper; }
+  .hero-midnight::before {
+    content: ''; position: absolute; left: -6%; top: -70%; width: 48%; height: 200%;
+    background: radial-gradient(closest-side, rgba(244, 178, 26, .13), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Stat display (prototype catalog lines 437–438). Expected markup is exactly
+     two children — a numeral then a label:
+       <div class="stat-mono"><span>23</span><span>Subjects</span></div>
+     First child = mono 27px navy numeral; last child = mono 10px uppercase
+     muted label. The caller may override the numeral colour with a utility. */
+  .stat-mono { @apply inline-flex flex-col; }
+  .stat-mono > :first-child { @apply font-mono text-navy; font-size: 27px; font-weight: 500; line-height: 1; }
+  .stat-mono > :last-child { @apply font-mono uppercase text-muted; font-size: 10px; letter-spacing: 0.16em; margin-top: 6px; }
 
   /* Elevated card: gold hairline reveals on hover, deeper lift. Saffron (not
      product-blue) is the accent, per DESIGN.md. */
@@ -176,10 +281,12 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
   }
 
-  /* Phulkari-inspired diamond lattice for navy hero bands — abstract geometry,
-     deliberately not sacred iconography. ~4% white, reads as woven texture. */
+  /* Phulkari-inspired diamond lattice for navy hero bands — removed site-wide
+     per request (was showing as a visible thin checker/diamond overlay on
+     hero bands across ~8 pages + the shared Base ambient system). Disabled
+     at the source rather than stripping every page's markup. */
   .pattern-lattice {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1'%3E%3Cpath d='M28 0 56 28 28 56 0 28Z'/%3E%3Cpath d='M28 14 42 28 28 42 14 28Z'/%3E%3Ccircle cx='28' cy='28' r='2.5' fill='%23f4b21a' fill-opacity='0.07' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: none;
   }
 
   /* Loading skeletons. */
@@ -205,14 +312,44 @@
 
   /* Frosted primary nav: brand navy at 82% over a strong blur, deepening once
      the page scrolls. Counts as 1 of the ≤6 viewport blur budget. */
+  /* Nav is position:fixed (overlays on top of the page rather than reserving
+     its own row) so a full-bleed hero can render truly edge-to-edge behind
+     it. #main compensates with matching top padding so normal content pages
+     aren't hidden under it; CinematicHero cancels that padding with a
+     negative margin so the film still bleeds to the true top. */
+  #main { padding-top: calc(65px + env(safe-area-inset-top)); }
+
   .su-nav {
     background: rgb(22 51 92 / .82);
-    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
-    backdrop-filter: blur(var(--glass-blur-strong)) saturate(1.4);
-    border-bottom: 1px solid rgb(255 255 255 / .10);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    border-bottom: 1px solid rgb(255 255 255 / .14);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .12), 0 8px 32px rgb(0 0 0 / .25);
     transition: background var(--dur-hover) var(--ease-out);
   }
-  .su-nav[data-scrolled] { background: rgb(17 40 73 / .92); }
+  .su-nav[data-scrolled] { background: rgb(22 51 92 / .92); }
+  /* The cinematic homepage hero sits full-bleed under the fixed nav and needs
+     a near-invisible "liquid glass" treatment at the very top so the film
+     reads edge-to-edge — but that treatment is illegible over the near-white
+     .ambient-study background every OTHER page uses (catalog, course,
+     dashboard, search, professors). Scoped to the homepage only, and only
+     before the user scrolls past the hero (data-scrolled still darkens it,
+     same as every other page, once real content is behind it). */
+  body.su-home .su-nav:not([data-scrolled]) {
+    background: rgb(6 11 20 / .02);
+    -webkit-backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
+    backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
+  }
+  /* Nav menu entries in IBM Plex Mono, uppercase, wide tracking — the
+     prototype's nav-row treatment (line 314). Scoped to English via :lang()
+     because IBM Plex Mono ships only latin/latin-ext subsets here; every other
+     UI language (nav labels are data-i18n-translated at runtime) falls through
+     to the site's normal sans stack rather than showing tofu. Weight isn't
+     forced, so the active-page indicator's own weight change still applies. */
+  html:lang(en) .su-nav-link {
+    @apply font-mono uppercase;
+    letter-spacing: 0.14em;
+  }
   @supports not (backdrop-filter: blur(1px)) { .su-nav { background: #16335c; } }
   body.hc .su-nav { background: #000 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 
@@ -269,6 +406,17 @@
   .ambient {
     position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
   }
+  /* Optional per-page oil-painting layer (Base `bgImage` prop). Sits under
+     the existing gradient/pattern for that ambient, dimmed and desaturated
+     so foreground text stays legible — enhances the ambient system rather
+     than replacing it. */
+  .ambient-painting {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0.35; filter: saturate(0.85);
+  }
+  .ambient-hall .ambient-painting, .ambient-sanctum .ambient-painting { opacity: 0.30; }
+  [data-theme="light"] .ambient-study .ambient-painting { opacity: 0.16; }
   .ambient::before, .ambient::after {
     content: ''; position: absolute; border-radius: 9999px; will-change: transform;
   }

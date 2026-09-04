@@ -3,23 +3,28 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 ---
 <Base title="Page not found — Sikhi University" description="This page could not be found." autoTranslate={false} ambient="hall" noindex={true}>
-  <section class="relative overflow-hidden text-white">
-    <div aria-hidden="true" data-parallax="0.15" class="pattern-lattice pointer-events-none absolute inset-0"></div>
-    <div class="wrap relative py-16 text-center sm:py-20">
-      <p class="eyebrow text-saffron">404</p>
-      <h1 class="text-display-sm mt-3 font-bold text-white" data-i18n="notfound.h1">This page wandered off the path.</h1>
-      <p class="mx-auto mt-4 max-w-xl font-sans text-white/85" data-i18n="notfound.sub">We couldn't find what you were looking for. Search the catalogue or start with the basics.</p>
+  <div class="hero-midnight">
+    <div class="wrap relative flex min-h-[420px] items-center py-16 sm:py-20">
+      <div class="relative max-w-[60ch]">
+        <p class="eyebrow text-saffron">Error 404</p>
+        <h1 class="text-display-sm mt-4 text-white" data-i18n="notfound.h1">This page wandered off the path.</h1>
+        <p class="mt-4 max-w-[52ch] font-sans text-lg leading-[1.62] text-white/78" data-i18n="notfound.sub">We couldn't find what you were looking for. Search the catalogue or start with the basics.</p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="/catalog" class="btn btn-primary" data-i18n="notfound.cta.catalog">Browse the catalogue</a>
+          <a href="/search" class="btn btn-ghost" data-i18n="notfound.search.btn">Search</a>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 
   <section class="wrap max-w-2xl py-12 text-center">
-    <div class="glass-strong rounded-xl2 p-6 sm:p-8">
+    <div class="border border-line bg-surface p-6 sm:p-8">
     <form id="s404" action="/search" method="get" role="search" class="mx-auto flex max-w-md gap-2">
       <div class="relative flex-1">
         <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
         </svg>
-        <input id="q404" name="q" type="search" aria-label="Search courses" data-i18n-aria="catalog.search.aria" placeholder="Search 558 courses…" data-i18n-ph="notfound.search.ph" autocomplete="off" class="w-full rounded-full border border-line bg-surface py-2.5 pl-9 pr-4 font-sans text-sm outline-none focus:border-saffron" />
+        <input id="q404" name="q" type="search" aria-label="Search courses" data-i18n-aria="catalog.search.aria" placeholder="Search 558 courses…" data-i18n-ph="notfound.search.ph" autocomplete="off" class="w-full rounded-full border border-line bg-paper py-2.5 pl-9 pr-4 font-sans text-sm outline-none focus:border-saffron" />
       </div>
       <button class="btn btn-primary shrink-0" data-i18n="notfound.search.btn">Search</button>
     </form>
