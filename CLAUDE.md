@@ -96,3 +96,11 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 | **ਧਰਮ**            | Righteous duty and cosmic order.                           |
 | **ਨਿਰਭਉ**          | Fearlessness as a prerequisite for justice.                |
 | **ਸੇਵਾ**           | Selfless service as a pedagogical tool for humility.       |
+
+<!-- cc-memory-pointer -->
+## Project memory
+Durable decisions/conventions/landmines: `.cc/memory.md`.
+Current work state: `.cc/handoff.md` — verify its HEAD sha against `git log`
+before trusting it. If this file and .cc/memory.md conflict, say so instead of
+picking one silently.
+<!-- /cc-memory-pointer -->
