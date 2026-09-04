@@ -176,7 +176,7 @@ const breadcrumb = {
               <label class="block font-sans text-xs font-semibold text-muted" for="tts-voice"><span data-i18n="course.tts.voice">Reading voice</span></label>
               <select id="tts-voice" class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm"></select>
               <label class="mt-3 block font-sans text-xs font-semibold text-muted" for="tts-rate"><span data-i18n="course.tts.speed">Speed</span> · <span id="tts-rate-val">1×</span></label>
-              <input id="tts-rate" type="range" min="0.6" max="1.4" step="0.05" class="mt-1 w-full accent-[#f4b21a]" />
+              <input id="tts-rate" type="range" min="0.6" max="1.4" step="0.05" class="mt-1 w-full accent-saffron" />
             </div>
           </div>
         </div>
@@ -434,7 +434,7 @@ const breadcrumb = {
       const btn = document.getElementById('enroll-btn'); if (!btn) return;
       const ek = 'enrolled_course_' + id;
       let enrolled = get(ek, false);
-      function paint() { btn.innerHTML = enrolled ? iconSvg('check', 'h-4 w-4') + ' Enrolled' : 'Enroll'; btn.classList.toggle('bg-saffron', enrolled); btn.classList.toggle('text-[#2a1c06]', enrolled); btn.classList.toggle('bg-white/10', !enrolled); btn.classList.toggle('text-white', !enrolled); }
+      function paint() { btn.innerHTML = enrolled ? iconSvg('check', 'h-4 w-4') + ' Enrolled' : 'Enroll'; btn.classList.toggle('bg-saffron', enrolled); btn.classList.toggle('text-black', enrolled); btn.classList.toggle('bg-white/10', !enrolled); btn.classList.toggle('text-white', !enrolled); }
       paint();
       fetch('/api/enrollments', { credentials: 'same-origin' }).then((r) => (r.ok ? r.json() : null)).then((d) => {
         if (!d || !d.enrollments) return;
