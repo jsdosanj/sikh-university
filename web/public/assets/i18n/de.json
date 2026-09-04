@@ -477,5 +477,13 @@
   "cmdk.hint": "Tippen zum Suchen · ↑↓ zum Navigieren · Enter zum Öffnen",
   "home.hero.scroll": "Scrollen",
   "catalog.filter.schoollabel": "Nach Fakultät filtern",
-  "catalog.stat.subjects": "Fächer"
+  "catalog.stat.subjects": "Fächer",
+  "baal.painti.tap": "Zum Anhören tippen",
+  "baal.audio.label": "Audio – und was noch fehlt",
+  "baal.audio.body": "Jeder Buchstabe, jede Matra, jede Muharni-Zeile und jede Ziffer ist eine zum Anhören antippbare Rezitation, die Bhagat Jaswant Singh Ji Daudar zugeschrieben und mit seiner Erlaubnis verwendet wird. Die Clips werden nach und nach extrahiert; noch nicht geschnittene Clips zeigen statt einer toten Schaltfläche den Hinweis „demnächst verfügbar“.",
+  "baal.kakaar.kesh.what": "— ungeschnittenes Haar",
+  "baal.kakaar.kangha.what": "— Holzkamm",
+  "baal.kakaar.kara.what": "— Stahlarmreif",
+  "baal.kakaar.kachera.what": "— Baumwollhose",
+  "baal.kakaar.kirpan.what": "— Stahlschwert"
 }

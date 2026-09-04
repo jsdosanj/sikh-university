@@ -477,5 +477,13 @@
   "cmdk.hint": "Tapez pour chercher · ↑↓ pour naviguer · Entrée pour ouvrir",
   "home.hero.scroll": "Défiler",
   "catalog.filter.schoollabel": "Filtrer par faculté",
-  "catalog.stat.subjects": "Matières"
+  "catalog.stat.subjects": "Matières",
+  "baal.painti.tap": "Touchez pour écouter",
+  "baal.audio.label": "Audio, et ce qui manque",
+  "baal.audio.body": "Chaque lettre, matra, ligne de muharni et chiffre est une récitation à écouter en un geste, attribuée à Bhagat Jaswant Singh Ji Daudar et utilisée avec son autorisation. Les extraits sont produits progressivement ; ceux qui ne sont pas encore prêts affichent la mention « bientôt disponible » plutôt qu'un bouton inactif.",
+  "baal.kakaar.kesh.what": "— cheveux non coupés",
+  "baal.kakaar.kangha.what": "— peigne en bois",
+  "baal.kakaar.kara.what": "— bracelet en acier",
+  "baal.kakaar.kachera.what": "— sous-vêtement en coton",
+  "baal.kakaar.kirpan.what": "— épée en acier"
 }

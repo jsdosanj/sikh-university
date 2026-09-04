@@ -477,5 +477,13 @@
   "cmdk.hint": "تلاش کے لیے لکھیں · ↑↓ سے منتخب کریں · Enter سے کھولیں",
   "home.hero.scroll": "سکرول کریں",
   "catalog.filter.schoollabel": "اسکول کے لحاظ سے فلٹر کریں",
-  "catalog.stat.subjects": "مضامین"
+  "catalog.stat.subjects": "مضامین",
+  "baal.painti.tap": "سننے کے لیے تھپتھپائیں",
+  "baal.audio.label": "آڈیو، اور جو ابھی باقی ہے",
+  "baal.audio.body": "ہر حرف، ماترا، مُہارنی کی قطار اور ہندسہ ٹیپ کر کے سننے کے قابل تلاوت ہے، جس کا سہرا بھگت جسونت سنگھ جی دودر کو جاتا ہے اور اجازت سے استعمال کیا گیا ہے۔ کلپس آہستہ آہستہ نکالے جا رہے ہیں، اور جو ابھی نہیں نکالے گئے وہ غیر فعال بٹن کی بجائے \"جلد آ رہا ہے\" کا نوٹ دکھاتے ہیں۔",
+  "baal.kakaar.kesh.what": "— بغیر کٹے بال",
+  "baal.kakaar.kangha.what": "— لکڑی کی کنگھی",
+  "baal.kakaar.kara.what": "— سٹیل کا کڑا",
+  "baal.kakaar.kachera.what": "— سوتی کچھیرا",
+  "baal.kakaar.kirpan.what": "— سٹیل کی تلوار"
 }
