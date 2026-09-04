@@ -1,11 +1,38 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Review — Sikhi University" description="Scholar review queue for submitted courses." ambient="hall" noindex={true}>
-  <section class="wrap max-w-4xl py-12">
-    <h1 class="text-3xl font-bold text-white">Review queue</h1>
-    <p class="mt-2 text-white/85">Submitted courses awaiting scholar/admin review before they can be merged into the live catalogue.</p>
-    <div id="app" class="mt-8"><p class="text-white/70">Loading…</p></div>
+<!-- Redesign task 16 (isteach, prototype lines 577-589 -- flag name misleads,
+     the block itself is titled "Review queue", see plan block map). This is
+     the REAL review.astro (scholar/admin reviewer tool, cluster D workbench).
+     Restyled to the prototype's mono-stats header + mono column row + ruled
+     queue rows. The "Awaiting / Changes / Cleared" stats and the DOCTRINE/
+     SOURCES/GURBANI-shaped chips in the prototype have NO real per-draft
+     doctrine taxonomy in this app's schema (course_drafts only has `topic`,
+     a real subject id from data/index.json) -- so, matching the
+     "no invented course codes" precedent already set in catalog.astro,
+     stats are computed live from the real /api/review/queue (+?history=1)
+     responses and the per-row badge is a short code DERIVED from the real
+     topic id, never a fabricated DOCTRINE/SOURCES/GURBANI label. This page
+     had zero data-i18n keys before this pass (an internal reviewer tool,
+     same untranslated posture as its cluster-D siblings studio.astro/
+     admin.astro) -- no new i18n keys were added, matching that posture.
+     Protected hooks (untouched): #app, data-open, #back, #notes, #approve,
+     #changes. -->
+<Base title="Review — Sikhi University" description="Scholar review queue for submitted courses." ambient="none" noindex={true}>
+  <section class="wrap max-w-4xl py-10">
+    <div class="rule-navy flex flex-wrap items-end justify-between gap-4 pb-4">
+      <div>
+        <p class="eyebrow text-saffron-deep">Scholar board</p>
+        <h1 class="text-display-sm mt-2.5 font-bold text-navy">Review queue</h1>
+      </div>
+      <div id="stats" class="flex gap-6">
+        <div class="stat-mono"><span class="text-danger" id="stat-awaiting">&mdash;</span><span>Awaiting</span></div>
+        <div class="stat-mono"><span class="text-saffron-deep" id="stat-changes">&mdash;</span><span>Changes</span></div>
+        <div class="stat-mono"><span class="text-ok" id="stat-cleared">&mdash;</span><span>Cleared</span></div>
+      </div>
+    </div>
+    <p class="mt-3 text-muted">Submitted courses awaiting scholar/admin review before they can be merged into the live catalogue.</p>
+    <div id="app" class="mt-6"><p class="text-muted">Loading&hellip;</p></div>
   </section>
   <script>
     import { expandYoutubeEmbeds } from '../lib/lesson-embeds';
@@ -23,15 +50,57 @@ import Base from '../layouts/Base.astro';
       'AI-assisted content is honestly declared and will render "Created by AI"',
     ];
 
+    // Same convention as catalog.astro's shortCode(): a mono badge derived
+    // from the real topic id, never a fabricated course-code taxonomy.
+    const shortCode = (topic: unknown) => String(topic || '').replace(/[^a-z]/gi, '').slice(0, 4).toUpperCase() || '—';
+
+    const waiting = (ts: number) => {
+      if (!ts) return '—';
+      const s = (Date.now() - ts) / 1000;
+      if (s < 3600) return Math.max(1, Math.floor(s / 60)) + ' min';
+      if (s < 86400) return Math.floor(s / 3600) + ' hours';
+      return Math.floor(s / 86400) + ' days';
+    };
+
+    const STATUS_STYLE: Record<string, string> = {
+      submitted: 'border-navy text-navy',
+      in_review: 'border-navy text-navy',
+      changes_requested: 'border-saffron-deep text-saffron-deep',
+      approved: 'border-ok text-ok',
+      published: 'border-ok text-ok',
+    };
+
+    async function loadStats() {
+      const { ok, d } = await api('/api/review/queue?history=1');
+      const set = (id: string, v: string) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      if (!ok) { set('stat-awaiting', '—'); set('stat-changes', '—'); set('stat-cleared', '—'); return; }
+      const history = d.drafts || [];
+      set('stat-changes', String(history.filter((h: any) => h.status === 'changes_requested').length));
+      set('stat-cleared', String(history.filter((h: any) => h.status === 'approved' || h.status === 'published').length));
+    }
+
     async function renderQueue() {
       const { ok, d } = await api('/api/review/queue');
-      if (!ok) { app.innerHTML = '<p class="text-white/70">You need reviewer access (a reviewer flag, or admin) to see this queue.</p>'; return; }
+      const set = (id: string, v: string) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      if (!ok) { app.innerHTML = '<p class="text-muted">You need reviewer access (a reviewer flag, or admin) to see this queue.</p>'; set('stat-awaiting', '—'); set('stat-changes', '—'); set('stat-cleared', '—'); return; }
       const drafts = d.drafts || [];
-      app.innerHTML = drafts.length ? `<div class="grid gap-3">${drafts.map((dr: any) => `
-        <a href="#" data-open="${esc(dr.id)}" class="glass-lite block p-4 hover:-translate-y-0.5 transition">
-          <div class="flex items-center gap-2"><span class="font-bold text-navy">${esc(dr.title)}</span><span class="pill bg-surface text-navy">${esc(dr.status)}</span>${dr.topic !== 'modern-skills' ? '<span class="pill bg-saffron-soft text-saffron-deep">Sikhi topic — scholar review required</span>' : ''}</div>
-          <div class="mt-1 font-sans text-xs text-muted">by ${esc(dr.author_name || dr.author_email)} · ${esc(dr.topic)} · level ${esc(dr.level)}</div>
-        </a>`).join('')}</div>` : '<p class="text-white/70">Nothing waiting for review.</p>';
+      set('stat-awaiting', String(drafts.length));
+      loadStats();
+      app.innerHTML = drafts.length ? `
+        <div class="overflow-x-auto">
+        <div class="min-w-[620px] grid grid-cols-[86px_60px_1fr_170px_84px] gap-3.5 border-t-2 border-t-navy border-b border-b-line py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+          <span>Status</span><span>Topic</span><span>Item</span><span>Submitted by</span><span>Waiting</span>
+        </div>
+        ${drafts.map((dr: any) => `
+        <a href="#" data-open="${esc(dr.id)}" class="min-w-[620px] grid grid-cols-[86px_60px_1fr_170px_84px] items-center gap-3.5 border-b border-line py-3 hover:bg-paper">
+          <span class="chip-status justify-self-start ${STATUS_STYLE[dr.status] || 'border-line text-muted'}">${esc(dr.status.replace('_', ' '))}</span>
+          <span class="font-mono text-[11.5px] text-saffron-deep">${shortCode(dr.topic)}</span>
+          <span class="min-w-0 truncate font-bold text-navy">${esc(dr.title)}${dr.topic !== 'modern-skills' ? ' <span class="chip-status border-saffron-deep text-saffron-deep align-middle">Sikhi topic</span>' : ''}</span>
+          <span class="min-w-0 truncate text-sm text-muted">${esc(dr.author_name || dr.author_email)}</span>
+          <span class="font-mono text-xs text-muted">${waiting(dr.submitted_at)}</span>
+        </a>`).join('')}
+        </div>
+        <p class="mt-5 font-mono text-[11px] leading-relaxed text-muted">Gurbani citations are checked against the verified local corpus before a course can publish.</p>` : '<p class="text-muted">Nothing waiting for review.</p>';
       document.querySelectorAll('[data-open]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); renderDraft((a as HTMLElement).dataset.open!); }));
     }
 
@@ -42,23 +111,23 @@ import Base from '../layouts/Base.astro';
       let meta: any = {}; try { meta = JSON.parse(draft.meta); } catch (e) {}
 
       app.innerHTML = `
-        <button id="back" class="font-sans text-sm text-white/80 underline">&larr; Queue</button>
-        <div class="glass-strong mt-4 rounded-xl2 p-6">
+        <button id="back" class="font-sans text-sm text-muted underline">&larr; Queue</button>
+        <div class="mt-4 rounded-[3px] border border-line bg-surface p-6">
           <h2 class="text-2xl font-bold text-navy">${esc(draft.title)}</h2>
           <p class="mt-1 font-sans text-xs text-muted">${esc(draft.course_id)} · ${esc(draft.topic)} · level ${esc(draft.level)} · ${meta.aiAssisted ? 'Created with AI assistance' : 'No AI assistance declared'}</p>
           <p class="mt-3">${esc(meta.summary || '')}</p>
 
-          <h3 class="mt-6 text-lg font-bold">Lessons (${lessons.length})</h3>
-          ${lessons.map((ls: any) => `<div class="mt-3 rounded-xl2 border border-line bg-surface p-4"><div class="font-bold text-navy">${esc(ls.title)}</div><div class="lesson-prose mt-2 max-w-[68ch]">${expandYoutubeEmbeds(ls.html)}</div></div>`).join('')}
+          <h3 class="mt-6 text-lg font-bold text-navy">Lessons (${lessons.length})</h3>
+          ${lessons.map((ls: any) => `<div class="mt-3 rounded-[3px] border border-line bg-paper p-4"><div class="font-bold text-navy">${esc(ls.title)}</div><div class="lesson-prose mt-2 max-w-[68ch]">${expandYoutubeEmbeds(ls.html)}</div></div>`).join('')}
 
-          <h3 class="mt-6 text-lg font-bold">Quiz (${quiz.length})</h3>
-          ${quiz.map((q: any) => { const options = JSON.parse(q.options || '[]'); return `<div class="mt-2 rounded-xl2 border border-line bg-surface p-3"><div class="font-semibold">${esc(q.q)}</div><ul class="mt-1 list-disc pl-5 text-sm">${options.map((o: string, i: number) => `<li class="${i === q.answer ? 'font-bold text-ok' : ''}">${esc(o)}${i === q.answer ? ' (correct)' : ''}</li>`).join('')}</ul></div>`; }).join('')}
+          <h3 class="mt-6 text-lg font-bold text-navy">Quiz (${quiz.length})</h3>
+          ${quiz.map((q: any) => { const options = JSON.parse(q.options || '[]'); return `<div class="mt-2 rounded-[3px] border border-line bg-paper p-3"><div class="font-semibold">${esc(q.q)}</div><ul class="mt-1 list-disc pl-5 text-sm">${options.map((o: string, i: number) => `<li class="${i === q.answer ? 'font-bold text-ok' : ''}">${esc(o)}${i === q.answer ? ' (correct)' : ''}</li>`).join('')}</ul></div>`; }).join('')}
 
-          <h3 class="mt-8 text-lg font-bold">CLAUDE.md content standards checklist</h3>
+          <h3 class="mt-8 text-lg font-bold text-navy">CLAUDE.md content standards checklist</h3>
           <ul class="mt-2 list-disc pl-5 text-sm text-muted">${CHECKLIST.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
 
-          <div class="mt-6 rounded-xl2 border-t border-line pt-4">
-            <label class="block font-sans text-sm font-semibold">Notes (shared with the author)<textarea id="notes" rows="3" class="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans"></textarea></label>
+          <div class="mt-6 rounded-[3px] border-t-2 border-navy pt-4">
+            <label class="block font-sans text-sm font-semibold">Notes (shared with the author)<textarea id="notes" rows="3" class="mt-1 w-full rounded-[3px] border border-line bg-surface px-3 py-2 font-sans"></textarea></label>
             <div class="mt-3 flex gap-2">
               <button id="approve" class="btn btn-primary">Approve</button>
               <button id="changes" class="btn">Request changes</button>
