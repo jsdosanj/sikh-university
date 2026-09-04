@@ -30,7 +30,11 @@ import Base from '../layouts/Base.astro';
      data-set/data-u/data-unassign/data-user/data-verify attribute. -->
 <Base title="Admin — Sikhi University" description="Sikhi University admin dashboard." ambient="none" noindex={true}>
   <section class="wrap py-12">
-    <div id="admin"><p class="text-muted">Loading…</p></div>
+    <div class="rule-navy pb-4">
+      <p class="eyebrow text-saffron-deep">Administration</p>
+      <h1 class="text-display-sm mt-2.5 font-bold text-navy">Admin dashboard</h1>
+    </div>
+    <div id="admin" class="mt-6"><p class="text-muted">Loading…</p></div>
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
@@ -55,11 +59,7 @@ import Base from '../layouts/Base.astro';
         root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">This session hasn\'t verified your two-factor code yet. <a class="underline font-semibold" href="/mfa">Verify now →</a></div>';
         return;
       }
-      root.innerHTML = `<div class="rule-navy pb-4">
-          <p class="eyebrow text-saffron-deep">Administration</p>
-          <h1 class="text-display-sm mt-2.5 font-bold text-navy">Admin dashboard</h1>
-          <p class="mt-1 font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
-        </div>
+      root.innerHTML = `<p class="font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
         <div id="tabs" class="mt-4 flex flex-wrap gap-1 border-b border-line"></div><div id="panel" class="mt-6"></div>`;
       const tabs = [['overview', 'Overview'], ['users', 'Users'], ['gradebook', 'Gradebook'], ['teachers', 'Teachers'], ['profiles', 'Profiles'], ['review', 'Review'], ['uploads', 'Uploads'], ['moderation', 'Moderation'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback'], ['audit', 'Audit log']];
       let cur = 'overview';
