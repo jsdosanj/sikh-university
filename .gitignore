@@ -22,3 +22,4 @@ web/public/media/media/hero/
 
 # local wrangler dev-server state/cache
 .wrangler/
+.cc/redesign-prototype-source.html
