@@ -60,32 +60,72 @@ const breadcrumb = {
 
   <div id="read-progress" aria-hidden="true" class="fixed left-0 z-30 h-[3px] bg-saffron" style="top:0;width:0"></div>
 
-  <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
-    <div aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></div>
-    <div class="wrap relative z-10 py-12">
-      <div class="flex flex-wrap items-center gap-2 font-sans text-xs">
-        <a href="/catalog" class="text-white/70 hover:text-white" data-i18n="course.breadcrumb">← Catalogue</a>
-        <span class="pill bg-white/15 text-white">{topicName(c.topic)}</span>
-        <span class="pill bg-white/15 text-white">{c.level} level</span>
-        {c.aiCreated && <span class="pill bg-saffron text-[#2a1c06]" data-i18n="course.aibadge">Created by AI</span>}
-        {quotesVerified && <a href="/integrity" class="pill bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji" data-i18n="course.verified">Quotes verified</a>}
+  <div class="band-navy">
+    <div class="wrap py-8 sm:pb-9 sm:pt-10">
+      <p class="flex flex-wrap items-center gap-2.5 font-mono text-[10.5px] uppercase tracking-[.16em] text-white/72">
+        <a href="/catalog" class="hover:text-white" data-i18n="course.breadcrumb">Catalogue</a>
+        <span aria-hidden="true">›</span>
+        <span data-no-i18n>{topicName(c.topic)}</span>
+        <span aria-hidden="true">›</span>
+        <span class="text-saffron" data-no-i18n>{c.title}</span>
+      </p>
+      <h1 class="mt-4 max-w-3xl text-display-sm text-white">{c.title}</h1>
+      <p class="mt-2.5 max-w-2xl font-sans text-[15.5px] leading-relaxed text-white/88">{c.summary}</p>
+      <div class="mt-4 flex flex-wrap items-center gap-x-7 gap-y-2.5 font-mono text-[11px] uppercase tracking-[.12em] text-white/78">
+        <span><span class="text-white/58" data-i18n="course.professorlabel">Professor:</span> <a class="text-saffron normal-case tracking-normal hover:text-white" href={`/professor/${profSlug(c.professor)}`} data-no-i18n>{c.professor}</a></span>
+        <span data-no-i18n>{lessons.length} lesson{lessons.length === 1 ? '' : 's'}</span>
+        <span data-no-i18n>Level {c.level}</span>
+        {c.aiCreated && <span class="chip-status border-saffron text-saffron" data-i18n="course.aibadge">Created by AI</span>}
+        {quotesVerified && <a href="/integrity" class="chip-status border-ok text-ok hover:text-white" title="Every quoted shabad matches the canonical text of Sri Guru Granth Sahib Ji" data-i18n="course.verified">Quotes verified</a>}
       </div>
-      <p class="eyebrow mt-5 text-saffron">{topicName(c.topic)}</p>
-      <h1 class="mt-2 max-w-3xl text-display-sm font-bold text-white">{c.title}</h1>
-      <p class="mt-3 font-sans text-sm text-white/75"><span data-i18n="course.professorlabel">Professor:</span> <a class="font-semibold text-saffron underline hover:text-white" href={`/professor/${profSlug(c.professor)}`}>{c.professor}</a> <span aria-hidden="true" class="px-1 text-white/40">·</span> <span data-i18n="course.sourcelabel">Source:</span> {c.source || 'Sikhi University'}</p>
-      <p class="mt-4 max-w-2xl text-lg text-white/90">{c.summary}</p>
-      <div class="mt-7 flex flex-wrap items-center gap-3">
+      <div class="mt-6 flex flex-wrap items-center gap-3">
         <a href={c.gated ? '#gated-access' : '#lesson-0'} class="btn btn-primary" data-i18n="course.begin">Begin course</a>
         <button id="enroll-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20">Enroll</button>
         {!c.gated && <button id="offline-btn" class="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"><Icon name="download" class="h-4 w-4" /><span id="offline-lbl">Save offline</span></button>}
-        <span class="font-sans text-sm text-white/70">{c.gated ? 'Institutional course · full content requires cohort access' : `${lessons.length} lessons · ${quiz.length}-question test · 80% to pass`}</span>
+        <span class="font-mono text-[11px] uppercase tracking-[.12em] text-white/70">{c.gated ? 'Institutional course · full content requires cohort access' : `${lessons.length} lessons · ${quiz.length}-question test · 80% to pass`}</span>
       </div>
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-paper"></div>
-  </header>
+  </div>
 
-  <div class="wrap grid gap-10 py-12 lg:grid-cols-[1fr_280px]">
-    <div>
+  <div class="wrap grid gap-10 py-12 lg:grid-cols-[262px_1fr]">
+    <aside id="lesson-rail" class="lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:overscroll-contain lg:pr-1">
+      <p class="font-mono text-[10px] uppercase tracking-[.18em] text-muted" data-i18n="course.lessons.h">Lessons</p>
+      <div class="mt-3 border-t border-line">
+        {!c.gated && lessons.map((ls, i) => (
+          <a href={`#lesson-${i}`} data-rail-row={i} class="flex items-center gap-3 border-l-2 border-transparent py-[11px] pl-3 pr-1 hover:bg-paper">
+            <span class="rail-idx shrink-0 font-mono text-[11px] text-muted" data-no-i18n>{String(i + 1).padStart(2, '0')}</span>
+            <span class="rail-title min-w-0 flex-1 text-[14.5px] leading-snug text-muted" data-no-i18n>{ls.title}</span>
+          </a>
+        ))}
+      </div>
+      <div class="mt-[18px] border-t border-line pt-4">
+        <div class="flex items-center gap-4">
+          <svg width="60" height="60" viewBox="0 0 80 80" class="shrink-0 -rotate-90" aria-hidden="true">
+            <circle class="ring-track" cx="40" cy="40" r="34" fill="none" stroke-width="8"></circle>
+            <circle id="prog-ring" class="ring-value" cx="40" cy="40" r="34" fill="none" stroke-width="8" style="stroke-dasharray:213.63;stroke-dashoffset:213.63"></circle>
+          </svg>
+          <div class="min-w-0">
+            <div class="font-mono text-[10px] uppercase tracking-[.16em] text-muted" data-i18n="course.progress.eyebrow">Your progress</div>
+            <div id="prog-text" class="mt-1 font-sans text-sm font-semibold text-navy">0% complete</div>
+          </div>
+        </div>
+        <div class="mt-3 h-[3px] bg-line"><div id="prog-bar" class="h-[3px] bg-saffron" style="width:0%"></div></div>
+      </div>
+      <div class="mt-[18px] border-t border-line pt-4">
+        <p class="font-mono text-[10px] uppercase tracking-[.18em] text-muted" data-i18n="course.prof.eyebrow">Your professor</p>
+        <div class="mt-2.5 flex items-center gap-3">
+          <a href={`/professor/${profSlug(c.professor)}`} class="shrink-0"><Avatar name={c.professor} size={44} /></a>
+          <div class="min-w-0">
+            <a href={`/professor/${profSlug(c.professor)}`} class="block truncate font-bold text-navy hover:text-saffron-deep" data-no-i18n>{c.professor}</a>
+            <div class="font-mono text-[10px] uppercase tracking-[.13em] text-muted" data-no-i18n>{profCourseCount} course{profCourseCount === 1 ? '' : 's'}</div>
+          </div>
+        </div>
+        {bioShort && <p class="mt-2.5 text-[0.85rem] leading-relaxed text-muted">{bioShort}</p>}
+        <a href={`/professor/${profSlug(c.professor)}`} class="mt-2.5 inline-block font-sans text-xs font-semibold text-saffron-deep hover:underline" data-i18n="course.prof.viewprofile">View profile →</a>
+      </div>
+    </aside>
+
+    <div class="min-w-0">
       {c.aiCreated && (
         <div class="mb-6 rounded-xl2 border border-line bg-saffron-soft/50 p-4 font-sans text-sm">
           <strong data-i18n="course.ai.badge">Created by AI.</strong> <span data-i18n="course.ai.desc">Drafted with AI and reviewed for accuracy. Spotted an error?</span> <a class="underline" href="/feedback" data-i18n="course.ai.link">Tell us</a>.
@@ -106,7 +146,7 @@ const breadcrumb = {
         <section class="mb-8">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold" data-i18n="course.outcomes.h">What you'll learn</h2>
           <ul class="mt-3 grid gap-3 sm:grid-cols-2">
-            {c.outcomes.map((o) => <li class="glass-lite flex items-start gap-2.5 p-4"><Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-ok" /><span set:html={o} /></li>)}
+            {c.outcomes.map((o) => <li class="card-lift flex items-start gap-2.5 p-4"><Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-ok" /><span set:html={o} /></li>)}
           </ul>
         </section>
       )}
@@ -116,7 +156,7 @@ const breadcrumb = {
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.terms.h">Key terms —</span> <span lang="pa">ਸ਼ਬਦਾਵਲੀ</span></h2>
           <div class="mt-3 grid gap-3 sm:grid-cols-2">
             {c.terms.map((t) => (
-              <div class="glass-lite p-4">
+              <div class="card-lift p-4">
                 <div class="gur font-semibold text-navy" lang="pa" set:html={t.t} />
                 <p class="mt-1 text-muted break-words">{t.m}</p>
               </div>
@@ -140,26 +180,34 @@ const breadcrumb = {
             </div>
           </div>
         </div>
-        <div class="mt-4 space-y-6">
+        <div class="mt-4">
           {c.gated ? (
             <div id="gated-access">
-              <div id="gated-teaser" class="glass-lite p-5 text-center">
+              <div id="gated-teaser" class="card-lift p-5 text-center">
                 <p class="font-semibold text-navy">This course is offered through a partner institution.</p>
                 <p class="mt-1 text-sm text-muted">Full lessons are available to enrolled cohort members. Have an invite code? <a class="underline text-navy" href="/cohorts">Join at /cohorts →</a></p>
               </div>
-              <div id="gated-lessons" class="space-y-6"></div>
+              <div id="gated-lessons" class="mt-2"></div>
             </div>
           ) : lessons.map((ls, i) => (
-            <article id={`lesson-${i}`} class="glass-lite p-5">
-              <div class="flex items-start justify-between gap-3">
-                <h3 class="text-lg font-bold text-navy">{i + 1}. {ls.title}</h3>
+            <article id={`lesson-${i}`} class="border-t-2 border-line pt-8 pb-2 first:border-t-0 first:pt-0">
+              <div class="flex flex-wrap items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <p class="font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep" data-no-i18n>{`Lesson ${String(i + 1).padStart(2, '0')}`}</p>
+                  <h3 class="mt-1 text-2xl font-bold leading-tight text-navy">{ls.title}</h3>
+                </div>
                 <button data-listen={i} class="btn shrink-0 min-h-[44px] px-3 font-sans text-sm" aria-label={`Listen to lesson ${i + 1}`}><Icon name="volume" class="h-4 w-4" /><span class="listen-lbl" data-i18n="course.listen">Listen</span></button>
               </div>
-              <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed" set:html={expandYoutubeEmbeds(ls.html)} />
-              <div class="mt-4 border-t border-dashed border-line pt-3">
+              <div class="lesson-prose mt-4 max-w-[68ch] leading-relaxed" set:html={expandYoutubeEmbeds(ls.html)} />
+              <div class="mt-5 border-t border-dashed border-line pt-4">
                 <label class="inline-flex items-center gap-1.5 font-sans text-xs text-muted"><Icon name="note" class="h-3.5 w-3.5" /><span data-i18n="course.notes.label">Your notes — saved on this device</span></label>
                 <textarea data-note={i} aria-label={`Your notes for lesson ${i + 1}`} rows="3" class="mt-1 w-full rounded-lg border border-line bg-paper p-2 text-[0.95rem]" placeholder="Write your notes…" data-i18n-ph="course.notes.ph"></textarea>
-                <button data-done={i} class="mt-2 rounded-lg border border-line px-3 py-1.5 font-sans text-sm hover:border-saffron">Mark complete</button>
+                <div class="mt-3 flex flex-wrap gap-2.5">
+                  <button data-done={i} class="btn border-navy bg-navy text-white hover:bg-navy-strong">Mark complete</button>
+                  {i < lessons.length - 1
+                    ? <a href={`#lesson-${i + 1}`} class="btn" data-i18n="course.nextlesson">Next lesson →</a>
+                    : quiz.length > 0 && <a href="#test" class="btn" data-i18n="course.gotest">Take the test →</a>}
+                </div>
               </div>
             </article>
           ))}
@@ -179,7 +227,7 @@ const breadcrumb = {
             {c.granthRef.label} · Ang {c.granthRef.start}{c.granthRef.end > c.granthRef.start ? `–${c.granthRef.end}` : ''}, rendered verbatim from the reader corpus. Tap any line for its published translation and ਅਰਥ.
             <a class="ml-1 font-semibold text-navy underline" href={`/santhiya?src=${c.granthRef.src}&ang=${c.granthRef.start}`}>Read with Santhya audio →</a>
           </p>
-          <div class="glass mt-4 rounded-xl2 p-5">
+          <div class="card-lift mt-4">
             <div class="flex items-center justify-between gap-3 font-sans text-sm">
               <button id="gp-prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" aria-label="Previous Ang">←</button>
               <span id="gp-ang" class="font-semibold text-navy"></span>
@@ -193,7 +241,7 @@ const breadcrumb = {
       <section id="parallel-panel" class="mb-8 hidden">
         <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span>Parallel text —</span> <span class="gur text-saffron-deep" lang="pa">ਪਾਠ ਤੇ ਅਰਥ</span></h2>
         <p class="mt-1 font-sans text-sm text-muted">The work page by page: the author's original Gurmukhi beside its published English translation (OCR — refer to the original for an authoritative reading).</p>
-        <div class="glass mt-4 rounded-xl2 p-5">
+        <div class="card-lift mt-4">
           <div class="flex items-center justify-between gap-3 font-sans text-sm">
             <button id="pp-prev" class="rounded-lg border border-line px-3 py-1.5 hover:border-saffron" aria-label="Previous page">←</button>
             <span id="pp-page" class="font-semibold text-navy"></span>
@@ -242,41 +290,12 @@ const breadcrumb = {
       )}
 
     </div>
-
-    <aside class="lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:overscroll-contain lg:pr-1">
-      <div class="card-lift mb-4">
-        <div class="eyebrow text-muted" data-i18n="course.prof.eyebrow">Your professor</div>
-        <div class="mt-3 flex items-center gap-3">
-          <a href={`/professor/${profSlug(c.professor)}`} class="shrink-0"><Avatar name={c.professor} size={56} /></a>
-          <div class="min-w-0">
-            <a href={`/professor/${profSlug(c.professor)}`} class="block font-bold text-navy hover:text-saffron-deep">{c.professor}</a>
-            <div class="font-sans text-xs text-muted">{profCourseCount} course{profCourseCount === 1 ? '' : 's'} at Sikhi University</div>
-          </div>
-        </div>
-        {bioShort && <p class="mt-3 text-[0.9rem] leading-relaxed text-muted">{bioShort}</p>}
-        <a href={`/professor/${profSlug(c.professor)}`} class="mt-3 inline-block font-sans text-sm font-semibold text-saffron-deep hover:underline" data-i18n="course.prof.viewprofile">View profile →</a>
-      </div>
-      <div class="card-lift">
-        <div class="eyebrow text-muted" data-i18n="course.progress.eyebrow">Your progress</div>
-        <div class="mt-3 flex items-center gap-4">
-          <svg width="80" height="80" viewBox="0 0 80 80" class="shrink-0 -rotate-90" aria-hidden="true">
-            <circle class="ring-track" cx="40" cy="40" r="34" fill="none" stroke-width="8"></circle>
-            <circle id="prog-ring" class="ring-value" cx="40" cy="40" r="34" fill="none" stroke-width="8" style="stroke-dasharray:213.63;stroke-dashoffset:213.63"></circle>
-          </svg>
-          <div id="prog-text" class="font-sans text-sm font-semibold text-navy">0% complete</div>
-        </div>
-        <div id="prog-bar" class="sr-only" style="width:0%"></div>
-        <ol class="mt-4 space-y-1 font-sans text-sm">
-          {lessons.map((ls, i) => <li><a href={`#lesson-${i}`} class="text-navy hover:text-saffron-deep">{i + 1}. {ls.title}</a></li>)}
-        </ol>
-      </div>
-    </aside>
   </div>
 
   <section class="wrap pb-14">
     <div class="grid gap-6 lg:grid-cols-2">
       {c.terms && c.terms.length > 0 && (
-        <section id="flashcards" class="glass-lite p-5">
+        <section id="flashcards" class="card-lift p-5">
           <h2 class="border-b-2 border-saffron-soft pb-1 text-xl font-bold"><span data-i18n="course.flashcards.h">Flashcards —</span> <span lang="pa">ਕਾਰਡ ਅਭਿਆਸ</span></h2>
           <p class="mt-1 font-sans text-sm text-muted" data-i18n="course.flashcards.sub">Click a card to flip it and reveal the definition.</p>
           <div class="mt-4 relative">
@@ -304,7 +323,7 @@ const breadcrumb = {
       )}
 
       {(quiz.length > 0 || c.gated) && (
-        <section id="test" class="glass-lite p-6">
+        <section id="test" class="card-lift p-6">
           <h2 class="text-xl font-bold" data-i18n="course.quiz.h">Course test</h2>
           <p class="font-sans text-sm text-muted" data-i18n="course.quiz.sub">Pass with 80% or higher to complete the course and unlock the next one.</p>
           <form id="quiz" class="mt-4 space-y-5">
@@ -321,7 +340,7 @@ const breadcrumb = {
         </section>
       )}
 
-      <section class="glass-lite p-6">
+      <section class="card-lift p-6">
         <h2 class="text-xl font-bold" data-i18n="course.readsource.h">Read the source texts</h2>
         <p class="mt-1" data-i18n="course.readsource.sub">Read the primary sources for yourself — the Gurbani in our read-along reader, and the original works in the source library.</p>
         <div class="mt-3 flex flex-wrap gap-3">
@@ -339,7 +358,7 @@ const breadcrumb = {
         </div>
       </section>
 
-      <section class="glass-lite p-6">
+      <section class="card-lift p-6">
         <h2 class="text-xl font-bold" data-i18n="course.rate.h">Rate this course</h2>
         <div id="rate-summary" class="mt-1 font-sans text-sm text-muted">…</div>
         <div id="rate-stars" role="group" aria-label="Rate this course from 1 to 5 stars" data-i18n-aria="course.rate.groupAria" class="mt-2 flex gap-1 text-3xl text-saffron">
@@ -365,7 +384,7 @@ const breadcrumb = {
 
   <div id="pass-celebrate" class="fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="pass-celebrate-h">
     <div class="pass-backdrop absolute inset-0 bg-navy-strong/70"></div>
-    <div id="pass-celebrate-panel" class="glass-strong relative z-10 w-full max-w-sm p-8 text-center">
+    <div id="pass-celebrate-panel" class="card-lift relative z-10 w-full max-w-sm p-8 text-center">
       <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-saffron-soft text-saffron-deep"><Icon name="medal" class="h-9 w-9" /></div>
       <h2 id="pass-celebrate-h" class="mt-4 text-xl font-bold text-navy">Course complete</h2>
       <p id="pass-celebrate-score" class="mt-1 font-sans text-sm text-muted"></p>
@@ -522,6 +541,21 @@ const breadcrumb = {
       const ring = document.getElementById('prog-ring');
       if (ring) { const circ = 2 * Math.PI * 34; ring.style.strokeDasharray = String(circ); ring.style.strokeDashoffset = String(circ * (1 - pct / 100)); }
       document.querySelectorAll('[data-done]').forEach((b) => { const i = b.dataset.done; b.innerHTML = done[i] ? iconSvg('check', 'inline-block h-4 w-4 align-[-0.15em]') + ' Completed' : 'Mark complete'; b.classList.toggle('border-saffron', !!done[i]); });
+      // Lesson rail: highlight the next not-yet-completed lesson (decorative
+      // nav only — every lesson's real content is already server-rendered
+      // above, unaffected by this state).
+      const railRows = document.querySelectorAll('[data-rail-row]');
+      let nextIdx = -1;
+      railRows.forEach((row) => { const i = Number(row.dataset.railRow); if (!done[i] && nextIdx === -1) nextIdx = i; });
+      railRows.forEach((row) => {
+        const active = Number(row.dataset.railRow) === nextIdx;
+        row.classList.toggle('border-saffron', active);
+        row.classList.toggle('border-transparent', !active);
+        row.classList.toggle('bg-saffron-soft/60', active);
+        const idx = row.querySelector('.rail-idx'), title = row.querySelector('.rail-title');
+        if (idx) { idx.classList.toggle('text-saffron-deep', active); idx.classList.toggle('text-muted', !active); }
+        if (title) { title.classList.toggle('text-navy', active); title.classList.toggle('font-semibold', active); title.classList.toggle('text-muted', !active); }
+      });
     }
     document.querySelectorAll('[data-note]').forEach((t) => { const k = 'note_' + id + '_' + t.dataset.note; t.value = get(k, ''); t.addEventListener('input', () => set(k, t.value)); });
     document.querySelectorAll('[data-done]').forEach((b) => b.addEventListener('click', () => { const i = b.dataset.done; done[i] = !done[i]; if (!done[i]) delete done[i]; else recordActivity(); set(doneKey, done); refresh(); push(); }));
@@ -643,9 +677,10 @@ const breadcrumb = {
         teaser.remove();
         const lessons = data.lessons || [];
         lessonsBox.innerHTML = lessons.map((ls: any, i: number) => `
-          <article id="lesson-${i}" class="glass-lite p-5">
-            <h3 class="text-lg font-bold text-navy">${i + 1}. ${esc(ls.title)}</h3>
-            <div class="lesson-prose mt-3 max-w-[68ch] leading-relaxed">${expandYoutubeEmbeds(ls.html)}</div>
+          <article id="lesson-${i}" class="border-t-2 border-line pt-8 pb-2 first:border-t-0 first:pt-0">
+            <p class="font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep">Lesson ${String(i + 1).padStart(2, '0')}</p>
+            <h3 class="mt-1 text-2xl font-bold leading-tight text-navy">${esc(ls.title)}</h3>
+            <div class="lesson-prose mt-4 max-w-[68ch] leading-relaxed">${expandYoutubeEmbeds(ls.html)}</div>
           </article>`).join('');
 
         const quiz = data.quiz || [];

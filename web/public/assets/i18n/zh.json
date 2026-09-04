@@ -269,6 +269,8 @@
   "course.tts.voice": "朗读语音",
   "course.tts.speed": "语速",
   "course.notes.label": "您的笔记——保存在本设备上",
+  "course.nextlesson": "下一课 →",
+  "course.gotest": "参加测试 →",
   "course.gurbani.h": "Gurbani 诗句 ——",
   "course.gurbani.sub": "本课程所引用的 Sri Guru Granth Sahib Ji 诗句。",
   "course.quiz.h": "课程测验",

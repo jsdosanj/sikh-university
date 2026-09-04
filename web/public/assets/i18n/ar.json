@@ -269,6 +269,8 @@
   "course.tts.voice": "صوت القراءة",
   "course.tts.speed": "السرعة",
   "course.notes.label": "ملاحظاتك — محفوظة على هذا الجهاز",
+  "course.nextlesson": "الدرس التالي ←",
+  "course.gotest": "خض الاختبار ←",
   "course.gurbani.h": "أبيات الغورباني —",
   "course.gurbani.sub": "أسطر من سري غورو غرانث صاحب جي مُشار إليها في هذه الدورة.",
   "course.quiz.h": "اختبار الدورة",
