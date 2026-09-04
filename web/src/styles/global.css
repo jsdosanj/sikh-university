@@ -76,10 +76,10 @@
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
     outline: 3px solid rgb(var(--c-navy)); outline-offset: 2px; border-radius: 4px;
   }
-  body { @apply bg-paper text-ink font-serif antialiased; line-height: 1.65; }
+  body { @apply bg-paper text-ink font-sans antialiased; line-height: 1.65; }
   /* Stop iOS Safari zooming the page when a sub-16px input is focused. */
   @media (max-width: 640px) { input, select, textarea { font-size: 16px; } }
-  h1, h2, h3, h4 { @apply font-serif text-navy; }
+  h1, h2, h3, h4 { @apply font-sans text-navy; }
   a { @apply text-navy; }
   /* Gurmukhi sits optically smaller than Latin at equal em and carries marks above
      and below the line, so it needs a size bump and looser leading to read as equal. */
@@ -104,8 +104,12 @@
   @media (min-width: 768px)  { .wrap { padding-left: max(2rem, env(safe-area-inset-left));   padding-right: max(2rem, env(safe-area-inset-right)); } }
   @media (min-width: 1280px) { .wrap { padding-left: max(3.5rem, env(safe-area-inset-left)); padding-right: max(3.5rem, env(safe-area-inset-right)); } }
   @media (min-width: 1600px) { .wrap { padding-left: max(4.5rem, env(safe-area-inset-left)); padding-right: max(4.5rem, env(safe-area-inset-right)); } }
-  .btn { @apply inline-flex items-center gap-2 rounded-xl2 border border-navy px-5 py-2.5 font-sans font-semibold text-navy bg-surface transition duration-150 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 active:shadow-card; }
-  .btn-primary { @apply border-saffron bg-saffron text-black hover:brightness-105; }
+  /* Registrar's-ledger button: flat, sharp (2px), uppercase mono-tracking label.
+     Default is a navy outline for LIGHT backgrounds; .btn-ghost is the white
+     outline for DARK backgrounds. Variants below (primary/blue/ghost) are
+     defined after this rule so their explicit bg/text win by source order. */
+  .btn { @apply inline-flex items-center gap-2 border border-navy font-sans font-bold uppercase text-navy bg-surface transition duration-150 hover:bg-navy hover:text-surface; border-radius: 2px; font-size: 11.5px; letter-spacing: 0.16em; padding: 13px 21px; }
+  .btn-primary { @apply border-saffron bg-saffron text-midnight hover:brightness-105; }
   .btn-blue { @apply border-blue bg-blue text-white hover:brightness-110; }
   .btn.btn-ghost { @apply border-white/50 bg-transparent text-white hover:bg-white/10; }
   .pill { @apply inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-[0.68rem] font-bold uppercase tracking-wide; }
@@ -132,7 +136,10 @@
   .lesson-prose .toc { @apply rounded-xl border border-line bg-paper p-4 font-sans text-[0.92rem] mb-5; }
   .lesson-prose .toc strong { @apply block mb-1 text-navy; }
   .lesson-prose blockquote.gurbani {
-    @apply border-l-4 border-saffron bg-saffron-soft rounded-r-lg my-4 px-4 py-2;
+    /* Registrar's-ledger treatment (prototype line 371): flat saffron rule on
+       the leading edge, saffron-soft panel, no corner radius. */
+    @apply border-saffron bg-saffron-soft rounded-none my-4 px-4 py-2;
+    border-left-width: 3px; border-left-style: solid;
     font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif;
     font-size: 1.2em; line-height: 1.95;
   }
@@ -172,16 +179,69 @@
      glyphs, so without the exclusion it was silently breaking Gurmukhi
      rendering wherever the two combine, falling back past .gur's correct
      Noto Serif Gurmukhi to whatever the browser has. */
+  /* Display headings: Archivo 700, tight tracking, sentence case (Decision 2 —
+     the former collegiate display face is retired; it was a demo-license font).
+     The :not(.gur) guard is kept: bilingual titles (e.g. Santhya's "ਸੰਥਿਆ"
+     span) combine .text-display with .gur, and this Latin face has no Gurmukhi
+     glyphs, so the guard lets .gur's Noto Serif Gurmukhi render instead — and
+     the tight negative tracking is scoped here too so it never cramps Gurmukhi.
+     Clamp sizes/line-heights are unchanged from the previous scale. */
   .text-display:not(.gur), .text-display-sm:not(.gur) {
-    font-family: 'Vintage College Dept', 'Bevan', Georgia, serif;
-    font-weight: 400 !important;
-    font-synthesis: none;
-    text-transform: uppercase;
+    font-family: 'Archivo', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.034em;
     text-wrap: wrap;
   }
-  .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; letter-spacing: 0.01em; }
-  .text-display-sm { font-size: clamp(2.2rem, 1.6rem + 3.2vw, 3.6rem); line-height: 1.12; letter-spacing: 0.01em; }
-  .eyebrow { @apply font-sans text-xs font-bold uppercase; letter-spacing: 0.18em; }
+  .text-display { font-size: clamp(2.6rem, 1.6rem + 4vw, 4.25rem); line-height: 1.08; }
+  .text-display-sm { font-size: clamp(2.2rem, 1.6rem + 3.2vw, 3.6rem); line-height: 1.12; }
+  .eyebrow { @apply font-mono uppercase; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; }
+
+  /* ── Registrar's-ledger primitives (redesign task 2) ──────────────────────
+     Flat "ruled ledger" surface vocabulary from the redesign prototype:
+     mono micro-labels, 2px navy section rules, ruled list rows, bordered
+     status chips, navy header bands, midnight dark heroes, mono stat blocks.
+     All colours come from token utilities so dark mode keeps working — the two
+     fixed exceptions (bg-brand band, bg-midnight hero) are intentionally
+     theme-invariant, like .su-nav. */
+
+  /* Section-head underline: a 2px navy rule under a heading row. `border-navy`
+     is variable-driven, so the rule reads navy on light and light-blue on dark. */
+  .rule-navy { @apply border-b-2 border-navy; }
+
+  /* One ruled list row (catalog/programs/roster ledgers). Full-width, hairline
+     bottom rule, baseline-aligned cells. */
+  .row-ruled { @apply flex flex-wrap items-baseline gap-x-4 gap-y-1 py-3 border-b border-line; }
+
+  /* Small status chip (REVIEWED / IN REVIEW / DRAFT …). Shape + type only — the
+     CALLER sets the colour with token utilities, e.g.
+     <span class="chip-status text-ok border-ok">Reviewed</span>. With no colour
+     utility the border falls back to currentColor (Tailwind v4 default). */
+  .chip-status { @apply inline-flex items-center border font-mono uppercase; font-size: 10px; letter-spacing: 0.1em; border-radius: 2px; padding: 2px 7px; }
+
+  /* Navy page-header band (breadcrumb + title). Fixed navy in both themes,
+     like the nav, so header text stays on a dark field. */
+  .band-navy { @apply bg-brand text-white; }
+
+  /* Dark editorial hero (prototype homepage lines 309–311): a midnight field
+     with a single off-canvas gold radial glow. The glow is a decorative
+     ::before — invisible to the accessibility tree, so no aria-hidden markup is
+     needed — matching the prototype's rgba(244,178,26,.13) closest-side
+     gradient placed top-left. */
+  .hero-midnight { @apply relative overflow-hidden bg-midnight text-paper; }
+  .hero-midnight::before {
+    content: ''; position: absolute; left: -6%; top: -70%; width: 48%; height: 200%;
+    background: radial-gradient(closest-side, rgba(244, 178, 26, .13), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Stat display (prototype catalog lines 437–438). Expected markup is exactly
+     two children — a numeral then a label:
+       <div class="stat-mono"><span>23</span><span>Subjects</span></div>
+     First child = mono 27px navy numeral; last child = mono 10px uppercase
+     muted label. The caller may override the numeral colour with a utility. */
+  .stat-mono { @apply inline-flex flex-col; }
+  .stat-mono > :first-child { @apply font-mono text-navy; font-size: 27px; font-weight: 500; line-height: 1; }
+  .stat-mono > :last-child { @apply font-mono uppercase text-muted; font-size: 10px; letter-spacing: 0.16em; margin-top: 6px; }
 
   /* Elevated card: gold hairline reveals on hover, deeper lift. Saffron (not
      product-blue) is the accent, per DESIGN.md. */
@@ -266,22 +326,15 @@
     -webkit-backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
     backdrop-filter: blur(3px) saturate(1.6) brightness(1.05);
   }
-  /* Nav menu entries in the same collegiate crest face as the brand lockup.
-     Uppercase glyphs only (A-Z), hence the forced text-transform. This font
-     has no non-Latin glyphs, so :lang() scopes it to English only — every
-     other UI language (nav labels are data-i18n-translated at runtime) falls
-     through to the site's normal sans stack instead of showing tofu/fallback
-     glyphs. font-weight isn't forced with !important here: this face only
-     ships one real weight (400) so nothing heavier should ever be applied to
-     it in the first place, but !important on a class also stomped the
-     active-page indicator's own weight change — letting normal cascade rules
-     apply keeps that indicator working while base .su-nav-link stays 400. */
+  /* Nav menu entries in IBM Plex Mono, uppercase, wide tracking — the
+     prototype's nav-row treatment (line 314). Scoped to English via :lang()
+     because IBM Plex Mono ships only latin/latin-ext subsets here; every other
+     UI language (nav labels are data-i18n-translated at runtime) falls through
+     to the site's normal sans stack rather than showing tofu. Weight isn't
+     forced, so the active-page indicator's own weight change still applies. */
   html:lang(en) .su-nav-link {
-    font-family: 'Vintage College Dept', 'Bevan', Georgia, serif;
-    font-weight: 400;
-    font-synthesis: none;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    @apply font-mono uppercase;
+    letter-spacing: 0.14em;
   }
   @supports not (backdrop-filter: blur(1px)) { .su-nav { background: #16335c; } }
   body.hc .su-nav { background: #000 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
