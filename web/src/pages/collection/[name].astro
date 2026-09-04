@@ -5,33 +5,105 @@ export function getStaticPaths() {
   return Object.entries(COLLECTIONS).map(([name, c]) => ({ params: { name }, props: { c } }));
 }
 const { c } = Astro.props;
----
-<Base title={`${c.name} — Santhya | Sikhi University`} description={c.blurb}>
-  <section class="wrap py-12">
-    <div class="font-sans text-sm"><a href="/santhiya" class="text-muted hover:text-navy">← Santhya pathway</a></div>
-    <h1 class="mt-2 flex flex-wrap items-baseline gap-3"><span class="gur text-3xl font-bold text-navy">{c.gur}</span><span class="text-lg text-muted">{c.name}</span></h1>
-    <p class="mt-2 max-w-2xl text-lg text-muted">{c.blurb}</p>
-    {c.note && <p class="mt-1 font-sans text-sm text-muted">{c.note}</p>}
 
-    <div class="mt-8 space-y-6">
+// Registrar's-ledger collection page (task 9: iscollection #2, the refined
+// block, prototype lines 1033-1064). REF's real per-bani record only ever
+// carries { gur, en, href? } — no author/date field exists anywhere in this
+// data model (checked before writing this template) — so the prototype's
+// "Author" / "When" columns are not rendered as permanently-empty cells
+// (Decision 12: never fabricate). What IS real and data-derived is the
+// "Source" cell: for any item whose real href already encodes a Sri Guru
+// Granth Sahib Ji / Dasam Granth ang (see the santhiya reader's own
+// ?src=&ang= query shape in lib/santhya.ts's REF table), the ang is parsed
+// straight out of that href at build time — never typed in by hand —
+// matching the spec's own "ang citations come from data" rule. Items with no
+// ang in their href (courses, external chronicles, non-Gurbani works) get no
+// fabricated citation.
+function sourceLabel(href?: string): string | null {
+  if (!href) return null;
+  const ang = href.match(/[?&]ang=(\d+)/);
+  if (ang) {
+    const src = href.match(/[?&]src=([a-z]+)/)?.[1];
+    const book = src === 'dasam' ? 'Dasam Granth' : src === 'sggs' ? 'SGGS' : null;
+    return `${book ? book + ' · ' : ''}Ang ${ang[1]}`;
+  }
+  if (href.startsWith('/course/')) return 'Course';
+  if (/^https?:\/\//.test(href)) return 'Sikh Archive';
+  return null;
+}
+function actionLabel(href?: string): string {
+  if (!href) return 'non-Gurbani';
+  if (/^https?:\/\//.test(href)) return 'Open in Sikh Archive ↗';
+  if (href.startsWith('/course/')) return 'Study →';
+  return 'Read →';
+}
+// Footer CTA (Decision 12: never invent a course code like the prototype's
+// "Take SPIR 110") — the first real item in this collection that actually
+// opens the scripture reader, if the collection has one at all.
+const readerId = c.groups.flatMap((g) => g.items).find((id) => REF[id]?.href?.startsWith('/santhiya'));
+const readerHref = readerId ? REF[readerId].href : null;
+---
+<Base title={`${c.name} — Santhya | Sikhi University`} description={c.blurb} ambient="sanctum">
+  <!-- Dark header (iscollection#2 1035-1043): the page's own ambient-sanctum
+       gradient (.ambient-sanctum in global.css) IS the prototype's inline
+       dark-navy linear-gradient — same colours, one layer, per Decision 5 —
+       so no separate background is set here; this div is just the text
+       content sitting on top of it. -->
+  <div class="wrap relative py-14 sm:py-16 text-paper">
+    <div class="font-sans text-sm"><a href="/santhiya" class="text-paper/60 hover:text-paper">← Santhya pathway</a></div>
+    <p class="eyebrow mt-5 text-saffron">Collection</p>
+    <div class="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+      <h1 lang="pa" class="gur text-4xl font-semibold text-white sm:text-5xl">{c.gur}</h1>
+      <span class="text-lg font-semibold text-paper/80">{c.name}</span>
+    </div>
+    <p class="mt-4 max-w-[60ch] text-lg leading-relaxed text-paper/80">{c.blurb}</p>
+    {c.note && <p class="mt-2 max-w-[60ch] font-sans text-sm text-paper/60">{c.note}</p>}
+  </div>
+
+  <!-- Ruled bani table (iscollection#2 1044-1057): full-bleed light band
+       right under the dark header — same edge-to-edge convention as
+       about.astro's pillar grid (task 9). Bani | Source columns; a real
+       per-group heading stands in for the prototype's flat list where our
+       real data is naturally grouped (Amrit Vela / Evening / Night, etc.). -->
+  <div class="bg-paper border-t border-line">
+    <div class="wrap py-9 sm:py-11">
+      <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line pb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+        <span class="min-w-0 flex-1 basis-[240px]">Bani</span>
+        <span class="flex-none">Source</span>
+      </div>
+
       {c.groups.map((g) => (
-        <div>
-          <h2 class="font-sans text-sm font-bold uppercase tracking-wide text-muted">{g.t}</h2>
-          <ol class="mt-2 divide-y divide-line rounded-xl2 border border-line bg-surface">
-            {g.items.map((id) => REF[id] && (
-              REF[id].href
-                ? <li><a href={REF[id].href} class="flex items-center justify-between gap-4 px-4 py-3 hover:bg-paper" {...(REF[id].href?.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>
-                    <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>
-                    <span class="font-sans text-sm font-semibold text-navy">{REF[id].href?.startsWith('http') ? 'Open in Sikh Archive ↗' : REF[id].href?.startsWith('/course') ? 'Study →' : 'Read →'}</span>
-                  </a></li>
-                : <li class="flex items-center justify-between gap-4 px-4 py-3">
-                    <span><span class="gur text-lg font-semibold text-navy">{REF[id].gur}</span> <span class="font-sans text-sm text-muted">{REF[id].en}</span></span>
-                    <span class="font-sans text-xs text-muted">non-Gurbani</span>
-                  </li>
-            ))}
-          </ol>
+        <div class="mt-7 first:mt-6">
+          <p class="eyebrow mb-1 text-saffron-deep">{g.t}</p>
+          {g.items.map((id) => REF[id] && (
+            REF[id].href
+              ? <a href={REF[id].href} class="row-ruled hover:bg-surface"
+                   {...(REF[id].href!.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>
+                  <span class="min-w-0 flex-1 basis-[240px]">
+                    <span lang="pa" class="gur block text-lg font-semibold text-navy">{REF[id].gur}</span>
+                    <span class="block text-[14.5px] text-muted">{REF[id].en}</span>
+                  </span>
+                  {sourceLabel(REF[id].href) && (
+                    <span class="flex-none font-mono text-[11px] uppercase tracking-wide text-saffron-deep">{sourceLabel(REF[id].href)}</span>
+                  )}
+                  <span class="flex-none font-sans text-sm font-semibold text-navy">{actionLabel(REF[id].href)}</span>
+                </a>
+              : <div class="row-ruled">
+                  <span class="min-w-0 flex-1 basis-[240px]">
+                    <span lang="pa" class="gur block text-lg font-semibold text-navy">{REF[id].gur}</span>
+                    <span class="block text-[14.5px] text-muted">{REF[id].en}</span>
+                  </span>
+                  <span class="flex-none font-sans text-xs text-muted">non-Gurbani</span>
+                </div>
+          ))}
         </div>
       ))}
+
+      {readerHref && (
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a class="btn btn-primary" href={readerHref}>Open in the reader →</a>
+        </div>
+      )}
     </div>
-  </section>
+  </div>
 </Base>
