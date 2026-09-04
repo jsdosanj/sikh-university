@@ -36,6 +36,22 @@ const jsonLd = {
     contentUrl: `${SITE}${d.path}`,
   })),
 };
+
+// Redesign task 19 (isopendata, prototype lines 1483-1502). Restyled to the
+// ledger system -- glass cards replaced with a stat-mono row + a row-ruled
+// "files" ledger for the 4 downloadable files (same 4 files, same real
+// download links, same per-file description text this page already had --
+// only the container changed, from a 2-col glass-lite card grid to a ruled
+// row). The prior "What's in the dataset" bullet list keeps its first two
+// bullets verbatim; its third bullet ("Not included: scripture text...")
+// is MOVED, verbatim, into the prototype's dedicated saffron-bordered
+// "pointer, not a mirror" callout below -- the same real sentence, in its
+// own emphasized box instead of a plain list item, per the plan spec. The
+// "Sources" bullets and the closing feedback sentence are unchanged text,
+// restyled to ruled rows / a bordered note respectively. The citation block
+// moves from a plain bordered surface panel to the prototype's navy mono
+// panel (bg-brand, the same fixed-navy token band.navy already uses) --
+// same citation text.
 ---
 <Base title="Open data — Sikhi University" description="The Sikhi University course catalogue metadata and Gurbani-verification report, published openly under CC BY 4.0 — the canonical scripture text itself is never rehosted, only referenced via BaniDB." ambient="study">
   <Fragment slot="head">
@@ -43,70 +59,103 @@ const jsonLd = {
   </Fragment>
 
   <section class="wrap max-w-3xl py-14">
-    <p class="eyebrow text-saffron-deep">Open data</p>
-    <h1 class="mt-2 text-3xl font-bold text-navy">The catalogue and the verification report, openly licensed</h1>
-    <p class="mt-3 text-muted">Sikhi University publishes the <em>structure</em> of its catalogue — course titles, topics, levels, professors, summaries, outcomes, lesson titles — and the Gurbani-quote verification report described on the <a class="underline" href="/integrity">content-integrity page</a>, as a machine-readable, openly-licensed dataset. Researchers, other Sikhi projects, and search tools are welcome to reuse it.</p>
+    <p class="eyebrow flex items-center gap-2.5 text-saffron-deep">
+      <span aria-hidden="true" class="inline-block h-px w-6 bg-current opacity-50"></span>
+      <span>Open data · CC BY 4.0</span>
+    </p>
+    <h1 class="text-display-sm mt-3 text-navy">The catalogue and the verification report, openly licensed</h1>
+    <p class="mt-4 max-w-[66ch] font-sans text-lg leading-relaxed text-muted">Sikhi University publishes the <em>structure</em> of its catalogue — course titles, topics, levels, professors, summaries, outcomes, lesson titles — and the Gurbani-quote verification report described on the <a class="underline" href="/integrity">content-integrity page</a>, as a machine-readable, openly-licensed dataset. Researchers, other Sikhi projects, and search tools are welcome to reuse it.</p>
 
-    <div id="stats" class="glass mt-8 grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.courses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses catalogued</div></div></div>
-      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.publishedCourses.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Published courses</div></div></div>
-      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.quotesVerified.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Gurbani quotes verified</div></div></div>
-      <div class="glass-lite p-5"><div class="border-l-4 border-saffron pl-3"><div class="font-mono text-2xl font-bold tabular-nums text-navy">{stats.coursesSealed.toLocaleString()}</div><div class="mt-1 font-sans text-sm font-semibold text-ink">Courses fully sealed</div></div></div>
+    <div class="mt-9 grid gap-x-8 gap-y-5 border-t-2 border-navy pt-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="stat-mono"><span data-no-i18n>{stats.courses.toLocaleString()}</span><span>Courses catalogued</span></div>
+      <div class="stat-mono"><span data-no-i18n>{stats.publishedCourses.toLocaleString()}</span><span>Published courses</span></div>
+      <div class="stat-mono"><span data-no-i18n>{stats.quotesVerified.toLocaleString()}</span><span>Gurbani quotes verified</span></div>
+      <div class="stat-mono"><span data-no-i18n>{stats.coursesSealed.toLocaleString()}</span><span>Courses fully sealed</span></div>
     </div>
-    <p class="mt-2 font-sans text-xs text-muted">Generated at build time from the same catalogue and verification run described on the <a class="underline" href="/integrity">content-integrity page</a>.</p>
+    <p class="mt-3 font-sans text-xs text-muted">Generated at build time from the same catalogue and verification run described on the <a class="underline" href="/integrity">content-integrity page</a>.</p>
 
     <!-- What's included -->
     <div class="mt-12">
-      <h2 class="font-serif text-xl font-bold text-navy">What's in the dataset</h2>
-      <ul class="mt-3 grid gap-2 text-muted">
+      <h2 class="rule-navy pb-2 text-xl font-bold text-navy">What's in the dataset</h2>
+      <ul class="mt-3.5 grid gap-2.5 text-muted">
         <li><strong class="text-ink">Catalogue metadata.</strong> Titles, topics, levels, professors, summaries, learning outcomes, and lesson titles for every course — not the lesson prose or quiz content itself.</li>
         <li><strong class="text-ink">The verification report.</strong> Per-course counts of quoted Gurbani checked against the canonical snapshot — verified, mismatched, or not yet covered — plus totals.</li>
-        <li><strong class="text-ink">Not included: scripture text.</strong> No Gurbani text is rehosted in this dataset. The canonical Sri Guru Granth Sahib Ji text lives at <a class="underline" href="https://www.banidb.com" target="_blank" rel="noopener">BaniDB</a>, and the dataset only ever points there — it never copies the text out.</li>
       </ul>
     </div>
 
-    <!-- Downloads -->
+    <!-- Files (isopendata's ledger — the same 4 real downloads, ruled instead of card-gridded) -->
     <div class="mt-12">
-      <h2 class="font-serif text-xl font-bold text-navy">Download</h2>
-      <div class="mt-3 grid gap-3 sm:grid-cols-2">
-        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/index.json" download>
-          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
-          <span><span class="block font-semibold text-navy">index.json</span><span class="text-sm text-muted">Topics + per-course metadata, all courses.</span></span>
+      <h2 class="rule-navy pb-2 text-xl font-bold text-navy">Download</h2>
+      <div class="mt-1">
+        <a class="row-ruled hover:bg-surface" href="/data/index.json" download>
+          <span class="flex-none font-mono text-[13px] text-navy" data-no-i18n>/data/index.json</span>
+          <span class="min-w-[180px] flex-1 basis-[220px] text-[15px] text-ink">Topics + per-course metadata, all courses.</span>
+          <span class="flex-none font-mono text-[11px] text-muted" data-no-i18n>JSON</span>
+          <Icon name="download" class="h-4 w-4 shrink-0 text-saffron-deep" />
         </a>
-        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/search.json" download>
-          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
-          <span><span class="block font-semibold text-navy">search.json</span><span class="text-sm text-muted">Published courses with terms, outcomes, lesson titles.</span></span>
+        <a class="row-ruled hover:bg-surface" href="/data/search.json" download>
+          <span class="flex-none font-mono text-[13px] text-navy" data-no-i18n>/data/search.json</span>
+          <span class="min-w-[180px] flex-1 basis-[220px] text-[15px] text-ink">Published courses with terms, outcomes, lesson titles.</span>
+          <span class="flex-none font-mono text-[11px] text-muted" data-no-i18n>JSON</span>
+          <Icon name="download" class="h-4 w-4 shrink-0 text-saffron-deep" />
         </a>
-        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/verification.json" download>
-          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
-          <span><span class="block font-semibold text-navy">verification.json</span><span class="text-sm text-muted">Per-course Gurbani-quote verification counts.</span></span>
+        <a class="row-ruled hover:bg-surface" href="/data/verification.json" download>
+          <span class="flex-none font-mono text-[13px] text-navy" data-no-i18n>/data/verification.json</span>
+          <span class="min-w-[180px] flex-1 basis-[220px] text-[15px] text-ink">Per-course Gurbani-quote verification counts.</span>
+          <span class="flex-none font-mono text-[11px] text-muted" data-no-i18n>JSON</span>
+          <Icon name="download" class="h-4 w-4 shrink-0 text-saffron-deep" />
         </a>
-        <a class="glass-lite flex items-start gap-3 p-4 transition duration-200 hover:-translate-y-1 hover:shadow-lift" href="/data/dataset.json" download>
-          <Icon name="download" class="h-5 w-5 shrink-0 text-saffron-deep" />
-          <span><span class="block font-semibold text-navy">dataset.json</span><span class="text-sm text-muted">The manifest — license, sources, and links to the files above.</span></span>
+        <a class="row-ruled hover:bg-surface" href="/data/dataset.json" download>
+          <span class="flex-none font-mono text-[13px] text-navy" data-no-i18n>/data/dataset.json</span>
+          <span class="min-w-[180px] flex-1 basis-[220px] text-[15px] text-ink">The manifest — license, sources, and links to the files above.</span>
+          <span class="flex-none font-mono text-[11px] text-muted" data-no-i18n>JSON</span>
+          <Icon name="download" class="h-4 w-4 shrink-0 text-saffron-deep" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Pointer, not a mirror -->
+    <div class="mt-9 max-w-[74ch] border border-saffron bg-saffron-soft px-6 py-5">
+      <p class="font-mono text-[10.5px] uppercase tracking-[.18em] text-saffron-deep">What is not covered — a pointer, not a mirror</p>
+      <p class="mt-2.5 font-sans text-[16px] leading-relaxed text-ink"><strong>Not included: scripture text.</strong> No Gurbani text is rehosted in this dataset. The canonical Sri Guru Granth Sahib Ji text lives at <a class="underline" href="https://www.banidb.com" target="_blank" rel="noopener">BaniDB</a>, and the dataset only ever points there — it never copies the text out.</p>
+    </div>
+
+    <!-- Sources -->
+    <div class="mt-12">
+      <h2 class="rule-navy pb-2 text-xl font-bold text-navy">Sources</h2>
+      <div class="mt-1">
+        <a class="row-ruled hover:bg-surface" href="https://www.banidb.com" target="_blank" rel="noopener">
+          <span class="flex-none basis-[160px] font-semibold text-navy">BaniDB</span>
+          <span class="min-w-[180px] flex-1 basis-[220px] text-[15px] text-muted">Canonical Sri Guru Granth Sahib Ji text, referenced by ang, never redistributed.</span>
+          <span class="flex-none font-mono text-[11px] text-muted" data-no-i18n>banidb.com</span>
+        </a>
+        <a class="row-ruled hover:bg-surface" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener">
+          <span class="flex-none basis-[160px] font-semibold text-navy">SikhLibrary (HuggingFace)</span>
+          <span class="min-w-[180px] flex-1 basis-[220px] text-[15px] text-muted">Source texts, commentaries and theses behind our author-as-professor courses; owned and gated.</span>
+          <span class="flex-none font-mono text-[11px] text-muted" data-no-i18n>jsdosanj/SikhLibrary</span>
+        </a>
+        <a class="row-ruled hover:bg-surface" href="https://sikharchive.net" target="_blank" rel="noopener">
+          <span class="flex-none basis-[160px] font-semibold text-navy">Sikh Archive</span>
+          <span class="min-w-[180px] flex-1 basis-[220px] text-[15px] text-muted">Our primary library and media partner.</span>
+          <span class="flex-none font-mono text-[11px] text-muted" data-no-i18n>sikharchive.net</span>
         </a>
       </div>
     </div>
 
     <!-- License & citation -->
     <div class="mt-12">
-      <h2 class="font-serif text-xl font-bold text-navy">License &amp; citation</h2>
-      <p class="mt-3 text-muted">The catalogue metadata and verification report are published under <a class="underline" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a> — reuse, adapt, and redistribute freely, with attribution.</p>
-      <p class="mt-3 font-sans text-sm font-semibold text-ink">Suggested citation</p>
-      <div class="mt-2 rounded-xl2 border border-line bg-surface p-4">
-        <code class="font-sans text-sm text-ink">{CITATION}</code>
+      <h2 class="rule-navy pb-2 text-xl font-bold text-navy">License &amp; citation</h2>
+      <p class="mt-3.5 text-muted">The catalogue metadata and verification report are published under <a class="underline" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 (CC BY 4.0)</a> — reuse, adapt, and redistribute freely, with attribution.</p>
+      <p class="mt-4 font-sans text-sm font-semibold text-ink">Suggested citation</p>
+      <div class="mt-2 max-w-[78ch] bg-brand p-5">
+        <code class="font-mono text-[13.5px] leading-relaxed text-white" data-no-i18n>{CITATION}</code>
       </div>
     </div>
 
-    <!-- Sources -->
-    <div class="mt-12 mb-4">
-      <h2 class="font-serif text-xl font-bold text-navy">Sources</h2>
-      <ul class="mt-3 grid gap-2 text-muted">
-        <li><strong class="text-ink">BaniDB</strong> — canonical Sri Guru Granth Sahib Ji text, referenced by ang, never redistributed. <a class="underline" href="https://www.banidb.com" target="_blank" rel="noopener">banidb.com</a></li>
-        <li><strong class="text-ink">SikhLibrary (HuggingFace)</strong> — source texts, commentaries and theses behind our author-as-professor courses; owned and gated. <a class="underline" href="https://huggingface.co/datasets/jsdosanj/SikhLibrary" target="_blank" rel="noopener">jsdosanj/SikhLibrary</a></li>
-        <li><strong class="text-ink">Sikh Archive</strong> — our primary library and media partner. <a class="underline" href="https://sikharchive.net" target="_blank" rel="noopener">sikharchive.net</a></li>
-      </ul>
-      <p class="mt-4 text-sm text-muted">Questions, corrections, or a use case we should know about? Use the <a class="underline" href="/feedback">feedback page</a>.</p>
+    <!-- Corrections -->
+    <div class="mt-9 mb-4 max-w-[74ch] border border-line border-l-[3px] border-l-saffron-deep bg-surface px-5 py-4">
+      <p class="font-mono text-[10.5px] uppercase tracking-[.18em] text-saffron-deep">Corrections</p>
+      <p class="mt-2.5 font-sans text-[15px] leading-relaxed text-muted">Questions, corrections, or a use case we should know about? Use the <a class="underline" href="/feedback">feedback page</a>.</p>
     </div>
   </section>
 </Base>
