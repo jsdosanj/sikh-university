@@ -5,7 +5,10 @@ import { topics, published, topicName, paths, TOPIC_ICONS } from '../lib/data';
 import programsData from '../../public/assets/data/programs.json';
 const sorted = [...published].sort((a, b) => a.level - b.level);
 const byId = Object.fromEntries(published.map((c) => [c.id, c]));
-const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 text-muted cursor-pointer transition hover:border-saffron hover:text-navy';
+// NOTE: the `filt` class and the data-t / data-l attributes are JS hooks
+// (see the script below — setActive() toggles bg-brand/text-white/border-navy/
+// text-muted/bg-surface on these). Style around them, never rename them.
+const btn = 'filt rounded-full border border-line bg-surface px-4 py-1.5 font-sans text-muted cursor-pointer transition duration-200 hover:-translate-y-px hover:border-saffron hover:text-navy hover:shadow-card';
 import { SITE } from '../lib/site';
 const itemListLd = {
   '@context': 'https://schema.org', '@type': 'ItemList',
@@ -52,7 +55,7 @@ const catGroups = topicsAlpha
   .map((t) => ({ topic: t, courses: sorted.filter((c) => c.topic === t.id) }))
   .filter((g) => g.courses.length > 0);
 ---
-<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study">
+<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study" bgImage="/assets/backgrounds/catalog.jpg">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
 
   <!-- Dept header: eyebrow-with-dash, display h1, mono stat pair (iscatalog 429-441) -->
@@ -157,22 +160,28 @@ const catGroups = topicsAlpha
             <h2 class="text-xl font-bold" data-i18n="catalog.paths.guided.h">Guided journeys</h2>
             <p class="text-muted text-sm" data-i18n="catalog.paths.guided.sub">Hand-curated routes that weave across subjects.</p>
           </div>
-          <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
+          <span aria-hidden="true" class="chev shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
         </summary>
-        <div class="px-5 pb-5 space-y-4">
+        <div class="space-y-4 px-4 pb-6 sm:px-6">
         {withGrad(featured, 0).map(({ p, grad }) => (
-          <details id={p.id} class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
-            <summary class={`flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r ${grad} p-4 text-white`}>
-              <Icon name={iconFor(p)} class="h-7 w-7 shrink-0 text-white" />
-              <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
-              <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
-              <span aria-hidden="true" class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+          <details id={p.id} class="path group scroll-mt-24 overflow-hidden rounded-xl2 shadow-card ring-1 ring-black/5 transition duration-200 hover:shadow-lift">
+            <summary class={`relative flex cursor-pointer list-none items-center gap-4 overflow-hidden bg-gradient-to-r ${grad} p-4 text-white`}>
+              <span aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></span>
+              <span class="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/25">
+                <Icon name={iconFor(p)} class="h-6 w-6 text-white" />
+              </span>
+              <span class="relative min-w-0 flex-1">
+                <span class="block text-lg font-bold leading-tight text-white">{p.name}</span>
+                <span class="block font-sans text-xs text-white/80">{p.blurb}</span>
+              </span>
+              <span class="path-count relative shrink-0 rounded-full bg-white/20 px-3 py-1 font-sans text-xs font-semibold ring-1 ring-white/25" data-path={p.id}>{p.courseIds.length} courses</span>
+              <span aria-hidden="true" class="chev relative shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
             </summary>
-            <div class="p-5">
-              <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
-              <ol class="mt-4 list-decimal space-y-2 pl-5">
+            <div class="bg-surface p-5">
+              <div class="h-1.5 w-full overflow-hidden rounded-full bg-line/70"><div class="path-bar h-full rounded-full bg-saffron transition-all duration-700" data-path={p.id} style="width:0%"></div></div>
+              <ol class="path-list mt-5">
                 {p.courseIds.map((id) => byId[id] && (
-                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
+                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-sm leading-snug text-muted">{byId[id].summary}</div></li>
                 ))}
               </ol>
             </div>
@@ -187,22 +196,28 @@ const catGroups = topicsAlpha
             <h2 class="text-xl font-bold" data-i18n="catalog.paths.subject.h">Explore by subject</h2>
             <p class="text-muted text-sm" data-i18n="catalog.paths.subject.sub">Every subject, with all its courses in order.</p>
           </div>
-          <span aria-hidden="true" class="shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
+          <span aria-hidden="true" class="chev shrink-0 text-lg text-muted transition-transform group-open/sect:rotate-180">▾</span>
         </summary>
-        <div class="px-5 pb-5 space-y-4">
+        <div class="space-y-4 px-4 pb-6 sm:px-6">
         {withGrad(subjects, 1).map(({ p, grad }) => (
-          <details id={p.id} class="group scroll-mt-24 overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
-            <summary class={`flex cursor-pointer list-none items-center gap-3 bg-gradient-to-r ${grad} p-4 text-white`}>
-              <Icon name={iconFor(p)} class="h-7 w-7 shrink-0 text-white" />
-              <span class="min-w-0 flex-1"><span class="block text-lg font-bold text-white">{p.name}</span><span class="block font-sans text-xs text-white/80">{p.blurb}</span></span>
-              <span class="path-count shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-sans text-xs" data-path={p.id}>{p.courseIds.length} courses</span>
-              <span aria-hidden="true" class="shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
+          <details id={p.id} class="path group scroll-mt-24 overflow-hidden rounded-xl2 shadow-card ring-1 ring-black/5 transition duration-200 hover:shadow-lift">
+            <summary class={`relative flex cursor-pointer list-none items-center gap-4 overflow-hidden bg-gradient-to-r ${grad} p-4 text-white`}>
+              <span aria-hidden="true" class="pattern-lattice pointer-events-none absolute inset-0"></span>
+              <span class="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/25">
+                <Icon name={iconFor(p)} class="h-6 w-6 text-white" />
+              </span>
+              <span class="relative min-w-0 flex-1">
+                <span class="block text-lg font-bold leading-tight text-white">{p.name}</span>
+                <span class="block font-sans text-xs text-white/80">{p.blurb}</span>
+              </span>
+              <span class="path-count relative shrink-0 rounded-full bg-white/20 px-3 py-1 font-sans text-xs font-semibold ring-1 ring-white/25" data-path={p.id}>{p.courseIds.length} courses</span>
+              <span aria-hidden="true" class="chev relative shrink-0 text-lg transition-transform group-open:rotate-180">▾</span>
             </summary>
-            <div class="p-5">
-              <div class="h-2 w-full overflow-hidden rounded-full bg-paper"><div class="path-bar h-full bg-saffron transition-all" data-path={p.id} style="width:0%"></div></div>
-              <ol class="mt-4 list-decimal space-y-2 pl-5">
+            <div class="bg-surface p-5">
+              <div class="h-1.5 w-full overflow-hidden rounded-full bg-line/70"><div class="path-bar h-full rounded-full bg-saffron transition-all duration-700" data-path={p.id} style="width:0%"></div></div>
+              <ol class="path-list mt-5">
                 {p.courseIds.map((id) => byId[id] && (
-                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-[0.9rem] text-muted">{byId[id].summary}</div></li>
+                  <li><a class="font-semibold text-navy hover:text-saffron-deep" href={`/course/${id}`} data-course={id}>{byId[id].title}</a><div class="text-sm leading-snug text-muted">{byId[id].summary}</div></li>
                 ))}
               </ol>
             </div>
@@ -213,27 +228,30 @@ const catGroups = topicsAlpha
     </div>
 
     <!-- Programs view -->
-    <div id="view-programs" role="tabpanel" aria-labelledby="tab-programs-btn" class="mt-6" hidden>
-      <p class="text-lg text-muted" data-i18n="catalog.programs.intro">Certificate to Giani — a full academic ladder, free and open to all.</p>
-      <div class="mt-4 rounded-xl2 border-l-4 border-saffron bg-saffron-soft/40 p-4 font-sans text-sm" data-i18n="catalog.programs.disclaimer">
+    <div id="view-programs" role="tabpanel" aria-labelledby="tab-programs-btn" class="mt-8" hidden>
+      <p class="max-w-3xl text-lg leading-relaxed text-muted" data-i18n="catalog.programs.intro">Certificate to Giani — a full academic ladder, free and open to all.</p>
+      <div class="glass mt-6 border-l-4 border-saffron p-5 font-sans text-sm" data-i18n="catalog.programs.disclaimer">
         Sikhi University is not an accredited university and these courses are for self-development only.
       </div>
       {grouped.map(({ type, label, programs }) => programs.length > 0 && (
-        <div class="mt-10">
-          <h2 class="border-b border-line pb-2 text-2xl font-bold">{label}</h2>
+        <div class="mt-14">
+          <h2 class="flex items-center gap-5 text-2xl font-bold">
+            <span class="shrink-0">{label}</span>
+            <span aria-hidden="true" class="h-px flex-1 bg-gradient-to-r from-line to-transparent"></span>
+          </h2>
           <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {programs.map((p) => (
-              <a href={`/program/${p.id}`} class={`card flex flex-col gap-2 hover:border-saffron transition ${progTypeBg[type]}`}>
+              <a href={`/program/${p.id}`} class={`glass-lite relative flex flex-col gap-2 p-5 transition duration-200 hover:-translate-y-1.5 hover:border-saffron hover:shadow-lift active:scale-[.985] ${progTypeBg[type]}`}>
                 <div class="flex items-center gap-3">
                   <Icon name={p.icon} class="h-8 w-8 shrink-0 text-saffron-deep" />
                   <div>
-                    <div class="font-sans text-xs font-bold uppercase tracking-wider text-muted">{p.abbreviation}</div>
-                    <h3 class="text-lg font-bold text-navy leading-tight">{p.title}</h3>
-                    <div class="font-gur text-sm text-muted">{p.titleGur}</div>
+                    <div class="eyebrow text-muted">{p.abbreviation}</div>
+                    <h3 class="mt-0.5 text-lg font-bold text-navy leading-tight">{p.title}</h3>
+                    <div class="font-gur text-sm text-muted" lang="pa">{p.titleGur}</div>
                   </div>
                 </div>
                 <p class="flex-1 font-sans text-sm text-muted">{p.description.slice(0, 140)}…</p>
-                <div class="mt-auto flex flex-wrap gap-3 font-sans text-xs text-muted">
+                <div class="mt-auto flex flex-wrap gap-3 border-t border-line pt-3 font-sans text-xs text-muted">
                   <span class="inline-flex items-center gap-1"><Icon name="books" class="h-3.5 w-3.5" />{p.courseIds.length} courses</span>
                   <span class="inline-flex items-center gap-1"><Icon name="clock" class="h-3.5 w-3.5" />{p.duration}</span>
                   <span class="inline-flex items-center gap-1"><Icon name="check-square" class="h-3.5 w-3.5" />{p.passMark}% to pass cumulative exam</span>
@@ -243,15 +261,15 @@ const catGroups = topicsAlpha
           </div>
         </div>
       ))}
-      <div class="mt-12 rounded-xl2 border border-line bg-surface p-6">
-        <h2 class="text-xl font-bold" data-i18n="catalog.programs.how.h">How programs work</h2>
-        <ol class="mt-4 list-decimal list-inside space-y-3 font-sans text-sm text-muted">
+      <div class="glass mt-16 p-6 sm:p-8">
+        <h2 class="text-2xl font-bold" data-i18n="catalog.programs.how.h">How programs work</h2>
+        <ol class="how-list mt-6 space-y-4 font-sans text-sm text-muted">
           <li data-i18n="catalog.programs.how.li1">Complete all courses in the program — each has lectures, reading, and a quiz.</li>
           <li>Once every course is passed (70% quiz score), unlock the <strong>Cumulative Examination</strong>.</li>
           <li>Pass the cumulative exam with <strong>80% or higher</strong> to earn the credential.</li>
           <li data-i18n="catalog.programs.how.li4">Download your certificate and share your academic credential.</li>
         </ol>
-        <p class="mt-4 font-sans text-sm text-muted" data-i18n="catalog.programs.stackable">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
+        <p class="mt-6 border-t border-line pt-5 font-sans text-sm text-muted" data-i18n="catalog.programs.stackable">Programs are stackable — courses completed in a certificate count toward higher degrees. Your progress is always saved.</p>
       </div>
     </div>
   </section>

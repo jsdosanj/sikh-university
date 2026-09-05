@@ -43,6 +43,7 @@ import { onRequestGet as gradebookGet, onRequestPost as gradebookPost } from "./
 import { onRequestPost as quizPost } from "./functions/api/quiz.js";
 import { onRequestGet as courseContentGet } from "./functions/api/course-content.js";
 import { onRequestPost as programExamPost } from "./functions/api/program-exam.js";
+import { onRequestPost as instituteExamPost } from "./functions/api/institute-exam.js";
 import { onRequestGet as announcementsGet, onRequestPost as announcementsPost } from "./functions/api/announcements.js";
 import { onRequestGet as discussionsGet, onRequestPost as discussionsPost } from "./functions/api/discussions.js";
 import { onRequestGet as discussionsModerateGet, onRequestPost as discussionsModeratePost } from "./functions/api/discussions/moderate.js";
@@ -119,6 +120,7 @@ const routes = {
   "/api/quiz": { POST: quizPost },
   "/api/course-content": { GET: courseContentGet },
   "/api/program-exam": { POST: programExamPost },
+  "/api/institute-exam": { POST: instituteExamPost },
   "/api/announcements": { GET: announcementsGet, POST: announcementsPost },
   "/api/discussions": { GET: discussionsGet, POST: discussionsPost },
   "/api/discussions/moderate": { GET: discussionsModerateGet, POST: discussionsModeratePost },
@@ -208,6 +210,8 @@ async function checkRateLimit(env, key, limit, windowSec) {
 // previews) are deliberately NOT redirected.
 const CANONICAL_ORIGIN = "https://sikhiuni.com";
 const LEGACY_HOSTS = new Set([
+  "sikh-university.com",
+  "www.sikh-university.com",
   "sikh-university.dosanjhlabs.com",
   "sikh-university.jasvant-dosanjh.workers.dev",
 ]);
@@ -268,13 +272,40 @@ function renderTeacherPage(profile, assignedCourseIds, shellResp) {
   return new Response(transformed.body, { status: 200, headers });
 }
 
+// Best-effort daily prune of tables that only ever grow (rate_limits is
+// insert/update-only in checkRateLimit above; sessions/magic_tokens are never
+// deleted on expiry, only filtered by expires_at at read time). Each table is
+// independent so one failing DELETE can't block the others.
+async function pruneExpired(env) {
+  if (!env.DB) return { skipped: true };
+  const nowMs = Date.now();
+  const nowSec = Math.floor(nowMs / 1000);
+  const jobs = [
+    ["rate_limits", "DELETE FROM rate_limits WHERE reset_at < ?1", nowSec],
+    ["sessions", "DELETE FROM sessions WHERE expires_at < ?1", nowMs],
+    ["magic_tokens", "DELETE FROM magic_tokens WHERE expires_at < ?1", nowMs],
+  ];
+  const result = {};
+  for (const [table, sql, param] of jobs) {
+    try {
+      const { meta } = await env.DB.prepare(sql).bind(param).run();
+      result[table] = meta.changes;
+    } catch (e) { result[table] = `error: ${String(e)}`; }
+  }
+  return result;
+}
+
 export default {
-  // Daily coursework reminder sweep (wrangler.toml [triggers]). Payload-less
-  // Web Push: the service worker supplies the notification text.
+  // Daily coursework reminder sweep + best-effort table prune (wrangler.toml
+  // [triggers]). Payload-less Web Push: the service worker supplies the
+  // notification text.
   async scheduled(event, env, ctx) {
     ctx.waitUntil(sendDailyReminders(env).then((r) => {
       if (!r.skipped) console.log("push_reminders", JSON.stringify(r));
     }).catch((e) => console.error("push_reminders_error", String(e))));
+    ctx.waitUntil(pruneExpired(env).then((r) => {
+      if (!r.skipped) console.log("prune_expired", JSON.stringify(r));
+    }).catch((e) => console.error("prune_expired_error", String(e))));
   },
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -290,6 +321,12 @@ export default {
     // blocked (e.g. during a Safe Browsing review).
     if (LEGACY_HOSTS.has(url.hostname) && !pathname.startsWith("/api/") && !pathname.startsWith("/media/") && !pathname.startsWith("/assets/data/")) {
       return Response.redirect(CANONICAL_ORIGIN + pathname + url.search, 301);
+    }
+    // The engineering wing moved /institute -> /technology (2026-08). 301 the
+    // old paths, preserving the sub-path and query. Kept in run_worker_first so
+    // the Worker actually runs for these.
+    if (pathname === "/institute" || pathname.startsWith("/institute/")) {
+      return Response.redirect(CANONICAL_ORIGIN + "/technology" + pathname.slice("/institute".length) + url.search, 301);
     }
     if (pathname.startsWith("/api/")) {
       const route = routes[pathname];
@@ -402,6 +439,21 @@ export default {
     // engines and AI/ML training. Per-bot rules live in /robots.txt and /ai.txt;
     // human-readable policy at /ai-policy. Search indexing is untouched (no
     // noindex here) and never was restricted.
+    // The Code Lab's sandboxed runner workers (Vite emits them to /_lab/,
+    // routed here by run_worker_first). They execute learner code: the JS
+    // runner does `new Function(snippet)` (needs 'unsafe-eval'); the Python
+    // runner imports Pyodide from jsDelivr and fetches its wasm/stdlib. This
+    // widened policy is scoped to exactly those worker files — same-origin,
+    // no DOM, cannot touch the page — so the site-wide CSP stays strict.
+    if (pathname.startsWith('/_lab/')) {
+      h.set('Content-Security-Policy',
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; " +
+        "connect-src 'self' https://cdn.jsdelivr.net; " +
+        "worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'");
+      return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
+    }
+
     if (!ct.includes('text/html')) {
       return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
     }
@@ -409,6 +461,26 @@ export default {
     h.set('X-Frame-Options', 'DENY');
     h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     h.set('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
+
+    // Institute of Technology — /technology/* (routed here by run_worker_first):
+    // the code lab runs Python via Pyodide ('wasm-unsafe-eval' + the jsDelivr CDN) and renders
+    // learner HTML in a sandboxed srcdoc iframe (frame-src 'self'). Take the
+    // asset layer's OWN hash-hardened CSP (from web/public/_headers, post
+    // build-csp) and only widen those three directives — everything else the
+    // site forbids stays forbidden. Falls back to the hardened baseline if the
+    // asset response somehow carried no CSP.
+    if (pathname === '/technology' || pathname.startsWith('/technology/')) {
+      const assetCsp = assetResp.headers.get('content-security-policy')
+        || "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' https://api.banidb.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self'; base-uri 'self'; frame-ancestors 'none'";
+      const CDN = 'https://cdn.jsdelivr.net';
+      const instCsp = assetCsp
+        .replace(/script-src ([^;]*)/, `script-src $1 'wasm-unsafe-eval' ${CDN}`)
+        .replace(/connect-src ([^;]*)/, `connect-src $1 ${CDN}`)
+        .replace(/frame-src ([^;]*)/, "frame-src 'self' $1");
+      h.set('Content-Security-Policy', instCsp);
+      return new Response(assetResp.body, { status: assetResp.status, statusText: assetResp.statusText, headers: h });
+    }
+
     // Single authoritative CSP for HTML documents (this override wins over the
     // static _headers file, so the CSP lives here only). connect-src is tightened
     // to the one external origin the client actually calls (the BaniDB verse viewer).

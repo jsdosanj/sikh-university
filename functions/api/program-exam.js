@@ -22,5 +22,8 @@ export async function onRequestPost({ request, env }) {
   }
   if (total === 0) return json({ error: "no gradable questions" }, 400);
   const score = Math.round((correct / total) * 100);
-  return json({ score, correct, total, passed: score >= passMark });
+  const passed = score >= passMark;
+  // A failing attempt returns ONLY the boolean — see functions/api/quiz.js.
+  // `correct`/`score` on a fail is an answer-key-reconstruction oracle.
+  return passed ? json({ passed: true, score }) : json({ passed: false });
 }

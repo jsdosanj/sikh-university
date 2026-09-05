@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { iconSvg } from '../../lib/icons';
+import { SITE, ldJson } from '../../lib/site';
 import programsData from '../../../public/assets/data/programs.json';
 import coursesData from '../../../public/assets/data/courses.json';
 
@@ -198,17 +199,12 @@ const leadsTo = programsData.programs.filter((p) => p.prerequisites.includes(pro
   });
 
   function launchTest() {
-    // Pull quiz *questions* from the public catalogue. Answers are NOT present in
-    // the browser-served catalogue (stripped by build_public_data.py) — grading is
-    // done on the server via /api/program-exam, keyed by (courseId, question-index).
-    fetch('/assets/data/courses.json').then(r => r.json()).then(data => {
-      const pool = [];
-      data.courses.forEach(c => {
-        if (!courseIds.includes(c.id)) return;
-        (c.quiz || []).forEach((q, qi) => {
-          pool.push({ cid: c.id, qi, q: q.q, options: q.options, courseTitle: c.title });
-        });
-      });
+    // Pull this program's quiz *questions* from its build-time-generated exam pool
+    // (web/scripts/build-index.mjs) — no answers, and no need to fetch the full
+    // 40+ MB catalogue for one program. Grading is done on the server via
+    // /api/program-exam, keyed by (courseId, question-index).
+    fetch(`/data/exam/${progId}.json`).then(r => r.json()).then(data => {
+      const pool = data.questions || [];
       // Shuffle and pick N questions
       const shuffled = pool.sort(() => Math.random() - 0.5).slice(0, testQuestions);
       if (shuffled.length === 0) {
@@ -216,7 +212,7 @@ const leadsTo = programsData.programs.filter((p) => p.prerequisites.includes(pro
         return;
       }
       renderTest(shuffled);
-    });
+    }).catch(() => { window.suToast('Could not load the exam — please try again in a moment.', 'error'); });
   }
 
   function renderTest(questions) {
@@ -265,11 +261,13 @@ const leadsTo = programsData.programs.filter((p) => p.prerequisites.includes(pro
       body: JSON.stringify({ items, passMark }),
     })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error('grade failed'))))
-      .then((res) => { submitBtn.disabled = false; showTestResult(res.score, res.correct, res.total, res.passed); })
+      .then((res) => { submitBtn.disabled = false; showTestResult(res.score, res.passed); })
       .catch(() => { submitBtn.disabled = false; window.suToast('Could not grade the exam right now. Please check your connection and try again.', 'error'); });
   }
 
-  function showTestResult(score, correct, total, passed_exam) {
+  // The server returns the score only on a pass — a failing attempt is just the
+  // boolean, so the count can't be used to reverse-engineer the answer key.
+  function showTestResult(score, passed_exam) {
     const resultEl = document.getElementById('cum-test-result');
     const iconEl = document.getElementById('cum-result-icon');
     const scoreEl = document.getElementById('cum-result-score');
@@ -278,8 +276,8 @@ const leadsTo = programsData.programs.filter((p) => p.prerequisites.includes(pro
     const certLink = document.getElementById('cum-cert-link');
 
     iconEl.innerHTML = passed_exam ? ICONS.cap : ICONS.books;
-    scoreEl.textContent = `${score}% (${correct} / ${total} correct)`;
     if (passed_exam) {
+      scoreEl.textContent = `${score}%`;
       msgEl.textContent = `Congratulations — you have passed the ${progTitle} cumulative examination. Your credential is ready.`;
       certLink.href = `/cert?program=${progId}`;
       certLink.classList.remove('hidden');
@@ -287,7 +285,8 @@ const leadsTo = programsData.programs.filter((p) => p.prerequisites.includes(pro
       set('cum_passed_' + progId, true);
       set('cum_score_' + progId, score);
     } else {
-      msgEl.textContent = `You scored ${score}% — you need ${passMark}% to pass. Review the material and try again.`;
+      scoreEl.textContent = '';
+      msgEl.textContent = `Not passed — you need ${passMark}% to pass. Review the material and try again.`;
       retryBtn.classList.remove('hidden');
       certLink.classList.add('hidden');
     }

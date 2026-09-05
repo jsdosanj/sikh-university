@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import CinematicHero from '../components/CinematicHero.astro';
 import { topics, published, paths, TOPIC_ICONS } from '../lib/data';
 import { SITE, ldJson } from '../lib/site';
 
@@ -19,7 +20,7 @@ function toRoman(n: number): string {
 const ld = {
   '@context': 'https://schema.org', '@type': 'CollegeOrUniversity',
   '@id': SITE + '/#org', // merges with the Organization node Base.astro emits site-wide
-  name: 'Sikhi University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon-512.png', image: SITE + '/assets/og-image.png',
+  name: 'Sikhi University', url: SITE + '/', description: 'A free, open online university for Sikhi and modern skills.', logo: SITE + '/assets/icon-512.png?v=2', image: SITE + '/assets/og-image.png?v=2',
   sameAs: ['https://sikharchive.net'],
 };
 // WebSite (with the sitelinks SearchAction) is now emitted site-wide by Base.astro.
@@ -220,6 +221,35 @@ const ld = {
     initDailyShabad();
   </script>
 
+  <!-- The portal: every department, each previewing its own world -->
+  <section id="home-portal">
+    <div class="wrap">
+      <div class="portal-head">
+        <p class="eyebrow text-saffron-deep">Schools &amp; departments</p>
+        <h2 class="text-display-sm mt-3 font-bold text-navy">{schoolCountWord} schools. One university.</h2>
+        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted">Every course belongs to a department — each with its own faculty, its own signature courses, its own front door. Step through the one that fits your question.</p>
+      </div>
+      <div class="portal-grid">
+        {portals.map((d, i) => (
+          <a href={d.href} class="portal-card" style={`--accent:${d.accent}`} data-reveal-delay={(i % 4) * 70}>
+            <span class="portal-media" aria-hidden="true">
+              <img src={d.img} alt="" loading={i < 3 ? 'eager' : 'lazy'} />
+              <span class="portal-veil"></span>
+              <span class="portal-name">{d.name}</span>
+            </span>
+            <span class="portal-body">
+              <span class="portal-tag">{d.tagline}</span>
+              <span class="portal-meta">{d.meta}<span class="portal-arrow" aria-hidden="true">&rarr;</span></span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <p class="portal-foot">
+        <a class="btn btn-ghost" href="/departments">Walk the full directory &rarr;</a>
+      </p>
+    </div>
+  </section>
+
   <!-- Subjects marquee: every subject drifts past, linking into the catalog -->
   <section class="border-y border-line bg-surface texture-manuscript">
     <div class="py-5">
@@ -231,8 +261,6 @@ const ld = {
               <span>{t.name}</span>
             </a>
           ))}
-          {/* Second copy exists only to make the -50% loop seamless — hidden
-              from the accessibility tree and tab order. */}
           {topics.map((t) => (
             <a href={`/catalog#${t.id}`} aria-hidden="true" tabindex="-1" class="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-sm font-medium text-navy transition hover:-translate-y-0.5 hover:border-saffron hover:text-saffron-deep">
               <Icon name={TOPIC_ICONS[t.id] ?? 'book'} class="h-4 w-4 shrink-0 text-saffron-deep" />
@@ -362,6 +390,40 @@ const ld = {
     </div>
   </section>
 
+  <!-- Institute of Technology — the engineering wing -->
+  <section id="technology-wing" class="text-white">
+    <div class="wrap py-20">
+      <div class="mx-auto max-w-5xl xl:max-w-6xl">
+        <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
+            <p class="eyebrow text-saffron">Institute of Technology</p>
+            <h2 class="text-display-sm mt-4 font-bold text-white">Learn to build — and build for the Panth.</h2>
+            <p class="mt-5 text-lg text-white/85 leading-relaxed">Sikhi University's engineering wing teaches software and AI engineering from first principles, in a code lab that runs in your browser. Every phase is framed around what you could build for the sangat — Gurbani search, archive digitisation, Gurmukhi tools, gurdwara systems.</p>
+            <p class="mt-4 text-white/80 leading-relaxed">Twenty phases from setup to autonomous agents, a from-scratch coding dojo, the Claude Code guide, and a &ldquo;Build for the Panth&rdquo; capstone. Finish a phase, pass its server-graded exam, earn a verifiable certificate.</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a class="btn btn-primary" href="/technology">Enter the Institute of Technology &rarr;</a>
+              <a class="btn btn-ghost" href="/technology/atlas">Open Source Atlas &rarr;</a>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            {[
+              ['20', 'phases', 'Setup, math, ML, deep learning, transformers, LLMs, agents, infra, safety'],
+              ['500+', 'lessons', 'Adapted from AI Engineering from Scratch (MIT), reframed for seva'],
+              ['In-browser', 'code lab', 'Python, JavaScript and HTML run right on the page — nothing to install'],
+              ['Verifiable', 'certificates', 'Server-graded phase exams, each certificate checkable at /verify'],
+            ].map((t, i) => (
+              <div class="reveal glass-lite rounded-xl2 p-5" data-reveal-delay={(i % 2) * 90}>
+                <div class="text-2xl font-bold text-navy">{t[0]}</div>
+                <div class="mt-0.5 font-sans text-sm font-semibold text-navy">{t[1]}</div>
+                <div class="mt-2 text-xs text-ink/70 leading-relaxed">{t[2]}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Proof points / differentiators -->
   <section>
     <div class="wrap py-16">
@@ -399,6 +461,25 @@ const ld = {
       </div>
     </div>
   </section>
+
+  <!-- Gateway to the sister project's proposal, sikhi.io/3rd. Sits at the very
+       bottom of the homepage — stark + architectural to echo the proposal's own
+       type; a doorway, not a banner. Inverts on hover, like the proposal's chips. -->
+  <a href="https://sikhi.io/3rd" target="_blank" rel="noopener" class="su-3rd" aria-label="The 3rd Panth — a proposal to the Sikh Panth (opens on Sikhi.io)">
+    <span class="su-3rd-in">
+      <span class="su-3rd-id">
+        <span class="su-3rd-ik" lang="pa" aria-hidden="true">ੴ</span>
+        <span class="su-3rd-wm">THE&nbsp;3RD&nbsp;PANTH</span>
+        <span class="su-3rd-rev">A proposal to the Sikh Panth &middot; Rev 01</span>
+      </span>
+      <span class="su-3rd-end">
+        <span class="su-3rd-tag">One orchestrator. Zero ego.</span>
+        <span class="su-3rd-go" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </span>
+      </span>
+    </span>
+  </a>
 
 </Base>
 
