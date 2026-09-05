@@ -40,7 +40,14 @@ for (const f of walk('dist')) {
 }
 
 if (!hashes.size) { console.error('build-csp: no inline scripts found — refusing to write an empty script-src'); process.exit(1); }
-if (!/script-src[^;]*/.test(hdr)) { console.error('build-csp: no script-src directive in _headers to harden'); process.exit(1); }
+// Match script-src ONLY on the real Content-Security-Policy header line, not
+// anywhere in the file — a comment mentioning "script-src" (e.g. explaining
+// this very hardening) ABOVE that line previously got matched first and
+// silently left the real directive un-hardened (confirmed live 2026-09-05:
+// the placeholder 'unsafe-inline' shipped to production instead of the real
+// hash allowlist). /m so ^ anchors to the header line specifically.
+const CSP_LINE_RE = /^(\s*Content-Security-Policy:.*?)script-src[^;]*/m;
+if (!CSP_LINE_RE.test(hdr)) { console.error('build-csp: no script-src directive on a Content-Security-Policy line in _headers to harden'); process.exit(1); }
 
 // 'wasm-unsafe-eval' (NOT 'unsafe-eval' -- a much narrower CSP-3 directive
 // that permits ONLY WebAssembly.instantiate, no string-eval'd JS at all) is
@@ -52,7 +59,7 @@ if (!/script-src[^;]*/.test(hdr)) { console.error('build-csp: no script-src dire
 // dev check because dev servers don't enforce this hardened CSP at all --
 // only a real deployed build does.
 const scriptSrc = "script-src 'self' 'wasm-unsafe-eval' " + [...hashes].sort().join(' ');
-hdr = hdr.replace(/script-src[^;]*/, scriptSrc);
+hdr = hdr.replace(CSP_LINE_RE, `$1${scriptSrc}`);
 
 // Cloudflare's API rejects any _headers line over 2000 characters — and only at
 // DEPLOY time, after CI is already green. Fail the build here instead. If this
