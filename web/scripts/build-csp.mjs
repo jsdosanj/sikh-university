@@ -42,7 +42,16 @@ for (const f of walk('dist')) {
 if (!hashes.size) { console.error('build-csp: no inline scripts found — refusing to write an empty script-src'); process.exit(1); }
 if (!/script-src[^;]*/.test(hdr)) { console.error('build-csp: no script-src directive in _headers to harden'); process.exit(1); }
 
-const scriptSrc = "script-src 'self' " + [...hashes].sort().join(' ');
+// 'wasm-unsafe-eval' (NOT 'unsafe-eval' -- a much narrower CSP-3 directive
+// that permits ONLY WebAssembly.instantiate, no string-eval'd JS at all) is
+// required by <model-viewer>'s glTF texture transcoder (KTX2/Basis textures
+// decode via a WASM module) -- without it every texture on the crest/emblem
+// 3D models silently fails to load (THREE.GLTFLoader logs "Couldn't load
+// texture", the model renders as a flat white silhouette). Found live on
+// sikhiuni.com 2026-09-05: the crest had rendered correctly in every local/
+// dev check because dev servers don't enforce this hardened CSP at all --
+// only a real deployed build does.
+const scriptSrc = "script-src 'self' 'wasm-unsafe-eval' " + [...hashes].sort().join(' ');
 hdr = hdr.replace(/script-src[^;]*/, scriptSrc);
 
 // Cloudflare's API rejects any _headers line over 2000 characters — and only at
