@@ -119,7 +119,7 @@ import Base from '../layouts/Base.astro';
 
       if (isAdmin || isTeacherReal) {
         const link = (label, v, on) => `<a href="/dashboard${v ? '?view=' + v : ''}" class="rounded-lg px-3 py-1.5 font-sans text-sm ${on ? 'bg-brand text-white' : 'border border-line hover:border-saffron'}">${label}</a>`;
-        bar.innerHTML = `<div class="mb-6 flex flex-wrap items-center gap-2 rounded-xl2 border border-line bg-surface p-3">
+        bar.innerHTML = `<div class="glass mb-6 flex flex-wrap items-center gap-2 p-3">
           <span class="font-sans text-sm font-semibold text-navy">View as:</span>
           ${link('Student', 'student', !demo && viewAs === 'student')}
           ${link('Teacher', 'teacher', !demo && viewAs === 'teacher')}
@@ -135,14 +135,14 @@ import Base from '../layouts/Base.astro';
       let view = (user && location.hash === '#profile') ? 'profile' : 'learning';
       function drawView() {
         const nav = document.getElementById('dash-tabs');
-        if (nav) Array.from(nav.children).forEach((b) => { const on = b.dataset.v === view; b.className = 'px-4 py-2 font-sans text-sm border-b-2 ' + (on ? 'border-saffron text-navy font-semibold' : 'border-transparent text-muted'); });
+        if (nav) Array.from(nav.children).forEach((b) => { const on = b.dataset.v === view; b.className = 'px-4 py-2 font-sans text-sm border-b-2 transition-colors ' + (on ? 'border-saffron text-navy font-semibold' : 'border-transparent text-muted hover:border-line hover:text-navy'); });
         if (view === 'profile') renderProfile(); else renderLearning();
       }
       if (user) {
         const nav = document.createElement('div');
         nav.id = 'dash-tabs';
         nav.className = 'mb-6 flex gap-1 border-b border-line';
-        nav.innerHTML = [['learning', 'My Learning'], ['profile', 'Profile']].map(([k, l]) => `<button data-v="${k}" class="px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted">${l}</button>`).join('');
+        nav.innerHTML = [['learning', 'My Learning'], ['profile', 'Profile']].map(([k, l]) => `<button data-v="${k}" class="px-4 py-2 font-sans text-sm border-b-2 transition-colors border-transparent text-muted hover:border-line hover:text-navy">${l}</button>`).join('');
         bar.appendChild(nav);
         nav.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => { view = b.dataset.v; location.hash = view === 'profile' ? '#profile' : ''; drawView(); }));
       }
@@ -155,7 +155,8 @@ import Base from '../layouts/Base.astro';
         const countryOpts = ['<option value="">— Select country —</option>'].concat(COUNTRIES.map((c) => `<option value="${esc(c)}" ${cur.country === c ? 'selected' : ''}>${esc(c)}</option>`)).join('');
         const langChecks = LANGUAGES.map((l) => `<label class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-paper px-2.5 py-1 font-sans text-xs has-[:checked]:border-saffron has-[:checked]:bg-saffron-soft/40"><input type="checkbox" value="${esc(l)}" ${curLangs.has(l) ? 'checked' : ''} class="pf-lang" /> ${esc(l)}</label>`).join('');
         root.innerHTML = `
-          <h1 class="text-3xl font-bold">Profile</h1>
+          <p class="eyebrow text-saffron-deep">Account</p>
+          <h1 class="text-display-sm font-bold">Profile</h1>
           <p class="mt-2 font-sans text-sm text-muted">Update your account details. Please don't include sensitive personal information — see our <a class="underline" href="/legal">Terms &amp; Privacy</a>.</p>
           <div id="pf-msg" class="mt-4"></div>
           <div class="mt-6 max-w-xl space-y-5">
@@ -192,7 +193,7 @@ import Base from '../layouts/Base.astro';
             <div id="pf-del-confirm" class="mt-4 hidden rounded-xl2 border-l-4 border-danger bg-surface p-4">
               <p class="font-sans text-sm">This permanently erases your profile, progress, enrolments, certificates, ratings and posts. <strong>It cannot be undone.</strong> Type <strong>DELETE</strong> to confirm.</p>
               <div class="mt-3 flex flex-wrap items-center gap-2">
-                <input id="pf-del-input" type="text" placeholder="DELETE" class="rounded-lg border border-line bg-surface px-3 py-2 font-sans" />
+                <input id="pf-del-input" type="text" placeholder="DELETE" class="rounded-lg border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" />
                 <button id="pf-del-go" class="btn border border-danger/40 text-danger hover:bg-danger/10">Permanently delete</button>
                 <button id="pf-del-cancel" class="btn">Cancel</button>
               </div>
@@ -251,9 +252,9 @@ import Base from '../layouts/Base.astro';
           if (!body) return;
           body.innerHTML = `
             ${p.is_public ? `<a class="pill bg-ok/20 text-ok" href="/teacher/${esc(p.slug)}" target="_blank">Live at /teacher/${esc(p.slug)} →</a>` : p.publish_requested_at ? '<span class="pill bg-paper text-muted">Publish requested — awaiting admin approval</span>' : ''}
-            <label class="block"><span class="font-sans text-sm font-semibold">Display name</span><input id="tp-name" value="${esc(p.display_name || cur.name || '')}" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" /></label>
-            <label class="block"><span class="font-sans text-sm font-semibold">Bio</span><textarea id="tp-bio" rows="4" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans">${esc(p.bio || '')}</textarea></label>
-            <label class="block"><span class="font-sans text-sm font-semibold">Credentials</span><textarea id="tp-credentials" rows="2" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans">${esc(p.credentials || '')}</textarea></label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Display name</span><input id="tp-name" value="${esc(p.display_name || cur.name || '')}" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none" /></label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Bio</span><textarea id="tp-bio" rows="4" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none">${esc(p.bio || '')}</textarea></label>
+            <label class="block"><span class="font-sans text-sm font-semibold">Credentials</span><textarea id="tp-credentials" rows="2" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans focus:border-saffron focus:outline-none">${esc(p.credentials || '')}</textarea></label>
             <div><span class="font-sans text-sm font-semibold">Teaching areas</span><div class="mt-2 flex flex-wrap gap-2">${areas.map((a) => `<label class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-paper px-2.5 py-1 font-sans text-xs has-[:checked]:border-saffron has-[:checked]:bg-saffron-soft/40"><input type="checkbox" value="${esc(a)}" ${curAreas.has(a) ? 'checked' : ''} class="tp-area" /> ${esc(a)}</label>`).join('')}</div></div>
             <div><span class="font-sans text-sm font-semibold">Languages you teach in</span><div class="mt-2 flex flex-wrap gap-2">${languages.map((l) => `<label class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-line bg-paper px-2.5 py-1 font-sans text-xs has-[:checked]:border-saffron has-[:checked]:bg-saffron-soft/40"><input type="checkbox" value="${esc(l)}" ${curLangs.has(l) ? 'checked' : ''} class="tp-lang" /> ${esc(l)}</label>`).join('')}</div></div>
             <label class="block"><span class="font-sans text-sm font-semibold">Photo</span><input id="tp-photo" type="file" accept="image/jpeg,image/png,image/webp" class="mt-1 block font-sans text-sm" /><span class="font-sans text-xs text-muted">Uploads for admin review before it appears publicly.</span></label>
@@ -346,7 +347,7 @@ import Base from '../layouts/Base.astro';
             const p = progress(c);
             const extra = mode === 'completed' ? `<a class="btn btn-primary mt-3" href="/cert?course=${c.id}">View certificate →</a>`
               : mode === 'started' ? `<div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${p}%"></div></div><div class="font-sans text-xs text-muted mt-1">${p}% complete</div>` : '';
-            return `<a href="/course/${c.id}" class="card"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3>${extra}</a>`;
+            return `<a href="/course/${c.id}" class="card hover:border-saffron"><div class="flex flex-wrap gap-2 font-sans text-xs text-muted"><span class="pill bg-paper text-navy">${esc(tn(c.topic))}</span><span class="pill bg-paper text-muted">${c.level} level</span></div><h3 class="mt-1 text-lg font-bold text-navy">${esc(c.title)}</h3>${extra}</a>`;
           }).join('')}</div>`;
         }
         const graded = pub.filter((c) => passed(c.id) || progress(c) > 0 || get('score_' + c.id, null) != null);
@@ -364,6 +365,7 @@ import Base from '../layouts/Base.astro';
           <div id="ann-feed"></div>
           ${user ? `<p class="mt-3 font-sans text-sm text-muted">Set your name, country and languages in the <a class="underline" href="#profile" id="go-profile">Profile</a> tab — your name appears on certificates.</p>` : ''}
           <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">${stat(points, 'Points')}${stat(st, 'Day streak', { icon: 'fire' })}${stat(completed.length, 'Courses complete', { ring: pub.length ? Math.round(completed.length / pub.length * 100) : 0 })}${stat(lessonsDone, 'Lessons done', { ring: (() => { const tot = pub.reduce((a, c) => a + (c.nLessons || 0), 0); return tot ? Math.round(lessonsDone / tot * 100) : 0; })() })}</div>
+          ${!completed.length && !started.length ? `<div class="glass mt-8 p-8 text-center"><div class="flex flex-col items-center gap-3"><span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-saffron-deep">${iconSvg('sprout', 'h-7 w-7')}</span><p class="font-serif text-lg font-bold text-navy">Your journey begins here.</p><p class="max-w-sm font-sans text-sm text-muted">Start a course and your progress, streak and certificates will appear on this page.</p><div class="mt-1 flex flex-wrap justify-center gap-3"><a class="btn btn-primary" href="/catalog">Browse the catalogue</a>${!user ? '<a class="btn" href="/login">Sign in to save progress</a>' : ''}</div></div></div>` : ''}
           <a href="/baal-updesh#flashcards" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="text-saffron-deep">${iconSvg('cards', 'h-8 w-8')}</span><span><span class="block font-bold text-navy">Review flashcards</span><span class="block font-sans text-sm text-muted">Lock in Gurmukhi terms and the most-used words of Gurbani with spaced repetition.</span></span><span class="ml-auto font-sans text-sm text-saffron-deep">Study →</span></a>
           <div id="remind-card" hidden class="rounded-[3px] border border-line bg-surface mt-3 flex flex-wrap items-center gap-4 p-4"><span class="text-saffron-deep">${iconSvg('clock', 'h-8 w-8')}</span><span class="min-w-0 flex-1"><span class="block font-bold text-navy">Remind me to keep learning</span><span id="remind-body" class="block font-sans text-sm text-muted">One gentle notification a day — a few minutes of seva to yourself.</span></span><button id="remind-btn" class="btn shrink-0">Enable</button></div>
           <h3 class="mt-10 text-xl font-bold">Milestone seals</h3>
@@ -431,7 +433,7 @@ import Base from '../layouts/Base.astro';
         if (enrolled.size) api('/api/announcements').then((d) => {
           const list = ((d && d.announcements) || []).filter((a) => enrolled.has(a.course_id)).slice(0, 5);
           const fe = document.getElementById('ann-feed'); if (!fe || !list.length) return;
-          fe.innerHTML = `<h3 class="mt-8 text-xl font-bold">Announcements</h3><div class="mt-4 space-y-3">${list.map((a) => { const c = pub.find((x) => x.id === a.course_id); return `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(c ? c.title : a.course_id)} · ${esc(a.author_name || '')} · ${fmtRel(a.created_at)}</div>${a.title ? `<div class="mt-1 font-bold text-navy">${esc(a.title)}</div>` : ''}<p class="mt-1 text-sm">${esc(a.body)}</p></div>`; }).join('')}</div>`;
+          fe.innerHTML = `<h3 class="mt-10 text-xl font-bold">Announcements</h3><div class="mt-4 space-y-3">${list.map((a) => { const c = pub.find((x) => x.id === a.course_id); return `<div class="rounded-xl2 border-l-4 border-saffron bg-surface p-4"><div class="font-sans text-xs text-muted">${esc(c ? c.title : a.course_id)} · ${esc(a.author_name || '')} · ${fmtRel(a.created_at)}</div>${a.title ? `<div class="mt-1 font-bold text-navy">${esc(a.title)}</div>` : ''}<p class="mt-1 text-sm">${esc(a.body)}</p></div>`; }).join('')}</div>`;
         });
         // My assignments — across every explicitly-enrolled course, due-soon first.
         if (enrolledCourses.size) {
@@ -448,7 +450,7 @@ import Base from '../layouts/Base.astro';
               const statusPill = a.my_status === 'graded' ? `<span class="pill bg-saffron-soft text-saffron-deep">Graded: ${esc(a.my_grade)}/${a.points}</span>`
                 : a.my_status === 'submitted' ? '<span class="pill bg-paper text-muted">Submitted</span>'
                 : '<span class="pill bg-paper text-muted">Not submitted</span>';
-              return `<a href="/course/${esc(a.course_id)}#assignments" class="card"><div class="font-sans text-xs text-muted">${esc(c ? c.title : a.course_id)}${a.due_at ? ' · due ' + esc(new Date(a.due_at).toLocaleDateString()) : ''}</div><div class="mt-1 font-bold text-navy">${esc(a.title)}</div><div class="mt-2">${statusPill}</div>${a.my_feedback ? `<p class="mt-2 text-sm text-muted">"${esc(a.my_feedback)}"</p>` : ''}</a>`;
+              return `<a href="/course/${esc(a.course_id)}#assignments" class="card hover:border-saffron"><div class="font-sans text-xs text-muted">${esc(c ? c.title : a.course_id)}${a.due_at ? ' · due ' + esc(new Date(a.due_at).toLocaleDateString()) : ''}</div><div class="mt-1 font-bold text-navy">${esc(a.title)}</div><div class="mt-2">${statusPill}</div>${a.my_feedback ? `<p class="mt-2 text-sm text-muted">"${esc(a.my_feedback)}"</p>` : ''}</a>`;
             }).join('')}</div>`;
           });
         }
@@ -487,19 +489,19 @@ import Base from '../layouts/Base.astro';
       }
 
       function renderTeacher() {
-        const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-4 text-center shadow-card"><div class="text-3xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
+        const stat = (n, l) => `<div class="glass-lite border-t-4 border-t-saffron p-4 text-center"><div class="text-3xl font-bold text-navy">${n}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
         const lessonCount = (id) => { const c = pub.find((x) => x.id === id); return (c && c.lessons) ? c.lessons.length : 0; };
         const slugTitle = (id) => String(id || '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
         const ctitle = (id) => { const c = pub.find((x) => x.id === id); return c ? c.title : slugTitle(id); };
 
         if (demo) { renderTeacherDemo(stat); return; }
 
-        root.innerHTML = '<h1 class="text-3xl font-bold">Teacher dashboard</h1><p class="mt-6 text-muted">Loading your gradebook…</p>';
+        root.innerHTML = '<p class="eyebrow text-saffron-deep">Teacher</p><h1 class="text-display-sm font-bold">Teacher dashboard</h1><p class="sr-only">Loading your gradebook…</p><div aria-hidden="true"><div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4"><div class="skeleton h-24"></div><div class="skeleton h-24"></div><div class="skeleton h-24"></div><div class="skeleton h-24"></div></div><div class="skeleton mt-6 h-48"></div></div>';
         api('/api/gradebook').then((g) => {
           const tcourses = g.courses || [];
           const rows = g.rows || [];
           if (!tcourses.length) {
-            root.innerHTML = `<h1 class="text-3xl font-bold">Teacher dashboard</h1>
+            root.innerHTML = `<p class="eyebrow text-saffron-deep">Teacher</p><h1 class="text-display-sm font-bold">Teacher dashboard</h1>
               <a href="/studio" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="min-w-0 flex-1"><span class="block font-bold text-navy">Course Studio</span><span class="block font-sans text-sm text-muted">Draft a new course and submit it for scholar review.</span></span><span class="font-sans text-sm text-saffron-deep">Open →</span></a>
               <div class="mt-6 rounded-xl2 border border-line bg-surface p-6 text-muted">You are not assigned to any courses yet. An admin assigns teachers to courses.</div>
               <div class="mt-6"><a class="btn" href="/dashboard?demo=teacher">Preview a sample teacher dashboard →</a></div>`;
@@ -510,16 +512,16 @@ import Base from '../layouts/Base.astro';
           const scored = rows.filter((r) => r.score != null);
           const avg = scored.length ? Math.round(scored.reduce((a, r) => a + r.score, 0) / scored.length) : 0;
 
-          root.innerHTML = `<h1 class="text-3xl font-bold">Teacher dashboard</h1>
+          root.innerHTML = `<p class="eyebrow text-saffron-deep">Teacher</p><h1 class="text-display-sm font-bold">Teacher dashboard</h1>
             <p class="mt-1 font-sans text-sm text-muted">Real grades and progress for your students.</p>
             <a href="/studio" class="mt-6 flex items-center gap-4 rounded-xl2 border border-line bg-surface p-4 shadow-card transition hover:border-saffron"><span class="min-w-0 flex-1"><span class="block font-bold text-navy">Course Studio</span><span class="block font-sans text-sm text-muted">Draft a new course and submit it for scholar review.</span></span><span class="font-sans text-sm text-saffron-deep">Open →</span></a>
             <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(tcourses.length, 'Courses you teach')}${stat(students.size, 'Students')}${stat(completions, 'Completions')}${stat(avg ? avg + '%' : '—', 'Avg. score')}</div>
             <div class="mt-6 flex flex-wrap gap-2 items-end">
-              <input id="t-search" type="search" placeholder="Search students…" class="rounded-lg border border-line bg-paper px-3 py-1.5 font-sans text-sm w-48" />
-              <select id="t-status" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm">
+              <input id="t-search" type="search" placeholder="Search students…" class="rounded-lg border border-line bg-paper px-3 py-1.5 font-sans text-sm w-48 focus:border-saffron focus:outline-none" />
+              <select id="t-status" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm focus:border-saffron focus:outline-none">
                 <option value="">All statuses</option><option value="passed">Passed</option><option value="inprogress">In progress</option><option value="notstarted">Not started</option>
               </select>
-              <select id="t-sort" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm">
+              <select id="t-sort" class="rounded-lg border border-line bg-paper px-2 py-1.5 font-sans text-sm focus:border-saffron focus:outline-none">
                 <option value="score">Sort: Score ↓</option><option value="progress">Sort: Progress ↓</option><option value="name">Sort: Name A→Z</option><option value="active">Sort: Recently active</option>
               </select>
               <button id="t-exp-all" class="btn font-sans text-xs px-3 py-1.5">Expand all</button>
@@ -681,7 +683,8 @@ import Base from '../layouts/Base.astro';
         const gradebook = `<div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="bg-brand text-left text-white"><th class="px-2 py-2">Student</th>${taught.map((c) => `<th class="px-2 py-2" title="${esc(c.title)}">${esc(c.title.split(/[:—]/)[0].slice(0, 14))}…</th>`).join('')}<th class="px-2 py-2">Avg</th></tr></thead><tbody>${roster.map((st, i) => { const scores = taught.map((c, j) => dscore(i, j)); const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length); return `<tr class="${i % 2 ? 'bg-paper' : ''}">${cell('<strong>' + esc(st.name) + '</strong>')}${scores.map((s) => `<td class="border-t border-line px-2 py-1.5">${s}% <span class="text-muted">(${grade(s)})</span></td>`).join('')}${cell('<strong>' + avg + '%</strong>')}</tr>`; }).join('')}</tbody></table></div>`;
         const analytics = `<h3 class="mt-10 text-xl font-bold">Course analytics <span class="rounded-full bg-saffron-soft text-saffron-deep font-sans text-xs px-2.5 py-0.5">Demo preview</span></h3><div class="mt-4 space-y-3">${taught.map((c, j) => { const comp = 35 + ((j * 17) % 55); const avg = 70 + ((j * 9) % 25); return `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex flex-wrap items-baseline justify-between gap-2"><span class="font-semibold text-navy">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${(j + 1) * 9} enrolled · avg score ${avg}%</span></div><div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-paper"><div class="h-full bg-saffron" style="width:${comp}%"></div></div><div class="mt-1 font-sans text-xs text-muted">${comp}% completion</div></div>`; }).join('')}</div>`;
         root.innerHTML = `
-          <h1 class="text-3xl font-bold">Teacher dashboard</h1>
+          <p class="eyebrow text-saffron-deep">Teacher</p>
+          <h1 class="text-display-sm font-bold">Teacher dashboard</h1>
           <p class="mt-1 font-sans text-sm text-muted">Sample view for testing — figures and students are illustrative.</p>
           <p class="mt-1 font-sans text-sm text-muted">Illustrative preview — real teacher analytics arrive with cohort enrolment.</p>
           <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(taught.length, 'Courses you teach')}${stat(96, 'Students')}${stat(38, 'Completions')}${stat('4.8' + iconSvg('star-filled', 'inline-block h-5 w-5 align-[-0.1em] text-saffron'), 'Avg. rating')}</div>
@@ -690,7 +693,7 @@ import Base from '../layouts/Base.astro';
           ${gradebook}
           ${analytics}
           <h3 class="mt-10 text-xl font-bold">Class roster <span class="rounded-full bg-saffron-soft text-saffron-deep font-sans text-xs px-2.5 py-0.5">Demo preview</span></h3><div class="mt-4 overflow-x-auto rounded-xl2 border border-line"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="px-3 py-2">Student</th><th>Email</th><th>Last active</th></tr></thead><tbody>${roster.map((st) => `<tr class="border-t border-line"><td class="px-3 py-2 font-semibold text-navy">${esc(st.name)}</td><td>${esc(st.email)}</td><td class="text-muted">${esc(st.active)}</td></tr>`).join('')}</tbody></table></div>
-          <div class="mt-8"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
+          <div class="mt-10"><a class="btn" href="/dashboard?demo=student">View the student experience →</a></div>`;
       }
     }).catch(() => { document.getElementById('dash').innerHTML = '<p class="text-muted">Could not load.</p>'; });
   </script>

@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import InstituteRail from '../../components/institute/InstituteRail.astro';
+
+const rows = [
+  {
+    what: 'AI Engineering from Scratch',
+    who: 'Rohit Ghumare and contributors',
+    license: 'MIT License',
+    use: 'The AI-engineering phases are adapted from this curriculum, used under the MIT License. Modifications: reformatted into Sikhi University’s course structure, with a browser code lab, quizzes, and seva-framed introductions added. The full MIT text is retained in the repository and linked from every phase.',
+    link: 'https://aiengineeringfromscratch.com',
+  },
+  {
+    what: 'Sikh Code — Learn Coding, Learn Agentic Coding, Claude Code Guide, Build for the Panth',
+    who: 'Sikhi University',
+    license: 'CC BY-SA 4.0 (prose) · MIT (engine code)',
+    use: 'Written by Sikhi University for the Institute. The Learn Agentic Coding course tracks the public Claude Code documentation and links to it; no Anthropic branding is used beyond naming the product.',
+    link: 'https://sikhi.io',
+  },
+  {
+    what: 'freeCodeCamp curriculum (Explore booth)',
+    who: 'freeCodeCamp.org (a 501(c)(3) non-profit)',
+    license: 'Curriculum: CC BY-SA 4.0 · Platform code: BSD-3-Clause',
+    use: 'The Institute links to the freeCodeCamp curriculum and rehosts none of it. Sikhi University is not affiliated with, sponsored by, or endorsed by freeCodeCamp.org. Certifications are issued by freeCodeCamp. “freeCodeCamp” and its logo are trademarks of freeCodeCamp.org.',
+    link: 'https://www.freecodecamp.org/learn/',
+  },
+  {
+    what: 'Class Central (Explore booth)',
+    who: 'Class Central SL',
+    license: 'Link-out only — no content used',
+    use: 'The Institute links to Class Central as a course-discovery aggregator and uses none of its listings, ratings, or editorial content. “Class Central” is a trademark of Class Central SL, used nominatively to name the service; no affiliation or endorsement is claimed.',
+    link: 'https://www.classcentral.com/',
+  },
+  {
+    what: 'Libre.academy (Explore booth)',
+    who: 'Libre.academy',
+    license: 'App: MIT · Course packs: various (several CC BY-NC / BY-NC-ND)',
+    use: 'The Institute links to the Libre.academy desktop app and rehosts none of its course packs. Each pack is adapted from a separate book — several under non-commercial or no-derivatives terms (Eloquent JavaScript, You Don’t Know JS Yet, Pro Git, JavaScript.info, Automate the Boring Stuff) — which is why this booth links out rather than rehosting.',
+    link: 'https://libre.academy/',
+  },
+  {
+    what: 'Open Source Atlas — repository catalogue',
+    who: 'Curated by Tom Dörr (repo_posts)',
+    license: 'Repo metadata: factual, from public sources · curation credited',
+    use: 'The Atlas lists ~12,500 open-source repositories with their names, one-line descriptions, and dates, drawn from Tom Dörr’s public curation at tom-doerr.github.io/repo_posts. Screenshots are GitHub’s own OpenGraph cards, loaded from GitHub — none are stored. The “what you could build for the Panth” line on each card is written by Sikhi University. Every listed project keeps its own licence; check it on GitHub before use.',
+    link: 'https://tom-doerr.github.io/repo_posts/',
+  },
+  {
+    what: 'Anthropic Academy (Learning Claude page)',
+    who: 'Anthropic PBC',
+    license: 'Link-out only — no content used',
+    use: 'The /technology/claude page lists Anthropic Academy’s course catalogue as an outline and links each course straight to anthropic.skilljar.com. No course content, video, or text is copied. Sikhi University is not affiliated with, sponsored by, or endorsed by Anthropic. “Claude” and “Anthropic” are trademarks of Anthropic PBC, used nominatively.',
+    link: 'https://www.anthropic.com/learn',
+  },
+  {
+    what: 'Claude 101 (claude101.com)',
+    who: 'A community project',
+    license: 'Link-out only — no content used',
+    use: 'Linked from /technology/claude as a community companion. None of its 18 guides are rehosted. Not affiliated with Anthropic or Sikhi University.',
+    link: 'https://claude101.com',
+  },
+  {
+    what: 'Open Source Atlas — video shelf',
+    who: 'Andrej Karpathy, Cloud Codes, Proton (YouTube)',
+    license: 'Link/embed only — no content rehosted',
+    use: 'The Atlas embeds videos from three YouTube channels — Andrej Karpathy (from-scratch deep learning), Cloud Codes (AI engineering), and Proton (privacy and security) — via youtube-nocookie.com. No video content is stored; each plays from YouTube. Titles and dates come from the channels’ public feeds. Not affiliated with or endorsed by any of them.',
+    link: 'https://www.youtube.com/@AndrejKarpathy',
+  },
+];
+---
+<Base title="Sources & licenses — Institute of Technology" description="Every content source behind the Institute of Technology, and the license it is used under." institute>
+  <InstituteRail />
+
+  <section class="i-wrap" style="padding:40px 24px 72px">
+    <span class="i-label">/technology/licenses</span>
+    <h1 style="margin:6px 0 10px;font-size:clamp(24px,4vw,34px)">Sources &amp; licenses</h1>
+    <p class="i-prose">The Institute is only as legitimate as its content rights. Every source here is either ours or openly licensed, used with attribution and — where required — share-alike, and nothing is rehosted without permission.</p>
+
+    <div class="i-lic-list">
+      {rows.map((r) => (
+        <article class="i-panel" style="margin-top:14px">
+          <span class="i-corner">{r.license}</span>
+          <h2 style="margin:6px 0 0;font-size:17px">{r.what}</h2>
+          <p class="i-mono" style="margin:4px 0 0;font-size:12px;color:var(--i-muted)">{r.who}</p>
+          <p class="i-prose" style="margin:10px 0 0;font-size:14px">{r.use}</p>
+          <p style="margin:10px 0 0;font-size:13px"><a href={r.link} target="_blank" rel="noopener">{r.link} &nearr;</a></p>
+        </article>
+      ))}
+    </div>
+
+    <article class="i-panel" style="margin-top:14px">
+      <span class="i-corner">CC BY-SA 4.0</span>
+      <h2 style="margin:6px 0 0;font-size:17px">The Institute's own additions</h2>
+      <p class="i-prose" style="margin:10px 0 0;font-size:14px">
+        Everything Sikhi University wrote for the Institute — the seva-framed phase introductions, the code-lab exercises and checks, the "Build for the Panth" project briefs, and this page — is offered under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative Commons Attribution-ShareAlike 4.0</a>, matching the university's open-content posture. The engine code (the code lab, the terminal dojo) is MIT. Course content is authoritative in English; it is never machine-translated for the Institute.
+      </p>
+    </article>
+
+    <p class="i-prose" style="margin-top:28px;font-size:13px;color:var(--i-muted)">
+      The Institute is governed by the same <a href="/legal">Terms &amp; Privacy</a> as the rest of Sikhi University. The Explore booths above all link out and rehost nothing.
+    </p>
+  </section>
+</Base>

@@ -11,7 +11,7 @@ const texts = [
   { gur: 'ਸੁੰਦਰ ਗੁਟਕਾ', en: 'Sundar Gutka', d: 'The common collection of daily and occasional banis.', href: '/collection/sundar-gutka', live: true },
   { gur: 'ਪੰਜ ਗ੍ਰੰਥੀ', en: 'Panj Granthi', d: 'Five longer baanis: Sukhmani Sahib, Asa di Vaar, Baavan Akhri, Sidh Gosht and Dakhni Oankaar.', href: '/collection/panj-granthi', live: true },
   { gur: 'ਦਸ ਗ੍ਰੰਥੀ', en: 'Das Granthi', d: 'Ten baanis of the Dasam Granth — the compositions associated with Guru Gobind Singh Ji.', href: '/collection/das-granthi', live: true },
-  { gur: 'ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ', en: 'Sri Guru Granth Sahib Ji', d: 'The complete Granth, Ang by Ang, with Santhya audio (Bhindran Taksal — gurmatveechar.com) and word-by-word read-along.', href: '/santhiya?src=sggs', live: true },
+  { gur: 'ਸ੍ਰੀ ਗੁਰੂ ਗ੍ਰੰਥ ਸਾਹਿਬ ਜੀ', en: 'Sri Guru Granth Sahib Ji', d: 'The complete Granth, Ang by Ang, with Santhya audio (Bhagat Jaswant Singh Ji Daudar) and word-by-word read-along.', href: '/santhiya?src=sggs', live: true },
   { gur: 'ਦਸਮ ਗ੍ਰੰਥ', en: 'Dasam Granth', d: 'The compositions associated with Guru Gobind Singh Ji — Ang-by-Ang read-along (text).', href: '/santhiya?src=dasam', live: true },
   { gur: 'ਸਰਬਲੋਹ ਗ੍ਰੰਥ', en: 'Sri Sarbloh Granth Sahib', d: 'The complete Sri Sarbloh Granth Sahib (the Khalsa Mahima) — Ang by Ang read-along.', href: '/santhiya?src=sarbloh', live: true },
   { gur: 'ਪੰਜ ਗ੍ਰੰਥਾਵਲੀ', en: 'Panj Granthavali', d: 'Five non-Gurbani granths (Chanakya Niti, Sarukatavali, Bhavrasamrit, Vichar Mala, Adhyatam Prakash) — placed last as supplementary, non-Gurbani works.', href: '/collection/panj-granthavali', live: true },
@@ -62,7 +62,7 @@ const texts = [
           </div>
         </div>
         <p class="mt-1 max-w-2xl font-sans text-sm text-white/75">Little games that teach the letters, sounds and words of Gurmukhi — for kids and grown-ups. Stars and seals are saved on this device.</p>
-        <div id="arcade-games" class="mt-5 grid gap-4 sm:grid-cols-3"></div>
+        <div id="arcade-games" class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
       </div>
     </div>
   </section>
@@ -209,7 +209,7 @@ const texts = [
   </style>
 
   <script>
-    import { angWeight, segmentTimeline, angWindow, wordIndexAt, wordTime, wordWeight } from '../lib/santhya-sync';
+    import { angWeight, segmentTimeline, angWindow, wordIndexAt, wordTime, wordWeight, throttleIndex } from '../lib/santhya-sync';
     import { openLineStudy } from '../lib/line-study';
     import { iconSvg } from '../lib/icons';
     var SRC = {
@@ -218,7 +218,7 @@ const texts = [
       sarbloh: { name: 'Sri Sarbloh Granth Sahib', unit: 'Ang', max: 1040, audio: false },
     };
     var ATTR = {
-      sggs: 'Bhindrān Taksāl (gurmatveechar.com)',
+      sggs: 'Bhagat Jaswant Singh Ji Daudar (Gursevak) — used with permission',
       dasam: 'Kabaal Singh, Hazoor Sahib wale (gurmatveechar.com)',
     };
     var P = 'su_v1_';
@@ -250,11 +250,13 @@ const texts = [
         import('../lib/games/jodi-match'),
         import('../lib/games/shabad-builder'),
         import('../lib/games/akhar-pop'),
+        import('../lib/games/muharni-match'),
+        import('../lib/games/yaad-patte'),
       ]).then(function (mods) {
         var kit = mods[0];
-        var games = [mods[1].game, mods[2].game, mods[3].game];
+        var games = [mods[1].game, mods[2].game, mods[3].game, mods[4].game, mods[5].game];
         // Hoist every module's keyframes once (style-src allows inline styles).
-        var css = [kit.KEYFRAMES, mods[1].GAME_KEYFRAMES || '', mods[2].GAME_KEYFRAMES || '', mods[3].GAME_KEYFRAMES || ''].join('\n');
+        var css = [kit.KEYFRAMES, mods[1].GAME_KEYFRAMES || '', mods[2].GAME_KEYFRAMES || '', mods[3].GAME_KEYFRAMES || '', mods[4].GAME_KEYFRAMES || '', mods[5].GAME_KEYFRAMES || ''].join('\n');
         var styleEl = document.createElement('style'); styleEl.textContent = css; document.head.appendChild(styleEl);
 
         var kidBtn = document.getElementById('arcade-kid'), kidDot = document.getElementById('arcade-kid-dot');
@@ -371,7 +373,9 @@ const texts = [
     document.getElementById('anglabel').childNodes[0].nodeValue = cfg.unit + ' ';
     angin.max = cfg.max;
     var ang = parseInt(qp.get('ang') || get(src + '_ang', 1), 10) || 1;
-    var words = [], cum = [], total = 0, curIdx = -1;
+    var words = [], cum = [], total = 0, curIdx = -1, lastAdvanceAt = -Infinity, lastTickAudioTime = null;
+    var MIN_WORD_DWELL_MS = 260; // floor on how fast the highlight may advance — see throttleIndex
+    var SEEK_JUMP_MS = 1200; // an audio-position jump bigger than this is a real seek, not playback drift
 
     var santhya = null, curUrl = '';
     function trackFor(n) {
@@ -412,7 +416,7 @@ const texts = [
       var sync = segTrack.end > segTrack.start
         ? (segTl ? ' · ≈ synced to ' + cfg.unit + ' ' + ang + ' (tap a word to fine-tune)' : ' · syncing…')
         : '';
-      note.textContent = 'Santhya · ' + segTrack.title + sync + ' — ' + (ATTR[src] || 'gurmatveechar.com');
+      note.textContent = 'Santhya · ' + segTrack.title + sync + ' — ' + (segTrack.attr || ATTR[src] || 'gurmatveechar.com');
     }
     function curWin() {
       if (!segTl || !aud.duration || !segTrack) return null;
@@ -476,7 +480,7 @@ const texts = [
         ln.appendChild(ab);
         page.appendChild(ln);
       });
-      curIdx = -1; buildTiming();
+      curIdx = -1; lastAdvanceAt = -Infinity; lastTickAudioTime = null; buildTiming();
     }
     function load(n, opts) {
       n = Math.max(1, Math.min(cfg.max, n)); ang = n; angin.value = n; set(src + '_ang', n);
@@ -493,7 +497,12 @@ const texts = [
     aud.addEventListener('timeupdate', function () {
       if (!cfg.audio) return;
       var w = curWin(); if (!w) return;
-      applyWord(wordIndexAt(aud.currentTime, w, cum, total));
+      var target = wordIndexAt(aud.currentTime, w, cum, total);
+      var now = performance.now();
+      var audioJumpMs = lastTickAudioTime == null ? 0 : Math.abs(aud.currentTime - lastTickAudioTime) * 1000;
+      lastTickAudioTime = aud.currentTime;
+      var next = throttleIndex(curIdx, target, now - lastAdvanceAt, MIN_WORD_DWELL_MS, audioJumpMs, SEEK_JUMP_MS);
+      if (next !== curIdx) { lastAdvanceAt = now; applyWord(next); }
       // Sehaj flow: the recitation crossed this ang's window — turn the page
       // with it (and turn back if the listener scrubbed backwards).
       if (!aud.paused && segTrack) {
@@ -619,3 +628,16 @@ const texts = [
     } // end runReader
   </script>
 </Base>
+
+<style>
+  /* This page's h1 has two spans: the Gurmukhi word (class="gur text-display",
+     needs its proper Gurmukhi font — left untouched) and the English title
+     (class="text-display-sm", which is the same shared class the collegiate
+     crest font hooks into for hero-scale headings elsewhere). Only the
+     English span is reverted to the site's normal serif here. */
+  #su-hero h1 span.text-display-sm {
+    font-family: 'Source Serif 4', Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    font-weight: 700;
+    text-transform: none;
+  }
+</style>

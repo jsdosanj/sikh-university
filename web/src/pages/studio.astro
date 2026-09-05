@@ -150,6 +150,7 @@ import Base from '../layouts/Base.astro';
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-paper text-muted">${iconSvg('note', 'h-6 w-6')}</div>
             <p class="mt-3 font-sans text-sm text-muted">No drafts yet. Start your first course — it stays private until you submit it.</p>
           </div>`}</div>`;
+      document.getElementById('empty-new-draft')?.addEventListener('click', () => document.getElementById('new-draft')!.click());
       document.querySelectorAll('[data-open]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); goToEditor((a as HTMLElement).dataset.open!); }));
       document.querySelectorAll('[data-delete-draft]').forEach((b) => b.addEventListener('click', (e) => {
         e.preventDefault(); e.stopPropagation();
@@ -201,7 +202,7 @@ import Base from '../layouts/Base.astro';
         const b = document.createElement('button');
         b.textContent = label;
         b.dataset.k = key;
-        b.className = 'px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted';
+        b.className = 'px-4 py-2 font-sans text-sm border-b-2 border-transparent text-muted transition-colors hover:border-line hover:text-navy';
         b.addEventListener('click', () => { tab = key; drawTabs(); drawPanel(); });
         tabsEl.appendChild(b);
       });
@@ -210,6 +211,7 @@ import Base from '../layouts/Base.astro';
           const el = b as HTMLElement;
           const on = el.dataset.k === tab;
           el.classList.toggle('border-saffron', on); el.classList.toggle('text-navy', on); el.classList.toggle('font-semibold', on);
+          el.classList.toggle('hover:border-line', !on); // hover underline must not fight the active saffron one
         });
       }
       function drawPanel() {
@@ -224,15 +226,15 @@ import Base from '../layouts/Base.astro';
       function renderOverview() {
         panel.innerHTML = `
           <div class="grid gap-2">
-            <label class="block font-sans text-sm font-semibold">Summary<textarea id="f-summary" rows="3" class="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans" ${editable ? '' : 'disabled'}>${esc(meta.summary || '')}</textarea></label>
+            <label class="block font-sans text-sm font-semibold">Summary<textarea id="f-summary" rows="3" class="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" ${editable ? '' : 'disabled'}>${esc(meta.summary || '')}</textarea></label>
             <label class="block font-sans text-sm font-semibold">Created with AI assistance?
-              <select id="f-ai" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans" ${editable ? '' : 'disabled'}>
+              <select id="f-ai" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" ${editable ? '' : 'disabled'}>
                 <option value="true" ${meta.aiAssisted ? 'selected' : ''}>Yes</option>
                 <option value="false" ${meta.aiAssisted === false ? 'selected' : ''}>No</option>
               </select>
             </label>
             <label class="block font-sans text-sm font-semibold">Visibility
-              <select id="f-visibility" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans" ${editable ? '' : 'disabled'}>
+              <select id="f-visibility" class="mt-1 rounded-xl border border-line bg-surface px-3 py-2 font-sans focus:border-saffron focus:outline-none" ${editable ? '' : 'disabled'}>
                 <option value="public" ${draft.visibility !== 'gated' ? 'selected' : ''}>Public — free, fully listed</option>
                 <option value="gated" ${draft.visibility === 'gated' ? 'selected' : ''}>Institutional — title &amp; summary public, full content requires cohort access</option>
               </select>

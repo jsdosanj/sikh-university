@@ -27,6 +27,14 @@ command = "cd web && npm install && npm run build && rm -f dist/assets/data/cour
 [assets]
 directory = "./web/dist"
 binding = "ASSETS"
+# /technology/* routes through the Worker first so it can augment the asset
+# layer's own (hash-hardened) CSP for the code lab — 'wasm-unsafe-eval' + the
+# Pyodide CDN in script-src/connect-src, and frame-src 'self' for the sandboxed
+# preview iframe. Everything else the site forbids stays forbidden. Every other
+# path is still served straight from the edge (Worker skipped). The legacy
+# /institute prefix stays in the list so the Worker runs to 301 it to
+# /technology (the wing was renamed 2026-08).
+run_worker_first = ["/technology", "/technology/*", "/institute", "/institute/*", "/_lab/*"]
 
 [[d1_databases]]
 binding = "DB"
