@@ -14,6 +14,7 @@ export const GET: APIRoute = ({ site }) => {
     { path: '/technology', priority: '0.9' },
     { path: '/technology/catalog', priority: '0.7' },
     { path: '/technology/explore', priority: '0.6' },
+    { path: '/technology/resources', priority: '0.6' },
     { path: '/technology/atlas', priority: '0.6' },
     { path: '/technology/licenses', priority: '0.4' },
     { path: '/technology/guide/claude-code', priority: '0.7' },

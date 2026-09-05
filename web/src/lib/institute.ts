@@ -36,6 +36,17 @@ export interface Booth {
   blurb: string;
 }
 
+export interface Resource {
+  id: string;
+  title: string;
+  kind: 'list' | 'book' | 'course';
+  category: 'lists' | 'books' | 'courses';
+  href: string;
+  author: string;
+  price: string;
+  blurb: string;
+}
+
 export interface InstituteProfessor {
   name: string;
   kind: 'person' | 'org';
@@ -49,6 +60,7 @@ export const WEDGE: string = (manifest as any).wedge;
 export const SHIP_SHAPE: string = (manifest as any).shipShape;
 export const tracks: Track[] = (manifest as any).tracks;
 export const explore: Booth[] = (manifest as any).explore;
+export const resources: Resource[] = (manifest as any).resources;
 export const deferred = (manifest as any).deferred as {
   phases: string[];
   atlas: string;

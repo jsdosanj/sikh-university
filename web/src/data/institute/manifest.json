@@ -385,6 +385,128 @@
       "blurb": "A local-first desktop app: 90+ interactive coding courses, no account, native compilers offline — and it turns any technical PDF or EPUB into a course with generated exercises. Its book-derived packs sit under non-commercial and no-derivatives licences, so this stand links out rather than rehosting."
     }
   ],
+  "resources": [
+    {
+      "id": "loop-library",
+      "title": "Loop Library",
+      "kind": "list",
+      "category": "lists",
+      "href": "https://signals.forwardfuture.com/loop-library/",
+      "author": "Forward Future",
+      "price": "free",
+      "blurb": "A free, community-built library of reusable AI-agent “loops” — structured prompts with their own checks and stopping conditions. Worth a visit once you are past the agent-engineering phases and building real workflows."
+    },
+    {
+      "id": "the-coding-interview",
+      "title": "The Coding Interview",
+      "kind": "list",
+      "category": "lists",
+      "href": "https://github.com/mre/the-coding-interview",
+      "author": "Matthias Endler (mre)",
+      "price": "free",
+      "blurb": "A free, MIT-licensed GitHub repo of programming exercises, katas, and interview puzzles across 20+ languages, drawing on Project Euler and Google Code Jam. Good bench practice once the fundamentals phases are done."
+    },
+    {
+      "id": "awesome-learn-to-code",
+      "title": "Awesome Learn to Code",
+      "kind": "list",
+      "category": "lists",
+      "href": "https://md8-habibullah.github.io/awesome-learn-to-code/",
+      "author": "md8-habibullah",
+      "price": "free",
+      "blurb": "A free, hand-picked directory of 150+ beginner-friendly open-source repos — roadmaps, free books, interactive platforms, and project ideas — sorted into 16 categories."
+    },
+    {
+      "id": "book-sicp",
+      "title": "Structure and Interpretation of Computer Programs",
+      "kind": "book",
+      "category": "books",
+      "href": "https://sourceacademy.org/sicpjs/",
+      "author": "Harold Abelson & Gerald Jay Sussman, with Julie Sussman",
+      "price": "free",
+      "blurb": "The classic MIT computer-science text — how to think about programs, not just syntax. Free to read online (JavaScript edition); the original Scheme edition (MIT Press, 1996) is also freely mirrored."
+    },
+    {
+      "id": "book-deep-learning",
+      "title": "Deep Learning",
+      "kind": "book",
+      "category": "books",
+      "href": "https://www.deeplearningbook.org/",
+      "author": "Ian Goodfellow, Yoshua Bengio & Aaron Courville",
+      "price": "free",
+      "blurb": "The standard graduate-level reference behind the Institute's ML and deep-learning phases. Free to read online; MIT Press also sells the print edition."
+    },
+    {
+      "id": "book-ddia",
+      "title": "Designing Data-Intensive Applications",
+      "kind": "book",
+      "category": "books",
+      "href": "https://dataintensive.net/",
+      "author": "Martin Kleppmann",
+      "price": "paid",
+      "blurb": "How real systems store, replicate, and process data at scale — the book most working backend and infra engineers keep on the shelf."
+    },
+    {
+      "id": "book-pragmatic-programmer",
+      "title": "The Pragmatic Programmer",
+      "kind": "book",
+      "category": "books",
+      "href": "https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/",
+      "author": "David Thomas & Andrew Hunt",
+      "price": "paid",
+      "blurb": "Craft and judgment for working programmers — the habits the lesson pages don't have room to teach."
+    },
+    {
+      "id": "book-cracking-coding-interview",
+      "title": "Cracking the Coding Interview",
+      "kind": "book",
+      "category": "books",
+      "href": "https://www.crackingthecodinginterview.com/",
+      "author": "Gayle Laakmann McDowell",
+      "price": "paid",
+      "blurb": "189 programming interview questions worked end to end — the standard companion once you're bench-practicing with The Coding Interview above."
+    },
+    {
+      "id": "course-deeplearning-ai-specialization",
+      "title": "Deep Learning Specialization",
+      "kind": "course",
+      "category": "courses",
+      "href": "https://www.coursera.org/specializations/deep-learning",
+      "author": "DeepLearning.AI (Andrew Ng), via Coursera",
+      "price": "free to audit · paid certificate",
+      "blurb": "Five courses covering neural networks, CNNs, sequence models, and how to structure an ML project — the deep-learning phases' spiritual companion."
+    },
+    {
+      "id": "course-cs50",
+      "title": "CS50: Introduction to Computer Science",
+      "kind": "course",
+      "category": "courses",
+      "href": "https://cs50.harvard.edu/x/",
+      "author": "Harvard University (David J. Malan), via edX",
+      "price": "free to audit · paid certificate",
+      "blurb": "Harvard's legendary intro to computer science and programming — algorithms, data structures, and a real problem set every week."
+    },
+    {
+      "id": "course-grokking-coding-interview",
+      "title": "Grokking the Coding Interview: Patterns for Coding Questions",
+      "kind": "course",
+      "category": "courses",
+      "href": "https://www.educative.io/courses/grokking-coding-interview-patterns",
+      "author": "Educative.io",
+      "price": "paid",
+      "blurb": "28 reusable interview patterns instead of memorizing individual problems — a paid, text-based companion to the free interview-prep links above."
+    },
+    {
+      "id": "course-udacity-nanodegree",
+      "title": "Udacity Nanodegree programs",
+      "kind": "course",
+      "category": "courses",
+      "href": "https://www.udacity.com/school-of-ai",
+      "author": "Udacity",
+      "price": "paid",
+      "blurb": "Project-graded, mentor-supported programs in AI, ML engineering, and data — a paid, structured on-ramp for when self-study needs a deadline and a reviewer."
+    }
+  ],
   "deferred": {
     "phases": [],
     "atlas": "shipped at /technology/atlas (2026-08)",
