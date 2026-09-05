@@ -535,4 +535,92 @@ const ld = {
   #mission-section::before { background-image: url('/assets/backgrounds/home-mission.jpg'); }
   #first-of-kind::before { background-image: url('/assets/backgrounds/home-first.jpg'); }
   #built-for-future::before { background-image: url('/assets/backgrounds/home-future.jpg'); }
+
+  /* ── The department portal ─────────────────────────────────────────── */
+  /* Explicit instruction 2026-09-05: nine schools, laid out 3x3 on desktop
+     -- not master's original 4-column grid (which would give an awkward
+     4+4+1 split for exactly nine cards). 2 columns on tablet as the one
+     intermediate step down from 3. */
+  #home-portal { padding: clamp(3.5rem, 8vw, 7rem) 0; background: rgb(var(--c-paper)); }
+  #home-portal .portal-head { max-width: 60ch; }
+  #home-portal .portal-grid {
+    margin-top: clamp(2rem, 4vw, 3.25rem);
+    display: grid; gap: clamp(1rem, 1.6vw, 1.5rem);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px)  { #home-portal .portal-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { #home-portal .portal-grid { grid-template-columns: repeat(3, 1fr); } }
+  .portal-card {
+    position: relative; display: flex; flex-direction: column; overflow: hidden;
+    border-radius: 1.1rem; background: rgb(var(--c-surface)); border: 1px solid rgb(var(--c-line));
+    text-decoration: none; isolation: isolate;
+    transition: transform .26s cubic-bezier(.2,.7,.3,1), box-shadow .26s, border-color .26s;
+  }
+  .portal-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 56px rgb(11 30 58 / .17);
+    border-color: color-mix(in srgb, var(--accent) 50%, rgb(var(--c-line)));
+  }
+  .portal-media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #0d131c; }
+  .portal-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.3,1); }
+  .portal-card:hover .portal-media img { transform: scale(1.07); }
+  .portal-veil {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, transparent 35%, rgba(8,12,20,.72) 100%),
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 32%, transparent), transparent 55%);
+  }
+  .portal-name {
+    position: absolute; left: 1rem; right: 1rem; bottom: .85rem;
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 800;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem); color: #fff; line-height: 1.15;
+    text-shadow: 0 2px 16px rgba(0,0,0,.5);
+  }
+  .portal-body { display: flex; flex-direction: column; flex: 1; padding: 1.15rem 1.15rem 1.25rem; border-top: 3px solid var(--accent); }
+  .portal-tag { flex: 1; font-size: .86rem; line-height: 1.5; color: rgb(var(--c-muted)); font-style: italic; }
+  .portal-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: .9rem; font-family: var(--font-sans, system-ui);
+    font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .portal-arrow { transition: transform .2s; }
+  .portal-card:hover .portal-arrow { transform: translateX(4px); }
+  .portal-foot { margin-top: clamp(2rem, 4vw, 3rem); text-align: center; }
+
+  /* The 3rd Panth doorway — bottom of the homepage. The negative bottom margin
+     cancels the shared footer's mt-20 so the strip sits flush above it. */
+  .su-3rd {
+    display: block; text-decoration: none;
+    margin-bottom: -5rem;
+    background: #0c0c0d; color: #f3f2ee;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    transition: background .16s ease, color .16s ease;
+  }
+  .su-3rd:hover, .su-3rd:focus-visible { background: #f3f2ee; color: #0c0c0d; outline: none; }
+  .su-3rd-in {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 28px;
+    max-width: 1680px; margin: 0 auto;
+    padding: 22px max(2rem, env(safe-area-inset-left)) 22px max(2rem, env(safe-area-inset-right));
+  }
+  @media (min-width: 768px)  { .su-3rd-in { padding-left: max(4rem, env(safe-area-inset-left)); padding-right: max(4rem, env(safe-area-inset-right)); } }
+  @media (min-width: 1024px) { .su-3rd-in { padding-left: max(6rem, env(safe-area-inset-left)); padding-right: max(6rem, env(safe-area-inset-right)); } }
+  @media (min-width: 1400px) { .su-3rd-in { padding-left: max(8rem, env(safe-area-inset-left)); padding-right: max(8rem, env(safe-area-inset-right)); } }
+  .su-3rd-id { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-width: 0; }
+  .su-3rd-ik { font-family: "Noto Serif Gurmukhi", "Noto Sans Gurmukhi", serif; font-size: 18px; line-height: 1; }
+  .su-3rd-wm { font-family: var(--font-sans, system-ui); font-weight: 800; font-size: 14px; letter-spacing: .16em; }
+  .su-3rd-rev {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; opacity: .55;
+  }
+  .su-3rd-end { display: flex; align-items: center; gap: 12px; }
+  .su-3rd-tag {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  }
+  .su-3rd-go { display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid currentColor; }
+  @media (max-width: 520px) {
+    .su-3rd-rev { flex-basis: 100%; }
+    .su-3rd-tag { font-size: 9px; letter-spacing: .14em; }
+  }
 </style>

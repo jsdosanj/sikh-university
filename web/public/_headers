@@ -1,6 +1,13 @@
+# img-src includes blob: for <model-viewer>'s decoded glTF textures --
+# THREE.GLTFLoader creates a blob: URL per texture via
+# URL.createObjectURL() and assigns it as an <img> src; without blob: in
+# img-src every texture on the crest/emblem 3D models silently fails to
+# load. Found live on sikhiuni.com 2026-09-05, alongside the same-day fix
+# adding a WASM-execution allowance to the hardened script directive below
+# (build-csp.mjs) for that same 3D-texture-decoding feature.
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' https://api.banidb.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' https://api.banidb.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'
