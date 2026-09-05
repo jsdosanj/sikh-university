@@ -3,17 +3,21 @@ import Icon from './Icon.astro';
 import deptData from '../data/departments.json';
 const departments = (deptData as any).departments as { name: string; slug: string }[];
 const wing = (deptData as any).wing as { name: string; href: string };
-// "Departments" is a mega-menu (see below); the rest are plain links.
-// Santhya + Professors live only inside the Departments menu now — the top
-// row stays deliberately spare.
+// "Departments" is a mega-menu (see below). Explicit instruction 2026-09-05:
+// Courses/Santhya/Professors go back to being direct top-level links (as
+// they were on the redesign branch before this file merged with master's
+// version) rather than living only inside the Departments menu -- restored
+// per direct feedback that folding them away read as fewer options, not a
+// deliberate simplification.
 const links = [
+  { href: '/catalog', label: 'Courses', m: '/catalog', key: 'nav.courses' },
+  { href: '/santhiya', label: 'Santhya', m: '/santhiya', key: 'nav.santhya' },
+  { href: '/professors', label: 'Professors', m: '/professors', key: 'nav.professors' },
   { href: '/about', label: 'About', m: '/about', key: 'nav.about' },
 ];
 const moreWays = [
   { href: '/catalog#paths', label: 'Guided journeys' },
   { href: '/programs', label: 'Degree programs' },
-  { href: '/santhiya', label: 'Santhya pathway' },
-  { href: '/professors', label: 'Professors' },
 ];
 const LANG_OPTS = [
   ['en', 'English'], ['pa', 'ਪੰਜਾਬੀ'], ['hi', 'हिन्दी'], ['ur', 'اردو'], ['es', 'Español'],
