@@ -17,8 +17,16 @@ import path from 'node:path';
 // an asset reference and the embedded CSS breaks the compiled module.)
 const fontFaceCss = readFileSync(path.resolve(process.cwd(), 'public/fonts/fonts.css'), 'utf-8');
 
-interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; ambient?: 'hall' | 'study' | 'sanctum' | 'none'; bgImage?: string; noindex?: boolean; bodyClass?: string }
-const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true, ambient = 'none', bgImage, noindex = false, bodyClass } = Astro.props;
+interface Props { title: string; description?: string; canonical?: string; ogType?: string; autoTranslate?: boolean; ambient?: 'hall' | 'study' | 'sanctum' | 'none'; bgImage?: string; noindex?: boolean; bodyClass?: string; institute?: boolean }
+const { title, description = 'A free, open online university for Sikhi and modern skills — open to all, worldwide.', canonical, ogType = 'website', autoTranslate = true, ambient = 'none', bgImage, noindex = false, bodyClass, institute = false } = Astro.props;
+const instituteFontCss = institute ? readFileSync(path.resolve(process.cwd(), 'public/fonts/institute-fonts.css'), 'utf-8') : '';
+const autoTranslateEff = institute ? false : autoTranslate;
+// Google truncates a meta description around 155-160 chars anyway; better to
+// truncate at ~155-160 and a hard mid-word cut looks careless. The full text
+// still renders in the page body -- this only trims what crawlers read.
+const metaDesc = description.length <= 160
+  ? description
+  : description.slice(0, 157).replace(/\s+\S*$/, '').replace(/[,;:—-]$/, '') + '…';
 import { SITE, ldJson } from '../lib/site';
 // Normalise to the extensionless URLs the site is actually served/linked at
 // (e.g. /catalog, not /catalog.html; / for the homepage).
@@ -33,7 +41,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <!-- Self-hosted fonts (Gurmukhi is first-class, never left to device chance).
        @font-face rules are inlined (see frontmatter) and the two above-the-fold
        faces are preloaded so text paints without a stylesheet round-trip. -->
-  <Fragment set:html={`<style>${fontFaceCss}</style>`} />
+  <Fragment set:html={`<style>${fontFaceCss}${instituteFontCss}</style>`} />
   <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/notoserifgur-gurmukhi-400.woff2" as="font" type="font/woff2" crossorigin />
   {institute && <link rel="preload" href="/fonts/chakrapetch-latin-600.woff2" as="font" type="font/woff2" crossorigin />}
@@ -119,7 +127,7 @@ const canon = canonical || SITE + (cleanPath === '' ? '/' : cleanPath);
   <meta name="twitter:image:alt" content="Sikhi University — free, open learning in Sikhi" />
   <slot name="head" />
 </head>
-<body class={bodyClass}>
+<body class={bodyClass} data-ambient={ambient} data-institute={institute ? '' : undefined}>
   {ambient !== 'none' && (
     <div aria-hidden="true" class={`ambient ambient-${ambient}`}>
       {bgImage && <div class="ambient-painting" style={`background-image:url('${bgImage}')`}></div>}
