@@ -2,6 +2,8 @@
 // Static files in site/ are served by the [assets] binding; /api/* is dispatched
 // to the existing handlers (unchanged) that live under functions/api/.
 import { onRequestGet as meGet, onRequestPost as mePost } from "./functions/api/me.js";
+import { onRequestPost as activityHeartbeatPost } from "./functions/api/activity/heartbeat.js";
+import { onRequestGet as activityStatsGet } from "./functions/api/activity/stats.js";
 import { onRequestGet as progressGet, onRequestPost as progressPost } from "./functions/api/progress.js";
 import { onRequestPost as authRequestPost } from "./functions/api/auth/request.js";
 import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
@@ -78,6 +80,8 @@ import { sendDailyReminders } from "./functions/push-sender.js";
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
   "/api/me": { GET: meGet, POST: mePost },
+  "/api/activity/heartbeat": { POST: activityHeartbeatPost },
+  "/api/activity/stats": { GET: activityStatsGet },
   "/api/progress": { GET: progressGet, POST: progressPost },
   "/api/auth/request": { POST: authRequestPost },
   "/api/auth/verify": { GET: authVerifyGet },

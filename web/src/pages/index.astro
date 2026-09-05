@@ -84,7 +84,6 @@ const ld = {
           <model-viewer
             id="su-crest-model"
             src="/assets/sikh-uni-crest-v2.glb"
-            poster="/assets/su-crest-ivory.png"
             alt="A 3D model of the Sikhi University crest, gently rocking side to side"
             camera-orbit="0deg 75deg auto"
             camera-controls
@@ -93,7 +92,7 @@ const ld = {
             exposure="1.1"
             shadow-intensity="0.8"
             environment-image="neutral"
-            loading="lazy"
+            loading="eager"
             class="relative block"
             style="height: clamp(24rem, 32vw, 45rem); width: clamp(24rem, 32vw, 45rem); background:transparent; --poster-color:transparent;">
           </model-viewer>
@@ -114,6 +113,23 @@ const ld = {
         (function () {
           var el = document.getElementById('su-crest-model');
           if (!el) return;
+          // A poster image was previously always set on this element, which
+          // meant the crest showed a flat PNG forever and never actually
+          // swapped to the live 3D render (confirmed: model-viewer never
+          // fires past its own loading state with a poster present and no
+          // explicit reveal). Real 3D should load immediately on ANY device
+          // that can actually do it — desktop or mobile — with the static
+          // image reserved ONLY for a device that genuinely can't render
+          // WebGL, so it's never left blank there instead.
+          var canvas = document.createElement('canvas');
+          var hasWebGL = !!(
+            window.WebGLRenderingContext &&
+            (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+          );
+          if (!hasWebGL) {
+            el.setAttribute('poster', '/assets/su-crest-ivory.png');
+            return; // nothing to rock — the poster is the whole picture here
+          }
           var AMPLITUDE_DEG = 16;
           var PERIOD_MS = 5200;
           var paused = false;
