@@ -27,6 +27,16 @@ export async function onRequestGet({ request, env }) {
   const payload = await verifySsoToken(token, secret);
   if (!payload) return fail("This sign-in link is invalid or expired.");
 
+  // Hub-and-spoke enforcement (Decision 3 of
+  // .cc/plan-sso-receiver-punjabiuni-sikhiuni.md, in sikhi.io's repo):
+  // sikhi.io is the only token issuer today, but verifySsoToken itself
+  // (functions/_sso.js) deliberately doesn't check `iss` -- it stays a
+  // generic verifier. All three sites currently share ONE secret, so
+  // without this check a token minted by (or forged as coming from) any
+  // other secret-holder would be accepted just as readily as one actually
+  // minted by sikhi.io.
+  if (payload.iss !== "sikhi.io") return fail("This sign-in link is invalid or expired.");
+
   const email = payload.email;
   let user = await env.DB.prepare("SELECT id, role FROM users WHERE email = ?").bind(email).first();
   const wantAdmin = isAdminEmail(env, email);
