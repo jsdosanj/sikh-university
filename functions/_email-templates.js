@@ -5,10 +5,14 @@
 // SUPERSEDES the 2026-09-03 "Resend is reserved for forgot-password only"
 // cost directive that used to head this file. Recorded here so a future
 // session doesn't retire it as a cost regression: the volume is bounded at
-// exactly one send per account, ever. Magic-link sign-in remains alive for
-// the ~30 real users who signed up before password auth existed and haven't
-// set one yet, and its email now renders through this module too
-// (magicLinkTemplate) instead of the unbranded inline <p> markup it carried.
+// exactly one send per account, ever.
+//
+// LATER THE SAME DAY (2026-09-06): registration became username + emailed
+// 6-digit code, so registrationCodeTemplate below is now the single email a
+// NATIVE signup receives -- the welcome copy is fused into it. welcomeTemplate
+// survives because it is still the one-time email for a sikhi.io user first
+// provisioned here by SSO, who never sees a code. Magic-link sign-in and its
+// template are GONE (see functions/api/auth/request.js for why).
 //
 // Design by Fable (claude-fable-5), 2026-09-03, briefed on this site's real
 // brand tokens (web/tailwind.config.mjs: navy #0b2444/#0b1e3a, brand navy
@@ -415,56 +419,12 @@ Powered by sikhi.io — https://sikhi.io`;
   return { subject: `${code} is your Sikhi University confirmation code`, html, text };
 }
 
-// ── Magic-link sign-in ──────────────────────────────────────────────────────
-// The legacy path, kept for accounts that predate password auth. Its email
-// used to be three unbranded <p> tags inline in request.js; it renders through
-// the same system as everything else now, because one off-brand email in an
-// otherwise branded family reads as a bug within a week.
-export function magicLinkTemplate(link) {
-  const html = shell({
-    title: "Your Sikhi University sign-in link",
-    preheader: "Your one-click sign-in link — it expires in 15 minutes.",
-    eyebrow: "Sign-in link",
-    heading: "Your sign-in link",
-    bodyRows: `
-      ${paragraph("Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh.", 10)}
-      ${paragraph("Use the button below to sign in to your Sikhi University account. No password needed.", 24)}
-      ${button(link, "Sign in")}
-      ${paragraph("If the button doesn&rsquo;t open, copy and paste this link into your browser:", 6)}
-      <tr>
-        <td style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:20px; padding-bottom:28px; word-break:break-all;">
-          <a href="${link}" target="_blank" style="color:#16335c; text-decoration:underline; word-break:break-all;">${link}</a>
-        </td>
-      </tr>
-      <tr>
-        <td bgcolor="#f7f5ef" style="background-color:#f7f5ef; border-left:3px solid #f4b21a; border-radius:0 4px 4px 0; padding:16px 20px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#454b56;">
-          <strong style="color:#0b1e3a;">For your security:</strong> this link expires in <strong style="color:#0b1e3a;">15 minutes</strong> and may be used <strong style="color:#0b1e3a;">only once</strong>. If you did not ask to sign in, no action is required.
-        </td>
-      </tr>
-    `,
-    footerNote: "This message was sent because a sign-in link was requested for your Sikhi University account. This is a transactional message about your account.",
-  });
+// ── Magic-link sign-in — TEMPLATE DELETED 2026-09-06 ────────────────────────
+// magicLinkTemplate lived here until the magic-link flow itself was retired
+// (functions/api/auth/{request,verify}.js are now 410s — see request.js for
+// why). It had zero call sites the moment that flow went, and a live-looking
+// auth-email template with no caller is one bad merge away from being sent
+// again. Recover it from git history if a link-based flow is ever genuinely
+// wanted, but read request.js's header first: the objection was to the flow,
+// not to the markup.
 
-  const text = `SIKHI UNIVERSITY — Your sign-in link
-
-Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh.
-
-Sign in to Sikhi University:
-
-${link}
-
-For your security:
-- This link expires in 15 minutes.
-- It may be used only once.
-- If you did not ask to sign in, no action is required.
-
-Respectfully,
-Office of the Registrar
-Sikhi University
-
-Sikhi University · sikhiuni.com
-
-Powered by sikhi.io — https://sikhi.io`;
-
-  return { subject: "Your Sikhi University sign-in link", html, text };
-}

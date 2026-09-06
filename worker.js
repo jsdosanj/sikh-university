@@ -1,5 +1,7 @@
 // Sikhi University Worker entrypoint.
-// Static files in site/ are served by the [assets] binding; /api/* is dispatched
+// Static files from the Astro build (web/dist) are served by the [assets]
+// binding -- NOT site/, which is legacy and unreachable (confirmed 2026-09-06
+// against wrangler.toml's `[assets] directory = "./web/dist"`). /api/* is dispatched
 // to the existing handlers (unchanged) that live under functions/api/.
 import { onRequestGet as meGet, onRequestPost as mePost } from "./functions/api/me.js";
 import { onRequestPost as activityHeartbeatPost } from "./functions/api/activity/heartbeat.js";

@@ -9,16 +9,16 @@
 // __tests__/email-templates.test.ts and punjabiuni's
 // lib/email/templates.test.ts in the same breath.
 import { describe, it, expect } from "vitest";
-import { resetPasswordTemplate, welcomeTemplate, magicLinkTemplate, POWERED_BY_HTML } from "../functions/_email-templates.js";
+import { resetPasswordTemplate, welcomeTemplate, registrationCodeTemplate, POWERED_BY_HTML } from "../functions/_email-templates.js";
 
 const RESET_LINK = "https://sikhiuni.com/reset-password.html?token=abc123";
-const MAGIC_LINK = "https://sikhiuni.com/api/auth/verify?token=xyz789";
 
 const ALL: Array<[string, { subject: string; html: string; text: string }]> = [
   ["resetPassword", resetPasswordTemplate(RESET_LINK)],
   ["welcome (named)", welcomeTemplate("Harjit")],
   ["welcome (anonymous)", welcomeTemplate()],
-  ["magicLink", magicLinkTemplate(MAGIC_LINK)],
+  ["registrationCode (named)", registrationCodeTemplate("482913", "harjit")],
+  ["registrationCode (anonymous)", registrationCodeTemplate("482913")],
 ];
 
 describe.each(ALL)("template %s", (_name, t) => {
@@ -104,22 +104,49 @@ describe("welcomeTemplate", () => {
   });
 });
 
-describe("magicLinkTemplate", () => {
-  const t = magicLinkTemplate(MAGIC_LINK);
+// 2026-09-06: magicLinkTemplate was DELETED along with the magic-link flow
+// (functions/api/auth/{request,verify}.js are 410s). registrationCodeTemplate
+// replaced it as the newest template, and unlike the one it succeeds it is a
+// CODE email, not a link email — a link is a bearer credential that signs in
+// whatever device opens the mail.
+describe("registrationCodeTemplate — the single email a new native account receives", () => {
+  const t = registrationCodeTemplate("482913", "harjit");
 
-  it("carries the link and a non-empty plaintext part", () => {
-    expect(t.html).toContain(MAGIC_LINK);
-    expect(t.text).toContain(MAGIC_LINK);
-    expect(t.text.trim().length).toBeGreaterThan(0);
+  it("shows the code in the html, the plaintext and the subject", () => {
+    expect(t.html).toContain("482913");
+    expect(t.text).toContain("482913");
+    expect(t.subject.startsWith("482913")).toBe(true); // readable from a notification
   });
 
-  it("states the 15-minute single-use expiry", () => {
+  it("is a CODE email — the only links are the powered-by mark", () => {
+    const hrefs = [...t.html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+    expect(hrefs.every((h) => h === "https://sikhi.io")).toBe(true);
+  });
+
+  it("states the 15-minute expiry and the same-tab constraint", () => {
     expect(t.html).toContain("15 minutes");
-    expect(t.html).toContain("only once");
+    expect(t.html).toContain("same tab");
     expect(t.text).toContain("15 minutes");
   });
 
-  it("is no longer the unbranded inline markup it replaced", () => {
+  it("carries the welcome copy it absorbed, so the fusion didn't lose value", () => {
+    expect(t.html).toContain("departments catalogue");
+    expect(t.html).toContain("certificates");
+    expect(t.html).toContain("Learning paths");
+    expect(t.text).toContain("departments catalogue");
+  });
+
+  it("greets by username when known and degrades cleanly when not", () => {
+    expect(t.html).toContain("welcome, harjit");
+    expect(registrationCodeTemplate("482913").html).not.toContain("welcome,");
+  });
+
+  it("says nothing was created if the reader ignores it", () => {
+    expect(t.html).toContain("nothing has been created");
+    expect(t.text).toContain("nothing has been created");
+  });
+
+  it("is branded, not the unbranded markup the old flow started with", () => {
     expect(t.html).toContain("Sikhi University");
     expect(t.html).toContain("&#9772;"); // the crest glyph
   });
