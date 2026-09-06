@@ -8,7 +8,15 @@ CREATE TABLE IF NOT EXISTS users (
   role TEXT NOT NULL DEFAULT 'learner',        -- learner | teacher | admin
   created_at INTEGER NOT NULL,
   marketing_optin INTEGER NOT NULL DEFAULT 0,  -- feature/product email consent; off unless explicitly given
-  username TEXT                                -- chosen at registration (2026-09); NULL for every pre-2026-09 account
+  username TEXT,                               -- chosen at registration (2026-09); NULL for every pre-2026-09 account
+  -- Backported from migrations/0010_password_auth.sql 2026-09-06. It had never
+  -- been added here, so `npm run db:seed` produced a database on which
+  -- password sign-in could NEVER work: every account creation died on
+  -- "table users has no column named password_hash". Found by the E2E suite,
+  -- which seeds a fresh local DB from this file and then tries to register.
+  -- NULLable on purpose: accounts predating password auth have none, and
+  -- forgot-password doubles as "set my first password" for them.
+  password_hash TEXT
 );
 -- Usernames are unique per SITE, never across sites — identity across
 -- sikhi.io / sikhiuni.com / punjabiuni.com stays keyed by email via SSO.
@@ -52,6 +60,18 @@ CREATE TABLE IF NOT EXISTS password_reset_codes (
   created_at INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_pw_reset_codes_user ON password_reset_codes(user_id);
+
+-- Also backported from migrations/0010 (same omission as password_hash above).
+-- SUPERSEDED by password_reset_codes for new resets, but reset-password.js
+-- keeps a token branch for the deploy grace window, so a fresh DB still needs
+-- the table for that code path to be exercisable at all.
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+  token       TEXT PRIMARY KEY,
+  user_id     TEXT NOT NULL,
+  expires_at  INTEGER NOT NULL,
+  used        INTEGER NOT NULL DEFAULT 0,
+  created_at  INTEGER NOT NULL
+);
 
 -- Existing databases: run once to add the username column (2026-09):
 --   ALTER TABLE users ADD COLUMN username TEXT;

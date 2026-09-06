@@ -177,6 +177,13 @@ import Base from '../layouts/Base.astro';
 
       h1.textContent = signup ? 'Create your account' : 'Sign in';
       passwordBtn.textContent = !signup ? 'Sign in' : regStep === 1 ? 'Send me a code' : 'Confirm & create account';
+      // One button serves three states, so its testid moves with it. The names
+      // match sikhi.io's and punjabiuni's exactly, which is what lets one E2E
+      // journey be written once and read the same on all three sites.
+      passwordBtn.setAttribute(
+        'data-testid',
+        !signup ? 'login-submit' : regStep === 1 ? 'reg-start' : 'reg-complete',
+      );
       sub.innerHTML = signup
         ? `Already have an account? <button type="button" id="mode-toggle-2" data-testid="tab-signin" class="underline">Sign in</button>`
         : `New here? <button type="button" id="mode-toggle" data-testid="tab-signup" class="underline underline-offset-2">Create an account</button>`;
