@@ -174,6 +174,12 @@ import Base from '../layouts/Base.astro';
             <div><span class="font-sans text-sm font-semibold">Languages</span>
               <div class="mt-2 flex flex-wrap gap-2">${langChecks}</div>
             </div>
+            <label class="flex items-start gap-2.5 rounded-xl border border-line bg-paper px-4 py-3">
+              <input id="pf-marketing" type="checkbox" ${cur.marketingOptin ? 'checked' : ''} class="mt-0.5" />
+              <span class="font-sans text-sm">Email me about new courses and features.
+                <span class="block text-xs text-muted">Off by default. You can change your mind here at any time.</span>
+              </span>
+            </label>
             <button id="pf-save" class="btn btn-primary">Save profile</button>
           </div>
           ${(cur.role === 'teacher' || cur.role === 'admin') ? `
@@ -218,11 +224,13 @@ import Base from '../layouts/Base.astro';
           const name = document.getElementById('pf-name').value.trim();
           const country = document.getElementById('pf-country').value;
           const languages = Array.from(document.querySelectorAll('.pf-lang:checked')).map((c) => c.value);
-          api('/api/me', { method: 'POST', body: JSON.stringify({ name, country, languages }) }).then((res) => {
+          const marketingOptin = document.getElementById('pf-marketing').checked;
+          api('/api/me', { method: 'POST', body: JSON.stringify({ name, country, languages, marketingOptin }) }).then((res) => {
             btn.disabled = false; btn.textContent = 'Save profile';
             const msg = document.getElementById('pf-msg');
             if (res && res.user) {
               user.name = res.user.name; user.country = res.user.country; user.languages = res.user.languages;
+              user.marketingOptin = res.user.marketingOptin;
               const p = get('profile', {}); p.name = res.user.name || ''; set('profile', p); // keep cert.astro in sync
               if (msg) msg.innerHTML = '<div class="rounded-xl border-l-4 border-ok bg-surface p-3 font-sans text-sm"><strong>Saved.</strong> Your profile is up to date.</div>';
             } else if (msg) {

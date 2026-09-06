@@ -21,13 +21,29 @@ export function sessionCookie(id, maxAgeSec) {
 }
 
 // Resolve the logged-in user from the session cookie, or null.
+//
+// marketing_optin is selected here (not just in me.js) so every route that
+// calls getUser() gets the current opt-in value on the user object for free.
+// Wrapped: this runs on every authenticated request, so a DB that hasn't yet
+// had the column ALTERed onto it (a stale preview/local D1 the migration
+// hasn't reached) must not break login sitewide -- degrade to the plain
+// query and default the opt-in to 0 rather than throwing.
 export async function getUser(env, request) {
   const sid = readCookie(request, "su_session");
   if (!sid) return null;
-  const row = await env.DB.prepare(
-    "SELECT u.id, u.email, u.name, u.country, u.languages, u.role, s.mfa_ok FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.id = ? AND s.expires_at > ?"
-  ).bind(sid, Date.now()).first();
-  return row || null;
+  try {
+    const row = await env.DB.prepare(
+      "SELECT u.id, u.email, u.name, u.country, u.languages, u.role, u.marketing_optin, s.mfa_ok FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.id = ? AND s.expires_at > ?"
+    ).bind(sid, Date.now()).first();
+    return row || null;
+  } catch (e) {
+    const message = (e && e.message) || String(e);
+    if (!/marketing_optin|no such column/i.test(message)) throw e;
+    const row = await env.DB.prepare(
+      "SELECT u.id, u.email, u.name, u.country, u.languages, u.role, s.mfa_ok FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.id = ? AND s.expires_at > ?"
+    ).bind(sid, Date.now()).first();
+    return row ? { ...row, marketing_optin: 0 } : null;
+  }
 }
 
 export function isAdminEmail(env, email) {
