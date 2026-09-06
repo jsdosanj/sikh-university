@@ -33,6 +33,26 @@ CREATE TABLE IF NOT EXISTS pending_registrations (
 );
 CREATE INDEX IF NOT EXISTS idx_pending_reg_email ON pending_registrations(email);
 
+-- Password reset by 6-digit code + same-browser binding
+-- (migrations/0013_reset_codes.sql). A reset LINK is a bearer credential —
+-- it signs in whatever device opens the email, and anyone who can read the
+-- mailbox holds a working password change. A code is useless without the
+-- httpOnly psid cookie held by the browser that requested it.
+--
+-- password_reset_tokens (the old link table) is intentionally still present
+-- and readable: reset-password.js keeps a token branch so links already in
+-- flight at deploy time work out their remaining hour.
+CREATE TABLE IF NOT EXISTS password_reset_codes (
+  psid       TEXT PRIMARY KEY,
+  user_id    TEXT NOT NULL,
+  code       TEXT NOT NULL,
+  attempts   INTEGER NOT NULL DEFAULT 0,
+  verified   INTEGER NOT NULL DEFAULT 0,
+  expires_at INTEGER NOT NULL,
+  created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_pw_reset_codes_user ON password_reset_codes(user_id);
+
 -- Existing databases: run once to add the username column (2026-09):
 --   ALTER TABLE users ADD COLUMN username TEXT;
 --   (then the CREATE UNIQUE INDEX above, which IS re-runnable)

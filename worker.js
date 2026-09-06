@@ -16,6 +16,7 @@ import { onRequestPost as authRegisterStartPost } from "./functions/api/auth/reg
 import { onRequestPost as authRegisterCompletePost } from "./functions/api/auth/register-complete.js";
 import { onRequestPost as authLoginPost } from "./functions/api/auth/login.js";
 import { onRequestPost as authForgotPasswordPost } from "./functions/api/auth/forgot-password.js";
+import { onRequestPost as authVerifyResetCodePost } from "./functions/api/auth/verify-reset-code.js";
 import { onRequestPost as authResetPasswordPost } from "./functions/api/auth/reset-password.js";
 import { onRequestPost as mfaEnrollPost } from "./functions/api/auth/mfa/enroll.js";
 import { onRequestPost as mfaConfirmPost } from "./functions/api/auth/mfa/confirm.js";
@@ -97,6 +98,7 @@ const routes = {
   "/api/auth/register-complete": { POST: authRegisterCompletePost },
   "/api/auth/login": { POST: authLoginPost },
   "/api/auth/forgot-password": { POST: authForgotPasswordPost },
+  "/api/auth/verify-reset-code": { POST: authVerifyResetCodePost },
   "/api/auth/reset-password": { POST: authResetPasswordPost },
   "/api/auth/mfa/enroll": { POST: mfaEnrollPost },
   "/api/auth/mfa/confirm": { POST: mfaConfirmPost },
@@ -168,6 +170,7 @@ const routes = {
 const RATE_LIMITS = {
   "/api/auth/request": { limit: 20, window: 60 },  // magic-link sends (anti mail-bomb)
   "/api/auth/forgot-password": { limit: 20, window: 60 },  // password-reset sends (same rule -- this is where Resend cost actually lives now)
+  "/api/auth/verify-reset-code": { limit: 10, window: 60 },  // 6-digit code brute-force guard, same as MFA verify
   "/api/auth/login": { limit: 30, window: 60 },  // password guess throttle
   "/api/auth/signup": { limit: 20, window: 60 },
   // register-start SENDS MAIL, so it gets the anti-mail-bomb limit, not the

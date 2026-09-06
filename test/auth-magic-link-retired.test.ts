@@ -73,8 +73,11 @@ describe("the retired files cannot be revived by accident", () => {
     // (verified 2026-09-06). Its stale copy is left alone rather than edited
     // to imply it is live.
     const { execSync } = require("node:child_process") as typeof import("node:child_process");
+    // The negative lookahead matters: /api/auth/verify-reset-code is a
+    // legitimate, unrelated endpoint, and a naive "verify" match flags the
+    // reset page forever.
     const out = execSync(
-      `grep -rlE "api/auth/(request|verify)|magic-toggle|Send magic link" ${path.join(ROOT, "web", "src")} || true`,
+      `grep -rlP "api/auth/(request|verify)(?![-\\\\w])|magic-toggle|Send magic link" ${path.join(ROOT, "web", "src")} || true`,
       { encoding: "utf-8" },
     ).trim();
     expect(out).toBe("");

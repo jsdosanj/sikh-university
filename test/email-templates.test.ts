@@ -9,12 +9,13 @@
 // __tests__/email-templates.test.ts and punjabiuni's
 // lib/email/templates.test.ts in the same breath.
 import { describe, it, expect } from "vitest";
-import { resetPasswordTemplate, welcomeTemplate, registrationCodeTemplate, POWERED_BY_HTML } from "../functions/_email-templates.js";
+import { resetPasswordTemplate, resetCodeTemplate, welcomeTemplate, registrationCodeTemplate, POWERED_BY_HTML } from "../functions/_email-templates.js";
 
 const RESET_LINK = "https://sikhiuni.com/reset-password.html?token=abc123";
 
 const ALL: Array<[string, { subject: string; html: string; text: string }]> = [
-  ["resetPassword", resetPasswordTemplate(RESET_LINK)],
+  ["resetCode", resetCodeTemplate("482913")],
+  ["resetPassword (legacy, grace window only)", resetPasswordTemplate(RESET_LINK)],
   ["welcome (named)", welcomeTemplate("Harjit")],
   ["welcome (anonymous)", welcomeTemplate()],
   ["registrationCode (named)", registrationCodeTemplate("482913", "harjit")],
@@ -149,5 +150,39 @@ describe("registrationCodeTemplate — the single email a new native account rec
   it("is branded, not the unbranded markup the old flow started with", () => {
     expect(t.html).toContain("Sikhi University");
     expect(t.html).toContain("&#9772;"); // the crest glyph
+  });
+});
+
+// 2026-09-06: the reset converged from a clickable link onto a 6-digit code
+// bound to the requesting browser, matching sikhi.io and punjabiuni.com.
+// resetPasswordTemplate above is retained ONLY to render links already in
+// flight during the deploy grace window (see reset-password.js's token
+// branch) and should be deleted with it.
+describe("resetCodeTemplate — the live forgot-password email", () => {
+  const t = resetCodeTemplate("482913");
+
+  it("shows the code in the html, the plaintext and the subject", () => {
+    expect(t.html).toContain("482913");
+    expect(t.text).toContain("482913");
+    expect(t.subject.startsWith("482913")).toBe(true);
+  });
+
+  it("is a CODE email, not a link email — the only href is the powered-by mark", () => {
+    // A reset link signs in whatever device opens the mail and is a standalone
+    // bearer credential. Regression guard against "improving" this back into
+    // a button.
+    const hrefs = [...t.html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+    expect(hrefs.every((h) => h === "https://sikhi.io")).toBe(true);
+  });
+
+  it("states the 15-minute expiry and the same-tab constraint", () => {
+    expect(t.html).toContain("15 minutes");
+    expect(t.html).toContain("same tab");
+    expect(t.text).toContain("15 minutes");
+  });
+
+  it("reassures a reader who didn't ask for it", () => {
+    expect(t.html).toContain("current password remains unchanged");
+    expect(t.text).toContain("current password remains unchanged");
   });
 });

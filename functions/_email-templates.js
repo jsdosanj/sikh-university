@@ -30,6 +30,11 @@ export const POWERED_BY_HTML = `<div style="font-family:Helvetica,Arial,sans-ser
   Powered by <a href="https://sikhi.io" target="_blank" style="color:#ffc83d; text-decoration:none; font-weight:600;">sikhi.io</a>
 </div>`;
 
+// LEGACY, 2026-09-06 — the link-based reset email. Superseded by
+// resetCodeTemplate above. It has NO live caller: forgot-password.js sends
+// the code email now. Kept only so the deploy-window grace branch in
+// reset-password.js has a matching artefact to reason about, and DELETE IT
+// with that branch once the last in-flight link has expired.
 export function resetPasswordTemplate(link) {
   const html = `<!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -158,6 +163,69 @@ This message was sent because a password reset was requested for your Sikhi Univ
 Powered by sikhi.io — https://sikhi.io`;
 
   return { subject: "Reset your Sikhi University password", html, text };
+}
+
+// ── Password reset code ─────────────────────────────────────────────────────
+// CONVERGED 2026-09-06 from resetPasswordTemplate's clickable link to a
+// 6-digit code, matching sikhi.io and punjabiuni.com. A link is a bearer
+// credential: it signs in whatever device opens the mail (often the phone,
+// not the desktop browser the user is actually locked out of), and anyone who
+// can read the mailbox holds a working password change. The code only works
+// when typed back into the SAME browser tab that asked for it, proven by the
+// psid cookie in functions/api/auth/forgot-password.js.
+//
+// Do not "improve" this back into a button. resetPasswordTemplate is kept
+// directly below purely to render the legacy links still in flight during the
+// deploy grace window (see reset-password.js) and goes with them.
+export function resetCodeTemplate(code) {
+  const html = shell({
+    title: "Your Sikhi University reset code",
+    preheader: `${code} is your Sikhi University password reset code. It expires in 15 minutes.`,
+    eyebrow: "Account security",
+    heading: "Your reset code",
+    bodyRows: `
+      ${paragraph("Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh.", 10)}
+      ${paragraph("Enter this code in the browser tab where you asked to reset your password:", 20)}
+      <tr>
+        <td align="center" style="padding-bottom:26px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td align="center" bgcolor="#f7f5ef" style="background-color:#f7f5ef; border:1px solid #e4d9b4; border-radius:6px; padding:18px 30px; font-family:Helvetica,Arial,sans-serif; font-size:32px; line-height:38px; font-weight:bold; letter-spacing:8px; color:#0b1e3a;">${code}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      ${paragraph("The code only works in that same tab &mdash; opening this email on another device won&rsquo;t change anyone&rsquo;s password.", 20)}
+      <tr>
+        <td bgcolor="#f7f5ef" style="background-color:#f7f5ef; border-left:3px solid #f4b21a; border-radius:0 4px 4px 0; padding:16px 20px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#454b56;">
+          <strong style="color:#0b1e3a;">For your security:</strong> this code expires in <strong style="color:#0b1e3a;">15 minutes</strong>. If you did not ask to reset your password, no action is required &mdash; your current password remains unchanged.
+        </td>
+      </tr>
+    `,
+    footerNote: "This message was sent because a password reset was requested for your Sikhi University account.",
+  });
+
+  const text = `SIKHI UNIVERSITY — Your reset code
+
+Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh.
+
+Your password reset code: ${code}
+
+Enter it in the browser tab where you asked to reset your password. The code only works in that same tab — opening this email on another device won't change anyone's password.
+
+For your security:
+- This code expires in 15 minutes.
+- If you did not ask to reset your password, no action is required — your current password remains unchanged.
+
+Respectfully,
+Office of the Registrar
+Sikhi University
+
+Sikhi University · sikhiuni.com
+
+Powered by sikhi.io — https://sikhi.io`;
+
+  return { subject: `${code} is your Sikhi University reset code`, html, text };
 }
 
 // ── Shared shell ────────────────────────────────────────────────────────────
