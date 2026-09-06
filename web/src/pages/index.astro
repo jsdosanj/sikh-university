@@ -514,27 +514,15 @@ const ld = {
     max-width: 56rem;
   }
 
-  /* Distinct backgrounds per homepage section, instead of all three sharing
-     the one page-level ambient image. The image lives ONLY on ::before (not
-     the section itself) so its opacity actually dims it -- putting the image
-     directly on the section and duplicating it on ::before would show the
-     full-brightness base layer underneath, defeating the dim entirely. */
+  /* Solid blue per homepage section (2026-09-06: replaces the earlier
+     per-section stock-photo backgrounds -- "the image bgs look tacky",
+     explicit instruction -- with the same flat brand blue used on the
+     catalogue page). */
   #mission-section, #first-of-kind, #built-for-future {
     position: relative;
     overflow: hidden;
+    background: #071022;
   }
-  #mission-section::before, #first-of-kind::before, #built-for-future::before {
-    content: "";
-    position: absolute; inset: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.28;
-    filter: saturate(0.85);
-    z-index: -1;
-  }
-  #mission-section::before { background-image: url('/assets/backgrounds/home-mission.jpg'); }
-  #first-of-kind::before { background-image: url('/assets/backgrounds/home-first.jpg'); }
-  #built-for-future::before { background-image: url('/assets/backgrounds/home-future.jpg'); }
 
   /* ── The department portal ─────────────────────────────────────────── */
   /* Explicit instruction 2026-09-05: nine schools, laid out 3x3 on desktop

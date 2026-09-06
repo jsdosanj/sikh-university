@@ -55,7 +55,7 @@ const catGroups = topicsAlpha
   .map((t) => ({ topic: t, courses: sorted.filter((c) => c.topic === t.id) }))
   .filter((g) => g.courses.length > 0);
 ---
-<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study" bgImage="/assets/backgrounds/catalog.jpg">
+<Base title="Courses & learning paths — Sikhi University" description="Browse all Sikhi University courses by topic, or follow a guided learning path — history, theology, philosophy, language, music, the arts and modern skills." ambient="study" bodyClass="su-catalog">
   <script type="application/ld+json" set:html={JSON.stringify(itemListLd)} slot="head" />
 
   <!-- Dept header: eyebrow-with-dash, display h1, mono stat pair (iscatalog 429-441) -->
@@ -78,16 +78,18 @@ const catGroups = topicsAlpha
 
   <section class="wrap py-10">
     <div id="tabbar" role="tablist" aria-label="Browse courses" data-i18n-aria="catalog.tabbar.aria" class="inline-flex rounded-full border border-line bg-surface p-1 font-sans text-sm">
-      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white" data-i18n="catalog.tab.paths">Learning paths</button>
-      <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="false" class="rounded-full px-4 py-1.5 text-muted" data-i18n="catalog.eyebrow">Catalogue</button>
+      <button id="tab-catalog-btn" role="tab" aria-controls="view-catalog" aria-selected="true" class="rounded-full px-4 py-1.5 bg-brand text-white" data-i18n="catalog.eyebrow">Catalogue</button>
+      <button id="tab-paths-btn" role="tab" aria-controls="view-paths" aria-selected="false" class="rounded-full px-4 py-1.5 text-muted" data-i18n="catalog.tab.paths">Learning paths</button>
       <button id="tab-programs-btn" role="tab" aria-controls="view-programs" aria-selected="false" class="rounded-full px-4 py-1.5 text-muted" data-i18n="catalog.tab.programs">Programs</button>
     </div>
 
-    <!-- Catalogue view (hidden by default: guided paths lead so slow connections
-         don't hit a wall of 558 rows before JS runs). Registrar's-ledger layout:
-         a ruled "filter by school" rail on the left, the courses grouped by
-         school as rule-navy heads + row-ruled rows on the right. -->
-    <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6" hidden>
+    <!-- Catalogue view (default view, per explicit instruction 2026-09-06 --
+         was previously hidden by default so guided paths led instead; the
+         558-row cost on first paint is now the accepted tradeoff). Registrar's-
+         ledger layout: a ruled "filter by school" rail on the left, the
+         courses grouped by school as rule-navy heads + row-ruled rows on the
+         right. -->
+    <div id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog-btn" class="mt-6">
       <div class="rounded-[3px] border border-navy bg-surface p-4">
         <input id="cat-search" type="search" placeholder="Search courses…" data-i18n-ph="catalog.search.ph" aria-label="Search courses" data-i18n-aria="catalog.search.aria"
           class="w-full max-w-xl bg-transparent px-1 py-1 font-sans focus:outline-none" />
@@ -152,7 +154,7 @@ const catGroups = topicsAlpha
     </div>
 
     <!-- Learning paths view -->
-    <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6">
+    <div id="view-paths" role="tabpanel" aria-labelledby="tab-paths-btn" class="mt-6" hidden>
       <p class="text-muted" data-i18n="catalog.paths.intro">Follow a path from foundations to advanced study — finish one course to light up the next. Every course belongs to a path.</p>
       <details id="guided-journeys-section" open class="group/sect mt-6 rounded-xl2 border border-line bg-surface shadow-card">
         <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4">
@@ -355,7 +357,7 @@ const catGroups = topicsAlpha
     }).catch(renderPaths);
 
     // initial state: a topic filter (#<topic>) or level (#100 etc) opens the catalogue;
-    // #catalog opens catalogue; #programs opens programs; everything else defaults to Learning paths.
+    // #paths opens Learning paths; #programs opens programs; everything else defaults to the Catalogue.
     const hash = (location.hash || '').replace('#', '');
     if (hash && filters.some((b) => b.dataset.t === hash)) { topic = hash; setTab('catalog', false); }
     else if (hash && levelBtns.some((b) => b.dataset.l === hash)) { level = hash; setTab('catalog', false); }
@@ -366,9 +368,9 @@ const catGroups = topicsAlpha
         if (savedCat.topic && filters.some((b) => b.dataset.t === savedCat.topic)) topic = savedCat.topic;
         if (savedCat.level && levelBtns.some((b) => b.dataset.l === savedCat.level)) level = savedCat.level;
       }
-      if (hash === 'catalog') setTab('catalog', false);
+      if (hash === 'paths') setTab('paths', false);
       else if (hash === 'programs') setTab('programs', false);
-      else setTab('paths', false);
+      else setTab('catalog', false);
     }
     renderCat(); renderPaths();
   </script>
@@ -379,5 +381,34 @@ const catGroups = topicsAlpha
        whole ledger fades once instead. Frozen by the global reduced-motion guard. */
     @keyframes su-cat-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     #view-catalog { animation: su-cat-fade .5s cubic-bezier(.2,.7,.3,1) both; }
+  </style>
+
+  <!-- is:global rather than scoped: the .ambient div these target lives in
+       Base.astro's own render, outside this file's slotted content, so a
+       normal Astro-scoped <style> here would never reach it. `.ambient-study`
+       is shared by ~15 other pages (programs, dashboard, search, etc.) that
+       want the plain paper background it's built for -- overriding the class
+       itself would repaint all of them. Scoping through the `su-catalog`
+       bodyClass keeps this a one-page change: solid blue instead of the
+       tacky stock photo (bgImage prop removed above), per explicit
+       instruction 2026-09-06.
+
+       THEME-AWARE, not one hardcoded hex: a first pass painted the SAME dark
+       navy in both themes and broke light mode outright -- every text color
+       on this page (`text-navy`, `text-muted`, etc.) is a theme token that
+       assumes ambient-study's normal light-mode background (paper), so a
+       forced-dark background put dark-navy text on a dark-navy page,
+       unreadable. `html[data-theme]` (not a `prefers-color-scheme` media
+       query) matches how Base.astro's own init script decides/persists the
+       theme (documentElement attribute, localStorage `su_v1_theme`), so this
+       follows the same signal the toggle button already uses. Dark deepens
+       further per explicit instruction 2026-09-06 (was #0b1e3a); light gets
+       its own legible, on-brand pale academic-blue instead of falling back
+       to the plain paper every OTHER .ambient-study page uses -- still
+       "solid blue", just the shade that keeps this page's dark-navy text
+       readable. -->
+  <style is:global>
+    html[data-theme="dark"] body.su-catalog .ambient-study { background: #071022; }
+    html[data-theme="light"] body.su-catalog .ambient-study { background: #dce6f2; }
   </style>
 </Base>
