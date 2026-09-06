@@ -1,9 +1,40 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Admin — Sikhi University" description="Sikhi University admin dashboard." noindex={true}>
+<!-- Redesign task 17 (isadmin, prototype lines 695-737 + 880-905). This is
+     the REAL admin.astro (12-tab admin dashboard, cluster D). Restyled to
+     the ledger system: rule-navy/eyebrow header, `.stat-mono` overview
+     tiles fed by the real /api/admin/stats totals, `.chip-status` in
+     place of the old `.pill`, and mono-labelled ruled table headers
+     (matching review.astro's task-16 precedent) across every tab. The
+     prototype's "Blocking publication — Gurbani gate" card and its
+     "Build gates" ledger (Gurbani corpus verification, font-licence
+     audit, etc, each PASS/WARN/FAIL) describe a CI/deploy-time gate
+     report this app has no API for -- there is no live "build failing"
+     count or per-gate PASS/FAIL feed anywhere in this admin surface
+     (course_drafts has no build-status column; those checks run as CI
+     scripts at build time, not exposed to this dashboard) -- so, per
+     this same task's "every row from real
+     data/API, none from the prototype's examples" rule, that card and
+     ledger are NOT added. The prototype's real-data-backed "Roles"
+     ledger IS added to the Teachers tab, computed live from the same
+     /api/admin/users response that tab already fetches (real counts,
+     ACTIVE/NONE chip on whether each role is populated -- never the
+     prototype's invented headcounts). This page had zero data-i18n
+     keys before this pass (internal admin tool) -- none added.
+     Protected hooks (untouched): #admin, #tabs, #panel, and every
+     #au-*/#c-*/#gb-*/#t-*/#user-*/#users-body/#users-table id plus every
+     data-approve-profile/data-archive-*/data-c/data-claim*/data-d/
+     data-decide/data-draft/data-id/data-key/data-mark-*/data-mfa-reset/
+     data-msg/data-profile/data-report-action/data-reviewer-toggle/
+     data-set/data-u/data-unassign/data-user/data-verify attribute. -->
+<Base title="Admin — Sikhi University" description="Sikhi University admin dashboard." ambient="none" noindex={true}>
   <section class="wrap py-12">
-    <div id="admin"><p class="text-muted">Loading…</p></div>
+    <div class="rule-navy pb-4">
+      <p class="eyebrow text-saffron-deep">Administration</p>
+      <h1 class="text-display-sm mt-2.5 font-bold text-navy">Admin dashboard</h1>
+    </div>
+    <div id="admin" class="mt-6"><p class="text-muted">Loading…</p></div>
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
@@ -28,7 +59,7 @@ import Base from '../layouts/Base.astro';
         root.innerHTML = '<div class="rounded-xl border-l-4 border-saffron bg-surface p-4">This session hasn\'t verified your two-factor code yet. <a class="underline font-semibold" href="/mfa">Verify now →</a></div>';
         return;
       }
-      root.innerHTML = `<h1 class="text-3xl font-bold">Admin dashboard</h1><p class="font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
+      root.innerHTML = `<p class="font-sans text-sm text-muted">Signed in as ${esc(u.email)}</p>
         <div id="tabs" class="mt-4 flex flex-wrap gap-1 border-b border-line"></div><div id="panel" class="mt-6"></div>`;
       const tabs = [['overview', 'Overview'], ['users', 'Users'], ['gradebook', 'Gradebook'], ['teachers', 'Teachers'], ['profiles', 'Profiles'], ['review', 'Review'], ['uploads', 'Uploads'], ['moderation', 'Moderation'], ['courses', 'Courses'], ['applications', 'Applications'], ['feedback', 'Feedback'], ['audit', 'Audit log']];
       let cur = 'overview';
@@ -103,7 +134,7 @@ import Base from '../layouts/Base.astro';
               }).join('');
               return `<details class="mt-3 rounded-xl2 border border-line bg-surface p-3">
                 <summary class="cursor-pointer font-semibold text-navy select-none">${esc(ctitle(cid, courses))} <span class="font-sans text-xs font-normal text-muted">· ${cr.length} learners · avg ${cavg}% · ${pass}% passed</span></summary>
-                <div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">Student</th><th>Progress</th><th>Score</th><th>Grade</th></tr></thead><tbody>${rows_html}</tbody></table></div>
+                <div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="thead-ledger"><th class="py-1">Student</th><th>Progress</th><th>Score</th><th>Grade</th></tr></thead><tbody>${rows_html}</tbody></table></div>
               </details>`;
             }).join('');
           }
@@ -124,7 +155,15 @@ import Base from '../layouts/Base.astro';
           const profilesByUser = {}; ((tp.ok && tp.d.all) || []).forEach((p) => { profilesByUser[p.user_id] = p; });
           const courseOpts = courses.filter((c) => c.status === 'published').slice().sort((x, y) => x.title.localeCompare(y.title)).map((c) => `<option value="${esc(c.id)}">${esc(c.title)}</option>`).join('');
           const userOpts = usersList.map((x) => `<option value="${esc(x.id)}">${esc(x.email)} (${esc(x.role)})</option>`).join('');
-          let html = `<p class="font-sans text-sm text-muted">Assign a teacher to a course.</p>
+
+          // Roles ledger -- real counts from the same /api/admin/users
+          // response above, never the prototype's invented headcounts.
+          const roleCount = (r) => usersList.filter((x) => x.role === r).length;
+          const roleChip = (n) => `<span class="chip-status ${n > 0 ? 'border-ok text-ok' : 'border-muted text-muted'}">${n > 0 ? 'ACTIVE' : 'NONE'}</span>`;
+          const roleRow = (label, n) => `<div class="row-ruled"><span class="min-w-0 flex-1 text-sm text-ink">${label}</span><span class="font-mono text-xs text-navy">${n}</span><span class="w-20 shrink-0 text-right">${roleChip(n)}</span></div>`;
+          let html = `<p class="eyebrow text-saffron-deep">Roles</p>
+            <div class="rule-navy">${roleRow('Administrators', roleCount('admin'))}${roleRow('Teachers', roleCount('teacher'))}</div>
+            <p class="mt-8 font-sans text-sm text-muted">Assign a teacher to a course.</p>
             <div class="mt-4 flex flex-wrap items-end gap-3 rounded-xl2 border border-line bg-surface p-4">
               <label class="font-sans text-sm">Teacher<br><select id="t-user" class="mt-1 rounded-lg border border-line bg-paper px-2 py-1.5">${userOpts || '<option value="">No eligible users</option>'}</select></label>
               <label class="font-sans text-sm">Course<br><select id="t-course" class="mt-1 rounded-lg border border-line bg-paper px-2 py-1.5">${courseOpts}</select></label>
@@ -141,7 +180,7 @@ import Base from '../layouts/Base.astro';
           const nonLearners = usersList.filter((x) => x.role !== 'learner');
           html += `<h3 class="mt-10 text-lg font-bold">Teacher &amp; admin controls</h3>
             <p class="font-sans text-sm text-muted">Verification level, MFA reset, and reviewer-flag grants.</p>
-            <div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">User</th><th>Verification</th><th>Reviewer</th><th>MFA</th></tr></thead><tbody>
+            <div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="thead-ledger"><th class="py-1">User</th><th>Verification</th><th>Reviewer</th><th>MFA</th></tr></thead><tbody>
             ${nonLearners.map((x) => {
               const p = profilesByUser[x.id];
               const level = (p && p.verification_level) || 'none';
@@ -209,7 +248,7 @@ import Base from '../layouts/Base.astro';
               </div>`;
             }).join('') : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No pending claims.</div>'}
             <h3 class="mt-8 text-lg font-bold">Recent profile edits</h3>
-            ${edits.length ? `<div class="mt-2 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">When</th><th>Teacher</th><th>Detail</th></tr></thead><tbody>${edits.map((e) => `<tr class="border-t border-line"><td class="py-1 whitespace-nowrap">${fmt(e.ts)}</td><td>${esc(e.email || e.user_id || '—')}</td><td>${esc(e.detail || '')}</td></tr>`).join('')}</tbody></table></div>` : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No profile edits yet.</div>'}`;
+            ${edits.length ? `<div class="mt-2 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="thead-ledger"><th class="py-1">When</th><th>Teacher</th><th>Detail</th></tr></thead><tbody>${edits.map((e) => `<tr class="border-t border-line"><td class="py-1 whitespace-nowrap">${fmt(e.ts)}</td><td>${esc(e.email || e.user_id || '—')}</td><td>${esc(e.detail || '')}</td></tr>`).join('')}</tbody></table></div>` : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">No profile edits yet.</div>'}`;
 
           panel.querySelectorAll('[data-approve-profile]').forEach((b) => b.addEventListener('click', () => {
             const userId = b.closest('[data-profile]').dataset.profile;
@@ -236,10 +275,10 @@ import Base from '../layouts/Base.astro';
           const history = (hist.ok && hist.d.drafts) || [];
           const archivePending = (arPending.ok && arPending.d.requests) || [];
           const archiveApproved = (arApproved.ok && arApproved.d.requests) || [];
-          const statusPill = (s) => `<span class="pill ${s === 'approved' || s === 'published' ? 'bg-ok/20 text-ok' : 'bg-paper text-navy'}">${esc(s)}</span>`;
+          const statusPill = (s) => `<span class="chip-status ${s === 'approved' || s === 'published' ? 'border-ok text-ok' : 'border-navy text-navy'}">${esc(s.replace('_', ' '))}</span>`;
           panel.innerHTML = `
             <h3 class="text-lg font-bold">Submitted for review (${queue.length})</h3>
-            ${queue.length ? `<div class="mt-3 grid gap-3">${queue.map((dr) => `<div class="rounded-xl2 border border-line bg-surface p-4"><div class="flex items-center gap-2"><span class="font-semibold text-navy">${esc(dr.title)}</span><span class="pill bg-paper text-navy">${esc(dr.status)}</span></div><div class="font-sans text-xs text-muted">by ${esc(dr.author_name || dr.author_email)} · ${esc(dr.topic)}</div><a class="btn mt-2 font-sans text-xs" href="/review#${esc(dr.id)}" target="_blank">Open in Review workspace →</a></div>`).join('')}</div>` : '<div class="mt-2 rounded-xl bg-surface p-4 text-muted">Nothing waiting for review.</div>'}
+            ${queue.length ? `<div class="mt-3 grid gap-3">${queue.map((dr) => `<div class="rounded-[3px] border border-line bg-surface p-4"><div class="flex items-center gap-2"><span class="font-semibold text-navy">${esc(dr.title)}</span><span class="chip-status border-navy text-navy">${esc(dr.status.replace('_', ' '))}</span></div><div class="font-sans text-xs text-muted">by ${esc(dr.author_name || dr.author_email)} · ${esc(dr.topic)}</div><a class="btn mt-2 font-sans text-xs" href="/review#${esc(dr.id)}" target="_blank">Open in Review workspace →</a></div>`).join('')}</div>` : '<div class="mt-2 rounded-[3px] bg-surface p-4 text-muted">Nothing waiting for review.</div>'}
             <h3 class="mt-8 text-lg font-bold">Approved — ready to import (${approved.length})</h3>
             ${approved.length ? `<div class="mt-3 grid gap-2">${approved.map((c) => `<div class="flex items-center gap-2 rounded-xl border border-line bg-surface p-3" data-draft="${esc(c._draftId)}"><span class="font-semibold">${esc(c.title)}</span><span class="font-sans text-xs text-muted">${esc(c.professor)}</span><button class="btn ml-auto font-sans text-xs" data-mark-published>Mark published</button></div>`).join('')}</div>
                <div class="mt-3 rounded-xl border-l-4 border-saffron bg-surface p-3 font-sans text-sm">Run the import: <code>gh workflow run import-drafts.yml</code> (needs the EXPORT_TOKEN repo secret). Once its PR merges to master and deploys, come back and click "Mark published" on each course above.</div>`
@@ -273,7 +312,7 @@ import Base from '../layouts/Base.astro';
           const pending = d.pending || [];
           panel.innerHTML = pending.length ? `<div class="grid gap-3">${pending.map((m) => `
             <div class="rounded-xl2 border border-line bg-surface p-4" data-key="${esc(m.key)}">
-              <div class="flex flex-wrap items-center gap-2"><span class="font-semibold">${esc(m.kind)}</span><span class="font-sans text-xs text-muted">${esc(m.email)} · ${(m.size / 1024).toFixed(0)} KB · ${esc(m.content_type)}</span>${m.rights ? `<span class="pill bg-paper text-navy">rights: ${esc(m.rights)}</span>` : ''}</div>
+              <div class="flex flex-wrap items-center gap-2"><span class="font-semibold">${esc(m.kind)}</span><span class="font-sans text-xs text-muted">${esc(m.email)} · ${(m.size / 1024).toFixed(0)} KB · ${esc(m.content_type)}</span>${m.rights ? `<span class="chip-status border-navy text-navy">rights: ${esc(m.rights)}</span>` : ''}</div>
               ${m.rights_note ? `<p class="mt-1 text-sm text-muted">${esc(m.rights_note)}</p>` : ''}
               ${m.content_type && m.content_type.startsWith('image/') ? `<img src="/api/asset?key=${encodeURIComponent(m.key)}" class="mt-2 max-h-40 rounded-lg border border-line" />` : `<a class="mt-2 inline-block underline text-sm" href="/api/asset?key=${encodeURIComponent(m.key)}" target="_blank" rel="noopener">Preview →</a>`}
               <div class="mt-2 flex gap-2"><button class="btn btn-primary font-sans text-xs" data-decide="approve">Approve</button><button class="btn font-sans text-xs" data-decide="reject">Reject</button></div>
@@ -325,7 +364,7 @@ import Base from '../layouts/Base.astro';
         function renderBody() {
           const body = document.getElementById('au-body'); if (!body) return;
           if (!state.rows.length) { body.innerHTML = '<div class="rounded-xl bg-surface p-4 text-muted">No events match these filters.</div>'; return; }
-          body.innerHTML = `<p class="font-sans text-sm text-muted">Showing ${state.rows.length} of ${state.total} event(s).</p><div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">When</th><th>Who</th><th>Role</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead><tbody>${state.rows.map((e) => `<tr class="border-t border-line align-top"><td class="py-1 whitespace-nowrap">${fmtT(e.ts)}</td><td>${esc(e.email || e.user_id || '—')}</td><td>${esc(e.role || '—')}</td><td><span class="pill bg-paper text-navy">${esc(e.action)}</span></td><td>${esc(e.target || '—')}</td><td>${esc(e.detail || '')}</td></tr>`).join('')}</tbody></table></div>${state.rows.length < state.total ? '<button id="au-more" class="btn mt-3 font-sans text-xs px-3 py-1.5">Load more</button>' : ''}`;
+          body.innerHTML = `<p class="font-sans text-sm text-muted">Showing ${state.rows.length} of ${state.total} event(s).</p><div class="mt-3 overflow-x-auto"><table class="w-full font-sans text-sm"><thead><tr class="thead-ledger"><th class="py-1">When</th><th>Who</th><th>Role</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead><tbody>${state.rows.map((e) => `<tr class="border-t border-line align-top"><td class="py-1 whitespace-nowrap">${fmtT(e.ts)}</td><td>${esc(e.email || e.user_id || '—')}</td><td>${esc(e.role || '—')}</td><td><span class="chip-status border-navy text-navy">${esc(e.action)}</span></td><td>${esc(e.target || '—')}</td><td>${esc(e.detail || '')}</td></tr>`).join('')}</tbody></table></div>${state.rows.length < state.total ? '<button id="au-more" class="btn mt-3 font-sans text-xs px-3 py-1.5">Load more</button>' : ''}`;
           const more = document.getElementById('au-more'); if (more) more.addEventListener('click', () => load(false));
         }
         function buildBar() {
@@ -365,7 +404,7 @@ import Base from '../layouts/Base.astro';
           const gbRows = (g.ok && g.d.rows) || [];
           const userCourses = {}; gbRows.forEach((r) => { userCourses[r.user_id] = (userCourses[r.user_id] || 0) + 1; });
           const userPassed = {}; gbRows.forEach((r) => { if (r.score != null && r.score >= 80) userPassed[r.user_id] = (userPassed[r.user_id] || 0) + 1; });
-          const badge = (r) => `<span class="pill ${r === 'admin' ? 'bg-saffron-soft text-saffron-deep' : r === 'teacher' ? 'bg-paper text-navy' : 'bg-paper text-muted'}">${esc(r)}</span>`;
+          const badge = (r) => `<span class="chip-status ${r === 'admin' ? 'border-saffron-deep text-saffron-deep' : r === 'teacher' ? 'border-navy text-navy' : 'border-muted text-muted'}">${esc(r)}</span>`;
           const renderList = (items) => items.map((u2) => {
             const passed2 = userPassed[u2.id] || 0; const enrolled = userCourses[u2.id] || 0;
             return `<tr class="border-t border-line align-middle" data-id="${esc(u2.id)}">
@@ -391,7 +430,7 @@ import Base from '../layouts/Base.astro';
               </div>
             </div>
             <div class="mt-4 overflow-x-auto"><table class="w-full font-sans text-sm" id="users-table">
-              <thead><tr class="text-left text-muted"><th class="py-1">Name / Email</th><th>Role</th><th>Joined</th><th>Progress</th><th>Set role</th></tr></thead>
+              <thead><tr class="thead-ledger"><th class="py-1">Name / Email</th><th>Role</th><th>Joined</th><th>Progress</th><th>Set role</th></tr></thead>
               <tbody id="users-body">${renderList(list)}</tbody>
             </table></div>`;
           wireRoleButtons();
@@ -416,7 +455,7 @@ import Base from '../layouts/Base.astro';
         Promise.all([api('/api/admin/stats'), api('/api/gradebook')]).then(([s, g]) => {
           if (!s.ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load stats.</div>'; return; }
           const t = s.d.totals || {};
-          const stat = (n, l) => `<div class="rounded-xl2 border border-line border-t-4 border-t-saffron bg-surface p-4 text-center"><div class="text-3xl font-bold text-navy">${n || 0}</div><div class="font-sans text-xs text-muted">${l}</div></div>`;
+          const stat = (n, l) => `<div class="rounded-[3px] border border-line bg-surface p-4 text-center"><div class="stat-mono items-center"><span>${n || 0}</span><span>${l}</span></div></div>`;
           let html = `<div class="grid grid-cols-2 gap-3 sm:grid-cols-4">${stat(t.users, 'Total users')}${stat(t.enrollments, 'Enrollments')}${stat(t.completions, 'Completions')}${stat(t.activeSessions, 'Active sessions')}${stat(t.teachers, 'Teachers')}${stat(t.pendingApplications, 'Pending apps')}${stat(t.newFeedback, 'New feedback')}${stat(t.admins, 'Admins')}</div>`;
           html += `<div class="mt-6 rounded-xl2 border border-line bg-surface p-4"><h3 class="text-lg font-bold">Preview dashboards</h3><p class="font-sans text-sm text-muted">See exactly what a student and a teacher see.</p><div class="mt-3 flex flex-wrap gap-2"><a class="btn" href="/dashboard?demo=student">View student dashboard →</a><a class="btn" href="/dashboard?demo=teacher">View teacher dashboard →</a></div></div>`;
           if (g.ok) {
@@ -427,7 +466,7 @@ import Base from '../layouts/Base.astro';
             html += `<h3 class="mt-8 text-xl font-bold">Badge distribution</h3><div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">${Object.entries(badgeCounts).map(([name, count]) => stat(count, name)).join('')}</div>`;
           }
           const pop = s.d.popular || [];
-          if (pop.length) { const max = pop[0].learners || 1; html += `<h3 class="mt-8 text-xl font-bold">Most popular courses</h3><table class="mt-3 w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">Course</th><th>Learners</th><th>Completions</th><th></th></tr></thead><tbody>${pop.map((p) => `<tr class="border-t border-line"><td class="py-1">${esc(ctitle(p.course_id, courses))}</td><td>${p.learners}</td><td>${p.completions}</td><td class="w-1/3"><div class="h-2 rounded bg-saffron" style="width:${Math.max(6, Math.round((p.learners / max) * 100))}%"></div></td></tr>`).join('')}</tbody></table>`; }
+          if (pop.length) { const max = pop[0].learners || 1; html += `<h3 class="mt-8 text-xl font-bold">Most popular courses</h3><table class="mt-3 w-full font-sans text-sm"><thead><tr class="thead-ledger"><th class="py-1">Course</th><th>Learners</th><th>Completions</th><th></th></tr></thead><tbody>${pop.map((p) => `<tr class="border-t border-line"><td class="py-1">${esc(ctitle(p.course_id, courses))}</td><td>${p.learners}</td><td>${p.completions}</td><td class="w-1/3"><div class="h-2 rounded bg-saffron" style="width:${Math.max(6, Math.round((p.learners / max) * 100))}%"></div></td></tr>`).join('')}</tbody></table>`; }
           else html += '<div class="mt-6 rounded-xl bg-surface p-4 text-muted">No enrollments yet.</div>';
           panel.innerHTML = html;
         });
@@ -532,7 +571,7 @@ import Base from '../layouts/Base.astro';
           if (!ok) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4">Could not load.</div>'; return; }
           const fb = d.feedback || [];
           if (!fb.length) { panel.innerHTML = '<div class="rounded-xl bg-surface p-4 text-muted">No feedback yet.</div>'; return; }
-          panel.innerHTML = `<table class="w-full font-sans text-sm"><thead><tr class="text-left text-muted"><th class="py-1">Date</th><th>Type</th><th>From</th><th>Course</th><th>Message</th></tr></thead><tbody>${fb.map((f) => `<tr class="border-t border-line align-top"><td class="py-1 whitespace-nowrap">${fmt(f.created_at)}</td><td>${esc(f.category || '')}</td><td>${esc(f.email || '—')}</td><td>${esc(ctitle(f.course_id, courses))}</td><td>${esc(f.message || '')}</td></tr>`).join('')}</tbody></table>`;
+          panel.innerHTML = `<table class="w-full font-sans text-sm"><thead><tr class="thead-ledger"><th class="py-1">Date</th><th>Type</th><th>From</th><th>Course</th><th>Message</th></tr></thead><tbody>${fb.map((f) => `<tr class="border-t border-line align-top"><td class="py-1 whitespace-nowrap">${fmt(f.created_at)}</td><td>${esc(f.category || '')}</td><td>${esc(f.email || '—')}</td><td>${esc(ctitle(f.course_id, courses))}</td><td>${esc(f.message || '')}</td></tr>`).join('')}</tbody></table>`;
         });
       }
 

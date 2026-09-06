@@ -2,10 +2,17 @@
 // Static files in site/ are served by the [assets] binding; /api/* is dispatched
 // to the existing handlers (unchanged) that live under functions/api/.
 import { onRequestGet as meGet, onRequestPost as mePost } from "./functions/api/me.js";
+import { onRequestPost as activityHeartbeatPost } from "./functions/api/activity/heartbeat.js";
+import { onRequestGet as activityStatsGet } from "./functions/api/activity/stats.js";
 import { onRequestGet as progressGet, onRequestPost as progressPost } from "./functions/api/progress.js";
 import { onRequestPost as authRequestPost } from "./functions/api/auth/request.js";
 import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
 import { onRequestPost as authLogoutPost } from "./functions/api/auth/logout.js";
+import { onRequestGet as authSsoGet } from "./functions/api/auth/sso.js";
+import { onRequestPost as authSignupPost } from "./functions/api/auth/signup.js";
+import { onRequestPost as authLoginPost } from "./functions/api/auth/login.js";
+import { onRequestPost as authForgotPasswordPost } from "./functions/api/auth/forgot-password.js";
+import { onRequestPost as authResetPasswordPost } from "./functions/api/auth/reset-password.js";
 import { onRequestPost as mfaEnrollPost } from "./functions/api/auth/mfa/enroll.js";
 import { onRequestPost as mfaConfirmPost } from "./functions/api/auth/mfa/confirm.js";
 import { onRequestPost as mfaVerifyPost } from "./functions/api/auth/mfa/verify.js";
@@ -74,10 +81,17 @@ import { sendDailyReminders } from "./functions/push-sender.js";
 // path -> { GET, POST } handlers. Each handler takes { request, env }.
 const routes = {
   "/api/me": { GET: meGet, POST: mePost },
+  "/api/activity/heartbeat": { POST: activityHeartbeatPost },
+  "/api/activity/stats": { GET: activityStatsGet },
   "/api/progress": { GET: progressGet, POST: progressPost },
   "/api/auth/request": { POST: authRequestPost },
   "/api/auth/verify": { GET: authVerifyGet },
   "/api/auth/logout": { POST: authLogoutPost },
+  "/api/auth/sso": { GET: authSsoGet },
+  "/api/auth/signup": { POST: authSignupPost },
+  "/api/auth/login": { POST: authLoginPost },
+  "/api/auth/forgot-password": { POST: authForgotPasswordPost },
+  "/api/auth/reset-password": { POST: authResetPasswordPost },
   "/api/auth/mfa/enroll": { POST: mfaEnrollPost },
   "/api/auth/mfa/confirm": { POST: mfaConfirmPost },
   "/api/auth/mfa/verify": { POST: mfaVerifyPost },
@@ -147,6 +161,9 @@ const routes = {
 // rely on it.
 const RATE_LIMITS = {
   "/api/auth/request": { limit: 20, window: 60 },  // magic-link sends (anti mail-bomb)
+  "/api/auth/forgot-password": { limit: 20, window: 60 },  // password-reset sends (same rule -- this is where Resend cost actually lives now)
+  "/api/auth/login": { limit: 30, window: 60 },  // password guess throttle
+  "/api/auth/signup": { limit: 20, window: 60 },
   "/api/translate": { limit: 60, window: 60 },     // paid Workers AI — cap per-IP cost
   "/api/feedback": { limit: 15, window: 60 },
   "/api/discussions": { limit: 15, window: 60 },

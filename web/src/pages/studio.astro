@@ -1,25 +1,49 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Course Studio — Sikhi University" description="Draft, validate, and submit a course for scholar review." ambient="hall" noindex={true}>
+<!-- Redesign task 17 (isstudio, prototype lines 634-693 + 859-878 -- both
+     blocks are views of ONE real tool). This is the REAL studio.astro (the
+     teacher's course-drafting workbench, cluster D). Restyled to the ledger
+     system: rule-navy/eyebrow header (matching review.astro's precedent,
+     task 16), a ruled-row drafts list with real stat-mono counts bucketed
+     from the drafts' own live `status` field (draft/changes_requested ->
+     Drafting; submitted/in_review -> In review; approved/published ->
+     Ready -- no fabricated taxonomy), chip-status in place of the old
+     `.pill`, and the former frosted-blur surfaces replaced with flat
+     ledger cards. The prototype's per-lesson "Gurbani verified /
+     citation mismatch" callouts and its right-hand "Gate status" rail
+     describe a per-line citation-check UI that does NOT exist in this
+     app's schema or API (draft_lessons has no per-quote verification
+     state; /api/studio/validate returns a flat string[] of readiness
+     errors, checked at build/import time against the corpus, not per
+     bani line in the studio) -- so, matching the "no invented course
+     codes" precedent set in catalog.astro/review.astro, that rail is NOT
+     added. Its visual language (navy mono console block, danger/ok
+     accents) is instead applied to the real readiness/submit output,
+     which is the actual citation-check UI this tool has. The prototype's
+     "MY DRAFTS / ALL / RETURNED" filter chips are also not added -- this
+     endpoint returns only the signed-in author's own drafts and has no
+     "all drafts" or "returned" filter to back them. This page had zero
+     data-i18n keys before this pass (internal teacher tool, same
+     untranslated posture as its cluster-D siblings) -- none added.
+     Protected hooks (untouched): #app, #back, #new-draft, data-open,
+     data-delete-draft, data-draft-title, #studio-tabs, #studio-panel,
+     #f-summary/#f-ai/#f-visibility/#save-meta, #delete-draft-btn,
+     #lessons/#add-lesson, data-lesson/data-l-title/data-l-html/
+     data-l-preview/data-l-media/data-media-list/data-media-note/
+     data-media-progress-wrap/data-media-progress-bar/data-save-lesson/
+     data-delete-lesson/data-insert-youtube/data-upload-doc/
+     data-upload-video/data-remove-media, #quiz-editor/#add-q/#save-quiz/
+     data-q/data-q-option/data-q-answer/data-q-options/data-add-option/
+     data-delete-q, #validate/#validate-out/#submit-draft. -->
+<Base title="Course Studio — Sikhi University" description="Draft, validate, and submit a course for scholar review." ambient="none" noindex={true}>
   <section class="wrap max-w-4xl py-12">
-    <div class="flex items-center justify-between gap-3">
-      <div>
-        <h1 class="text-3xl font-bold text-white">Course Studio</h1>
-        <p class="mt-2 text-white/85">Draft a course, then submit it for scholar review. Nothing here is public until an admin approves it and it's merged into the live catalogue.</p>
-      </div>
+    <div class="rule-navy pb-4">
+      <p class="eyebrow text-saffron-deep">Studio</p>
+      <h1 class="text-display-sm mt-2.5 font-bold text-navy">Course Studio</h1>
+      <p class="mt-2 max-w-[68ch] text-muted">Draft a course, then submit it for scholar review. Nothing here is public until an admin approves it and it's merged into the live catalogue.</p>
     </div>
-    <div id="app" class="mt-8">
-      <p class="sr-only">Loading the studio…</p>
-      <!-- Shimmer skeleton mirroring the drafts list (button + card grid) so the
-           page doesn't flash blank while /api/me + drafts load. -->
-      <div aria-hidden="true">
-        <div class="skeleton h-11 w-36"></div>
-        <div class="mt-6 grid gap-3 sm:grid-cols-2">
-          <div class="skeleton h-24"></div><div class="skeleton h-24"></div>
-        </div>
-      </div>
-    </div>
+    <div id="app" class="mt-8"><p class="text-muted">Loading…</p></div>
   </section>
   <script>
     import { iconSvg } from '../lib/icons';
@@ -36,16 +60,24 @@ import Base from '../layouts/Base.astro';
       return topics;
     }
 
-    // Shared status→pill styling, used on both the drafts list and the editor header.
+    // Shared status→chip styling, used on both the drafts list and the editor header.
     const STATUS_STYLE: Record<string, string> = {
-      draft: 'bg-paper text-muted',
-      submitted: 'bg-surface text-navy',
-      in_review: 'bg-surface text-navy',
-      changes_requested: 'bg-saffron-soft text-saffron-deep',
-      approved: 'bg-ok/20 text-ok',
-      published: 'bg-ok/20 text-ok',
+      draft: 'border-muted text-muted',
+      submitted: 'border-navy text-navy',
+      in_review: 'border-navy text-navy',
+      changes_requested: 'border-saffron-deep text-saffron-deep',
+      approved: 'border-ok text-ok',
+      published: 'border-ok text-ok',
     };
-    const statusPill = (status: string) => `<span class="pill ${STATUS_STYLE[status] || 'bg-paper text-muted'}">${esc(status)}</span>`;
+    const statusPill = (status: string) => `<span class="chip-status ${STATUS_STYLE[status] || 'border-muted text-muted'}">${esc(status.replace('_', ' '))}</span>`;
+
+    // Real-data bucketing for the drafts-list stat row (draft.status is the
+    // only source of truth -- no fabricated "validating" build state exists).
+    const BUCKET: Record<string, 'drafting' | 'inReview' | 'ready'> = {
+      draft: 'drafting', changes_requested: 'drafting',
+      submitted: 'inReview', in_review: 'inReview',
+      approved: 'ready', published: 'ready',
+    };
 
     // Why is this draft read-only right now? Shown instead of silently disabling every field.
     const LOCKED_REASON: Record<string, string> = {
@@ -56,13 +88,18 @@ import Base from '../layouts/Base.astro';
     };
 
     function draftListItem(d: any) {
-      return `<div data-draft-card="${esc(d.id)}" class="glass-lite relative block p-4 transition hover:-translate-y-0.5 hover:shadow-lift">
-        <a href="#" data-open="${esc(d.id)}" class="block">
-          <div class="flex items-center gap-2 pr-7"><span class="font-bold text-navy">${esc(d.title)}</span>${statusPill(d.status)}</div>
-          <div class="mt-1 font-sans text-xs text-muted">${esc(d.course_id)} · ${esc(d.topic)} · level ${esc(d.level)}</div>
+      // A ruled ledger row (DESIGN.md's "list-like data renders as ruled
+      // rows" law), not a card grid -- one row per draft, mirroring
+      // review.astro's queue-row layout for this same cluster D tool.
+      return `<div data-draft-card="${esc(d.id)}" class="row-ruled">
+        <a href="#" data-open="${esc(d.id)}" class="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-4 gap-y-1">
+          <span class="w-24 shrink-0">${statusPill(d.status)}</span>
+          <span class="w-20 shrink-0 font-mono text-[11.5px] text-saffron-deep">${esc(d.course_id)}</span>
+          <span class="min-w-0 flex-1 truncate font-bold text-navy">${esc(d.title)}</span>
+          <span class="min-w-0 flex-[2] truncate text-sm text-muted">${esc(d.topic)} · level ${esc(d.level)}</span>
         </a>
-        ${d.status === 'published' ? `<a class="mt-2 inline-block font-sans text-xs underline" href="/cohorts?course=${esc(d.course_id)}" onclick="event.stopPropagation()">Course is live — create a cohort for it →</a>` : ''}
-        <button type="button" data-delete-draft="${esc(d.id)}" data-draft-title="${esc(d.title)}" aria-label="Delete draft" title="Delete draft" class="absolute right-3 top-3 rounded-lg p-1 text-muted hover:bg-danger/10 hover:text-danger">${iconSvg('close', 'h-4 w-4')}</button>
+        ${d.status === 'published' ? `<a class="w-full font-sans text-xs underline" href="/cohorts?course=${esc(d.course_id)}">Course is live — create a cohort for it →</a>` : ''}
+        <button type="button" data-delete-draft="${esc(d.id)}" data-draft-title="${esc(d.title)}" aria-label="Delete draft" title="Delete draft" class="shrink-0 rounded-lg p-1 text-muted hover:bg-danger/10 hover:text-danger">${iconSvg('close', 'h-4 w-4')}</button>
       </div>`;
     }
 
@@ -91,22 +128,27 @@ import Base from '../layouts/Base.astro';
       const me = await api('/api/me');
       const u = me.ok && me.d.user;
       if (u && u.mfa && u.mfa.enrolled && u.mfa_ok !== 1) {
-        app.innerHTML = '<p class="text-white/70">This session hasn\'t verified your two-factor code yet. <a class="underline" href="/mfa">Verify now →</a></p>';
+        app.innerHTML = '<p class="text-muted">This session hasn\'t verified your two-factor code yet. <a class="underline" href="/mfa">Verify now →</a></p>';
         return;
       }
       const { ok, d } = await api('/api/studio/drafts');
-      if (!ok) { app.innerHTML = '<p class="text-white/70">Sign in as a teacher to use the studio.</p>'; return; }
+      if (!ok) { app.innerHTML = '<p class="text-muted">Sign in as a teacher to use the studio.</p>'; return; }
       const drafts = d.drafts || [];
+      const counts = { drafting: 0, inReview: 0, ready: 0 };
+      drafts.forEach((dr: any) => { const b = BUCKET[dr.status]; if (b) counts[b]++; });
       app.innerHTML = `
-        <button id="new-draft" class="btn btn-primary">${iconSvg('pen', 'h-4 w-4')} New draft</button>
-        <div class="mt-6 grid gap-3 sm:grid-cols-2">${drafts.length ? drafts.map(draftListItem).join('') : `
-          <div class="col-span-full glass-lite p-8 text-center">
-            <div class="flex flex-col items-center gap-3">
-              <span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-saffron-deep">${iconSvg('pen', 'h-7 w-7')}</span>
-              <p class="font-serif text-lg font-bold text-navy">Begin your first course</p>
-              <p class="max-w-sm font-sans text-sm text-muted">Draft lessons and a quiz at your own pace — everything stays private until you submit it for scholar review.</p>
-              <button type="button" id="empty-new-draft" class="btn btn-primary mt-1">${iconSvg('pen', 'h-4 w-4')} New draft</button>
-            </div>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <button id="new-draft" class="btn btn-primary">${iconSvg('pen', 'h-4 w-4')} New draft</button>
+          <div class="flex gap-6">
+            <div class="stat-mono"><span class="text-muted">${counts.drafting}</span><span>Drafting</span></div>
+            <div class="stat-mono"><span class="text-saffron-deep">${counts.inReview}</span><span>In review</span></div>
+            <div class="stat-mono"><span class="text-ok">${counts.ready}</span><span>Ready</span></div>
+          </div>
+        </div>
+        <div class="mt-6">${drafts.length ? drafts.map(draftListItem).join('') : `
+          <div class="rounded-[3px] border border-dashed border-line bg-surface/50 p-8 text-center">
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-paper text-muted">${iconSvg('note', 'h-6 w-6')}</div>
+            <p class="mt-3 font-sans text-sm text-muted">No drafts yet. Start your first course — it stays private until you submit it.</p>
           </div>`}</div>`;
       document.getElementById('empty-new-draft')?.addEventListener('click', () => document.getElementById('new-draft')!.click());
       document.querySelectorAll('[data-open]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); goToEditor((a as HTMLElement).dataset.open!); }));
@@ -142,12 +184,12 @@ import Base from '../layouts/Base.astro';
       const TABS: Array<[typeof tab, string]> = [['overview', 'Overview'], ['lessons', `Lessons (${lessons.length})`], ['quiz', `Quiz (${quiz.length})`], ['submit', 'Review & submit']];
 
       app.innerHTML = `
-        <button id="back" class="font-sans text-sm text-white/80 underline transition-colors hover:text-white">&larr; All drafts</button>
-        <div class="glass-strong mt-4 rounded-xl2 p-6">
+        <button id="back" class="font-sans text-sm text-muted underline">&larr; All drafts</button>
+        <div class="mt-4 rounded-[3px] border border-line bg-surface p-6">
           <div class="flex flex-wrap items-center gap-2"><h2 class="text-2xl font-bold text-navy">${esc(draft.title)}</h2>${statusPill(draft.status)}</div>
-          <p class="mt-1 font-sans text-xs text-muted">${esc(draft.course_id)} · ${esc(draft.topic)} · level ${esc(draft.level)}</p>
-          ${draft.review_notes ? `<div class="mt-3 rounded-xl border-l-4 border-saffron bg-surface p-3 text-sm"><strong>Reviewer notes:</strong> ${esc(draft.review_notes)}</div>` : ''}
-          ${lockedReason ? `<div class="mt-3 flex items-start gap-2 rounded-xl border-l-4 border-line bg-surface p-3 text-sm text-muted"><span class="mt-0.5 shrink-0">${iconSvg('lock', 'h-4 w-4')}</span><span>${lockedReason}</span></div>` : ''}
+          <p class="mt-1 font-mono text-xs text-muted">${esc(draft.course_id)} · ${esc(draft.topic)} · level ${esc(draft.level)}</p>
+          ${draft.review_notes ? `<div class="mt-3 rounded-[3px] border-l-4 border-saffron-deep bg-saffron-soft p-3 text-sm"><strong>Reviewer notes:</strong> ${esc(draft.review_notes)}</div>` : ''}
+          ${lockedReason ? `<div class="mt-3 flex items-start gap-2 rounded-[3px] border-l-4 border-line bg-paper p-3 text-sm text-muted"><span class="mt-0.5 shrink-0">${iconSvg('lock', 'h-4 w-4')}</span><span>${lockedReason}</span></div>` : ''}
           <div id="studio-tabs" class="mt-5 flex flex-wrap gap-1 border-b border-line"></div>
           <div id="studio-panel" class="mt-5"></div>
         </div>`;
@@ -200,10 +242,10 @@ import Base from '../layouts/Base.astro';
             ${editable ? '<button id="save-meta" class="btn justify-self-start">Save summary/declaration</button>' : ''}
           </div>
           ${editable ? `
-          <div class="mt-8 rounded-xl2 border border-danger/30 bg-danger/5 p-4">
-            <p class="font-sans text-sm font-semibold text-danger">Danger zone</p>
+          <div class="mt-8 rounded-[3px] border border-danger bg-danger-soft p-4">
+            <p class="eyebrow text-danger">Danger zone</p>
             <p class="mt-1 font-sans text-xs text-muted">Permanently delete this draft, its lessons, and its quiz. This cannot be undone.</p>
-            <button id="delete-draft-btn" class="btn mt-3 border-danger/40 text-danger hover:bg-danger/10">Delete this draft</button>
+            <button id="delete-draft-btn" class="btn mt-3 border-danger text-danger hover:bg-danger/10">Delete this draft</button>
           </div>` : ''}`;
         if (editable) {
           document.getElementById('save-meta')!.addEventListener('click', async () => {
@@ -233,12 +275,12 @@ import Base from '../layouts/Base.astro';
             const media = lessonMedia(ls);
             return `
             <div class="mt-3 rounded-xl2 border border-line bg-surface p-4" data-lesson="${i}">
-              <div class="flex items-center gap-2"><span class="font-sans text-xs font-bold uppercase text-muted">Lesson ${i + 1}</span></div>
-              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm font-semibold focus:border-saffron focus:outline-none" data-l-title value="${esc(ls.title)}" ${editable ? '' : 'disabled'} />
-              <textarea rows="6" class="mt-2 w-full rounded-lg border border-line bg-paper px-2 py-1 font-mono text-xs focus:border-saffron focus:outline-none" data-l-html ${editable ? '' : 'disabled'}>${esc(ls.html)}</textarea>
-              <div class="mt-2"><p class="font-sans text-xs font-bold uppercase text-muted">Live preview</p><div class="lesson-prose mt-1 rounded-lg border border-line bg-paper p-3 text-sm" data-l-preview>${expandYoutubeEmbeds(ls.html)}</div></div>
+              <div class="flex items-center gap-2"><span class="font-mono text-xs uppercase tracking-wide text-muted">Lesson ${i + 1}</span></div>
+              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm font-semibold" data-l-title value="${esc(ls.title)}" ${editable ? '' : 'disabled'} />
+              <textarea rows="6" class="mt-2 w-full rounded-lg border border-line bg-paper px-2 py-1 font-mono text-xs" data-l-html ${editable ? '' : 'disabled'}>${esc(ls.html)}</textarea>
+              <div class="mt-2"><p class="font-mono text-xs uppercase tracking-wide text-muted">Live preview</p><div class="lesson-prose mt-1 rounded-lg border border-line bg-paper p-3 text-sm" data-l-preview>${expandYoutubeEmbeds(ls.html)}</div></div>
               <div class="mt-3 rounded-lg border border-line bg-paper p-3" data-l-media>
-                <p class="font-sans text-xs font-bold uppercase text-muted">Attached media</p>
+                <p class="font-mono text-xs uppercase tracking-wide text-muted">Attached media</p>
                 <div class="mt-2 grid gap-2 sm:grid-cols-2" data-media-list>${media.length ? media.map((m: any, mi: number) => `
                   <div class="flex items-center gap-2 rounded-lg border border-line bg-surface px-2 py-1.5 font-sans text-xs">
                     <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-paper text-muted">${iconSvg(MEDIA_ICON[m.kind] || 'note', 'h-3.5 w-3.5')}</span>
@@ -378,9 +420,9 @@ import Base from '../layouts/Base.astro';
           box.innerHTML = (quiz.length ? quiz.map((q: any, i: number) => {
             const options = Array.isArray(q.options) ? q.options : JSON.parse(q.options || '[]');
             return `<div class="mt-3 rounded-xl2 border border-line bg-surface p-4" data-q="${i}">
-              <div class="font-sans text-xs font-bold uppercase text-muted">Question ${i + 1}</div>
-              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm focus:border-saffron focus:outline-none" data-q-text value="${esc(q.q)}" ${editable ? '' : 'disabled'} />
-              <div class="mt-2 grid gap-1" data-q-options>${options.map((o: string, oi: number) => `<div class="flex items-center gap-2"><input type="radio" name="ans-${i}" data-q-answer value="${oi}" ${q.answer === oi ? 'checked' : ''} ${editable ? '' : 'disabled'} /><input class="flex-1 rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm focus:border-saffron focus:outline-none" data-q-option value="${esc(o)}" ${editable ? '' : 'disabled'} /></div>`).join('')}</div>
+              <div class="font-mono text-xs uppercase tracking-wide text-muted">Question ${i + 1}</div>
+              <input class="mt-1 w-full rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm" data-q-text value="${esc(q.q)}" ${editable ? '' : 'disabled'} />
+              <div class="mt-2 grid gap-1" data-q-options>${options.map((o: string, oi: number) => `<div class="flex items-center gap-2"><input type="radio" name="ans-${i}" data-q-answer value="${oi}" ${q.answer === oi ? 'checked' : ''} ${editable ? '' : 'disabled'} /><input class="flex-1 rounded-lg border border-line bg-paper px-2 py-1 font-sans text-sm" data-q-option value="${esc(o)}" ${editable ? '' : 'disabled'} /></div>`).join('')}</div>
               ${editable ? '<button class="mt-1 font-sans text-xs underline" data-add-option>+ option</button> <button class="mt-1 font-sans text-xs text-danger underline" data-delete-q>Delete question</button>' : ''}
             </div>` ;
           }).join('') : '<div class="rounded-xl2 border border-dashed border-line bg-surface/50 p-6 text-center font-sans text-sm text-muted">No questions yet.</div>')
@@ -403,6 +445,17 @@ import Base from '../layouts/Base.astro';
       }
 
       // ── Review & submit tab ──────────────────────────────────────────────
+      // The prototype's "blocked" card -- a danger-bordered box with a navy
+      // mono console block -- applied to the REAL readiness errors this
+      // endpoint returns (a flat string[]; there is no per-line Gurbani
+      // citation state to render, see the file-header note above).
+      function errorConsole(errors: string[]): string {
+        return `<div class="rounded-[3px] border border-danger bg-surface p-5">
+          <p class="eyebrow text-danger">Not ready to submit</p>
+          <div class="mt-3 rounded-[2px] bg-brand p-4 font-mono text-xs leading-7 text-white">${errors.map((e) => esc(e)).join('<br>')}</div>
+        </div>`;
+      }
+
       function renderSubmitTab() {
         panel.innerHTML = `
           <button id="validate" class="btn">${iconSvg('check', 'h-4 w-4')} Check readiness</button>
@@ -413,14 +466,14 @@ import Base from '../layouts/Base.astro';
           const out = document.getElementById('validate-out')!;
           out.innerHTML = r.ok && r.d.valid
             ? `<p class="flex items-center gap-2 text-ok font-semibold">${iconSvg('check', 'h-4 w-4')} Ready to submit.</p>`
-            : '<ul class="grid gap-1">' + (r.d.errors || []).map((e: string) => `<li class="flex items-start gap-2 text-danger"><span class="mt-0.5 shrink-0">${iconSvg('close', 'h-4 w-4')}</span><span>${esc(e)}</span></li>`).join('') + '</ul>';
+            : errorConsole(r.d.errors || []);
         });
         if (editable) document.getElementById('submit-draft')!.addEventListener('click', async () => {
           const r = await api('/api/studio/submit', { method: 'POST', body: JSON.stringify({ id }) });
           if (r.ok) { (window as any).suToast('Submitted for review.', 'ok'); goToList(); }
           else {
             const out = document.getElementById('validate-out')!;
-            out.innerHTML = '<ul class="grid gap-1">' + (r.d.errors || [r.d.error]).map((e: string) => `<li class="flex items-start gap-2 text-danger"><span class="mt-0.5 shrink-0">${iconSvg('close', 'h-4 w-4')}</span><span>${esc(e)}</span></li>`).join('') + '</ul>';
+            out.innerHTML = errorConsole(r.d.errors || [r.d.error]);
           }
         });
       }

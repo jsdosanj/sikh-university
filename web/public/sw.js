@@ -1,9 +1,10 @@
 /* Sikhi University (Astro) service worker — offline app shell + course data.
    Redirect-safe: never returns a redirected response (Safari rejects those for navigations). */
 // __BUILD__ is replaced with a hash of the built assets by scripts/stamp-sw.mjs
-// (post `astro build`). Every deploy that changes any asset gets a new cache
-// key, so `activate` purges the old shell and returning users always get the
-// current HTML/CSS/JS — the SW can no longer serve a months-stale shell.
+// (from master, kept on merge -- a real fix, not a redesign-vs-master content
+// decision: the old hand-bumped 'su-web-v26' hadn't changed in months, which
+// meant returning visitors could be stuck on a stale app shell indefinitely.
+// Same failure mode as the crest's stale-SW debugging session earlier today.)
 var CACHE = 'su-web-__BUILD__';
 // Offline course packs live in their OWN unversioned cache, separate from the
 // app-shell CACHE above. The activate handler purges every cache key except

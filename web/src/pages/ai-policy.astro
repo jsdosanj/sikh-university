@@ -6,37 +6,35 @@ const updated = 'July 2026';
 <Base
   title="AI & Content-Usage Policy — Sikhi University"
   description="How AI crawlers may use Sikhi University's content: search indexing, AI-answer citation, and AI/ML training are all welcome."
+  ambient="none"
 >
-  <header class="relative overflow-hidden bg-gradient-to-br from-brand to-navy-strong text-white">
-    <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-saffron/20 blur-3xl"></div>
-    <div class="wrap relative py-16">
-      <p class="font-sans text-sm uppercase tracking-[0.2em] text-saffron">Policy</p>
-      <h1 class="mt-2 max-w-2xl text-3xl font-bold text-white sm:text-4xl">AI &amp; Content-Usage Policy</h1>
-      <p class="mt-4 max-w-2xl text-lg text-white/85">Sikhi University is free and open — we want people (and the AI tools they use to find answers) to discover it. This page explains exactly how automated crawlers, including AI systems, may use our content.</p>
-    </div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-paper"></div>
-  </header>
+  <section class="wrap max-w-3xl py-12 sm:py-14">
+    <p class="eyebrow flex items-center gap-2.5 text-saffron-deep">
+      <span aria-hidden="true" class="inline-block h-px w-6 bg-current opacity-50"></span>
+      Policy
+    </p>
+    <h1 class="text-display-sm mt-3 text-navy">AI &amp; Content-Usage Policy</h1>
+    <p class="mt-4 max-w-[66ch] text-lg leading-[1.62] text-muted">Sikhi University is free and open — we want people (and the AI tools they use to find answers) to discover it. This page explains exactly how automated crawlers, including AI systems, may use our content.</p>
 
-  <section class="wrap py-12">
-    <article class="legal mx-auto max-w-3xl">
+    <article class="legal mt-2">
       <p class="font-sans text-sm text-muted">Last updated: {updated}</p>
 
-      <h2>The short version</h2>
+      <div class="legal-h2 rule-navy mt-10 flex items-baseline gap-3 pb-2"><span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">I</span><h2 class="m-0 text-[22px] font-bold leading-[1.15] tracking-[-.026em] text-navy">The short version</h2></div>
       <ul>
         <li><strong>All AI crawling is welcome.</strong> Search engines, AI answer/assistant tools (e.g. ChatGPT, Claude, Perplexity, and similar), and AI/ML training crawlers may all crawl this site — to index it, to cite it in an answer, and to train or fine-tune models on it.</li>
         <li><strong>Search indexing was never restricted</strong> — Sikhi University has always wanted to be found, and that hasn't changed.</li>
       </ul>
 
-      <h2>Why we opened this up</h2>
+      <div class="legal-h2 rule-navy mt-10 flex items-baseline gap-3 pb-2"><span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">II</span><h2 class="m-0 text-[22px] font-bold leading-[1.15] tracking-[-.026em] text-navy">Why we opened this up</h2></div>
       <p>We built Sikhi University to spread real, careful teaching of Sikhi to anyone who's curious — wherever they go looking, including the growing number of people who ask an AI assistant instead of a search engine, and including future models trained in part on content like ours. Free, open Sikh education should reach people through every channel it can, and that now includes AI models. Attribution and a link back to <a href="https://sikhiuni.com">sikhiuni.com</a> is appreciated when it's practical, but it isn't a condition of use.</p>
 
-      <h2>Two caveats</h2>
+      <div class="legal-h2 rule-navy mt-10 flex items-baseline gap-3 pb-2"><span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">III</span><h2 class="m-0 text-[22px] font-bold leading-[1.15] tracking-[-.026em] text-navy">Two caveats</h2></div>
       <ul>
         <li><strong>Third-party-credited material stays with its owner.</strong> Some content on this site is credited to a third party — for example, Gursevak/Bhagat Jaswant Singh Ji Daudar's audio recordings, the 365 Gurbani Words data, and professor portraits sourced from Wikimedia Commons — and remains the property of its respective owner. Reuse of that material beyond this site should be cleared with them directly.</li>
         <li><strong>Gurbani must be reproduced accurately.</strong> Scripture from ਸ੍ਰੀ ਗੁਰੂ ਗਰੰਥ ਸਾਹਿਬ ਜੀ and other Sikh texts appears on this site and must be handled with reverence. Models and products that quote it should reproduce it exactly — never altered or paraphrased as if it were canonical — and attribute it to Sri Guru Granth Sahib Ji.</li>
       </ul>
 
-      <h2>Machine-readable signals</h2>
+      <div class="legal-h2 rule-navy mt-10 flex items-baseline gap-3 pb-2"><span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">IV</span><h2 class="m-0 text-[22px] font-bold leading-[1.15] tracking-[-.026em] text-navy">Machine-readable signals</h2></div>
       <p>This policy is backed by machine-readable rules a compliant crawler can read automatically:</p>
       <ul>
         <li><a href="/robots.txt"><code>/robots.txt</code></a> — allows every known search, AI-answer, and AI-training crawler, by name.</li>
@@ -44,17 +42,34 @@ const updated = 'July 2026';
         <li><a href="/.well-known/tdmrep.json"><code>/.well-known/tdmrep.json</code></a> — an explicit no-reservation under the <a href="https://www.w3.org/2022/tdmrep/" target="_blank" rel="noopener">W3C TDM Reservation Protocol</a>.</li>
       </ul>
 
-      <h2>Questions</h2>
-      <p>For anything else, see our <a href="/legal">Terms &amp; Privacy</a>, or use the <a href="/feedback">feedback page</a> to reach us.</p>
+      <div class="callout">
+        <strong>Questions</strong>
+        <p class="mt-2">For anything else, see our <a href="/legal">Terms &amp; Privacy</a>, or use the <a href="/feedback">feedback page</a> to reach us.</p>
+      </div>
     </article>
   </section>
 
   <style is:global>
     @reference "../styles/global.css";
-    .legal h2 { @apply mt-10 text-2xl font-bold text-navy; }
-    .legal p, .legal li { @apply my-2 leading-relaxed; }
-    .legal ul { @apply list-disc pl-6; }
+    .legal > .legal-h2:first-child { margin-top: 2rem; }
+    .legal p, .legal li { @apply my-2 leading-relaxed text-ink; }
     .legal a { @apply text-navy underline; }
-    .legal code { @apply rounded bg-paper px-1.5 py-0.5 font-sans text-[0.85em]; }
+    .legal code { @apply rounded-[2px] bg-paper px-1.5 py-0.5 font-sans text-[0.85em]; }
+
+    /* "What we store"-style definition rows: every real bullet already reads
+       as <li><strong>Label.</strong> value</li> -- style the label as a mono
+       eyebrow above the value, ruled-ledger style, with zero text change. */
+    .legal ul { @apply mt-3 list-none border-t-2 border-navy pl-0; }
+    .legal li { @apply my-0 border-b border-line py-3 leading-[1.55]; }
+    .legal li strong:first-child {
+      @apply mb-1 block font-mono text-[10.5px] font-semibold uppercase tracking-[.12em] text-muted;
+    }
+
+    /* Closing note, flagged-callout style (matches legal.astro/prototype). */
+    .legal .callout {
+      @apply my-8 max-w-[78ch] border border-line border-l-[3px] border-l-saffron-deep bg-surface px-6 py-5 font-sans text-[15.5px] leading-[1.62] text-muted;
+    }
+    .legal .callout strong { @apply block font-mono text-[10.5px] font-semibold uppercase tracking-[.18em] text-saffron-deep; }
+    .legal .callout p { @apply my-0 text-ink; }
   </style>
 </Base>

@@ -17,13 +17,9 @@ site/assets/data/courses.public.json
 web/public/data/
 .claude/
 
-# Python bytecode cache
-__pycache__/
-*.pyc
-
 # local-only dev preview assets (staged for R2, not committed — see r2-upload-staging/)
 web/public/media/media/hero/
 
 # local wrangler dev-server state/cache
 .wrangler/
-.gstack/
+.cc/redesign-prototype-source.html

@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
 import { professorList, profBio, profSlug } from '../lib/data';
 import { REF, COLLECTIONS } from '../lib/santhya';
 import gurbaniWords from '../data/gurbani-words.json';
@@ -48,33 +47,20 @@ const SUGGEST_IDS = ['japji', 'sukhmani', 'asadivar', 'anand'] as const;
 const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
 ---
 <Base title="Search — Sikhi University" description="Search everything at Sikhi University — courses, professors, topics, learning paths, banis and scripture." ambient="study">
-  <!-- Reading-room search desk: a single wide field on warm paper, with the
-       saffron study glow pooled behind it. All chrome is server-rendered; only
-       the result list itself needs JS (search is inherently a live query). -->
-  <section class="relative isolate">
-    <div aria-hidden="true" class="glow-saffron pointer-events-none absolute -top-40 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 opacity-70"></div>
+  <section class="wrap py-12">
+    <h1 class="text-display-sm text-navy" data-i18n="search.h1">Search Sikhi University</h1>
 
-    <div class="wrap relative pt-14 pb-6 sm:pt-20">
-      <p class="eyebrow-rule text-saffron-deep">Sikhi University</p>
-      <h1 class="text-display mt-5 max-w-3xl font-bold" data-i18n="search.h1">Search Sikhi University</h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">Courses, professors, learning paths, banis, scripture and Gurbani words — one field, the whole university.</p>
-
-      <div class="searchfield glass-strong mt-9 flex max-w-3xl items-center gap-4 px-5 py-1 sm:px-6">
-        <Icon name="search" class="h-5 w-5 shrink-0 text-saffron-deep" />
-        <input id="q" type="search" aria-label="Search Sikhi University" data-i18n-aria="search.h1" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" data-i18n-ph="search.ph" autofocus
-          class="w-full bg-transparent py-4 font-sans text-lg outline-none sm:py-5" />
-      </div>
-
-      <div class="mt-6 flex flex-wrap items-center gap-2.5">
-        <span class="eyebrow mr-1 text-muted">Try</span>
-        {suggestions.map((b) => (
-          <a href={`/search?q=${encodeURIComponent(b.en)}`} class="inline-flex items-baseline gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 shadow-card transition duration-200 hover:-translate-y-px hover:border-saffron hover:shadow-lift">
-            <span class="gur text-navy" lang="pa">{b.gur}</span>
-            <span class="font-sans text-xs text-muted">{b.en}</span>
-          </a>
-        ))}
-      </div>
+    <!-- Bordered query box with a mono "/" glyph (issearch, lines 497-527). -->
+    <div class="mt-5 flex max-w-xl flex-wrap items-center gap-3 rounded-[3px] border border-navy bg-surface px-4 py-3">
+      <span aria-hidden="true" class="font-mono text-[15px] text-saffron-deep">/</span>
+      <input id="q" type="search" aria-label="Search Sikhi University" data-i18n-aria="search.h1" placeholder="Search in English or ਪੰਜਾਬੀ — courses, banis, Gurbani words…" data-i18n-ph="search.ph" autofocus
+        class="min-w-0 flex-1 bg-transparent py-1 text-[21px] font-medium tracking-[-.02em] text-navy outline-none placeholder:text-base placeholder:font-normal placeholder:tracking-normal placeholder:text-muted" />
     </div>
+
+    <!-- Mono count chips, one per result kind — filled by render() below. -->
+    <div id="chips" class="mt-4 flex flex-wrap gap-2" aria-live="polite"></div>
+
+    <div id="out" class="mt-8" aria-live="polite"></div>
   </section>
 
   <section class="wrap pb-16">
@@ -134,6 +120,7 @@ const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
     let data = { courses: [], topics: [], paths: [] };
     const tn = (id) => (data.topics.find((t) => t.id === id) || {}).name || id;
     const out = document.getElementById('out'); const q = document.getElementById('q');
+    const chips = document.getElementById('chips');
 
     // Build a flat, typed index. Each entry carries display fields (kind/title/sub/url)
     // plus four lowercased search fields the scorer weights: t = title, p = professor,
@@ -221,25 +208,34 @@ const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
 
     const ORDER = ['Course', 'Professor', 'Reading', 'Word', 'Path', 'Topic', 'Page'];
     const LABEL = { Course: 'Courses', Professor: 'Professors', Reading: 'Reading & Bani', Word: 'Gurbani Words', Path: 'Learning paths', Topic: 'Topics', Page: 'Pages' };
-    // A shell for the non-result states (idle / no match / index failure) so they
-    // read as a considered panel rather than stray text.
-    const panel = (inner) => `<div class="glass-lite max-w-2xl p-6 sm:p-8">${inner}</div>`;
+
+    // Mono count chips ("ALL 24 / COURSES 11 / ANGS 9 / FACULTY 3", issearch
+    // 497-527) — display counters only, driven by the same score groups the
+    // sections below render from. Not a second filter control.
+    function renderChips(scored, groups) {
+      if (!scored.length) { chips.innerHTML = ''; return; }
+      let html = `<span class="chip-status border-navy bg-brand text-white">${esc('ALL ' + scored.length)}</span>`;
+      ORDER.forEach((k) => {
+        const g = groups[k]; if (!g || !g.length) return;
+        html += `<span class="chip-status border-line bg-surface text-navy">${esc(LABEL[k].toUpperCase() + ' ' + g.length)}</span>`;
+      });
+      chips.innerHTML = html;
+    }
+
+    // A ruled result row, in place of the old card. Kind is shown as a
+    // chip-status tag rather than a pill.
     function row(r, terms) {
-      // Gurmukhi always gets lang="pa" + a real Gurmukhi face, and sits at or above
-      // the optical size of the Latin line beside it (DESIGN.md, reverence rules).
-      const isGur = r.kind === 'Word';
-      const gur = r.gur ? `<span class="gur block leading-snug text-navy" lang="pa">${hl(r.gur, terms)}</span>` : '';
-      const title = `<span class="${isGur ? 'gur ' : ''}block font-bold leading-snug text-navy"${isGur ? ' lang="pa"' : ''}>${hl(r.title, terms)}</span>`;
-      return `<a href="${r.url}" class="res-hit glass-lite relative flex h-full flex-col p-5 transition duration-200 hover:-translate-y-1.5 hover:shadow-lift active:scale-[.985]">`
-        + `<span class="pill mb-2.5 w-fit bg-paper text-muted ring-1 ring-line">${esc(r.kind)}</span>`
-        + gur + title
-        + (r.sub ? `<span class="mt-1.5 block font-sans text-sm text-muted">${hl(r.sub, terms)}</span>` : '')
-        + `</a>`;
+      return `<a href="${r.url}" class="row-ruled group block hover:bg-paper"><span class="flex min-w-0 flex-1 items-baseline justify-between gap-3"><span class="font-bold text-navy group-hover:text-saffron-deep">${hl(r.title, terms)}</span><span class="chip-status shrink-0 border-line text-muted">${esc(r.kind)}</span></span>${r.sub ? `<span class="basis-full font-sans text-sm text-muted">${hl(r.sub, terms)}</span>` : ''}</a>`;
+    }
+    // One ruled-ledger column per result kind, headed by a mono eyebrow over a
+    // rule-navy hairline ("In the corpus" / "Courses" / …).
+    function section(k, g, terms) {
+      return `<div class="min-w-0 flex-1 basis-[280px]"><p class="font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep">${esc(LABEL[k])}</p><div class="rule-navy"></div>${g.map((r) => row(r, terms)).join('')}</div>`;
     }
     let firstPaint = true;   // the entrance animation plays once, not per keystroke
     function render() {
       const v = q.value.normalize('NFC').toLowerCase().trim();
-      if (!v) { out.innerHTML = panel(`<p class="font-sans text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`); return; }
+      if (!v) { chips.innerHTML = ''; out.innerHTML = `<p class="text-muted">Type to search ${index.length} things — courses, professors, banis, Gurbani words and more.</p>`; return; }
       let terms = v.split(/\s+/);
       let scored = search(terms, v);
       let note = '';
@@ -248,35 +244,20 @@ const suggestions = SUGGEST_IDS.filter((id) => REF[id]).map((id) => REF[id]);
         const retry = search(shorter, shorter.join(' '));
         if (retry.length) { scored = retry; terms = shorter; note = shorter.join(' '); }
       }
-      if (!scored.length) {
-        // Empty state matches catalog.astro's pattern: icon + serif title + sans sub + CTA.
-        out.innerHTML = `<div class="glass-lite mx-auto mt-2 max-w-md p-8 text-center"><div class="flex flex-col items-center gap-3"><span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-paper text-muted">${iconSvg('search', 'h-7 w-7')}</span><p class="font-serif text-lg font-bold text-navy">No results for "${esc(q.value)}"</p><p class="max-w-sm font-sans text-sm text-muted">Try a shorter word, a different spelling, or search in ਗੁਰਮੁਖੀ.</p><a class="btn mt-1" href="/catalog">Browse the catalogue</a></div></div>`;
-        return;
-      }
+      if (!scored.length) { chips.innerHTML = ''; out.innerHTML = `<p class="text-muted">No results for "${esc(q.value)}".</p>`; return; }
       const groups = {};
       scored.forEach(({ r }) => (groups[r.kind] = groups[r.kind] || []).push(r));  // globally score-sorted, so each group stays in order
+      renderChips(scored, groups);
       let html = '';
-      if (note) html += `<p class="mb-2 font-sans text-sm text-muted">Showing results for: ${esc(note)}</p>`;
-      html += `<p class="eyebrow mb-6 text-saffron-deep">${scored.length} result${scored.length === 1 ? '' : 's'}</p>`;
-      let firstGroup = true;
+      if (note) html += `<p class="mb-2 text-sm text-muted">Showing results for: ${esc(note)}</p>`;
+      html += `<p class="mb-4 text-muted">${scored.length} result${scored.length === 1 ? '' : 's'}</p>`;
+      html += `<div class="flex flex-wrap gap-x-10 gap-y-8">`;
       ORDER.forEach((k) => {
         const g = groups[k]; if (!g || !g.length) return;
-        html += `<h2 class="res-head mb-4 ${firstGroup ? '' : 'mt-12'} flex items-center gap-4 text-xl font-bold text-navy">`
-          + `<span class="shrink-0">${LABEL[k]}</span>`
-          + `<span class="shrink-0 font-sans text-xs font-bold tracking-widest text-muted">${g.length}</span>`
-          + `</h2>`
-          + `<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">${g.map((r) => row(r, terms)).join('')}</div>`;
-        firstGroup = false;
+        html += section(k, g, terms);
       });
-      out.innerHTML = `<div class="${firstPaint ? 'res-in' : ''}">${html}</div>`;
-      firstPaint = false;
-    }
-    // Deep-linked queries (?q=…) fill the input immediately and show a shimmer
-    // skeleton while the index downloads, instead of a blank flash.
-    const pre = new URLSearchParams(location.search).get('q');
-    if (pre) {
-      q.value = pre;
-      out.innerHTML = `<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-hidden="true">${'<div class="skeleton h-24"></div>'.repeat(8)}</div>`;
+      html += `</div>`;
+      out.innerHTML = html;
     }
     fetch('/data/search.json').then((r) => r.json()).then((d) => {
       data = d; buildIndex();

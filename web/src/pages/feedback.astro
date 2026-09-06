@@ -1,30 +1,56 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Feedback — Sikhi University" description="Share feedback, report an error, or suggest a course at Sikhi University." ambient="study">
-  <section class="wrap max-w-xl py-14">
-    <p class="eyebrow text-saffron-deep">Feedback</p>
-    <h1 class="mt-2 text-3xl font-bold text-navy" data-i18n="feedback.h1">Share your feedback</h1>
-    <p class="mt-2 text-lg text-muted" data-i18n="feedback.sub">Found an error in a course, have a suggestion, or want to tell us what's working? We read every message.</p>
-    <form id="fb" class="glass mt-6 space-y-4 p-6">
-      <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.type.label">Type</span>
-        <select id="cat" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans">
-          <option value="general" data-i18n="feedback.type.general">General feedback</option>
-          <option value="course" data-i18n="feedback.type.course">About a course</option>
-          <option value="bug" data-i18n="feedback.type.bug">Report a problem</option>
-          <option value="suggestion" data-i18n="feedback.type.suggestion">Suggest a new course/feature</option>
-        </select>
-      </label>
-      <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.email.label">Email (optional)</span>
-        <input id="email" type="email" placeholder="you@example.com — so we can follow up" data-i18n-ph="feedback.email.ph" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans" />
-      </label>
-      <label class="block font-sans text-sm font-semibold"><span data-i18n="feedback.msg.label">Your feedback</span>
-        <textarea id="msg" rows="7" required maxlength="5000" placeholder="Your feedback…" data-i18n-ph="feedback.msg.ph" class="mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 font-sans"></textarea>
-      </label>
-      <p id="msg-count" class="-mt-2 text-right font-sans text-xs text-muted">0 / 5000</p>
-      <button id="send" type="submit" class="btn btn-primary" data-i18n="feedback.submit">Send feedback</button>
-    </form>
-    <div id="out" class="mt-4"></div>
+<Base title="Feedback — Sikhi University" description="Share feedback, report an error, or suggest a course at Sikhi University." ambient="none">
+  <section class="wrap max-w-4xl py-12 sm:py-14">
+    <p class="eyebrow flex items-center gap-2.5 text-saffron-deep">
+      <span aria-hidden="true" class="inline-block h-px w-6 bg-current opacity-50"></span>
+      Feedback
+    </p>
+    <h1 class="text-display-sm mt-3 text-navy" data-i18n="feedback.h1">Share your feedback</h1>
+    <p class="mt-4 max-w-[66ch] text-lg leading-[1.62] text-muted" data-i18n="feedback.sub">Found an error in a course, have a suggestion, or want to tell us what's working? We read every message.</p>
+
+    <div class="mt-9 flex flex-wrap gap-10">
+      <div class="min-w-0 flex-[1_1_420px]">
+        <form id="fb" class="space-y-5">
+          <label class="block font-mono text-[10.5px] font-semibold uppercase tracking-[.16em] text-muted"><span data-i18n="feedback.type.label">Type</span>
+            <select id="cat" class="mt-2.5 w-full border border-navy bg-surface px-4 py-3 font-sans text-[14.5px] text-navy" style="border-radius:2px">
+              <option value="general" data-i18n="feedback.type.general">General feedback</option>
+              <option value="course" data-i18n="feedback.type.course">About a course</option>
+              <option value="bug" data-i18n="feedback.type.bug">Report a problem</option>
+              <option value="suggestion" data-i18n="feedback.type.suggestion">Suggest a new course/feature</option>
+            </select>
+          </label>
+          <label class="block font-mono text-[10.5px] font-semibold uppercase tracking-[.16em] text-muted"><span data-i18n="feedback.email.label">Email (optional)</span>
+            <input id="email" type="email" placeholder="you@example.com — so we can follow up" data-i18n-ph="feedback.email.ph" class="mt-2.5 w-full border border-line bg-surface px-4 py-3 font-sans text-[14.5px] text-ink" style="border-radius:2px" />
+          </label>
+          <label class="block font-mono text-[10.5px] font-semibold uppercase tracking-[.16em] text-muted"><span data-i18n="feedback.msg.label">Your feedback</span>
+            <textarea id="msg" rows="7" required maxlength="5000" placeholder="Your feedback…" data-i18n-ph="feedback.msg.ph" class="mt-2.5 w-full border border-line bg-surface px-4 py-3 font-sans text-[15px] leading-[1.55] text-ink" style="border-radius:2px"></textarea>
+          </label>
+          <p id="msg-count" class="-mt-3 text-right font-mono text-[11px] text-muted">0 / 5000</p>
+          <button id="send" type="submit" class="btn btn-primary" data-i18n="feedback.submit">Send feedback</button>
+        </form>
+        <div id="out" class="mt-4"></div>
+      </div>
+
+      <div class="min-w-0 flex-[1_1_260px]">
+        <p class="font-mono text-[10.5px] uppercase tracking-[.2em] text-saffron-deep" data-i18n="feedback.next.eyebrow">What happens next</p>
+        <div class="mt-1 border-t-2 border-navy">
+          <div class="border-b border-line py-3.5">
+            <span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">01</span>
+            <p class="mt-1 text-[15px] leading-[1.55] text-ink" data-i18n="feedback.next.step1">We read every message ourselves.</p>
+          </div>
+          <div class="border-b border-line py-3.5">
+            <span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">02</span>
+            <p class="mt-1 text-[15px] leading-[1.55] text-ink" data-i18n="feedback.next.step2">Course errors and corrections are checked and fixed.</p>
+          </div>
+          <div class="border-b border-line py-3.5">
+            <span class="font-mono text-[11px] text-saffron-deep" aria-hidden="true">03</span>
+            <p class="mt-1 text-[15px] leading-[1.55] text-ink" data-i18n="feedback.next.step3">Leave an email and we'll reply. Anonymous feedback is still read.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
   <script>
     const courseId = new URLSearchParams(location.search).get('course') || '';

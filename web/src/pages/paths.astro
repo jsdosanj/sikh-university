@@ -1,20 +1,73 @@
 ---
-// Learning paths were merged into the catalogue (a tab). Keep /paths as a
-// bare, Base-free redirect stub so it resolves instantly — do not route this
-// through Base.astro (nav/footer/i18n would only delay the replace()).
+import Base from '../layouts/Base.astro';
+import programsData from '../../public/assets/data/programs.json';
+
+// --- Registrar's-ledger academic ladder (task 7: ispaths, lines 1007-1031) ---
+//
+// NOTE for the maintainer: `/paths` previously redirected straight to
+// `/catalog#paths` (a separate, topic-based "learning paths" tab added in an
+// earlier UI wave — commit 013657d). This is a DIFFERENT concept: the
+// prototype's `ispaths` screen is the five-rung PROGRAMME-LEVEL ladder
+// (certificate -> associate -> bachelor -> master -> giani), driven by
+// programs.json, not the topic-guided-journey feature in catalog.astro. The
+// SCREENS table (plan task list, Design decision 11) lists `paths.astro` as
+// one of the 33 designable pages with its own real prototype block and its
+// own ambient ("hall"), so this restores it as a standalone page rather than
+// leaving the old redirect stub in place. The catalog's topic-based "Learning
+// paths" tab is untouched — the two features share a name, not a route or a
+// dataset.
+const typeOrder = ['certificate', 'associate', 'bachelor', 'master', 'giani'] as const;
+const RUNG_NAME: Record<string, string> = {
+  certificate: 'Certificate',
+  associate: 'Associate',
+  bachelor: "Bachelor's",
+  master: "Master's",
+  giani: 'Giani',
+};
+
+function abbrOf(id: string): string {
+  return programsData.programs.find((p) => p.id === id)?.abbreviation ?? id;
+}
+
+const rungs = typeOrder.map((type, i) => {
+  const programs = programsData.programs.filter((p) => p.type === type);
+  const noPrereq = programs.every((p) => p.prerequisites.length === 0);
+  const meta = `${programs.length} programme${programs.length === 1 ? '' : 's'} · ${noPrereq ? 'no prerequisites' : 'enters from below'}`;
+  const note = programs
+    .map((p) => {
+      const from = p.prerequisites.length ? ` (from ${p.prerequisites.map(abbrOf).join(' or ')})` : '';
+      return `${p.abbreviation}${from}`;
+    })
+    .join(', ');
+  return { n: i + 1, name: RUNG_NAME[type], meta, note, count: programs.length };
+});
 ---
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="robots" content="noindex" />
-<link rel="canonical" href="/catalog" />
-<title>Redirecting…</title>
-<script>location.replace('/catalog#paths');</script>
-<style>
-  body { display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 2rem; background: #16335c; color: #fff; font: 1.05rem/1.5 Georgia, 'Source Serif 4', serif; text-align: center; }
-  a { color: #f4b21a; }
-</style>
-</head>
-<body><p>Learning paths have moved into the catalogue. <a href="/catalog#paths">Continue →</a></p></body>
-</html>
+<Base title="Study Paths — Sikhi University" description="Five academic rungs, from a first certificate to Giani — nothing gated on money or admission, only on what you have already completed." ambient="hall">
+  <div class="hero-midnight">
+    <div class="wrap py-11 md:py-12">
+      <div class="max-w-[60ch]">
+        <p class="eyebrow text-saffron" data-i18n="paths.eyebrow">Study paths</p>
+        <h1 class="text-display mt-4 text-paper" data-i18n="paths.h1">Five rungs, from a first certificate to Giani</h1>
+        <p class="mt-4 font-sans text-lg leading-relaxed text-paper/80" data-i18n="paths.sub">Eleven programmes across five levels. The certificates and the associate degree take anyone — every rung above enters from what is completed below.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="wrap py-9 md:py-11">
+    {rungs.map((r) => (
+      <div class="row-ruled items-baseline gap-x-6 py-5" data-no-i18n>
+        <span class="w-11 flex-none font-mono text-[15px] text-saffron">{r.n}</span>
+        <span class="w-[190px] flex-none">
+          <span class="block text-[23px] font-bold leading-[1.15] tracking-[-.026em] text-navy">{r.name}</span>
+          <span class="mt-1 block font-mono text-[11px] uppercase tracking-[.1em] text-saffron-deep">{r.meta}</span>
+        </span>
+        <span class="min-w-[280px] flex-1 font-sans text-base leading-relaxed text-muted">{r.note}</span>
+      </div>
+    ))}
+
+    <div class="mt-9 max-w-[84ch] rounded-xl2 border border-saffron bg-saffron-soft px-6 py-5">
+      <p class="font-mono text-[10.5px] uppercase tracking-[.18em] text-saffron-deep" data-i18n="paths.why.label">Why the ladder is not a straight line</p>
+      <p class="mt-3 font-sans text-base leading-relaxed text-ink" data-i18n="paths.why.body">Each specialisation Bachelor's enters from its own certificate — Gurmat Philosophy from C.S.F., Sikh History from C.S.H., Gurbani Studies from C.G.L. Only the generalist B.A.S.S. requires the Associate. The M.Div. accepts either B.A.G.P. or B.A.G.S.; the Giani accepts either Master's.</p>
+    </div>
+  </section>
+</Base>

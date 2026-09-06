@@ -3,18 +3,20 @@ account_id = "751487ee9fad43101841aa2b6aa2c449"
 main = "worker.js"
 compatibility_date = "2026-06-14"
 
-# Custom domains. sikhiuni.com is the canonical home; sikh-university.com is a
-# legacy alias that worker.js 301-redirects to it (see LEGACY_HOSTS). All three
-# zones (sikhiuni.com, sikh-university.com) live in this (Contact@sikhism.io)
-# account, so `wrangler deploy` provisions their DNS records + edge TLS certs
-# automatically. The other legacy host, sikh-university.dosanjhlabs.com, stays on
-# the dosanjhlabs.com zone in the old (Jasvant Dosanjh) account and is handled by
-# a Cloudflare Redirect Rule there, not by this Worker.
-# SITE_URL stays unset so auth/magic-links follow the request origin.
+# Repointed 2026-09-03: moved from a third-party account (Jasvant Dosanjh's
+# -- 0d4412e40181808b16cce0225ddb5152, see the `upstream` remote) to the
+# Contact@sikhism.io account that also runs sikhi.io and punjabiuni. The
+# live Worker here is ALREADY deployed and actively serving real users
+# (confirmed via real signups through the day before this repoint) -- this
+# file is being brought into agreement with what's already live, verified
+# directly against the Cloudflare API, not assumed.
+#
+# sikh-university.com (+www) are ALSO bound as custom domains to this same
+# Worker on this account, added outside this file (API/dashboard, not
+# `wrangler deploy`'s routes management) -- deliberately not listed here,
+# so a deploy from this file never touches or removes them.
 routes = [
-  { pattern = "sikhiuni.com", custom_domain = true },
-  { pattern = "sikh-university.com", custom_domain = true },
-  { pattern = "www.sikh-university.com", custom_domain = true }
+  { pattern = "sikhiuni.com", custom_domain = true }
 ]
 
 # Build the Astro frontend (web/) before deploying; its output is the static site.
@@ -37,6 +39,11 @@ run_worker_first = ["/technology", "/technology/*", "/institute", "/institute/*"
 [[d1_databases]]
 binding = "DB"
 database_name = "sikh-university"
+# Real, live, already-populated database on the new account -- 30 real
+# users / 18 real sessions confirmed present before this file was touched.
+# NEVER re-seed or wipe this. schema.sql + all 8 migrations already applied
+# in full (verified column-by-column), except `push_subs` (see migrations/
+# 0009_push_subs.sql, added alongside this repoint).
 database_id = "b8300881-b5de-4136-a6fd-00fe9cc2ce02"
 
 [[r2_buckets]]
@@ -47,7 +54,9 @@ bucket_name = "sikh-university-media"
 [ai]
 binding = "AI"
 
-# Translation cache: <lang>:<sha256(text)> -> translated string.
+# Translation cache: <lang>:<sha256(text)> -> translated string. Real KV
+# namespace on the new account (matches what's already live -- confirmed
+# via the API, not the stale id this file used to carry).
 [[kv_namespaces]]
 binding = "TRANSLATIONS"
 id = "32b7aaabd0414d7e9bbe07c3db63ab49"
@@ -55,12 +64,14 @@ id = "32b7aaabd0414d7e9bbe07c3db63ab49"
 # Non-secret vars. SITE_URL is intentionally omitted so magic-link URLs derive
 # from the request origin (works on workers.dev and any custom domain).
 [vars]
-# Sender stays on the Resend-verified dosanjhlabs.com domain; switching to
-# login@sikhiuni.com requires verifying sikhiuni.com in Resend first (see docs/DEPLOY.md).
-MAIL_FROM = "Sikhi University <login@dosanjhlabs.com>"
-# ADMIN_EMAILS and RESEND_API_KEY are Worker secrets (encrypted), set in the dashboard
-# under Settings > Variables and Secrets — kept out of source. env.ADMIN_EMAILS reads the
-# same whether it's a var or a secret, so no code change is needed.
+# sikhiuni.com is verified in the (new) Resend account this project now
+# shares with sikhi.io/punjabiuni -- dosanjhlabs.com is NOT, so sending
+# from it was silently 502-ing every magic-link request (confirmed live,
+# 2026-09-03: RESEND_API_KEY wasn't even SET on the live Worker at all,
+# meaning sign-in was fully broken before this repoint, not just misrouted).
+MAIL_FROM = "Sikhi University <login@sikhiuni.com>"
+# ADMIN_EMAILS and RESEND_API_KEY are Worker secrets (encrypted) — kept out
+# of source. env.ADMIN_EMAILS reads the same whether it's a var or a secret.
 
 # Daily coursework-reminder push sweep (16:00 UTC). No-op until the VAPID
 # secrets exist (see docs/DEPLOY.md → "Web Push reminders").
