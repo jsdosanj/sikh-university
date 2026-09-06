@@ -7,8 +7,75 @@ CREATE TABLE IF NOT EXISTS users (
   languages TEXT,                              -- comma-joined, from a fixed allowlist
   role TEXT NOT NULL DEFAULT 'learner',        -- learner | teacher | admin
   created_at INTEGER NOT NULL,
-  marketing_optin INTEGER NOT NULL DEFAULT 0   -- feature/product email consent; off unless explicitly given
+  marketing_optin INTEGER NOT NULL DEFAULT 0,  -- feature/product email consent; off unless explicitly given
+  username TEXT,                               -- chosen at registration (2026-09); NULL for every pre-2026-09 account
+  -- Backported from migrations/0010_password_auth.sql 2026-09-06. It had never
+  -- been added here, so `npm run db:seed` produced a database on which
+  -- password sign-in could NEVER work: every account creation died on
+  -- "table users has no column named password_hash". Found by the E2E suite,
+  -- which seeds a fresh local DB from this file and then tries to register.
+  -- NULLable on purpose: accounts predating password auth have none, and
+  -- forgot-password doubles as "set my first password" for them.
+  password_hash TEXT
 );
+-- Usernames are unique per SITE, never across sites — identity across
+-- sikhi.io / sikhiuni.com / punjabiuni.com stays keyed by email via SSO.
+-- SQLite treats NULLs as distinct under a UNIQUE index, so every legacy
+-- NULL-username row coexists under this happily.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username);
+
+-- Registration is a PENDING RECORD, not a half-created user (migrations/
+-- 0012_username_registration.sql). The account row is only INSERTed once the
+-- emailed 6-digit code has been proven from the same browser that requested
+-- it (rsid lives only in an httpOnly cookie), so an unverified-and-therefore
+-- unusable account cannot exist here.
+CREATE TABLE IF NOT EXISTS pending_registrations (
+  rsid       TEXT PRIMARY KEY,
+  email      TEXT NOT NULL,
+  username   TEXT NOT NULL,
+  code       TEXT NOT NULL,
+  attempts   INTEGER NOT NULL DEFAULT 0,
+  marketing  INTEGER NOT NULL DEFAULT 0,
+  expires_at INTEGER NOT NULL,
+  created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_pending_reg_email ON pending_registrations(email);
+
+-- Password reset by 6-digit code + same-browser binding
+-- (migrations/0013_reset_codes.sql). A reset LINK is a bearer credential —
+-- it signs in whatever device opens the email, and anyone who can read the
+-- mailbox holds a working password change. A code is useless without the
+-- httpOnly psid cookie held by the browser that requested it.
+--
+-- password_reset_tokens (the old link table) is intentionally still present
+-- and readable: reset-password.js keeps a token branch so links already in
+-- flight at deploy time work out their remaining hour.
+CREATE TABLE IF NOT EXISTS password_reset_codes (
+  psid       TEXT PRIMARY KEY,
+  user_id    TEXT NOT NULL,
+  code       TEXT NOT NULL,
+  attempts   INTEGER NOT NULL DEFAULT 0,
+  verified   INTEGER NOT NULL DEFAULT 0,
+  expires_at INTEGER NOT NULL,
+  created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_pw_reset_codes_user ON password_reset_codes(user_id);
+
+-- Also backported from migrations/0010 (same omission as password_hash above).
+-- SUPERSEDED by password_reset_codes for new resets, but reset-password.js
+-- keeps a token branch for the deploy grace window, so a fresh DB still needs
+-- the table for that code path to be exercisable at all.
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+  token       TEXT PRIMARY KEY,
+  user_id     TEXT NOT NULL,
+  expires_at  INTEGER NOT NULL,
+  used        INTEGER NOT NULL DEFAULT 0,
+  created_at  INTEGER NOT NULL
+);
+
+-- Existing databases: run once to add the username column (2026-09):
+--   ALTER TABLE users ADD COLUMN username TEXT;
+--   (then the CREATE UNIQUE INDEX above, which IS re-runnable)
 -- Existing databases: run once to add the profile columns:
 --   ALTER TABLE users ADD COLUMN country TEXT;
 --   ALTER TABLE users ADD COLUMN languages TEXT;

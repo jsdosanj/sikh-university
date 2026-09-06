@@ -1,5 +1,7 @@
 // Sikhi University Worker entrypoint.
-// Static files in site/ are served by the [assets] binding; /api/* is dispatched
+// Static files from the Astro build (web/dist) are served by the [assets]
+// binding -- NOT site/, which is legacy and unreachable (confirmed 2026-09-06
+// against wrangler.toml's `[assets] directory = "./web/dist"`). /api/* is dispatched
 // to the existing handlers (unchanged) that live under functions/api/.
 import { onRequestGet as meGet, onRequestPost as mePost } from "./functions/api/me.js";
 import { onRequestPost as activityHeartbeatPost } from "./functions/api/activity/heartbeat.js";
@@ -10,8 +12,11 @@ import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
 import { onRequestPost as authLogoutPost } from "./functions/api/auth/logout.js";
 import { onRequestGet as authSsoGet } from "./functions/api/auth/sso.js";
 import { onRequestPost as authSignupPost } from "./functions/api/auth/signup.js";
+import { onRequestPost as authRegisterStartPost } from "./functions/api/auth/register-start.js";
+import { onRequestPost as authRegisterCompletePost } from "./functions/api/auth/register-complete.js";
 import { onRequestPost as authLoginPost } from "./functions/api/auth/login.js";
 import { onRequestPost as authForgotPasswordPost } from "./functions/api/auth/forgot-password.js";
+import { onRequestPost as authVerifyResetCodePost } from "./functions/api/auth/verify-reset-code.js";
 import { onRequestPost as authResetPasswordPost } from "./functions/api/auth/reset-password.js";
 import { onRequestPost as mfaEnrollPost } from "./functions/api/auth/mfa/enroll.js";
 import { onRequestPost as mfaConfirmPost } from "./functions/api/auth/mfa/confirm.js";
@@ -88,9 +93,12 @@ const routes = {
   "/api/auth/verify": { GET: authVerifyGet },
   "/api/auth/logout": { POST: authLogoutPost },
   "/api/auth/sso": { GET: authSsoGet },
-  "/api/auth/signup": { POST: authSignupPost },
+  "/api/auth/signup": { POST: authSignupPost },  // 410 since 2026-09-06 — kept so a stale client gets an explicit answer
+  "/api/auth/register-start": { POST: authRegisterStartPost },
+  "/api/auth/register-complete": { POST: authRegisterCompletePost },
   "/api/auth/login": { POST: authLoginPost },
   "/api/auth/forgot-password": { POST: authForgotPasswordPost },
+  "/api/auth/verify-reset-code": { POST: authVerifyResetCodePost },
   "/api/auth/reset-password": { POST: authResetPasswordPost },
   "/api/auth/mfa/enroll": { POST: mfaEnrollPost },
   "/api/auth/mfa/confirm": { POST: mfaConfirmPost },
@@ -162,8 +170,14 @@ const routes = {
 const RATE_LIMITS = {
   "/api/auth/request": { limit: 20, window: 60 },  // magic-link sends (anti mail-bomb)
   "/api/auth/forgot-password": { limit: 20, window: 60 },  // password-reset sends (same rule -- this is where Resend cost actually lives now)
+  "/api/auth/verify-reset-code": { limit: 10, window: 60 },  // 6-digit code brute-force guard, same as MFA verify
   "/api/auth/login": { limit: 30, window: 60 },  // password guess throttle
   "/api/auth/signup": { limit: 20, window: 60 },
+  // register-start SENDS MAIL, so it gets the anti-mail-bomb limit, not the
+  // looser signup one. register-complete is a 6-digit code guess, so it gets
+  // the same treatment as the MFA code check below.
+  "/api/auth/register-start": { limit: 20, window: 60 },
+  "/api/auth/register-complete": { limit: 10, window: 60 },
   "/api/translate": { limit: 60, window: 60 },     // paid Workers AI — cap per-IP cost
   "/api/feedback": { limit: 15, window: 60 },
   "/api/discussions": { limit: 15, window: 60 },
