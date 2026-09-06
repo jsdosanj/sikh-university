@@ -33,6 +33,21 @@ import Base from '../layouts/Base.astro';
           </div>
         </fieldset>
 
+        <!-- Marketing consent, signup mode only. Unchecked by default. The
+             wording names the sister sites explicitly and is byte-identical
+             to sikhi.io's own signup form -- that is what makes carrying the
+             choice across the family coherent rather than consent-laundering.
+             Shown/hidden alongside #role-fieldset by the mode toggle below. -->
+        <div id="marketing-fieldset" class="mt-5 hidden">
+          <label class="flex cursor-pointer items-start gap-3 rounded-[2px] border border-white/[0.2] bg-white/[0.04] p-4 has-[:checked]:border-saffron">
+            <input type="checkbox" id="marketing" name="marketing" class="mt-1 shrink-0" />
+            <span class="font-sans text-sm text-white/[0.75]">
+              Email me about exciting new features and products from sikhi.io and its sister sites (Sikhi University, PunjabiUni).
+              <span class="mt-1 block text-white/[0.5]">You can change this anytime.</span>
+            </span>
+          </label>
+        </div>
+
         <!-- Primary: email + password -->
         <form id="password-form" class="mt-7 space-y-5">
           <label class="block"><span class="field-label-dark">Email</span>
@@ -60,6 +75,14 @@ import Base from '../layouts/Base.astro';
         </div>
 
         <div id="out" class="mt-4"></div>
+
+        <!-- The shared cross-site family mark. Rendered identically on
+             sikhi.io and punjabiuni.com, and in every transactional email
+             (functions/_email-templates.js). Same mono micro-type as the
+             footer links above it. -->
+        <p class="mt-8 text-center font-mono text-[11px] tracking-[0.08em] text-white/[0.62]">
+          Powered by <a href="https://sikhi.io" class="underline underline-offset-2">sikhi.io</a>
+        </p>
       </div>
     </div>
   </div>
@@ -77,6 +100,7 @@ import Base from '../layouts/Base.astro';
     const h1 = document.getElementById('mode-h1')!;
     const sub = document.getElementById('mode-sub')!;
     const roleFieldset = document.getElementById('role-fieldset')!;
+    const marketingFieldset = document.getElementById('marketing-fieldset')!;
     const passwordBtn = document.getElementById('password-btn') as HTMLButtonElement;
     document.getElementById('mode-toggle')!.addEventListener('click', () => {
       mode = mode === 'signin' ? 'signup' : 'signin';
@@ -84,12 +108,14 @@ import Base from '../layouts/Base.astro';
         h1.textContent = 'Create your account';
         sub.innerHTML = `Already have an account? <button type="button" id="mode-toggle-2" class="underline">Sign in</button>`;
         roleFieldset.classList.remove('hidden');
+        marketingFieldset.classList.remove('hidden');
         passwordBtn.textContent = 'Create account';
         document.getElementById('mode-toggle-2')!.addEventListener('click', () => document.getElementById('mode-toggle')!.click());
       } else {
         h1.textContent = 'Sign in';
         sub.innerHTML = `New here? <button type="button" id="mode-toggle">Create an account</button>`;
         roleFieldset.classList.add('hidden');
+        marketingFieldset.classList.add('hidden');
         passwordBtn.textContent = 'Sign in';
       }
     });
@@ -102,7 +128,11 @@ import Base from '../layouts/Base.astro';
       if (!email || !password) return;
       passwordBtn.disabled = true;
       const endpoint = mode === 'signup' ? '/api/auth/signup' : '/api/auth/login';
-      fetch(endpoint, { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, password }) })
+      // `marketing` is only ever sent on signup, and only as a real boolean —
+      // the API accepts nothing else as consent.
+      const payload: Record<string, unknown> = { email, password };
+      if (mode === 'signup') payload.marketing = (document.getElementById('marketing') as HTMLInputElement).checked;
+      fetch(endpoint, { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) })
         .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
         .then(({ ok, d }) => {
           passwordBtn.disabled = false;
