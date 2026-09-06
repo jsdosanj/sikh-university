@@ -58,7 +58,14 @@ if (!CSP_LINE_RE.test(hdr)) { console.error('build-csp: no script-src directive 
 // sikhiuni.com 2026-09-05: the crest had rendered correctly in every local/
 // dev check because dev servers don't enforce this hardened CSP at all --
 // only a real deployed build does.
-const scriptSrc = "script-src 'self' 'wasm-unsafe-eval' " + [...hashes].sort().join(' ');
+// https://static.cloudflareinsights.com is Cloudflare's own Web Analytics
+// beacon, injected at the edge (not a script this repo authors) -- allowed
+// as a real external source alongside the hashed inline scripts, same as
+// 'wasm-unsafe-eval' above. Found live 2026-09-06: this const used to
+// rebuild script-src from just 'self' + 'wasm-unsafe-eval' + hashes,
+// silently dropping any other literal source someone added to the
+// _headers template (including this one, the first time it was added).
+const scriptSrc = "script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com " + [...hashes].sort().join(' ');
 hdr = hdr.replace(CSP_LINE_RE, `$1${scriptSrc}`);
 
 // Cloudflare's API rejects any _headers line over 2000 characters — and only at
