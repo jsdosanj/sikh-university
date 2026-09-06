@@ -6,11 +6,28 @@ CREATE TABLE IF NOT EXISTS users (
   country TEXT,                                -- self-reported, from a fixed allowlist
   languages TEXT,                              -- comma-joined, from a fixed allowlist
   role TEXT NOT NULL DEFAULT 'learner',        -- learner | teacher | admin
-  created_at INTEGER NOT NULL
+  created_at INTEGER NOT NULL,
+  marketing_optin INTEGER NOT NULL DEFAULT 0   -- feature/product email consent; off unless explicitly given
 );
 -- Existing databases: run once to add the profile columns:
 --   ALTER TABLE users ADD COLUMN country TEXT;
 --   ALTER TABLE users ADD COLUMN languages TEXT;
+-- Existing databases: run once to add the marketing opt-in column:
+--   ALTER TABLE users ADD COLUMN marketing_optin INTEGER NOT NULL DEFAULT 0;
+--
+-- Set at signup from the form's consent checkbox, or seeded from the
+-- `marketingOptIn` claim on a sikhi.io SSO token the first time that person
+-- is provisioned here. NEVER overwritten on a later login -- a choice made
+-- on this site wins over the hub's echo of it.
+--
+-- Applying it live is a MANUAL step (see docs/DEPLOY.md), never part of a
+-- deploy. Confirm the Cloudflare account first, then run it:
+--   wrangler whoami
+--   npx wrangler d1 execute sikh-university --remote \
+--     --command "ALTER TABLE users ADD COLUMN marketing_optin INTEGER NOT NULL DEFAULT 0;"
+-- Code written against this column degrades rather than breaks if the ALTER
+-- hasn't been run: signup and SSO provision retry their INSERT without it and
+-- log, so a forgotten migration costs the opt-in value, not the account.
 
 CREATE TABLE IF NOT EXISTS magic_tokens (
   token TEXT PRIMARY KEY,

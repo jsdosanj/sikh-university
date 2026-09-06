@@ -1,4 +1,5 @@
 import { json, newId } from "../_lib.js";
+import { magicLinkTemplate } from "../../_email-templates.js";
 
 // POST /api/auth/request  { email }  -> sends a magic sign-in link
 export async function onRequestPost({ request, env }) {
@@ -25,17 +26,26 @@ export async function onRequestPost({ request, env }) {
   // Send via Resend if configured; otherwise return the link (dev mode).
   if (env.RESEND_API_KEY) {
     try {
+      // Branded, same visual system as the reset email (2026-09-06) -- this
+      // used to be three unbranded <p> tags built inline right here. A
+      // plaintext alternative comes with it, which materially improves
+      // Gmail/Outlook deliverability.
+      const t = magicLinkTemplate(link);
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { "Authorization": `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
         body: JSON.stringify({
-          from: env.MAIL_FROM || "Sikhi University <login@dosanjhlabs.com>",
+          // Unified with forgot-password.js's default (2026-09-06). This used
+          // to fall back to login@dosanjhlabs.com, so the two auth emails
+          // arrived from different domains -- the reset from the domain
+          // that is actually verified for this site, the magic link from
+          // another one entirely. env.MAIL_FROM still overrides.
+          from: env.MAIL_FROM || "Sikhi University <login@sikhiuni.com>",
           to: [email],
           reply_to: env.REPLY_TO || "contact@sikhism.io",
-          subject: "Your Sikhi University sign-in link",
-          // A plaintext alternative materially improves Gmail/Outlook deliverability.
-          text: `Sign in to Sikhi University:\n${link}\n\nThis link expires in 15 minutes. If you didn't request it, ignore this email.`,
-          html: `<p>Click to sign in to Sikhi University:</p><p><a href="${link}">Sign in</a></p><p>This link expires in 15 minutes. If you didn't request it, ignore this email.</p>`,
+          subject: t.subject,
+          text: t.text,
+          html: t.html,
         }),
       });
       if (!r.ok) {
