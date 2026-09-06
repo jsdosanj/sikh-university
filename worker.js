@@ -471,7 +471,7 @@ export default {
     // asset response somehow carried no CSP.
     if (pathname === '/technology' || pathname.startsWith('/technology/')) {
       const assetCsp = assetResp.headers.get('content-security-policy')
-        || "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' https://api.banidb.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self'; base-uri 'self'; frame-ancestors 'none'";
+        || "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' https:; font-src 'self'; connect-src 'self' blob: https://api.banidb.com https://cloudflareinsights.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; worker-src 'self' blob:; form-action 'self'; base-uri 'self'; frame-ancestors 'none'";
       const CDN = 'https://cdn.jsdelivr.net';
       const instCsp = assetCsp
         .replace(/script-src ([^;]*)/, `script-src $1 'wasm-unsafe-eval' ${CDN}`)
@@ -485,9 +485,9 @@ export default {
     // static _headers file, so the CSP lives here only). connect-src is tightened
     // to the one external origin the client actually calls (the BaniDB verse viewer).
     h.set('Content-Security-Policy',
-      "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; " +
+      "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; " +
       "img-src 'self' data: https:; media-src 'self' https:; font-src 'self'; " +
-      "connect-src 'self' https://api.banidb.com; " +
+      "connect-src 'self' blob: https://api.banidb.com https://cloudflareinsights.com; " +
       "frame-src https://www.youtube-nocookie.com https://www.youtube.com; " +
       "worker-src 'self' blob:; " +
       "form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'");
