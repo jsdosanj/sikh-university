@@ -1,13 +1,20 @@
-// The two account-creation paths — POST /api/auth/signup and the first-landing
-// branch of GET /api/auth/sso — must persist the marketing opt-in and send
-// exactly one welcome email, and must do neither on any other path.
+// The first-landing branch of GET /api/auth/sso must persist the marketing
+// opt-in and send exactly one welcome email, and must do neither on any other
+// path.
+//
+// 2026-09-06: this file also covered POST /api/auth/signup. That route is now
+// a 410 — registration is the two-step register-start/register-complete pair —
+// and its opt-in + email coverage moved to test/auth-registration.test.ts.
+// SSO provisioning is the OTHER path that can still create a user, and it
+// still sends welcomeTemplate(), because an SSO arrival never sees a
+// registration code (Q2 of the plan: one email per account per lifetime,
+// never per login).
 //
 // test/helpers.ts's mockEnv resolves scripted rows but doesn't record the SQL
 // it was handed, and what matters here IS the SQL and its bound values. So
 // this file uses its own recording DB mock in the same shape (prepare -> bind
 // -> first/run/all) that the handlers already expect.
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { onRequestPost as signupPost } from "../functions/api/auth/signup.js";
 
 type Call = { sql: string; args: unknown[] };
 
@@ -59,119 +66,12 @@ const welcomeSends = () =>
   fetchMock.mock.calls.filter(([url, init]: any[]) =>
     String(url).includes("api.resend.com") && String(init?.body ?? "").includes("Welcome to Sikhi University"));
 
-// ── POST /api/auth/signup ───────────────────────────────────────────────────
-
-describe("POST /api/auth/signup — marketing opt-in", () => {
-  function req(body: unknown) {
-    return new Request("https://sikhiuni.com/api/auth/signup", {
-      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
-    });
-  }
-
-  it("marketing:true -> the users INSERT carries 1", async () => {
-    const { env, calls } = recordingEnv();
-    const res = await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl", marketing: true }), env } as any);
-    expect(res.status).toBe(200);
-    const insert = userInsert(calls)!;
-    expect(insert.sql).toContain("marketing_optin");
-    expect(insert.args.at(-1)).toBe(1);
-  });
-
-  it("marketing omitted -> 0: consent is never assumed", async () => {
-    const { env, calls } = recordingEnv();
-    await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl" }), env } as any);
-    expect(userInsert(calls)!.args.at(-1)).toBe(0);
-  });
-
-  it("marketing:false -> 0", async () => {
-    const { env, calls } = recordingEnv();
-    await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl", marketing: false }), env } as any);
-    expect(userInsert(calls)!.args.at(-1)).toBe(0);
-  });
-
-  it("a truthy non-boolean is NOT consent", async () => {
-    for (const value of ["true", 1, "on"]) {
-      const { env, calls } = recordingEnv();
-      await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl", marketing: value }), env } as any);
-      expect(userInsert(calls)!.args.at(-1)).toBe(0);
-    }
-  });
-
-  it("an unapplied live ALTER costs the opt-in, not the account", async () => {
-    // The column ships in schema.sql but is applied to live D1 by hand. A
-    // deploy landing first must not 500 every signup.
-    const { env, calls } = recordingEnv({ failOnOptinColumn: true });
-    const log = vi.spyOn(console, "log").mockImplementation(() => {});
-    const res = await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl", marketing: true }), env } as any);
-    expect(res.status).toBe(200);
-    const inserts = calls.filter((c) => c.sql.startsWith("INSERT INTO users"));
-    expect(inserts).toHaveLength(2);                       // retried once
-    expect(inserts[1].sql).not.toContain("marketing_optin"); // without the column
-    log.mockRestore();
-  });
-
-  it("a genuinely broken DB still throws — only the missing column is retried", async () => {
-    const { env } = recordingEnv();
-    env.DB = {
-      prepare: () => ({
-        bind() { return this; },
-        async first() { return null; },
-        async run() { throw new Error("D1_ERROR: UNIQUE constraint failed: users.email"); },
-      }),
-    } as any;
-    await expect(
-      signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl" }), env } as any),
-    ).rejects.toThrow(/UNIQUE constraint/);
-  });
-
-  it("an existing email is still rejected before anything is written", async () => {
-    const { env, calls } = recordingEnv({ existingUser: { id: "u1" } });
-    const res = await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl", marketing: true }), env } as any);
-    expect(res.status).toBe(409);
-    expect(userInsert(calls)).toBeUndefined();
-    expect(welcomeSends()).toHaveLength(0);
-  });
-});
-
-describe("POST /api/auth/signup — welcome email", () => {
-  function req(body: unknown) {
-    return new Request("https://sikhiuni.com/api/auth/signup", {
-      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
-    });
-  }
-
-  it("sends exactly one welcome on success", async () => {
-    const { env } = recordingEnv({ resendKey: "re_test" });
-    const res = await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl" }), env } as any);
-    expect(res.status).toBe(200);
-    expect(welcomeSends()).toHaveLength(1);
-  });
-
-  it("uses waitUntil when the Pages context provides one", async () => {
-    const { env } = recordingEnv({ resendKey: "re_test" });
-    const waitUntil = vi.fn();
-    await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl" }), env, waitUntil } as any);
-    expect(waitUntil).toHaveBeenCalledTimes(1);
-  });
-
-  it("a Resend failure never changes the signup response", async () => {
-    const { env } = recordingEnv({ resendKey: "re_test" });
-    fetchMock.mockRejectedValue(new Error("resend down"));
-    const log = vi.spyOn(console, "log").mockImplementation(() => {});
-    const res = await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl" }), env } as any);
-    expect(res.status).toBe(200);
-    log.mockRestore();
-  });
-
-  it("no key configured -> no send, no crash", async () => {
-    const { env } = recordingEnv(); // no RESEND_API_KEY
-    const log = vi.spyOn(console, "log").mockImplementation(() => {});
-    const res = await signupPost({ request: req({ email: "a@b.com", password: "abcdefghijkl" }), env } as any);
-    expect(res.status).toBe(200);
-    expect(welcomeSends()).toHaveLength(0);
-    log.mockRestore();
-  });
-});
+// ── POST /api/auth/signup — RETIRED 2026-09-06 ──────────────────────────────
+// The instant-signup route this file used to cover is now a 410. Its opt-in
+// and welcome-email coverage moved to test/auth-registration.test.ts, against
+// the register-start/register-complete pair that replaced it. What is left
+// here is the SSO provisioning branch, which is unchanged and still the other
+// path that can create a user.
 
 // ── GET /api/auth/sso ───────────────────────────────────────────────────────
 // The token is verified by _sso.js; these tests mock that boundary so they can

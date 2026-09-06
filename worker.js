@@ -10,6 +10,8 @@ import { onRequestGet as authVerifyGet } from "./functions/api/auth/verify.js";
 import { onRequestPost as authLogoutPost } from "./functions/api/auth/logout.js";
 import { onRequestGet as authSsoGet } from "./functions/api/auth/sso.js";
 import { onRequestPost as authSignupPost } from "./functions/api/auth/signup.js";
+import { onRequestPost as authRegisterStartPost } from "./functions/api/auth/register-start.js";
+import { onRequestPost as authRegisterCompletePost } from "./functions/api/auth/register-complete.js";
 import { onRequestPost as authLoginPost } from "./functions/api/auth/login.js";
 import { onRequestPost as authForgotPasswordPost } from "./functions/api/auth/forgot-password.js";
 import { onRequestPost as authResetPasswordPost } from "./functions/api/auth/reset-password.js";
@@ -88,7 +90,9 @@ const routes = {
   "/api/auth/verify": { GET: authVerifyGet },
   "/api/auth/logout": { POST: authLogoutPost },
   "/api/auth/sso": { GET: authSsoGet },
-  "/api/auth/signup": { POST: authSignupPost },
+  "/api/auth/signup": { POST: authSignupPost },  // 410 since 2026-09-06 — kept so a stale client gets an explicit answer
+  "/api/auth/register-start": { POST: authRegisterStartPost },
+  "/api/auth/register-complete": { POST: authRegisterCompletePost },
   "/api/auth/login": { POST: authLoginPost },
   "/api/auth/forgot-password": { POST: authForgotPasswordPost },
   "/api/auth/reset-password": { POST: authResetPasswordPost },
@@ -164,6 +168,11 @@ const RATE_LIMITS = {
   "/api/auth/forgot-password": { limit: 20, window: 60 },  // password-reset sends (same rule -- this is where Resend cost actually lives now)
   "/api/auth/login": { limit: 30, window: 60 },  // password guess throttle
   "/api/auth/signup": { limit: 20, window: 60 },
+  // register-start SENDS MAIL, so it gets the anti-mail-bomb limit, not the
+  // looser signup one. register-complete is a 6-digit code guess, so it gets
+  // the same treatment as the MFA code check below.
+  "/api/auth/register-start": { limit: 20, window: 60 },
+  "/api/auth/register-complete": { limit: 10, window: 60 },
   "/api/translate": { limit: 60, window: 60 },     // paid Workers AI — cap per-IP cost
   "/api/feedback": { limit: 15, window: 60 },
   "/api/discussions": { limit: 15, window: 60 },

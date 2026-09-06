@@ -20,31 +20,35 @@ import { welcomeTemplate } from "../../_email-templates.js";
  * violation or a genuinely broken DB must still throw. Only the
  * missing-column case is retried, and only once.
  */
-export async function insertUserWithOptin(env, { id, email, name, role, createdAt, marketing, passwordHash }) {
+export async function insertUserWithOptin(env, { id, email, name, role, createdAt, marketing, passwordHash, username }) {
   const optin = marketing === true ? 1 : 0;
-  const withPassword = passwordHash !== undefined;
+  // `username` is only ever supplied by register-complete.js. SSO provisioning
+  // never sets one: usernames are per-site (migrations/0012), so a hub user's
+  // sikhi.io handle is not theirs here, and guessing one for them would be
+  // inventing identity. Those rows keep NULL, which the UNIQUE index allows.
+  const cols = ["id", "email", "name", "role", "created_at"];
+  const vals = [id, email, name, role, createdAt];
+  if (passwordHash !== undefined) { cols.push("password_hash"); vals.push(passwordHash); }
+  if (username !== undefined && username !== null) { cols.push("username"); vals.push(username); }
 
-  const sqlWithOptin = withPassword
-    ? "INSERT INTO users (id, email, name, role, created_at, password_hash, marketing_optin) VALUES (?,?,?,?,?,?,?)"
-    : "INSERT INTO users (id, email, name, role, created_at, marketing_optin) VALUES (?,?,?,?,?,?)";
-  const argsWithOptin = withPassword
-    ? [id, email, name, role, createdAt, passwordHash, optin]
-    : [id, email, name, role, createdAt, optin];
+  const build = (extraCols, extraVals) => {
+    const allCols = [...cols, ...extraCols];
+    return {
+      sql: `INSERT INTO users (${allCols.join(", ")}) VALUES (${allCols.map(() => "?").join(",")})`,
+      args: [...vals, ...extraVals],
+    };
+  };
 
+  const withOptin = build(["marketing_optin"], [optin]);
   try {
-    await env.DB.prepare(sqlWithOptin).bind(...argsWithOptin).run();
+    await env.DB.prepare(withOptin.sql).bind(...withOptin.args).run();
     return { optinPersisted: true };
   } catch (e) {
     const message = (e && e.message) || String(e);
     if (!/marketing_optin|no such column/i.test(message)) throw e;
     console.log("[onboarding] users.marketing_optin missing — run the ALTER in schema.sql; continuing without it");
-    const sqlNoOptin = withPassword
-      ? "INSERT INTO users (id, email, name, role, created_at, password_hash) VALUES (?,?,?,?,?,?)"
-      : "INSERT INTO users (id, email, name, role, created_at) VALUES (?,?,?,?,?)";
-    const argsNoOptin = withPassword
-      ? [id, email, name, role, createdAt, passwordHash]
-      : [id, email, name, role, createdAt];
-    await env.DB.prepare(sqlNoOptin).bind(...argsNoOptin).run();
+    const noOptin = build([], []);
+    await env.DB.prepare(noOptin.sql).bind(...noOptin.args).run();
     return { optinPersisted: false };
   }
 }

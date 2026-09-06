@@ -324,6 +324,97 @@ Powered by sikhi.io — https://sikhi.io`;
   return { subject: "Welcome to Sikhi University", html, text };
 }
 
+// ── Registration confirmation code ──────────────────────────────────────────
+// THE email a new native signup receives — and the only one.
+//
+// 2026-09-06: registration became username + email -> emailed 6-digit code ->
+// code + password in the same browser (functions/api/auth/register-*.js). The
+// account does not exist when this sends, so this email is simultaneously the
+// confirmation and the welcome — the welcome copy is fused in below rather
+// than sent as a second message. The user's rule is that auth mail is only
+// "forgot password and initial email confirmation"; a code email followed by
+// a welcome email is one email too many.
+//
+// welcomeTemplate() is NOT retired: it is still the one-time email sent when
+// a sikhi.io user is first provisioned here by SSO (functions/api/auth/sso.js
+// -> _onboarding.js), which is a genuinely different reader — they never see
+// a code because they never typed a password here.
+//
+// A CODE, never a link: a link is a bearer credential that signs in whatever
+// device opens the mail. The code is useless without the httpOnly rsid cookie
+// held by the browser that started the sign-up.
+export function registrationCodeTemplate(code, username) {
+  const greeting = username
+    ? `Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh &mdash; and welcome, ${username}.`
+    : "Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh.";
+
+  const codeBlock = `<tr>
+    <td align="center" style="padding-bottom:26px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td align="center" bgcolor="#f7f5ef" style="background-color:#f7f5ef; border:1px solid #e4d9b4; border-radius:6px; padding:18px 30px; font-family:Helvetica,Arial,sans-serif; font-size:32px; line-height:38px; font-weight:bold; letter-spacing:8px; color:#0b1e3a;">${code}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>`;
+
+  const highlight = (label, detail) =>
+    `<tr><td style="padding-bottom:14px;">
+       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+         <tr>
+           <td width="4" bgcolor="#f4b21a" style="background-color:#f4b21a; font-size:0; line-height:0;">&nbsp;</td>
+           <td style="padding-left:14px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:23px; color:#333a45;">
+             <strong style="color:#0b1e3a;">${label}</strong><br>${detail}
+           </td>
+         </tr>
+       </table>
+     </td></tr>`;
+
+  const html = shell({
+    title: "Your Sikhi University confirmation code",
+    preheader: `${code} is your Sikhi University confirmation code. It expires in 15 minutes.`,
+    eyebrow: "Office of the Registrar",
+    heading: "Confirm your enrollment",
+    bodyRows: `
+      ${paragraph(greeting, 10)}
+      ${paragraph("Enter this code in the browser tab where you started signing up, then choose a password:", 20)}
+      ${codeBlock}
+      ${paragraph("The code only works in that same tab &mdash; opening this email on another device won&rsquo;t sign anyone in. It expires in <strong style=\"color:#0b1e3a;\">15 minutes</strong>.", 24)}
+      ${highlight("A full departments catalogue", "Browse by department and take any course in any order &mdash; nothing is gated behind a prerequisite you haven&rsquo;t met.")}
+      ${highlight("Free courses, real certificates", "Complete a course, pass its assessment, and a verifiable certificate is issued in your name.")}
+      ${highlight("Learning paths", "Follow a structured route through a subject instead of choosing every next step yourself.")}
+      ${paragraph("Your Sikhi University sign-in also works on <strong style=\"color:#0b1e3a;\">sikhi.io</strong> and <strong style=\"color:#0b1e3a;\">PunjabiUni</strong> &mdash; one account across all three.", 0)}
+    `,
+    footerNote: "If you didn&rsquo;t try to create a Sikhi University account, you can ignore this email &mdash; nothing has been created.",
+  });
+
+  const text = `SIKHI UNIVERSITY — Confirm your enrollment
+
+${username ? `Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh — and welcome, ${username}.` : "Waheguru Ji Ka Khalsa, Waheguru Ji Ki Fateh."}
+
+Your confirmation code: ${code}
+
+Enter it in the browser tab where you started signing up, then choose a password. The code only works in that same tab — opening this email on another device won't sign anyone in. It expires in 15 minutes.
+
+- A full departments catalogue: browse by department and take any course in any order.
+- Free courses, real certificates: pass a course's assessment and a verifiable certificate is issued in your name.
+- Learning paths: follow a structured route through a subject.
+
+Your Sikhi University sign-in also works on sikhi.io and PunjabiUni — one account across all three.
+
+If you didn't try to create a Sikhi University account, ignore this email — nothing has been created.
+
+Respectfully,
+Office of the Registrar
+Sikhi University
+
+Sikhi University · sikhiuni.com
+
+Powered by sikhi.io — https://sikhi.io`;
+
+  return { subject: `${code} is your Sikhi University confirmation code`, html, text };
+}
+
 // ── Magic-link sign-in ──────────────────────────────────────────────────────
 // The legacy path, kept for accounts that predate password auth. Its email
 // used to be three unbranded <p> tags inline in request.js; it renders through
