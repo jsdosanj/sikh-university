@@ -7,8 +7,35 @@ CREATE TABLE IF NOT EXISTS users (
   languages TEXT,                              -- comma-joined, from a fixed allowlist
   role TEXT NOT NULL DEFAULT 'learner',        -- learner | teacher | admin
   created_at INTEGER NOT NULL,
-  marketing_optin INTEGER NOT NULL DEFAULT 0   -- feature/product email consent; off unless explicitly given
+  marketing_optin INTEGER NOT NULL DEFAULT 0,  -- feature/product email consent; off unless explicitly given
+  username TEXT                                -- chosen at registration (2026-09); NULL for every pre-2026-09 account
 );
+-- Usernames are unique per SITE, never across sites — identity across
+-- sikhi.io / sikhiuni.com / punjabiuni.com stays keyed by email via SSO.
+-- SQLite treats NULLs as distinct under a UNIQUE index, so every legacy
+-- NULL-username row coexists under this happily.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username);
+
+-- Registration is a PENDING RECORD, not a half-created user (migrations/
+-- 0012_username_registration.sql). The account row is only INSERTed once the
+-- emailed 6-digit code has been proven from the same browser that requested
+-- it (rsid lives only in an httpOnly cookie), so an unverified-and-therefore
+-- unusable account cannot exist here.
+CREATE TABLE IF NOT EXISTS pending_registrations (
+  rsid       TEXT PRIMARY KEY,
+  email      TEXT NOT NULL,
+  username   TEXT NOT NULL,
+  code       TEXT NOT NULL,
+  attempts   INTEGER NOT NULL DEFAULT 0,
+  marketing  INTEGER NOT NULL DEFAULT 0,
+  expires_at INTEGER NOT NULL,
+  created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_pending_reg_email ON pending_registrations(email);
+
+-- Existing databases: run once to add the username column (2026-09):
+--   ALTER TABLE users ADD COLUMN username TEXT;
+--   (then the CREATE UNIQUE INDEX above, which IS re-runnable)
 -- Existing databases: run once to add the profile columns:
 --   ALTER TABLE users ADD COLUMN country TEXT;
 --   ALTER TABLE users ADD COLUMN languages TEXT;
