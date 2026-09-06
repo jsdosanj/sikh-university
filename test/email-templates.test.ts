@@ -9,13 +9,10 @@
 // __tests__/email-templates.test.ts and punjabiuni's
 // lib/email/templates.test.ts in the same breath.
 import { describe, it, expect } from "vitest";
-import { resetPasswordTemplate, resetCodeTemplate, welcomeTemplate, registrationCodeTemplate, POWERED_BY_HTML } from "../functions/_email-templates.js";
-
-const RESET_LINK = "https://sikhiuni.com/reset-password.html?token=abc123";
+import { resetCodeTemplate, welcomeTemplate, registrationCodeTemplate, POWERED_BY_HTML } from "../functions/_email-templates.js";
 
 const ALL: Array<[string, { subject: string; html: string; text: string }]> = [
   ["resetCode", resetCodeTemplate("482913")],
-  ["resetPassword (legacy, grace window only)", resetPasswordTemplate(RESET_LINK)],
   ["welcome (named)", welcomeTemplate("Harjit")],
   ["welcome (anonymous)", welcomeTemplate()],
   ["registrationCode (named)", registrationCodeTemplate("482913", "harjit")],
@@ -59,21 +56,6 @@ describe("POWERED_BY_HTML", () => {
     expect(POWERED_BY_HTML).toContain('href="https://sikhi.io"');
     expect(POWERED_BY_HTML).toContain("#5f7396"); // muted
     expect(POWERED_BY_HTML).toContain("#ffc83d"); // accent
-  });
-});
-
-describe("resetPasswordTemplate", () => {
-  const t = resetPasswordTemplate(RESET_LINK);
-
-  it("interpolates the reset link into both the button and the copy-paste fallback", () => {
-    expect(t.html.split(RESET_LINK).length - 1).toBeGreaterThanOrEqual(2);
-    expect(t.text).toContain(RESET_LINK);
-  });
-
-  it("keeps the Registrar voice and the 1-hour single-use security note", () => {
-    expect(t.html).toContain("Office of the Registrar");
-    expect(t.html).toContain("1 hour");
-    expect(t.html).toContain("only once");
   });
 });
 
@@ -154,10 +136,9 @@ describe("registrationCodeTemplate — the single email a new native account rec
 });
 
 // 2026-09-06: the reset converged from a clickable link onto a 6-digit code
-// bound to the requesting browser, matching sikhi.io and punjabiuni.com.
-// resetPasswordTemplate above is retained ONLY to render links already in
-// flight during the deploy grace window (see reset-password.js's token
-// branch) and should be deleted with it.
+// bound to the requesting browser, matching sikhi.io and punjabiuni.com. The
+// old link-based resetPasswordTemplate and its grace-window branch were
+// removed 2026-09-07.
 describe("resetCodeTemplate — the live forgot-password email", () => {
   const t = resetCodeTemplate("482913");
 

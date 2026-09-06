@@ -47,9 +47,10 @@ CREATE INDEX IF NOT EXISTS idx_pending_reg_email ON pending_registrations(email)
 -- mailbox holds a working password change. A code is useless without the
 -- httpOnly psid cookie held by the browser that requested it.
 --
--- password_reset_tokens (the old link table) is intentionally still present
--- and readable: reset-password.js keeps a token branch so links already in
--- flight at deploy time work out their remaining hour.
+-- password_reset_tokens (the old link table) is GONE (migrations/0014) — its
+-- reset-password.js grace-window branch was removed 2026-09-07, once an hour
+-- had comfortably passed since the deploy and every in-flight link had
+-- expired. A fresh DB never creates that table.
 CREATE TABLE IF NOT EXISTS password_reset_codes (
   psid       TEXT PRIMARY KEY,
   user_id    TEXT NOT NULL,
@@ -60,18 +61,6 @@ CREATE TABLE IF NOT EXISTS password_reset_codes (
   created_at INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_pw_reset_codes_user ON password_reset_codes(user_id);
-
--- Also backported from migrations/0010 (same omission as password_hash above).
--- SUPERSEDED by password_reset_codes for new resets, but reset-password.js
--- keeps a token branch for the deploy grace window, so a fresh DB still needs
--- the table for that code path to be exercisable at all.
-CREATE TABLE IF NOT EXISTS password_reset_tokens (
-  token       TEXT PRIMARY KEY,
-  user_id     TEXT NOT NULL,
-  expires_at  INTEGER NOT NULL,
-  used        INTEGER NOT NULL DEFAULT 0,
-  created_at  INTEGER NOT NULL
-);
 
 -- Existing databases: run once to add the username column (2026-09):
 --   ALTER TABLE users ADD COLUMN username TEXT;

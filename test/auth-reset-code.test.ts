@@ -2,12 +2,14 @@
 // (task 14). Previously a clickable link — a bearer credential that signs in
 // whatever device opens the email.
 //
-// Two properties beyond the happy path really matter here:
-//   • the flow must STILL work for a legacy account with password_hash NULL,
-//     because "forgot password" doubling as "set my first password" is the
-//     on-ramp that made retiring magic-link sign-in safe;
-//   • the legacy ?token branch must keep working for the deploy grace window,
-//     since links minted an hour before the deploy are still valid.
+// One property beyond the happy path really matters here: the flow must
+// STILL work for a legacy account with password_hash NULL, because "forgot
+// password" doubling as "set my first password" is the on-ramp that made
+// retiring magic-link sign-in safe.
+//
+// The legacy ?token grace-window branch (and its tests) were removed
+// 2026-09-07, once an hour had comfortably passed since the deploy that
+// converged this flow onto codes.
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { onRequestPost as forgotPost } from "../functions/api/auth/forgot-password.js";
 import { onRequestPost as verifyCodePost } from "../functions/api/auth/verify-reset-code.js";
@@ -15,11 +17,10 @@ import { onRequestPost as resetPost } from "../functions/api/auth/reset-password
 
 type Row = Record<string, any>;
 
-function statefulEnv(seed: { users?: Row[]; tokens?: Row[] } = {}) {
+function statefulEnv(seed: { users?: Row[] } = {}) {
   const tables: Record<string, Row[]> = {
     users: seed.users ? [...seed.users] : [],
     password_reset_codes: [],
-    password_reset_tokens: seed.tokens ? [...seed.tokens] : [],
     sessions: [],
   };
 
@@ -37,12 +38,6 @@ function statefulEnv(seed: { users?: Row[]; tokens?: Row[] } = {}) {
           }
           if (sql.includes("FROM password_reset_codes WHERE psid")) {
             return tables.password_reset_codes.find((r) => r.psid === a[0] && r.expires_at > a[1]) ?? null;
-          }
-          if (sql.startsWith("UPDATE password_reset_tokens SET used = 1")) {
-            const t = tables.password_reset_tokens.find((r) => r.token === a[0] && r.used === 0 && r.expires_at > a[1]);
-            if (!t) return null;
-            t.used = 1;
-            return { user_id: t.user_id };
           }
           if (sql.includes("FROM user_mfa")) return null;
           return null;
@@ -231,35 +226,5 @@ describe("the full code journey", () => {
     const res = await resetPost({ request: post("/api/auth/reset-password", { password: "short" }, cookie), env } as any);
     expect(res.status).toBe(400);
     expect(tables.password_reset_codes).toHaveLength(1); // ticket survives
-  });
-});
-
-describe("legacy ?token grace branch", () => {
-  it("a link minted before the deploy still works", async () => {
-    const { env, tables } = statefulEnv({
-      users: [{ id: "u1", email: "h@example.com", role: "learner", password_hash: "old-hash" }],
-      tokens: [{ token: "T1", user_id: "u1", used: 0, expires_at: Date.now() + 60 * 60 * 1000 }],
-    });
-    const res = await resetPost({ request: post("/api/auth/reset-password", { token: "T1", password: NEW_PW }), env } as any);
-    expect(res.status).toBe(200);
-    expect(tables.users[0].password_hash).not.toBe("old-hash");
-    expect(tables.sessions).toHaveLength(1);
-  });
-
-  it("is single-use — a replayed token is refused", async () => {
-    const { env } = statefulEnv({
-      users: [{ id: "u1", email: "h@example.com", role: "learner" }],
-      tokens: [{ token: "T1", user_id: "u1", used: 0, expires_at: Date.now() + 60 * 60 * 1000 }],
-    });
-    expect((await resetPost({ request: post("/api/auth/reset-password", { token: "T1", password: NEW_PW }), env } as any)).status).toBe(200);
-    expect((await resetPost({ request: post("/api/auth/reset-password", { token: "T1", password: NEW_PW }), env } as any)).status).toBe(400);
-  });
-
-  it("an expired token is refused", async () => {
-    const { env } = statefulEnv({
-      users: [{ id: "u1", email: "h@example.com", role: "learner" }],
-      tokens: [{ token: "T1", user_id: "u1", used: 0, expires_at: Date.now() - 1000 }],
-    });
-    expect((await resetPost({ request: post("/api/auth/reset-password", { token: "T1", password: NEW_PW }), env } as any)).status).toBe(400);
   });
 });
