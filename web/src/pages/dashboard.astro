@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { FAMILY_TILES, FAMILY_BLURB } from '../lib/family-links';
 ---
 <Base title="My Learning — Sikhi University" description="Your progress, certificates, streak and badges at Sikhi University." ambient="study" noindex={true}>
   <section class="wrap py-10 sm:py-12">
@@ -62,6 +63,48 @@ import Base from '../layouts/Base.astro';
       <div class="rule-navy mt-1 pt-4">
         <p class="font-sans text-sm text-muted" data-i18n="dash.ang.body">Read along, ang by ang, with Santhya audio.</p>
         <a class="mt-3 inline-block font-mono text-[11px] tracking-[.06em] text-saffron-deep underline" href="/santhiya" data-i18n="dash.ang.cta">Open in the reader →</a>
+      </div>
+    </div>
+
+    <!--
+      The "sikhi.io family" tile row. Mirrors the same row on sikhi.io's Super
+      Dashboard and punjabiuni.com's, in THIS site's navy/saffron identity —
+      symmetric navigation between the three, not a one-way funnel out of the
+      hub.
+
+      Lives OUTSIDE #dash for the same reason "Today's ang" does: the account
+      script replaces #dash's innerHTML wholesale, and these tiles need no
+      account data.
+
+      Hrefs come from ../lib/family-links.ts rather than being interpolated
+      here — the punjabiuni link's `return` param is itself a URL carrying a
+      nested `?return=`, so it needs real encoding. test/family-links.test.ts
+      pins the exact strings.
+
+      HONEST ASYMMETRY, stated rather than hidden: someone who registered
+      natively HERE and has never used sikhi.io will land on sikhi.io's
+      sign-in when they follow a tile. That is correct — the hub has no
+      account for them yet — and signing up there with the same email unifies
+      the two. Hence the "same login" small print rather than a promise of
+      one-tap.
+    -->
+    <div class="mt-14" data-testid="family-tiles">
+      <p class="eyebrow text-saffron-deep">Your sikhi.io family</p>
+      <p class="mt-2 max-w-xl font-sans text-sm text-muted">{FAMILY_BLURB}</p>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2">
+        {FAMILY_TILES.map((tile) => (
+          <a
+            href={tile.href}
+            data-testid={`family-tile-${tile.id}`}
+            class="group block rounded-xl2 border border-line bg-surface p-5 transition-colors hover:border-saffron"
+          >
+            <div class="flex items-baseline justify-between gap-3">
+              <span class="font-semibold text-navy group-hover:text-saffron-deep">{tile.name}</span>
+              <span class="font-mono text-[10.5px] uppercase tracking-[.16em] text-muted">{tile.note}</span>
+            </div>
+            <p class="mt-2 font-sans text-sm text-muted">{tile.blurb}</p>
+          </a>
+        ))}
       </div>
     </div>
   </section>
